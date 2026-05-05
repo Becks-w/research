@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DUOL 估值分析：EV/Sales 计算与基本面解读</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0d1117; color: #e6edf3; line-height: 1.7;
+    padding: 32px 16px;
+  }
+  .container { max-width: 880px; margin: 0 auto; }
+  header { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #21262d; }
+  h1 {
+    font-size: 28px;
+    background: linear-gradient(135deg, #58a6ff, #d2a8ff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  .subtitle { color: #8b949e; font-size: 14px; }
+  .data-date {
+    display: inline-block; margin-top: 12px; padding: 4px 12px;
+    background: rgba(56, 139, 253, 0.15); border: 1px solid rgba(56, 139, 253, 0.3);
+    border-radius: 12px; color: #58a6ff; font-size: 12px;
+  }
+  h2 {
+    font-size: 20px; color: #f0f6fc; margin: 32px 0 16px;
+    padding-left: 12px; border-left: 4px solid #58a6ff;
+  }
+  h3 { font-size: 16px; color: #f0f6fc; margin: 20px 0 10px; }
+  p { color: #c9d1d9; margin-bottom: 12px; font-size: 14px; }
+  strong { color: #f0f6fc; }
+  .formula {
+    background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+    padding: 14px 18px; margin: 14px 0; font-family: monospace;
+    color: #79c0ff; overflow-x: auto;
+  }
+  table {
+    width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px;
+    background: #161b22; border-radius: 8px; overflow: hidden;
+  }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #21262d; }
+  th { background: #21262d; color: #8b949e; font-size: 12px; text-transform: uppercase; }
+  td { color: #c9d1d9; }
+  td.numeric, th.numeric { text-align: right; font-variant-numeric: tabular-nums; }
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(88,166,255,0.08), rgba(210,168,255,0.08));
+    border: 1px solid #30363d; border-left: 4px solid #58a6ff;
+    border-radius: 8px; padding: 16px 20px; margin: 20px 0;
+  }
+  .highlight-box h3 { margin-top: 0; color: #58a6ff; }
+  ul { color: #c9d1d9; padding-left: 24px; margin: 10px 0; font-size: 14px; }
+  ul li { margin-bottom: 6px; }
+  .conclusion {
+    background: rgba(149, 208, 72, 0.06); border: 1px solid rgba(149, 208, 72, 0.3);
+    border-radius: 8px; padding: 16px 20px; margin: 20px 0;
+  }
+  .conclusion strong { color: #95d048; }
+  footer {
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid #21262d;
+    font-size: 12px; color: #6e7681; text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>DUOL 估值分析：EV/Sales 计算与基本面解读</h1>
+  <div class="subtitle">从 10-K 年报到企业价值倍数的完整推导，附 FY2026 前瞻估值</div>
+  <div class="data-date">数据截止：2026 年 4 月 28 日</div>
+</header>
+
+<p>本文从 Duolingo（DUOL）FY2025 年报（截至 2025-12-31）出发，逐步拆解 EV/Sales 的计算原理和具体数值，并对当前估值水位做基本面解读。核心结论：DUOL 当前 Forward EV/Sales 约 3.3x，是历史最低分位之一，但市场用估值压缩在惩罚公司主动减速的"DAU 优先"战略转向。</p>
+
+<h2>一、EV/Sales 计算公式</h2>
+<p>EV/Sales 衡量"假如今天用市价收购整家公司，要花多少钱去换它一年的收入"。</p>
+<div class="formula">EV = Market Cap + Total Debt − Cash & Equivalents + Minority Interest + Preferred Equity</div>
+<p>对 DUOL 而言：无少数股东权益、无优先股、<strong>无任何债务</strong>，公式简化为：</p>
+<div class="formula">EV (DUOL) = Market Cap − Cash</div>
+
+<h2>二、关键输入项（从 10-K 提取）</h2>
+<table>
+  <thead><tr><th>数据项</th><th class="numeric">数值</th><th>来源</th></tr></thead>
+  <tbody>
+    <tr><td>FY2025 总收入</td><td class="numeric">$1,037.6M</td><td>10-K / Q4 股东信</td></tr>
+    <tr><td>现金及等价物 (2025-12-31)</td><td class="numeric">$1,040M</td><td>Q4 股东信</td></tr>
+    <tr><td>总债务</td><td class="numeric">$0</td><td>10-K（无债公司）</td></tr>
+    <tr><td>Class A 普通股</td><td class="numeric">40,594,239 股</td><td>10-K 封面 (2026-02-25)</td></tr>
+    <tr><td>Class B 普通股</td><td class="numeric">6,356,052 股</td><td>10-K 封面</td></tr>
+    <tr><td>总股本（Basic）</td><td class="numeric">46,950,291 股</td><td>加总</td></tr>
+    <tr><td>当前股价 (2026-04-28)</td><td class="numeric">~$106</td><td>Investing.com</td></tr>
+  </tbody>
+</table>
+
+<h2>三、分步计算</h2>
+
+<h3>第 1 步：市值（Market Cap）</h3>
+<div class="formula">Market Cap = $106 × 46.95M ≈ $4,977M ≈ $4.98B</div>
+
+<h3>第 2 步：企业价值（EV）</h3>
+<div class="formula">EV = $4,977M + $0 − $1,040M = $3,937M ≈ $3.94B</div>
+<p><strong>关键观察：</strong>账上 10.4 亿现金占市值 21%，所以 EV 比市值低一大截。这就是为什么对现金充裕的公司用 P/S 会高估，用 EV/Sales 才公允。</p>
+
+<h3>第 3 步：EV/Sales（TTM 口径）</h3>
+<div class="formula">EV/Sales (TTM) = $3,937M / $1,037.6M ≈ 3.79x</div>
+
+<h3>第 4 步：Forward EV/Sales（基于管理层 FY2026 指引）</h3>
+<p>2026 年指引：bookings 增长 10-12%、revenue 增长 15-18%。按 16.5% 增速中值估算：</p>
+<div class="formula">FY2026E Revenue = $1,037.6M × 1.165 ≈ $1,209M
+EV/Sales (Forward) = $3,937M / $1,209M ≈ 3.26x</div>
+
+<h2>四、结果汇总</h2>
+<table>
+  <thead><tr><th>指标</th><th class="numeric">数值</th></tr></thead>
+  <tbody>
+    <tr><td>市值</td><td class="numeric">$4.98B</td></tr>
+    <tr><td>现金</td><td class="numeric">$1.04B</td></tr>
+    <tr><td>债务</td><td class="numeric">$0</td></tr>
+    <tr><td><strong>企业价值（EV）</strong></td><td class="numeric"><strong>$3.94B</strong></td></tr>
+    <tr><td>FY2025 收入</td><td class="numeric">$1.04B</td></tr>
+    <tr><td>FY2026E 收入</td><td class="numeric">$1.21B</td></tr>
+    <tr><td><strong>EV/Sales (TTM)</strong></td><td class="numeric"><strong>3.79x</strong></td></tr>
+    <tr><td><strong>EV/Sales (Forward)</strong></td><td class="numeric"><strong>3.26x</strong></td></tr>
+  </tbody>
+</table>
+
+<h2>五、估值解读</h2>
+
+<div class="highlight-box">
+  <h3>DUOL 现在便宜还是贵？</h3>
+  <p>3.8x EV/Sales 对一家收入增速 39%（FY25）、转向 16% 增速（FY26 指引）、调整后 EBITDA 利润率 25%+ 的 SaaS 公司来说，<strong>已经是历史低位</strong>。52 周高点 $544.93、最新约 $106，跌幅约 80%。估值被压扁的核心原因不是基本面崩了，而是 CEO 主动宣布 2026 年战略转向：放弃通过摩擦性付费墙优化货币化，转而吸纳 5,000 万美元以上的"放弃 bookings"，把 DAU 增长从 30% 提到 20%+。市场用估值压缩来惩罚"故意减速"。</p>
+</div>
+
+<h3>应该用 Bookings 还是 Revenue 做分母？</h3>
+<p>对订阅型公司，<strong>Bookings 是领先指标</strong>，Revenue（GAAP 摊销收入）是滞后指标。FY2025 bookings 为 $1.158B：</p>
+<div class="formula">EV/Bookings (FY25) = $3,937M / $1,158M ≈ 3.40x</div>
+<p>这个数字往往是分析师在内部讨论 SaaS 估值时更看重的。</p>
+
+<h3>和 Zoom 对比：同样的估值倍数，隐含增长是 4 倍</h3>
+<p>Zoom 现在 EV/Sales 大约 3.5x，增速只有 4%；DUOL 这边 EV/Sales 3.8x，但即使在"减速年"也要跑 16%。<strong>同样的估值倍数，DUOL 的隐含增长是 Zoom 的 4 倍</strong>——这是为什么很多 GARP 投资人最近在加 DUOL 的逻辑。</p>
+
+<div class="conclusion">
+<strong>核心结论：</strong>DUOL 当前 Forward EV/Sales 3.26x 处于历史低位，反映市场对 2026 年"DAU 优先"战略转向的过度悲观定价。基本面没坏：付费用户 +28%、DAU/MAU 提升至 39.6%、FCF $360M（35% 利润率）、零债务。关键监控指标：付费渗透率（Paid/MAU）能否突破 9.5%、Bookings 增速 vs Paid Subscriber 增速差（隐含 ARPU 增速）、Q1 FY2026 财报中是否首次披露 churn / cohort 数据。
+</div>
+
+<footer>
+  Becks Research Archive · 个股深度分析 · 2026-04-29
+</footer>
+
+</div>
+</body>
+</html>

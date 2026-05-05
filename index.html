@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Becks Research Archive</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0d1117; color: #e6edf3; line-height: 1.6;
+    min-height: 100vh; padding: 32px 16px;
+  }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  /* Header */
+  header { text-align: center; margin-bottom: 40px; }
+  h1 {
+    font-size: 36px; font-weight: 700;
+    background: linear-gradient(135deg, #58a6ff, #79c0ff 50%, #d2a8ff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .subtitle { color: #8b949e; font-size: 14px; margin-bottom: 16px; }
+  .stats {
+    display: inline-block; padding: 8px 20px;
+    background: rgba(56, 139, 253, 0.08); border: 1px solid rgba(56, 139, 253, 0.2);
+    border-radius: 24px; font-size: 13px; color: #c9d1d9;
+  }
+
+  /* Controls */
+  .controls {
+    display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap;
+    align-items: center;
+  }
+  .search-box {
+    flex: 1; min-width: 240px;
+    background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+    padding: 10px 14px; color: #e6edf3; font-size: 14px;
+    font-family: inherit;
+  }
+  .search-box:focus { outline: none; border-color: #58a6ff; }
+  .filter-btn {
+    padding: 8px 16px; background: #161b22; border: 1px solid #30363d;
+    border-radius: 8px; color: #8b949e; cursor: pointer; font-size: 13px;
+    font-family: inherit; transition: all 0.2s;
+  }
+  .filter-btn:hover { color: #e6edf3; border-color: #58a6ff; }
+  .filter-btn.active { background: #58a6ff20; color: #58a6ff; border-color: #58a6ff; }
+
+  /* Cards */
+  .reports-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+  .report-card {
+    background: #161b22; border: 1px solid #30363d; border-radius: 12px;
+    padding: 20px; text-decoration: none; color: inherit;
+    transition: all 0.2s; display: block;
+  }
+  .report-card:hover {
+    transform: translateY(-2px); border-color: #58a6ff;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  .card-tag {
+    display: inline-block; padding: 3px 10px; border-radius: 12px;
+    font-size: 11px; font-weight: 600; border: 1px solid;
+    margin-bottom: 12px;
+  }
+  .report-card h3 {
+    font-size: 16px; color: #f0f6fc; margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .summary {
+    font-size: 13px; color: #8b949e; margin-bottom: 14px;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .meta {
+    display: flex; justify-content: space-between; gap: 8px;
+    font-size: 11px; color: #6e7681;
+    border-top: 1px solid #21262d; padding-top: 10px;
+    flex-wrap: wrap;
+  }
+  .meta .filename { font-family: monospace; opacity: 0.7; }
+
+  /* Empty state */
+  .empty {
+    text-align: center; padding: 60px 20px; color: #6e7681;
+    grid-column: 1 / -1;
+  }
+
+  /* Footer */
+  footer {
+    margin-top: 48px; padding-top: 24px;
+    border-top: 1px solid #21262d;
+    text-align: center; font-size: 12px; color: #6e7681;
+  }
+  footer a { color: #58a6ff; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Becks Research Archive</h1>
+  <div class="subtitle">个人投研档案库 · 共 2 份报告</div>
+  <div class="stats"><span style='color:#58a6ff'>📈 个股分析 2</span> · <span style='color:#95d048'>📊 市场周报 0</span> · <span style='color:#f5a623'>📰 每日简报 0</span></div>
+</header>
+
+<div class="controls">
+  <input type="text" class="search-box" id="searchInput" placeholder="🔍 搜索标题或内容关键词...">
+  <button class="filter-btn active" data-filter="all">全部</button>
+  <button class="filter-btn" data-filter="stocks">📈 个股</button>
+  <button class="filter-btn" data-filter="weekly">📊 周报</button>
+  <button class="filter-btn" data-filter="daily">📰 日报</button>
+</div>
+
+<div class="reports-grid" id="reportsGrid">
+
+    <a href="stocks/saas-comparison-2026-04.html" class="report-card" data-category="stocks" data-search="saas 四巨头横向估值对比 对于持续高增长但 gaap 净利润仍小或为负的 saas 公司，ev/sales 是最常用的估值锚。它衡量的是&quot;以当前价收购整家公司，要付多少倍的年收入&quot;。下方对比 ttm（已实现）与 forward（fy27e）两种口径。">
+      <div class="card-tag" style="background:#58a6ff20;color:#58a6ff;border-color:#58a6ff40;">
+        📈 个股分析
+      </div>
+      <h3>SaaS 四巨头横向估值对比</h3>
+      <p class="summary">对于持续高增长但 GAAP 净利润仍小或为负的 SaaS 公司，EV/Sales 是最常用的估值锚。它衡量的是&quot;以当前价收购整家公司，要付多少倍的年收入&quot;。下方对比 TTM（已实现）与 Forward（FY27E）两种口径。</p>
+      <div class="meta">
+        <span class="date">📅 2026 年 4 月 28 日</span>
+        <span class="filename">📄 saas-comparison-2026-04.html</span>
+      </div>
+    </a>
+    
+
+    <a href="stocks/duol-2026-04.html" class="report-card" data-category="stocks" data-search="duol 估值分析：ev/sales 计算与基本面解读 本文从 duolingo（duol）fy2025 年报（截至 2025-12-31）出发，逐步拆解 ev/sales 的计算原理和具体数值，并对当前估值水位做基本面解读。核心结论：duol 当前 forward ev/sales 约 3.3x，是历史最低分位之一，但市场用估值压缩...">
+      <div class="card-tag" style="background:#58a6ff20;color:#58a6ff;border-color:#58a6ff40;">
+        📈 个股分析
+      </div>
+      <h3>DUOL 估值分析：EV/Sales 计算与基本面解读</h3>
+      <p class="summary">本文从 Duolingo（DUOL）FY2025 年报（截至 2025-12-31）出发，逐步拆解 EV/Sales 的计算原理和具体数值，并对当前估值水位做基本面解读。核心结论：DUOL 当前 Forward EV/Sales 约 3.3x，是历史最低分位之一，但市场用估值压缩...</p>
+      <div class="meta">
+        <span class="date">📅 2026 年 4 月 28 日</span>
+        <span class="filename">📄 duol-2026-04.html</span>
+      </div>
+    </a>
+    
+</div>
+
+<footer>
+  <p>最后更新：2026-05-05 14:25 · 由 build_index.py 自动生成</p>
+</footer>
+
+</div>
+
+<script>
+const searchInput = document.getElementById('searchInput');
+const filterBtns = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('.report-card');
+let currentFilter = 'all';
+
+function applyFilters() {
+  const query = searchInput.value.toLowerCase().trim();
+  let visibleCount = 0;
+  cards.forEach(card => {
+    const matchCategory = currentFilter === 'all' || card.dataset.category === currentFilter;
+    const matchSearch = !query || card.dataset.search.includes(query);
+    const visible = matchCategory && matchSearch;
+    card.style.display = visible ? 'block' : 'none';
+    if (visible) visibleCount++;
+  });
+}
+
+searchInput.addEventListener('input', applyFilters);
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    applyFilters();
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaaS 四巨头横向估值对比 | SHOP · CRWD · NET · SNOW</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0d1117;
+    color: #e6edf3;
+    line-height: 1.6;
+    padding: 24px 16px;
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  /* Header */
+  header { margin-bottom: 32px; }
+  h1 {
+    font-size: 28px; font-weight: 700;
+    background: linear-gradient(135deg, #58a6ff 0%, #79c0ff 50%, #d2a8ff 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .subtitle { color: #8b949e; font-size: 14px; }
+  .data-date {
+    display: inline-block; margin-top: 12px;
+    padding: 4px 12px; border-radius: 12px;
+    background: rgba(56, 139, 253, 0.15);
+    border: 1px solid rgba(56, 139, 253, 0.3);
+    color: #58a6ff; font-size: 12px;
+  }
+
+  /* Overview cards */
+  .overview {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px; margin-bottom: 32px;
+  }
+  .card {
+    background: linear-gradient(135deg, #161b22 0%, #1c2128 100%);
+    border: 1px solid #30363d; border-radius: 12px;
+    padding: 20px; position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .card[data-ticker="SHOP"]::before { background: #95d048; }
+  .card[data-ticker="CRWD"]::before { background: #ff6b6b; }
+  .card[data-ticker="NET"]::before { background: #f5a623; }
+  .card[data-ticker="SNOW"]::before { background: #58a6ff; }
+
+  .card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .ticker { font-size: 20px; font-weight: 700; color: #f0f6fc; }
+  .price { font-size: 16px; color: #8b949e; }
+  .company-name { font-size: 12px; color: #8b949e; margin-bottom: 16px; }
+  .metric-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; }
+  .metric-row .label { color: #8b949e; }
+  .metric-row .value { color: #f0f6fc; font-weight: 500; }
+  .highlight-good { color: #56d364 !important; }
+  .highlight-warn { color: #f0883e !important; }
+  .highlight-bad { color: #ff6b6b !important; }
+
+  /* Tabs */
+  .tabs {
+    display: flex; gap: 4px; margin-bottom: 24px;
+    border-bottom: 1px solid #30363d; overflow-x: auto;
+    padding-bottom: 0;
+  }
+  .tab {
+    padding: 10px 16px; background: none; border: none;
+    color: #8b949e; cursor: pointer; font-size: 14px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s; white-space: nowrap;
+    font-family: inherit;
+  }
+  .tab:hover { color: #e6edf3; }
+  .tab.active { color: #58a6ff; border-bottom-color: #58a6ff; }
+  .tab-content { display: none; animation: fadeIn 0.3s ease; }
+  .tab-content.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Sections */
+  .section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  .section h2 {
+    font-size: 18px; font-weight: 600; color: #f0f6fc;
+    margin-bottom: 16px; padding-bottom: 12px;
+    border-bottom: 1px solid #21262d;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section h2::before {
+    content: ''; width: 4px; height: 18px; background: #58a6ff; border-radius: 2px;
+  }
+  .section p { color: #c9d1d9; font-size: 14px; margin-bottom: 12px; }
+
+  /* Chart container */
+  .chart-wrapper {
+    position: relative; height: 360px; margin: 16px 0;
+    background: #0d1117; padding: 16px; border-radius: 8px; border: 1px solid #21262d;
+  }
+  .chart-wrapper.tall { height: 460px; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #21262d; }
+  th { background: #21262d; color: #8b949e; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { color: #c9d1d9; }
+  tr:hover td { background: rgba(56, 139, 253, 0.05); }
+  td.numeric { font-variant-numeric: tabular-nums; text-align: right; }
+  th.numeric { text-align: right; }
+
+  /* Badges */
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .badge-cheap { background: rgba(86, 211, 100, 0.15); color: #56d364; border: 1px solid rgba(86, 211, 100, 0.3); }
+  .badge-fair { background: rgba(56, 139, 253, 0.15); color: #58a6ff; border: 1px solid rgba(56, 139, 253, 0.3); }
+  .badge-rich { background: rgba(240, 136, 62, 0.15); color: #f0883e; border: 1px solid rgba(240, 136, 62, 0.3); }
+  .badge-expensive { background: rgba(255, 107, 107, 0.15); color: #ff6b6b; border: 1px solid rgba(255, 107, 107, 0.3); }
+
+  /* Conclusion blocks */
+  .stock-thesis {
+    background: #0d1117; border-left: 3px solid; border-radius: 6px;
+    padding: 16px 20px; margin-bottom: 16px;
+  }
+  .stock-thesis[data-ticker="SHOP"] { border-color: #95d048; }
+  .stock-thesis[data-ticker="CRWD"] { border-color: #ff6b6b; }
+  .stock-thesis[data-ticker="NET"] { border-color: #f5a623; }
+  .stock-thesis[data-ticker="SNOW"] { border-color: #58a6ff; }
+  .stock-thesis h3 { font-size: 16px; color: #f0f6fc; margin-bottom: 8px; }
+  .stock-thesis p { font-size: 13px; color: #c9d1d9; margin-bottom: 8px; }
+  .stock-thesis .pro { color: #56d364; }
+  .stock-thesis .con { color: #f0883e; }
+
+  /* Ranking */
+  .ranking-list { list-style: none; counter-reset: rank; }
+  .ranking-list li {
+    counter-increment: rank;
+    background: #0d1117; padding: 14px 16px 14px 56px;
+    border-radius: 8px; margin-bottom: 10px;
+    border: 1px solid #21262d; position: relative;
+    font-size: 14px; color: #c9d1d9;
+  }
+  .ranking-list li::before {
+    content: counter(rank);
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, #58a6ff, #d2a8ff);
+    color: #fff; font-weight: 700; font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ranking-list li strong { color: #f0f6fc; }
+
+  /* Footer */
+  footer {
+    margin-top: 32px; padding: 20px;
+    background: #161b22; border: 1px solid #30363d;
+    border-radius: 12px; font-size: 12px; color: #8b949e;
+  }
+  footer p { margin-bottom: 6px; }
+  footer strong { color: #c9d1d9; }
+
+  /* Two-column layout helper */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>SaaS 四巨头横向估值对比</h1>
+  <div class="subtitle">Shopify · CrowdStrike · Cloudflare · Snowflake — 谁的性价比最高？</div>
+  <div class="data-date">数据截止：2026 年 4 月 28 日</div>
+</header>
+
+<!-- ====== TOP OVERVIEW CARDS ====== -->
+<div class="overview">
+
+  <div class="card" data-ticker="SHOP">
+    <div class="card-header"><div class="ticker">SHOP</div><div class="price">$117</div></div>
+    <div class="company-name">Shopify · 电商SaaS平台</div>
+    <div class="metric-row"><span class="label">市值</span><span class="value">$150B</span></div>
+    <div class="metric-row"><span class="label">FY25 收入</span><span class="value">$11.6B</span></div>
+    <div class="metric-row"><span class="label">收入增速</span><span class="value highlight-good">+30%</span></div>
+    <div class="metric-row"><span class="label">EV/Sales (Fwd)</span><span class="value">9.7x</span></div>
+    <div class="metric-row"><span class="label">FCF 利润率</span><span class="value">17%</span></div>
+  </div>
+
+  <div class="card" data-ticker="CRWD">
+    <div class="card-header"><div class="ticker">CRWD</div><div class="price">$450</div></div>
+    <div class="company-name">CrowdStrike · 网络安全</div>
+    <div class="metric-row"><span class="label">市值</span><span class="value">$115B</span></div>
+    <div class="metric-row"><span class="label">FY26 收入</span><span class="value">$4.81B</span></div>
+    <div class="metric-row"><span class="label">收入增速</span><span class="value highlight-good">+22%</span></div>
+    <div class="metric-row"><span class="label">EV/Sales (Fwd)</span><span class="value highlight-warn">18.6x</span></div>
+    <div class="metric-row"><span class="label">FCF 利润率</span><span class="value highlight-good">26%</span></div>
+  </div>
+
+  <div class="card" data-ticker="NET">
+    <div class="card-header"><div class="ticker">NET</div><div class="price">$208</div></div>
+    <div class="company-name">Cloudflare · 边缘云/连接</div>
+    <div class="metric-row"><span class="label">市值</span><span class="value">$73B</span></div>
+    <div class="metric-row"><span class="label">FY25 收入</span><span class="value">$2.17B</span></div>
+    <div class="metric-row"><span class="label">收入增速</span><span class="value highlight-good">+30%</span></div>
+    <div class="metric-row"><span class="label">EV/Sales (Fwd)</span><span class="value highlight-bad">25.9x</span></div>
+    <div class="metric-row"><span class="label">FCF 利润率</span><span class="value">14%</span></div>
+  </div>
+
+  <div class="card" data-ticker="SNOW">
+    <div class="card-header"><div class="ticker">SNOW</div><div class="price">$143</div></div>
+    <div class="company-name">Snowflake · 数据云/AI</div>
+    <div class="metric-row"><span class="label">市值</span><span class="value">$49B</span></div>
+    <div class="metric-row"><span class="label">FY26 收入</span><span class="value">$4.68B</span></div>
+    <div class="metric-row"><span class="label">收入增速</span><span class="value highlight-good">+29%</span></div>
+    <div class="metric-row"><span class="label">EV/Sales (Fwd)</span><span class="value highlight-good">7.5x</span></div>
+    <div class="metric-row"><span class="label">FCF 利润率</span><span class="value highlight-good">24%</span></div>
+  </div>
+
+</div>
+
+<!-- ====== TABS ====== -->
+<div class="tabs">
+  <button class="tab active" onclick="showTab('valuation')">📊 估值对比</button>
+  <button class="tab" onclick="showTab('growth')">📈 增长与盈利</button>
+  <button class="tab" onclick="showTab('saas')">🔧 SaaS 关键指标</button>
+  <button class="tab" onclick="showTab('radar')">🎯 雷达图综合评分</button>
+  <button class="tab" onclick="showTab('conclusion')">💡 投资结论</button>
+</div>
+
+<!-- ====== TAB 1: VALUATION ====== -->
+<div class="tab-content active" id="valuation">
+
+  <div class="section">
+    <h2>EV/Sales 估值光谱（核心估值指标）</h2>
+    <p>对于持续高增长但 GAAP 净利润仍小或为负的 SaaS 公司，<strong>EV/Sales</strong> 是最常用的估值锚。它衡量的是"以当前价收购整家公司，要付多少倍的年收入"。下方对比 TTM（已实现）与 Forward（FY27E）两种口径。</p>
+    <div class="chart-wrapper"><canvas id="evSalesChart"></canvas></div>
+  </div>
+
+  <div class="section">
+    <h2>EV/Sales vs 收入增速 — "增速买便宜"气泡图</h2>
+    <p>横轴是 Forward EV/Sales（越靠左越便宜），纵轴是收入增速（越靠上增速越快）。气泡大小代表市值。<strong>左上方</strong>是性价比最高的区域：增速快、估值低；<strong>右下方</strong>是最危险的区域：估值贵、增速慢。</p>
+    <div class="chart-wrapper tall"><canvas id="bubbleChart"></canvas></div>
+  </div>
+
+  <div class="section">
+    <h2>估值定性标签</h2>
+    <table>
+      <thead><tr>
+        <th>公司</th><th class="numeric">EV/Sales TTM</th><th class="numeric">EV/Sales Fwd</th>
+        <th class="numeric">收入增速</th><th>历史定位</th><th>估值标签</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>SNOW</strong></td>
+          <td class="numeric">9.5x</td><td class="numeric">7.5x</td><td class="numeric">+29%</td>
+          <td>历史均值 ~25-40x，<strong>极度压缩</strong></td>
+          <td><span class="badge badge-cheap">便宜</span></td>
+        </tr>
+        <tr>
+          <td><strong>SHOP</strong></td>
+          <td class="numeric">12.5x</td><td class="numeric">9.7x</td><td class="numeric">+30%</td>
+          <td>电商SaaS同行 6-15x，<strong>合理偏低</strong></td>
+          <td><span class="badge badge-fair">合理</span></td>
+        </tr>
+        <tr>
+          <td><strong>CRWD</strong></td>
+          <td class="numeric">22.8x</td><td class="numeric">18.6x</td><td class="numeric">+22%</td>
+          <td>10年中位数 24.7x，<strong>低于均值 22%</strong></td>
+          <td><span class="badge badge-rich">偏贵</span></td>
+        </tr>
+        <tr>
+          <td><strong>NET</strong></td>
+          <td class="numeric">33.3x</td><td class="numeric">25.9x</td><td class="numeric">+30%</td>
+          <td>SaaS 行业最高分位之一，<strong>极度溢价</strong></td>
+          <td><span class="badge badge-expensive">极贵</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ====== TAB 2: GROWTH & PROFITABILITY ====== -->
+<div class="tab-content" id="growth">
+
+  <div class="section">
+    <h2>收入增速对比（最近完整财年）</h2>
+    <p>所有四家公司增速都在 +22% 以上，属于高增长 SaaS 行列。SHOP 和 NET 在 30% 区间领跑，SNOW 在 +29% 紧随其后，CRWD 因体量最大（48 亿美元收入）增速放缓至 +22%。</p>
+    <div class="chart-wrapper"><canvas id="growthChart"></canvas></div>
+  </div>
+
+  <div class="section">
+    <h2>毛利率对比 — 商业模式质量的最直观指标</h2>
+    <p>注意 <strong>SHOP 的毛利率特别低（48%）</strong> 是因为收入构成中含支付/物流等低毛利交易性收入。纯订阅收入毛利率仍接近 80%。CRWD/NET/SNOW 的 75-78% 才是 SaaS 的"标准毛利"。</p>
+    <div class="chart-wrapper"><canvas id="grossMarginChart"></canvas></div>
+  </div>
+
+  <div class="section">
+    <h2>Rule of 40 — SaaS 黄金法则</h2>
+    <p>"<strong>收入增速 + 自由现金流利润率 ≥ 40%</strong>" 被业内视为优质 SaaS 的及格线。四家公司全部达标，但 SNOW（53）和 CRWD（48）的得分明显领先 SHOP（47）和 NET（44）。SNOW 现在是 Rule of 40 得分最高的，但它的估值反而最低——这是这份报告里最关键的"估值-基本面错配"信号。</p>
+    <div class="chart-wrapper"><canvas id="ruleOf40Chart"></canvas></div>
+  </div>
+
+  <div class="section">
+    <h2>盈利能力综合表</h2>
+    <table>
+      <thead><tr>
+        <th>指标</th><th class="numeric">SHOP</th><th class="numeric">CRWD</th>
+        <th class="numeric">NET</th><th class="numeric">SNOW</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>收入增速 (YoY)</td><td class="numeric">30%</td><td class="numeric">22%</td><td class="numeric">30%</td><td class="numeric">29%</td></tr>
+        <tr><td>毛利率 (GAAP)</td><td class="numeric">48%</td><td class="numeric">78%</td><td class="numeric">77%</td><td class="numeric">67%</td></tr>
+        <tr><td>毛利率 (Subscription)</td><td class="numeric">~80%</td><td class="numeric">78%</td><td class="numeric">77%</td><td class="numeric">75%</td></tr>
+        <tr><td>Non-GAAP 营业利润率</td><td class="numeric">~17%</td><td class="numeric">22%</td><td class="numeric">14%</td><td class="numeric">10.5%</td></tr>
+        <tr><td>FCF 利润率</td><td class="numeric">17%</td><td class="numeric">26%</td><td class="numeric">14%</td><td class="numeric">24%</td></tr>
+        <tr><td><strong>Rule of 40</strong></td><td class="numeric"><strong>47</strong></td><td class="numeric"><strong>48</strong></td><td class="numeric"><strong>44</strong></td><td class="numeric"><strong>53</strong></td></tr>
+        <tr><td>SBC / 收入</td><td class="numeric">~10%</td><td class="numeric">~14%</td><td class="numeric">~22%</td><td class="numeric"><span style="color:#ff6b6b;">34%</span></td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:16px;font-size:12px;color:#8b949e;">
+      ⚠️ <strong>SNOW 的股权激励占比 34%</strong> 是这张表里最大的红旗——意味着 GAAP 利润长期为负，每年都有大量股本稀释。FY27 公司指引会降到 27%，需密切跟踪。
+    </p>
+  </div>
+
+</div>
+
+<!-- ====== TAB 3: SAAS METRICS ====== -->
+<div class="tab-content" id="saas">
+
+  <div class="section">
+    <h2>NRR（净留存率）— SaaS 最重要的护城河指标</h2>
+    <p>NRR &gt; 100% 意味着即使不拉新客户，老客户的扩张消费也能让收入自然增长。这是 SaaS 公司"复利效应"的核心。SNOW 的 125% 在四家中最高，这意味着每年存量客户消费 +25%；NET 的 120% 紧随其后。</p>
+    <div class="chart-wrapper"><canvas id="nrrChart"></canvas></div>
+  </div>
+
+  <div class="section">
+    <h2>大客户结构 — 企业级化进度</h2>
+    <table>
+      <thead><tr>
+        <th>大客户指标</th><th class="numeric">SHOP</th><th class="numeric">CRWD</th>
+        <th class="numeric">NET</th><th class="numeric">SNOW</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>$1M+ 客户数</td><td class="numeric">N/A (商家口径)</td><td class="numeric">~大量</td><td class="numeric">269 (+55%)</td><td class="numeric">733 (+27%)</td></tr>
+        <tr><td>$10M+ 客户数</td><td class="numeric">N/A</td><td class="numeric">N/A</td><td class="numeric">N/A</td><td class="numeric">56 (+56%)</td></tr>
+        <tr><td>$100K+ 客户数</td><td class="numeric">企业 Plus</td><td class="numeric">N/A</td><td class="numeric">4,298 (+23%)</td><td class="numeric">~多</td></tr>
+        <tr><td>RPO（合同积压）</td><td class="numeric">N/A</td><td class="numeric">~$8B+</td><td class="numeric">~$3B</td><td class="numeric"><strong>$9.77B (+42%)</strong></td></tr>
+        <tr><td>商业模式</td><td>订阅+交易抽成</td><td>订阅 (Falcon Flex 弹性套餐)</td><td>订阅 (按用量)</td><td><strong>消费型</strong> (按使用量)</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:16px;">
+      <strong>SNOW 的 RPO（剩余履约义务）$97.7 亿、+42%</strong> 是这张表里最亮眼的数据——这是已签合同但尚未确认的收入，是未来 18-24 个月增长的"安全垫"。SNOW 的 +42% 加速度甚至超过了它当前 +29% 的实际收入增速，强烈暗示<strong>未来增速可能再加速</strong>。
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>各家公司的"AI 故事"现状</h2>
+    <table>
+      <thead><tr><th>公司</th><th>AI 货币化进展</th></tr></thead>
+      <tbody>
+        <tr><td><strong>SHOP</strong></td><td>Sidekick AI 助手、Catalog、与 ChatGPT 合作做"对话式商务"。但 AI 收入贡献尚未单独披露。</td></tr>
+        <tr><td><strong>CRWD</strong></td><td>Charlotte AI 安全代理、AI-SPM 模块。AI 是<strong>防御端的核心叙事</strong>——AI 攻击越多，CRWD 的需求越高。</td></tr>
+        <tr><td><strong>NET</strong></td><td>Workers AI / AI Gateway / 推理在边缘的故事。被市场视为<strong>"AI 推理基础设施"代表股</strong>，估值溢价主要来自这。</td></tr>
+        <tr><td><strong>SNOW</strong></td><td>Snowflake Intelligence + Cortex Code，9,100+ 账户在用，但仅占产品收入 2.3%。<strong>叙事远超实际贡献</strong>，但增速极快。</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ====== TAB 4: RADAR ====== -->
+<div class="tab-content" id="radar">
+
+  <div class="section">
+    <h2>六维综合评分雷达图</h2>
+    <p>每个维度按 1-5 分打分（5 分最佳）。维度涵盖估值、增长、盈利、护城河、留存、风险敞口六个角度。</p>
+    <div class="chart-wrapper tall"><canvas id="radarChart"></canvas></div>
+  </div>
+
+  <div class="section">
+    <h2>评分逻辑</h2>
+    <table>
+      <thead><tr>
+        <th>维度</th><th class="numeric">SHOP</th><th class="numeric">CRWD</th>
+        <th class="numeric">NET</th><th class="numeric">SNOW</th><th>评分依据</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>估值合理性</td>
+          <td class="numeric">4</td><td class="numeric">2</td><td class="numeric">1</td><td class="numeric">5</td>
+          <td>越便宜分越高（按 Fwd EV/Sales）</td>
+        </tr>
+        <tr>
+          <td>增长动能</td>
+          <td class="numeric">5</td><td class="numeric">3</td><td class="numeric">5</td><td class="numeric">5</td>
+          <td>+25%↑ 给 5 分；+20%-25% 给 3-4；&lt;20% 给 2</td>
+        </tr>
+        <tr>
+          <td>盈利质量</td>
+          <td class="numeric">4</td><td class="numeric">5</td><td class="numeric">3</td><td class="numeric">3</td>
+          <td>FCF 利润率 + GAAP 盈利能力综合</td>
+        </tr>
+        <tr>
+          <td>护城河深度</td>
+          <td class="numeric">4</td><td class="numeric">5</td><td class="numeric">4</td><td class="numeric">3</td>
+          <td>客户切换成本 + 平台效应（SNOW 面临 Databricks 竞争）</td>
+        </tr>
+        <tr>
+          <td>客户留存（NRR）</td>
+          <td class="numeric">3</td><td class="numeric">3</td><td class="numeric">4</td><td class="numeric">5</td>
+          <td>NRR 越高分越高；SHOP 是商家口径，不可比</td>
+        </tr>
+        <tr>
+          <td>风险可控性</td>
+          <td class="numeric">3</td><td class="numeric">3</td><td class="numeric">2</td><td class="numeric">3</td>
+          <td>SHOP/CRWD 有信用/信任风险；NET 估值风险最大；SNOW SBC 稀释风险</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ====== TAB 5: CONCLUSION ====== -->
+<div class="tab-content" id="conclusion">
+
+  <div class="section">
+    <h2>核心发现摘要</h2>
+    <p>四家公司都是各自细分赛道的头部，<strong>Rule of 40 全部达标</strong>，基本面没有明显短板。但在估值光谱上拉开了显著差距：<strong>SNOW 是性价比最高的</strong>（最便宜 + Rule of 40 最高 + RPO 加速 + NRR 125%），<strong>NET 是估值最贵的</strong>（高达 26x Forward EV/Sales，AI 叙事溢价已充分定价）。SHOP 估值合理但商业模式更像"零售"而非纯 SaaS（毛利仅 48%），CRWD 是优质防御标的但估值偏贵。</p>
+  </div>
+
+  <div class="section">
+    <h2>各股投资论点</h2>
+
+    <div class="stock-thesis" data-ticker="SNOW">
+      <h3>❄️ SNOW — 最被错杀的优质资产</h3>
+      <p><span class="pro">✓ 多头逻辑：</span>Forward EV/Sales 仅 7.5x，是历史最低分位之一；NRR 125% + RPO 加速 +42% 显示增长引擎完全没坏；AI 工作负载（Snowflake Intelligence、Cortex Code）从零到 2,500 账户仅用 3 个月；FCF 利润率 24%。</p>
+      <p><span class="con">✗ 风险：</span>SBC 占收入 34% 稀释严重；Databricks 在 ARR 上已超越 SNOW；消费型模式对宏观敏感（企业紧缩时收入立刻下滑）；近期股价跌 50% 反映市场对增长持续性的担忧。</p>
+    </div>
+
+    <div class="stock-thesis" data-ticker="SHOP">
+      <h3>🛒 SHOP — 高质量增长 + 合理估值</h3>
+      <p><span class="pro">✓ 多头逻辑：</span>11 个季度 25%+ 收入增速，FCF $20 亿（利润率 17%）；Forward EV/Sales 9.7x 在历史均值附近；MRR + 国际化 + Shopify Payments 三引擎并进；Tobi Lütke 是 founder-led，资本配置纪律严。</p>
+      <p><span class="con">✗ 风险：</span>毛利率 48% 是四家最低（受支付/物流稀释）；Shopify Capital 贷款损失从 $58M 升至 $148M（信贷恶化）；P/E 125x 暗示任何增长减速都会被严厉惩罚；关税 + 消费疲软是现实威胁。</p>
+    </div>
+
+    <div class="stock-thesis" data-ticker="CRWD">
+      <h3>🛡️ CRWD — 优质防御 + 估值合理</h3>
+      <p><span class="pro">✓ 多头逻辑：</span>FCF 利润率 26%（四家最高），Non-GAAP 营业利润率 22%；总留存率 97% + Falcon Flex ARR +120%（弹性套餐爆发）；模块采用率 50% 客户用 6+ 个；纯 SaaS 毛利 78%，AI 让网络威胁加剧反而是利好。</p>
+      <p><span class="con">✗ 风险：</span>Forward EV/Sales 18.6x 不便宜，定价隐含完美执行；NRR 115% 在 SaaS 头部里属于"中等"；2024 年那次蓝屏事件的客户信任损失正在缓慢愈合。</p>
+    </div>
+
+    <div class="stock-thesis" data-ticker="NET">
+      <h3>☁️ NET — 故事最性感，估值最危险</h3>
+      <p><span class="pro">✓ 多头逻辑：</span>Q4 收入加速到 +33.6%，是四家中唯一加速的；Workers AI / AI Gateway 是 AI 推理边缘化的优势位置；NRR 120%、$1M+ 客户增长 +55%；产品创新速度极快。</p>
+      <p><span class="con">✗ 风险：</span>Forward EV/Sales 25.9x 是 SNOW 的 3.5 倍，定价完全建立在"AI 推理基础设施"叙事上；Morningstar 公允价 $368 vs 现价 $208，看似还有上行，但 1星价（极贵）只有 $762，意味着市场早期价格离基本面已远；任何 AI 叙事降温都会重创估值；FCF 利润率 14% 是四家最低。</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>横向排序建议（按"性价比"由高到低）</h2>
+    <ol class="ranking-list">
+      <li><strong>SNOW</strong> — 性价比之王。最便宜的估值 + 最高的 Rule of 40 + 加速的 RPO，是教科书式的"基本面 vs 估值"错配。主要风险是 SBC 稀释和 Databricks 竞争。</li>
+      <li><strong>SHOP</strong> — 合理估值买高质量复利。9.7x EV/Sales 配 30% 增速 + 17% FCF 利润率，是教科书式的 GARP（合理价格成长）标的。注意信贷风险。</li>
+      <li><strong>CRWD</strong> — 优质但已定价合理。18.6x 不算便宜，但 26% FCF 利润率和 +24% ARR 增速值得溢价。适合在大幅回调时加仓，而非追高。</li>
+      <li><strong>NET</strong> — 最需谨慎。25.9x EV/Sales 把"边缘 AI 叙事"已完全定价。基本面没问题，但任何风吹草动都会触发剧烈估值压缩。建议等待回调到 18-20x EV/Sales 区间再考虑。</li>
+    </ol>
+  </div>
+
+</div>
+
+<footer>
+  <p><strong>📌 数据口径说明：</strong>所有市值/EV 数据基于 2026 年 4 月 28 日盘中价格，可能与盘后价格有差异。SHOP/NET 财年 = 日历年；CRWD 财年截至 1 月 31 日（FY26 = 截至 2026-01）；SNOW 财年截至 1 月 31 日。</p>
+  <p><strong>⚠️ 数据来源：</strong>各公司 10-K/10-Q SEC 文件、股东信、Q4 FY25/26 财报电话会议、Bloomberg/Yahoo Finance/Stockanalysis.com。</p>
+  <p><strong>📋 GAAP vs Non-GAAP：</strong>四家公司 GAAP 净利润口径下盈利能力差异巨大（SHOP 盈利 / CRWD 微利 / NET 微利 / SNOW 大幅亏损）。本报告主要使用 Non-GAAP 营业利润率和 FCF 利润率以保持可比性。</p>
+  <p><strong>⚖️ 免责声明：</strong>本报告为研究分析，不构成投资建议。任何高估值 SaaS 股票的回撤风险都可能远超传统价值股，请谨慎做仓位管理。</p>
+</footer>
+
+</div>
+
+<script>
+// Tab switching
+function showTab(id) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Common chart options
+const colors = {
+  SHOP: '#95d048',
+  CRWD: '#ff6b6b',
+  NET: '#f5a623',
+  SNOW: '#58a6ff'
+};
+
+const commonOpts = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { labels: { color: '#c9d1d9', font: { size: 12 } } },
+    tooltip: {
+      backgroundColor: '#1c2128',
+      titleColor: '#f0f6fc',
+      bodyColor: '#c9d1d9',
+      borderColor: '#30363d',
+      borderWidth: 1,
+      padding: 12
+    }
+  },
+  scales: {
+    x: { ticks: { color: '#8b949e' }, grid: { color: '#21262d' } },
+    y: { ticks: { color: '#8b949e' }, grid: { color: '#21262d' } }
+  }
+};
+
+// 1. EV/Sales chart
+new Chart(document.getElementById('evSalesChart'), {
+  type: 'bar',
+  data: {
+    labels: ['SHOP', 'CRWD', 'NET', 'SNOW'],
+    datasets: [
+      { label: 'EV/Sales TTM', data: [12.5, 22.8, 33.3, 9.5], backgroundColor: 'rgba(88, 166, 255, 0.7)', borderColor: '#58a6ff', borderWidth: 1 },
+      { label: 'EV/Sales Forward (FY27E)', data: [9.7, 18.6, 25.9, 7.5], backgroundColor: 'rgba(210, 168, 255, 0.7)', borderColor: '#d2a8ff', borderWidth: 1 }
+    ]
+  },
+  options: {
+    ...commonOpts,
+    plugins: { ...commonOpts.plugins, title: { display: true, text: 'EV/Sales 倍数（越低越便宜）', color: '#c9d1d9' } }
+  }
+});
+
+// 2. Bubble chart - EV/Sales vs Growth
+new Chart(document.getElementById('bubbleChart'), {
+  type: 'bubble',
+  data: {
+    datasets: [
+      { label: 'SHOP', data: [{ x: 9.7, y: 30, r: 28 }], backgroundColor: 'rgba(149, 208, 72, 0.6)', borderColor: '#95d048', borderWidth: 2 },
+      { label: 'CRWD', data: [{ x: 18.6, y: 22, r: 24 }], backgroundColor: 'rgba(255, 107, 107, 0.6)', borderColor: '#ff6b6b', borderWidth: 2 },
+      { label: 'NET',  data: [{ x: 25.9, y: 30, r: 18 }], backgroundColor: 'rgba(245, 166, 35, 0.6)', borderColor: '#f5a623', borderWidth: 2 },
+      { label: 'SNOW', data: [{ x: 7.5,  y: 29, r: 15 }], backgroundColor: 'rgba(88, 166, 255, 0.6)', borderColor: '#58a6ff', borderWidth: 2 }
+    ]
+  },
+  options: {
+    ...commonOpts,
+    plugins: {
+      ...commonOpts.plugins,
+      tooltip: {
+        ...commonOpts.plugins.tooltip,
+        callbacks: {
+          label: (ctx) => `${ctx.dataset.label}: EV/S ${ctx.raw.x}x, 增速 ${ctx.raw.y}%`
+        }
+      }
+    },
+    scales: {
+      x: { ...commonOpts.scales.x, title: { display: true, text: 'EV/Sales Forward（向左 = 越便宜）', color: '#8b949e' }, min: 0, max: 35 },
+      y: { ...commonOpts.scales.y, title: { display: true, text: '收入增速 YoY %（向上 = 越快）', color: '#8b949e' }, min: 18, max: 35 }
+    }
+  }
+});
+
+// 3. Growth chart
+new Chart(document.getElementById('growthChart'), {
+  type: 'bar',
+  data: {
+    labels: ['SHOP', 'CRWD', 'NET', 'SNOW'],
+    datasets: [{
+      label: '收入增速 YoY (%)',
+      data: [30, 22, 30, 29],
+      backgroundColor: ['rgba(149, 208, 72, 0.7)', 'rgba(255, 107, 107, 0.7)', 'rgba(245, 166, 35, 0.7)', 'rgba(88, 166, 255, 0.7)'],
+      borderColor: ['#95d048', '#ff6b6b', '#f5a623', '#58a6ff'],
+      borderWidth: 1
+    }]
+  },
+  options: { ...commonOpts, plugins: { ...commonOpts.plugins, legend: { display: false } } }
+});
+
+// 4. Gross margin chart
+new Chart(document.getElementById('grossMarginChart'), {
+  type: 'bar',
+  data: {
+    labels: ['SHOP', 'CRWD', 'NET', 'SNOW'],
+    datasets: [
+      { label: 'GAAP 毛利率 %', data: [48, 78, 77, 67], backgroundColor: 'rgba(88, 166, 255, 0.7)' },
+      { label: 'Subscription/产品毛利率 %', data: [80, 78, 77, 75], backgroundColor: 'rgba(210, 168, 255, 0.7)' }
+    ]
+  },
+  options: { ...commonOpts }
+});
+
+// 5. Rule of 40 chart
+new Chart(document.getElementById('ruleOf40Chart'), {
+  type: 'bar',
+  data: {
+    labels: ['SHOP', 'CRWD', 'NET', 'SNOW'],
+    datasets: [
+      { label: '收入增速 %', data: [30, 22, 30, 29], backgroundColor: 'rgba(88, 166, 255, 0.7)', stack: 'a' },
+      { label: 'FCF 利润率 %', data: [17, 26, 14, 24], backgroundColor: 'rgba(149, 208, 72, 0.7)', stack: 'a' }
+    ]
+  },
+  options: {
+    ...commonOpts,
+    scales: {
+      x: { ...commonOpts.scales.x, stacked: true },
+      y: { ...commonOpts.scales.y, stacked: true, title: { display: true, text: 'Rule of 40 = 增速 + FCF利润率', color: '#8b949e' } }
+    },
+    plugins: { ...commonOpts.plugins, title: { display: true, text: '及格线 = 40，全部通过；SNOW(53) 最高，NET(44) 最低', color: '#c9d1d9' } }
+  }
+});
+
+// 6. NRR chart
+new Chart(document.getElementById('nrrChart'), {
+  type: 'bar',
+  data: {
+    labels: ['SHOP (商家MRR)', 'CRWD', 'NET', 'SNOW'],
+    datasets: [{
+      label: 'NRR / DBNRR (%)',
+      data: [115, 115, 120, 125],
+      backgroundColor: ['rgba(149, 208, 72, 0.5)', 'rgba(255, 107, 107, 0.7)', 'rgba(245, 166, 35, 0.7)', 'rgba(88, 166, 255, 0.7)'],
+      borderColor: ['#95d048', '#ff6b6b', '#f5a623', '#58a6ff'],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    ...commonOpts,
+    plugins: { ...commonOpts.plugins, legend: { display: false }, title: { display: true, text: '净留存率 NRR（>100% 表示老客户在持续扩张消费）', color: '#c9d1d9' } },
+    scales: {
+      x: commonOpts.scales.x,
+      y: { ...commonOpts.scales.y, min: 95, suggestedMax: 135 }
+    }
+  }
+});
+
+// 7. Radar chart
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['估值合理性', '增长动能', '盈利质量', '护城河深度', '客户留存', '风险可控'],
+    datasets: [
+      { label: 'SHOP', data: [4, 5, 4, 4, 3, 3], borderColor: '#95d048', backgroundColor: 'rgba(149, 208, 72, 0.15)', pointBackgroundColor: '#95d048' },
+      { label: 'CRWD', data: [2, 3, 5, 5, 3, 3], borderColor: '#ff6b6b', backgroundColor: 'rgba(255, 107, 107, 0.15)', pointBackgroundColor: '#ff6b6b' },
+      { label: 'NET',  data: [1, 5, 3, 4, 4, 2], borderColor: '#f5a623', backgroundColor: 'rgba(245, 166, 35, 0.15)', pointBackgroundColor: '#f5a623' },
+      { label: 'SNOW', data: [5, 5, 3, 3, 5, 3], borderColor: '#58a6ff', backgroundColor: 'rgba(88, 166, 255, 0.20)', pointBackgroundColor: '#58a6ff' }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#c9d1d9', font: { size: 13 } } },
+      tooltip: { backgroundColor: '#1c2128', titleColor: '#f0f6fc', bodyColor: '#c9d1d9', borderColor: '#30363d', borderWidth: 1 }
+    },
+    scales: {
+      r: {
+        min: 0, max: 5,
+        ticks: { color: '#8b949e', backdropColor: 'transparent', stepSize: 1 },
+        grid: { color: '#30363d' },
+        angleLines: { color: '#30363d' },
+        pointLabels: { color: '#c9d1d9', font: { size: 13 } }
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
