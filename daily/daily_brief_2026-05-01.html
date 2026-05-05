@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>美股盘后日报 - 2026年5月1日</title>
+<style>
+  :root {
+    --bg: #faf9f5;
+    --bg2: #f4f3ed;
+    --bg3: #ebeae3;
+    --text: #2c2c2a;
+    --text2: #555550;
+    --text3: #888780;
+    --border: #d8d6cf;
+    --accent: #BA7517;
+    --success: #3B6D11;
+    --danger: #C03A39;
+    --warning: #BA7517;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+         max-width: 880px; margin: 0 auto; padding: 32px 28px; background: var(--bg);
+         color: var(--text); line-height: 1.55; font-size: 14px; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  h2 { font-size: 16px; font-weight: 600; margin: 32px 0 12px;
+       padding-bottom: 6px; border-bottom: 1.5px solid var(--border); }
+  h3 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; color: var(--text2); }
+  p { margin-bottom: 10px; color: var(--text); }
+  ul, ol { padding-left: 20px; margin-bottom: 10px; }
+  li { margin-bottom: 4px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th { background: var(--bg2); padding: 7px 10px; text-align: left;
+       border: 1px solid var(--border); font-weight: 600; }
+  td { padding: 6px 10px; border: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--bg2); }
+  .header { border-bottom: 2px solid var(--accent); padding-bottom: 16px; margin-bottom: 8px; }
+  .meta { font-size: 12px; color: var(--text3); margin-top: 4px; }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 8px;
+         border-radius: 4px; font-weight: 600; margin-right: 4px; }
+  .tag-fed { background: #e8f0fb; color: #185FA5; }
+  .tag-geo { background: #faeeda; color: #854F0B; }
+  .tag-earn { background: #eaf3de; color: #3B6D11; }
+  .tag-macro { background: #EEEDFE; color: #534AB7; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+              gap: 10px; margin: 12px 0; }
+  .kpi { background: var(--bg2); border-radius: 8px; padding: 12px 14px; }
+  .kpi-label { font-size: 11px; color: var(--text3); margin-bottom: 3px; }
+  .kpi-value { font-size: 20px; font-weight: 600; }
+  .kpi-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .up { color: var(--success); } .down { color: var(--danger); }
+  .warn { color: var(--warning); }
+  .callout { background: var(--bg2); border-left: 3px solid var(--accent);
+             border-radius: 0 6px 6px 0; padding: 10px 14px; margin: 12px 0;
+             font-size: 13px; color: var(--text2); }
+  .sources { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); }
+  .sources h2 { font-size: 13px; color: var(--text3); border: none; margin: 0 0 8px; }
+  .sources ul { font-size: 12px; color: var(--text3); }
+  .disclaimer { margin-top: 16px; font-size: 11px; color: var(--text3);
+                padding: 10px 14px; background: var(--bg2); border-radius: 6px; }
+  .chart-wrap { background: var(--bg2); border-radius: 8px; padding: 16px; margin: 12px 0; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1a1a18; --bg2: #242422; --bg3: #2e2e2c;
+            --text: #e8e6e0; --text2: #b0aea8; --text3: #888784;
+            --border: #3a3a38; }
+    .tag-fed { background: #0c2240; color: #85B7EB; }
+    .tag-geo { background: #2a1f08; color: #FAC775; }
+    .tag-earn { background: #0d1f08; color: #97C459; }
+    .tag-macro { background: #1a1840; color: #AFA9EC; }
+    th { background: var(--bg3); }
+    tr:nth-child(even) td { background: var(--bg2); }
+  }
+  @media print { body { max-width: 100%; padding: 20px; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="meta">📰 美股盘后日报 · 周一盘前回顾</div>
+  <h1>2026年5月1日（周五）— 5月骄人开局，标普纳指齐创新高</h1>
+  <div class="meta">生成时间：2026年5月4日 SGT · 数据截止：美东 5月1日收盘（SGT 5月2日 04:00）</div>
+</div>
+
+<div class="callout">
+<strong>核心摘要：</strong>美股5月首日交出靓丽答卷。在<strong>苹果Q2业绩超预期</strong>、<strong>伊朗通过巴基斯坦中介递交新和平方案致油价急跌</strong>双重利好推动下，标普500与纳斯达克双双刷新历史收盘高点；纳指首次站上25,000点关口。但道指因价值/周期股回落小幅收跌，显示资金继续在<strong>科技与防御板块之间剧烈分化</strong>。市场基本完全消化"6月不降息"——CME FedWatch显示6月降息概率仅约5%，大幅低于4月初的28%。本周关键事件：周五（5/8）4月非农就业报告。
+</div>
+
+<!-- ===== A. 宏观动态 & 美联储 ===== -->
+<h2>🏦 A. 宏观动态 &amp; 美联储</h2>
+
+<h3>联储动向</h3>
+<ul>
+  <li><strong>4月28-29日 FOMC 会议（声明发布 SGT 4/30 02:00）：</strong>联储维持联邦基金利率在 3.50%–3.75% 区间不变（连续第三次会议按兵不动），点阵图维持2026年仅一次降息预期，会议出现<strong>历史最高异议票</strong>（多名鹰派官员投反对票主张持稳更久）。</li>
+  <li><strong>核心论调：</strong>3月CPI同比反弹至 3.3%（远高于2月的2.4%），通胀粘性卷土重来抵消了就业市场走软（3月非农 +178k，失业率 4.3%）。"数据依赖"的措辞被强化，鹰派色彩明显。</li>
+  <li><strong>下次FOMC会议：6月16-17日</strong>（声明发布 SGT 6/18 02:00），届时同步公布SEP点阵图更新。</li>
+</ul>
+
+<h3>降息概率（CME FedWatch，截至5/1）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">6月维持不变概率</div><div class="kpi-value">~95%</div></div>
+  <div class="kpi"><div class="kpi-label">6月降息25bp概率</div><div class="kpi-value down">~5%</div><div class="kpi-sub">4月初约28%</div></div>
+  <div class="kpi"><div class="kpi-label">2026年降息次数预期</div><div class="kpi-value">1次（点阵图共识）</div></div>
+  <div class="kpi"><div class="kpi-label">当前基准利率</div><div class="kpi-value">3.50%–3.75%</div></div>
+</div>
+<div class="callout">📌 一周内6月降息概率从 ~28% 急跌至 ~5%，这是<strong>本周最大的市场叙事变化</strong>。直接触发因素：FOMC声明措辞偏鹰 + 4/30公布的核心PCE通胀超预期 + 初请失业金人数创近50年新低。降息预期进一步推迟到Q4。</div>
+
+<h3>利率市场（5/1收盘）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">2Y 国债收益率</div><div class="kpi-value">~3.95%</div><div class="kpi-sub">本周 +12bp</div></div>
+  <div class="kpi"><div class="kpi-label">10Y 国债收益率</div><div class="kpi-value">~4.45%</div><div class="kpi-sub">本周 +8bp</div></div>
+  <div class="kpi"><div class="kpi-label">期限利差（10Y-2Y）</div><div class="kpi-value">+50 bp</div><div class="kpi-sub">轻度正常化</div></div>
+</div>
+<div class="callout">📊 鹰派FOMC后两端收益率均上行，但2Y涨幅更大（曲线再度趋平）。市场表达：短期"更高更久"的利率预期被强化，但长端尚未充分定价滞胀风险。日元干预消息令美元-日元从160高位下挫3%，间接拖累美债收益率小幅回落。</div>
+
+<h3>📉 5月1日美股收盘</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">S&amp;P 500</div><div class="kpi-value">7,230.12</div><div class="kpi-sub up">+0.29% · 历史新高</div></div>
+  <div class="kpi"><div class="kpi-label">Nasdaq</div><div class="kpi-value">25,114.44</div><div class="kpi-sub up">+0.89% · 首次站上25K · 新高</div></div>
+  <div class="kpi"><div class="kpi-label">Dow Jones</div><div class="kpi-value">49,499.27</div><div class="kpi-sub down">-0.31%</div></div>
+  <div class="kpi"><div class="kpi-label">Russell 2000</div><div class="kpi-value">2,812.82</div><div class="kpi-sub up">+0.46% · 接近52周高</div></div>
+</div>
+<p>盘面传导：苹果Q2业绩超预期（营收 $111.2B / 同比 +17%、EPS $2.01 / +22%、Q3指引营收增长14-17%远超预期9.5%）+ 伊朗通过巴基斯坦中介递交新和平方案致油价急跌近3%，构成纳指破纪录的双重燃料。但鹰派联储+鹰派央行预期+长端利率上行<strong>选择性挤压道指中的防御股与REITs</strong>，盘面"AI/科技 vs 周期/价值"分化加剧。整个4月，标普纳指均录得自<strong>2020年以来最强单月表现</strong>，道指为2024年11月以来最强月。</p>
+
+<h3>📅 未来3个交易日重要事件（SGT）</h3>
+<table>
+  <tr><th>日期（SGT）</th><th>事件</th><th>类型</th><th>市场预期/备注</th></tr>
+  <tr><td>5/5（周一）22:00</td><td>美国4月ISM制造业PMI</td><td><span class="tag tag-macro">宏观数据</span></td><td>关注是否仍处荣枯线下方</td></tr>
+  <tr><td>5/5（周一）22:00</td><td>3月JOLTS职位空缺数</td><td><span class="tag tag-macro">宏观数据</span></td><td>就业需求温度计</td></tr>
+  <tr><td>5/5–5/9</td><td>财报周：PLTR、AMD、ARM、SHOP、UBER、DIS</td><td><span class="tag tag-earn">财报</span></td><td>AI受益链最后一波重头戏</td></tr>
+  <tr><td>5/6（周二）20:30</td><td>美国3月贸易帐</td><td><span class="tag tag-macro">宏观数据</span></td><td>关税与红海/霍尔木兹影响</td></tr>
+  <tr><td>5/6（周二）22:00</td><td>美国4月ISM服务业PMI</td><td><span class="tag tag-macro">宏观数据</span></td><td>价格分项是通胀关键先行指标</td></tr>
+  <tr><td>5/7（周三）20:15</td><td>4月ADP就业人数</td><td><span class="tag tag-macro">宏观数据</span></td><td>非农前哨</td></tr>
+  <tr><td>5/8（周五）20:30</td><td><strong>4月非农就业报告</strong></td><td><span class="tag tag-macro">宏观数据</span></td><td><strong>本周最大宏观事件</strong>，预期 +160k</td></tr>
+  <tr><td>5/8（周五）22:00</td><td>5月密歇根消费者信心初值</td><td><span class="tag tag-macro">宏观数据</span></td><td>4月初值47.6（历史新低），关注是否反弹</td></tr>
+  <tr><td>本周</td><td>美伊和平方案谈判进展</td><td><span class="tag tag-geo">地缘政治</span></td><td>已通过巴基斯坦中介进行第二轮交换</td></tr>
+</table>
+
+<!-- ===== B. Polymarket ===== -->
+<h2>🎯 B. Polymarket 最热预测市场 TOP 3</h2>
+<table>
+  <tr><th>#</th><th>预测主题</th><th>当前概率</th><th>市场规模</th></tr>
+  <tr><td>1</td><td>霍尔木兹海峡 5/15 前恢复正常通行？</td><td>~96% Yes</td><td>~$70M</td></tr>
+  <tr><td>2</td><td>2026年6月联储是否降息？</td><td>~5% Yes</td><td>大额持续活跃</td></tr>
+  <tr><td>3</td><td>2028民主党总统候选人？（Newsom 27%领跑）</td><td>多结果市场</td><td>~$3.9B 类总量</td></tr>
+</table>
+<p><strong>市场叙事解读：</strong></p>
+<ul>
+  <li><strong>#1 霍尔木兹海峡：</strong>市场对短期内（5/15前）海峡通行恢复正常的押注高度乐观，与本周伊朗通过巴方递交新方案的进展高度吻合。但要注意"恢复正常通行"的资助方定义可能严苛——目前实际仍是部分通行。</li>
+  <li><strong>#2 6月降息：</strong>预测市场与CME FedWatch高度吻合，6月降息基本被排除。这意味着市场已将首次降息推迟至Q3-Q4窗口。</li>
+  <li><strong>#3 2028民主党候选人：</strong>Newsom（加州州长）目前以27%领跑，反映其持续在能源与AI议题上的曝光度。</li>
+</ul>
+
+<!-- ===== C. 贵金属 ===== -->
+<h2>🥇 C. 贵金属库存追踪</h2>
+
+<h3>黄金（Gold）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">现货收盘价</div><div class="kpi-value">~$4,644/oz</div><div class="kpi-sub up">日 +0.32%</div></div>
+  <div class="kpi"><div class="kpi-label">COMEX 总库存</div><div class="kpi-value">~24.5M oz</div><div class="kpi-sub down">较3月底 -18%</div></div>
+  <div class="kpi"><div class="kpi-label">较关税前基线</div><div class="kpi-value warn">+43%</div><div class="kpi-sub">关税前基线 17.1M oz</div></div>
+</div>
+<div class="callout">📊 黄金库存自2025年3月43.3M峰值持续回落，目前已连续4个月每月平均流出 ~3M oz。流出与套利平仓 + 实物提取双重驱动，但仍显著高于关税前基线，结构性紧张程度尚未达到极端。</div>
+
+<h3>白银（Silver）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">现货收盘价</div><div class="kpi-value">~$76/oz</div><div class="kpi-sub up">日 +1.5%（自伊朗战争 -18%）</div></div>
+  <div class="kpi"><div class="kpi-label">COMEX 总库存</div><div class="kpi-value">~260M oz</div><div class="kpi-sub down">较2025/10峰值 -51%</div></div>
+  <div class="kpi"><div class="kpi-label">注册库存</div><div class="kpi-value down">~30M oz</div><div class="kpi-sub down">较峰值168M -82%</div></div>
+  <div class="kpi"><div class="kpi-label">覆盖率</div><div class="kpi-value down">~13–16%</div><div class="kpi-sub down">压力区（&lt;15%）</div></div>
+</div>
+<div class="callout">📊 白银覆盖率持续在<strong>压力区临界值徘徊</strong>。第三方追踪平台（GoldSilver.ai）数据显示当前覆盖率约16.4%，仍属"紧"状态；纸银杠杆约6.1×。注册库存近30天有约5.8%恢复迹象，但绝对值仍然处于历史极低位。AI数据中心 + 太阳能板的结构性工业需求继续提供长期支撑——本周公布的Meta、谷歌、微软、亚马逊四大Hyperscaler 2026 AI Capex合计已达 $7,150亿（2025年仅 $3,750亿）。</div>
+
+<!-- 图表区 -->
+<h3>库存走势图</h3>
+
+<!-- 黄金库存折线图 -->
+<div class="chart-wrap" style="height:280px;">
+  <canvas id="goldChart" role="img" aria-label="COMEX黄金总库存走势图"></canvas>
+</div>
+
+<!-- 白银汇总卡片 -->
+<h3>白银库存走势图</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">当前总库存（5/1）</div><div class="kpi-value">~260M oz</div><div class="kpi-sub down">较峰值 -51%</div></div>
+  <div class="kpi"><div class="kpi-label">历史峰值（2025/10）</div><div class="kpi-value">532M oz</div><div class="kpi-sub">实物交割浪潮前</div></div>
+  <div class="kpi"><div class="kpi-label">长期均值</div><div class="kpi-value">321M oz</div><div class="kpi-sub">2022—2026 平均</div></div>
+  <div class="kpi"><div class="kpi-label">当前注册库存</div><div class="kpi-value down">~30M oz</div><div class="kpi-sub">较注册峰值 -82%</div></div>
+</div>
+
+<!-- 白银双线图 -->
+<div class="chart-wrap" style="height:280px;">
+  <canvas id="silverTotalChart" role="img" aria-label="COMEX白银总库存与注册库存双线走势图"></canvas>
+</div>
+
+<!-- 覆盖率卡片 -->
+<div class="kpi-grid" style="margin-top:20px;">
+  <div class="kpi"><div class="kpi-label">覆盖率（5/1）</div><div class="kpi-value down">~13.2%</div><div class="kpi-sub down">压力区（&lt;15%）</div></div>
+  <div class="kpi"><div class="kpi-label">纸白银杠杆</div><div class="kpi-value">~6.1×</div><div class="kpi-sub">合约 vs 实物</div></div>
+  <div class="kpi"><div class="kpi-label">注册库存30天变化</div><div class="kpi-value up">+5.8%</div><div class="kpi-sub">轻度补库</div></div>
+  <div class="kpi"><div class="kpi-label">下一交割月 FND</div><div class="kpi-value">5月已开</div><div class="kpi-sub warn">关注交割数据</div></div>
+</div>
+
+<!-- 覆盖率柱状图 -->
+<div class="chart-wrap" style="height:220px;">
+  <canvas id="silverCovChart" role="img" aria-label="白银覆盖率历史柱状图"></canvas>
+</div>
+<p style="font-size:11px;color:var(--text3);margin-top:6px;">来源：CME 仓库报告（MetalCharts）、Kitco、GoldSilver.ai。报告日数据为估算值。白银量级（百M oz）远高于黄金（数十M oz），不可跨品种比较绝对值。</p>
+
+<!-- ===== D. 财报 ===== -->
+<h2>📊 D. 财报后大波动个股（4/30盘后 + 5/1盘前/盘中）</h2>
+<table>
+  <tr><th>公司/Ticker</th><th>EPS（实际 vs 预期）</th><th>营收（实际 vs 预期）</th><th>股价反应</th><th>核心看点</th></tr>
+  <tr>
+    <td><strong>Apple (AAPL)</strong></td>
+    <td>$2.01 vs $1.95</td>
+    <td>$111.2B vs $109.66B</td>
+    <td class="up">+3.26%（5/1收盘）</td>
+    <td>iPhone 营收 $57B（+22% YoY，3月季度记录），Services $31B 创新高，毛利率 49.3% 创历史新高，Q3指引远超预期。</td>
+  </tr>
+  <tr>
+    <td><strong>Amazon (AMZN)</strong></td>
+    <td>$2.78 vs $1.64</td>
+    <td>$181.5B vs $177.3B</td>
+    <td class="up">+1.25%（4/30盘后初跌3%后翻正）</td>
+    <td>AWS +28% YoY 至 $37.6B（15个季度最快增速），自研芯片业务突破 $20B 年化收入，广告 $17.2B（+24%）。</td>
+  </tr>
+  <tr>
+    <td><strong>ExxonMobil (XOM)</strong></td>
+    <td>超预期</td>
+    <td>低于预期</td>
+    <td class="up">微涨</td>
+    <td>南美和美国产量增长抵消波斯湾产量损失，但净利润同比 -45%。</td>
+  </tr>
+  <tr>
+    <td><strong>Chevron (CVX)</strong></td>
+    <td>超预期</td>
+    <td>低于预期</td>
+    <td class="up">微涨</td>
+    <td>净利润同比 -36%。</td>
+  </tr>
+  <tr>
+    <td><strong>Estée Lauder (EL)</strong></td>
+    <td>超预期</td>
+    <td>超预期</td>
+    <td class="up">+12%</td>
+    <td>上调全年指引。</td>
+  </tr>
+  <tr>
+    <td><strong>Roblox (RBLX)</strong></td>
+    <td>—</td>
+    <td>—</td>
+    <td class="down">-17%（盘前一度 -24%）</td>
+    <td>下调全年预订指引（$7.33-7.6B vs 此前 $8.28-8.55B），归因于美国新增年龄验证导致35%用户无法完整使用社交功能。</td>
+  </tr>
+  <tr>
+    <td><strong>Western Digital (WDC)</strong></td>
+    <td>超预期</td>
+    <td>超预期</td>
+    <td class="down">-8.3%</td>
+    <td>财报符合预期但前瞻指引温和+估值已透支预期。</td>
+  </tr>
+  <tr>
+    <td><strong>Five9 (FIVN)</strong></td>
+    <td>大超预期</td>
+    <td>大超预期</td>
+    <td class="up">+30%</td>
+    <td>缓解市场对 AI 颠覆 SaaS 的担忧，Atlassian、Twilio 同情上涨。</td>
+  </tr>
+  <tr>
+    <td><strong>Wolfspeed (WOLF)</strong></td>
+    <td>—</td>
+    <td>—</td>
+    <td class="up">+26%</td>
+    <td>新管理层任命驱动。</td>
+  </tr>
+</table>
+<div class="callout">📊 <strong>本季财报季的核心叙事：</strong>S&amp;P 500 到 5/1 已有 63% 公司公布 Q1 业绩，84% 超 EPS 预期（5年均值78%），合计超预期幅度 20.7%（5年均值仅 7.3%），是 2021Q1 以来最高的"惊喜密度"。盈利预期上修推动远期 P/E 回到 20.9（5年均 19.9）——估值并未因业绩超预期而下行，反而估值与业绩同步走高，这是<strong>典型的 melt-up 后期特征</strong>。</div>
+
+<!-- ===== E. 板块轮动 ===== -->
+<h2>🔄 E. 板块轮动分析</h2>
+<table>
+  <tr><th>方向</th><th>板块</th><th>ETF</th><th>5/1 收盘</th><th>当日涨跌</th></tr>
+  <tr><td>领涨</td><td>科技</td><td>XLK</td><td>—</td><td class="up">领涨（苹果驱动）</td></tr>
+  <tr><td>领涨</td><td>通讯服务</td><td>XLC</td><td>—</td><td class="up">领涨（GOOG 月度+大涨）</td></tr>
+  <tr><td>领涨</td><td>消费可选</td><td>XLY</td><td>$118.63</td><td class="up">+0.24%</td></tr>
+  <tr><td>领跌</td><td>医疗保健</td><td>XLV</td><td>$145.16</td><td class="down">-0.57%</td></tr>
+  <tr><td>领跌</td><td>工业</td><td>XLI</td><td>$172.96</td><td class="down">-0.93%</td></tr>
+  <tr><td>领跌</td><td>金融</td><td>XLF</td><td>$51.92</td><td class="down">-0.40%</td></tr>
+  <tr><td>领跌</td><td>必需消费</td><td>XLP</td><td>$84.17</td><td class="down">-0.17%</td></tr>
+</table>
+<p><strong>轮动逻辑：</strong>5月1日板块走势是<strong>明显的"科技+消费可选"独舞，价值/防御全线被砍</strong>。背后驱动有三：(1) Mag7 财报季最后一波（AAPL、AMZN、GOOG）一致超预期，资金集中向 AI 受益龙头加仓；(2) 油价急跌打击能源与材料；(3) 鹰派 FOMC 后利率上行压制 REITs、Utilities、Healthcare 等利率敏感型板块。从 4 月全月看，标普纳指均创下 2020 年 4 月以来最强单月表现，但<strong>道指仅靠 Apple、Salesforce 拉动</strong>，70% 成分股月度负贡献，结构性脆弱已显现。</p>
+
+<h3>💾 半导体 ETF 追踪：SMH vs SOXX</h3>
+<table>
+  <tr><th>指标</th><th>SMH（VanEck）</th><th>SOXX（iShares）</th></tr>
+  <tr><td>年涨幅（YTD，截至5/1）</td><td>~+25%</td><td>~+22%</td></tr>
+  <tr><td>4月单月涨幅</td><td>~+12%</td><td>~+10%</td></tr>
+  <tr><td>5/1表现</td><td class="up">小幅上涨</td><td class="up">小幅上涨</td></tr>
+</table>
+<p><strong>半导体板块解读：</strong>本周AMZN与GOOG财报后市场对"自研 ASIC 替代 NVDA"的叙事再升级，导致 NVDA 短期承压、AVGO+MRVL 受益。WSJ 报道 OpenAI 内部营收和增长目标双双 miss，让上周 SoftBank 一度盘前 -11%，AI 端到端的盈利兑现度成为本周市场最大的风险点。下周 ARM、AMD、PLTR 财报将是 AI 链重要试金石。</p>
+
+<!-- ===== F. SoftBank ===== -->
+<h2>🔭 F. SoftBank 专项追踪</h2>
+
+<h3>股价与市值（5/1）</h3>
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="kpi-label">SFTBY（OTC ADR）</div>
+    <div class="kpi-value warn">~$16</div>
+    <div class="kpi-sub down">较10月高点 $22.50 跌 ~29%</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">市值（约）</div>
+    <div class="kpi-value">~$204B</div>
+    <div class="kpi-sub">P/E ~8.27x（历史低位）</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">LTV 比率（估算）</div>
+    <div class="kpi-value warn">~20–22%</div>
+    <div class="kpi-sub warn">接近自设红线 25%</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">2026年底再融资墙</div>
+    <div class="kpi-value warn">~$500B</div>
+    <div class="kpi-sub">倒计时 ~8个月</div>
+  </div>
+</div>
+
+<h3>核心风险仪表盘</h3>
+<table>
+  <tr><th>指标</th><th>当前值</th><th>警戒线</th><th>状态</th></tr>
+  <tr>
+    <td>LTV 比率</td>
+    <td>~20–22%</td>
+    <td>25%</td>
+    <td class="warn">🟡 接近红线</td>
+  </tr>
+  <tr>
+    <td>2026年底再融资墙</td>
+    <td>~$500B</td>
+    <td>2026年底</td>
+    <td class="warn">🟡 倒计时 ~8个月</td>
+  </tr>
+  <tr>
+    <td>ARM 持仓（~87-90%）</td>
+    <td>ARM ~$150B市值</td>
+    <td>$800B（LTV临界）</td>
+    <td class="up">🟢 短期缓解</td>
+  </tr>
+  <tr>
+    <td>OpenAI IPO</td>
+    <td>目标 Q4 2026</td>
+    <td>2026年底</td>
+    <td class="warn">🟡 OpenAI 营收 miss 风险显现</td>
+  </tr>
+  <tr>
+    <td>信用评级</td>
+    <td>S&amp;P 展望负面</td>
+    <td>投资级 BBB-</td>
+    <td class="warn">🟡</td>
+  </tr>
+</table>
+
+<h3>最新动态（4/29–5/1）</h3>
+<ul>
+  <li><strong>4月28日：OpenAI 营收+用户增长双双 miss 内部目标的 WSJ 报道引爆 SFTBY 盘前跌幅曾达 -11%</strong>。这是 SoftBank 最核心的"AI 杠杆敞口"首次出现实质性裂缝信号——OpenAI 估值若被重新审视，SoftBank 已确认的 $20B fair-value gain 将首当其冲。</li>
+  <li><strong>4月中下旬：SoftBank 申请 $10B 贷款，以 OpenAI 持股作抵押</strong>（2年期 margin loan，初步利率 SOFR + 425bp ≈ 7.88%）——继 4月15日发行历史最高利率 $36亿垃圾债之后，再融资成本继续攀升。</li>
+  <li><strong>4月初：SoftBank 计划在美国创设并上市新 AI+机器人公司"Roze"</strong>，目标估值 $100B，专注数据中心建设和自动化机器人。这是孙正义试图<strong>制造新的"上市套现工具"以应对 2026 底再融资墙的关键动作</strong>。</li>
+</ul>
+
+<h3>ARM 连锁影响评估</h3>
+<ul>
+  <li>ARM（NASDAQ: ARM）将于 5/7 公布 FY26 Q4 财报——本周最关键事件。</li>
+  <li>SoftBank ARM 持仓市值 ~$150B（87-90% 股份），仍是其最大单一资产。</li>
+  <li>本周无 SoftBank 减持 ARM 的明确信号，但 OpenAI 估值压力上升将使 ARM 成为下一个潜在变现工具。</li>
+  <li>对 SMH/SOXX 影响：ARM 财报若 miss，将拖累整个 ARM 生态（包括 AVGO、QCOM）。</li>
+</ul>
+
+<h3>OpenAI 生态信号</h3>
+<ul>
+  <li><strong>OpenAI 营收/用户增长双 miss</strong>（WSJ，4/28）——AI 资本开支链最大估值锚出现裂痕。</li>
+  <li>OpenAI IPO 进展：目标 Q4 2026，但 miss 报告后市场对 IPO 估值的预期分化。</li>
+  <li>四大 Hyperscaler 2026 AI Capex 合计 $7,150亿（vs 2025 $3,750亿，几近翻倍），需求侧弹药仍充足；但市场开始<strong>奖励"近期可货币化的 AI"</strong>（如 GOOG）、<strong>惩罚"无清晰回报的 AI 支出"</strong>（如 META 周内大跌）。</li>
+</ul>
+
+<!-- Chart.js 脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
+<script>
+const isDark = matchMedia('(prefers-color-scheme:dark)').matches;
+const gC = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
+const lC = isDark ? '#777' : '#888';
+
+/* ── 图1：黄金总库存折线图 ── */
+new Chart(document.getElementById('goldChart'), {
+  type: 'line',
+  data: {
+    labels: ['2025/3','2025/4','2025/5','2025/6','2025/7','2025/8','2025/9','2025/10','2025/11','2025/12','2026/1','2026/2','2026/3','2026/4','2026/5'],
+    datasets: [{ label:'总库存',
+      data: [43.3,42.0,41.0,40.2,39.5,38.6,38.9,38.5,40.0,39.0,36.5,34.4,30.0,25.9,24.5],
+      borderColor:'#3266ad', backgroundColor: isDark ? 'rgba(50,102,173,0.12)' : 'rgba(50,102,173,0.08)',
+      fill:true, tension:0.3, borderWidth:2,
+      pointRadius: [3,3,3,3,3,3,3,3,3,3,3,3,3,3,6],
+      pointBackgroundColor: [...Array(14).fill('#3266ad'), '#BA7517'],
+      pointBorderColor: [...Array(14).fill('#3266ad'), '#BA7517']
+    }]
+  },
+  options: { responsive:true, maintainAspectRatio:false,
+    plugins: { legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>ctx.parsed.y.toFixed(1)+'M oz'}},
+      annotation:{annotations:{
+        avg:{type:'line',yMin:24.1,yMax:24.1,borderColor:'#888780',borderWidth:1.5,borderDash:[6,4],
+          label:{content:'长期均值 24.1M',display:true,position:'start',font:{size:10},color:'#888780',backgroundColor:'transparent',yAdjust:-10}},
+        base:{type:'line',yMin:17.1,yMax:17.1,borderColor:'#E24B4A',borderWidth:1.5,borderDash:[6,4],
+          label:{content:'关税前 17.1M',display:true,position:'start',font:{size:10},color:'#E24B4A',backgroundColor:'transparent',yAdjust:12}}
+      }}
+    },
+    scales:{
+      x:{ticks:{color:lC,font:{size:10},maxRotation:30,autoSkip:false},grid:{color:gC}},
+      y:{min:14,max:46,ticks:{color:lC,font:{size:10},callback:v=>v+'M'},grid:{color:gC},
+        title:{display:true,text:'百万盎司',color:lC,font:{size:10}}}
+    }
+  }
+});
+
+/* ── 图2：白银双线图 ── */
+const silverLabels = ['2025/4','2025/7','2025/8','2025/9','2025/10','2025/11','2025/12','2026/1','2026/2','2026/3','2026/4','2026/5'];
+const totalData =    [445,     498,     507,     525,     532,      490,      430,      380,     366,     285,     265,     260];
+const regData =      [null,    null,    null,    168,     167.7,    145,      120,      103,     98,      52,      35,      30];
+
+new Chart(document.getElementById('silverTotalChart'), {
+  data: {
+    labels: silverLabels,
+    datasets: [
+      { type:'line', label:'总库存（R+E）', data:totalData,
+        borderColor:'#73726c', backgroundColor: isDark?'rgba(115,114,108,0.10)':'rgba(115,114,108,0.07)',
+        fill:true, tension:0.3, borderWidth:2,
+        pointRadius: totalData.map((_,i)=>i===totalData.length-1?6:3),
+        pointBackgroundColor: totalData.map((_,i)=>i===4?'#E24B4A':i===totalData.length-1?'#73726c':'#888'),
+        pointBorderColor:'#73726c', yAxisID:'y'
+      },
+      { type:'line', label:'注册库存（可交割）', data:regData,
+        borderColor:'#E24B4A', backgroundColor:'transparent',
+        fill:false, tension:0.3, borderWidth:2,
+        pointRadius: regData.map((v,i)=>v!=null?(i===regData.length-1?6:3):0),
+        pointBackgroundColor:'#E24B4A', pointBorderColor:'#E24B4A', yAxisID:'y'
+      }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:false,
+    plugins: { legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>ctx.parsed.y!=null?ctx.dataset.label+': '+ctx.parsed.y.toFixed(0)+'M oz':''}},
+      annotation:{annotations:{
+        avg:{type:'line',yMin:321,yMax:321,borderColor:'#888780',borderWidth:1.5,borderDash:[6,4],
+          label:{content:'均值 321M',display:true,position:'start',font:{size:10},color:'#888780',backgroundColor:'transparent',yAdjust:-10}}
+      }}
+    },
+    scales:{
+      x:{ticks:{color:lC,font:{size:10},maxRotation:30,autoSkip:false},grid:{color:gC}},
+      y:{min:0,max:580,ticks:{color:lC,font:{size:10},callback:v=>v+'M'},grid:{color:gC},
+        title:{display:true,text:'百万盎司',color:lC,font:{size:10}}}
+    }
+  }
+});
+
+/* ── 图3：覆盖率柱状图 ── */
+const covLabels = ['2025/5','2025/7','2025/9','2025/10','2025/12','2026/2','2026/4','2026/5'];
+const covData =   [34,      30,      26,      22,       18,       14.5,    13.8,    13.2];
+const covColors = covData.map(v => v < 15 ? '#E24B4A' : v < 25 ? '#BA7517' : '#3266ad');
+
+new Chart(document.getElementById('silverCovChart'), {
+  type:'bar',
+  data:{ labels:covLabels,
+    datasets:[{label:'覆盖率', data:covData, backgroundColor:covColors, borderRadius:3, borderSkipped:false}]
+  },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>ctx.parsed.y.toFixed(1)+'%'}},
+      annotation:{annotations:{
+        stress:{type:'line',yMin:15,yMax:15,borderColor:'#E24B4A',borderWidth:1.5,borderDash:[5,4],
+          label:{content:'压力阈值 15%',display:true,position:'end',font:{size:10},color:'#E24B4A',backgroundColor:'transparent',yAdjust:-10}}
+      }}
+    },
+    scales:{
+      x:{ticks:{color:lC,font:{size:10}},grid:{display:false}},
+      y:{min:0,max:40,ticks:{color:lC,font:{size:10},callback:v=>v+'%'},grid:{color:gC}}
+    }
+  }
+});
+</script>
+
+<div class="sources">
+  <h2>Data Sources</h2>
+  <ul>
+    <li>CME FedWatch — 6月降息概率 ~5%</li>
+    <li>Federal Reserve (federalreserve.gov) — 4/28-29 FOMC 决议</li>
+    <li>BLS (bls.gov) — 非农就业数据 + 5/8 发布日历</li>
+    <li>Kitco / Trading Economics — 黄金、白银现货价</li>
+    <li>MetalCharts / GoldSilver.ai — COMEX 库存数据 + 覆盖率</li>
+    <li>Polymarket (polymarket.com) — 预测市场概率</li>
+    <li>SEC EDGAR — Apple Q2 FY26 8-K</li>
+    <li>CNBC / Yahoo Finance / TheStreet — 指数收盘 + 财报反应</li>
+    <li>Schwab Sector Views — XLK/XLF/XLV/XLY 评级</li>
+    <li>Yahoo Finance / FRED — S&amp;P 500、Nasdaq、Dow 收盘数据</li>
+    <li>FactSet Earnings Insight — Q1 2026 财报季统计</li>
+    <li>WSJ / Reuters / Advisor Perspectives — SoftBank、OpenAI 报道</li>
+  </ul>
+  <div class="disclaimer">本报告仅供参考，不构成投资建议。数据存在时间延迟，部分数据为公开报道整理估算值。投资有风险，决策需谨慎。</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>American Airlines 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:110px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box.method { background:linear-gradient(135deg,#ede9fe 0%,#ddd6fe 100%); border-left-color:#6366f1; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.method-banner { background:linear-gradient(135deg,#6366f1 0%,#4f46e5 100%); color:#fff; padding:24px 28px; border-radius:12px; margin-bottom:20px; }
+.method-banner .icon { font-size:32px; margin-bottom:8px; }
+.method-banner .title { font-size:20px; font-weight:700; margin-bottom:8px; }
+.method-banner .principle { font-size:15px; line-height:1.7; opacity:0.95; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>American Airlines 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：AAL</div>
+      <div>🏛️ 交易所：NASDAQ</div>
+      <div>🏷️ 行业：航空运输 - Legacy Network Carrier</div>
+      <div>📅 分析日期：2026-05-02</div>
+    </div>
+    <div class="one-liner">💡 American Airlines通过运营全球最大规模的客运航线网络，向商务/休闲旅客和货运客户收取机票、行李、忠诚度计划及联名信用卡分润收入</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="method">📚 方法论</button>
+    <button class="tab" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  <!-- 方法论 -->
+  <div class="section active" id="method">
+    <h2>📚 行业估值方法论</h2>
+    <p class="subtitle">理解为什么这个行业要用这套框架——这是分析的认知地基</p>
+
+    <div class="method-banner">
+      <div class="icon">✈️</div>
+      <div class="title">航空运输业估值方法论</div>
+      <div class="principle">航空公司本质是<strong>把油烧成里程数的杠杆生意</strong>。被巴菲特称为'价值毁灭者'的行业——传统PE/PB估值在这里几乎都失效，必须用专属的运营单位经济+杠杆压力测试来评估。</div>
+    </div>
+
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 8px;">🧱 行业核心特征（必须先理解的底层事实）</h3>
+    
+  <div style="background:#f8fafc;border-left:4px solid #6366f1;padding:14px 18px;margin:10px 0;border-radius:8px;">
+    <div style="font-weight:700;color:#0f172a;margin-bottom:6px;font-size:14px;">70%+成本是固定的</div>
+    <div style="font-size:14px;color:#475569;line-height:1.7;">飞机租赁、人力工资、机场费、维护——多卖一个座位边际利润极高，但卖不掉就直接亏。这就是为什么 Load Factor（载客率）是命门。</div>
+  </div>
+  <div style="background:#f8fafc;border-left:4px solid #6366f1;padding:14px 18px;margin:10px 0;border-radius:8px;">
+    <div style="font-weight:700;color:#0f172a;margin-bottom:6px;font-size:14px;">燃油是第二大成本（20-30%）</div>
+    <div style="font-size:14px;color:#475569;line-height:1.7;">且对冲基本无效——油价是纯外部冲击。航空煤油价格每涨10%可能直接吞噬高杠杆航司一整年利润。</div>
+  </div>
+  <div style="background:#f8fafc;border-left:4px solid #6366f1;padding:14px 18px;margin:10px 0;border-radius:8px;">
+    <div style="font-weight:700;color:#0f172a;margin-bottom:6px;font-size:14px;">资本结构高杠杆</div>
+    <div style="font-size:14px;color:#475569;line-height:1.7;">飞机一架上亿美元几乎都靠债融资，疫情后部分航司（如AAL）股东权益已为负——账面上资不抵债。</div>
+  </div>
+
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 8px;">📐 航空业专属指标体系（传统财务指标在这里不适用）</h3>
+    <table>
+      <thead><tr><th>指标</th><th>计算方式</th><th>健康基准</th><th>含义</th></tr></thead>
+      <tbody><tr><td class="label">EV/EBITDAR</td><td>EV / (EBITDA + 飞机租赁费)</td><td>6-8x合理，>10x偏贵</td><td>航空业首选估值倍数（消除自有vs租赁机队差异）</td></tr><tr><td class="label">RASM</td><td>总营收 / 可用座位英里(ASM)</td><td>越高越好</td><td>单位运力赚钱能力</td></tr><tr><td class="label">TRASM</td><td>含辅助收入(行李/选座/忠诚度)的RASM</td><td>DAL ~20¢ / AAL ~18¢</td><td>反映运营能力+附加收入变现</td></tr><tr><td class="label">CASM-ex</td><td>剔除燃油的单位成本</td><td>应≤同行水平</td><td>真实运营效率（剔除外部冲击）</td></tr><tr><td class="label">Load Factor</td><td>实际乘客英里 / 可用座位英里</td><td>>85%健康</td><td>满载率（航空业生死线）</td></tr><tr><td class="label">净债务/EBITDA</td><td>(总债务-现金) / EBITDA</td><td><2x健康，>4x警讯</td><td>杠杆压力（最致命指标）</td></tr><tr><td class="label">流动性</td><td>现金+未动用授信</td><td>至少够6-9个月运营</td><td>抗风险能力</td></tr><tr><td class="label">股东权益</td><td>总资产-总负债</td><td>必须为正数</td><td>负值=资不抵债，安全边际为零</td></tr></tbody>
+    </table>
+
+    <div class="summary-box method" style="margin-top:24px;">
+      <div class="title">💡 EV/EBITDAR 为何是首选</div>
+      <div class="text"><strong>传统EV/EBITDA的问题：</strong>自有飞机计折旧（在EBITDA上方）、租赁飞机计租金（在营业费用，已扣除）→ 两种航司报表'看起来'完全不同，但本质都是'用飞机赚钱'。<br><br><strong>EV/EBITDAR解决方案：</strong>把'R'(Rent)加回来，让租赁和自有可比 → 全行业横向比较的唯一公平基准。</div>
+    </div>
+
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 8px;">🎯 航空业投资分析的'四问框架'</h3>
+    
+  <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px 20px;margin:10px 0;">
+    <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;">
+      <div style="background:#6366f1;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">Q1</div>
+      <div style="font-weight:700;color:#0f172a;font-size:15px;line-height:1.5;">客户结构如何？</div>
+    </div>
+    <div style="font-size:14px;color:#475569;line-height:1.7;padding-left:40px;">决定收入质量。看商务旅客占比（DAL最高，是margin领先根本原因）、国际航线占比（UAL最强）、忠诚度+联名信用卡分润（DAL-Amex年贡献~70亿，几乎纯利润——航空业最被低估的现金牛）。</div>
+  </div>
+  <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px 20px;margin:10px 0;">
+    <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;">
+      <div style="background:#6366f1;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">Q2</div>
+      <div style="font-weight:700;color:#0f172a;font-size:15px;line-height:1.5;">成本结构有多大优化空间？</div>
+    </div>
+    <div style="font-size:14px;color:#475569;line-height:1.7;padding-left:40px;">决定盈利能力。CASM-ex是否在改善？（AAL比UAL高10%是结构性劣势）、燃油对冲策略是否有效、劳工合同压力（飞行员加薪是过去三年Big 3利润率压力主因）。</div>
+  </div>
+  <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px 20px;margin:10px 0;">
+    <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;">
+      <div style="background:#6366f1;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">Q3</div>
+      <div style="font-weight:700;color:#0f172a;font-size:15px;line-height:1.5;">资产负债表能扛多深的下行？</div>
+    </div>
+    <div style="font-size:14px;color:#475569;line-height:1.7;padding-left:40px;">决定生存概率。净债务/EBITDA > 4x是警讯、流动性至少够6-9个月、股东权益必须为正——AAL权益为负(-37亿)意味着下一次衰退极度脆弱。</div>
+  </div>
+  <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px 20px;margin:10px 0;">
+    <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;">
+      <div style="background:#6366f1;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">Q4</div>
+      <div style="font-weight:700;color:#0f172a;font-size:15px;line-height:1.5;">周期位置 + 资本配置纪律？</div>
+    </div>
+    <div style="font-size:14px;color:#475569;line-height:1.7;padding-left:40px;">行业产能扩张期（订飞机潮）→ 未来供给过剩 → 票价下行；产能收缩期（如Spirit倒闭）→ 票价上涨。<strong>还债的航司比回购的航司在下一轮周期里活得久</strong>（AAL 2014-19高位回购130亿后疫情股价崩80%是反面教材）。</div>
+  </div>
+
+    
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 8px;">📈 美国航空业质量分层（关键认知：营收规模 ≠ 投资价值）</h3>
+    <p style="font-size:14px;color:#64748b;margin-bottom:12px;"><strong>Big 3 利润分配的不对称：</strong>Delta + United = 47%座位运力 → 60%营收 → 90%+净利润。行业内部'赢家通吃'已经形成。</p>
+    <table>
+      <thead><tr><th>公司</th><th>营业利润率</th><th>净债务/EBITDA</th><th>EV/EBITDA</th><th>Forward PE</th><th>质量评级</th></tr></thead>
+      <tbody><tr><td class="label">Delta (DAL)</td><td>11%</td><td>1.5x</td><td>6x</td><td>7.5x</td><td>★★★★★ 行业基准</td></tr><tr><td class="label">United (UAL)</td><td>9%</td><td>2.0x</td><td>5x</td><td>6x</td><td>★★★★ 国际网络强</td></tr><tr><td class="label">American (AAL)</td><td>5%</td><td>6.5x</td><td>8.4x</td><td>7x</td><td>★★ 高杠杆瘸腿</td></tr><tr><td class="label">Southwest (LUV)</td><td>3%</td><td>0.5x</td><td>8x</td><td>20x</td><td>★★★ 财务最稳</td></tr></tbody>
+    </table>
+
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 8px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>用Forward PE误判'便宜'——航空业历史均值就是低PE，单看PE无法识别风险，必须用EV/EBITDAR才能跨公司比较
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>忽视燃油敏感度——油价每涨10%可能直接吞噬高杠杆航司一年的利润，估值需附带油价情景假设
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>误读负股东权益——这是累计亏损吃光资本金的会计结果，不必然破产，但意味着安全边际为零
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>把短期supply shock当持续逻辑——竞争对手倒闭后6-12个月，幸存者会增加运力填补空白，定价权红利会消退
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱5：</strong>信任管理层的'去杠杆目标'——执行力差的管理层（如AAL）多次跳票，guidance可信度需要验证而非默认
+  </div>
+
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 8px;">🔍 关键监控指标（行业层面）</h3>
+    <div style="background:#f8fafc;padding:16px 20px;border-radius:10px;">
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#6366f1;min-width:24px;">1.</span>
+    <span style="font-size:14px;">月度RASM/CASM同比变化</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#6366f1;min-width:24px;">2.</span>
+    <span style="font-size:14px;">季度净债务变化（去杠杆速度）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#6366f1;min-width:24px;">3.</span>
+    <span style="font-size:14px;">WTI油价走向（每涨10%吃掉高杠杆航司5-7亿年利润）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#6366f1;min-width:24px;">4.</span>
+    <span style="font-size:14px;">商务客revenue占比恢复进度</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#6366f1;min-width:24px;">5.</span>
+    <span style="font-size:14px;">行业CapEx总量（订飞机潮预示2-3年后供给过剩）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#6366f1;min-width:24px;">6.</span>
+    <span style="font-size:14px;">忠诚度+联名信用卡分润收入增速</span>
+  </div>
+    </div>
+  </div>
+
+  <!-- 模块一 -->
+  <div class="section" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：资产重型 + 网络规模</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">客运业务（占营收~88%）：覆盖48国350+目的地，每日近7,000班次；货运业务（~3%）；忠诚度计划AAdvantage与Citi/Barclays联名信用卡分润（~9%，但margin极高）。机队约1,000架主线飞机+550架American Eagle区域机。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">客户结构是AAL的痛点：商务旅客占比低于Delta/United，疫情后企业差旅恢复缓慢。leisure旅客占主导，对价格敏感。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">国内航线占主导（~70%），拉美航线优势（迈阿密枢纽辐射加勒比海+南美），跨大西洋有伦敦/马德里航线。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">2025全年营收$54.6B（创纪录但增速仅0.15%）。客运占比~88%，辅助收入~9%，货运~3%。</div></div>
+    </div>
+  </div>
+
+  <!-- 模块二 -->
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级：窄护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">成本劣势明显：CASM-ex比United高约10%。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">DFW/CLT等枢纽时刻资源是稀缺资产，oneworld联盟身份。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">转换成本较弱：服务高度同质化。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">枢纽辐射网络是真实壁垒，但国际深度落后UAL/DAL。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">全球第一大机队规模，但规模优势没有转化为成本优势。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">时刻资源+oneworld联盟是不可复制的硬资产</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">成本结构在三大航中最差，商务客占比低导致revenue quality落后</div>
+    </div>
+  </div>
+
+  <!-- 模块三 -->
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">本公司在行业框架下的具体估值（如需复习方法论，请切回📚方法论 tab）</p>
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：航空运输 - Legacy Network Carrier</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：全服务网络型航司（Big 3）</span>
+      <span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44">估值结论：合理</span>
+    </div>
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：EV/EBITDAR + 资产负债表健康度 + 单位运营指标</div>
+      <div class="text">航空业是重资产+高杠杆+强周期行业，PE失真严重，必须用EV/EBITDAR配合RASM/CASM分析。AAL权益已为负值，传统P/B失效。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">Forward PE</td>
+    <td class="num">~7.0x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">DAL 7.5x / UAL 6x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/EBITDA</td>
+    <td class="num">~8.4x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">DAL 6x / UAL 5x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">净债务/EBITDA</td>
+    <td class="num">~6.5x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">DAL 1.5x / UAL 2x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">股东权益</td>
+    <td class="num">-$3.7B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">应为正</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">营业利润率</td>
+    <td class="num">~5%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">DAL 11% / UAL 9%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">Load Factor</td>
+    <td class="num">86.0%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>85%健康</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr></tbody>
+    </table>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>营收</th><th>营业利润率</th><th>净债务/EBITDA</th><th>EV/EBITDA</th></tr></thead>
+      <tbody><tr><td class="label" style="background:transparent;;font-weight:700;">DAL</td><td class="num" style="background:transparent;;">$63.4B</td><td class="num" style="background:transparent;;">11%</td><td class="num" style="background:transparent;;">1.5x</td><td class="num" style="background:transparent;;">6x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">UAL</td><td class="num" style="background:transparent;;">$59.1B</td><td class="num" style="background:transparent;;">9%</td><td class="num" style="background:transparent;;">2.0x</td><td class="num" style="background:transparent;;">5x</td></tr><tr><td class="label" style="background:#fef3c7;;font-weight:700;">AAL</td><td class="num" style="background:#fef3c7;;">$54.6B</td><td class="num" style="background:#fef3c7;;">5%</td><td class="num" style="background:#fef3c7;;">6.5x</td><td class="num" style="background:#fef3c7;;">8.4x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">LUV</td><td class="num" style="background:transparent;;">$28.1B</td><td class="num" style="background:transparent;;">3%</td><td class="num" style="background:transparent;;">0.5x</td><td class="num" style="background:transparent;;">8x</td></tr></tbody>
+    </table>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间</h3>
+    <div class="fair-value">
+      <div class="fv-card bear"><div class="label">悲观 Bear</div><div class="value">$8</div></div>
+      <div class="fv-card base"><div class="label">基准 Base</div><div class="value">$13-15</div></div>
+      <div class="fv-card bull"><div class="label">乐观 Bull</div><div class="value">$22-25</div></div>
+    </div>
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">AAL股价约$12-13。表面PE 7x便宜，但EV/EBITDA 8.4x实际比DAL/UAL都贵——巨额债务被加进了EV分子。这是典型价值陷阱。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 公司估值具体陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>用PE误判'便宜'——必须用EV/EBITDAR才能跨公司比较
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>忽视燃油敏感度——油价每涨10%可能直接吞噬一年的利润
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>把Spirit倒闭利好当持续逻辑——6-12个月后定价权红利会消退
+  </div>
+  </div>
+
+  <!-- 模块四 -->
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644;font-size:16px;padding:8px 18px">综合评级：C级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">Robert Isom以'去杠杆'为核心目标，方向正确但执行参差。历史污点：2014-2019年高位回购约130亿美元，疫情后股价暴跌80%。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">管理层透明度中等。在'回归盈利'承诺上多次失约，guidance可信度有限。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">战略执行力在Big 3中最弱。Vasu Raja的'去枢纽化'策略2023年宣告失败。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">AAL目前未进行有意义的股票回购，所以无'真假回购'问题。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">2025年实现2.5亿美元正向FCF和债务下降</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">管理层承诺多次跳票，执行力远弱于UAL。在油价持续高位环境下，去杠杆窗口期被压缩。</div>
+    </div>
+  </div>
+
+  <!-- 结论 -->
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★☆☆☆</div>
+      <div style="color:#475569; font-size:14px">2/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>AAL是美国航空业的'瘸腿巨人'——拥有营收规模上的Big 3地位，但盈利质量、资产负债表、客户结构都远远落后于Delta和United。整体评级2星：商业模式有规模壁垒但执行力差，估值合理但风险报酬比不优。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 公司专属监控指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">净债务/EBITDA能否在2026年降至5x以下</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">CASM-ex单位成本能否缩小与UAL的10%差距</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">WTI油价走向（每涨10%吃掉AAL约5-7亿年利润）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">Q4 2025/Q1 2026商务客revenue占比能否回升至40%+</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for American Airlines (AAL) · 2026-05-02 · v2.1<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [1,2,1,2,2],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>

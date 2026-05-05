@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Micro Devices 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Advanced Micro Devices 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：AMD</div>
+      <div>🏛️ 交易所：NASDAQ</div>
+      <div>🏷️ 行业：半导体（Fabless芯片设计）</div>
+      <div>📅 分析日期：2026-05-02</div>
+    </div>
+    <div class="one-liner">💡 AMD通过设计高性能CPU、GPU、AI加速器及自适应SoC芯片（自身不制造，外包给台积电代工），向云数据中心、PC OEM、游戏主机厂商和嵌入式客户销售芯片产品，赚取产品销售收入与版税。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  <!-- 模块一 -->
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：研发驱动 + 产品销售（Fabless模式）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">AMD以四大业务板块运营：①数据中心（Data Center）：EPYC服务器CPU、Instinct MI系列AI GPU加速器、Pensando网络芯片、自适应SoC（FPGA，原Xilinx业务），是公司最大且增长最快的引擎；②客户端（Client）：Ryzen桌面与笔记本处理器、Ryzen AI移动SoC，主要面向PC OEM；③游戏（Gaming）：Radeon独立显卡 + 半定制业务（PlayStation 5、Xbox Series X/S主机SoC）；④嵌入式（Embedded）：来自Xilinx并购的FPGA及自适应计算业务，覆盖通信、工业、汽车、航空航天。AMD不拥有晶圆厂，先进工艺全部外包给台积电（TSMC），核心竞争力在于芯片架构设计与软件生态。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">B2B为主：①超大规模云服务商（Microsoft Azure、Google Cloud、Oracle、Meta、AWS）——既是CPU客户也是GPU客户；②AI原生企业（OpenAI、xAI、Anthropic等）——通过Helios机架级解决方案采购；③PC OEM（戴尔、HP、联想、华硕等）；④游戏主机厂商（索尼、微软）——长期半定制合同；⑤汽车、工业、通信领域嵌入式客户。最重大客户绑定：Meta签订6GW MI450订单（~$100B潜在收入，含10%股权认股权证）、OpenAI 6GW订单（~$100B潜在收入，含1.6亿股认股权证，行权价上限$600）、Oracle采购5万颗MI450。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">2025年收入地域分布大致为：美国 ~50%、中国 ~20%（受MI308出口管制影响波动较大）、新加坡（含转口）~15%、其他亚太及欧洲 ~15%。中国敞口为关键地缘政治风险点——MI308芯片对华出口已多次被美国商务部限制；2025 Q4来自中国的MI308销售为$390M，但2026 Q1指引仅含$100M。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">2025全年总收入$34.6B（+~28% YoY）。分部结构：数据中心$16.6B（占比48%，+32% YoY，AI业务核心）、客户端约$8.5B（占比~25%，+50%+ YoY，受Zen 5 Ryzen驱动）、游戏约$3.1B（占比~9%，前低后高复苏）、嵌入式约$3.3B（占比~10%，受工业终端市场疲软拖累）、其他约$3B。2025 Q4单季$10.3B（+34% YoY）、数据中心$5.4B（+39%）；2026 Q1指引$9.8B（+32% YoY），毛利率55%。AI加速器收入预期2025约$9.5B，目标2027年达数百亿美元。</div></div>
+    </div>
+  </div>
+
+  <!-- 模块二 -->
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级：窄护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">AMD作为Fabless设计公司，规模经济主要体现在R&D摊销和台积电先进制程的优先访问权。但核心成本结构受制于台积电定价（毛利率被代工占据），且与NVDA相比规模仍小（NVDA数据中心收入约为AMD的11倍）。在GPU领域，每芯片成本难以做到比NVDA低很多。CPU领域相对Intel有Zen架构的能效优势，转化为TCO竞争力。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">AMD拥有强大的x86架构专利库（Zen系列）、Xilinx FPGA核心专利、CDNA GPU架构、ROCm软件栈。品牌方面：EPYC在服务器CPU市场份额已突破41%，Ryzen在桌面PC建立强品牌；但在AI加速器领域，品牌远不及NVDA。CDNA + ROCm的软件生态在2025-2026年通过Meta、OpenAI大订单获得关键认证，正在从'小众选项'向'主流第二选择'转变。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">EPYC服务器CPU具有较强的转换成本——一旦客户为x86服务器优化软件栈，迁移到ARM需要重大代价；但在x86内部，AMD vs Intel的切换成本中等。AI GPU领域转换成本是AMD最大短板——CUDA生态拥有15年积累的开发者工具、库（TensorRT-LLM、FlashAttention）和兼容性，ROCm虽快速成熟，但模型训练侧依然面临CUDA-native内核的迁移摩擦。Meta、OpenAI的大投入开始改善这一局面。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">AMD的网络效应较弱。在CPU侧，x86 ISA本身的网络效应由AMD和Intel共享。在GPU侧，CUDA才是真正的网络效应受益者；ROCm生态正在通过PyTorch、Triton原生支持改善，但开发者数量、第三方库丰富度、企业IT人员熟练度仍远逊于CUDA。Helios开放机架架构（ORW + UALink）是反击CUDA封闭网络的开放派系尝试，目前还在早期。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">Fabless模式下规模效应主要体现在R&D摊销——更大的销售规模摊薄昂贵的先进工艺设计成本（每代3nm/2nm设计成本超$5亿）。AMD R&D/Revenue比率约19%，处于半导体设计公司健康区间。规模效应在数据中心业务的Helios机架级方案中尤为重要——只有大客户能验证整套系统，反过来又吸引更多大客户。Meta + OpenAI的大订单显著提升了AMD的规模门槛优势。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">①Lisa Su带领下的执行力与AI roadmap兑现能力（Zen架构连续7代领先、MI350按时量产、MI450按计划H2 2026）；②EPYC在服务器CPU市场份额持续突破（41%+），且x86服务器转换成本高，是稳定现金流来源；③与超大规模云客户（Meta、OpenAI、Oracle、Microsoft）形成的多年期、多代际架构绑定——这是2024年前不存在的护城河，正在快速形成。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">①AI GPU领域CUDA软件生态护城河仍然是最大障碍，AMD只占AI加速器市场~5-7%份额，NVDA约80%；②毛利率结构性低于NVDA（AMD 52% vs NVDA 75%），反映在AI加速器的定价权远逊；③单一代工依赖（TSMC）+ HBM供应紧张是物理瓶颈，公司已通过Samsung/SK Group HBM4合作改善；④地缘政治：MI308对华出口禁令直接影响收入和毛利。</div>
+    </div>
+  </div>
+
+  <!-- 模块三：估值研究 -->
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：半导体</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：Fabless芯片设计（B1类）</span>
+      <span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">估值结论：偏高估</span>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：Forward PE + EV/EBITDA + 周期位置判断 + AI溢价拆分</div>
+      <div class="text">AMD属于Fabless芯片设计公司，应使用Forward PE作为主要估值锚（半导体设计公司周期顶部20-25x，底部15-20x为健康区间）。但2025-2026 AMD处于AI超级周期早期 + Meta/OpenAI重大合同尚未兑现的特殊阶段，因此还需用PEG（增长vs估值）和EV/EBITDA进行交叉验证。当前Forward PE约52x，远高于Fabless设计公司历史合理区间（20-25x周期顶部），市场定价隐含极高的AI业务兑现预期。需要拆解：Forward PE的估值有多少来自传统CPU业务（应给15-20x）、多少来自AI预期溢价。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">Forward PE</td>
+    <td class="num">~52x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">20-25x（半导体设计周期顶部）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">Trailing PE</td>
+    <td class="num">~135x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">盈利尚未匹配股价</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">PEG Ratio</td>
+    <td class="num">1.24</td>
+    <td class="num" style="color:#64748b;font-size:13px;"><1低估，1-1.5合理</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">毛利率（TTM）</td>
+    <td class="num">52.5%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">50-75%（设计公司）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">营业利润率（TTM）</td>
+    <td class="num">10.8%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">30-50%顶级</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">Non-GAAP营业利润率</td>
+    <td class="num">~28%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">Q4 2025水平</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">R&D / Revenue</td>
+    <td class="num">~19%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">15-25%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">ROIC</td>
+    <td class="num">6.6%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>25%优秀</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">ROE</td>
+    <td class="num">7.1%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>15%顶级</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">净现金</td>
+    <td class="num">$6.55B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">Fabless应有净现金（健康）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/EBITDA</td>
+    <td class="num">~85x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">周期中位8-12x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">数据中心增速（YoY）</td>
+    <td class="num">+32% / Q4 +39%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">AI业务核心引擎</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr></tbody>
+    </table>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>子行业</th><th>Forward PE</th><th>毛利率</th><th>R&D/Rev</th><th>增速</th></tr></thead>
+      <tbody><tr><td class="label" style="background:#fef3c7;;font-weight:700;">AMD</td><td class="num" style="background:#fef3c7;;">Fabless / AI+CPU</td><td class="num" style="background:#fef3c7;;">52x</td><td class="num" style="background:#fef3c7;;">52%</td><td class="num" style="background:#fef3c7;;">19%</td><td class="num" style="background:#fef3c7;;">+28%</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">NVDA</td><td class="num" style="background:transparent;;">AI芯片龙头</td><td class="num" style="background:transparent;;">30-35x</td><td class="num" style="background:transparent;;">75%</td><td class="num" style="background:transparent;;">12%</td><td class="num" style="background:transparent;;">+60%+</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">AVGO</td><td class="num" style="background:transparent;;">网络/AI芯片</td><td class="num" style="background:transparent;;">30x</td><td class="num" style="background:transparent;;">75%</td><td class="num" style="background:transparent;;">18%</td><td class="num" style="background:transparent;;">+40%+</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">QCOM</td><td class="num" style="background:transparent;;">移动SoC</td><td class="num" style="background:transparent;;">13x</td><td class="num" style="background:transparent;;">56%</td><td class="num" style="background:transparent;;">23%</td><td class="num" style="background:transparent;;">低个位数</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">ARM</td><td class="num" style="background:transparent;;">IP授权</td><td class="num" style="background:transparent;;">70x</td><td class="num" style="background:transparent;;">96%</td><td class="num" style="background:transparent;;">32%</td><td class="num" style="background:transparent;;">+25%</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">TSM</td><td class="num" style="background:transparent;;">代工龙头</td><td class="num" style="background:transparent;;">20x</td><td class="num" style="background:transparent;;">55%</td><td class="num" style="background:transparent;;">8%</td><td class="num" style="background:transparent;;">+35%</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">INTC</td><td class="num" style="background:transparent;;">IDM转型</td><td class="num" style="background:transparent;;">周期性</td><td class="num" style="background:transparent;;">40%</td><td class="num" style="background:transparent;;">20%</td><td class="num" style="background:transparent;;">+15%</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司</p>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（基于行业框架）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear">
+        <div class="label">悲观情景 Bear</div>
+        <div class="value">$180</div>
+      </div>
+      <div class="fv-card base">
+        <div class="label">基准情景 Base</div>
+        <div class="value">$280</div>
+      </div>
+      <div class="fv-card bull">
+        <div class="label">乐观情景 Bull</div>
+        <div class="value">$420</div>
+      </div>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">AMD当前股价$354.49（2026/5/1），52周涨幅约+269%，处于历史绝对高位。Forward PE约52x显著高于：①Fabless设计公司历史区间20-25x（周期顶部）；②AI龙头NVDA当前的30-35x；③AMD自身5年中位数（剔除巨亏年）。当前估值已包含强烈的AI业务兑现预期——Meta 6GW + OpenAI 6GW + Oracle 5万颗MI450订单。市场实质上是在为'AMD执行MI450 H2 2026按时量产 + ROCm软件栈达到生产级 + 2027-2028 AI加速器收入达数百亿美元'这一情景买单。如果上述任一环节延迟（MI450推迟、ROCm bug多、HBM供应紧张），估值有显著下调空间。当前股价已超过华尔街共识目标价$289-$298约17%-22%，意味着卖方分析师整体认为短期已透支。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>在AI周期顶部用未来2-3年的远期EPS算PE——若AI资本开支增速放缓或NVDA Rubin性能远超预期，AMD的'$10B级AI收入'假设可能落空，Forward PE会从52x迅速回归20-25x，对应股价大幅下行
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>把OpenAI/Meta大订单等同于已实现收入——这些是多年期、多代际框架协议，包含认股权证vesting条件（如AMD股价需达$600才能行权），实际收入兑现有节奏和不确定性
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>忽略毛利率结构性差距——AMD当前52%毛利率vs NVDA 75%，反映AI加速器的定价权差距，即使收入达到目标，营业利润率扩张幅度可能不及市场预期
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>ROIC仅6.6%（vs 半导体设计优秀公司>25%）说明当前盈利能力远未匹配估值——市场是在给'未来盈利能力'定价，而非'当前盈利能力'，这种估值在情绪转向时最脆弱
+  </div>
+  </div>
+
+  <!-- 模块四 -->
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#05966922;color:#059669;border:1px solid #05966944;font-size:16px;padding:8px 18px">综合评级：A级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">Lisa Su（董事长兼CEO，2014年上任）的资本配置记录是科技股中的标杆案例之一：①2020年宣布以全股票方式收购Xilinx（$50B），2022年完成——为AMD打开了FPGA、嵌入式、自适应计算市场，并强化了网络芯片能力；②2024年8月以$4.9B（$3.375B现金 + $1.125B股票）收购ZT Systems，获得机架级系统设计和数据中心工程团队，2025年5月又将ZT制造业务以$3B出售给Sanmina，净支付仅~$1.9B就获得最关键的设计/工程团队，是教科书级的'买技术弃产能'操作；③回购：2024全年仅回购$862M，但2025 Q1单季度即回购$749M，并新批准$60亿回购授权（叠加剩余$40亿，总授权$100亿），显示在股价高位时仍主动回购的信号；④无分红，资本100%再投入业务和股东回报。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">Lisa Su以诚信和透明著称——从不画大饼，技术路线图（Zen 1→6、CDNA 1→4）都按时甚至提前兑现。指引（Guidance）准确性高：2025每季度均超指引上沿。AI加速器收入目标曾从'2025 $5B+'上调为'$9.5B'，并明确说明上调原因是Instinct系列订单可见度提升。MI308对华禁令时主动披露$390M Q4影响、Q1仅$100M指引，未掩饰风险。审计师为Ernst & Young（Big 4），无审计意见保留记录。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">Lisa Su 11年任期内将AMD从濒临破产（2014年股价$2-$3、市值<$3B）带到市值>$575B的全球十大科技公司，期间：①Zen架构连续7代领先Intel；②EPYC服务器CPU市场份额从0%升至41%+（2026 Q1）；③成功完成Xilinx + ZT Systems两次重大并购整合；④AI GPU业务从零起步到Meta、OpenAI两个百亿美元级合同——尽管市场份额仍小，但战略落地速度超预期。CES 2026明确MI450 H2 2026出货、Helios Q3 2026交付，roadmap可视度高。Lisa Su 2025年获SemiAccurate'行业最重要芯片高管'评选第一。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">2025 Q1回购 $749M vs 同期SBC约$300M = 2.5倍 → 接近真回购标准（>1.5倍即可视为真回购）。但2024年回购$862M vs SBC ~$1.2B = 0.7倍 → 2024年仍是'假回购'。整体趋势从2025起转向真回购，且新批准$10B授权显示管理层在高位股价仍认为内在价值大于市价。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">①Lisa Su是同时具备深厚技术功底（IBM芯片设计师出身、IEEE Fellow）和卓越商业判断力的稀缺CEO；②资本配置极为理性——并购都有清晰的战略逻辑（Xilinx补足嵌入式/自适应计算、ZT Systems补足系统级集成能力）；③管理层与股东利益高度绑定——Lisa Su个人持有大量AMD股票，且高管团队薪酬以长期股权激励为主；④执行节奏稳定，技术路线图兑现率行业最高。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">①Lisa Su个人色彩过浓——若CEO离任或健康问题，AMD的'Lisa Su溢价'可能立刻消失（继任者风险）；②股权激励绝对额度较大（虽然占总股本比例不算夸张），需关注未来SBC稀释速度——尤其是OpenAI、Meta的认股权证若全部vesting将造成显著稀释（OpenAI 1.6亿股 = ~10%股本，Meta 1.6亿股 = ~10%股本）；③在股价历史高位仍坚持$10B回购，若AMD执行不及预期出现回调，回购效率会被批评。</div>
+    </div>
+  </div>
+
+  <!-- 整体结论 -->
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★★☆</div>
+      <div style="color:#475569; font-size:14px">4/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>AMD是一家商业质量4星（满分5星）的半导体优等生——Lisa Su执掌下的执行力堪称行业典范，EPYC服务器CPU护城河稳固，Xilinx + ZT Systems两次并购整合交出漂亮答卷，2025年又通过Meta + OpenAI两笔史诗级合同正式确立AI加速器市场'明确的第二号选择'地位。
+
+但商业质量优秀≠当前价格值得买入。当前Forward PE 52x对应的是'AMD未来2-3年AI业务从$9.5B/年增长到数百亿/年 + 毛利率显著扩张'的乐观情景。这一情景在执行层面是可能实现的（MI450 roadmap清晰、HBM供应已锁定、客户已签约），但风险是市场已把75%的乐观情景定价进股价。
+
+对于不同投资视角的判断：
+• 长期持有（5年+）：Lisa Su在位、AI资本开支持续、x86 CPU护城河稳固——可分批建仓但不应满仓追高，建议在$280以下加仓
+• 中期视角（1-2年）：MI450 H2 2026出货是关键催化剂，若执行顺利base case可看到$320-$380；执行不及预期则有$200-$240回调空间
+• 短期交易：5月5日Q1 2026财报是近期最大波动点，期权市场已隐含约15-20%波动率，财报前不建议追高
+
+最值得关注的不对称风险：MI450在H2 2026的实际客户验收性能、ROCm在生产环境的稳定性、HBM4供应的持续性——这三个因素任一出问题，估值都会从52x快速向30x回归（对应股价回到~$200）。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">MI450 H2 2026按时量产与客户验收（Meta首批1GW + Oracle 5万颗）——若延迟超过Q4 2026是重大警讯</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">ROCm在Meta、OpenAI生产环境的实际可用性——技术博客、Github bug数量、客户公开评价</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">数据中心毛利率扩张速度——目标从当前~52%扩张至NVDA的60%+水平，进度反映AI加速器定价权</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">EPYC服务器CPU市场份额能否突破45%（2026 Q1已41%+）——这是稳定现金流基本盘</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">HBM供应紧张程度（Samsung/SK Hynix HBM4出货节奏）——决定MI450产能上限</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">6.</span>
+    <span style="font-size:14px;">卖方共识EPS预期的上修速度——若2027 EPS预期能从当前~$10上调至$12+，Forward PE自然消化</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">7.</span>
+    <span style="font-size:14px;">OpenAI/Meta认股权证vesting进度——首个$600股价里程碑触发将造成约5%稀释，需评估EPS影响</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for Advanced Micro Devices (AMD) · 2026-05-02<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [1,2,2,1,2],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>

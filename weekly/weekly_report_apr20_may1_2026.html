@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>市场周报 · 4月20日–5月1日 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f7;color:#1d1d1f;font-size:14px;line-height:1.6}
+.wrap{max-width:820px;margin:0 auto;padding:24px 16px 52px}
+.header{margin-bottom:24px;padding-bottom:16px;border-bottom:2.5px solid #1d1d1f}
+.header h1{font-size:20px;font-weight:600;letter-spacing:-.3px}
+.header p{font-size:12px;color:#6e6e73;margin-top:4px}
+.sec-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#8e8e93;margin:28px 0 10px}
+.card{background:#fff;border-radius:16px;padding:16px 18px;margin-bottom:10px;border:.5px solid #e4e4e7}
+.card-title{font-size:12px;font-weight:600;color:#6e6e73;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.idx-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.idx-item{background:#f5f5f7;border-radius:12px;padding:12px}
+.idx-name{font-size:11px;color:#8e8e93}
+.idx-val{font-size:18px;font-weight:600;margin:3px 0}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px}
+.up{background:#d1f5d3;color:#1a7431}
+.dn{background:#fde8e8;color:#c0392b}
+.neu{background:#e8e8ec;color:#636366}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.comm-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:.5px solid #e8e8ec}
+.comm-row:last-child{border-bottom:none}
+.macro-item{display:flex;gap:10px;padding:9px 0;border-bottom:.5px solid #e8e8ec}
+.macro-item:last-child{border-bottom:none}
+.macro-dot{width:7px;height:7px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.macro-text{font-size:13px;line-height:1.55}
+.macro-text b{font-weight:600}
+.narr{font-size:13px;line-height:1.68;color:#1d1d1f;padding:4px 0}
+.narr p{margin-bottom:8px}
+.narr p:last-child{margin-bottom:0}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pill{font-size:12px;padding:4px 10px;border-radius:20px;border:.5px solid #d2d2d7;background:#f5f5f7}
+.pill.hawk{background:#fde8e8;border-color:#f5b8b8;color:#7d2020}
+.pill.dove{background:#d1f5d3;border-color:#a8dcac;color:#1a7431}
+.sect-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:.5px solid #e8e8ec}
+.sect-row:last-child{border-bottom:none}
+.sect-name{font-size:12px;min-width:90px;color:#1d1d1f}
+.sect-bar-bg{flex:1;height:6px;background:#e8e8ec;border-radius:3px;overflow:hidden}
+.sect-bar{height:100%;border-radius:3px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{font-size:11px;font-weight:600;color:#8e8e93;text-align:left;padding:7px 8px;border-bottom:.5px solid #d2d2d7}
+td{padding:8px 8px;border-bottom:.5px solid #e8e8ec;vertical-align:top;line-height:1.5}
+tr:last-child td{border-bottom:none}
+.ticker{font-weight:700;font-size:12px}
+.new-tag{font-size:9px;font-weight:700;color:#185fa5;background:#deeefb;padding:1px 5px;border-radius:4px;margin-left:3px;letter-spacing:.3px}
+.exit-tag{font-size:9px;font-weight:700;color:#7d4e00;background:#fde8c4;padding:1px 5px;border-radius:4px;margin-left:3px}
+.add-tag{font-size:9px;font-weight:700;color:#0f6e56;background:#d0f0e8;padding:1px 5px;border-radius:4px;margin-left:3px}
+.warn-row td{background:#fffbf0}
+.star-row td{background:#f0f7ff}
+.risk-item{display:flex;gap:10px;padding:9px 0;border-bottom:.5px solid #e8e8ec}
+.risk-item:last-child{border-bottom:none}
+.risk-num{font-size:11px;font-weight:700;color:#8e8e93;min-width:22px;padding-top:1px}
+.sug-item{display:flex;gap:10px;padding:9px 0;border-bottom:.5px solid #e8e8ec}
+.sug-item:last-child{border-bottom:none}
+.sug-num{font-size:13px;font-weight:700;color:#185fa5;min-width:20px}
+.note{background:#fffbf0;border-left:3px solid #f0a500;padding:10px 13px;border-radius:0 10px 10px 0;font-size:12px;margin-top:10px;line-height:1.6}
+.highlight-box{background:#f0f7ff;border-left:3px solid #185fa5;padding:10px 13px;border-radius:0 10px 10px 0;font-size:13px;margin-top:8px;line-height:1.6}
+.footer{font-size:11px;color:#8e8e93;margin-top:28px;padding-top:14px;border-top:.5px solid #d2d2d7;line-height:1.6}
+.divider{height:.5px;background:#e8e8ec;margin:6px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="header">
+  <h1>📊 市场周报 &nbsp;|&nbsp; 2026年4月20日 – 5月1日（两周）</h1>
+  <p>基准日：2026年4月17日（周五）收盘 &nbsp;·&nbsp; 截止日：2026年5月1日（周五）收盘 &nbsp;·&nbsp; 持仓截图更新：5月3日前后</p>
+</div>
+
+<!-- 一、市场行情快照 -->
+<div class="sec-label">一、市场行情快照</div>
+
+<div class="card">
+  <div class="card-title">📈 三大美股指数（两周涨跌：4月17日 → 5月1日）</div>
+  <div class="idx-grid">
+    <div class="idx-item">
+      <div class="idx-name">标普 S&P 500</div>
+      <div class="idx-val">7,230</div>
+      <div class="badge up">+1.46%</div>
+      <div style="font-size:11px;color:#8e8e93;margin-top:4px">4月17日基准：7,126 · 4月首破7,200历史高位</div>
+    </div>
+    <div class="idx-item">
+      <div class="idx-name">纳斯达克 Nasdaq</div>
+      <div class="idx-val">25,114</div>
+      <div class="badge up">+2.64%</div>
+      <div style="font-size:11px;color:#8e8e93;margin-top:4px">4月17日基准：24,468 · 首破25,000 历史新高</div>
+    </div>
+    <div class="idx-item">
+      <div class="idx-name">道琼斯 Dow</div>
+      <div class="idx-val">49,499</div>
+      <div class="badge up">+0.11%</div>
+      <div style="font-size:11px;color:#8e8e93;margin-top:4px">4月17日基准：49,447 · 价值股相对跑输</div>
+    </div>
+  </div>
+  <div class="narr" style="margin-top:12px">
+    <p>两周内市场核心驱动力从"伊战停火"切换为"AI财报季超预期"。周一（4月20日）因伊朗外长访问巴基斯坦无实质进展，油价反弹担忧一度压制开盘；但4月28日进入Mag7财报高峰，GOOG、MSFT、META、AMZN 四强同日发布均超预期，4月29日市场反应热烈：Nasdaq当日涨1.6%，S&P首破7,200创历史。4月30日苹果亦超预期，5月1日标普、Nasdaq同步创历史收盘新高，4月全月S&P +9.0%、Nasdaq +15.0%，是2020年疫情反弹以来最强单月表现。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">🛢️ 大宗商品（伊战最新脉络）</div>
+  <div class="row2">
+    <div>
+      <div class="comm-row"><span>WTI原油</span><span><b>$101.94</b> &nbsp;<span class="badge dn">两周 +27.8%</span></span></div>
+      <div class="comm-row"><span>布伦特原油</span><span><b>~$110</b> &nbsp;<span class="badge dn">重返三位数</span></span></div>
+      <div class="comm-row"><span>黄金</span><span><b>$4,644</b> &nbsp;<span class="badge dn">两周 -5.2%</span></span></div>
+    </div>
+    <div style="font-size:12px;line-height:1.7;padding:4px 0">
+      <b>基准（4月17日）：</b>WTI $79.78 / 金 $4,899<br>
+      <b>5月1日收盘：</b>WTI $101.94 / 金 $4,644<br>
+      WTI上周（4月21-25日）涨 <b>+13%</b>，本周续涨<br>
+      伊朗向美国提交14点和平提案，谈判仍卡壳
+    </div>
+  </div>
+  <div class="narr" style="margin-top:10px">
+    <p>油价在4月17日短暂暴跌（WTI $79.78）后重新全面反弹，两周涨幅达27.8%——根本原因是霍尔木兹海峡并未像市场预期那样完全恢复通行。美国海军持续封锁伊朗港口，伊朗向美国提交14点提案，但特朗普表示"取得进展，不确定最终能否达成"。油价已在两周内从$80重返$100+，高盛调升布伦特Q4基准价至$90，叠加美国60天《战争权力法》期限逼近，地缘风险溢价重新积累。黄金在风险情绪改善+利率高企双重压力下温和回调。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">😨 VIX恐慌指数 &nbsp;|&nbsp; ₿ 比特币</div>
+  <div class="row2">
+    <div class="idx-item">
+      <div class="idx-name">VIX 恐慌指数</div>
+      <div class="idx-val">16.99</div>
+      <div class="badge up">历史低位区间</div>
+      <div style="font-size:11px;color:#8e8e93;margin-top:4px">距战争峰值34已下降50%，市场情绪高度乐观</div>
+    </div>
+    <div class="idx-item">
+      <div class="idx-name">Bitcoin（5月1日）</div>
+      <div class="idx-val">$78,503</div>
+      <div class="badge neu">两周基本横盘</div>
+      <div style="font-size:11px;color:#8e8e93;margin-top:4px">4月27-29日ETF短暂净流出$5亿 → 5月1日回升</div>
+    </div>
+  </div>
+  <div class="narr" style="margin-top:10px">
+    <p>VIX跌至16.99，处于2024年以来最低水平，标志着市场已将伊战定性为"慢性背景风险"而非系统性威胁。比特币本期相对平静，在$75,000–$79,000区间震荡，4月27-29日FOMC前后出现约$5亿ETF净流出，显示机构短期获利了结；但5月1日技术形态显示周线收于$76,589布林中轨上方，技术分析师认为5月突破$88,000–$95,600区间具有较高概率。</p>
+  </div>
+</div>
+
+<!-- 二、重要事件 -->
+<div class="sec-label">二、本期重要事件与数据（日期均已核实为2026年）</div>
+
+<div class="card">
+  <div class="macro-item">
+    <div class="macro-dot" style="background:#185fa5"></div>
+    <div class="macro-text"><b>Mag7财报高峰周（4月29日，2026年）</b>：MSFT、AMZN、GOOG、META 同日发布Q1 2026结果，全部超预期。GOOG最为亮眼：营收$109.9B（+22% YoY），Google Cloud +63%至$20B，全年Capex指引升至$180-190B，股价次日涨+9.96%至$384.80历史新高。MSFT EPS $4.27超预期$0.21；META营收$56.3B (+33%)；AMZN AWS+AWS AI均超预期。Q1 2026标普财报季EPS增速已达+27.8% YoY，为2021年Q4以来最高。</div>
+  </div>
+  <div class="macro-item">
+    <div class="macro-dot" style="background:#c0392b"></div>
+    <div class="macro-text"><b>HOOD Q1 2026财报（4月28日，2026年）</b>：EPS $0.38 miss预期$0.41（-7.3%）；营收$1.07B miss $1.17B（-8.5%）；加密交易营收同比骤降47%至$1.34亿是核心拖累。股价4月29日单日下跌13.24%。亮点：Gold订阅用户同比+36%至创纪录430万；平台资产$307B（+39% YoY）；4月净存款月内已达$50亿+。PDT规则取消（6月4日生效）的DAU拉动效果尚未体现于Q1数据。</div>
+  </div>
+  <div class="macro-item">
+    <div class="macro-dot" style="background:#7d4e00"></div>
+    <div class="macro-text"><b>FOMC 4月29日决议（2026年）</b>：维持利率3.5–3.75%不变，符合预期。但投票结果8-4分裂创1992年10月以来最大分歧——1人（Miran）倾向降息，3人反对声明中的"宽松偏向"措辞。这是鲍威尔任期内最后一次FOMC会议；他宣布将以"理事"身份留任美联储（任期至2028年初），确保接班人Warsh无法立即取得多数票优势。参议院银行委员会同日以党派票推进Warsh提名。</div>
+  </div>
+  <div class="macro-item">
+    <div class="macro-dot" style="background:#0f6e56"></div>
+    <div class="macro-text"><b>苹果 Q2 FY2026财报（4月30日，2026年）</b>：营收$111.2B创历史新高，EPS $2.01均超预期；Q3指引好于预期；授权新一轮$1000亿回购，股息提升4%；Tim Cook宣布卸任CEO后转任执行董事长，John Ternus接班。股价5月1日涨+3.3%，带动Nasdaq创25,000新高。</div>
+  </div>
+  <div class="macro-item">
+    <div class="macro-dot" style="background:#9b59b6"></div>
+    <div class="macro-text"><b>GDP Q1 2026初值（4月30日，2026年）</b>：受高油价+能源进口冲击，初值低于预期，市场反应平淡。非农就业3月+17.8万，失业率4.3%，劳动力市场韧性支撑软着陆预期。</div>
+  </div>
+  <div class="macro-item">
+    <div class="macro-dot" style="background:#636366"></div>
+    <div class="macro-text"><b>OPEC+会议（5月3日，2026年，报告期后即将）</b>：核心议题：是否跟进霍尔木兹局势变化，加速或缩减增产计划。UAE退出组织后集团立场不一，结果将直接影响下周油价和能源通胀走向。</div>
+  </div>
+</div>
+
+<!-- 三、市场叙事分析 -->
+<div class="sec-label">三、市场叙事分析</div>
+
+<div class="card">
+  <div class="card-title">🔥 通胀叙事：油价"二次反扑"</div>
+  <div class="narr">
+    <p>本期最重要的宏观矛盾：油价在WTI从$79反弹至$102（+27.8%），正在蚕食"通胀已在消退"的市场预期。4月CPI（5月12日发布）几乎可以确定因能源项再度走高，Goldman Sachs和JPMorgan均预警能源通胀"二次反扑"风险。</p>
+    <p>但市场目前选择"look through"策略——只要美国核心PCE和服务通胀保持稳定，市场就倾向于将油价冲击视为过渡性。标普4月全月+9%，Nasdaq +15%，与油价同步走高，说明"AI叙事"的强劲程度已足以暂时压制宏观担忧。这种分叉能否持续，4月CPI是关键验证点。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">🎯 联储路径：鲍威尔最后一击，Warsh时代开启</div>
+  <div class="pills">
+    <div class="pill hawk">4月29日：维持3.5–3.75% （8-4分裂，1992年以来最大分歧）</div>
+    <div class="pill hawk">6月会议：Warsh主持，首次经济预测 + 可能鹰派转向</div>
+    <div class="pill hawk">年内降息概率：市场定价极低</div>
+    <div class="pill">鲍威尔留任理事至2028年，制约Warsh掌控票权</div>
+  </div>
+  <div class="narr" style="margin-top:10px">
+    <p>FOMC 8-4分裂远比"按兵不动"本身更重要。3名鹰派（Hammack、Kashkari、Logan）反对的是声明中保留"宽松偏向"措辞——这是一个强烈信号：新委员会成员在Warsh上任后将推动更鹰派的语言框架。鲍威尔决定以理事身份留任，实质上阻止了特朗普在接下来两年内彻底重塑美联储7人理事会的多数席位。结构性影响：Warsh虽担任主席，但投票动态可能更复杂，市场需要重新校准对新美联储的判断。6月16-17日Warsh首次主持FOMC（附经济预测），是下一个关键节点。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">🔄 板块轮动</div>
+  <div style="margin-bottom:4px">
+    <div class="sect-row">
+      <div class="sect-name">科技 XLK</div>
+      <div class="sect-bar-bg"><div class="sect-bar" style="width:100%;background:#185fa5"></div></div>
+      <div class="badge up" style="font-size:11px">领涨，财报驱动 +5~8%</div>
+    </div>
+    <div class="sect-row">
+      <div class="sect-name">通信 XLC</div>
+      <div class="sect-bar-bg"><div class="sect-bar" style="width:80%;background:#185fa5"></div></div>
+      <div class="badge up" style="font-size:11px">GOOG+10%拉升 +6%</div>
+    </div>
+    <div class="sect-row">
+      <div class="sect-name">能源 XLE</div>
+      <div class="sect-bar-bg"><div class="sect-bar" style="width:70%;background:#f0a500"></div></div>
+      <div class="badge up" style="font-size:11px">油价反弹强劲 +8~10%</div>
+    </div>
+    <div class="sect-row">
+      <div class="sect-name">金融 XLF</div>
+      <div class="sect-bar-bg"><div class="sect-bar" style="width:40%;background:#8e8e93"></div></div>
+      <div class="badge neu" style="font-size:11px">温和 +2~3%</div>
+    </div>
+    <div class="sect-row">
+      <div class="sect-name">半导体 SOXX</div>
+      <div class="sect-bar-bg"><div class="sect-bar" style="width:75%;background:#185fa5"></div></div>
+      <div class="badge up" style="font-size:11px">英特尔带动 +5~6%</div>
+    </div>
+    <div class="sect-row">
+      <div class="sect-name">消费品 XLY</div>
+      <div class="sect-bar-bg"><div class="sect-bar" style="width:25%;background:#c0392b"></div></div>
+      <div class="badge dn" style="font-size:11px">消费信心低迷 -1~2%</div>
+    </div>
+  </div>
+  <div class="narr" style="margin-top:8px">
+    <p>本期最显著的特征是"科技+能源同步走强"——这在历史上并不常见，通常两者是相互对冲的关系。背后逻辑：科技由AI财报驱动，能源由伊战持续升温驱动，两者来自完全不同的催化剂。对组合而言，这种罕见组合对LEU（核能，受益于油价高企的能源替代逻辑）和GOOG同期上涨构成双重利好。消费者信心（密歇根指数4月终值49.8）持续处于历史最低水平，是消费板块表现疲弱的主要解释。</p>
+  </div>
+</div>
+
+<!-- 四、持仓组合分析 -->
+<div class="sec-label">四、持仓组合分析（截图数据截至5月1日前后）</div>
+
+<div class="card">
+  <div class="card-title">🔄 组合结构变化诊断</div>
+  <div class="narr">
+    <p><b>本期最重大调仓：HOOD已退出组合。</b>4月28日财报EPS+营收双miss、股价-13.24%，这一高度波动事件后持仓已清仓，策略执行果断。</p>
+    <p>其他变化：<b>LEU大幅加仓</b>（200股→300股），一跃成为第一大持仓（11.63%）；<b>SOXS加仓</b>（800→1200股），对冲半导体/纳斯达克的空头仓位进一步扩大；MSFT、SMR、SMCI、MSTY均已退出。组合重心从上期"加密+高成长"转向"核能+加密+科技巨头"三角结构，集中度在LEU大幅提升。</p>
+    <p><b>整体盈亏分布：</b>正贡献——GOOG (+24.0%)、AVGO (+29.4%)、IBIT (+15.8%)、NVO (+13.1%)；深水区——DUOL (-33.0%)、SNOW (-33.7%)、SOXS (-46.7%)、SQQQ (-27.6%)、RXRX (-22.9%)。</p>
+  </div>
+  <div class="highlight-box">🟢 <b>组合最大亮点：GOOG新仓建立后迅速确认——Q1 2026财报大超预期，Cloud +63%，股价+10%，当前浮盈已达+24.0%。这是本期组合的最强正贡献仓位。</b>
+  </div>
+</div>
+
+<div class="card" style="padding:16px 16px 10px">
+  <div class="card-title">📋 全持仓分析（按组合权重排序）</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:68px">标的</th>
+        <th style="width:58px">成本</th>
+        <th style="width:52px">权重</th>
+        <th style="width:68px">持仓P&L</th>
+        <th>本期亮点 / 风险 / 操作建议</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="ticker">LEU <span class="add-tag">加仓至300</span></td>
+        <td>$230.00</td>
+        <td>11.63%</td>
+        <td><span class="badge dn">-10.2%</span></td>
+        <td>本期无重大个股催化剂。油价重返$100+从能源替代角度理论上利好核能长期叙事，但资金本期聚焦AI财报，LEU短期价格未受明显拉动。作为第一大持仓（权重接近12%），集中度偏高，需关注下半年AI数据中心电力协议进展作为催化剂。</td>
+      </tr>
+      <tr>
+        <td class="ticker">COIN</td>
+        <td>$220.31</td>
+        <td>8.25%</td>
+        <td><span class="badge dn">-13.2%</span></td>
+        <td><b>Q1 2026财报5月7日（下周四）</b>。比特币维持$78,000区间但未突破，COIN股价在$191附近承压。Schwab Crypto竞争+加密交易量季节性疲软（体现于HOOD Q1加密收入-47%）构成短期压力。财报前建议密切追踪BTC价格走势——若比特币先行突破$85,000，则为财报正向催化提前打分。</td>
+      </tr>
+      <tr class="star-row">
+        <td class="ticker" style="color:#185fa5">GOOG <span class="new-tag">新仓</span></td>
+        <td>$309.00</td>
+        <td>7.19%</td>
+        <td><span class="badge up">+24.0%</span></td>
+        <td>⭐ <b>本期最大亮点。</b> Q1 2026 Cloud +63%至$20B首次破纪录，Cloud积压订单$460B（相当于Alphabet全年营收），股价4月30日+9.96%至$384.80历史新高。当前已在盈利区浮盈24%，5月19日 Google I/O 大会为下一个催化剂。若持有逻辑未变，可考虑基于组合比例决定是否部分锁盈。</td>
+      </tr>
+      <tr>
+        <td class="ticker">IBIT</td>
+        <td>$38.42</td>
+        <td>6.67%</td>
+        <td><span class="badge up">+15.8%</span></td>
+        <td>比特币在$75,000–$79,000震荡，IBIT稳健正收益。技术面看，周线收于布林中轨$76,589上方，分析师普遍预期5月有机会测试$88,000–$95,600。COIN财报5月7日，若COIN业绩超预期将联动IBIT情绪进一步向好。</td>
+      </tr>
+      <tr>
+        <td class="ticker">V</td>
+        <td>$322.74</td>
+        <td>6.15%</td>
+        <td><span class="badge up">+1.6%</span></td>
+        <td>组合中最稳定的"无扰动仓位"。密歇根消费信心49.8历史低位对Visa长期有压制，但短期内无重大个股风险。持有逻辑清晰，暂无操作必要。</td>
+      </tr>
+      <tr class="warn-row">
+        <td class="ticker" style="color:#c0392b">DUOL</td>
+        <td>$166.00</td>
+        <td>6.26%</td>
+        <td><span class="badge dn">-33.0%</span></td>
+        <td>⚠️ <b>最大痛点，财报即将！5月4日（本周一）</b> 发布Q1 2026结果。市场预期营收+25.1% YoY至$288M，EPS $0.79。当前股价约$112，距成本$166仍相差约34%。报告前分析师重申预期未变，过去一个月股价实际已反弹+13.3%（从$99附近到$112），显示资金在等待财报验证。建议在财报前设定明确框架：若收入增速回到30%+且不下修全年指引，可评估是否加仓；若再度下修，执行减仓预案。</td>
+      </tr>
+      <tr>
+        <td class="ticker">RXRX</td>
+        <td>$4.40</td>
+        <td>3.18%</td>
+        <td><span class="badge dn">-22.9%</span></td>
+        <td>AI+生物科技小仓位，本期无重大事件。股价$3.39，绝对亏损金额有限，但P&L持续恶化，需周期性复评持有逻辑与现金流状况。</td>
+      </tr>
+      <tr>
+        <td class="ticker">NVO</td>
+        <td>$38.81</td>
+        <td>3.29%</td>
+        <td><span class="badge up">+13.1%</span></td>
+        <td>GLP-1主题本期获额外正向催化：Eli Lilly Q1 2026营收+56%大超预期（Mounjaro $8.7B，Zepbound $4.2B），带动整个GLP-1赛道情绪向好。NVO作为同赛道受益方，浮盈+13.1%，是组合中少有的稳定高质量仓位。</td>
+      </tr>
+      <tr class="warn-row">
+        <td class="ticker" style="color:#c0392b">SNOW</td>
+        <td>$212.50</td>
+        <td>2.65%</td>
+        <td><span class="badge dn">-33.7%</span></td>
+        <td>⚠️ 本期无反弹，依然持续跑输大盘。GOOG Cloud +63%的强劲数据在某种程度上强化了"云计算赢家集中化"的叙事，对Snowflake等第二梯队不利。若无具体基本面转折，建议设定时间止损框架：Q2 2026财报（约8月初）是最后评估窗口。</td>
+      </tr>
+      <tr>
+        <td class="ticker">LULU</td>
+        <td>$157.00</td>
+        <td>2.51%</td>
+        <td><span class="badge dn">-14.9%</span></td>
+        <td>本期亏损扩大（上期-8.4%→本期-14.9%）。消费者信心持续低迷对运动休闲品牌有压制，且LULU此前已多次在北美市场发出疲软信号。需关注Q1 2026财报（具体日期待定，通常6月初），届时北美同店销售增速是关键指标。</td>
+      </tr>
+      <tr class="star-row">
+        <td class="ticker" style="color:#185fa5">AVGO</td>
+        <td>$325.70</td>
+        <td>2.37%</td>
+        <td><span class="badge up">+29.4%</span></td>
+        <td>⭐ AI芯片叙事强劲，本期无财报但GOOG Cloud爆发+英特尔大超预期形成AI芯片板块整体向上共振。AVGO与Google深度合作开发AI专用芯片，是AI硬件受益最直接的仓位之一，下一个正式催化剂：Q2 2026财报（约6月初）。</td>
+      </tr>
+      <tr>
+        <td class="ticker">TSLL</td>
+        <td>$14.60</td>
+        <td>2.45%</td>
+        <td><span class="badge dn">-10.5%</span></td>
+        <td>特斯拉2倍做多ETF。特斯拉本期Q1 2026财报超预期（高油价降低EV竞争压力），但TSLL仍录得-10.5%亏损，可能受ETF日衰减效应影响。建议评估持有周期与衰减成本之间的平衡。</td>
+      </tr>
+      <tr class="warn-row">
+        <td class="ticker" style="color:#7d4e00">SOXS <span class="add-tag">加仓至1200</span></td>
+        <td>$24.36</td>
+        <td>2.92%</td>
+        <td><span class="badge dn">-46.7%</span></td>
+        <td>⚠️ 本期进一步加仓后损耗仍在扩大。英特尔+23%、AMD +13%、英伟达+4%——芯片板块在AI财报季全面爆发，三倍做空半导体在本期受到双重打击（股价下跌+杠杆日衰减）。仓位已从800增至1200股，均价从$31.83降至$24.36。建议明确持有时间框架与触发平仓的具体条件，否则日衰减将持续侵蚀净值。</td>
+      </tr>
+      <tr>
+        <td class="ticker" style="color:#7d4e00">SQQQ</td>
+        <td>$69.40</td>
+        <td>1.88%</td>
+        <td><span class="badge dn">-27.6%</span></td>
+        <td>Nasdaq本期创历史新高25,114，三倍做空Nasdaq持续亏损。与SOXS问题一致：若空头逻辑是"市场最终下跌"，需评估三倍做空ETF的时间窗口是否仍在有效区间内，日衰减机制会持续放大损耗。</td>
+      </tr>
+      <tr>
+        <td class="ticker">BMNR</td>
+        <td>$25.96</td>
+        <td>2.05%</td>
+        <td><span class="badge dn">-15.7%</span></td>
+        <td>小仓位，本期无重大催化剂，绝对亏损金额有限。</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="note" style="margin-top:10px">
+    <b>已退出仓位提醒：</b>HOOD（Q1财报miss后-13.24%，本期截图已不在组合中）；MSFT、SMR、SMCI、MSTY 均已退出。持仓结构更加聚焦。
+  </div>
+</div>
+
+<!-- 五、风险与建议 -->
+<div class="sec-label">五、近期重点关注</div>
+
+<div class="card">
+  <div class="macro-item">
+    <div class="macro-dot" style="background:#c0392b"></div>
+    <div class="macro-text"><b>DUOL Q1 2026财报（5月4日，今日/明日）</b>：-33%仓位的"判决日"。市场预期营收+25.1%，股价过去一个月已反弹13.3%，说明资金有一定乐观预期。关键指标：DAU是否超过Q4的1.331亿、全年指引是否维持或上调。若超预期，是亏损仓位首次正向催化剂；若再度miss，-33%恐将进一步扩大。</div>
+  </div>
+  <div class="macro-item">
+    <div class="macro-dot" style="background:#7d4e00"></div>
+    <div class="macro-text"><b>COIN Q1 2026财报（5月7日）</b>：HOOD财报显示加密交易营收-47%，对COIN构成预期压力。关键观察：COIN在清算托管、机构业务等非交易业务是否能抵消交易量下滑。建议在财报前明确"预期管理框架"。</div>
+  </div>
+  <div class="macro-item">
+    <div class="macro-dot" style="background:#185fa5"></div>
+    <div class="macro-text"><b>4月CPI（5月12日）</b>：WTI两周涨+27.8%，几乎可以确定4月CPI将因能源项走高。若CPI年率再度突破3.5%+，Warsh主导的新美联储鹰派立场将得到强化，成长股面临压力，DUOL、SNOW等高估值仓位首当其冲。</div>
+  </div>
+  <div class="macro-item">
+    <div class="macro-dot" style="background:#0f6e56"></div>
+    <div class="macro-text"><b>伊战停火谈判（持续）</b>：美国60天《战争权力法》期限于5月初到期，特朗普面临要么国会授权、要么停战的政治压力。若外交突破，油价可能再度暴跌（对LEU短期不利，对COIN/IBIT/GOOG有利）；若谈判破裂，油价测试$120+，通胀压力全面升级。</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">💡 组合建议</div>
+  <div class="sug-item">
+    <div class="sug-num">①</div>
+    <div class="sug-text"><b>GOOG：考虑是否部分锁盈</b>。两周浮盈已达+24%（从$309到$383），估值已在历史高位。若你对GOOG的长期逻辑坚定（Cloud AI叙事），可继续持有；若认为短期已充分定价，减仓20-30%锁定部分利润是合理选项，释放仓位为可能出现的DUOL加仓机会准备。</div>
+  </div>
+  <div class="sug-item">
+    <div class="sug-num">②</div>
+    <div class="sug-text"><b>SOXS+SQQQ：需要明确"退出条件"</b>。本期SOXS继续加仓到1200股，组合总对冲仓位约4.8%（SOXS 2.92% + SQQQ 1.88%）。三倍做空ETF没有"耐心"，每日衰减会在震荡市或上涨市中持续侵蚀价值。建议设定具体的"触发减仓条件"（如S&P跌破7,000？Nasdaq单周跌超8%？），而非等待市场自然下跌。</div>
+  </div>
+  <div class="sug-item">
+    <div class="sug-num">③</div>
+    <div class="sug-text"><b>LEU第一大持仓（11.63%）：关注集中度风险</b>。LEU从第三位跳升为第一大持仓，接近12%的权重在单一小市值核能股上集中度偏高。若LEU出现重大负面催化剂（如合同取消、铀价下跌、政策逆转），对组合净值影响将超过任何其他单一仓位。建议设定LEU的合理仓位上限（如不超过10%），或确保有对应的基本面催化剂支撑当前仓位水平。</div>
+  </div>
+  <div class="note" style="margin-top:6px">以上内容基于公开市场信息整理，仅供参考，不构成投资建议。所有数据已核实为2026年。</div>
+</div>
+
+<div class="footer">
+  数据来源及日期核实：指数收盘数据（CNBC，2026年4月17日/5月1日）；油价（OilPrice.com / Trading Economics，2026年）；FOMC决议（美联储官网，2026年4月29日）；GOOG财报（SEC / CNBC，2026年4月29日）；HOOD财报（Robinhood IR，2026年4月28日）；苹果财报（Benzinga，2026年4月30日）；DUOL预期（StockStory，2026年5月3日）；VIX/Bitcoin（Yahoo Finance，2026年5月1日收盘）。本报告所有事件均已独立核实年份为2026年。
+</div>
+
+</div>
+</body>
+</html>
