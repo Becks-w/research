@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>礼来公司 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:#f0f4f8;color:#1e293b;min-height:100vh}
+  .hero{background:linear-gradient(135deg,#1e3a5f 0%,#0f766e 100%);color:#fff;padding:48px 32px 36px;text-align:center}
+  .hero-ticker{font-size:13px;font-weight:600;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+  .hero-name{font-size:36px;font-weight:800;margin-bottom:6px}
+  .hero-date{font-size:13px;opacity:.6;margin-bottom:24px}
+  .hero-liner{font-size:15px;max-width:780px;margin:0 auto 28px;line-height:1.7;opacity:.9;background:rgba(255,255,255,.1);padding:16px 24px;border-radius:12px}
+  .hero-stars{font-size:32px;letter-spacing:4px;color:#fbbf24}
+  .hero-rating-label{font-size:13px;opacity:.6;margin-top:4px}
+  .tabs{display:flex;justify-content:center;gap:4px;padding:20px 16px 0;flex-wrap:wrap}
+  .tab{padding:10px 22px;border:none;border-radius:8px 8px 0 0;cursor:pointer;font-size:14px;font-weight:600;background:#e2e8f0;color:#64748b;transition:all .2s}
+  .tab.active{background:#fff;color:#0f766e;box-shadow:0 -2px 8px rgba(0,0,0,.06)}
+  .panel{display:none;max-width:900px;margin:0 auto;padding:24px 16px 48px}
+  .panel.active{display:block}
+  .card{background:#fff;border-radius:16px;padding:28px;margin-bottom:20px;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+  .card-title{font-size:18px;font-weight:700;color:#1e293b;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #f1f5f9}
+  .badge{display:inline-block;padding:4px 14px;border-radius:99px;font-size:13px;font-weight:700}
+  .kv{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+  .kv-item{background:#f8fafc;border-radius:10px;padding:14px 16px}
+  .kv-label{font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .kv-value{font-size:15px;font-weight:700;color:#1e293b}
+  p.body-text{font-size:14px;line-height:1.8;color:#475569}
+  .dim-card{background:#f8fafc;border-radius:12px;padding:16px 20px;margin-bottom:12px}
+  .dim-header{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+  .dim-name{font-size:14px;font-weight:600;color:#1e293b;min-width:80px}
+  .dim-bar-wrap{flex:1;height:8px;background:#e2e8f0;border-radius:99px;overflow:hidden}
+  .dim-bar{height:100%;background:linear-gradient(90deg,#0f766e,#34d399);border-radius:99px;transition:width .5s}
+  .dim-text{font-size:13px;line-height:1.7;color:#64748b}
+  .moat-badge{padding:8px 20px;border-radius:99px;font-size:15px;font-weight:700;display:inline-block;margin-bottom:16px}
+  .mgmt-badge{padding:10px 28px;border-radius:12px;font-size:28px;font-weight:900;display:inline-block;margin-bottom:8px}
+  .chart-wrap{position:relative;height:280px;margin:8px 0 16px}
+  .conclusion-text{font-size:14px;line-height:1.9;color:#334155;white-space:pre-wrap}
+  .next-step{background:linear-gradient(135deg,#eff6ff,#ecfdf5);border-radius:12px;padding:20px;border-left:4px solid #0f766e;margin-top:16px}
+  .next-step-title{font-size:13px;font-weight:700;color:#0f766e;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+  .next-step-text{font-size:13px;line-height:1.8;color:#475569}
+  .lifecycle-chip{display:inline-block;padding:4px 14px;border-radius:99px;font-size:12px;font-weight:700;background:#fef3c7;color:#92400e;margin-bottom:12px}
+  .force-total{text-align:center;padding:16px;background:#f0fdf4;border-radius:12px;margin-bottom:16px}
+  .force-total-num{font-size:36px;font-weight:900;color:#059669}
+  .force-total-sub{font-size:13px;color:#64748b}
+  @media(max-width:600px){.kv{grid-template-columns:1fr}.hero-name{font-size:26px}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-ticker">LLY.NYSE · NYSE · 分析日期：2026-03-31</div>
+  <div class="hero-name">礼来公司</div>
+  <div class="hero-date">Eli Lilly and Company | 商业模式深度分析</div>
+  <div class="hero-liner">礼来通过研发专利保护下的创新药物（核心：GLP-1双靶点激动剂tirzepatide）向糖尿病/肥胖症患者及医疗保险方收取高定价产品销售收入，辅以覆盖肿瘤、免疫、神经科学的多元化管线</div>
+  <div class="hero-stars">★★★★★</div>
+  <div class="hero-rating-label">商业质量评级 5/5 星</div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="show(0)">📊 商业模式</button>
+  <button class="tab" onclick="show(1)">🏰 护城河</button>
+  <button class="tab" onclick="show(2)">⚔️ 行业格局</button>
+  <button class="tab" onclick="show(3)">👔 管理层</button>
+  <button class="tab" onclick="show(4)">📋 综合结论</button>
+</div>
+
+<!-- 模块一 -->
+<div class="panel active" id="p0">
+  <div class="card">
+    <div class="card-title">模块一：商业模式画像</div>
+    <div class="kv">
+      <div class="kv-item"><div class="kv-label">2025年全年收入</div><div class="kv-value">$651.8 亿</div></div>
+      <div class="kv-item"><div class="kv-label">收入增速 (YoY)</div><div class="kv-value">+44.7%</div></div>
+      <div class="kv-item"><div class="kv-label">2026年指引</div><div class="kv-value">$800–830 亿</div></div>
+      <div class="kv-item"><div class="kv-label">ROIC (2024)</div><div class="kv-value">43.3%</div></div>
+      <div class="kv-item"><div class="kv-label">商业模式类型</div><div class="kv-value">专利驱动产品销售</div></div>
+      <div class="kv-item"><div class="kv-label">市值（2026.03）</div><div class="kv-value">约 $6,860 亿</div></div>
+    </div>
+    <div class="card-title" style="margin-top:8px">核心产品与业务线</div>
+    <p class="body-text">礼来核心产品为tirzepatide双靶点GIP/GLP-1激动剂，以Mounjaro（糖尿病）和Zepbound（肥胖症）双品牌上市，2025年合计销售额高达365亿美元，成为全球最畅销药物。非incretin业务涵盖：肿瘤（Verzenio/abemaciclib乳腺癌、Inluriyo/imlunestrant乳腺癌）、免疫（Taltz/ixekizumab银屑病、Ebglyss/lebrikizumab特应性皮炎、Omvoh/mirikizumab炎症性肠病）、神经科学（Kisunla/donanemab阿尔茨海默症）及糖尿病（Trulicity、Jardiance联合）等多条线。研发管线极为丰富，最核心的下一代产品为orforglipron——首款口服小分子GLP-1激动剂，已完成多项Ph3试验，预计2026年中获FDA批准上市，将颠覆注射剂市场格局。</p>
+  </div>
+  <div class="card">
+    <div class="card-title">客户群体</div>
+    <p class="body-text">主要客户为：①美国患者（通过医生处方、PBM保险报销体系，B2C终端但B2B渠道为主）；②全球医疗保险方（Medicare/Medicaid、商业险、政府医保）；③欧洲、中国、日本、新兴市场的医院及药品分销商。美国市场约占总收入65%，国际市场35%并快速增长（Mounjaro已进入中国、巴西、印度等市场）。</p>
+  </div>
+  <div class="card">
+    <div class="card-title">地理分布</div>
+    <p class="body-text">美国：约65%收入，Q3 2025美国收入$113亿（+45% YoY）；国际市场：35%，以欧洲、日本、中国为主，Mounjaro在华增速显著。2026年礼来宣布未来十年在华投资$30亿，中国市场战略重要性提升。公司生产基地分布于印第安纳州、爱尔兰、波多黎各、德国，正在美国弗吉尼亚、德克萨斯、印第安纳大规模扩产，制造capex已超$500亿承诺。</p>
+  </div>
+  <div class="card">
+    <div class="card-title">收入结构</div>
+    <p class="body-text">2025年全年收入$651.8亿（+44.7% YoY）；tirzepatide两款产品合计$365亿（占总收入约56%）；Mounjaro（糖尿病）Q3 2025单季$65.2亿（+109% YoY）；Zepbound（肥胖）Q3 2025单季$35.9亿（+184% YoY）；非incretin业务稳健增长约20%。2026年公司指引收入$800-830亿（+26%），继续高速增长。</p>
+    <div class="chart-wrap" style="height:220px;margin-top:20px">
+      <canvas id="revChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- 模块二 -->
+<div class="panel" id="p1">
+  <div class="card">
+    <div class="card-title">模块二：护城河分析</div>
+    <div>
+      <span class="moat-badge" style="background:#05966922;color:#059669;border:2px solid #05966944">宽护城河</span>
+    </div>
+    <div class="chart-wrap"><canvas id="moatChart"></canvas></div>
+    <div class="card-title">各维度详解</div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">礼来在制造规模上已形成显著优势：已承诺超$500亿的美国本土制造投资，在德克萨斯($65亿API工厂)、印第安纳($45亿)等地兴建大型设施。规模经济体现在：原材料采购议价权、生产工艺优化、分销网络覆盖全球。然而短期制造瓶颈（Zepbound在部分市场曾出现供应短缺）说明成本优势仍需通过产能爬坡来巩固。与Novo Nordisk相比，礼来在生产效率上相当，尚未形成压倒性成本差距。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">礼来的无形资产护城河极强，体现在三个层面：①专利保护——tirzepatide专利保护预计延伸至2030年代后半段（Ricks明确表示'the back half of the 2030s'），远长于Novo Nordisk的semaglutide专利在部分市场即将到期的困境；②临床数据壁垒——tirzepatide的疗效数据显著优于竞品（平均减重20% vs semaglutide的14%），这种基于10年以上临床研究积累的数据优势难以快速复制；③FDA审批资质与全球监管网络——礼来拥有与全球主要药监机构的长期合规关系，是新药快速获批的无形资产；④近150年的科学声誉，在医生群体中形成强大的品牌认知（胰岛素发现者之一）。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">制药行业的转换成本较为特殊：患者一旦在某款GLP-1药物上取得显著疗效，医生和患者均有强烈的'不换药'倾向（临床上称为'inertia'）；保险覆盖的药物名单（formulary）一旦确定，通常需要年度谈判才能变更，为礼来提供了一定的锁定效应。然而制药行业的转换成本相比软件SaaS较低——如果竞品疗效更好或价格更低，患者和医生可以相对容易地切换。礼来通过LillyDirect患者直接购药平台及定制化给药笔（Lilly Pen）提升患者粘性，但整体转换成本属于中等水平。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">礼来的传统制药业务几乎不存在网络效应——多卖一盒药不会使产品对其他患者更有价值。但在AI药物发现领域（如与Insilico合作的Pharma.AI平台），数据网络效应初步显现：更多药物研发数据→AI模型更精准→发现更多候选药物。礼来的LillyDirect平台若能积累大量患者数据，亦可形成有限的数据网络效应。整体而言，网络效应并非礼来护城河的主要来源。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">制药行业具有典型的高固定成本属性：一款药物的研发费用约$10-20亿、历时10年以上，一旦获批则边际生产成本极低。礼来2025年研发支出约$100亿，但tirzepatide单品年销$365亿，研发投入产出比极高。规模效应在销售端同样显著：礼来在美国拥有大规模的医药代表团队和医院覆盖网络，每增加一款新药的边际销售成本远低于初始建网成本。2024年ROIC高达43.3%，是制药行业中位数的数倍，充分验证了规模优势下的资本效率。</p>
+  </div>
+    <div style="margin-top:20px;padding:16px;background:#fefce8;border-radius:12px;border-left:4px solid #ca8a04">
+      <div style="font-size:13px;font-weight:700;color:#92400e;margin-bottom:6px">💪 核心优势</div>
+      <p style="font-size:13px;line-height:1.8;color:#78350f">核心优势：①tirzepatide专利壁垒延伸至2030年代后半段，临床疗效领先竞品（减重20% vs 14%）；②规模效应驱动的极高ROIC（43.3%），$500亿制造投资正在构建'制造护城河'；③丰富的研发管线（orforglipron口服GLP-1、retatrutide三靶点激动剂等下一代产品），持续补充专利保护期</p>
+    </div>
+    <div style="margin-top:12px;padding:16px;background:#fff1f2;border-radius:12px;border-left:4px solid #e11d48">
+      <div style="font-size:13px;font-weight:700;color:#9f1239;margin-bottom:6px">⚠️ 主要弱点</div>
+      <p style="font-size:13px;line-height:1.8;color:#881337">主要风险：①过度集中风险——tirzepatide占总收入约56%，单品依赖度过高；②定价压力——美国GLP-1药物定价受Medicare谈判（IRA法案）及市场竞争双重压制，2025年已出现价格端约10-15%的下滑；③新竞品涌入——Roche、Amgen、Pfizer等正积极研发次代肥胖药物，Morningstar预计2026-2028年将形成实质竞争</p>
+    </div>
+  </div>
+</div>
+
+<!-- 模块三 -->
+<div class="panel" id="p2">
+  <div class="card">
+    <div class="card-title">模块三：行业竞争格局</div>
+    <div class="lifecycle-chip">行业阶段：成长期</div>
+    <p class="body-text" style="margin-bottom:20px">全球GLP-1药物市场2024年规模约$520亿，预计2032年达$1870亿（CAGR约17%）。肥胖症药物更是被视为百年一遇的大市场——全球超过10亿人超重，治疗渗透率仍不足2%，增长空间极为广阔。礼来所在的代谢疾病/肥胖症赛道正处于快速成长阶段：需求爆发、供给跟不上、监管持续批准新适应症（睡眠呼吸暂停、心衰、非酒精性脂肪肝等）。肿瘤、免疫等传统业务线则处于成熟期，提供稳定现金流支撑增长期的研发投入。</p>
+    <div class="force-total">
+      <div class="force-total-num">15<span style="font-size:18px;color:#94a3b8">/25</span></div>
+      <div class="force-total-sub">波特五力总分 · 良好行业</div>
+    </div>
+    <div class="chart-wrap"><canvas id="forceChart"></canvas></div>
+    <div class="card-title" style="margin-top:8px">五力详解</div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">现有竞争强度</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:60%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">3/5</span>
+    </div>
+    <p class="dim-text">当前GLP-1市场格局高度集中：礼来+Novo Nordisk合计市场份额约60-70%，但竞争激烈度正在上升。Novo Nordisk面临semaglutide专利压力（2026年销售预计下滑5-13%），礼来已在注射剂市场占据主导（Zepbound超越Wegovy的美国处方量）。然而2026-2028年将迎来新一波竞争：Roche的CT-996/CT-388、Amgen的MariTide、Viking Therapeutics的VK2735、Structure Therapeutics等多款候选药物进入后期临床，可能形成实质威胁。整体竞争强度：当前偏低、未来3年显著上升。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">新进入者威胁</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:80%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">4/5</span>
+    </div>
+    <p class="dim-text">新进入者壁垒极高：①资本壁垒——开发一款GLP-1药物需$10-20亿研发投入、历时10年以上；②技术壁垒——tirzepatide的GIP/GLP-1双靶点机制受专利保护，仿制药需绕道研发；③监管壁垒——FDA临床试验要求严苛，新药审批周期长；④制造壁垒——大规模生物制药生产需要极高的工艺专长和资本投入。唯一能真正进入的是已有完整研发体系的大型药企（辉瑞、罗氏、安进等），但其产品均处于临床前/早期临床阶段，短期内无法威胁礼来地位。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">替代品威胁</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:60%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">3/5</span>
+    </div>
+    <p class="dim-text">GLP-1药物的替代品威胁来自多个维度：①传统减重手术（sleeve gastrectomy等）——但GLP-1药物的便利性使手术需求大幅下降；②传统降糖药（二甲双胍、胰岛素等）——对肥胖适应症无效，对糖尿病适应症存在替代关系；③新机制化合物——PCSK9抑制剂（心血管）、双重GIP/GLP-1/glucagon三靶点药物（retatrutide）可能成为更有效的替代。从5年维度看，替代威胁属于中等——GLP-1的临床地位日益稳固，正获得更多适应症批准，但次代药物技术迭代是持续性风险。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">买方议价能力</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:40%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/5</span>
+    </div>
+    <p class="dim-text">制药行业买方议价能力较强且正在上升：①美国PBM（药品福利管理机构）——Express Scripts、CVS Caremark等大型PBM拥有强大议价能力，决定保险覆盖名单；②Medicare价格谈判（IRA法案）——2027年起GLP-1药物可能被纳入政府强制谈判范围，预计压价15-30%；③价格已出现下滑——2025年礼来GLP-1实现价格同比下降约10-15%，源于更大的商业折扣。买方集中度高（几家大型PBM控制70%美国药品采购），定价权虽由礼来掌握，但谈判压力持续上升。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">供应商议价能力</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:60%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">3/5</span>
+    </div>
+    <p class="dim-text">礼来的主要供应商包括：①原材料化学品/原料药（API）供应商——礼来正通过在美国建设自有API工厂（德克萨斯$65亿）来降低对外部供应商依赖；②合同生产组织（CMO）——礼来与Lonza等合作，但制造外包比例正在降低；③AI研发平台供应商（Insilico、Insitro等）——属于新兴供应商类别，议价能力较低。整体而言，供应商集中度不高，礼来的垂直整合战略正在持续降低供应链风险。</p>
+  </div>
+  </div>
+  <div class="card">
+    <div class="card-title">公司竞争地位</div>
+    <div class="kv">
+      <div class="kv-item"><div class="kv-label">行业排名</div><div class="kv-value">GLP-1市场实际第一（已超越Novo Nordisk），处方量份额近60%；全球制药公司收入排名预计2026年跃升至第一</div></div>
+      <div class="kv-item"><div class="kv-label">市占率趋势</div><div class="kv-value" style="color:#059669">↑ 上升</div></div>
+    </div>
+    <p class="body-text">全球肥胖症/代谢疾病药物市场是近十年最大的医药机遇，礼来处于最有利的战略位置。五力分析显示行业总体得分15/25（良好行业），主要拖累是买方议价能力和未来竞争加剧的预期。未来3-5年的核心变量：①orforglipron口服GLP-1上市能否扩大适用人群（针管恐惧症患者）；②IRA价格谈判对定价的实际冲击；③次代竞品（Roche三靶点、Amgen MariTide）的疗效能否明显超越tirzepatide。</p>
+  </div>
+</div>
+
+<!-- 模块四 -->
+<div class="panel" id="p3">
+  <div class="card">
+    <div class="card-title">模块四：管理层评估</div>
+    <div>
+      <div class="mgmt-badge" style="background:#05966922;color:#059669;border:2px solid #05966944">A</div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:20px">综合评级：优秀 · CEO David A. Ricks（任职2017年至今）</div>
+    </div>
+    <div class="card-title">资本配置能力</div>
+    <p class="body-text" style="margin-bottom:20px">资本配置展现出极高的战略清晰度：①研发优先——年研发支出约$100亿（占收入约15%），专注于高成功率的靶点（tirzepatide已成为全球最畅销药物）；②制造投资——承诺$500+亿美国本土制造投资，构建长期供应壁垒；③并购纪律——选择性收购（Verve Therapeutics、Orna Therapeutics等专注特定技术平台），避免大型破坏性并购；④股东回报——Q1 2025分红$13亿+回购$12亿，显示现金充沛下的均衡回报；⑤ROIC高达43.3%（2024年），是制药行业中位数的数倍，资本配置效率极高。Ricks担任CEO以来（2017年起）礼来股价总回报超571%，市值从$820亿增至逾$1万亿。</p>
+    <div class="card-title">诚信与透明度</div>
+    <p class="body-text" style="margin-bottom:20px">礼来管理层在信披诚信方面表现优秀：①业绩指引准确性高——2025年全年多次上调指引（从初始$580-610亿上调至$630-635亿），最终实现$651.8亿，显示管理层对业务有充分掌握；②主动披露风险——在Q3 2025财报中主动提示特朗普关税政策的潜在影响，而非回避；③审计机构——安永（EY）负责审计，无任何审计意见保留记录；④关联交易——无重大关联交易问题；⑤CEO薪酬透明——Ricks 2025年薪酬$3670万，与公司45%收入增长、571%五年股东回报完全挂钩，合理性强。</p>
+    <div class="card-title">战略执行力</div>
+    <p class="body-text" style="margin-bottom:20px">战略执行力堪称一流：Ricks 2017年接任时礼来正经历专利悬崖危机（Zyprexa、Cymbalta等主力药专利到期），他聚焦GLP-1赛道的战略决策被证明是近20年制药行业最成功的押注之一。主要执行亮点：①tirzepatide从早期研发到2022年FDA批准、2025年成为全球最畅销药物，全程不超过10年；②在Zepbound供应紧张时迅速启动$500亿制造扩张计划，并获得政府支持；③成功将公司定位为'AI+制药'先驱（16笔AI交易仅2025年就签署）；④以近150年历史的传统药企实现科技公司级别的增长速度。管理层持股：Ricks持有公司股票，长期股权激励占薪酬的大部分，与股东利益高度绑定。</p>
+    <div style="margin-top:8px;padding:16px;background:#f0fdf4;border-radius:12px;border-left:4px solid #059669">
+      <div style="font-size:13px;font-weight:700;color:#065f46;margin-bottom:6px">✅ 主要亮点</div>
+      <p style="font-size:13px;line-height:1.8;color:#064e3b">①战略预见性：早于竞争对手重押GLP-1/GIP双靶点机制，tirzepatide疗效数据碾压semaglutide；②制造决策果断：在需求爆发初期即启动$500亿制造扩张，避免了Novo Nordisk因供应短缺丢失市场份额的失误</p>
+    </div>
+    <div style="margin-top:12px;padding:16px;background:#fff7ed;border-radius:12px;border-left:4px solid #ea580c">
+      <div style="font-size:13px;font-weight:700;color:#9a3412;margin-bottom:6px">🔍 需关注风险</div>
+      <p style="font-size:13px;line-height:1.8;color:#7c2d12">①过度集中风险管理：管理层需尽快将非incretin业务（肿瘤、神经科学等）培育为第二增长曲线，降低对单一产品线的依赖；②政策风险应对：IRA价格谈判和Trump关税政策的不确定性需要更主动的政府关系管理</p>
+    </div>
+  </div>
+</div>
+
+<!-- 结论 -->
+<div class="panel" id="p4">
+  <div class="card">
+    <div class="card-title">整体结论</div>
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="font-size:40px;letter-spacing:6px;color:#fbbf24">★★★★★</div>
+      <div style="font-size:14px;color:#64748b;margin-top:4px">商业质量评级 5/5 星</div>
+    </div>
+    <p class="conclusion-text">礼来是当今全球制药行业最出色的商业质量标的之一，核心逻辑清晰且强大：以tirzepatide为核心的incretin王朝正处于爆发式增长阶段，专利保护期延伸至2030年代后半段，在此期间公司享有近乎垄断式的定价权。2025年收入$651.8亿（+44.7%），2026年指引$800-830亿，这一增速在千亿级传统制药企业中前所未见。
+
+护城河的深度体现在：tirzepatide的临床疗效数据（20%减重 vs 竞品14%）构成了最硬核的差异化壁垒，加之$500亿制造投资正在将供应链本身转化为竞争优势——这意味着即使竞品产品获批，礼来也能通过规模和可及性保持领先。ROIC 43.3%是最直接的护城河量化证明。
+
+主要风险点值得高度关注：第一，集中度风险——tirzepatide占收入约56%，若出现重大安全信号或疗效数据翻转，将对公司造成系统性冲击；第二，定价压力——IRA法案下的Medicare强制谈判预计2027年起压低GLP-1价格15-30%，将侵蚀部分利润率；第三，竞争加速——Roche、Amgen、Viking等的次代肥胖药物2027-2028年将陆续进入市场，届时礼来的市场份额优势可能收窄；第四，制造capex压力——$500亿承诺将持续消耗现金流，若需求增长不达预期，固定成本将成为包袱。
+
+估值角度：礼来当前市值约$6860亿（2026年3月），对应2026年预期收入约8倍PS，在制药行业属于高溢价估值。这一估值隐含了市场对GLP-1市场持续高增长、orforglipron成功上市、以及礼来市场份额稳固的全部乐观预期，留给错误的安全边际有限。适合长期价值投资者以5-10年视角持有，短期交易者需注意orforglipron上市节奏、IRA谈判进展等催化剂事件。</p>
+    <div class="next-step" style="margin-top:24px">
+      <div class="next-step-title">→ 下一步分析建议</div>
+      <p class="next-step-text">建议进行财务深度分析，重点关注：①tirzepatide各适应症分拆收入预测（糖尿病 vs 肥胖 vs 新适应症）；②orforglipron口服GLP-1的市场渗透假设（特别是对注射剂市场的替代vs增量效应）；③IRA价格谈判情景分析（温和/基准/严格三个情景对2027-2030年收入的影响）；④制造capex与自由现金流的平衡分析（$500亿投入下的FCF yield变化）；⑤竞品对比矩阵（疗效、安全性、便利性三个维度对比Roche/Amgen/Viking候选药物）</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">快速参考摘要</div>
+    <div class="kv">
+      <div class="kv-item"><div class="kv-label">商业模式</div><div class="kv-value">专利驱动产品销售</div></div>
+      <div class="kv-item"><div class="kv-label">护城河评级</div><div class="kv-value" style="color:#059669">宽护城河</div></div>
+      <div class="kv-item"><div class="kv-label">行业阶段</div><div class="kv-value">成长期</div></div>
+      <div class="kv-item"><div class="kv-label">管理层评级</div><div class="kv-value" style="color:#059669">A 级·优秀</div></div>
+      <div class="kv-item"><div class="kv-label">五力总分</div><div class="kv-value">15/25（良好）</div></div>
+      <div class="kv-item"><div class="kv-label">综合评级</div><div class="kv-value" style="color:#f59e0b">★★★★★ 5/5</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(i){
+  document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active',i===j));
+  document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('active',i===j));
+}
+
+// Revenue chart
+new Chart(document.getElementById('revChart'),{
+  type:'bar',
+  data:{
+    labels:['2021','2022','2023','2024','2025','2026E'],
+    datasets:[{
+      label:'年收入（$十亿）',
+      data:[28.3,28.5,34.1,45.0,65.2,81.5],
+      backgroundColor:['#cbd5e1','#cbd5e1','#94a3b8','#64748b','#0f766e','#6ee7b7'],
+      borderRadius:6
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{grid:{color:'#f1f5f9'},ticks:{callback:v=>'$'+v+'B'}}}}
+});
+
+// Moat radar
+new Chart(document.getElementById('moatChart'),{
+  type:'radar',
+  data:{
+    labels:["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets:[{
+      label:'护城河评分',
+      data:[2,3,2,1,3],
+      backgroundColor:'rgba(15,118,110,.15)',
+      borderColor:'#0f766e',
+      borderWidth:2,
+      pointBackgroundColor:'#0f766e',
+      pointRadius:5
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:3,ticks:{stepSize:1,display:false},grid:{color:'#e2e8f0'},pointLabels:{font:{size:13,weight:'600'},color:'#334155'}}},plugins:{legend:{display:false}}}
+});
+
+// Five forces
+new Chart(document.getElementById('forceChart'),{
+  type:'radar',
+  data:{
+    labels:["现有竞争强度","新进入者威胁","替代品威胁","买方议价能力","供应商议价能力"],
+    datasets:[{
+      label:'有利程度（5=最有利）',
+      data:[3,4,3,2,3],
+      backgroundColor:'rgba(5,150,105,.12)',
+      borderColor:'#059669',
+      borderWidth:2,
+      pointBackgroundColor:'#059669',
+      pointRadius:5
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:5,ticks:{stepSize:1,display:false},grid:{color:'#e2e8f0'},pointLabels:{font:{size:12,weight:'600'},color:'#334155'}}},plugins:{legend:{display:false}}}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LULU 商业分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f8fafc;color:#1e293b;line-height:1.6}
+  .header{background:linear-gradient(135deg,#1e293b 0%,#334155 100%);color:#fff;padding:40px 48px 32px}
+  .header-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px}
+  .ticker-badge{display:inline-block;background:#3b82f6;color:#fff;padding:4px 14px;border-radius:99px;font-size:13px;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+  .company-name{font-size:28px;font-weight:700;margin-bottom:4px}
+  .meta{font-size:13px;opacity:.7}
+  .stars-block{text-align:right}
+  .stars{font-size:28px;color:#fbbf24;letter-spacing:2px}
+  .stars-label{font-size:12px;opacity:.6;margin-top:2px}
+  .one-liner{background:rgba(255,255,255,.1);border-left:3px solid #3b82f6;padding:14px 20px;border-radius:0 8px 8px 0;font-size:14px;margin-top:20px;font-style:italic}
+  .tabs{display:flex;gap:0;background:#fff;border-bottom:2px solid #e2e8f0;padding:0 48px;position:sticky;top:0;z-index:100;overflow-x:auto}
+  .tab{padding:14px 20px;font-size:14px;font-weight:600;color:#64748b;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s}
+  .tab.active{color:#3b82f6;border-bottom-color:#3b82f6}
+  .tab:hover:not(.active){color:#1e293b}
+  .content{max-width:900px;margin:0 auto;padding:32px 24px}
+  .panel{display:none}.panel.active{display:block}
+  .section{background:#fff;border-radius:12px;padding:28px;margin-bottom:20px;border:1px solid #e2e8f0}
+  .section-title{font-size:16px;font-weight:700;color:#1e293b;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+  .section-title::before{content:'';width:4px;height:18px;background:#3b82f6;border-radius:2px;display:inline-block}
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:600px){.info-grid{grid-template-columns:1fr}}
+  .info-item label{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;font-weight:600;display:block;margin-bottom:4px}
+  .info-item span{font-size:14px;color:#1e293b;font-weight:500}
+  .prose{font-size:14px;color:#475569;line-height:1.8}
+  .badge-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  .badge{padding:5px 14px;border-radius:99px;font-size:12px;font-weight:700;border:1.5px solid}
+  .badge-moat{color:#d97706;border-color:#d97706;background:#d9770618}
+  .badge-mgmt{color:#d97706;border-color:#d97706;background:#d9770618}
+  .badge-life{color:#7c3aed;border-color:#7c3aed;background:#7c3aed18}
+  .dim-card{border:1px solid #e2e8f0;border-radius:10px;padding:18px;margin-bottom:12px;background:#fafafa}
+  .dim-header{display:flex;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+  .dim-name{font-size:13px;font-weight:700;color:#1e293b;min-width:80px}
+  .dim-bar-wrap{flex:1;height:8px;background:#e2e8f0;border-radius:99px;min-width:80px;overflow:hidden}
+  .dim-bar{height:100%;border-radius:99px;background:linear-gradient(90deg,#3b82f6,#60a5fa);transition:width .6s}
+  .dim-text{font-size:13px;color:#64748b;line-height:1.7}
+  .chart-wrap{position:relative;height:280px;margin-top:8px}
+  .score-summary{display:flex;align-items:center;gap:16px;background:#f1f5f9;border-radius:10px;padding:16px 20px;margin-bottom:20px}
+  .score-big{font-size:36px;font-weight:800;color:#1e293b}
+  .score-max{font-size:16px;color:#94a3b8;font-weight:400}
+  .score-label{font-size:13px;color:#64748b}
+  .mgmt-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:600px){.mgmt-grid{grid-template-columns:1fr}}
+  .mgmt-card{border:1px solid #e2e8f0;border-radius:10px;padding:18px;background:#fafafa}
+  .mgmt-card h4{font-size:13px;font-weight:700;margin-bottom:8px;color:#1e293b}
+  .mgmt-card p{font-size:13px;color:#64748b;line-height:1.7}
+  .conclusion-box{background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:1px solid #bfdbfe;border-radius:12px;padding:24px}
+  .conclusion-box p{font-size:14px;color:#1e293b;line-height:1.85;margin-bottom:12px}
+  .conclusion-box p:last-child{margin-bottom:0}
+  .next-step{background:#fefce8;border:1px solid #fde68a;border-radius:10px;padding:16px 20px;margin-top:16px}
+  .next-step h4{font-size:13px;font-weight:700;color:#92400e;margin-bottom:6px}
+  .next-step p{font-size:13px;color:#78350f;line-height:1.7}
+  .rating-badge{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;font-size:22px;font-weight:800;background:#d9770618;color:#d97706;border:2px solid #d97706}
+  .highlight-pill{display:inline-block;background:#dcfce7;color:#166534;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600;margin-bottom:8px}
+  .risk-pill{display:inline-block;background:#fee2e2;color:#991b1b;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600;margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="ticker-badge">LULU · NASDAQ</div>
+      <div class="company-name">lululemon athletica</div>
+      <div class="meta">分析日期：2026-04-05 | 商业模式分析报告</div>
+    </div>
+    <div class="stars-block">
+      <div class="stars">★★★☆☆</div>
+      <div class="stars-label">商业质量评级 3/5</div>
+    </div>
+  </div>
+  <div class="one-liner">lululemon通过销售高端瑜伽/运动服饰向都市健康生活方式女性（及部分男性）收取溢价产品收入，以强品牌社区构建转换成本，维持行业领先的毛利率。</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab(0)">📦 商业模式</div>
+  <div class="tab" onclick="switchTab(1)">🏰 护城河</div>
+  <div class="tab" onclick="switchTab(2)">⚔️ 行业格局</div>
+  <div class="tab" onclick="switchTab(3)">👔 管理层</div>
+  <div class="tab" onclick="switchTab(4)">🎯 投资结论</div>
+</div>
+
+<div class="content">
+
+<!-- 模块一 -->
+<div class="panel active" id="p0">
+  <div class="section">
+    <div class="section-title">商业模式类型</div>
+    <div class="badge-row">
+      <span class="badge" style="color:#3b82f6;border-color:#3b82f6;background:#eff6ff">产品销售（高端DTC为主）</span>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">核心产品与服务</div>
+    <p class="prose">核心产品为女性运动裤、上衣、运动内衣（占约65%收入），男性系列约占20%并持续扩张，配件与鞋类合计约15%。主打专有面料技术（Luon、Nulu、Everlux等），强调功能性与时尚感结合，价格带约为$58-$148（下装）远高于普通运动品牌。</p>
+  </div>
+  <div class="section">
+    <div class="section-title">客户群体</div>
+    <p class="prose">主要面向25-40岁中高收入女性消费者（B2C），典型用户画像：都市专业女性、健身爱好者，具备较强消费意愿与品牌忠诚度。男性业务是增长第二曲线。客户留存率约76%。</p>
+  </div>
+  <div class="section">
+    <div class="section-title">地理分布</div>
+    <p class="prose">美洲区（主要为美国+加拿大）占全年总收入约68%，是基本盘；国际区（中国大陆+其他地区）占约32%，2025全年国际收入同比增长22%，中国是增速最快市场（+46%）。两个板块走势正好相反——美洲下滑、国际强劲。</p>
+  </div>
+  <div class="section">
+    <div class="section-title">收入结构与财务快照</div>
+    <p class="prose">2025财年总收入$111亿，同比增长5%。其中美洲区同比-1%（可比销售-3%），国际区同比+22%。DTC（直营+电商）占比约60%，毛利率约59%，显著高于行业平均。2026全年指引：收入增长2%-4%，EPS预计$12.10-$12.30（同比下降）。</p>
+  </div>
+</div>
+
+<!-- 模块二 -->
+<div class="panel" id="p1">
+  <div class="section">
+    <div class="section-title">护城河综合评级</div>
+    <div class="badge-row">
+      <span class="badge badge-moat">窄护城河</span>
+    </div>
+    <div class="info-grid">
+      <div class="info-item"><label>主要优势</label><span style="font-size:13px">最强护城河：品牌溢价与高毛利（59%），以及ROIC持续远超资本成本（ROIC~32% vs WACC~7%，利差约25个百分点）。</span></div>
+      <div class="info-item"><label>主要弱点</label><span style="font-size:13px">最大弱点：美国核心市场被新兴竞争者侵蚀（Alo Yoga、Vuori），品牌护城河出现裂缝；同时服装品类本质上无网络效应或成本锁定，护城河深度不如软件或平台型公司。</span></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">护城河雷达图</div>
+    <div class="chart-wrap"><canvas id="moatChart"></canvas></div>
+  </div>
+  <div class="section">
+    <div class="section-title">各维度详细分析</div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">成本优势较弱。LULU依赖海外（越南、中国）代工生产，无独特低成本来源。关税冲击直接暴露出供应链脆弱性：2025年关税成本$2.75亿，2026年预计净影响升至$2.2亿（扣除对冲后）。与Nike、ONON相比，无明显规模成本优势。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">品牌护城河是LULU最强的资产。品牌溢价显著——同类运动裤售价是普通品牌2-3倍，消费者仍愿意买单。其"社区营销"模式（免费瑜伽课、大使计划）建立了情感连结，难以被快速复制。毛利率高达59%，是品牌溢价能力的直接体现，远超Nike（~46%）。但近期美国市场份额流失至Alo Yoga、Vuori等新贵，说明品牌护城河并非无懈可击。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">转换成本属中等偏上。专有面料形成产品差异化；社区活动与会员体系增加了粘性；但服装品类本质上转换成本有限——消费者尝试新品牌的门槛低，不像软件订阅或金融产品有硬性绑定。Alo Yoga、Vuori的崛起证明高端消费者愿意分散忠诚度。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">0/3</span>
+    </div>
+    <p class="dim-text">几乎无网络效应。服装零售是典型的单边市场，用户数量增加不会直接让产品更有价值。Lululemon的"社区"更多是品牌营销策略，而非真正的网络效应壁垒。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">规模效应存在但受限。全球780+门店提供了品牌曝光与运营杠杆，DTC比例高（~60%）有效压缩中间渠道成本，推升毛利。但相比Nike、Adidas的超大规模，LULU的体量决定了其无法在供应链或营销上享有碾压性规模优势。ROIC约32-33%，远超WACC（~7%），说明现有规模仍能创造显著超额回报。</p>
+  </div>
+  </div>
+</div>
+
+<!-- 模块三 -->
+<div class="panel" id="p2">
+  <div class="section">
+    <div class="section-title">行业生命周期</div>
+    <div class="badge-row">
+      <span class="badge badge-life">成熟期（北美）/ 成长期（国际）</span>
+    </div>
+    <p class="prose">全球运动休闲市场预计到2030年从$4036亿增至$6248亿（CAGR 9.1%），整体仍处于成长期。但LULU的核心市场——北美高端运动服饰——已高度饱和，进入成熟期竞争。美洲可比销售连续多个季度下滑表明LULU在本土已过增长顶点，转型为"守城为主"模式；而国际（尤其中国）仍是明显成长期机遇。</p>
+  </div>
+  <div class="section">
+    <div class="section-title">波特五力分析</div>
+    <div class="score-summary">
+      <div>
+        <span class="score-big">13</span>
+        <span class="score-max">/25</span>
+      </div>
+      <div>
+        <div class="score-label">五力总分 · 普通行业</div>
+        <div style="font-size:12px;color:#94a3b8;margin-top:4px">行业整体吸引力中等（五力总分13/25）。</div>
+      </div>
+    </div>
+    <div class="chart-wrap"><canvas id="forceChart"></canvas></div>
+  </div>
+  <div class="section">
+    <div class="section-title">各维度详细分析</div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">现有竞争强度</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:40%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/5</span>
+    </div>
+    <p class="dim-text">现有竞争激烈。高端运动服饰赛道拥挤：Nike市占26.86%、Adidas 14.83%为传统巨头；ONON、Hoka（Deckers）、Alo Yoga、Vuori等新锐品牌持续蚕食LULU的高端女性市场。LULU美洲市场份额呈下降趋势，竞争压力评分较低。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">新进入者威胁</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:60%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">3/5</span>
+    </div>
+    <p class="dim-text">新进入者威胁中等。高端服装品牌建立需要大量资金、供应链积累及品牌认知，门槛不低。但DTC电商模式降低了渠道壁垒，近几年Alo Yoga、Vuori等品牌以较低成本切入，证明进入壁垒并非不可逾越。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">替代品威胁</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:60%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">3/5</span>
+    </div>
+    <p class="dim-text">替代品威胁中等。从功能上看，普通健身服装完全可替代；从情感层面，快速崛起的"安静奢华"和运动休闲美学为消费者提供了多个选项。但真正的替代不是"不买运动服"，而是转向其他品牌，这已在发生。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">买方议价能力</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:40%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/5</span>
+    </div>
+    <p class="dim-text">买方议价能力较强。高端消费者选择多、品牌忠诚度弹性高，一旦产品设计或价值感下滑，转品牌成本极低。LULU近期被迫加大折扣力度（大促活动"We Made Too Much"），说明买方在定价上占据了更大主动权。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">供应商议价能力</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:60%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">3/5</span>
+    </div>
+    <p class="dim-text">供应商议价能力中等。主要依赖越南、中国代工厂，但作为规模$111亿的大客户仍有一定议价优势。关税风险是主要变量——地缘政治变化可导致成本骤升，2026年净关税影响预计$2.2亿。</p>
+  </div>
+  </div>
+  <div class="section">
+    <div class="section-title">竞争地位</div>
+    <div class="info-grid">
+      <div class="info-item"><label>行业排名</label><span>高端运动服饰细分市场第一，整体运动市场约4.83%份额</span></div>
+      <div class="info-item"><label>市占率趋势</label><span>下降（美洲）/ 上升（国际）</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 模块四 -->
+<div class="panel" id="p3">
+  <div class="section">
+    <div class="section-title">管理层综合评级</div>
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
+      <div class="rating-badge">C</div>
+      <div>
+        <div class="highlight-pill">✓ ROIC长期维持在30%以上，证明商业模式本身创造价值能力仍强</div><br>
+        <div class="risk-pill">⚠ 最大红旗</div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="mgmt-grid">
+      <div class="mgmt-card"><h4>💰 资本配置</h4><p>资本配置整体合理但近期出现问题。过去多年坚持高ROIC运营，持续通过股票回购回报股东（过去12个月回购使股本缩减约4%）。无分红，将现金优先用于开店扩张与研发。然而，2025年以来出现库存积压（Q2库存同比+21%），被迫加大折扣，显示前期对需求过于乐观，库存管理决策出现失误。</p></div>
+      <div class="mgmt-card"><h4>🔍 诚信透明度</h4><p>诚信透明度存在明显瑕疵。CEO离职无预先接班人（被创始人称为"第三次接班规划失败"），说明董事会在人才管理和战略前瞻上存在重大缺陷。激进投资者Elliott Management已建立逾$10亿持仓并推动变革，Chip Wilson发动代理权争夺战，均反映市场对现有管理层和董事会信任度极低。Guidance准确性：近年多次在重要季度指引偏保守后业绩勉强达标，但2026年首季指引再次低于预期。</p></div>
+      <div class="mgmt-card"><h4>🎯 战略执行力</h4><p>战略执行力参差不齐。2022年提出的"Power of Three x2"计划（翻倍男性、数字及国际收入）在国际市场执行良好（中国增速超预期），但美国市场持续萎缩说明产品策略和本土执行出现系统性失误。积极面：新任董事Chip Bergh（前Levi's CEO）入局，Elliott入股或将推动治理改革，前On Running联席CEO Marc Maurer被Wilson提名加入董事会，均为潜在正面变量。</p></div>
+      <div class="mgmt-card"><h4>⚠️ 主要风险点</h4><p>最大红旗：CEO空缺叠加创始人与董事会激烈代理权争斗，公司陷入治理真空，决策能力受损恰逢最需要执行力的转型窗口期。</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 结论 -->
+<div class="panel" id="p4">
+  <div class="section">
+    <div class="section-title">整体商业质量评级</div>
+    <div style="font-size:36px;letter-spacing:3px;color:#fbbf24;margin-bottom:8px">★★★☆☆</div>
+    <p style="font-size:13px;color:#64748b">3/5星 · 困境反转型机会，需耐心等待催化剂</p>
+  </div>
+  <div class="section">
+    <div class="section-title">投资逻辑综合评述</div>
+    <div class="conclusion-box">
+      <p>lululemon是一家商业质量上乘、但当前处于"质地与困境并存"状态的公司。</p><p>牛市逻辑：品牌护城河依然存在，59%毛利率和32%+ ROIC是护城河最好的财务证明。国际业务（尤其中国+22%增速）提供了真实的增长引擎。当前PE约11x，较10年历史均值42x折让74%，已反映大量悲观预期。Elliott入股往往是公司治理改善的催化剂。</p><p>熊市逻辑：美洲核心市场结构性下滑（可比销售已连续多季为负），不只是周期性波动。CEO空缺+代理权争斗形成治理真空，最坏情况可能拖累公司错过战略转型窗口。EPS 2026年指引同比下降（$12.10-12.30 vs 2025年$14.64），如果EPS持续下修，11x PE也未必便宜。关税成本$2.2亿净影响难以短期消化。</p><p>结论：这是一只典型的"困境反转型"机会，适合有耐心且风险承受能力较强的价值投资者。当前估值已price in大量负面，向下空间有限，但向上的催化剂取决于：①新CEO人选与治理改善，②美洲业务触底回升信号，③EPS能否止跌。建议以观察仓位跟踪，等待以上三个信号中至少两个明确后再加仓。不适合短期交易者。</p>
+    </div>
+    <div class="next-step">
+      <h4>📌 下一步分析建议</h4>
+      <p>重点跟踪：①2026年股东大会（代理权之争结果）；②新CEO宣布时间节点与背景；③Q1 2026财报（2026年5月）——重点看美洲可比销售是否触底、折扣率变化、关税对毛利的实际冲击；④国际（尤其中国）业务增速能否维持20%+以支撑整体估值。</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+function switchTab(i){
+  document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('active',idx===i));
+  document.querySelectorAll('.panel').forEach((p,idx)=>p.classList.toggle('active',idx===i));
+  if(i===1&&!window._moatDone){renderMoat();window._moatDone=true}
+  if(i===2&&!window._forceDone){renderForce();window._forceDone=true}
+}
+function renderMoat(){
+  new Chart(document.getElementById('moatChart'),{
+    type:'radar',
+    data:{
+      labels:["成本优势","无形资产","转换成本","网络效应","规模效应"],
+      datasets:[{label:'护城河评分',data:[1,3,2,0,2],fill:true,
+        backgroundColor:'rgba(59,130,246,.15)',borderColor:'#3b82f6',pointBackgroundColor:'#3b82f6',pointRadius:5}]
+    },
+    options:{scales:{r:{min:0,max:3,ticks:{stepSize:1,font:{size:11}},pointLabels:{font:{size:13,weight:'600'}}}},
+      plugins:{legend:{display:false}}}
+  });
+}
+function renderForce(){
+  new Chart(document.getElementById('forceChart'),{
+    type:'bar',
+    data:{
+      labels:["现有竞争强度","新进入者威胁","替代品威胁","买方议价能力","供应商议价能力"],
+      datasets:[{label:'有利程度（5=最有利）',data:[2,3,3,2,3],
+        backgroundColor:['#fca5a5','#86efac','#93c5fd','#fca5a5','#93c5fd'],
+        borderRadius:6}]
+    },
+    options:{indexAxis:'y',scales:{x:{min:0,max:5,ticks:{stepSize:1}}},
+      plugins:{legend:{display:false}}}
+  });
+}
+</script>
+</body>
+</html>

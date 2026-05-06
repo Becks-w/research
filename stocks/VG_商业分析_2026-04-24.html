@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Venture Global (VG) 商业模式分析报告</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3347;
+    --text: #e8eaf0;
+    --text-muted: #8b90a8;
+    --accent: #3b82f6;
+    --green: #10b981;
+    --yellow: #f59e0b;
+    --red: #ef4444;
+    --orange: #f97316;
+    --purple: #8b5cf6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; min-height: 100vh; }
+
+  /* Header */
+  .hero { background: linear-gradient(135deg, #0f1117 0%, #1a1d27 50%, #0d1a2e 100%); border-bottom: 1px solid var(--border); padding: 40px 32px 32px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%); }
+  .hero-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; }
+  .ticker-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3); border-radius: 8px; padding: 6px 14px; font-size: 13px; color: var(--accent); font-weight: 600; }
+  .exchange-badge { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); border-radius: 6px; padding: 4px 10px; font-size: 12px; color: var(--green); }
+  h1 { font-size: 28px; font-weight: 700; color: #fff; margin: 16px 0 8px; letter-spacing: -0.5px; }
+  .subtitle { color: var(--text-muted); font-size: 14px; }
+  .date-badge { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
+
+  /* Key metrics strip */
+  .metrics-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--border); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .metric-item { background: var(--surface); padding: 18px 20px; }
+  .metric-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .metric-value { font-size: 20px; font-weight: 700; color: #fff; }
+  .metric-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .metric-value.red { color: var(--red); }
+  .metric-value.green { color: var(--green); }
+  .metric-value.yellow { color: var(--yellow); }
+
+  /* Nav tabs */
+  .nav { display: flex; gap: 2px; padding: 16px 24px 0; background: var(--surface); border-bottom: 1px solid var(--border); overflow-x: auto; }
+  .nav-btn { padding: 10px 20px; border: none; background: transparent; color: var(--text-muted); font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.2s; }
+  .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .nav-btn:hover:not(.active) { color: var(--text); }
+
+  /* Panels */
+  .panel { display: none; padding: 28px 24px; max-width: 1100px; margin: 0 auto; }
+  .panel.active { display: block; }
+
+  /* Cards */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  .card-title { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .card-title::before { content: ''; display: block; width: 3px; height: 14px; background: var(--accent); border-radius: 2px; }
+  .card h3 { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+  .card p { color: var(--text-muted); font-size: 14px; line-height: 1.8; }
+
+  /* Grid layouts */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  @media (max-width: 700px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  /* One-liner */
+  .one-liner { background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.08)); border: 1px solid rgba(59,130,246,0.2); border-radius: 12px; padding: 22px 26px; margin-bottom: 24px; font-size: 15px; line-height: 1.7; color: var(--text); }
+  .one-liner strong { color: var(--accent); }
+
+  /* Moat rating */
+  .moat-badge { display: inline-block; padding: 6px 18px; border-radius: 99px; font-weight: 700; font-size: 14px; }
+  .moat-wide { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+  .moat-narrow { background: rgba(245,158,11,0.15); color: var(--yellow); border: 1px solid rgba(245,158,11,0.3); }
+  .moat-none { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+
+  /* Dim cards */
+  .dim-card { border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 12px; background: var(--bg); }
+  .dim-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .dim-name { font-weight: 600; font-size: 14px; min-width: 90px; }
+  .dim-bar-wrap { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .dim-bar { height: 100%; background: linear-gradient(90deg, var(--accent), #6366f1); border-radius: 3px; transition: width 0.6s ease; }
+  .dim-bar.green-bar { background: linear-gradient(90deg, var(--green), #34d399); }
+  .score-pill { display: inline-block; padding: 2px 10px; border-radius: 99px; font-size: 12px; font-weight: 600; }
+  .score-high { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+  .score-mid { background: rgba(245,158,11,0.15); color: var(--yellow); border: 1px solid rgba(245,158,11,0.3); }
+  .score-low { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+  .dim-text { color: var(--text-muted); font-size: 13px; line-height: 1.7; }
+
+  /* Charts */
+  .chart-wrap { position: relative; height: 260px; }
+
+  /* Rating badge */
+  .mgmt-badge { display: inline-block; width: 48px; height: 48px; border-radius: 50%; font-size: 24px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+  .mgmt-a { background: rgba(16,185,129,0.2); color: var(--green); border: 2px solid var(--green); }
+  .mgmt-b { background: rgba(59,130,246,0.2); color: var(--accent); border: 2px solid var(--accent); }
+  .mgmt-c { background: rgba(245,158,11,0.2); color: var(--yellow); border: 2px solid var(--yellow); }
+  .mgmt-d { background: rgba(239,68,68,0.2); color: var(--red); border: 2px solid var(--red); }
+
+  /* Stars */
+  .star-row { font-size: 28px; letter-spacing: 4px; }
+  .star-on { color: #f59e0b; }
+  .star-off { color: var(--border); }
+
+  /* Conclusion */
+  .conclusion-card { background: linear-gradient(135deg, rgba(59,130,246,0.06), rgba(16,185,129,0.04)); border: 1px solid rgba(59,130,246,0.2); border-radius: 12px; padding: 26px; margin-bottom: 20px; }
+  .conclusion-card p { color: var(--text); font-size: 14px; line-height: 1.8; margin-bottom: 12px; }
+  .conclusion-card p:last-child { margin-bottom: 0; }
+
+  /* Risk/highlight pills */
+  .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .tag { padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; }
+  .tag-green { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
+  .tag-red { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+  .tag-yellow { background: rgba(245,158,11,0.1); color: var(--yellow); border: 1px solid rgba(245,158,11,0.2); }
+  .tag-blue { background: rgba(59,130,246,0.1); color: var(--accent); border: 1px solid rgba(59,130,246,0.2); }
+
+  /* Divider */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  /* Revenue bars */
+  .rev-bar-wrap { margin: 8px 0; }
+  .rev-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+  .rev-label span:first-child { color: var(--text); }
+  .rev-label span:last-child { color: var(--text-muted); font-weight: 600; }
+  .rev-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .rev-fill { height: 100%; border-radius: 4px; }
+
+  /* Timeline */
+  .timeline { position: relative; padding-left: 20px; }
+  .timeline::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 1px; background: var(--border); }
+  .tl-item { position: relative; padding: 0 0 20px 20px; }
+  .tl-item::before { content: ''; position: absolute; left: -14px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); }
+  .tl-item.green::before { background: var(--green); }
+  .tl-item.red::before { background: var(--red); }
+  .tl-item.yellow::before { background: var(--yellow); }
+  .tl-date { font-size: 11px; color: var(--text-muted); margin-bottom: 2px; }
+  .tl-text { font-size: 13px; color: var(--text); line-height: 1.6; }
+
+  /* IPO price drop */
+  .price-callout { display: flex; align-items: center; gap: 20px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+  .price-num { text-align: center; }
+  .price-num .val { font-size: 22px; font-weight: 700; }
+  .price-num .lbl { font-size: 11px; color: var(--text-muted); }
+  .price-arrow { font-size: 20px; color: var(--red); }
+  .drop-pct { font-size: 28px; font-weight: 800; color: var(--red); }
+
+  footer { text-align: center; padding: 24px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-top">
+    <div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <span class="ticker-badge">NYSE: VG</span>
+        <span class="exchange-badge">能源 · LNG</span>
+        <span class="exchange-badge" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.25);color:var(--yellow);">2025年1月IPO</span>
+      </div>
+      <h1>Venture Global, Inc.</h1>
+      <div class="subtitle">美国第二大LNG出口商 · 模块化低成本颠覆者</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:13px;color:var(--text-muted)">分析日期</div>
+      <div style="font-size:15px;font-weight:600;color:var(--text)">2026年4月24日</div>
+      <div style="margin-top:10px">
+        <span class="star-row">
+          <span class="star-on">★★★</span><span class="star-off">★★</span>
+        </span>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">商业质量评级 3/5星</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Metrics strip -->
+<div class="metrics-strip">
+  <div class="metric-item">
+    <div class="metric-label">当前股价</div>
+    <div class="metric-value yellow">~$11.5</div>
+    <div class="metric-sub">vs IPO价$24（-52%）</div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-label">市值</div>
+    <div class="metric-value">~$285亿</div>
+    <div class="metric-sub">NYSE上市</div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-label">TTM营收</div>
+    <div class="metric-value green">~$138亿</div>
+    <div class="metric-sub">YoY +200%+</div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-label">EBITDA利润率</div>
+    <div class="metric-value green">43%</div>
+    <div class="metric-sub">TTM EBITDA $60.5亿</div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-label">长期负债</div>
+    <div class="metric-value red">$340亿</div>
+    <div class="metric-sub">D/E比率 5.18x</div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-label">自由现金流</div>
+    <div class="metric-value red">负值</div>
+    <div class="metric-sub">重资本扩张期</div>
+  </div>
+</div>
+
+<!-- Nav -->
+<div class="nav">
+  <button class="nav-btn active" onclick="showPanel('p1',this)">📋 商业模式</button>
+  <button class="nav-btn" onclick="showPanel('p2',this)">🏰 护城河</button>
+  <button class="nav-btn" onclick="showPanel('p3',this)">🏭 行业格局</button>
+  <button class="nav-btn" onclick="showPanel('p4',this)">👔 管理层</button>
+  <button class="nav-btn" onclick="showPanel('p5',this)">⚖️ 风险图谱</button>
+  <button class="nav-btn" onclick="showPanel('p6',this)">🎯 投资结论</button>
+</div>
+
+<!-- Panel 1: Business Model -->
+<div id="p1" class="panel active">
+  <div class="one-liner">
+    <strong>一句话总结：</strong>Venture Global通过<strong>大规模建造模块化LNG液化设施</strong>，向欧洲、亚洲能源进口国的<strong>公用事业公司和大宗商品交易商</strong>收取<strong>长期固定液化费 + 现货销售溢价</strong>，以比同行更低的成本和更快的建设速度建立竞争优势。
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">核心业务</div>
+      <h3>LNG生产与出口</h3>
+      <p>公司在路易斯安那州墨西哥湾沿岸运营、建设、开发LNG液化出口项目，将美国廉价天然气超冷却为液态，装船出口至全球市场。核心创新是"设计一次，批量建造"的模块化工厂预制工艺，使得建设周期比传统LNG项目缩短40%以上，成本显著更低。</p>
+      <hr class="divider">
+      <h3>运营资产全景</h3>
+      <p>• <strong>Calcasieu Pass（CP1）</strong>：2022年起产，产能12 mtpa，目前处于"commissioning阶段"（争议核心）<br>
+      • <strong>Plaquemines LNG</strong>：2024年12月开始产出，产能26.5 mtpa，Q1 2025出口量已达正常产能140%<br>
+      • <strong>CP2 LNG</strong>：总产能28 mtpa，2026年3月完成Phase 2 FID，融资额$86亿，预计2027年投产<br>
+      • 另有Delta LNG、Gator Express等在开发项目，总规划产能超100 mtpa</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">收入结构</div>
+      <h3>双轨收入模型</h3>
+      <div class="rev-bar-wrap">
+        <div class="rev-label"><span>长期SPA固定液化费</span><span>~55%</span></div>
+        <div class="rev-track"><div class="rev-fill" style="width:55%;background:linear-gradient(90deg,var(--accent),#6366f1)"></div></div>
+      </div>
+      <div class="rev-bar-wrap">
+        <div class="rev-label"><span>现货市场溢价销售</span><span>~35%</span></div>
+        <div class="rev-track"><div class="rev-fill" style="width:35%;background:linear-gradient(90deg,var(--green),#34d399)"></div></div>
+      </div>
+      <div class="rev-bar-wrap">
+        <div class="rev-label"><span>运输/再气化/其他</span><span>~10%</span></div>
+        <div class="rev-track"><div class="rev-fill" style="width:10%;background:linear-gradient(90deg,var(--yellow),#fbbf24)"></div></div>
+      </div>
+      <hr class="divider">
+      <p style="font-size:13px;color:var(--text-muted)"><strong style="color:var(--yellow)">核心争议：</strong>Calcasieu Pass自2022年起至今未正式宣布"商业运营"（COD），使得与Shell、BP等签订的长期SPA合同未被激活，公司得以将数百船次货物以现货价销售，在2022-2025年天然气价格高位期间赚取巨额超额利润，但也引发多起仲裁诉讼。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">商业模式类型</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <span class="tag tag-blue">资产重型（重基础设施）</span>
+      <span class="tag tag-green">长期合同（20年SPA）</span>
+      <span class="tag tag-yellow">大宗商品交易（现货敞口）</span>
+      <span class="tag tag-blue">垂直整合（产运储销）</span>
+    </div>
+    <hr class="divider">
+    <div class="grid-2">
+      <div>
+        <h3 style="font-size:14px;margin-bottom:8px">主要客户群</h3>
+        <p>欧洲能源公司（Edison已和解，Shell/Repsol仍有纠纷）、亚洲买家（中国Unipec已私下和解）、大宗商品交易商（Vitol 2026年3月签新SPA）、公用事业公司</p>
+      </div>
+      <div>
+        <h3 style="font-size:14px;margin-bottom:8px">地理分布</h3>
+        <p>生产：100%美国路易斯安那州<br>销售：欧洲约55%、亚太约35%、其他10%<br>战略上是美国盟友能源独立的核心供应商</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Panel 2: Moat -->
+<div id="p2" class="panel">
+  <div class="card" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <div>
+      <div class="card-title" style="margin-bottom:8px">护城河综合评级</div>
+      <span class="moat-badge moat-narrow">窄护城河</span>
+    </div>
+    <div style="flex:1;min-width:200px">
+      <p style="font-size:13px;color:var(--text-muted)">VG的核心优势在于<strong style="color:var(--text)">成本领导力与执行速度</strong>，这在资本密集的LNG行业是真实且有价值的壁垒。但其护城河并非不可复制，面临监管、法律、债务三重压制，护城河稳固性存疑。</p>
+    </div>
+  </div>
+
+  <div style="margin-bottom:20px">
+    <div class="chart-wrap" style="height:220px;max-width:500px;margin:0 auto">
+      <canvas id="moatChart"></canvas>
+    </div>
+  </div>
+
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:80%"></div></div>
+      <span class="score-pill score-high">强 ★★★</span>
+    </div>
+    <p class="dim-text">VG的模块化预制工艺（"设计一次，批量建造"）使建设成本比传统LNG项目低20-30%，交付时间快40%。Plaquemines实际产能已超出铭牌容量40%，证明技术可行性。美国廉价页岩气为液化提供低成本原料。这是目前最强的差异化来源，使其能在长期合同中以$6/MMBtu固定费率（vs竞争对手$7-9）赢得客户。</p>
+  </div>
+
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:40%"></div></div>
+      <span class="score-pill score-mid">中 ★★</span>
+    </div>
+    <p class="dim-text">拥有独特的模块化LNG技术专利，但核心技术已逐步为竞争对手所了解，壁垒并非绝对。监管壁垒（DOE出口许可、FERC审批）在特朗普政府下大幅降低，CP2快速获批即为例证。品牌方面因合同争议受损，但与主权能源买家的战略关系（欧盟"关键基础设施"认定）具有一定政治护城河。</p>
+  </div>
+
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:53%"></div></div>
+      <span class="score-pill score-mid">中 ★★</span>
+    </div>
+    <p class="dim-text">20年长期SPA合同结构在理论上产生极高客户转换成本——一旦签约，买方需建配套再气化终端、签管道协议，转换代价巨大。但当前合同争议严重损害了这一护城河：买家已在寻求仲裁而非续签，表明实际转换成本低于合同文本所显示的水平。BP胜诉表明合同可被解读为双向约束。</p>
+  </div>
+
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span class="score-pill score-low">无 ✗</span>
+    </div>
+    <p class="dim-text">LNG大宗商品业务无网络效应。客户越多并不使产品对其他客户更有价值，是典型的点对点大宗商品供应关系。</p>
+  </div>
+
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:60%"></div></div>
+      <span class="score-pill score-mid">中 ★★</span>
+    </div>
+    <p class="dim-text">一旦设施建成，边际成本极低，EBITDA利润率可达40%+，显示出强劲的运营杠杆效应。随着Plaquemines和CP2相继投产，规模扩大将使固定成本（债务利息、运维成本）摊薄至更大出货量上，理论上利润率将持续改善。但当前CP2建设期，资本支出高达$36亿/季度，规模效应尚未充分体现。</p>
+  </div>
+</div>
+
+<!-- Panel 3: Industry -->
+<div id="p3" class="panel">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">行业生命周期</div>
+      <span class="tag tag-green" style="font-size:14px;padding:8px 16px">✅ 成长期（高速扩张）</span>
+      <hr class="divider">
+      <p>全球LNG市场正处于结构性增长阶段：欧洲能源转型、亚洲电气化、发展中国家从煤炭切换驱动需求。美国2025年8月创下单月LNG出口记录（933万吨），VG的Plaquemines占美国总量17%。但2026-2030年全球LNG产能大量投产（Qatar扩建、非洲新项目），供应过剩风险真实存在。</p>
+    </div>
+    <div class="card">
+      <div class="card-title">市场地位</div>
+      <h3>美国第二大LNG出口商</h3>
+      <p>• 行业第一：Cheniere Energy（LNG），规划产能60 mtpa<br>
+      • Venture Global：当前38.5 mtpa，CP2完成后将达66.5 mtpa，<strong style="color:var(--green)">有望超越Cheniere</strong>，成为美国最大LNG出口商<br>
+      • 同业：New Fortress Energy、Freeport LNG（私有）<br>
+      • 市占率趋势：<strong style="color:var(--green)">快速上升</strong></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">波特五力分析（总分：14/25）</div>
+    <div style="height:240px;max-width:480px;margin:0 auto 20px">
+      <canvas id="forceChart"></canvas>
+    </div>
+    <div class="dim-card">
+      <div class="dim-header">
+        <span class="dim-name">现有竞争</span>
+        <div class="dim-bar-wrap"><div class="dim-bar green-bar" style="width:40%"></div></div>
+        <span class="score-pill score-mid">2/5</span>
+      </div>
+      <p class="dim-text">美国LNG出口市场目前仍较集中（Cheniere+VG占70%+），但随着CP2、Commonwealth LNG、Woodside Louisiana LNG相继投产，2027-2030年竞争将显著加剧。LNG本质上是大宗商品，长期价格竞争不可避免，低成本优势至关重要。</p>
+    </div>
+    <div class="dim-card">
+      <div class="dim-header">
+        <span class="dim-name">新进入者</span>
+        <div class="dim-bar-wrap"><div class="dim-bar green-bar" style="width:60%"></div></div>
+        <span class="score-pill score-high">3/5</span>
+      </div>
+      <p class="dim-text">新建一座LNG液化终端需耗资$150-300亿，建设周期5-8年，需获DOE出口许可、FERC批准，资本和监管壁垒极高。但特朗普政府加速审批降低了政策壁垒，新进入者风险在政策层面有所上升。</p>
+    </div>
+    <div class="dim-card">
+      <div class="dim-header">
+        <span class="dim-name">替代品威胁</span>
+        <div class="dim-bar-wrap"><div class="dim-bar green-bar" style="width:60%"></div></div>
+        <span class="score-pill score-high">3/5</span>
+      </div>
+      <p class="dim-text">长期而言，可再生能源（绿氢、海上风电）是潜在替代品，但转型周期长达20+年，与VG现有合同期限基本重叠。中期内，管道气（俄气已萎缩）、核能（基荷）是部分替代，但跨洋供应仍高度依赖LNG。2030年后替代品威胁将显著上升。</p>
+    </div>
+    <div class="dim-card">
+      <div class="dim-header">
+        <span class="dim-name">买方议价</span>
+        <div class="dim-bar-wrap"><div class="dim-bar green-bar" style="width:40%"></div></div>
+        <span class="score-pill score-mid">2/5</span>
+      </div>
+      <p class="dim-text">大型能源公司（Shell、BP、Edison）拥有强大的法务和议价能力，当前仲裁即为例证。欧洲买家作为集体具有相当谈判力，且在俄乌冲突后迫切需求曾使VG占据上风，但随着供应来源多元化，买方议价能力将逐步回升。</p>
+    </div>
+    <div class="dim-card">
+      <div class="dim-header">
+        <span class="dim-name">供应商议价</span>
+        <div class="dim-bar-wrap"><div class="dim-bar green-bar" style="width:80%"></div></div>
+        <span class="score-pill score-high">4/5</span>
+      </div>
+      <p class="dim-text">美国天然气（主要来自Permian/Haynesville）供应极为充裕，供应商议价能力弱。Henry Hub气价通常维持$2-4/MMBtu，VG采购成本稳定且低廉。管道接入通过自有CP Express管道保障，对第三方依赖度低。这是行业最有利的一个维度。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Panel 4: Management -->
+<div id="p4" class="panel">
+  <div class="card" style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+    <div style="text-align:center">
+      <div class="mgmt-badge mgmt-c">C</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:6px">管理层评级</div>
+    </div>
+    <div style="flex:1;min-width:200px">
+      <h3 style="margin-bottom:8px">整体评价：执行力强，诚信存疑</h3>
+      <p style="font-size:14px;color:var(--text-muted)">管理层在工程执行和融资能力上展现出世界级水平——7年内完成5个FID，执行$950亿资本市场交易，这在基础设施领域极为罕见。但合同争议揭示出一种"最大化短期收益、将合同义务视为可谈判选项"的商业文化，引发市场对其诚信和长期合作关系可持续性的深度质疑。</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">资本配置能力</div>
+      <p><strong style="color:var(--green)">优点：</strong>融资能力卓越，CP2 Phase 1+2总融资$430亿，吸引全球顶级银行超额认购。保持100%股权不稀释（CP2无外部股权投资），表明对未来现金流高度自信。全年EBITDA指引从$47亿上调至$68-74亿，体现良好的利润率管理。</p>
+      <hr class="divider">
+      <p><strong style="color:var(--red)">隐患：</strong>D/E比率5.18x，长期债务$340亿，利息覆盖率仅1.72x，安全垫极薄。自由现金流持续为负（季度资本支出$36亿+），若LNG价格回落或产能爬坡延迟，偿债压力将骤然上升。</p>
+    </div>
+    <div class="card">
+      <div class="card-title">诚信与透明度</div>
+      <p><strong style="color:var(--red)">重大红旗：</strong>Calcasieu Pass自2022年起持续"commissioning阶段"直至今日，这一策略性延迟使公司规避了向Shell、BP等的长期合同义务，同期在现货市场销售400+船次货物获取超额利润。BP仲裁庭认定公司"未按合理审慎的经营者行事"，构成违约。Shell更指控公司在仲裁中隐瞒关键证据，提出欺诈指控（VG否认）。</p>
+      <hr class="divider">
+      <p><strong style="color:var(--green)">正面因素：</strong>财务披露详尽，8-K filing及时，审计师为普华永道，无关联交易红旗。Edison和Unipec的私下和解显示公司愿意通过商业谈判解决争议。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">关键事件时间线</div>
+    <div class="timeline">
+      <div class="tl-item green">
+        <div class="tl-date">2022年1月</div>
+        <div class="tl-text">Calcasieu Pass开始产出LNG，以"commissioning cargo"名义销售，SPA合同未激活</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2025年1月</div>
+        <div class="tl-text">IPO定价$24，融资约$17亿，市值峰值$580亿，为LNG行业史上最大IPO</div>
+      </div>
+      <div class="tl-item green">
+        <div class="tl-date">2025年8月</div>
+        <div class="tl-text">ICC仲裁裁定：VG胜诉Shell，commissioning策略在合同框架内合法</div>
+      </div>
+      <div class="tl-item red">
+        <div class="tl-date">2025年10月</div>
+        <div class="tl-text">ICC仲裁裁定：VG败诉BP，被判赔偿$10亿+，股价单日暴跌20%</div>
+      </div>
+      <div class="tl-item red">
+        <div class="tl-date">2025年11月</div>
+        <div class="tl-text">Shell向纽约最高法院提起欺诈指控，VG股价再跌13%，触及历史低点$6.56</div>
+      </div>
+      <div class="tl-item green">
+        <div class="tl-date">2026年3月</div>
+        <div class="tl-text">与Edison达成和解；CP2 Phase 2完成FID，$86亿融资成功，JPMorgan目标价上调至$19</div>
+      </div>
+      <div class="tl-item yellow">
+        <div class="tl-date">2026年4月</div>
+        <div class="tl-text">股价跌回$11区间；5月12日将公布Q1 2026财报（EPS预期$0.12/股）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Panel 5: Risk Map -->
+<div id="p5" class="panel">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title" style="color:var(--red)">⚠️ 主要风险</div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:14px;font-weight:600">仲裁法律风险</span>
+            <span class="tag tag-red">极高</span>
+          </div>
+          <p class="dim-text">Shell、Repsol、Orlen、Galp等仲裁索赔合计超$40亿，BP最终赔偿金额待2026年单独听证确定。任何重大败诉可能触发项目融资协议中的违约条款（交叉违约条款），引发债务连锁反应。</p>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:14px;font-weight:600">债务杠杆风险</span>
+            <span class="tag tag-red">极高</span>
+          </div>
+          <p class="dim-text">$340亿长期债务，利息覆盖率仅1.72x，流动比率<1.0。若LNG现货价格回落（2023年欧洲TTF价格已从峰值跌去80%），或CP2建设延期，再融资风险将骤然上升。</p>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:14px;font-weight:600">LNG供应过剩</span>
+            <span class="tag tag-yellow">中高</span>
+          </div>
+          <p class="dim-text">2026-2030年全球LNG产能将大规模投放（卡塔尔+美国多个项目），可能形成供应过剩，压低现货价格和长期合同费率，对公司业绩及债务可持续性不利。</p>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:14px;font-weight:600">双重股权结构</span>
+            <span class="tag tag-yellow">中</span>
+          </div>
+          <p class="dim-text">创始人/管理层持有高投票权股份，普通股东对公司治理影响极小。这在当前管理层诚信受质疑的背景下，是额外的股东保护缺失风险。</p>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:14px;font-weight:600">ESG与监管压力</span>
+            <span class="tag tag-yellow">中</span>
+          </div>
+          <p class="dim-text">德州AG对公司"永久化学品"（PFAS）的调查（2026年4月）、欧盟甲烷强度新标准、气候政策风险，均可能增加运营成本或限制欧洲市场准入。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--green)">✅ 主要催化剂</div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:14px;font-weight:600">仲裁风险出清</span>
+            <span class="tag tag-green">高影响</span>
+          </div>
+          <p class="dim-text">若Shell、Repsol等剩余案件实现和解（类似Edison、Unipec模式），法律乌云消散将触发股价重大重估。Goldman Sachs目标价$18.5，JPMorgan目标价$19，平均目标价$14.6，均高于当前价格。</p>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:14px;font-weight:600">Plaquemines满产</span>
+            <span class="tag tag-green">高影响</span>
+          </div>
+          <p class="dim-text">Plaquemines已实现铭牌产能140%，若顺利完成商业运营声明（COD），将激活大量长期SPA合同，产生稳定、可预测的固定费率现金流，大幅改善自由现金流面貌。</p>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:14px;font-weight:600">特朗普能源政策</span>
+            <span class="tag tag-blue">政策顺风</span>
+          </div>
+          <p class="dim-text">"让美国再次伟大"战略高度重视LNG出口，CP2快速获批即为体现。美欧能源任务组将VG设施认定为"关键基础设施"，政治护城河显著。对华、对欧贸易战背景下，美国LNG成为谈判筹码，政府有动力为VG的合同保驾护航。</p>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:14px;font-weight:600">CP2投产（2027年）</span>
+            <span class="tag tag-blue">长期催化</span>
+          </div>
+          <p class="dim-text">CP2满产后VG将成为美国最大LNG出口商，届时规模效应将使EBITDA倍增，若债务得到有效管理，有望实现正向自由现金流转型，触发估值体系切换（从建设期折价到现金流溢价）。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IPO price drop visual -->
+  <div class="card">
+    <div class="card-title">股价表现：IPO至今</div>
+    <div class="price-callout">
+      <div class="price-num">
+        <div class="val" style="color:var(--text)">$24.00</div>
+        <div class="lbl">2025年1月IPO价</div>
+      </div>
+      <div class="price-arrow">→</div>
+      <div class="price-num">
+        <div class="val" style="color:var(--red)">$6.56</div>
+        <div class="lbl">历史低点（2025年11月）</div>
+      </div>
+      <div class="price-arrow">→</div>
+      <div class="price-num">
+        <div class="val" style="color:var(--yellow)">~$11.5</div>
+        <div class="lbl">当前价格（2026年4月）</div>
+      </div>
+      <div style="margin-left:auto;text-align:center">
+        <div class="drop-pct">-52%</div>
+        <div style="font-size:12px;color:var(--text-muted)">vs IPO价格</div>
+      </div>
+    </div>
+    <hr class="divider">
+    <p style="font-size:13px;color:var(--text-muted)">52周区间：$5.72 - $19.50 ｜ 分析师平均目标价：$14.63（+27%上行空间） ｜ 5月12日下一份财报</p>
+  </div>
+</div>
+
+<!-- Panel 6: Conclusion -->
+<div id="p6" class="panel">
+  <div class="card" style="text-align:center;padding:32px">
+    <div class="card-title" style="justify-content:center">商业质量总评</div>
+    <div class="star-row" style="font-size:36px;margin:12px 0">
+      <span class="star-on">★★★</span><span class="star-off">★★</span>
+    </div>
+    <div style="font-size:15px;color:var(--text-muted)">3 / 5 星 — <strong style="color:var(--yellow)">高风险成长期困境股</strong></div>
+  </div>
+
+  <div class="conclusion-card">
+    <p><strong style="color:var(--accent)">核心投资逻辑（多头）：</strong>Venture Global是一个真实的颠覆者——它用模块化工厂预制技术将LNG液化终端的建设成本降低20-30%、速度提升40%，这在一个百亿美元起步的行业里是货真价实的竞争优势。当Plaquemines和CP2满产时，公司将成为美国最大LNG出口商，坐拥全球能源安全战略的核心位置。特朗普政府的LNG政策顺风、欧洲对俄依赖的结构性替代、亚洲电气化带来的长期需求增长，构成20年以上的宏观叙事支撑。当前股价较IPO已腰斩，若仲裁风险出清，重估空间巨大。</p>
+    <p><strong style="color:var(--red)">核心风险（空头）：</strong>但VG也是一家在商业道德上留下了明显污点的公司。"commissioning策略"的本质——在高价现货市场卖货、同时以技术原因拒绝激活长期合同——是对合同对手方的系统性套利行为，BP仲裁庭的措辞（"未按合理审慎的经营者行事"）已将这一点明确化。$340亿长期债务+利息覆盖率1.72x+自由现金流为负的组合，在任何负面冲击下都极为脆弱。双重股权结构意味着中小股东无法通过治理机制保护自己。</p>
+    <p><strong style="color:var(--yellow)">估值判断：</strong>以当前~$11.5计算，P/E约14x，EV/EBITDA约5-6x，相对于同业Cheniere（约15x EV/EBITDA）有折价。这个折价是对法律风险的合理定价，并非简单的"低估"。分析师平均目标价$14.6意味着~27%上行空间，但个股分化极大（$7.5-$22），反映市场对法律结果高度不确定。</p>
+    <p><strong style="color:var(--text)">适合什么投资者：</strong>VG是一个<strong style="color:var(--yellow)">高风险、高波动、高潜在回报</strong>的机会型仓位，不适合作为组合的核心持仓。适合有能力持续跟踪仲裁进展、承受50%以上短期波动的投资者，可作为能源板块中的"困境复苏"主题小仓位。不建议长持不看。</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">观察清单（下一步）</div>
+      <div class="tag-list">
+        <span class="tag tag-red">Shell仲裁最终裁决</span>
+        <span class="tag tag-red">BP赔偿金额确定</span>
+        <span class="tag tag-yellow">Plaquemines COD宣布</span>
+        <span class="tag tag-yellow">5月12日Q1财报</span>
+        <span class="tag tag-blue">LNG现货价格走势</span>
+        <span class="tag tag-blue">CP2建设进度更新</span>
+        <span class="tag tag-green">更多仲裁和解公告</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">关键财务指标阈值</div>
+      <p style="font-size:13px;line-height:1.9">
+        ✅ <strong>正向信号：</strong>利息覆盖率 &gt; 2.5x ｜ 自由现金流转正 ｜ 仲裁和解推进<br>
+        ⚠️ <strong>中性观望：</strong>维持当前D/E ｜ EBITDA $60亿+稳定<br>
+        ❌ <strong>负向信号：</strong>仲裁连续败诉 ｜ 触发违约条款 ｜ LNG价格跌破$4/MMBtu ｜ CP2延期超18个月
+      </p>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(59,130,246,0.3)">
+    <div class="card-title">免责声明</div>
+    <p style="font-size:12px;color:var(--text-muted)">本报告为基于公开信息的商业模式分析，仅供参考，不构成投资建议。所有投资决策应结合个人风险承受能力、投资目标及完整尽调。</p>
+  </div>
+</div>
+
+<footer>Venture Global (NYSE: VG) 商业分析报告 · 2026年4月24日 · 数据来源：公司SEC文件、Bloomberg、Reuters</footer>
+
+<script>
+function showPanel(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  // init charts lazily
+  if (id === 'p2' && !window.moatDone) initMoat();
+  if (id === 'p3' && !window.forceDone) initForce();
+}
+
+function initMoat() {
+  window.moatDone = true;
+  const ctx = document.getElementById('moatChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['成本优势', '无形资产', '转换成本', '网络效应', '规模效应'],
+      datasets: [{
+        label: 'Venture Global',
+        data: [3, 2, 2, 0, 2],
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59,130,246,0.15)',
+        pointBackgroundColor: '#3b82f6',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { r: { min: 0, max: 3, ticks: { stepSize: 1, color: '#8b90a8', font: { size: 10 }, backdropColor: 'transparent' }, grid: { color: '#2e3347' }, angleLines: { color: '#2e3347' }, pointLabels: { color: '#e8eaf0', font: { size: 12 } } } },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+function initForce() {
+  window.forceDone = true;
+  const ctx = document.getElementById('forceChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['现有竞争', '新进入者', '替代品', '买方议价', '供应商议价'],
+      datasets: [{
+        data: [2, 3, 3, 2, 4],
+        backgroundColor: ['rgba(239,68,68,0.7)', 'rgba(245,158,11,0.7)', 'rgba(245,158,11,0.7)', 'rgba(239,68,68,0.7)', 'rgba(16,185,129,0.7)'],
+        borderRadius: 6,
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { min: 0, max: 5, ticks: { color: '#8b90a8' }, grid: { color: '#2e3347' } },
+        x: { ticks: { color: '#e8eaf0', font: { size: 11 } }, grid: { display: false } }
+      },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.raw}/5分` } } }
+    }
+  });
+}
+
+// init moat chart on load since p2 may be opened
+window.moatDone = false;
+window.forceDone = false;
+</script>
+</body>
+</html>

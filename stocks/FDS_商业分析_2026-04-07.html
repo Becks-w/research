@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FactSet Research Systems (FDS) 商业分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1117;--card:#1a1d27;--border:#2a2d3e;
+    --text:#e8eaf0;--muted:#8b8fa8;--accent:#6366f1;
+    --green:#10b981;--yellow:#f59e0b;--red:#ef4444;--blue:#3b82f6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'PingFang SC','Microsoft YaHei',system-ui,sans-serif;min-height:100vh}
+  .hero{background:linear-gradient(135deg,#1e1b4b 0%,#312e81 50%,#1e1b4b 100%);padding:48px 32px 40px;text-align:center;border-bottom:1px solid var(--border)}
+  .hero-ticker{font-size:13px;letter-spacing:3px;color:#a5b4fc;font-weight:600;text-transform:uppercase;margin-bottom:8px}
+  .hero-name{font-size:32px;font-weight:700;color:#fff;margin-bottom:6px}
+  .hero-exchange{font-size:13px;color:#818cf8;margin-bottom:20px}
+  .hero-liner{font-size:14px;color:#c7d2fe;max-width:680px;margin:0 auto 24px;line-height:1.7}
+  .hero-date{font-size:12px;color:#6b7280}
+  .tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--card);padding:0 24px;overflow-x:auto}
+  .tab{padding:14px 20px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:.2s}
+  .tab.active{color:#fff;border-bottom-color:var(--accent)}
+  .tab:hover:not(.active){color:var(--text)}
+  .panel{display:none;padding:28px 24px;max-width:900px;margin:0 auto}
+  .panel.active{display:block}
+  .section{margin-bottom:28px}
+  .section-title{font-size:11px;letter-spacing:2px;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .info-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px}
+  .info-label{font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:500}
+  .info-value{font-size:13px;color:var(--text);line-height:1.6}
+  .badge{display:inline-block;padding:3px 12px;border-radius:99px;font-size:12px;font-weight:600}
+  .badge-moat{background:#d9770622;color:#d97706;border:1px solid #d9770644}
+  .badge-mgmt{background:#2563eb22;color:#2563eb;border:1px solid #2563eb44}
+  .dim-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+  .dim-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .dim-name{font-size:13px;font-weight:600;color:var(--text);min-width:80px}
+  .dim-bar-wrap{flex:1;height:6px;background:#2a2d3e;border-radius:3px;overflow:hidden}
+  .dim-bar{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),#818cf8);transition:.4s}
+  .dim-text{font-size:12px;color:var(--muted);line-height:1.65}
+  .chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
+  .chart-wrap canvas{max-height:260px}
+  .summary-box{background:linear-gradient(135deg,#1e1b4b22,#312e8122);border:1px solid #6366f144;border-radius:12px;padding:20px 24px}
+  .stars{font-size:22px;color:#f59e0b;letter-spacing:2px;margin-bottom:8px}
+  .conclusion-text{font-size:13px;color:var(--text);line-height:1.75;white-space:pre-line}
+  .next-box{background:#10b98111;border:1px solid #10b98133;border-radius:10px;padding:14px 18px;margin-top:16px}
+  .next-label{font-size:11px;color:#10b981;font-weight:700;letter-spacing:1px;margin-bottom:6px}
+  .next-text{font-size:12px;color:#6ee7b7;line-height:1.65}
+  .kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+  .kpi-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+  .kpi-val{font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px}
+  .kpi-label{font-size:11px;color:var(--muted)}
+  .highlight-box{background:#10b98111;border-left:3px solid #10b981;padding:10px 14px;border-radius:0 8px 8px 0;margin-bottom:8px;font-size:12px;color:#6ee7b7;line-height:1.6}
+  .risk-box{background:#ef444411;border-left:3px solid #ef4444;padding:10px 14px;border-radius:0 8px 8px 0;margin-bottom:8px;font-size:12px;color:#fca5a5;line-height:1.6}
+  @media(max-width:600px){.info-grid,.kpi-grid{grid-template-columns:1fr}.tabs{padding:0 12px}.hero{padding:32px 16px 28px}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-ticker">NYSE · FDS</div>
+  <div class="hero-name">FactSet Research Systems</div>
+  <div class="hero-exchange">全球金融数据与分析平台 · 分析日期 2026-04-07</div>
+  <div class="hero-liner">FactSet通过订阅制平台向全球买卖双方金融机构提供集成化数据、分析工具及AI增强型工作流解决方案，收取年度订阅费（ASV模式）</div>
+  <div class="hero-date">本报告基于公开信息及Skill框架生成，仅供研究参考，不构成投资建议</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="show(0)">📊 商业模式</div>
+  <div class="tab" onclick="show(1)">🏰 护城河</div>
+  <div class="tab" onclick="show(2)">⚔️ 行业格局</div>
+  <div class="tab" onclick="show(3)">👤 管理层</div>
+  <div class="tab" onclick="show(4)">🎯 综合结论</div>
+</div>
+
+<!-- Panel 0: 商业模式 -->
+<div class="panel active" id="p0">
+  <div class="section">
+    <div class="section-title">关键财务指标</div>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-val">$23.2B</div><div class="kpi-label">FY2025 营收（亿美元）</div></div>
+      <div class="kpi-card"><div class="kpi-val">+5.4%</div><div class="kpi-label">YoY 收入增速</div></div>
+      <div class="kpi-card"><div class="kpi-val">36.3%</div><div class="kpi-label">调整后运营利润率</div></div>
+      <div class="kpi-card"><div class="kpi-val">95%</div><div class="kpi-label">客户留存率</div></div>
+      <div class="kpi-card"><div class="kpi-val">~9,000</div><div class="kpi-label">客户数（+9.5% YoY）</div></div>
+      <div class="kpi-card"><div class="kpi-val">$24.1B</div><div class="kpi-label">有机ASV（年订阅价值）</div></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">核心产品 · 客户 · 地理</div>
+    <div class="info-grid">
+      <div class="info-card"><div class="info-label">商业模式类型</div><div class="info-value"><span class="badge" style="background:#6366f122;color:#a5b4fc;border:1px solid #6366f144">订阅制 + 数据即服务（DaaS）</span></div></div>
+      <div class="info-card"><div class="info-label">收入地理分布</div><div class="info-value">美洲占ASV约65.3%（15.7亿美元）；EMEA约占28%；亚太约占6.7%，但Q4 FY2025亚太增速高达7.4%，是增长最快的区域。美国单市场贡献全年收入约14.2亿美元，是绝对核心引擎。地理集中度是潜在风险，但亚太及新兴市场是长期扩张方向。</div></div>
+      <div class="info-card" style="grid-column:1/-1"><div class="info-label">核心产品与服务</div><div class="info-value">FactSet核心产品线涵盖：① Workstation——面向投资经理、研究分析师的一体化分析终端，是主力收入来源；② 数据馈送与API——向机构客户提供结构化财务数据、历史数据包及API接口；③ CUSIP全球服务——全球证券标准识别码，2021年以19.25亿美元收购自S&P，具有准垄断地位；④ 私募市场数据（Cobalt）——覆盖私募股权、风险投资、基础设施等另类资产；⑤ Vermilion报告自动化——投资组合报告生成工具；⑥ LiquidityBook（2025年2月新收购，2.465亿美元）——云端交易管理系统。FY2025新推出六项AI增强解决方案，包括面向投行的GenAI版pitchbook创建工具。</div></div>
+      <div class="info-card"><div class="info-label">客户群体</div><div class="info-value">B2B为主，客户群精准聚焦金融专业人士：买方（82% ASV）包括机构资产管理人、财富管理公司、资产所有者、对冲基金及企业客户；卖方（18% ASV）包括经纪商/交易商、投行、咨询机构及私募/VC。FY2025客户总数增长9.5%至约9,000家，用户数增长9.7%（新增约2.1万用户），客户留存率约95%，显示极强的粘性。</div></div>
+      <div class="info-card"><div class="info-label">收入结构与增速</div><div class="info-value">FY2025总收入23.22亿美元（+5.39% YoY），有机收入增长4.4%。年度订阅价值（ASV）为24.06亿美元，有机ASV增长5.7%。收入几乎100%来自订阅，非常稳定可预测。FY2026指引：有机ASV增长4%~6%，GAAP收入区间24.23亿~24.48亿美元。过去三年收入增速：FY2023 +13.1%（并购CUSIP大幅推升），FY2024 +5.64%，FY2025 +5.39%，增速有所放缓但仍然稳健。</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Panel 1: 护城河 -->
+<div class="panel" id="p1">
+  <div class="section">
+    <div class="section-title">护城河综合评级</div>
+    <div style="margin-bottom:16px">
+      <span class="badge badge-moat" style="font-size:14px;padding:5px 16px">窄护城河</span>
+    </div>
+    <div class="chart-wrap">
+      <canvas id="moatChart"></canvas>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">五维护城河详析</div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">成本优势较弱。FactSet在数据采集、清洗和分发上需要持续大量投入，资本开支与自由现金流之比约为2.4倍（远高于MSCI的5.7倍差距方向反转），运营模式偏重资本密集。与Bloomberg的规模相比，FactSet不具备显著成本领先优势。唯一的局部成本优势来自CUSIP业务的准垄断性质：作为全球证券唯一标识符的独家提供商，其边际成本极低，定价权较强。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">无形资产是核心护城河之一。① CUSIP标准：作为美国ISIN的官方编号机构和全球证券识别码的独家提供商，其监管地位构建了难以复制的壁垒；② 40年数据积累：历史数据库深度是竞争对手短期内无法复制的资产，客户的历史模型和回测依赖于FactSet的历史数据序列；③ 品牌信誉：在金融数据领域，品牌代表数据质量的可信度，FactSet在中大型买方机构中有较高认可度；④ AI Blueprint战略：FY2025年推出的六项AI增强解决方案，正在将平台深度嵌入客户的核心工作流，未来有望演化为更强的无形资产护城河。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">转换成本是FDS最重要的护城河维度。95%的客户留存率印证了这一点。具体机制：① 历史数据依赖——分析师和投资组合经理的模型、回测均建立在FactSet数据格式和历史序列上，切换意味着数据迁移和历史重建成本极高；② 工作流嵌入——Workstation深度集成进客户日常工作，换平台意味着员工重新培训；③ 合同结构——多年期订阅合同有效锁定客户，短期内难以退出；④ 内部数据绑定——FactSet允许客户将私有数据接入平台，增加了系统粘性。但注意：相较于Bloomberg的IB消息功能（社交网络效应），FactSet的转换成本护城河不够深，高端客户仍可能流向Bloomberg或LSEG。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">网络效应较弱，是FactSet护城河的主要短板。不同于Bloomberg Terminal内置的Bloomberg Messaging（IB），在金融行业形成了真正的双边通讯网络效应，FactSet的产品本质上是B2B数据服务，缺乏用户间相互依赖的使用场景。平台上的数据本身不会因用户增加而产生网络效应。唯一的轻量级网络效应体现在：客户使用FactSet作为数据标准（尤其是CUSIP），机构间的互联需求间接加强了FactSet的市场地位，但这更接近于无形资产护城河，而非真正的网络效应。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">规模效应中等偏强。FactSet的订阅模式具备较高固定成本占比（数据采集、平台维护、研发），而边际成本相对较低。随着规模扩大，调整后运营利润率已达36%以上，证明了规模经济的存在。然而，数据来源高度依赖第三方供应商（如Barra、道琼斯、Russell等），且合同通常为一年期可终止，限制了规模效应的发挥。CUSIP业务的规模效应最为显著，一旦成为标准后维护成本极低但收入持续增长。与MSCI（调整后运营利润率超54%）相比，FactSet的规模效应变现程度仍有差距。</p>
+  </div>
+  </div>
+  <div class="section">
+    <div class="section-title">护城河小结</div>
+    <div class="highlight-box">💪 核心优势：核心优势：① 95%客户留存率支撑的高转换成本；② CUSIP准垄断地位构建的监管壁垒；③ 40年历史数据积累形成的无形资产</div>
+    <div class="risk-box">⚠️ 主要弱点：主要弱点：① 缺乏Bloomberg式的网络效应；② 数据来源高度依赖可随时终止的第三方供应商；③ 面对Bloomberg/LSEG/SPGI等规模更大竞争对手时，成本优势不显著</div>
+  </div>
+</div>
+
+<!-- Panel 2: 行业格局 -->
+<div class="panel" id="p2">
+  <div class="section">
+    <div class="section-title">波特五力评分（5=对公司最有利）</div>
+    <div class="chart-wrap">
+      <canvas id="forceChart"></canvas>
+    </div>
+    <div style="text-align:center;margin-top:12px">
+      <span style="font-size:13px;color:var(--muted)">五力总分：</span>
+      <span style="font-size:18px;font-weight:700;color:#ef4444">13/25</span>
+      <span style="font-size:12px;color:var(--muted);margin-left:8px">（普通行业）</span>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">五力维度详析</div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">现有竞争强度</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:40%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/5</span>
+    </div>
+    <p class="dim-text">现有竞争极为激烈。行业由Bloomberg L.P.（私有公司，市场主导者）、LSEG/Refinitiv（2021年LSEG以270亿美元收购后规模大幅扩张）、S&P Global Market Intelligence、MSCI和FactSet构成寡头格局。Bloomberg在高端IB和对冲基金市场近乎垄断，终端费用约2.4万美元/年；FactSet定位中端，价格更灵活；MSCI在指数业务有独特护城河。各家都在加码AI，竞争将进一步加剧。评分：2/5（对FactSet不利）。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">新进入者威胁</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:80%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">4/5</span>
+    </div>
+    <p class="dim-text">新进入者威胁较低。进入壁垒极高：① 需要数十年的历史数据积累，无法快速复制；② 与数千家数据供应商建立合同关系需要大量时间和资本；③ 金融机构对数据质量和合规性要求极严，信任建立周期漫长；④ CUSIP等监管标准准入门槛为行政壁垒。主要威胁来自有志于金融数据的科技巨头（如微软通过Azure整合）或大型数据公司的产品延伸，但短期内直接冲击有限。评分：4/5（对FactSet有利）。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">替代品威胁</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:40%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/5</span>
+    </div>
+    <p class="dim-text">替代品威胁是当前最值得关注的风险，且在AI时代显著上升。替代路径：① 大型语言模型（LLM）可能让分析师直接从公开数据中提取洞察，部分替代订阅数据；② 开源财务数据（SEC EDGAR、Yahoo Finance API等）满足基础需求的能力在增强；③ 专注细分市场的垂直SaaS工具（如Visible Alpha、AlphaSense）在特定场景中形成竞争。FactSet的应对策略是主动将AI嵌入工作流，试图成为不可替代的数据基础设施。但这一风险是真实存在的，尤其对卖方研究工具的冲击可能更快到来。评分：2/5（对FactSet不利）。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">买方议价能力</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:40%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/5</span>
+    </div>
+    <p class="dim-text">买方议价能力较强。大型机构客户（对冲基金、资产管理公司）每年在数据上花费数百万美元，有强烈动力压价或多平台对比采购；市场上存在多个可替代供应商，价格透明度提升（尤其在Bloomberg替代市场）；金融机构在成本削减压力下常将数据支出列为谈判重点。但FactSet凭借高转换成本和深度工作流整合，在续约谈判中有一定定价权，尤其对中小型客户。评分：2/5（对FactSet略不利）。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">供应商议价能力</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:60%;background:linear-gradient(90deg,#059669,#34d399)"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">3/5</span>
+    </div>
+    <p class="dim-text">供应商议价能力中等。FactSet从Barra、道琼斯、Russell、Lipper等数百家第三方内容提供商处采购数据，合同通常为一年期且可以一年通知终止，理论上供应商具备一定议价权。但FactSet的对冲策略是「每类数据至少维持两家供应商关系」，降低了单一供应商依赖。部分关键数据（如指数数据、评级数据）供应商议价能力更强。CUSIP收购后，FactSet对这一关键标准实现了内部掌控，减少了外部依赖。评分：3/5（中性）。</p>
+  </div>
+  </div>
+  <div class="section">
+    <div class="section-title">行业生命周期 · 竞争地位</div>
+    <div class="info-grid">
+      <div class="info-card"><div class="info-label">行业生命周期</div><div class="info-value"><span class="badge" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44">成熟期</span></div></div>
+      <div class="info-card"><div class="info-label">竞争地位与排名</div><div class="info-value">行业第4名（按收入规模），市占率约5~8%（买方数据分析市场），市占率趋势：稳定</div></div>
+      <div class="info-card" style="grid-column:1/-1"><div class="info-label">行业综合评价</div><div class="info-value">金融数据行业具备良好的结构性特征：高进入壁垒、稳定的客户留存、经常性收入模式，是典型的「好生意」。但AI浪潮正在重塑竞争逻辑，传统数据订阅的价值锚面临重估。FactSet相较于Bloomberg和LSEG体量更小、但更灵活，其云原生、API优先的架构在AI集成方面具备一定优势。最大的战略挑战是：如何在AI时代从「数据供应商」升级为「不可替代的智能工作流平台」。Barclays与FactSet在2026年1月签署的多年期合作协议，是其赢得顶级银行客户的正面信号。</div></div>
+      <div class="info-card" style="grid-column:1/-1"><div class="info-label">生命周期特征</div><div class="info-value">金融数据与分析行业已进入成熟阶段，核心特征是：① 主要竞争格局已定型（Bloomberg、LSEG、SPGI、MSCI、FactSet五强格局），② 增长主要来自扩展客户钱包份额（wallet share）和开发新产品线，而非行业整体高增长；③ AI正在成为新的差异化因子，可能触发一轮再评估周期——这既是机会（开发新AI产品）也是威胁（AI可能商品化部分数据服务）。行业目前的核心矛盾：AI浪潮下，传统数据订阅的价值是否会被大模型侵蚀？FactSet等企业正积极转型为AI工作流平台来应对这一挑战。</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Panel 3: 管理层 -->
+<div class="panel" id="p3">
+  <div class="section">
+    <div class="section-title">管理层综合评级</div>
+    <span class="badge badge-mgmt" style="font-size:18px;padding:6px 20px">B 级</span>
+  </div>
+  <div class="section">
+    <div class="section-title">四维评估</div>
+    <div class="info-grid">
+      <div class="info-card" style="grid-column:1/-1"><div class="info-label">资本配置能力</div><div class="info-value">资本配置历史总体理性。过去10年，管理层通过Phil Snow领导：① 收入翻倍，EPS年化双位数增长；② 2021年以19.25亿美元收购CUSIP——是FactSet历史上最大的收购，溢价较高但获得了准垄断性资产，长期看属于理性决策；③ 2025年2月收购LiquidityBook（2.465亿美元）进军交易管理系统，战略方向合理；④ FY2025向股东返还4.604亿美元（回购+分红）；⑤ 宣布10亿美元股票回购计划（在股价大幅下跌后，信号意义强烈）。ROIC约16%~18%，显著高于WACC（约5.88%），说明资本配置创造价值。主要瑕疵：CUSIP收购后债务增加（D/E约0.72），AI投资导致FY2025调整后运营利润率下滑150bps，短期承压。</div></div>
+      <div class="info-card" style="grid-column:1/-1"><div class="info-label">诚信与透明度</div><div class="info-value">诚信与透明度良好，无明显红旗。FY2024 Investor Day披露中期目标明确，FY2025年实际结果与指引基本吻合（GAAP收入23.22亿美元 vs 指引22.85~23.05亿，略超上限）。审计师为普华永道（Big 4），无保留意见记录。CEO接班计划于2025年6月提前公告，给予市场充分预期时间，管理层交接过渡安排（Phil Snow担任顾问至年底）体现了对股东利益的重视。连续26年增加股息，体现了管理层对持续盈利能力的高度自信。未发现关联交易异常或重大披露问题。</div></div>
+      <div class="info-card" style="grid-column:1/-1"><div class="info-label">战略执行力</div><div class="info-value">战略执行力较强，但新CEO交接是短期不确定性来源。Phil Snow任期内（2015-2025）：收入从12.9亿美元增至23.22亿美元，执行力得到验证。CUSIP整合顺利，LiquidityBook的云端交易平台扩展了产品版图。新CEO Sanoke Viswanathan（前JPMorgan全球财富管理负责人、麦肯锡合伙人）于2025年9月正式上任，背景聚焦AI、财富管理和资本市场——契合FactSet的转型方向。管理层薪酬含大量长期股权激励（与股价表现挂钩），利益绑定合理。主要执行风险：AI投资周期和回报时间不确定，有机增长略有放缓（FY2025有机增长4.4%）。</div></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">管理层亮点与风险点</div>
+    <div class="highlight-box">✅ ① 连续26年提升股息，股东回报高度稳定；② CEO交接透明有序，Phil Snow留任顾问，新CEO背景与战略高度吻合</div>
+    <div class="risk-box">🔴 ① 新CEO上任不足1年，战略执行力尚待验证；② AI投资阶段导致利润率短期承压，投资回报期不确定</div>
+  </div>
+</div>
+
+<!-- Panel 4: 综合结论 -->
+<div class="panel" id="p4">
+  <div class="section">
+    <div class="section-title">商业质量评级</div>
+    <div class="summary-box">
+      <div class="stars">★★★☆☆</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:14px">3/5 星 · 商业质量评级</div>
+      <div class="conclusion-text">FactSet是一家被AI恐慌情绪严重错杀的高质量金融数据公司。当前股价约200美元区间，Forward P/E仅约11.5倍，EV/EBITDA约9.6倍，相较MSCI（26x EV/EBITDA）和SPGI（21x EV/EBITDA）有巨大折价，而FDS的商业质量并不比这两家差多少——95%客户留存率、~36%调整后运营利润率、18%+ ROIC均属一流。
+
+核心投资逻辑：市场正在为「AI会摧毁FactSet」定价，但忽视了两个关键点：第一，CUSIP作为全球证券标准识别码具有准垄断地位，是AI无法替代的监管基础设施；第二，FactSet正在主动拥抱AI，将平台从数据终端升级为AI工作流基础设施——Barclays多年期合同（2026年1月）和顶级银行客件的迁移案例（displacing incumbent at top 10 global bank）印证了这一战略的可行性。
+
+主要风险：① AI真正商品化数据服务的速度可能快于预期，尤其对卖方研究部门；② 有机增长从13%（FY2023）降至5%（FY2025）的趋势需要密切跟踪，FY2026有机ASV指引4%~6%是关键验证窗口；③ 新CEO Viswanathan的战略执行力尚未经过市场验证，CEO交接期通常伴随短期波动；④ 9%的空头比例显示市场存在相当的悲观预期，若AI投资未能如期提升增长，股价可能进一步承压。
+
+适合投资者类型：具备18~36个月耐心的价值导向投资者。FDS不是短期催化剂驱动的交易型机会，而是「市场为AI恐慌定价过于悲观、而基本面韧性被低估」的逆向价值机会。关键观察节点：FY2026 Q1~Q2（2026年3月/6月）的有机ASV增速是否能回升至5%以上。</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">下一步分析建议</div>
+    <div class="next-box">
+      <div class="next-label">→ 建议进入财务深度分析</div>
+      <div class="next-text">建议进入财务深度分析阶段，重点关注：① 有机ASV增速趋势（FY2026 Q2数据，2026年6月公布）；② 调整后运营利润率的拐点（目前从37.8%降至36.3%，AI投资高峰过后是否反弹）；③ 自由现金流转化率（FCF/NI，目前约27%的FCF利润率是否可持续）；④ LiquidityBook收购的整合进展；⑤ 新CEO上任后首份完整年度战略规划（预计FY2026 Investor Day）。</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">各模块评级概览</div>
+    <div class="info-grid">
+      <div class="info-card"><div class="info-label">护城河</div><div class="info-value"><span class="badge badge-moat">窄护城河</span></div></div>
+      <div class="info-card"><div class="info-label">行业五力</div><div class="info-value" style="font-size:16px;font-weight:700;color:#ef4444">13/25</div></div>
+      <div class="info-card"><div class="info-label">管理层</div><div class="info-value"><span class="badge badge-mgmt">B 级</span></div></div>
+      <div class="info-card"><div class="info-label">商业质量</div><div class="info-value" style="font-size:16px;color:#f59e0b">★★★☆☆</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(i){
+  document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active',i===j));
+  document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('active',i===j));
+  if(i===1&&!window._moat){renderMoat();}
+  if(i===2&&!window._force){renderForce();}
+}
+function renderMoat(){
+  window._moat=true;
+  const ctx=document.getElementById('moatChart').getContext('2d');
+  new Chart(ctx,{
+    type:'radar',
+    data:{
+      labels:["成本优势","无形资产","转换成本","网络效应","规模效应"],
+      datasets:[{label:'护城河评分',data:[1,2,2,1,2],backgroundColor:'rgba(99,102,241,0.2)',borderColor:'#6366f1',borderWidth:2,pointBackgroundColor:'#818cf8',pointRadius:4}]
+    },
+    options:{responsive:true,scales:{r:{min:0,max:3,ticks:{stepSize:1,color:'#6b7280',font:{size:10}},grid:{color:'#2a2d3e'},angleLines:{color:'#2a2d3e'},pointLabels:{color:'#e8eaf0',font:{size:12}}}},plugins:{legend:{labels:{color:'#8b8fa8',font:{size:12}}}}}
+  });
+}
+function renderForce(){
+  window._force=true;
+  const ctx=document.getElementById('forceChart').getContext('2d');
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:["现有竞争强度","新进入者威胁","替代品威胁","买方议价能力","供应商议价能力"],
+      datasets:[{label:'波特五力（5=最有利）',data:[2,4,2,2,3],backgroundColor:[2,4,2,2,3].map(v=>v>=4?'rgba(16,185,129,0.7)':v>=3?'rgba(245,158,11,0.7)':'rgba(239,68,68,0.7)'),borderRadius:6}]
+    },
+    options:{responsive:true,scales:{y:{min:0,max:5,ticks:{stepSize:1,color:'#6b7280'},grid:{color:'#2a2d3e'}},x:{ticks:{color:'#8b8fa8',font:{size:11}},grid:{display:false}}},plugins:{legend:{labels:{color:'#8b8fa8'}}}}
+  });
+}
+</script>
+</body>
+</html>

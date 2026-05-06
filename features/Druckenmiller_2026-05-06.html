@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Druckenmiller Dossier · 一份系统研究档案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --ink: #0a0e0c;
+    --paper: #f5f1e8;
+    --paper-2: #ede7d6;
+    --paper-3: #e3dcc6;
+    --accent: #b8331a;
+    --accent-2: #d4a017;
+    --green: #2c4a3a;
+    --rule: #1a1a1a;
+    --muted: #6b6359;
+    --grid: #c9bfa9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); }
+  body {
+    font-family: 'Noto Serif SC', 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+  .grain {
+    position: fixed; inset: 0; pointer-events: none; opacity: 0.04; z-index: 100;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+
+  /* MASTHEAD */
+  .masthead {
+    border-bottom: 3px double var(--rule);
+    padding: 40px 0 28px;
+  }
+  .masthead-top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 12px; margin-bottom: 28px;
+  }
+  .masthead-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(56px, 9vw, 112px);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    margin-bottom: 18px;
+  }
+  .masthead-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .masthead-sub {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--ink);
+    max-width: 920px;
+    line-height: 1.45;
+    margin-bottom: 24px;
+  }
+  .byline {
+    display: flex; gap: 36px; flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 18px;
+    border-top: 1px solid var(--grid);
+  }
+  .byline span strong {
+    color: var(--ink);
+    font-weight: 700;
+    margin-left: 6px;
+  }
+
+  /* TABS */
+  .tabs-nav {
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    z-index: 50;
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 2px solid var(--rule);
+    margin: 0 -48px;
+    padding: 0 48px;
+  }
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 18px 24px;
+    background: none;
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+    font-weight: 700;
+  }
+  .tab-btn .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  .tab-content.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION HEADERS */
+  .section { padding: 56px 0; border-bottom: 1px solid var(--grid); }
+  .section:last-child { border-bottom: none; }
+  .section-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent);
+    padding: 4px 10px;
+    border: 1px solid var(--accent);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin-bottom: 12px;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+  .section-lede {
+    font-size: 19px;
+    color: var(--muted);
+    max-width: 800px;
+    margin-bottom: 36px;
+    line-height: 1.55;
+    font-weight: 400;
+  }
+
+  /* PROSE */
+  .prose { max-width: 760px; }
+  .prose p {
+    margin-bottom: 18px;
+    font-size: 17px;
+    line-height: 1.75;
+  }
+  .prose p:first-of-type::first-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px;
+    font-weight: 700;
+    float: left;
+    line-height: 0.9;
+    margin: 4px 10px -2px 0;
+    color: var(--accent);
+  }
+  .prose strong { color: var(--accent); font-weight: 700; }
+  .prose h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 36px 0 12px;
+    line-height: 1.2;
+  }
+  .prose h3 em { font-style: italic; color: var(--accent); }
+  .prose blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 8px 0 8px 24px;
+    margin: 24px 0;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .prose blockquote cite {
+    display: block;
+    font-style: normal;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* RELATIONSHIP CARDS (TAB 2) */
+  .rel-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    margin-top: 36px;
+  }
+  .rel-card {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    padding: 28px;
+    position: relative;
+  }
+  .rel-card.warsh::before { background: var(--green); }
+  .rel-card.bessent::before { background: var(--accent-2); }
+  .rel-card.trump::before { background: var(--accent); }
+  .rel-card.soros::before { background: var(--ink); }
+  .rel-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 6px; height: 100%;
+  }
+  .rel-card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .rel-card-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .rel-card-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    background: var(--ink);
+    color: var(--paper);
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+  .rel-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .rel-card ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .rel-card li {
+    padding: 6px 0;
+    border-bottom: 1px dotted var(--grid);
+    font-size: 14px;
+    display: flex;
+    gap: 8px;
+  }
+  .rel-card li::before {
+    content: '→';
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* COMPARISON TABLE */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 28px 0;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+  }
+  .comp-table th {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 14px 18px;
+    text-align: left;
+    font-weight: 700;
+  }
+  .comp-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--grid);
+    font-size: 14px;
+    line-height: 1.5;
+    vertical-align: top;
+  }
+  .comp-table td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 700;
+    width: 140px;
+  }
+  .comp-table tr:last-child td { border-bottom: none; }
+
+  /* PILLARS LAYOUT (TAB 3) */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    margin: 36px 0;
+    border-top: 2px solid var(--rule);
+  }
+  .pillar {
+    padding: 24px 18px;
+    border-right: 1px solid var(--grid);
+  }
+  .pillar:last-child { border-right: none; }
+  .pillar-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 0.9;
+    margin-bottom: 10px;
+  }
+  .pillar h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .pillar p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  /* QUOTES STRIP */
+  .quotes-strip {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 48px 40px;
+    margin: 40px 0;
+  }
+  .quotes-strip h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin-bottom: 20px;
+  }
+  .quote-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+  .quote-item {
+    border-left: 2px solid var(--accent-2);
+    padding-left: 18px;
+  }
+  .quote-item p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .quote-item cite {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: #ccc8b8;
+    text-transform: uppercase;
+    font-style: normal;
+  }
+
+  /* TIMELINE (NVDA case study) */
+  .timeline {
+    margin: 32px 0;
+    border-left: 2px solid var(--rule);
+    padding-left: 24px;
+  }
+  .timeline-item {
+    margin-bottom: 22px;
+    position: relative;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -30px;
+    top: 6px;
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border: 2px solid var(--paper);
+    border-radius: 50%;
+  }
+  .timeline-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .timeline-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .timeline-desc {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  /* HOLDINGS TABLES (TAB 5) */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 2px solid var(--rule);
+    border-bottom: 2px solid var(--rule);
+    margin: 36px 0;
+  }
+  .stat {
+    padding: 22px 22px 22px 0;
+    border-right: 1px solid var(--grid);
+  }
+  .stat:last-child { border-right: none; }
+  .stat:not(:first-child) { padding-left: 22px; }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat-value .small { font-size: 20px; color: var(--muted); margin-left: 4px; }
+  .stat-delta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    margin-top: 6px;
+  }
+  .stat-delta.down { color: var(--accent); }
+
+  .quarters {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 28px;
+    border-top: 2px solid var(--rule);
+  }
+  .quarter {
+    padding: 24px 20px;
+    border-right: 1px solid var(--grid);
+    background: var(--paper);
+  }
+  .quarter:last-child { border-right: none; }
+  .quarter-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 8px;
+  }
+  .quarter-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .quarter-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .quarter-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .quarter-meta strong { color: var(--ink); font-weight: 700; }
+
+  .holdings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .holdings-table th {
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 4px 6px;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 700;
+  }
+  .holdings-table th:nth-child(2),
+  .holdings-table th:nth-child(3),
+  .holdings-table th:nth-child(4) { text-align: right; }
+  .holdings-table td {
+    padding: 8px 4px;
+    border-bottom: 1px dotted var(--grid);
+    vertical-align: top;
+    line-height: 1.3;
+  }
+  .holdings-table td:nth-child(2),
+  .holdings-table td:nth-child(3),
+  .holdings-table td:nth-child(4) {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .ticker {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .company {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 11px;
+    color: var(--muted);
+    display: block;
+    margin-top: 1px;
+  }
+  .pct-cell strong { font-weight: 700; color: var(--ink); }
+  .change-up { color: var(--green); font-weight: 700; }
+  .change-down { color: var(--accent); font-weight: 700; }
+  .change-new {
+    color: var(--paper);
+    background: var(--accent);
+    padding: 1px 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .rank-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--accent);
+    margin-right: 4px;
+    font-size: 14px;
+  }
+
+  /* CHARTS */
+  .chart-wrap {
+    background: var(--paper-2);
+    padding: 32px;
+    margin: 32px 0;
+    border: 1px solid var(--rule);
+  }
+  .chart-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .chart-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .chart-container { position: relative; height: 380px; }
+
+  /* THESIS Q-BY-Q */
+  .thesis-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+    margin: 28px 0;
+    align-items: start;
+  }
+  .thesis-quarter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 60px;
+    font-weight: 700;
+    font-style: italic;
+    line-height: 0.9;
+    color: var(--accent);
+    border-top: 3px solid var(--accent);
+    padding-top: 12px;
+  }
+  .thesis-quarter span {
+    display: block;
+    font-size: 11px;
+    font-style: normal;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+  .thesis-body p {
+    margin-bottom: 14px;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  .thesis-body strong { color: var(--accent); font-weight: 700; }
+
+  /* TAKEAWAYS */
+  .takeaways {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 56px 44px;
+    margin: 40px -44px 0;
+  }
+  .takeaways h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-weight: 600;
+    margin-bottom: 28px;
+    color: var(--paper);
+  }
+  .takeaways h2 em { color: var(--accent-2); font-style: italic; }
+  .takeaway-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 40px;
+  }
+  .takeaway {
+    border-top: 1px solid var(--accent-2);
+    padding-top: 14px;
+  }
+  .takeaway-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 28px;
+    color: var(--accent-2);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .takeaway h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .takeaway p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #ccc8b8;
+  }
+
+  /* FRAMEWORKS (TAB 4) */
+  .framework-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin: 28px 0;
+  }
+  .framework-card {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    padding: 28px;
+  }
+  .framework-card h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .framework-card .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .framework-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--paper-3);
+    border-left: 4px solid var(--accent);
+    padding: 24px 28px;
+    margin: 28px 0;
+  }
+  .callout-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .callout p {
+    font-size: 16px;
+    line-height: 1.65;
+    margin-bottom: 8px;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout strong { color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    padding: 48px 0 32px;
+    text-align: center;
+    border-top: 2px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  @media (max-width: 900px) {
+    .container { padding: 0 24px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .stats-bar .stat:nth-child(2) { border-right: none; }
+    .quarters { grid-template-columns: 1fr; }
+    .quarter { border-right: none; border-bottom: 1px solid var(--grid); }
+    .rel-grid { grid-template-columns: 1fr; }
+    .pillars { grid-template-columns: 1fr; border-top: none; }
+    .pillar { border-right: none; border-bottom: 1px solid var(--grid); }
+    .thesis-grid { grid-template-columns: 1fr; gap: 14px; }
+    .takeaway-grid { grid-template-columns: 1fr; }
+    .takeaways { margin: 40px -24px 0; padding: 40px 24px; }
+    .framework-grid { grid-template-columns: 1fr; }
+    .quote-grid { grid-template-columns: 1fr; }
+    .tabs-nav { margin: 0 -24px; padding: 0 24px; }
+    .tab-btn { padding: 14px 14px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<div class="container">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-top">
+      <span>The Druckenmiller Dossier · Edition 2026.05</span>
+      <span>Prepared for · Becks · Singapore</span>
+    </div>
+    <h1 class="masthead-title">The <em>Druckenmiller</em><br>Dossier</h1>
+    <p class="masthead-sub">一位 30 年从未亏损的宏观传奇，他的政治网络、投资思想、复盘方法、与最近三个季度的真实交易档案。</p>
+    <div class="byline">
+      <span>累计回报 <strong>30%/年 · 30 年</strong></span>
+      <span>当前规模 <strong>$4.49B Family Office</strong></span>
+      <span>2025 全年 <strong>+23.75%</strong></span>
+      <span>2024 全年 <strong>+41.35%</strong></span>
+    </div>
+  </header>
+
+  <!-- TABS NAV -->
+  <nav class="tabs-nav">
+    <button class="tab-btn active" data-tab="bg"><span class="num">I.</span>背景与思想脉络</button>
+    <button class="tab-btn" data-tab="pol"><span class="num">II.</span>政治圈层网络</button>
+    <button class="tab-btn" data-tab="thesis"><span class="num">III.</span>投资理念与方法</button>
+    <button class="tab-btn" data-tab="review"><span class="num">IV.</span>复盘心得 · 半导体案例</button>
+    <button class="tab-btn" data-tab="hold"><span class="num">V.</span>三季度持仓档案</button>
+    <button class="tab-btn" data-tab="apply"><span class="num">VI.</span>对你的启示</button>
+  </nav>
+
+  <!-- ========== TAB 1: BACKGROUND ========== -->
+  <div class="tab-content active" id="bg">
+    <section class="section">
+      <span class="section-tag">Chapter I · 背景与思想脉络</span>
+      <h2 class="section-title">谁是 <em>Stanley Druckenmiller</em></h2>
+      <p class="section-lede">理解他的现在，需要先理解他怎么走到这里——从匹兹堡国家银行的石油分析师，到 Soros 的左膀右臂，再到 30 年没亏过年的传奇。</p>
+
+      <div class="prose">
+        <p>Stanley Druckenmiller 1953 年生于匹兹堡。他在密歇根大学读经济学博士读到一半决定退学，进入 Pittsburgh National Bank 做石油分析师。一年后他被任命为该行的股票研究主管——这是他职业生涯的第一个重大跳跃。</p>
+
+        <p><strong>1981 年</strong>，年仅 28 岁的他用 $90 万美金创立了 Duquesne Capital Management。前几年极其艰难，他的开支远超收入。但他坚持下来了——这家基金最终在 30 年里实现了年化 30% 的回报，<strong>没有一年是亏损的</strong>。</p>
+
+        <p>真正让他蜕变成"宏观传奇"的是与 George Soros 的合作。1988 年 Soros 邀请他加入 Quantum Fund 担任首席投资官。1992 年，他和 Soros 联手做空英镑、迫使英国退出欧洲汇率机制——单笔交易盈利超过 10 亿美元。这是他个人发现的交易机会，<strong>Soros 提供的是把仓位放大到匹配确信度的胆量</strong>。</p>
+
+        <h3>从 Quantum 回到 Duquesne</h3>
+        <p>2000 年互联网泡沫破裂前，Druckenmiller 在 Quantum 损失惨重，他选择离开 Soros，回到自己的 Duquesne 全力管理。又是 10 年的高水准回报。</p>
+
+        <p><strong>2010 年</strong>，他主动关闭 Duquesne 的对外资金管理业务——理由是"管理外部资金的压力开始影响我的判断"。从此 Duquesne 转型为家族办公室，专门管理他自己的财富。这个家族办公室就是我们今天通过 13F 文件能跟踪到的 Duquesne Family Office。</p>
+
+        <h3>三段重要的思想<em>师承</em></h3>
+      </div>
+
+      <div class="rel-grid" style="margin-top: 24px;">
+        <div class="rel-card soros">
+          <div class="rel-card-tag">导师 · Mentor</div>
+          <h3 class="rel-card-name">George Soros</h3>
+          <div class="rel-card-role">Quantum Fund · 1988–2000</div>
+          <p>给了他两件改变一生的东西：<strong>反身性的市场观</strong>（市场不是均衡，而是参与者预期与现实的相互强化）和 <strong>position sizing 的胆量</strong>（"识别趋势是必要的，但敢按确信度下注才是关键"）。</p>
+          <p style="font-style: italic; color: var(--muted); font-size: 14px;">"Soros 是我见过最会割肉的人。他不在乎单笔交易输赢，因为他对自己整体能赢有足够的信心。"</p>
+        </div>
+
+        <div class="rel-card warsh">
+          <div class="rel-card-tag">英雄 · Hero</div>
+          <h3 class="rel-card-name">Paul Volcker</h3>
+          <div class="rel-card-role">前美联储主席 · 1979–1987</div>
+          <p>Druckenmiller 长期推崇 Volcker 那种"宁可衰退也要捍卫货币纪律"的风格。这是他长期批评 Fed 宽松政策、批评美国财政赤字、推崇央行独立性的思想根源。</p>
+          <p style="font-style: italic; color: var(--muted); font-size: 14px;">这一点也解释了为什么他一直公开反对 Trump 时代的关税与高赤字主义——理念上是冲突的。</p>
+        </div>
+
+        <div class="rel-card bessent">
+          <div class="rel-card-tag">门徒 · Protégé</div>
+          <h3 class="rel-card-name">Andrew Carnegie</h3>
+          <div class="rel-card-role">钢铁大王 · 思想资源</div>
+          <p>他的口头禅引自 Carnegie："<strong>把所有鸡蛋放在一个篮子里，然后死死盯着这个篮子</strong>"。这是他集中下注哲学的源头，也是他和 Buffett、Carl Icahn 共享的反"分散投资"立场。</p>
+          <p style="font-style: italic; color: var(--muted); font-size: 14px;">现代投资组合理论强调分散——Druckenmiller 强调集中。两个学派在过去 50 年的回报数据上其实都各有支持者。</p>
+        </div>
+
+        <div class="rel-card trump">
+          <div class="rel-card-tag">同路人 · Peer</div>
+          <h3 class="rel-card-name">Warren Buffett</h3>
+          <div class="rel-card-role">长期价值投资学派</div>
+          <p>表面上风格完全不同——Buffett 看公司，Druckenmiller 看世界。但他们在<strong>"集中下注"</strong>这一核心原则上完全一致。Druckenmiller 自己也说过："Buffett 和 Icahn 的成功也来自集中而非分散"。</p>
+          <p style="font-style: italic; color: var(--muted); font-size: 14px;">关键差别：Buffett 持有 7 年没动 AAPL，Druckenmiller 持有 6 个季度就清掉 NVDA。</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">关键概念 · 三十年没亏年的真相</div>
+        <p>Druckenmiller 自己对"30 年不亏年"是有所祛魅的："大家都说我从没有过亏损年，这是真的，<strong>但其中很大一部分是日历的运气</strong>。我在年内有过让我身心俱疲的回撤。"</p>
+        <p>翻译过来：他年内的回撤其实不小，但因为他能在年底前翻回来，所以"年度收益"始终为正。25 年里他有 5 个亏损季度，但从未有过亏损年。</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== TAB 2: POLITICAL NETWORK ========== -->
+  <div class="tab-content" id="pol">
+    <section class="section">
+      <span class="section-tag">Chapter II · 政治圈层网络</span>
+      <h2 class="section-title">华尔街唯一的 <em>"门徒系"</em></h2>
+      <p class="section-lede">Druckenmiller 自己不在政府里，但他的两个直系门徒一个掌管财政部、一个即将掌管美联储——这是金融史上罕见的"师徒同朝"格局。</p>
+
+      <div class="prose">
+        <p>2026 年的美国经济政策圈出现了一个独特现象：财政部长 <strong>Scott Bessent</strong>（Druckenmiller 的弟子，30 多年前被他招进 Soros 的 Quantum Fund）和即将上任的美联储主席 <strong>Kevin Warsh</strong>（Druckenmiller 的家族办公室合伙人，一起共事 14 年）——美国财政与货币政策的两个最高位置，本质上都是"Druckenmiller 系"。</p>
+
+        <p>但更耐人寻味的是 <strong>Druckenmiller 本人和 Trump 没有私交，立场也不一致</strong>。他公开表态 2024 年既不投 Trump 也不投 Harris，自称"老派的里根式、自由市场、支持移民、反关税的共和党人"——这每一个标签都和 Trump 主义存在张力。</p>
+
+        <p>所以这套机制的运转逻辑是：<strong>Druckenmiller 提供思想框架，Bessent 和 Warsh 把它"翻译"成 Trump 能接受的语言再执行</strong>。他们相当于内部刹车装置。</p>
+      </div>
+
+      <h3 style="font-family: 'Cormorant Garamond'; font-size: 32px; margin: 40px 0 20px;">四个关键关系</h3>
+
+      <div class="rel-grid">
+        <div class="rel-card warsh">
+          <div class="rel-card-tag">直系门徒 · 即将掌管美联储</div>
+          <h3 class="rel-card-name">Kevin Warsh</h3>
+          <div class="rel-card-role">下届美联储主席提名人 · 2026—</div>
+          <p><strong>关系深度：父子般的纽带</strong></p>
+          <ul>
+            <li>2011 年从美联储理事卸任后加入 Duquesne Family Office 任合伙人，共事 14 年</li>
+            <li>关系曾被形容为接近"父子情"，每天通话或发短信十几次</li>
+            <li>从 Druckenmiller 家族办公室收取了 $1020 万咨询费</li>
+            <li>在 Druckenmiller 旗下 Juggernaut Fund 持有两笔各至少 $5000 万的权益</li>
+            <li>Druckenmiller 公开背书："我想不出地球上还有谁比他更胜任这个职位"</li>
+          </ul>
+        </div>
+
+        <div class="rel-card bessent">
+          <div class="rel-card-tag">大弟子 · 现任财政部长</div>
+          <h3 class="rel-card-name">Scott Bessent</h3>
+          <div class="rel-card-role">美国财政部长 · Trump 内阁</div>
+          <p><strong>关系深度：30 年的师徒</strong></p>
+          <ul>
+            <li>30 多年前被 Druckenmiller 招进 Soros 的 Quantum Fund</li>
+            <li>1992 年和 Druckenmiller 一起参与做空英镑战役</li>
+            <li>在 Trump 内阁中扮演"内部刹车"角色——尤其在关税问题上</li>
+            <li>用 Druckenmiller 的语言向 Trump 传达市场观点</li>
+            <li>是连接 Wall Street 共识与 White House 政治的关键翻译者</li>
+          </ul>
+        </div>
+
+        <div class="rel-card trump">
+          <div class="rel-card-tag">同时代人 · 立场对立</div>
+          <h3 class="rel-card-name">Donald Trump</h3>
+          <div class="rel-card-role">美国总统 · 立场重叠度低</div>
+          <p><strong>关系深度：基本无私交，立场对立</strong></p>
+          <ul>
+            <li>2024 大选公开表态既不投 Trump 也不投 Harris</li>
+            <li>2025 年 4 月 Trump 推大关税，Druckenmiller 罕见在 X 上公开反对</li>
+            <li>立场分歧：关税（10% 红线 vs 主战工具）、赤字（最严厉批评者 vs 大幅扩张）、移民（支持 vs 限制）、Fed 独立性（捍卫者 vs 公开施压）</li>
+            <li>影响力机制：通过门徒间接施加，从不直接参与政治</li>
+          </ul>
+        </div>
+
+        <div class="rel-card soros">
+          <div class="rel-card-tag">老东家 · Mentor</div>
+          <h3 class="rel-card-name">George Soros</h3>
+          <div class="rel-card-role">Quantum Fund 创始人</div>
+          <p><strong>关系深度：12 年的合作伙伴</strong></p>
+          <ul>
+            <li>1988–2000 年担任 Quantum Fund 首席投资官</li>
+            <li>"Soros 1989-2000 年的业绩主要是 Druckenmiller 创造的"</li>
+            <li>Quantum 资产从 $10 亿增长到 $200 亿</li>
+            <li>1992 年联手做空英镑赚取 $10 亿+</li>
+            <li>双方政治立场后来分歧——Soros 偏左，Druckenmiller 偏右</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="font-family: 'Cormorant Garamond'; font-size: 32px; margin: 48px 0 20px;">立场对比 · Druckenmiller vs Trump 主义</h3>
+
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>议题</th>
+            <th>Trump 立场</th>
+            <th>Druckenmiller 立场</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>关税</td><td>主战工具，可>20%</td><td>不应超过 10%，公开反对大关税</td></tr>
+          <tr><td>财政赤字</td><td>不在乎，敢于扩张</td><td>华尔街最严厉的批评者之一</td></tr>
+          <tr><td>美联储</td><td>公开施压要求降息</td><td>推崇 Volcker 式独立性</td></tr>
+          <tr><td>移民</td><td>强硬限制</td><td>明确支持移民</td></tr>
+          <tr><td>政府角色</td><td>偏产业政策</td><td>自由市场原教旨</td></tr>
+          <tr><td>气候政策</td><td>退出巴黎协定</td><td>长期支持气候议题（与 Soros 一脉）</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <div class="callout-label">投资影响 · 这层关系网意味着什么</div>
+        <p>这套"Druckenmiller 系"上台对市场是<strong>结构性利好</strong>：(1) Bessent 在财政上有定力，不会乱搞；(2) Warsh 即使被贴鹰派标签，但 Druckenmiller 公开为他"洗白"——意味着会在适当时机配合降息；(3) 财政与货币政策有协调，不会再像 Powell 时代公开对抗。</p>
+        <p><strong>但要警惕一种情景</strong>：Trump 绕过 Bessent 和 Warsh 直接行动（比如行政令加关税）——这是 2025 年 4 月那次市场暴跌的原因。这个尾部风险无法消除。</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== TAB 3: INVESTMENT THESIS ========== -->
+  <div class="tab-content" id="thesis">
+    <section class="section">
+      <span class="section-tag">Chapter III · 投资理念与方法</span>
+      <h2 class="section-title">为什么 30 年 <em>没亏过一年</em></h2>
+      <p class="section-lede">Druckenmiller 是纯粹的二级市场玩家——股票、货币、债券、商品、期货全都做。但他不是"什么都做"，而是有一套高度纪律化的方法论。</p>
+
+      <div class="prose">
+        <p>先回答一个常被问到的问题：<strong>他属于一级还是二级？</strong> 答案是<strong>纯粹的二级</strong>。Duquesne 的交易范围覆盖股票、货币、债券利率、大宗商品、期货——全都是二级市场流动性资产。他不碰 PE、不碰 VC、不锁定资金，因为他需要随时调头的能力。这正是他不亏年的核心。</p>
+
+        <p>他的整套方法可以浓缩为五大支柱。</p>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar-num">01</div>
+          <h4>自上而下的宏观框架</h4>
+          <p>Top-Down Macro。他先看世界——利率、货币政策、地缘政治。如果一家公司的增长前景与他对宏观的判断不一致，再好的基本面他都不投。这是避免大亏年的第一道防线。</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">02</div>
+          <h4>流动性 &gt; 估值</h4>
+          <p>这是最反直觉的一点。"估值能告诉你潜力，但流动性才是市场的真正驱动。" 他用流动性和技术面做时机，不用 DCF。央行印钱、信贷扩张、资金流向决定价格，估值只是事后的合理化。</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">03</div>
+          <h4>集中下注 + 严格止损</h4>
+          <p>"把所有鸡蛋放一个篮子，然后死死盯住篮子。" 大多数基金经理 70-80% 的回报来自 2-3 个想法——所以他干脆只下 2-3 个大注。但配套是铁律的止损：先算最大可能亏多少，再决定是否进场。</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">04</div>
+          <h4>看 18-24 个月后的世界</h4>
+          <p>"现在的信息已经在价格里了。你必须想象 18-24 个月后世界什么样。" 这是前瞻而非反应。他从不在共识热点里厮杀，因为那时机会已经在价格里。</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">05</div>
+          <h4>改变想法不脸红</h4>
+          <p>"他愿意改变对任何事情的看法。" 对一个观点的"沉没成本"是 0。今天重仓 NVDA，明天觉得贵了就清掉，毫无留恋。绝大多数人过不了这道关——这是他的真正护城河。</p>
+        </div>
+      </div>
+
+      <div class="quotes-strip">
+        <h3>Druckenmiller 的口头禅</h3>
+        <div class="quote-grid">
+          <div class="quote-item">
+            <p>"超长期回报来自资本保护和本垒打的结合。"</p>
+            <cite>On capital preservation</cite>
+          </div>
+          <div class="quote-item">
+            <p>"我做的第一件事就是先算清楚我可能亏多少钱。"</p>
+            <cite>On position entry</cite>
+          </div>
+          <div class="quote-item">
+            <p>"我喜欢非常耐心地等，然后看到机会就疯狂下注。"</p>
+            <cite>On waiting & striking</cite>
+          </div>
+          <div class="quote-item">
+            <p>"显然的事，往往是错的。"</p>
+            <cite>On contrarian thinking</cite>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="font-family: 'Cormorant Garamond'; font-size: 32px; margin: 40px 0 20px;">投资哲学的<em>关键划分</em></h3>
+
+      <div class="framework-grid">
+        <div class="framework-card">
+          <span class="label">Druckenmiller 流派</span>
+          <h4>"看世界" 的宏观投资</h4>
+          <p><strong>关注：</strong>央行政策、利率、货币、流动性、地缘政治</p>
+          <p><strong>持仓时间：</strong>几个月到 1-2 年</p>
+          <p><strong>退出信号：</strong>宏观环境变化或估值过高</p>
+          <p><strong>典型代表：</strong>Soros、Druckenmiller、Tudor Jones</p>
+          <p><strong>失败模式：</strong>过早卖出长期赢家（NVDA 案例）</p>
+        </div>
+        <div class="framework-card">
+          <span class="label">Buffett 流派</span>
+          <h4>"看公司" 的价值投资</h4>
+          <p><strong>关注：</strong>护城河、ROE、管理层、长期 EPS 增长</p>
+          <p><strong>持仓时间：</strong>10 年以上</p>
+          <p><strong>退出信号：</strong>护城河受损或更好的机会</p>
+          <p><strong>典型代表：</strong>Buffett、Munger、Akre、Pabrai</p>
+          <p><strong>失败模式：</strong>对结构性衰退反应太慢（Kraft Heinz）</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">关键洞察 · Position sizing 才是 alpha 转化器</div>
+        <p>Druckenmiller 自己说过：<strong>1992 年做空英镑的想法是他的，但敢把仓位做到那么大是 Soros 的贡献</strong>。这揭示了一个真相——<strong>找到 alpha 的人很多，但敢按 alpha 应有的尺寸下注的人极少</strong>。</p>
+        <p>这对你做研究有直接意义：扎实的护城河、Five Forces、管理层评估都是必要的（identify edge），但如果买入后只占组合 1-2%，再好的分析也产生不了超额回报。<strong>仓位规模才是把分析变成回报的桥梁。</strong></p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== TAB 4: REVIEW / NVDA CASE ========== -->
+  <div class="tab-content" id="review">
+    <section class="section">
+      <span class="section-tag">Chapter IV · 复盘心得</span>
+      <h2 class="section-title">他<em>错过</em>了半导体吗？</h2>
+      <p class="section-lede">这是个值得深挖的案例——因为答案不是简单的"错过"，而是"早进早出，然后再没回来"。这背后是 Druckenmiller 整个方法论的局限。</p>
+
+      <div class="prose">
+        <p><strong>简短版本：</strong>没错过，只是阶段性参与然后过早撤了。这比"错过"更值得反思——因为它揭示了 Druckenmiller 范式的内在张力。</p>
+
+        <h3>NVDA 的<em>完整轨迹</em></h3>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">2022 年底</div>
+          <div class="timeline-title">早期建仓</div>
+          <div class="timeline-desc">在 NVDA 还只有 ~$140（拆股前）的时候建仓——比 ChatGPT 引爆全球早了几个月。这是他经典的"前瞻 18-24 个月"的体现。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2023 Q3</div>
+          <div class="timeline-title">第一大持仓</div>
+          <div class="timeline-desc">NVDA 是 Duquesne 当时的第一大持仓——大约 875 万股，价值约 $4 亿。这一年 NVDA 涨了 239%。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2024 Q1–Q3</div>
+          <div class="timeline-title">三个季度内全部清仓</div>
+          <div class="timeline-desc">从 618 万股 → 176 万股 → 21 万股 → 0。理由是 CNBC 上他自己说的："我们已经跑了一段疯狂的路了"——估值太贵，落袋为安。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2024 年 10 月</div>
+          <div class="timeline-title">Bloomberg 公开认错</div>
+          <div class="timeline-desc">"我犯过很多投资错误，其中一个就是把 Nvidia 全卖了。" 那一年 NVDA 又涨了 174%。如果一股没卖，他持有的最大仓位将值约 $11.9 亿——少赚约 $8 亿。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2024–2025</div>
+          <div class="timeline-title">用 TSM/AVGO/MSFT 绕道</div>
+          <div class="timeline-desc">没回 NVDA，但通过 TSM、ENTG、MSFT、Broadcom 间接保持半导体敞口。逻辑：买"卖给 NVDA 的"，估值便宜很多。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2025 Q3–Q4</div>
+          <div class="timeline-title">连半导体绕道也开始撤退</div>
+          <div class="timeline-desc">Q3 清仓 ENTG/AVGO/MSFT，Q4 减仓 TSM 29%——半导体板块整体撤退。新建小仓位 ARM、Lattice、ON Semi——但都是几千万级，已不再是核心仓位。</div>
+        </div>
+      </div>
+
+      <h3 style="font-family: 'Cormorant Garamond'; font-size: 32px; margin: 40px 0 20px;">为什么没回去——三层心理学解释</h3>
+
+      <div class="prose">
+        <p><strong>1. 锚定偏差。</strong>他在 NVDA $300 多卖（拆股前），等于心里已经给这只股票打了"贵"的标签。让自己以更高价格再买回来，是反人性的。这是行为金融学最经典的陷阱之一。</p>
+
+        <p><strong>2. 方法论决定他不能"追"。</strong>Druckenmiller 的核心原则是"流动性 + 18 个月前瞻 + 不在共识热点里厮杀"。当 NVDA 变成全市场最共识的交易，按他的框架，恰恰是不该买的时候。</p>
+
+        <p><strong>3. 他选择"绕道而行"。</strong>没回 NVDA 不代表放弃半导体——他通过 TSM、ENTG、ARM 持续保持敞口，只是这些标的回报率远不如 NVDA 本身。</p>
+
+        <h3>这个案例揭示的<em>更深问题</em></h3>
+
+        <p>Druckenmiller 把 AI 半导体当<strong>周期股</strong>做（看 PE、看估值、获利了结），但 AI 是 <strong>secular trend</strong>（结构性变革，不是周期）。<strong>用错框架，估值就会错</strong>——这是他这一代经历过 1999-2000 互联网泡沫的宏观投资者的共同认知陷阱。他们被估值教育得太深了，但结构性变革期的赢家可以"贵"很久。</p>
+      </div>
+
+      <div class="framework-grid">
+        <div class="framework-card">
+          <span class="label">Cyclical 框架</span>
+          <h4>把 NVDA 当周期股</h4>
+          <p><strong>结论：</strong>PE 70 倍处于历史高位，应等周期下行回到 20 倍再买</p>
+          <p><strong>退出信号：</strong>估值高位 + 涨幅过大</p>
+          <p><strong>典型时间窗口：</strong>3-5 年</p>
+          <p><strong>结果：</strong>Druckenmiller 用了这个框架，2024 全部清仓</p>
+        </div>
+        <div class="framework-card">
+          <span class="label">Secular 框架</span>
+          <h4>把 NVDA 当 secular 赢家</h4>
+          <p><strong>结论：</strong>AI 是 10 年级别变革，PE 70 倍在 10 年现金流贴现下合理</p>
+          <p><strong>退出信号：</strong>护城河受损或赛道结束</p>
+          <p><strong>典型时间窗口：</strong>10 年+</p>
+          <p><strong>结果：</strong>NVDA 在 PE 70 倍上又涨了 1 倍</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">关键概念 · Secular vs Cyclical</div>
+        <p><strong>Secular trend</strong>（长期 / 结构性趋势）：跨越 10-30 年的力量，不受经济周期影响。例：互联网普及、智能手机、云计算、AI、老龄化。退出信号是"赛道结束"，不是"估值贵"。</p>
+        <p><strong>Cyclical trend</strong>（周期性趋势）：3-7 年的振荡，受利率、库存、信贷影响。例：房地产、汽车、大宗商品。退出信号是"周期顶部"。</p>
+        <p>每个公司在你的组合里都应该明确归类。<strong>同一个标的用错框架，估值可以差 3 倍</strong>——这是为什么 Druckenmiller 在 NVDA $300 卖、Buffett 在 AAPL $30 拿了 7 年。</p>
+      </div>
+
+      <h3 style="font-family: 'Cormorant Garamond'; font-size: 32px; margin: 40px 0 20px;">他<em>真正的复盘方法</em></h3>
+
+      <div class="prose">
+        <p>这个 NVDA 错误本身，恰恰展现了 Druckenmiller 复盘方法的精髓——<strong>公开认错</strong>。绝大多数投资者犯错后选择掩饰、合理化或避而不谈。Druckenmiller 在 Bloomberg 镜头前直接说"this was a big mistake"。</p>
+
+        <blockquote>
+          "我犯过很多投资错误。承认错误的速度决定改正错误的速度。"
+          <cite>Stanley Druckenmiller, Bloomberg Interview · 2024</cite>
+        </blockquote>
+
+        <p>这一点不是技术，是性格。也是他能 30 年不亏年的底层因素——<strong>不是因为不犯错，而是因为犯了错能快速止损、快速调整</strong>。这与他"改变想法不脸红"的支柱完全一致。</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== TAB 5: HOLDINGS ========== -->
+  <div class="tab-content" id="hold">
+    <section class="section">
+      <span class="section-tag">Chapter V · 三季度持仓档案</span>
+      <h2 class="section-title">最近三季度的<em>真实交易</em></h2>
+      <p class="section-lede">从 Q2 重押 AI 与生物科技、Q3 大幅减仓重塑、到 Q4 全面转向 ETF 与金融板块——Druckenmiller 在 2025 年的轨迹本身就是一堂关于"宏观转向"的实操课。</p>
+
+      <div class="stats-bar">
+        <div class="stat">
+          <div class="stat-label">Q2 2025 组合规模</div>
+          <div class="stat-value">$4.07<span class="small">B</span></div>
+          <div class="stat-delta">69 个持仓</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Q3 2025 组合规模</div>
+          <div class="stat-value">$4.06<span class="small">B</span></div>
+          <div class="stat-delta down">−0.2% · 65 持仓 · 全面重组</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Q4 2025 组合规模</div>
+          <div class="stat-value">$4.49<span class="small">B</span></div>
+          <div class="stat-delta">+10.6% · 62 持仓</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Q4 换手率</div>
+          <div class="stat-value">43<span class="small">%</span></div>
+          <div class="stat-delta down">26 新增 / 30 清仓</div>
+        </div>
+      </div>
+
+      <div class="quarters">
+        <div class="quarter">
+          <div class="quarter-header">
+            <span class="quarter-num">Q2</span>
+            <span class="quarter-date">As of 06/30/2025</span>
+          </div>
+          <div class="quarter-meta">
+            <span>组合规模 <strong>$4.07B</strong></span>
+            <span>持仓数 <strong>69</strong></span>
+            <span>主题 <strong>AI / 半导体 / 银行</strong></span>
+          </div>
+          <table class="holdings-table">
+            <thead><tr><th>持仓</th><th>占比</th><th>市值</th><th>动作</th></tr></thead>
+            <tbody>
+              <tr><td><span class="rank-num">1.</span><span class="ticker">NTRA</span><span class="company">Natera 基因检测</span></td><td class="pct-cell"><strong>12.8%</strong></td><td>$521M</td><td><span class="change-down">−4.6%</span></td></tr>
+              <tr><td><span class="rank-num">2.</span><span class="ticker">TEVA</span><span class="company">Teva 制药</span></td><td class="pct-cell"><strong>6.6%</strong></td><td>$269M</td><td><span class="change-up">+30%</span></td></tr>
+              <tr><td><span class="rank-num">3.</span><span class="ticker">INSM</span><span class="company">Insmed 罕见病</span></td><td class="pct-cell"><strong>5.6%</strong></td><td>$227M</td><td><span class="change-up">+65%</span></td></tr>
+              <tr><td><span class="rank-num">4.</span><span class="ticker">WWD</span><span class="company">Woodward 工业</span></td><td class="pct-cell"><strong>5.1%</strong></td><td>$208M</td><td>持有</td></tr>
+              <tr><td><span class="rank-num">5.</span><span class="ticker">TSM</span><span class="company">台积电</span></td><td class="pct-cell"><strong>4.3%</strong></td><td>$173M</td><td><span class="change-up">+11%</span></td></tr>
+              <tr><td><span class="rank-num">6.</span><span class="ticker">PM</span><span class="company">Philip Morris</span></td><td class="pct-cell"><strong>3.7%</strong></td><td>$149M</td><td><span class="change-down">减仓</span></td></tr>
+              <tr><td><span class="rank-num">7.</span><span class="ticker">ENTG</span><span class="company">Entegris 半导体材料</span></td><td class="pct-cell"><strong>3.3%</strong></td><td>$133M</td><td><span class="change-new">NEW</span></td></tr>
+              <tr><td><span class="rank-num">8.</span><span class="ticker">VRNA</span><span class="company">Verona Pharma</span></td><td class="pct-cell"><strong>2.9%</strong></td><td>$118M</td><td>持有</td></tr>
+              <tr><td><span class="rank-num">9.</span><span class="ticker">COHR</span><span class="company">Coherent 光通信</span></td><td class="pct-cell"><strong>2.5%</strong></td><td>$103M</td><td>持有</td></tr>
+              <tr><td><span class="rank-num">10.</span><span class="ticker">MSFT</span><span class="company">微软</span></td><td class="pct-cell"><strong>2.5%</strong></td><td>$100M</td><td><span class="change-new">NEW</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="quarter">
+          <div class="quarter-header">
+            <span class="quarter-num">Q3</span>
+            <span class="quarter-date">As of 09/30/2025</span>
+          </div>
+          <div class="quarter-meta">
+            <span>组合规模 <strong>$4.06B</strong></span>
+            <span>持仓数 <strong>62</strong></span>
+            <span>主题 <strong>生物科技超级集中</strong></span>
+          </div>
+          <table class="holdings-table">
+            <thead><tr><th>持仓</th><th>占比</th><th>市值</th><th>动作</th></tr></thead>
+            <tbody>
+              <tr><td><span class="rank-num">1.</span><span class="ticker">NTRA</span><span class="company">Natera</span></td><td class="pct-cell"><strong>16.1%</strong></td><td>$517M</td><td><span class="change-up">大幅加仓</span></td></tr>
+              <tr><td><span class="rank-num">2.</span><span class="ticker">INSM</span><span class="company">Insmed</span></td><td class="pct-cell"><strong>10.8%</strong></td><td>$349M</td><td><span class="change-up">大幅加仓</span></td></tr>
+              <tr><td><span class="rank-num">3.</span><span class="ticker">TEVA</span><span class="company">Teva 制药</span></td><td class="pct-cell"><strong>10.4%</strong></td><td>$335M</td><td><span class="change-up">+4%</span></td></tr>
+              <tr><td><span class="rank-num">4.</span><span class="ticker">TSM</span><span class="company">台积电</span></td><td class="pct-cell"><strong>6.6%</strong></td><td>$214M</td><td>持有</td></tr>
+              <tr><td><span class="rank-num">5.</span><span class="ticker">CPNG</span><span class="company">Coupang 韩国电商</span></td><td class="pct-cell"><strong>4.6%</strong></td><td>$149M</td><td><span class="change-up">+13%</span></td></tr>
+              <tr><td><span class="rank-num">6.</span><span class="ticker">DOCU</span><span class="company">DocuSign</span></td><td class="pct-cell"><strong>3.8%</strong></td><td>$122M</td><td><span class="change-up">+31%</span></td></tr>
+              <tr><td><span class="rank-num">7.</span><span class="ticker">VRNA</span><span class="company">Verona Pharma</span></td><td class="pct-cell"><strong>3.3%</strong></td><td>$107M</td><td>持有</td></tr>
+              <tr><td><span class="rank-num">8.</span><span class="ticker">EEM</span><span class="company">MSCI 新兴市场 ETF</span></td><td class="pct-cell"><strong>3.1%</strong></td><td>$101M</td><td><span class="change-new">NEW</span></td></tr>
+              <tr><td><span class="rank-num">9.</span><span class="ticker">AMZN</span><span class="company">亚马逊</span></td><td class="pct-cell"><strong>3.0%</strong></td><td>$96M</td><td><span class="change-new">NEW</span></td></tr>
+              <tr><td><span class="rank-num">10.</span><span class="ticker">FIGR</span><span class="company">Figure Technology 区块链</span></td><td class="pct-cell"><strong>2.4%</strong></td><td>$77M</td><td><span class="change-new">NEW</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="quarter">
+          <div class="quarter-header">
+            <span class="quarter-num">Q4</span>
+            <span class="quarter-date">As of 12/31/2025</span>
+          </div>
+          <div class="quarter-meta">
+            <span>组合规模 <strong>$4.49B</strong></span>
+            <span>持仓数 <strong>62</strong></span>
+            <span>主题 <strong>转向 ETF 与金融</strong></span>
+          </div>
+          <table class="holdings-table">
+            <thead><tr><th>持仓</th><th>占比</th><th>市值</th><th>动作</th></tr></thead>
+            <tbody>
+              <tr><td><span class="rank-num">1.</span><span class="ticker">NTRA</span><span class="company">Natera</span></td><td class="pct-cell"><strong>12.8%</strong></td><td>$575M</td><td><span class="change-down">−22%</span></td></tr>
+              <tr><td><span class="rank-num">2.</span><span class="ticker">XLF</span><span class="company">金融 SPDR ETF</span></td><td class="pct-cell"><strong>6.7%</strong></td><td>$301M</td><td><span class="change-new">NEW</span></td></tr>
+              <tr><td><span class="rank-num">3.</span><span class="ticker">INSM</span><span class="company">Insmed</span></td><td class="pct-cell"><strong>5.7%</strong></td><td>$258M</td><td><span class="change-down">−39%</span></td></tr>
+              <tr><td><span class="rank-num">4.</span><span class="ticker">RSP</span><span class="company">S&amp;P 500 等权 ETF</span></td><td class="pct-cell"><strong>5.0%</strong></td><td>$225M</td><td><span class="change-new">NEW</span></td></tr>
+              <tr><td><span class="rank-num">5.</span><span class="ticker">TEVA</span><span class="company">Teva 制药</span></td><td class="pct-cell"><strong>4.1%</strong></td><td>$184M</td><td><span class="change-down">−65%</span></td></tr>
+              <tr><td><span class="rank-num">6.</span><span class="ticker">AMZN</span><span class="company">亚马逊</span></td><td class="pct-cell"><strong>3.8%</strong></td><td>$170M</td><td><span class="change-up">+69%</span></td></tr>
+              <tr><td><span class="rank-num">7.</span><span class="ticker">TSM</span><span class="company">台积电</span></td><td class="pct-cell"><strong>3.7%</strong></td><td>$165M</td><td><span class="change-down">−29%</span></td></tr>
+              <tr><td><span class="rank-num">8.</span><span class="ticker">CPNG</span><span class="company">Coupang</span></td><td class="pct-cell"><strong>3.6%</strong></td><td>$160M</td><td><span class="change-up">+46%</span></td></tr>
+              <tr><td><span class="rank-num">9.</span><span class="ticker">EWZ</span><span class="company">巴西 ETF（含期权）</span></td><td class="pct-cell"><strong>3.0%</strong></td><td>$134M</td><td><span class="change-new">NEW</span></td></tr>
+              <tr><td><span class="rank-num">10.</span><span class="ticker">GOOGL</span><span class="company">Alphabet</span></td><td class="pct-cell"><strong>2.7%</strong></td><td>$121M</td><td><span class="change-up">+277%</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="chart-wrap">
+        <div class="chart-title">核心持仓权重逐季变化</div>
+        <div class="chart-sub">Q2 → Q3 → Q4 2025 · 仅显示曾跻身 Top 10 的标的</div>
+        <div class="chart-container">
+          <canvas id="evoChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-wrap">
+        <div class="chart-title">板块占比的宏观转向</div>
+        <div class="chart-sub">从医疗集中到金融 / 全市场 ETF 的资产再配置</div>
+        <div class="chart-container">
+          <canvas id="sectorChart"></canvas>
+        </div>
+      </div>
+
+      <h3 style="font-family: 'Cormorant Garamond'; font-size: 32px; margin: 40px 0 20px;">三个季度，<em>三道转弯</em></h3>
+
+      <div class="thesis-grid">
+        <div class="thesis-quarter">Q2<span>四—六月</span></div>
+        <div class="thesis-body">
+          <p>"AI + 银行 + 美股看涨"的季度。Druckenmiller 一口气建立了 <strong>Entegris ($133M)、Microsoft ($100M)、Broadcom</strong> 三个科技/半导体新仓，同时在 <strong>Citigroup、Goldman Sachs、XLF</strong> 上加仓——一个"硬件—软件—金融"的 AI 价值链全押。</p>
+          <p>更耐人寻味的是他买入了 <strong>SPY 看涨期权 ($55.6M)</strong> 和 <strong>Russell 2000 看涨期权 ($72.3M)</strong>——这是用杠杆方式表达对整个美国经济（包括小盘股）的乐观。</p>
+        </div>
+      </div>
+
+      <div class="thesis-grid">
+        <div class="thesis-quarter">Q3<span>七—九月</span></div>
+        <div class="thesis-body">
+          <p>剧本完全反转。Druckenmiller <strong>清掉 33 只股票，新建 29 个仓位</strong>——这不是调整，是重塑。Microsoft、Eli Lilly、Broadcom、Entegris、Coherent、Philip Morris、Goldman Sachs，全部一刀切清仓。</p>
+          <p>资金去哪了？<strong>三大医疗股 NTRA + INSM + TEVA 占组合 37%</strong>。同时新建 Amazon、Meta、Figure、StubHub、Vistra 等大量仓位——一个"放弃 AI 上游、转向 AI 下游和实体经济"的转身。</p>
+        </div>
+      </div>
+
+      <div class="thesis-grid">
+        <div class="thesis-quarter">Q4<span>十—十二月</span></div>
+        <div class="thesis-body">
+          <p>第三次大转弯。Q4 Druckenmiller 罕见地<strong>大量买入 ETF</strong>——XLF（金融板块 $301M）、RSP（S&amp;P 500 等权 $225M）、EWZ（巴西，叠加 $134M 看涨期权）。以一个传奇选股者来说，转向被动指数化是非常强烈的信号：他认为<strong>具体哪只股票不重要，方向才重要</strong>。</p>
+          <p>方向是：<strong>金融板块（押收益率曲线变陡）、被动等权（押"平均股票"跑赢七姐妹）、新兴市场（押美元走弱）</strong>。同时大幅减仓 Q3 重押的 Teva（−65%）、Insmed（−39%）、TSM（−29%）。但保留了 Natera 12.8% 的核心仓位，并对 Alphabet 加仓 277%、Sea Limited 加仓 244%。</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== TAB 6: APPLY TO YOU ========== -->
+  <div class="tab-content" id="apply">
+    <section class="section">
+      <span class="section-tag">Chapter VI · 对你的启示</span>
+      <h2 class="section-title">从 Druckenmiller 学到的<em>六件事</em></h2>
+      <p class="section-lede">考虑你目前的持仓（GOOG、AVGO、MSFT、LEU、COIN、HOOD、IBIT、LULU、V、DUOL）和正在进行的系统性投资研究，下面是几点最直接的应用。</p>
+
+      <div class="takeaways">
+        <h2><em>启示</em> · For Your Portfolio</h2>
+        <div class="takeaway-grid">
+
+          <div class="takeaway">
+            <div class="takeaway-num">01</div>
+            <h3>分清 Secular vs Cyclical</h3>
+            <p>每个公司在你的组合里都明确归类。AVGO、GOOG、MSFT 是 secular 还是 cyclical？退出信号是"赛道结束"还是"估值贵"？这一句话决定整个估值模型用什么 hurdle rate、什么时间窗口。混用框架是 Druckenmiller 在 NVDA 上的核心错误。</p>
+          </div>
+
+          <div class="takeaway">
+            <div class="takeaway-num">02</div>
+            <h3>Position sizing 才是 alpha 转化器</h3>
+            <p>你已经在做扎实的护城河、Five Forces、管理层评估——但如果买入后只占组合 1-2%，再好的分析也产生不了超额回报。看看你目前 AVGO、GOOG、LEU 占比是不是匹配你的研究深度。Druckenmiller 30 年回报的关键不是选股，是 sizing。</p>
+          </div>
+
+          <div class="takeaway">
+            <div class="takeaway-num">03</div>
+            <h3>宏观滤镜要叠加在选股之上</h3>
+            <p>你已经在跟踪 Druckenmiller 体系下的 Warsh/Bessent 政策走向。下一步把宏观判断<strong>显性化</strong>地用在个股研究里——比如"PANW 在 Warsh 的 Fed 下能否估值扩张？" 这种问法比单纯看 ARR 增长更接近 Druckenmiller 的工作流。</p>
+          </div>
+
+          <div class="takeaway">
+            <div class="takeaway-num">04</div>
+            <h3>建立"红线"机制</h3>
+            <p>Druckenmiller 不亏年的本质是知道<strong>什么时候必须出来</strong>——不是赚多少，而是亏到多少就走。给每个核心持仓写一个"如果发生 X 我就清仓"的预案。这是他最朴素也最有效的护身符。COIN 跌 30%？AVGO PE 突破 50？LEU 政策风险？想清楚。</p>
+          </div>
+
+          <div class="takeaway">
+            <div class="takeaway-num">05</div>
+            <h3>核电主题二次确认</h3>
+            <p>Druckenmiller Q3 新建 Vistra (VST) 和 GE Vernova (GEV)——核电 + 电网 + AI 数据中心电力需求三条线。这与你长期持有的 LEU 在主题上是<strong>互补</strong>的（铀燃料 vs 发电运营商 vs 重型设备）。可以考虑加一条对铀价、对核电运营商的跟踪线。</p>
+          </div>
+
+          <div class="takeaway">
+            <div class="takeaway-num">06</div>
+            <h3>对 AVGO 的态度需要明确</h3>
+            <p>Druckenmiller 在 Q2 重押 AVGO 然后 Q3 清仓——这与他对 NVDA 的剧本完全一样。这意味着按 cyclical 框架，AI 半导体上游的"宏观投资者出货时点"已经到来。<strong>但你不是 Druckenmiller</strong>——如果你对 AVGO 是 secular 看法，他的清仓不应该影响你。关键是先回答：你看的是哪个 thesis？</p>
+          </div>
+
+          <div class="takeaway">
+            <div class="takeaway-num">07</div>
+            <h3>"高换手"不是跟单理由</h3>
+            <p>Q3 和 Q4 各自都接近 50% 换手率——他几乎每个季度都在重塑组合。如果你按 13F 跟单，最大风险不是选错股，而是他今天买的下个季度可能就清了（如 MSFT、VRNA）。<strong>跟思路，不跟交易。</strong></p>
+          </div>
+
+          <div class="takeaway">
+            <div class="takeaway-num">08</div>
+            <h3>2026 最重要的中观变量</h3>
+            <p>Druckenmiller Q4 转向 XLF + RSP + EWZ 三连击——背后是<strong>美元见顶 + 收益率曲线变陡 + 七姐妹估值见顶</strong>的判断。这是他通过 Warsh/Bessent 看到的政策走向。你的科技重仓（GOOG、MSFT、AVGO）需要在这个宏观背景下重新评估抗压能力。</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top: 48px;">
+        <div class="callout-label">最后一句话</div>
+        <p>Druckenmiller 最有价值的不是他的具体持仓，而是他展示了一种<strong>"在错误中保持高质量"</strong>的可能性——30 年里他犯过无数错（NVDA 是其中之一），但他总能快速止损、快速调整、快速承认。这才是 30% 年化回报的真正来源。</p>
+          <p>对你正在建立的研究流程而言，最值得借鉴的也许不是他买什么，而是<strong>他怎么改变想法</strong>。在每份你的研究报告里，明确写一行字："我会在什么情况下推翻这个判断？"——这一行字，就足以让你的研究质量上一个台阶。</p>
+      </div>
+
+    </section>
+  </div>
+
+  <footer>
+    Disclaimer · 本研究档案基于公开 13F 文件、媒体访谈与公开声明整理，仅供研究参考，不构成投资建议<br>
+    The Druckenmiller Dossier · Edition 2026.05 · Prepared for Becks · Singapore
+  </footer>
+
+</div>
+
+<script>
+// TAB SWITCHING
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(target).classList.add('active');
+    // Reinitialize charts if switching to holdings tab
+    if (target === 'hold') {
+      setTimeout(() => initCharts(), 50);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+let chartsInitialized = false;
+function initCharts() {
+  if (chartsInitialized) return;
+  const evoEl = document.getElementById('evoChart');
+  if (!evoEl) return;
+  chartsInitialized = true;
+
+  const evoCtx = evoEl.getContext('2d');
+  const labels = ['Q2 2025', 'Q3 2025', 'Q4 2025'];
+  const datasets = [
+    { label: 'NTRA Natera', data: [12.8, 16.1, 12.8], color: '#b8331a' },
+    { label: 'INSM Insmed', data: [5.6, 10.8, 5.7], color: '#d4a017' },
+    { label: 'TEVA Teva', data: [6.6, 10.4, 4.1], color: '#2c4a3a' },
+    { label: 'TSM 台积电', data: [4.3, 6.6, 3.7], color: '#5a4634' },
+    { label: 'CPNG Coupang', data: [null, 4.6, 3.6], color: '#7a5642' },
+    { label: 'AMZN 亚马逊', data: [null, 3.0, 3.8], color: '#8a8a3a' },
+    { label: 'GOOGL Alphabet', data: [null, 0.8, 2.7], color: '#3a6f8a' },
+    { label: 'XLF 金融 ETF', data: [null, null, 6.7], color: '#6b1a8a' },
+    { label: 'RSP 等权 ETF', data: [null, null, 5.0], color: '#1a6b8a' },
+  ];
+
+  new Chart(evoCtx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: datasets.map(d => ({
+        label: d.label, data: d.data,
+        borderColor: d.color, backgroundColor: d.color + '20',
+        borderWidth: 2.5, tension: 0.3,
+        pointRadius: 5, pointHoverRadius: 8,
+        pointBackgroundColor: d.color, pointBorderColor: '#f5f1e8', pointBorderWidth: 2,
+        spanGaps: false,
+      }))
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right', labels: { font: { family: "'JetBrains Mono', monospace", size: 11 }, color: '#0a0e0c', padding: 10, boxWidth: 14 } },
+        tooltip: { backgroundColor: '#0a0e0c', titleFont: { family: "'JetBrains Mono', monospace", size: 11 }, bodyFont: { family: "'JetBrains Mono', monospace", size: 12 }, padding: 10,
+          callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y === null ? 'N/A' : ctx.parsed.y + '%'}` } }
+      },
+      scales: {
+        y: { beginAtZero: true, max: 18,
+          ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#6b6359', callback: v => v + '%' },
+          grid: { color: '#c9bfa9', drawBorder: false } },
+        x: { ticks: { font: { family: "'JetBrains Mono', monospace", size: 11, weight: '700' }, color: '#0a0e0c' }, grid: { display: false } }
+      }
+    }
+  });
+
+  const secCtx = document.getElementById('sectorChart').getContext('2d');
+  new Chart(secCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Q2 2025', 'Q3 2025', 'Q4 2025'],
+      datasets: [
+        { label: 'Healthcare 医疗', data: [28, 41, 23], backgroundColor: '#b8331a' },
+        { label: 'Tech / Comm 科技', data: [22, 17, 17], backgroundColor: '#d4a017' },
+        { label: 'Consumer 消费', data: [16, 12, 11], backgroundColor: '#2c4a3a' },
+        { label: 'Industrial 工业', data: [10, 8, 5], backgroundColor: '#5a4634' },
+        { label: 'Financials 金融', data: [4, 2, 11], backgroundColor: '#6b1a8a' },
+        { label: 'ETFs 大盘指数', data: [0, 3, 18], backgroundColor: '#1a6b8a' },
+        { label: 'Others 其他', data: [20, 17, 15], backgroundColor: '#8a8a3a' },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right', labels: { font: { family: "'JetBrains Mono', monospace", size: 11 }, color: '#0a0e0c', padding: 8, boxWidth: 14 } },
+        tooltip: { backgroundColor: '#0a0e0c', titleFont: { family: "'JetBrains Mono', monospace", size: 11 }, bodyFont: { family: "'JetBrains Mono', monospace", size: 12 }, padding: 10,
+          callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}%` } }
+      },
+      scales: {
+        x: { stacked: true, ticks: { font: { family: "'JetBrains Mono', monospace", size: 11, weight: '700' }, color: '#0a0e0c' }, grid: { display: false } },
+        y: { stacked: true, max: 100,
+          ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#6b6359', callback: v => v + '%' },
+          grid: { color: '#c9bfa9', drawBorder: false } }
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>
