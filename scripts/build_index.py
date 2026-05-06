@@ -27,6 +27,7 @@ CATEGORIES = {
     'stocks': {'label': '个股分析', 'icon': '📈', 'color': '#58a6ff'},
     'weekly': {'label': '市场周报', 'icon': '📊', 'color': '#95d048'},
     'daily':  {'label': '每日简报', 'icon': '📰', 'color': '#f5a623'},
+    'features': {'label': '专题报道', 'icon': '🔍', 'color': '#d2a8ff'},
 }
 
 
