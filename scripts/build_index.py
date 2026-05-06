@@ -138,6 +138,12 @@ def build_index_html(reports: dict) -> str:
         for cat in CATEGORIES
     )
 
+    # 筛选按钮 — 自动从 CATEGORIES 生成（新增分类时按钮会自动出现）
+    filter_buttons_html = '\n  '.join(
+        f'<button class="filter-btn" data-filter="{cat}">{CATEGORIES[cat]["icon"]} {CATEGORIES[cat]["label"]}</button>'
+        for cat in CATEGORIES
+    )
+
     last_update = datetime.now().strftime('%Y-%m-%d %H:%M')
 
     return f"""<!DOCTYPE html>
@@ -254,9 +260,7 @@ def build_index_html(reports: dict) -> str:
 <div class="controls">
   <input type="text" class="search-box" id="searchInput" placeholder="🔍 搜索标题或内容关键词...">
   <button class="filter-btn active" data-filter="all">全部</button>
-  <button class="filter-btn" data-filter="stocks">📈 个股</button>
-  <button class="filter-btn" data-filter="weekly">📊 周报</button>
-  <button class="filter-btn" data-filter="daily">📰 日报</button>
+  {filter_buttons_html}
 </div>
 
 <div class="reports-grid" id="reportsGrid">
