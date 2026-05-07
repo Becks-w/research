@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oracle Corporation 商业模式分析报告 v2</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { padding:18px 22px; border-radius:10px; margin:14px 0; border-left:4px solid; }
+.summary-box.warn { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); border-left-color:#d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Oracle Corporation 商业模式分析报告 v2</h1>
+    <div class="meta">
+      <div>📊 代码：ORCL</div>
+      <div>🏛️ 交易所：NYSE</div>
+      <div>🏷️ 行业：企业软件 / 云基础设施 / AI Infra</div>
+      <div>📅 分析日期：2026-05-07</div>
+    </div>
+    <div class="one-liner">💡 Oracle 通过提供企业数据库软件、云基础设施（OCI）和云应用（NetSuite/Fusion）三大业务，向全球企业、政府机构以及 AI 实验室（OpenAI、Meta、xAI 等）收取长期订阅费、云使用费和软件授权费。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：订阅制 + 资产重型云基础设施 (混合转型期)</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">三大业务线：① Cloud Services & License Support（约75%收入）——核心引擎，包含OCI云基础设施（FY26 Q3 +68%同比，单季$4.1B；AI基础设施收入+243%、多云数据库服务+531%）+ Fusion ERP/NetSuite/HCM SaaS（+11-18%增速）+ 数据库云服务（毛利率60-80%）；② Cloud License & On-premise License（约5%）——传统授权销售在萎缩(-10%)；③ Hardware（约4%）+ Services（约6%）。Q3 FY26财报：总营收$17.2B(+22% YoY)、云收入$8.9B(+44%)、净利润$3.72B、调整后EPS $1.79。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">三类客户：（1）传统企业客户（B2B）——财富500强深度嵌入；（2）政府/金融/医疗（G2B）——美国国防部刚批准为机密AI网络供应商；（3）AI实验室（新增）——OpenAI（$300B/5年Stargate合同，占RPO约54%）、Meta（$20B）、xAI、TikTok美国15%股权。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">全球分布：北美约50%、EMEA约25%、亚太约20%、其他5%。Q3 FY26亮点是RPO（剩余履约义务）达$553B，同比+325%——是当前年营收的~9倍。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">TTM收入$64.08B：云服务及授权支持（~75%）、传统授权（~5%）、硬件（4%）、服务（6%）。FY26指引$67B维持，FY27上调至$90B（隐含+34%）。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#05966922;color:#059669;border:1px solid #05966944">综合评级：宽护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">OCI第二代架构在GPU全互联(RDMA)网络上有真实技术差异化——OpenAI/Meta/xAI即使有AWS/Azure选项仍主动选择Oracle就是技术认可。但与AWS/Azure数千亿美元规模相比，单位成本仍处劣势。AI基础设施毛利率32%（高于30%指引但远低于数据库60-80%）反映规模差距。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">★最强护城河★ Oracle Database全球市占~40%，是企业关键任务系统的事实标准；ERP/HCM/财务软件深度嵌入财富500强；NetSuite在中型企业ERP占主导；30+年品牌信任和监管认可。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">★最强护城河★ 数据库迁移需要数年时间和数千万-数亿美元成本（数据/查询/代码全部重写、停机风险、合规重新认证），是SaaS转换成本的10-100倍；ERP切换更是企业级高风险工程（90%大型ERP替换项目失败或超期）。这是Oracle业务的真正护城河核心。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">弱网络效应：多云协议（与GCP、AWS、Azure互联）创造一定网络价值。但本质仍是工业品供应。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">数据中心和GPU采购规模带来成本优势，但远不及AWS/Azure。Q3财报显示规模化分摊固定成本——管理层称'过去15年首次实现规模化扩张同时利润率上升'。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">①数据库锁定效应——~$50亿/年高利润经常性收入；②OCI技术差异化——OpenAI/Meta/xAI主动选择就是认可；③多云战略——形成共生而非纯竞争；④机构粘性——美国国防部刚批准为机密AI网络供应商。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">①OpenAI集中度风险：$300B合同占RPO约54%。OpenAI自身现金流问题直接威胁Oracle估值；②AI基础设施毛利率32%——远低于数据库60-80%和Microsoft Azure 50%毛利；③资本开支吞噬现金流——FY26 CapEx ~$50B，TTM自由现金流-$24.7B，债务从$100B飙升至~$162B；④循环融资风险——Stargate本质是'Oracle借钱建数据中心→OpenAI用NVIDIA/SoftBank投资来支付Oracle'；⑤银行已开始警惕——Crusoe转向Microsoft。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：企业软件 / 云基础设施 / AI Infra</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：传统SaaS + IaaS混合 (转型期)</span>
+      <span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44">估值结论：合理</span>
+    </div>
+
+    <!-- ★ 第一步：行业方法论映射表 -->
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📚 第一步：识别行业归属（Skill方法论映射表）</h3>
+    <p style="font-size:13px;color:#64748b;margin-bottom:12px;">根据business-analysis skill v2.0框架，先按公司业务对照所有行业类别，确定适用的估值方法论。Oracle不属于任何单一类别，需要混合处理。</p>
+    <table>
+      <thead>
+        <tr><th>行业类别</th><th>典型代表</th><th>推荐估值框架</th><th>对Oracle适用性</th></tr>
+      </thead>
+      <tbody><tr>
+    <td class="label" style="background:#fef3c7;">SaaS / 软件订阅</td>
+    <td style="background:#fef3c7;;font-size:13px;color:#64748b;">CRM、NOW、SNOW、DUOL</td>
+    <td style="background:#fef3c7;;font-size:13px;">EV/Sales + Rule of 40 + SBC调整</td>
+    <td style="background:#fef3c7;"><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644;">部分适用</span></td>
+  </tr><tr>
+    <td class="label" style="background:transparent;">半导体 - 设计 (Fabless)</td>
+    <td style="background:transparent;;font-size:13px;color:#64748b;">NVDA、AVGO、AMD、ARM、QCOM</td>
+    <td style="background:transparent;;font-size:13px;">Forward PE + EV/EBITDA + 周期位置</td>
+    <td style="background:transparent;"><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#94a3b822;color:#94a3b8;">不适用</span></td>
+  </tr><tr>
+    <td class="label" style="background:transparent;">互联网平台</td>
+    <td style="background:transparent;;font-size:13px;color:#64748b;">GOOGL、META、AMZN</td>
+    <td style="background:transparent;;font-size:13px;">EV/EBITDA + GMV/MAU + 单用户经济</td>
+    <td style="background:transparent;"><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#94a3b822;color:#94a3b8;">不适用</span></td>
+  </tr><tr>
+    <td class="label" style="background:transparent;">消费零售</td>
+    <td style="background:transparent;;font-size:13px;color:#64748b;">LULU、COST、WMT、TGT</td>
+    <td style="background:transparent;;font-size:13px;">PE + 同店销售 + 库存周转</td>
+    <td style="background:transparent;"><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#94a3b822;color:#94a3b8;">不适用</span></td>
+  </tr><tr>
+    <td class="label" style="background:transparent;">高端品牌</td>
+    <td style="background:transparent;;font-size:13px;color:#64748b;">LVMH、HERMES、NKE</td>
+    <td style="background:transparent;;font-size:13px;">PE + 毛利率溢价 + 品牌溢价</td>
+    <td style="background:transparent;"><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#94a3b822;color:#94a3b8;">不适用</span></td>
+  </tr><tr>
+    <td class="label" style="background:transparent;">大型银行</td>
+    <td style="background:transparent;;font-size:13px;color:#64748b;">JPM、BAC、WFC</td>
+    <td style="background:transparent;;font-size:13px;">P/B + ROE + NIM + 信用成本</td>
+    <td style="background:transparent;"><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#94a3b822;color:#94a3b8;">不适用</span></td>
+  </tr><tr>
+    <td class="label" style="background:transparent;">支付 / 卡组织</td>
+    <td style="background:transparent;;font-size:13px;color:#64748b;">V、MA、AXP、PYPL</td>
+    <td style="background:transparent;;font-size:13px;">PE + 支付量增速 + Take Rate</td>
+    <td style="background:transparent;"><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#94a3b822;color:#94a3b8;">不适用</span></td>
+  </tr><tr>
+    <td class="label" style="background:transparent;">能源 - 油气</td>
+    <td style="background:transparent;;font-size:13px;color:#64748b;">XOM、CVX、COP</td>
+    <td style="background:transparent;;font-size:13px;">EV/EBITDA + 储量替换率 + FCF Yield</td>
+    <td style="background:transparent;"><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#94a3b822;color:#94a3b8;">不适用</span></td>
+  </tr><tr>
+    <td class="label" style="background:transparent;">能源 - 公用事业</td>
+    <td style="background:transparent;;font-size:13px;color:#64748b;">NEE、DUK、SO</td>
+    <td style="background:transparent;;font-size:13px;">PE + 监管资本回报 + 股息收益率</td>
+    <td style="background:transparent;"><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#94a3b822;color:#94a3b8;">不适用</span></td>
+  </tr><tr>
+    <td class="label" style="background:transparent;">生物制药 - 大药企</td>
+    <td style="background:transparent;;font-size:13px;color:#64748b;">LLY、MRK、PFE</td>
+    <td style="background:transparent;;font-size:13px;">PE + 在研管线NPV + 专利悬崖</td>
+    <td style="background:transparent;"><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#94a3b822;color:#94a3b8;">不适用</span></td>
+  </tr><tr>
+    <td class="label" style="background:transparent;">工业 / 制造</td>
+    <td style="background:transparent;;font-size:13px;color:#64748b;">CAT、HON、ITW</td>
+    <td style="background:transparent;;font-size:13px;">PE + EV/EBITDA + ROIC</td>
+    <td style="background:transparent;"><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#94a3b822;color:#94a3b8;">不适用</span></td>
+  </tr><tr>
+    <td class="label" style="background:transparent;">房地产REITs</td>
+    <td style="background:transparent;;font-size:13px;color:#64748b;">PLD、AMT、SPG</td>
+    <td style="background:transparent;;font-size:13px;">P/FFO + AFFO + 股息覆盖</td>
+    <td style="background:transparent;"><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#94a3b822;color:#94a3b8;">不适用</span></td>
+  </tr><tr>
+    <td class="label" style="background:transparent;">媒体 / 娱乐</td>
+    <td style="background:transparent;;font-size:13px;color:#64748b;">NFLX、SPOT、DIS</td>
+    <td style="background:transparent;;font-size:13px;">EV/Sales + 用户/订阅 + 内容投入回报</td>
+    <td style="background:transparent;"><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#94a3b822;color:#94a3b8;">不适用</span></td>
+  </tr></tbody>
+    </table>
+
+    <div class="summary-box warn">
+      <div class="title">🔍 方法论选择说明</div>
+      <div class="text">Oracle不属于skill库中任何单一行业类别。其50%业务（数据库+SaaS）应套用'SaaS/软件订阅'框架（EV/Sales+Rule of 40+SBC），但Oracle股本稀释仅+1.6%（远好于SaaS同业）、营收增速22%、毛利率67%——已偏离纯SaaS模板。另外50%业务（OCI/IaaS）需要混合使用'通用框架-周期性行业'（EV/EBITDA+周期低点估值）和'通用框架-资产驱动型行业'（P/B+ROE）。最终采用'混合分部估值法'：先按业务段适用对应框架，再加权汇总。这种处理与skill v2.0精神一致——根据公司实际业务结构动态选择方法论而非'一招走天下'。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🛠️ 第二步：执行混合估值框架</h3>
+    <div class="summary-box info">
+      <div class="title">适用估值框架：分部估值法：SaaS/数据库段用EV/Sales+Rule of 40，IaaS/OCI段用EV/EBITDA+ROIC+CapEx分析</div>
+      <div class="text">Oracle是罕见的混合估值案例——50%收入是高利润SaaS/数据库（毛利60-80%、订阅经常性），50%是重资产IaaS（毛利32%、资本密集）。两者用单一估值倍数都会失真。需要分部估值，叠加RPO转化概率折扣（核心是OpenAI部分要打多少折）。同时必须做三情景分析。</div>
+    </div>
+
+    <!-- ★ 分部段指标 -->
+    
+    <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:18px;margin:16px 0;">
+      <h4 style="font-size:15px;font-weight:700;color:#0369a1;margin-bottom:12px;">📦 SaaS/数据库段指标（按SaaS方法论）</h4>
+      <table style="margin:0;">
+        <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+        <tbody>
+    <tr>
+      <td class="label">Rule of 40 (估算)</td>
+      <td class="num">22% + 32% = 54</td>
+      <td class="num" style="color:#64748b;font-size:13px;">≥40 健康</td>
+      <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+    </tr>
+    <tr>
+      <td class="label">毛利率 (整体)</td>
+      <td class="num">67%</td>
+      <td class="num" style="color:#64748b;font-size:13px;">75-90% (纯SaaS)</td>
+      <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+    </tr>
+    <tr>
+      <td class="label">SBC/Revenue</td>
+      <td class="num"><3%</td>
+      <td class="num" style="color:#64748b;font-size:13px;"><10%健康</td>
+      <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+    </tr>
+    <tr>
+      <td class="label">净留存率 (估算)</td>
+      <td class="num">>110%</td>
+      <td class="num" style="color:#64748b;font-size:13px;">>120%优秀</td>
+      <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+    
+    <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:18px;margin:16px 0;">
+      <h4 style="font-size:15px;font-weight:700;color:#0369a1;margin-bottom:12px;">☁️ IaaS/OCI段指标（按资本密集行业方法论）</h4>
+      <table style="margin:0;">
+        <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+        <tbody>
+    <tr>
+      <td class="label">OCI 增速</td>
+      <td class="num">+68%</td>
+      <td class="num" style="color:#64748b;font-size:13px;">AWS +20%、Azure +30%</td>
+      <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+    </tr>
+    <tr>
+      <td class="label">AI基础设施毛利率</td>
+      <td class="num">32%</td>
+      <td class="num" style="color:#64748b;font-size:13px;">AWS ~45%、Azure ~50%</td>
+      <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+    </tr>
+    <tr>
+      <td class="label">CapEx/Revenue</td>
+      <td class="num">75%+</td>
+      <td class="num" style="color:#64748b;font-size:13px;">代工厂30-40%、超大规模20-30%</td>
+      <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+    </tr>
+    <tr>
+      <td class="label">FCF Conversion</td>
+      <td class="num">-39%</td>
+      <td class="num" style="color:#64748b;font-size:13px;">>25%全周期</td>
+      <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 整体估值指标（汇总）</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">Trailing PE</td>
+    <td class="num">33x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">软件巨头 25-30x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">Forward PE</td>
+    <td class="num">18.4x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">MSFT 32x、AMZN 35x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">PEG Ratio</td>
+    <td class="num">0.91</td>
+    <td class="num" style="color:#64748b;font-size:13px;"><1 低估</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/Sales (TTM)</td>
+    <td class="num">10.5x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">MSFT 12x、ORCL历史 6-8x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/EBITDA</td>
+    <td class="num">24x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">资本密集科技 15-20x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">毛利率</td>
+    <td class="num">67%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">软件巨头 70-80%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">营业利润率</td>
+    <td class="num">32%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">软件巨头 40%+</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">ROIC</td>
+    <td class="num">12%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">软件巨头 25%+</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">ROE</td>
+    <td class="num">57.6%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">杠杆放大，非真实回报</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">净债务</td>
+    <td class="num">-$123B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">MSFT 净现金 $50B+</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">FCF (TTM)</td>
+    <td class="num">-$24.7B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">软件巨头通常 +20%+</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">Debt/Equity</td>
+    <td class="num">4.15</td>
+    <td class="num" style="color:#64748b;font-size:13px;">同业 <1</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">RPO</td>
+    <td class="num">$553B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">+325% YoY (历史性高位)</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">股本稀释（12个月）</td>
+    <td class="num">+1.6%</td>
+    <td class="num" style="color:#64748b;font-size:13px;"><5% 健康</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">股息收益率</td>
+    <td class="num">1.1%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">同业 0.7%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr></tbody>
+    </table>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>市值</th><th>Forward PE</th><th>Cloud增速</th><th>营业利润率</th><th>关键特征</th></tr></thead>
+      <tbody><tr><td class="label" style="background:transparent;;font-weight:700;">MSFT</td><td class="num" style="background:transparent;;">$3.5T</td><td class="num" style="background:transparent;;">32x</td><td class="num" style="background:transparent;;">Azure +30%</td><td class="num" style="background:transparent;;">45%</td><td class="num" style="background:transparent;;">综合云龙头+多元化</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">AMZN</td><td class="num" style="background:transparent;;">$2.5T</td><td class="num" style="background:transparent;;">35x</td><td class="num" style="background:transparent;;">AWS +20%</td><td class="num" style="background:transparent;;">11%</td><td class="num" style="background:transparent;;">电商+AWS组合</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">GOOGL</td><td class="num" style="background:transparent;;">$2.7T</td><td class="num" style="background:transparent;;">22x</td><td class="num" style="background:transparent;;">GCP +35%</td><td class="num" style="background:transparent;;">32%</td><td class="num" style="background:transparent;;">搜索现金牛+云</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">META</td><td class="num" style="background:transparent;;">$1.4T</td><td class="num" style="background:transparent;;">22x</td><td class="num" style="background:transparent;;">N/A自用</td><td class="num" style="background:transparent;;">42%</td><td class="num" style="background:transparent;;">广告+AI基建</td></tr><tr><td class="label" style="background:#fef3c7;;font-weight:700;">ORCL</td><td class="num" style="background:#fef3c7;;">$534B</td><td class="num" style="background:#fef3c7;;">18.4x</td><td class="num" style="background:#fef3c7;;">OCI +68%</td><td class="num" style="background:#fef3c7;;">32%</td><td class="num" style="background:#fef3c7;;">RPO王者+OpenAI集中度</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">CRWV</td><td class="num" style="background:transparent;;">$70B</td><td class="num" style="background:transparent;;">亏损</td><td class="num" style="background:transparent;;">+200%+</td><td class="num" style="background:transparent;;">负</td><td class="num" style="background:transparent;;">纯AI基建租赁</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">IBM</td><td class="num" style="background:transparent;;">$280B</td><td class="num" style="background:transparent;;">24x</td><td class="num" style="background:transparent;;">Hybrid +10%</td><td class="num" style="background:transparent;;">16%</td><td class="num" style="background:transparent;;">传统转型同行</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司</p>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 第三步：估值结论（基于三情景模型）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear">
+        <div class="label">悲观情景 Bear</div>
+        <div class="value">$120-140</div>
+      </div>
+      <div class="fv-card base">
+        <div class="label">基准情景 Base</div>
+        <div class="value">$190-230</div>
+      </div>
+      <div class="fv-card bull">
+        <div class="label">乐观情景 Bull</div>
+        <div class="value">$320-380</div>
+      </div>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">当前股价$185.61，市值约$534B，从2025年9月历史高点$345.72回调约46%。Forward PE 18.4x是七巨头中最低。35-41/51分析师看多，平均目标价$243-261。市场情绪和分析师共识严重背离，反映估值已部分但不完全反映悲观情景。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>把$553B RPO当成保证收入——RPO是合同价值，不是已确认收入。OpenAI的$300B中能有多少在5年内真正流入Oracle是估值核心不确定性
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>用ROE 57.6%判断盈利能力——这是高负债杠杆放大的虚高，ROIC仅12%（MSFT/GOOGL ~25%+）才是真实资本回报，Oracle ROIC近年从25%+下滑到12%是结构性变化
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>忽略-$24.7B自由现金流——Oracle历史是FCF $15-20B+的现金牛，转负是结构性变化，需要2027-2028看到FCF转正才算证明商业模式
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>把Forward PE 18x当便宜——基于分析师对FY27 EPS的乐观预期。如果FY27营收下调10%，Forward PE立即跳到22-23x
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱5：</strong>低估循环融资风险——OpenAI资金来自NVIDIA/SoftBank，这些公司又依赖Oracle和数据中心生态。任一环断链都会引发连锁反应
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;font-size:16px;padding:8px 18px">综合评级：B级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">Larry Ellison（董事长）持股约41%，是世界第二富豪——与股东利益完美绑定。Oracle历史上是'回购王'——过去10年回购约$120B股票（占当前市值25%）。但当前阶段所有现金用于CapEx（$50B/年）+债务利息——分红微增、回购暂停。FY26 CapEx指引$50B+，债务从$100B飙升至$162B，FCF -$24.7B。这是公司历史上最大的资本配置赌注。可逆性低（GPU集群建成无法快速调整）。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">Big 4审计师；管理层指引达成率历史上较高（Safra Catz以财务严谨著称）；FY26 Q3财报会议主动披露AI capacity 32%毛利率（高于30%指引）和数据库60-80%毛利率——透明度良好；但CEO在Q2财报后将Stargate'即将贡献收入'的预期溢价交给市场，Q3又承诺'FY26期间将看到OpenAI大量收入'——如延期对管理层信誉造成重创。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">近2年关键执行成果：①OCI第二代架构成功（2017年从零自研，2024-2025获OpenAI/Meta/xAI青睐）；②签下OpenAI $300B、Meta $20B、xAI、TikTok $50B等重磅合同；③Q3 FY26交付AI capacity 400+ MW（90% on schedule or ahead）。但前所未有的$500B+资本支出执行规模将考验管理层。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">历史回购模范：过去10年回购$120B（>5倍SBC，真回购典范）。但当前阶段已停止回购，将所有现金投入OCI扩张。过去12个月股本仅+1.6%。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">①Larry Ellison 41%持股+创始人远见；②Safra Catz财务严谨，多年指引达成率高；③历史回购堪称模范（与Apple/Berkshire同级）；④重磅签下OpenAI/Meta/xAI三大AI客户。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">①百亿级别赌注押在OpenAI身上；②资本配置可逆性低；③Larry Ellison（82岁）接班人不明；④CFO新上任不久面对历史性资本支出挑战。</div>
+    </div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★★☆</div>
+      <div style="color:#475569; font-size:14px">4/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>Oracle（ORCL）是一笔已被深度折价的高质量赌注。
+
+它具备真正的宽护城河：数据库+ERP+转换成本三重叠加形成的客户锁定，是AWS/Azure都无法复制的——一家世界500强迁移Oracle数据库的成本是数千万到数亿美元。叠加罕见的创始人治理（Larry Ellison 41%持股）和不可置疑的近期执行成果（OCI +68%、RPO达$553B、AI infra +243%、OpenAI/Meta/xAI主动选择）。
+
+当前时点的特殊性在于：股价从$346跌至$185，已经吸收了大部分OpenAI集中度风险——Forward PE 18.4x是七巨头中最低，PEG 0.91在合理区间。这种'创始人主导+宽护城河+市场恐慌'的组合在历史上往往是好的入场时机。三情景模型显示：基准情景合理价$190-230（与当前$185接近），悲观情景将下探至$120-140，乐观情景需要RPO顺利转化才能支撑$320+。
+
+但风险不容忽视：如果OpenAI出现严重违约或大幅延期付款，Oracle已投入的$50B+数据中心CapEx将变成严重的资产减值风险，债务/EBITDA杠杆将冲击4倍以上。这不是普通的'周期性回调'，是单一客户集中度系统性风险。
+
+持仓建议：作为中等仓位（5-15%），介于核心和卫星之间。3-5年长线视角，等RPO逐步转化为现金流。适合已持有MSFT/GOOGL但希望增加AI基础设施暴露的投资者。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">Q4 FY26财报（2026年6月）——OCI增速能否维持50%+，FY27 $90B指引是否上调或下调</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">OpenAI商业进展——周活、付费转化、企业客户签约——直接决定Oracle估值</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">CapEx拐点——FY27 CapEx是否如预期回落至$30-40B</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">自由现金流转正时点——FY27 H2是关键观察窗口</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">Stargate项目融资进度——SoftBank/NVIDIA资金到位情况</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">6.</span>
+    <span style="font-size:14px;">客户多元化进展——Meta $20B、xAI、TikTok $50B等非OpenAI客户的占比变化</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">7.</span>
+    <span style="font-size:14px;">Moody's/S&P信用评级——是否下调（当前BBB+）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">8.</span>
+    <span style="font-size:14px;">银行融资环境——Crusoe案例后是否有更多数据中心开发商转向Oracle竞争对手</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for Oracle Corporation (ORCL) · 2026-05-07 · v2 修订版（补充行业方法论映射表）<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [2,3,3,1,2],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>
