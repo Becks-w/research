@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NET vs DDOG vs CRWD 横向对比报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#0d1117; color:#e6edf3; line-height:1.65; }
+.wrap { max-width:1200px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1f2937 0%,#111827 100%); padding:40px 36px; border-radius:16px; margin-bottom:24px; border:1px solid #30363d; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:12px; }
+.hero .subtitle { font-size:15px; color:#8b949e; margin-bottom:16px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:13px; color:#8b949e; padding-top:16px; border-top:1px solid #30363d; }
+
+/* 股票卡片 */
+.stocks-overview { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px; }
+.stock-card { background:#161b22; border:1px solid #30363d; border-radius:12px; padding:20px; }
+.stock-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid #30363d; }
+.ticker { font-size:24px; font-weight:800; }
+.name { font-size:14px; color:#c9d1d9; margin-top:2px; }
+.sector { font-size:12px; color:#8b949e; margin-top:4px; }
+.tag { padding:4px 10px; border-radius:99px; font-size:11px; font-weight:600; white-space:nowrap; }
+.kpi-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+.kpi { background:#0d1117; padding:10px 12px; border-radius:8px; border:1px solid #21262d; }
+.kpi-label { font-size:11px; color:#8b949e; margin-bottom:4px; }
+.kpi-value { font-size:15px; font-weight:700; font-family:'JetBrains Mono', monospace; }
+
+/* Tabs */
+.tabs { display:flex; gap:4px; background:#161b22; padding:6px; border-radius:12px; margin-bottom:24px; border:1px solid #30363d; overflow-x:auto; }
+.tab { flex:1; min-width:130px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#8b949e; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#e6edf3; }
+.tab.active { background:#1f6feb; color:#fff; }
+
+.section { background:#161b22; border:1px solid #30363d; border-radius:16px; padding:32px; margin-bottom:20px; display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; }
+.section .subtitle { color:#8b949e; font-size:14px; margin-bottom:24px; }
+
+.chart-wrap { background:#0d1117; padding:24px; border-radius:12px; margin:20px 0; border:1px solid #21262d; }
+.chart-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+
+table { width:100%; border-collapse:collapse; font-size:13px; margin:16px 0; }
+table th { background:#0d1117; color:#8b949e; padding:12px 14px; text-align:left; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid #30363d; }
+table td { padding:10px 14px; border-bottom:1px solid #21262d; }
+table tr:last-child td { border-bottom:none; }
+table tr:hover { background:#1c2128; }
+table .label { font-weight:600; color:#c9d1d9; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; text-align:center; }
+table .comment { font-size:12px; color:#8b949e; font-style:italic; }
+
+.verdict-card { background:linear-gradient(135deg,#1c2128 0%,#161b22 100%); border:1px solid #30363d; border-radius:12px; padding:24px; margin:16px 0; border-left:4px solid; }
+.verdict-card .ticker-line { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.verdict-card .vt { font-size:20px; font-weight:800; }
+.verdict-card .vn { font-size:14px; color:#8b949e; }
+.verdict-card .verdict-text { font-size:14px; font-weight:600; color:#e6edf3; margin-bottom:14px; padding:12px 16px; background:#0d1117; border-radius:8px; }
+.verdict-card .bull-bear { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.verdict-card .bull { background:rgba(5,150,105,0.1); border-left:3px solid #059669; padding:12px 14px; border-radius:6px; }
+.verdict-card .bear { background:rgba(220,38,38,0.1); border-left:3px solid #dc2626; padding:12px 14px; border-radius:6px; }
+.verdict-card .bull-title, .verdict-card .bear-title { font-size:12px; font-weight:700; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em; }
+.verdict-card .bull-title { color:#10b981; }
+.verdict-card .bear-title { color:#f87171; }
+.verdict-card .bull-text, .verdict-card .bear-text { font-size:13px; line-height:1.6; color:#c9d1d9; }
+
+.ranking-list { background:#0d1117; border-radius:12px; padding:24px; border:1px solid #21262d; margin-top:20px; }
+.rank-item { display:flex; align-items:center; gap:16px; padding:14px 0; border-bottom:1px dashed #30363d; }
+.rank-item:last-child { border-bottom:none; }
+.rank-num { font-size:28px; font-weight:800; min-width:48px; text-align:center; font-family:'JetBrains Mono', monospace; }
+.rank-1 .rank-num { color:#fbbf24; }
+.rank-2 .rank-num { color:#94a3b8; }
+.rank-3 .rank-num { color:#cd7c2f; }
+.rank-content { flex:1; }
+.rank-name { font-size:18px; font-weight:700; margin-bottom:4px; }
+.rank-reason { font-size:13px; color:#8b949e; line-height:1.6; }
+
+.disclaimer { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:16px 20px; margin-top:24px; font-size:12px; color:#8b949e; line-height:1.7; }
+
+.foot { text-align:center; padding:24px; color:#6e7681; font-size:12px; }
+
+@media (max-width:768px) {
+  .stocks-overview { grid-template-columns:1fr; }
+  .chart-grid-2 { grid-template-columns:1fr; }
+  .verdict-card .bull-bear { grid-template-columns:1fr; }
+  .hero h1 { font-size:22px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>📊 NET vs DDOG vs CRWD 横向对比</h1>
+    <div class="subtitle">云基础设施SaaS三巨头横向对比：边缘网络 vs 可观测性 vs 端点安全</div>
+    <p style="color:#c9d1d9;font-size:14px;line-height:1.7;">三家公司都是云时代基础设施SaaS的代表，市值在$69B-$134B之间，但商业模式、增长曲线、盈利质量和估值倍数差异显著。Q1/Q4 FY26财报全部出炉后，重新审视谁的性价比最高。</p>
+    <div class="meta">
+      <div>📅 数据截至：2026-05-11</div>
+      <div>💱 货币单位：USD</div>
+      <div>📐 口径：GAAP & Non-GAAP 区分标注</div>
+    </div>
+  </div>
+
+  <!-- 三家股票概览卡片 -->
+  <div class="stocks-overview">
+    
+  <div class="stock-card" style="border-top:4px solid #f38020;">
+    <div class="stock-header">
+      <div>
+        <div class="ticker">NET</div>
+        <div class="name">Cloudflare</div>
+        <div class="sector">边缘网络 / 云安全</div>
+      </div>
+      <div class="tag" style="background:#dc262622;color:#dc2626;border:1px solid #dc262644;">极度溢价</div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-label">股价</div><div class="kpi-value">$196.13</div></div>
+      <div class="kpi"><div class="kpi-label">市值</div><div class="kpi-value">$69.3B</div></div>
+      <div class="kpi"><div class="kpi-label">Fwd PE</div><div class="kpi-value">N/M (亏损)</div></div>
+      <div class="kpi"><div class="kpi-label">EV/Sales</div><div class="kpi-value">24.2x</div></div>
+      <div class="kpi"><div class="kpi-label">收入增速</div><div class="kpi-value" style="color:#059669;">+34%</div></div>
+      <div class="kpi"><div class="kpi-label">FCF Margin</div><div class="kpi-value">13%</div></div>
+    </div>
+  </div>
+
+  <div class="stock-card" style="border-top:4px solid #632ca6;">
+    <div class="stock-header">
+      <div>
+        <div class="ticker">DDOG</div>
+        <div class="name">Datadog</div>
+        <div class="sector">可观测性 / 监控</div>
+      </div>
+      <div class="tag" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;">估值偏高但合理</div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-label">股价</div><div class="kpi-value">$200.09</div></div>
+      <div class="kpi"><div class="kpi-label">市值</div><div class="kpi-value">$70.6B</div></div>
+      <div class="kpi"><div class="kpi-label">Fwd PE</div><div class="kpi-value">78x</div></div>
+      <div class="kpi"><div class="kpi-label">EV/Sales</div><div class="kpi-value">15x</div></div>
+      <div class="kpi"><div class="kpi-label">收入增速</div><div class="kpi-value" style="color:#059669;">+32%</div></div>
+      <div class="kpi"><div class="kpi-label">FCF Margin</div><div class="kpi-value">29%</div></div>
+    </div>
+  </div>
+
+  <div class="stock-card" style="border-top:4px solid #fa3838;">
+    <div class="stock-header">
+      <div>
+        <div class="ticker">CRWD</div>
+        <div class="name">CrowdStrike</div>
+        <div class="sector">端点安全 / Cyber SIEM</div>
+      </div>
+      <div class="tag" style="background:#d9770622;color:#d97706;border:1px solid #d9770644;">估值高但有质量</div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-label">股价</div><div class="kpi-value">$527.77</div></div>
+      <div class="kpi"><div class="kpi-label">市值</div><div class="kpi-value">$134.3B</div></div>
+      <div class="kpi"><div class="kpi-label">Fwd PE</div><div class="kpi-value">109x</div></div>
+      <div class="kpi"><div class="kpi-label">EV/Sales</div><div class="kpi-value">24.6x</div></div>
+      <div class="kpi"><div class="kpi-label">收入增速</div><div class="kpi-value" style="color:#059669;">+23%</div></div>
+      <div class="kpi"><div class="kpi-label">FCF Margin</div><div class="kpi-value">27%</div></div>
+    </div>
+  </div>
+
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" data-tab="t1">估值对比</button>
+    <button class="tab" data-tab="t2">增长 & 盈利</button>
+    <button class="tab" data-tab="t3">综合雷达图</button>
+    <button class="tab" data-tab="t4">投资结论</button>
+  </div>
+
+  <!-- Tab 1: 估值对比 -->
+  <div class="section active" id="t1">
+    <h2>💰 估值对比</h2>
+    <p class="subtitle">EV/Sales、PE、PEG多维度估值定位</p>
+    
+    <div class="chart-grid-2">
+      <div class="chart-wrap"><canvas id="evSalesChart" height="280"></canvas></div>
+      <div class="chart-wrap"><canvas id="growthChart" height="280"></canvas></div>
+    </div>
+    
+    <div class="chart-wrap"><canvas id="pegBubbleChart" height="320"></canvas></div>
+    
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 12px;color:#e6edf3;">📋 完整指标对比表</h3>
+    
+  <table>
+    <thead>
+      <tr>
+        <th>指标</th>
+        <th style="color:#f38020;">NET</th><th style="color:#632ca6;">DDOG</th><th style="color:#fa3838;">CRWD</th>
+        <th>对比解读</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">股价 (USD)</td><td class="num">$196.13</td><td class="num">$200.09</td><td class="num">$527.77</td><td class="comment">CRWD绝对价高但市值才是关键</td></tr>
+      <tr><td class="label">市值 ($B)</td><td class="num">$69.3</td><td class="num">$70.6</td><td class="num">$134.3</td><td class="comment">CRWD规模最大，NET/DDOG相近</td></tr>
+      <tr><td class="label">Enterprise Value ($B)</td><td class="num">$68</td><td class="num">$64.6</td><td class="num">$129.9</td><td class="comment">DDOG净现金$4.8B最多</td></tr>
+      <tr><td class="label">Forward PE</td><td class="num">N/M (亏损)</td><td class="num">78x</td><td class="num">109x</td><td class="comment">CRWD 109x是行业极端</td></tr>
+      <tr><td class="label">EV/Sales (Fwd)</td><td class="num">24.2x</td><td class="num">15x</td><td class="num">24.6x</td><td class="comment">DDOG 15x最低、NET/CRWD 24x+并列高</td></tr>
+      <tr><td class="label">PEG Ratio</td><td class="num">N/M</td><td class="num">3.35</td><td class="num">5+</td><td class="comment">DDOG 3.35x相对最合理</td></tr>
+      <tr><td class="label">收入增速 (YoY)</td><td class="num" style="color:#059669;">+34%</td><td class="num" style="color:#059669;">+32%</td><td class="num" style="color:#059669;">+23%</td><td class="comment">NET领跑34%、DDOG加速32%</td></tr>
+      <tr><td class="label">FY 指引增速</td><td class="num">30%</td><td class="num">26%</td><td class="num">20%</td><td class="comment">NET减速最快（34→30%）</td></tr>
+      <tr><td class="label">毛利率</td><td class="num">72.8%</td><td class="num">80.2%</td><td class="num">74.8%</td><td class="comment">DDOG 80%最高，NET下滑值得警惕</td></tr>
+      <tr><td class="label">毛利率趋势</td><td class="num" style="font-size:11px;">下降 -130bp YoY</td><td class="num" style="font-size:11px;">稳定 -10bp YoY</td><td class="num" style="font-size:11px;">稳定 +200bp YoY (订阅80→81%)</td><td class="comment">CRWD唯一上升趋势</td></tr>
+      <tr><td class="label">Non-GAAP OPM</td><td class="num">15%</td><td class="num">22%</td><td class="num">24%</td><td class="comment">CRWD/DDOG 22-24%碾压NET 15%</td></tr>
+      <tr><td class="label">GAAP OPM</td><td class="num">11.4%</td><td class="num">1%</td><td class="num">-1%</td><td class="comment">NET 11.4%反而最高（含一次性效应）</td></tr>
+      <tr><td class="label">FCF Margin</td><td class="num" style="font-weight:700;">13%</td><td class="num" style="font-weight:700;">29%</td><td class="num" style="font-weight:700;">27%</td><td class="comment" style="color:#dc2626;font-weight:600;">DDOG 29%遥遥领先，NET 13%是核心短板</td></tr>
+      <tr><td class="label">DBNR / 留存率</td><td class="num">118%</td><td class="num">122%</td><td class="num">n/a (gross retention 97%)</td><td class="comment">DDOG 120%+最强扩展能力</td></tr>
+      <tr><td class="label">ARR / 收入规模</td><td class="num">n/a</td><td class="num">$4B+</td><td class="num">$5.25B</td><td class="comment">CRWD $5.25B ARR是最成熟的</td></tr>
+      <tr><td class="label">大客户数 ($100k+)</td><td class="num">4,416</td><td class="num">4,550</td><td class="num">n/a (单季度净增ARR创纪录$330M)</td><td class="comment">DDOG/NET相当(~4,500)</td></tr>
+      <tr><td class="label">内部人3月减持 ($M)</td><td class="num" style="color:#dc2626;">$168.7M</td><td class="num" style="color:#dc2626;">$109.1M</td><td class="num" style="color:#dc2626;">n/a (相对克制)</td><td class="comment">NET减持最猛是负面信号</td></tr>
+      <tr><td class="label">SBC/Revenue (估算)</td><td class="num">20%</td><td class="num">22%</td><td class="num">20%</td><td class="comment">三家都偏高（>10%警讯线）</td></tr>
+    </tbody>
+  </table>
+
+  </div>
+
+  <!-- Tab 2: 增长 & 盈利 -->
+  <div class="section" id="t2">
+    <h2>📈 增长与盈利质量</h2>
+    <p class="subtitle">收入增速、毛利率、营业利润率、FCF Margin对比</p>
+    
+    <div class="chart-grid-2">
+      <div class="chart-wrap"><canvas id="grossMarginChart" height="280"></canvas></div>
+      <div class="chart-wrap"><canvas id="fcfChart" height="280"></canvas></div>
+    </div>
+    
+    <div class="chart-wrap"><canvas id="profitabilityChart" height="320"></canvas></div>
+    
+    <div style="background:#0d1117;padding:20px;border-radius:10px;margin-top:20px;border-left:4px solid #f59e0b;">
+      <div style="font-weight:700;color:#fbbf24;margin-bottom:10px;font-size:14px;">🔍 关键发现</div>
+      <div style="font-size:13px;color:#c9d1d9;line-height:1.8;">
+        <strong>毛利率：</strong>DDOG 80% > CRWD 74.8% > NET 72.8%。NET的下滑趋势最值得警惕（同比-130bp、环比-210bp），结构性问题不是季度波动。<br><br>
+        <strong>FCF Margin：</strong>DDOG 29% > CRWD 27% > NET 13%。NET的FCF转化能力是同行的一半，反映其在网络CapEx和销售投入上仍处于"砸钱换增长"阶段。<br><br>
+        <strong>Non-GAAP OPM：</strong>CRWD 24% > DDOG 22% > NET 15%。NET最低，但GAAP OPM 11.4%反而最高——主因SBC占收入比例最低？实际反映其Non-GAAP调整空间较小。<br><br>
+        <strong>规模成熟度：</strong>CRWD ARR $5.25B（最大）> DDOG ~$4B > NET ~$2.8B。CRWD是三家中商业化最成熟的，规模优势开始转化为利润率优势。
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: 综合雷达图 -->
+  <div class="section" id="t3">
+    <h2>🎯 六维综合评分雷达图</h2>
+    <p class="subtitle">估值合理性 / 增长动能 / 盈利质量 / 护城河 / 风险回报对称性 / 分析师信心（1-5分）</p>
+    
+    <div class="chart-wrap"><canvas id="radarChart" height="340"></canvas></div>
+    
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 12px;color:#e6edf3;">📐 评分维度说明</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>维度</th>
+          <th style="color:#f38020;">NET</th>
+          <th style="color:#632ca6;">DDOG</th>
+          <th style="color:#fa3838;">CRWD</th>
+          <th>评分逻辑</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="label">估值合理性</td><td class="num">1.5</td><td class="num">3</td><td class="num">2</td><td class="comment">EV/Sales、PEG相对增速的合理性。NET和CRWD都很贵但CRWD更贵</td></tr>
+        <tr><td class="label">增长动能</td><td class="num">4.5</td><td class="num">4</td><td class="num">3.5</td><td class="comment">NET、DDOG增速加速，CRWD经历Outage后恢复</td></tr>
+        <tr><td class="label">盈利质量</td><td class="num">2.5</td><td class="num">4</td><td class="num">4.5</td><td class="comment">FCF Margin、毛利率综合。CRWD/DDOG领先</td></tr>
+        <tr><td class="label">护城河</td><td class="num">4.5</td><td class="num">4</td><td class="num">4.5</td><td class="comment">全部宽护城河。NET网络规模 + CRWD品牌 + DDOG平台粘性</td></tr>
+        <tr><td class="label">风险回报对称性</td><td class="num">2</td><td class="num">3.5</td><td class="num">3</td><td class="comment">DDOG下行有限上行清晰；NET下行风险大</td></tr>
+        <tr><td class="label">分析师信心</td><td class="num">3.5</td><td class="num">4</td><td class="num">4.5</td><td class="comment">CRWD分析师目标价覆盖度最广，NET刚遭下调</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Tab 4: 投资结论 -->
+  <div class="section" id="t4">
+    <h2>🏆 投资结论与排序</h2>
+    <p class="subtitle">三段式：核心发现 → 各股投资论点 → 横向排序建议</p>
+
+    <!-- 核心发现 -->
+    <div style="background:linear-gradient(135deg,#1c2128 0%,#161b22 100%);padding:24px;border-radius:12px;margin-bottom:24px;border-left:4px solid #1f6feb;">
+      <div style="font-weight:700;color:#58a6ff;margin-bottom:12px;font-size:16px;">💡 核心发现摘要</div>
+      <div style="font-size:14px;color:#c9d1d9;line-height:1.8;">
+        三家公司是云基础设施SaaS的不同切面——<strong style="color:#f38020;">NET</strong>（边缘+安全+AI推理基础设施）、<strong style="color:#632ca6;">DDOG</strong>（可观测性+AI workload监控）、<strong style="color:#fa3838;">CRWD</strong>（端点安全+SIEM）。<br><br>
+        <strong>共同特征</strong>：都是宽护城河企业、都受益于AI基础设施投资、SBC占收入20%+都偏高、都已遭遇内部人减持（NET最猛）。<br><br>
+        <strong>核心分化</strong>：DDOG盈利质量最强（29% FCF Margin）+ 估值最合理（15x EV/Sales），是三家中风险回报对称性最好的；CRWD规模最大、护城河最深，但109x Fwd PE是天花板估值；NET卡位最性感（AI Agent网关）但财务质量最弱（13% FCF Margin、毛利率下滑、20% SBC + $1.68亿内部人减持）。
+      </div>
+    </div>
+
+    <!-- 各股论点 -->
+    <h3 style="font-size:18px;font-weight:700;margin:24px 0 12px;color:#e6edf3;">📝 各股投资论点（Bull vs Bear）</h3>
+    
+    
+      <div class="verdict-card" style="border-left-color:#f38020;">
+        <div class="ticker-line">
+          <div class="vt" style="color:#f38020;">NET</div>
+          <div class="vn">Cloudflare · 边缘网络 / 云安全</div>
+          <div class="tag" style="background:#dc262622;color:#dc2626;border:1px solid #dc262644;margin-left:auto;">极度溢价</div>
+        </div>
+        <div class="verdict-text">📍 结论：4星业务质量，5星估值压力。等回调$150-160区间更安全。</div>
+        <div class="bull-bear">
+          <div class="bull">
+            <div class="bull-title">🐂 Bull Case</div>
+            <div class="bull-text">AI时代Agent网关卡位最强，开发者单季度+100万，Workers AI 业务有望成为下一个收入主引擎</div>
+          </div>
+          <div class="bear">
+            <div class="bear-title">🐻 Bear Case</div>
+            <div class="bear-text">毛利率连续2季下滑、FCF Margin 仅13%（同行2倍）、20% SBC稀释、内部人$1.68亿减持、$140-150M裁员费用Q2-Q3集中确认</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="verdict-card" style="border-left-color:#632ca6;">
+        <div class="ticker-line">
+          <div class="vt" style="color:#632ca6;">DDOG</div>
+          <div class="vn">Datadog · 可观测性 / 监控</div>
+          <div class="tag" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;margin-left:auto;">估值偏高但合理</div>
+        </div>
+        <div class="verdict-text">📍 结论：5星业务质量，估值合理偏高。三家中性价比最均衡的选择。</div>
+        <div class="bull-bear">
+          <div class="bull">
+            <div class="bull-title">🐂 Bull Case</div>
+            <div class="bull-text">AI workload监控的最大受益者，超大云厂商（hyperscalers）使用其GPU监控方案，56%客户用4+产品（去年51%），20%客户用8+（去年13%），平台化效应明显。29% FCF Margin是三家最强</div>
+          </div>
+          <div class="bear">
+            <div class="bear-title">🐻 Bear Case</div>
+            <div class="bear-text">增速从历史130%+ NRR降至120%，估值仍要求『重新加速』才能涨；EV/EBITDA高达1900x，盈利能力相对市值仍小；股价52周+80%已price-in大量乐观预期</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="verdict-card" style="border-left-color:#fa3838;">
+        <div class="ticker-line">
+          <div class="vt" style="color:#fa3838;">CRWD</div>
+          <div class="vn">CrowdStrike · 端点安全 / Cyber SIEM</div>
+          <div class="tag" style="background:#d9770622;color:#d97706;border:1px solid #d9770644;margin-left:auto;">估值高但有质量</div>
+        </div>
+        <div class="verdict-text">📍 结论：5星业务质量+质量溢价合理，但绝对估值已高，建议等回撤至$450以下区间布局。</div>
+        <div class="bull-bear">
+          <div class="bull">
+            <div class="bull-title">🐂 Bull Case</div>
+            <div class="bull-text">Falcon Flex订阅模式正在解锁安全工具整合趋势：Q4 FY26 ARR增速重新加速至24%，单季度净新增ARR $330M创纪录；97%总留存率，年度首次突破$10亿净新增ARR；管理层目标$10B ARR可见性强</div>
+          </div>
+          <div class="bear">
+            <div class="bear-title">🐻 Bear Case</div>
+            <div class="bear-text">Forward PE 109x是三家中最贵，Price-to-Sales 20x相对软件行业均值8.5x溢价135%；7月2024 outage事件后需持续证明品牌恢复；股价相对DDOG/NET估值溢价已经接近极限</div>
+          </div>
+        </div>
+      </div>
+    
+
+    <!-- 横向排序 -->
+    <h3 style="font-size:18px;font-weight:700;margin:32px 0 12px;color:#e6edf3;">🏅 横向性价比排序（长期持有视角）</h3>
+    <div class="ranking-list">
+      <div class="rank-item rank-1">
+        <div class="rank-num">①</div>
+        <div class="rank-content">
+          <div class="rank-name" style="color:#632ca6;">DDOG · 性价比最高</div>
+          <div class="rank-reason">业务质量5星 + 估值合理偏高（EV/Sales 15x，是三家最低）+ FCF Margin 29% + NRR 122%+ 平台化效应明显。AI workload观测是真实落地的AI业务，无需等待"叙事兑现"。最适合作为云SaaS核心仓位。</div>
+        </div>
+      </div>
+      <div class="rank-item rank-2">
+        <div class="rank-num">②</div>
+        <div class="rank-content">
+          <div class="rank-name" style="color:#fa3838;">CRWD · 质量优秀但需等估值消化</div>
+          <div class="rank-reason">商业化最成熟（ARR $5.25B最大），单季度净新增ARR创纪录，护城河最深，但Forward PE 109x是行业极端。建议等回撤至$450以下区间分批建仓，向$10B ARR目标的可见性是长期支撑。</div>
+        </div>
+      </div>
+      <div class="rank-item rank-3">
+        <div class="rank-num">③</div>
+        <div class="rank-content">
+          <div class="rank-name" style="color:#f38020;">NET · 最需谨慎</div>
+          <div class="rank-reason">业务质量4星但当前估值要求5星表现，FY26指引隐含增速降至28%、毛利率连续下滑、FCF Margin仅13%、内部人$1.68亿减持是经典顶部信号。如果非要持有，等回调至$150-160区间（Base估值附近）再建仓。已持有者建议减仓至中性仓位。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong>⚠️ 数据口径说明：</strong><br>
+      • NET：Q1 2026财报数据（截至2026-03-31），股价为2026-05-11<br>
+      • DDOG：Q1 2026财报数据（截至2026-03-31），股价为2026-05-11<br>
+      • CRWD：Q4 FY26财报数据（财年截至2026-01-31，最新可得），股价为2026-05-08<br>
+      • PE统一使用 Forward PE（GAAP亏损则标N/M）；DDOG/CRWD的Non-GAAP数据已单独标注<br>
+      • 内部人减持数据：3个月汇总，来源GuruFocus<br>
+      • SBC/Revenue为估算值，基于Q1 SBC加回项推算<br>
+      • 本报告仅供研究参考，不构成投资建议。投资有风险，决策需谨慎。
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for Becks · 2026-05-11 · NET vs DDOG vs CRWD 横向估值对比
+  </div>
+</div>
+
+<script>
+const colorMap = {"NET":"#f38020","DDOG":"#632ca6","CRWD":"#fa3838"};
+const tickers = ["NET","DDOG","CRWD"];
+const colors = tickers.map(t => colorMap[t]);
+
+// Tab 切换
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+// 通用图表配置
+const darkChartConfig = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: {
+    legend: { labels: { color: '#c9d1d9', font: { size: 12, weight: '600' } } },
+    title: { color: '#e6edf3', font: { size: 14, weight: '600' } }
+  },
+  scales: {
+    x: { ticks: { color: '#8b949e', font: { size: 12, weight: '600' } }, grid: { color: '#21262d' } },
+    y: { ticks: { color: '#8b949e' }, grid: { color: '#21262d' } }
+  }
+};
+
+// Chart 1: EV/Sales 对比
+new Chart(document.getElementById('evSalesChart'), {
+  type: 'bar',
+  data: {
+    labels: tickers,
+    datasets: [{
+      label: 'EV/Sales (Forward)',
+      data: [24.2,15,24.6],
+      backgroundColor: colors,
+      borderRadius: 6
+    }]
+  },
+  options: {
+    ...darkChartConfig,
+    plugins: {
+      ...darkChartConfig.plugins,
+      legend: { display: false },
+      title: { display: true, text: 'EV/Sales (Forward) 对比 — DDOG估值最合理', color: '#e6edf3', font: { size: 14, weight: '600' } }
+    },
+    scales: {
+      ...darkChartConfig.scales,
+      y: { ...darkChartConfig.scales.y, beginAtZero: true, title: { display: true, text: 'EV/Sales (x)', color: '#8b949e' } }
+    }
+  }
+});
+
+// Chart 2: 增速对比
+new Chart(document.getElementById('growthChart'), {
+  type: 'bar',
+  data: {
+    labels: tickers,
+    datasets: [
+      { label: '当前增速 YoY', data: [34,32,23], backgroundColor: colors.map(c => c + 'cc'), borderRadius: 6 },
+      { label: 'FY 指引增速', data: [30,26,20], backgroundColor: colors.map(c => c + '66'), borderRadius: 6 }
+    ]
+  },
+  options: {
+    ...darkChartConfig,
+    plugins: {
+      ...darkChartConfig.plugins,
+      title: { display: true, text: '收入增速：当前 vs 指引 — NET 减速最快', color: '#e6edf3', font: { size: 14, weight: '600' } }
+    },
+    scales: {
+      ...darkChartConfig.scales,
+      y: { ...darkChartConfig.scales.y, beginAtZero: true, title: { display: true, text: '% YoY', color: '#8b949e' } }
+    }
+  }
+});
+
+// Chart 3: PEG 气泡图（PE vs 增速 vs 市值）
+new Chart(document.getElementById('pegBubbleChart'), {
+  type: 'bubble',
+  data: {
+    datasets: [{"ticker":"NET","name":"Cloudflare","sector":"边缘网络 / 云安全","price":196.13,"marketCap":69.3,"ev":68,"forwardPE":"N/M (亏损)","ttmPE":"-789x","evSales":24.2,"pegRatio":"N/M","revenueGrowth":34,"guidanceGrowth":30,"epsGrowthYoY":"+25% (Non-GAAP)","grossMargin":72.8,"grossMarginTrend":"下降 -130bp YoY","nonGaapOpMargin":15,"gaapOpMargin":11.4,"fcfMargin":13,"nrr":118,"arr":"n/a","large_customers":"4,416","insiderSell3M":168.7,"sbcRatio":20,"scores":{"valuation":1.5,"growth":4.5,"profitability":2.5,"moat":4.5,"riskRewardSym":2,"analystSentiment":3.5},"tag":"极度溢价","bullCase":"AI时代Agent网关卡位最强，开发者单季度+100万，Workers AI 业务有望成为下一个收入主引擎","bearCase":"毛利率连续2季下滑、FCF Margin 仅13%（同行2倍）、20% SBC稀释、内部人$1.68亿减持、$140-150M裁员费用Q2-Q3集中确认","verdict":"4星业务质量，5星估值压力。等回调$150-160区间更安全。"},{"ticker":"DDOG","name":"Datadog","sector":"可观测性 / 监控","price":200.09,"marketCap":70.6,"ev":64.6,"forwardPE":"78x","ttmPE":"534x","evSales":15,"pegRatio":"3.35","revenueGrowth":32,"guidanceGrowth":26,"epsGrowthYoY":"+114% (Non-GAAP)","grossMargin":80.2,"grossMarginTrend":"稳定 -10bp YoY","nonGaapOpMargin":22,"gaapOpMargin":1,"fcfMargin":29,"nrr":122,"arr":"$4B+","large_customers":"4,550","insiderSell3M":109.1,"sbcRatio":22,"scores":{"valuation":3,"growth":4,"profitability":4,"moat":4,"riskRewardSym":3.5,"analystSentiment":4},"tag":"估值偏高但合理","bullCase":"AI workload监控的最大受益者，超大云厂商（hyperscalers）使用其GPU监控方案，56%客户用4+产品（去年51%），20%客户用8+（去年13%），平台化效应明显。29% FCF Margin是三家最强","bearCase":"增速从历史130%+ NRR降至120%，估值仍要求『重新加速』才能涨；EV/EBITDA高达1900x，盈利能力相对市值仍小；股价52周+80%已price-in大量乐观预期","verdict":"5星业务质量，估值合理偏高。三家中性价比最均衡的选择。"},{"ticker":"CRWD","name":"CrowdStrike","sector":"端点安全 / Cyber SIEM","price":527.77,"marketCap":134.3,"ev":129.9,"forwardPE":"109x","ttmPE":"N/M (亏损)","evSales":24.6,"pegRatio":"5+","revenueGrowth":23,"guidanceGrowth":20,"epsGrowthYoY":"+38% (Non-GAAP)","grossMargin":74.8,"grossMarginTrend":"稳定 +200bp YoY (订阅80→81%)","nonGaapOpMargin":24,"gaapOpMargin":-1,"fcfMargin":27,"nrr":"n/a (gross retention 97%)","arr":"$5.25B","large_customers":"n/a (单季度净增ARR创纪录$330M)","insiderSell3M":"n/a (相对克制)","sbcRatio":20,"scores":{"valuation":2,"growth":3.5,"profitability":4.5,"moat":4.5,"riskRewardSym":3,"analystSentiment":4.5},"tag":"估值高但有质量","bullCase":"Falcon Flex订阅模式正在解锁安全工具整合趋势：Q4 FY26 ARR增速重新加速至24%，单季度净新增ARR $330M创纪录；97%总留存率，年度首次突破$10亿净新增ARR；管理层目标$10B ARR可见性强","bearCase":"Forward PE 109x是三家中最贵，Price-to-Sales 20x相对软件行业均值8.5x溢价135%；7月2024 outage事件后需持续证明品牌恢复；股价相对DDOG/NET估值溢价已经接近极限","verdict":"5星业务质量+质量溢价合理，但绝对估值已高，建议等回撤至$450以下区间布局。"}].map((s, i) => ({
+      label: s.ticker + ' ($' + s.marketCap + 'B)',
+      data: [{
+        x: s.evSales,
+        y: s.revenueGrowth,
+        r: Math.sqrt(s.marketCap) * 3
+      }],
+      backgroundColor: colors[i] + 'aa',
+      borderColor: colors[i],
+      borderWidth: 2
+    }))
+  },
+  options: {
+    ...darkChartConfig,
+    plugins: {
+      ...darkChartConfig.plugins,
+      title: { display: true, text: '估值-增长气泡图（X=EV/Sales, Y=增速, 气泡大小=市值）— 越靠左上越好', color: '#e6edf3', font: { size: 14, weight: '600' } }
+    },
+    scales: {
+      x: { ...darkChartConfig.scales.x, title: { display: true, text: 'EV/Sales (x)', color: '#c9d1d9' }, beginAtZero: true },
+      y: { ...darkChartConfig.scales.y, title: { display: true, text: '收入增速 (%)', color: '#c9d1d9' }, beginAtZero: true }
+    }
+  }
+});
+
+// Chart 4: 毛利率
+new Chart(document.getElementById('grossMarginChart'), {
+  type: 'bar',
+  data: {
+    labels: tickers,
+    datasets: [{
+      label: '毛利率 (%)',
+      data: [72.8,80.2,74.8],
+      backgroundColor: colors,
+      borderRadius: 6
+    }]
+  },
+  options: {
+    ...darkChartConfig,
+    plugins: {
+      ...darkChartConfig.plugins,
+      legend: { display: false },
+      title: { display: true, text: '毛利率对比 — DDOG 80% 行业最优', color: '#e6edf3', font: { size: 14, weight: '600' } }
+    },
+    scales: {
+      ...darkChartConfig.scales,
+      y: { ...darkChartConfig.scales.y, beginAtZero: false, min: 65, max: 85, title: { display: true, text: '%', color: '#8b949e' } }
+    }
+  }
+});
+
+// Chart 5: FCF Margin
+new Chart(document.getElementById('fcfChart'), {
+  type: 'bar',
+  data: {
+    labels: tickers,
+    datasets: [{
+      label: 'FCF Margin (%)',
+      data: [13,29,27],
+      backgroundColor: colors,
+      borderRadius: 6
+    }]
+  },
+  options: {
+    ...darkChartConfig,
+    plugins: {
+      ...darkChartConfig.plugins,
+      legend: { display: false },
+      title: { display: true, text: 'FCF Margin — DDOG/CRWD 是 NET 的两倍', color: '#e6edf3', font: { size: 14, weight: '600' } }
+    },
+    scales: {
+      ...darkChartConfig.scales,
+      y: { ...darkChartConfig.scales.y, beginAtZero: true, title: { display: true, text: '%', color: '#8b949e' } }
+    }
+  }
+});
+
+// Chart 6: 盈利能力分组对比
+new Chart(document.getElementById('profitabilityChart'), {
+  type: 'bar',
+  data: {
+    labels: ['毛利率', 'Non-GAAP OPM', 'FCF Margin'],
+    datasets: tickers.map((t, i) => {
+      const s = [{"ticker":"NET","name":"Cloudflare","sector":"边缘网络 / 云安全","price":196.13,"marketCap":69.3,"ev":68,"forwardPE":"N/M (亏损)","ttmPE":"-789x","evSales":24.2,"pegRatio":"N/M","revenueGrowth":34,"guidanceGrowth":30,"epsGrowthYoY":"+25% (Non-GAAP)","grossMargin":72.8,"grossMarginTrend":"下降 -130bp YoY","nonGaapOpMargin":15,"gaapOpMargin":11.4,"fcfMargin":13,"nrr":118,"arr":"n/a","large_customers":"4,416","insiderSell3M":168.7,"sbcRatio":20,"scores":{"valuation":1.5,"growth":4.5,"profitability":2.5,"moat":4.5,"riskRewardSym":2,"analystSentiment":3.5},"tag":"极度溢价","bullCase":"AI时代Agent网关卡位最强，开发者单季度+100万，Workers AI 业务有望成为下一个收入主引擎","bearCase":"毛利率连续2季下滑、FCF Margin 仅13%（同行2倍）、20% SBC稀释、内部人$1.68亿减持、$140-150M裁员费用Q2-Q3集中确认","verdict":"4星业务质量，5星估值压力。等回调$150-160区间更安全。"},{"ticker":"DDOG","name":"Datadog","sector":"可观测性 / 监控","price":200.09,"marketCap":70.6,"ev":64.6,"forwardPE":"78x","ttmPE":"534x","evSales":15,"pegRatio":"3.35","revenueGrowth":32,"guidanceGrowth":26,"epsGrowthYoY":"+114% (Non-GAAP)","grossMargin":80.2,"grossMarginTrend":"稳定 -10bp YoY","nonGaapOpMargin":22,"gaapOpMargin":1,"fcfMargin":29,"nrr":122,"arr":"$4B+","large_customers":"4,550","insiderSell3M":109.1,"sbcRatio":22,"scores":{"valuation":3,"growth":4,"profitability":4,"moat":4,"riskRewardSym":3.5,"analystSentiment":4},"tag":"估值偏高但合理","bullCase":"AI workload监控的最大受益者，超大云厂商（hyperscalers）使用其GPU监控方案，56%客户用4+产品（去年51%），20%客户用8+（去年13%），平台化效应明显。29% FCF Margin是三家最强","bearCase":"增速从历史130%+ NRR降至120%，估值仍要求『重新加速』才能涨；EV/EBITDA高达1900x，盈利能力相对市值仍小；股价52周+80%已price-in大量乐观预期","verdict":"5星业务质量，估值合理偏高。三家中性价比最均衡的选择。"},{"ticker":"CRWD","name":"CrowdStrike","sector":"端点安全 / Cyber SIEM","price":527.77,"marketCap":134.3,"ev":129.9,"forwardPE":"109x","ttmPE":"N/M (亏损)","evSales":24.6,"pegRatio":"5+","revenueGrowth":23,"guidanceGrowth":20,"epsGrowthYoY":"+38% (Non-GAAP)","grossMargin":74.8,"grossMarginTrend":"稳定 +200bp YoY (订阅80→81%)","nonGaapOpMargin":24,"gaapOpMargin":-1,"fcfMargin":27,"nrr":"n/a (gross retention 97%)","arr":"$5.25B","large_customers":"n/a (单季度净增ARR创纪录$330M)","insiderSell3M":"n/a (相对克制)","sbcRatio":20,"scores":{"valuation":2,"growth":3.5,"profitability":4.5,"moat":4.5,"riskRewardSym":3,"analystSentiment":4.5},"tag":"估值高但有质量","bullCase":"Falcon Flex订阅模式正在解锁安全工具整合趋势：Q4 FY26 ARR增速重新加速至24%，单季度净新增ARR $330M创纪录；97%总留存率，年度首次突破$10亿净新增ARR；管理层目标$10B ARR可见性强","bearCase":"Forward PE 109x是三家中最贵，Price-to-Sales 20x相对软件行业均值8.5x溢价135%；7月2024 outage事件后需持续证明品牌恢复；股价相对DDOG/NET估值溢价已经接近极限","verdict":"5星业务质量+质量溢价合理，但绝对估值已高，建议等回撤至$450以下区间布局。"}][i];
+      return {
+        label: t,
+        data: [s.grossMargin, s.nonGaapOpMargin, s.fcfMargin],
+        backgroundColor: colors[i],
+        borderRadius: 6
+      };
+    })
+  },
+  options: {
+    ...darkChartConfig,
+    plugins: {
+      ...darkChartConfig.plugins,
+      title: { display: true, text: '三大盈利指标横向对比', color: '#e6edf3', font: { size: 14, weight: '600' } }
+    },
+    scales: {
+      ...darkChartConfig.scales,
+      y: { ...darkChartConfig.scales.y, beginAtZero: true, title: { display: true, text: '%', color: '#8b949e' } }
+    }
+  }
+});
+
+// Chart 7: 综合雷达图
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['估值合理性', '增长动能', '盈利质量', '护城河', '风险回报对称性', '分析师信心'],
+    datasets: [{"ticker":"NET","name":"Cloudflare","sector":"边缘网络 / 云安全","price":196.13,"marketCap":69.3,"ev":68,"forwardPE":"N/M (亏损)","ttmPE":"-789x","evSales":24.2,"pegRatio":"N/M","revenueGrowth":34,"guidanceGrowth":30,"epsGrowthYoY":"+25% (Non-GAAP)","grossMargin":72.8,"grossMarginTrend":"下降 -130bp YoY","nonGaapOpMargin":15,"gaapOpMargin":11.4,"fcfMargin":13,"nrr":118,"arr":"n/a","large_customers":"4,416","insiderSell3M":168.7,"sbcRatio":20,"scores":{"valuation":1.5,"growth":4.5,"profitability":2.5,"moat":4.5,"riskRewardSym":2,"analystSentiment":3.5},"tag":"极度溢价","bullCase":"AI时代Agent网关卡位最强，开发者单季度+100万，Workers AI 业务有望成为下一个收入主引擎","bearCase":"毛利率连续2季下滑、FCF Margin 仅13%（同行2倍）、20% SBC稀释、内部人$1.68亿减持、$140-150M裁员费用Q2-Q3集中确认","verdict":"4星业务质量，5星估值压力。等回调$150-160区间更安全。"},{"ticker":"DDOG","name":"Datadog","sector":"可观测性 / 监控","price":200.09,"marketCap":70.6,"ev":64.6,"forwardPE":"78x","ttmPE":"534x","evSales":15,"pegRatio":"3.35","revenueGrowth":32,"guidanceGrowth":26,"epsGrowthYoY":"+114% (Non-GAAP)","grossMargin":80.2,"grossMarginTrend":"稳定 -10bp YoY","nonGaapOpMargin":22,"gaapOpMargin":1,"fcfMargin":29,"nrr":122,"arr":"$4B+","large_customers":"4,550","insiderSell3M":109.1,"sbcRatio":22,"scores":{"valuation":3,"growth":4,"profitability":4,"moat":4,"riskRewardSym":3.5,"analystSentiment":4},"tag":"估值偏高但合理","bullCase":"AI workload监控的最大受益者，超大云厂商（hyperscalers）使用其GPU监控方案，56%客户用4+产品（去年51%），20%客户用8+（去年13%），平台化效应明显。29% FCF Margin是三家最强","bearCase":"增速从历史130%+ NRR降至120%，估值仍要求『重新加速』才能涨；EV/EBITDA高达1900x，盈利能力相对市值仍小；股价52周+80%已price-in大量乐观预期","verdict":"5星业务质量，估值合理偏高。三家中性价比最均衡的选择。"},{"ticker":"CRWD","name":"CrowdStrike","sector":"端点安全 / Cyber SIEM","price":527.77,"marketCap":134.3,"ev":129.9,"forwardPE":"109x","ttmPE":"N/M (亏损)","evSales":24.6,"pegRatio":"5+","revenueGrowth":23,"guidanceGrowth":20,"epsGrowthYoY":"+38% (Non-GAAP)","grossMargin":74.8,"grossMarginTrend":"稳定 +200bp YoY (订阅80→81%)","nonGaapOpMargin":24,"gaapOpMargin":-1,"fcfMargin":27,"nrr":"n/a (gross retention 97%)","arr":"$5.25B","large_customers":"n/a (单季度净增ARR创纪录$330M)","insiderSell3M":"n/a (相对克制)","sbcRatio":20,"scores":{"valuation":2,"growth":3.5,"profitability":4.5,"moat":4.5,"riskRewardSym":3,"analystSentiment":4.5},"tag":"估值高但有质量","bullCase":"Falcon Flex订阅模式正在解锁安全工具整合趋势：Q4 FY26 ARR增速重新加速至24%，单季度净新增ARR $330M创纪录；97%总留存率，年度首次突破$10亿净新增ARR；管理层目标$10B ARR可见性强","bearCase":"Forward PE 109x是三家中最贵，Price-to-Sales 20x相对软件行业均值8.5x溢价135%；7月2024 outage事件后需持续证明品牌恢复；股价相对DDOG/NET估值溢价已经接近极限","verdict":"5星业务质量+质量溢价合理，但绝对估值已高，建议等回撤至$450以下区间布局。"}].map((s, i) => ({
+      label: s.ticker,
+      data: [s.scores.valuation, s.scores.growth, s.scores.profitability, s.scores.moat, s.scores.riskRewardSym, s.scores.analystSentiment],
+      backgroundColor: colors[i] + '33',
+      borderColor: colors[i],
+      borderWidth: 2,
+      pointBackgroundColor: colors[i],
+      pointRadius: 5
+    }))
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      r: {
+        beginAtZero: true, max: 5,
+        ticks: { stepSize: 1, display: false, backdropColor: 'transparent' },
+        grid: { color: '#30363d' },
+        angleLines: { color: '#30363d' },
+        pointLabels: { color: '#c9d1d9', font: { size: 13, weight: '600' } }
+      }
+    },
+    plugins: {
+      legend: { labels: { color: '#c9d1d9', font: { size: 13, weight: '600' } } },
+      title: { display: true, text: '六维综合评分（1-5分，分数越高越好）', color: '#e6edf3', font: { size: 14, weight: '600' } }
+    }
+  }
+});
+</script>
+</body>
+</html>

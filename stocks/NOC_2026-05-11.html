@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Northrop Grumman 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Northrop Grumman 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：NOC</div>
+      <div>🏛️ 交易所：NYSE</div>
+      <div>🏷️ 行业：工业 / 国防制造</div>
+      <div>📅 分析日期：2026-05-11</div>
+    </div>
+    <div class="one-liner">💡 NOC通过设计、生产和维护战略级国防系统（核三位一体两条腿、隐身飞机、太空武器）向美国国防部和盟国政府收取长期成本加成型合同收入，具备国防工业最宽的“分类资质+核能力”护城河，处于美国“核现代化超级周期”的早期高资本投入阶段。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：长周期项目制造 + 成本加成型政府合同（G2B）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">四大业务板块：①Aeronautics Systems（31%收入）——核心是B-21 Raider隐身战略轰炸机、E-130J TACAMO、Global Hawk无人机；②Mission Systems（27%）——雷达、电子战、C4ISR、机密分类项目；③Space Systems（26%）——卫星、太空传感器、ground systems；④Defense Systems（20%）——Sentinel陆基ICBM、战术导弹、GMLRS弹药。NOC在美国核三位一体中独占两条腿（B-21战略轰炸 + Sentinel陆基ICBM），地位不可替代。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">高度集中：美国国防部约75%、其他美国政府机构约10%、国际盟友约12%（北约、日韩澳为主）、商业客户仅约3%。典型G2B模式，单一客户（美国政府）依赖度极高，但客户信用质量也最优——预算流由国会授权，长期可预期。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">美国本土约86%、欧洲约7%、亚太约4%、其他约3%。国际收入近两年加速——Q2 2025国际销售同比+18%，反映北约5% GDP军费承诺和欧洲再武装的传导效应。但国际订单周期更长，对短期收入贡献有限。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">2025财年总收入$41.95B（同比~+5%），2026指引$43.5-$44.0B（~4%增长）。Backlog $95.6B创纪录，其中35%在12个月内确认收入、60%在24个月内确认收入——提供约2.3年的收入可见度。收入结构以多年期合同为主，单一年度收入波动小，但长期项目里程碑触发的利润确认有季度性波动。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#05966922;color:#059669;border:1px solid #05966944">综合评级：宽护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">成本优势中等：庞大研发基础设施分摊到多项目摊薄单项成本，规模经济存在但有限。成本加成型合同模式下“低成本”反而不是核心竞争点（成本压不下来就让政府买单）。固定价格合同（如B-21）才考验真实成本能力，而NOC在这块吃过亏（2024年$1.6B损失拨备）。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">最强护城河维度。①分类设施和工厂——核能力认证需要数十年积累；②员工密级——95,000员工中相当比例持有Top Secret/SCI；③ITAR出口管制资质；④隐身材料工艺、雷达吸波结构等核心技术专利；⑤政府准入资质——新进入者需10年准备，事实上构成不可逾越的法律和技术壁垒。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">极高转换成本。B-21、Sentinel这种规模的项目一旦中标，生命周期可达30-50年——开发投资沉没、客户作战体系适配、配套维保链路、人员培训全部锁定。即使政府对单一供应商不满意，“换供应商”在政治和军事可行性上都接近不可能。Mission Systems中机密项目同样具有此特征。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">0/3</span>
+    </div>
+    <p class="dim-text">不适用。G2B模式中无网络效应——单一最大客户（美国政府）和盟国客户互相不构成网络，每个合同独立竞标。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">规模效应中等偏强。$95.6B订单储备分散单一项目风险，研发成本可在多项目间共享（隐身技术在B-21和未来NGAD之间可复用）。但资本密集度也极高——2026 CapEx $1.85B + B-21专项设施投资$2.5B，规模一旦建立形成壁垒，但同时也是回报率的压制因素。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">①“核现代化垄断”——美国核三位一体的三条腿中NOC独占两条（B-21+Sentinel），这种地位在和平时期估值平淡，但在大国博弈时代是不可替代的战略资产；②分类项目壁垒——Space Systems和Mission Systems中机密项目占比高，几乎不受新进入者（SpaceX、Anduril、Palantir等）短期冲击；③$95.6B创纪录订单储备——2.3年收入可见度，60%已锁定到24个月内。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">①B-21固定价格合同的执行风险——2024年记录$1.6B损失拨备，2025年Aeronautics利润率被压缩，规模化生产期的成本控制仍是核心风险；②政治依赖——预算审议、债务上限谈判周期性带来不确定性，Sentinel曾因Nunn-McCurdy违规面临重组；③现金流季节性极端——Q1自由现金流-$1.8B，全年指引$3.1-3.5B，回款节奏波动大；④失去NGI项目给LMT——表明在新型项目竞标中并非战无不胜，Space Systems Q1 2026收入下滑3%。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：工业 / 国防制造</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：国防大型综合集团</span>
+      <span class="badge" style="background:#10b98122;color:#10b981;border:1px solid #10b98144">估值结论：偏低估</span>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：Forward PE + EV/EBITDA + FCF Yield + Backlog/Revenue倍数</div>
+      <div class="text">国防股本质是“长周期合同制造”——既不像SaaS高速成长（用EV/Sales），也不像周期性工业（用P/B），最适合的框架是：①Forward PE衡量盈利能见度（backlog支撑），②EV/EBITDA中和不同公司的CapEx差异，③FCF Yield衡量真实现金回报，④Backlog/Revenue倍数衡量未来收入可见度。注意必须用MTM-adjusted EPS而非GAAP EPS——养老金mark-to-market会扭曲GAAP数据。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">股价</td>
+    <td class="num">$549.87</td>
+    <td class="num" style="color:#64748b;font-size:13px;">52周$453-$774</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#2563eb22;color:#2563eb;">偏低</span></td>
+  </tr>
+  <tr>
+    <td class="label">市值</td>
+    <td class="num">$78.0B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">—</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#2563eb22;color:#2563eb;">偏低</span></td>
+  </tr>
+  <tr>
+    <td class="label">Trailing PE (TTM)</td>
+    <td class="num">17.2x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">国防股20-25x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">Forward PE (2026)</td>
+    <td class="num">19.9x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">同行15-25x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/EBITDA</td>
+    <td class="num">~12x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">同行11-15x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">2026收入指引</td>
+    <td class="num">$43.5-44.0B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">增长~4%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">2026 MTM-adj EPS</td>
+    <td class="num">$27.40-27.90</td>
+    <td class="num" style="color:#64748b;font-size:13px;">—</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">2026 FCF指引</td>
+    <td class="num">$3.1-3.5B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">FCF Yield ~4.2%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">Backlog</td>
+    <td class="num">$95.6B (2.3年)</td>
+    <td class="num" style="color:#64748b;font-size:13px;">行业领先</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">股息率</td>
+    <td class="num">1.7%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">同行1.5-2.5%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">PEG</td>
+    <td class="num">3.59x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">LMT 1.18 / GD 2.43</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr></tbody>
+    </table>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>市值</th><th>Forward PE</th><th>EV/EBITDA</th><th>PEG</th><th>FCF Yield</th><th>差异化定位</th></tr></thead>
+      <tbody><tr><td class="label" style="background:#fef3c7;;font-weight:700;">NOC</td><td class="num" style="background:#fef3c7;;">$78B</td><td class="num" style="background:#fef3c7;;">19.9x</td><td class="num" style="background:#fef3c7;;">12x</td><td class="num" style="background:#fef3c7;;">3.59x</td><td class="num" style="background:#fef3c7;;">4.2%</td><td class="num" style="background:#fef3c7;;">核三位一体+空间垄断</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">LMT</td><td class="num" style="background:transparent;;">$120B</td><td class="num" style="background:transparent;;">16.8x</td><td class="num" style="background:transparent;;">11.9x</td><td class="num" style="background:transparent;;">1.18x</td><td class="num" style="background:transparent;;">4.7%</td><td class="num" style="background:transparent;;">F-35/PAC-3/THAAD</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">RTX</td><td class="num" style="background:transparent;;">$230B</td><td class="num" style="background:transparent;;">25.1x</td><td class="num" style="background:transparent;;">16.7x</td><td class="num" style="background:transparent;;">2.94x</td><td class="num" style="background:transparent;;">~3%</td><td class="num" style="background:transparent;;">P&W商航暴露</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">GD</td><td class="num" style="background:transparent;;">$95B</td><td class="num" style="background:transparent;;">19.0x</td><td class="num" style="background:transparent;;">13.5x</td><td class="num" style="background:transparent;;">2.43x</td><td class="num" style="background:transparent;;">~5%</td><td class="num" style="background:transparent;;">海军舰艇+IT服务</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司</p>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（基于行业框架）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear">
+        <div class="label">悲观情景 Bear</div>
+        <div class="value">$480</div>
+      </div>
+      <div class="fv-card base">
+        <div class="label">基准情景 Base</div>
+        <div class="value">$640</div>
+      </div>
+      <div class="fv-card bull">
+        <div class="label">乐观情景 Bull</div>
+        <div class="value">$780</div>
+      </div>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">NOC当前$549.87位于52周区间下沿（距离低点$453仅+21%，距离高点$774还有-29%），从估值倍数看处于行业合理偏低水平。Forward PE 19.9x虽然不是最便宜（LMT 16.8x更便宜），但NOC的backlog质量（2.3年可见度+核现代化锁定）和无形资产护城河支持其相对溢价。卖方共识目标价$727.75（隐含+32%空间），主流投行Jefferies $660、Citi $742、UBS $745——均给Hold评级但目标价显示明显上行空间，反映“质量好但需要执行兑现”的市场观点。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>固定价格合同的利润率不可线性外推——B-21等大型项目的损失拨备具有“突袭性”，单季度可拖累整个公司利润率（如2024年Q3公司就吃了$1.6B损失拨备）
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>把backlog等同于已锁定利润——backlog增长是收入可见度的体现，但成本超支会侵蚀利润，需关注backlog质量（成本加成 vs 固定价格比例）
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>忽略养老金mark-to-market调整影响——NOC的GAAP EPS和MTM-adjusted EPS差异巨大，跨年比较时必须用MTM-adj，否则得到完全错误的估值倍数
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>忽视CapEx超级周期——B-21产能扩张需$2.5B、年度CapEx $1.85B，未来3年FCF将持续承压，按LTM FCF估值会高估真实股东回报
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱5：</strong>PEG高不代表贵——国防股增长率本来就慢（5-8%），但确定性极高，传统PEG框架严重低估了“低增长但极稳定”的现金流价值
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;font-size:16px;padding:8px 18px">综合评级：B级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">CEO Kathy Warden（2019年起任CEO+董事长）的资本配置整体合格。亮点：①2024年完成MT&S业务剥离给Serco（$327M）——剥离非核心、聚焦战略业务的正确动作；②回购+股息每年总额约$3-4B，分红连续21年增长，是DRIP和股息成长策略的稳健选择；③CapEx投向（B-21产能扩张、Sentinel设施）与战略方向一致。瑕疵：B-21损失拨备暴露出对固定价格合同的风险管理不够审慎——竞标时的乐观假设没有充分对冲通胀和供应链风险。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">业绩指引相对可靠，2025、2026年度指引基本被达成或微超。MTM-adjusted EPS披露清晰，公司是少数主动用调整后EPS引导市场的国防公司。但2024年B-21巨亏属于“晚披露”——多季度后才一次性确认，留给投资者较少反应时间，体现固定价格合同会计的内在不透明性，并非完全是管理层主观问题但仍构成可改进点。审计师为Deloitte，无审计意见保留。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">多项核心项目同步推进（B-21、Sentinel、Golden Dome、E-130J），执行难度极高。2026年Q1利润率反弹至10.8%、Aeronautics恢复至9.3%是积极信号，表明B-21已度过最艰难期。但Space Systems丢失NGI项目给LMT、GEM 63XL发射异常$71M拨备表明执行并非完美。整体执行力评估：合格但需持续观察。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">2025年回购约$1.5-2.0B vs SBC约$200M = 回购金额是SBC的7-10倍 → 真回购，显著股东友好。流通股本5年内累计减少约8%，股东回报机制健康。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">①核现代化超级周期定位精准——在LMT/RTX/GD都没拿到的两条核三位一体腿上完成布局；②剥离非核心业务+聚焦战略业务的纪律性；③21年连续分红增长的股东回报记录；④国际收入加速（Q2 2025同比+18%）反映对欧洲再武装机会的捕捉。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">①固定价格合同执行风险——B-21已经“被坑”过一次，Sentinel未来也是固定价格合同；②CEO一人兼任董事长削弱了治理制衡，董事会独立性需要关注；③管理层过去几年没有进行大型并购，但国防行业整合压力上升时（如L3Harris模式）能否做出正确战略决策仍待观察；④薪酬与短期EPS挂钩比例较高，可能激励“会计安排”而非真实业务改进。</div>
+    </div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★★☆</div>
+      <div style="color:#475569; font-size:14px">4/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>NOC是国防工业护城河最宽的公司之一，凭借核三位一体两条腿的独家地位（B-21战略轰炸 + Sentinel陆基ICBM）和空间机密项目壁垒，未来15-20年的收入可见度远超大多数行业。当前估值（Forward PE 19.9x、FCF Yield 4.2%）在52周区间下沿，已经反映了B-21执行风险、Q1现金流承压、NGI失利等大部分负面因素。
+
+核心投资逻辑：押注“美国核现代化超级周期+欧洲再武装”这两个5-10年级别的结构性顺风。短期催化剂包括B-21量产爬坡、Sentinel原型机验证、Golden Dome项目落地。
+
+适合的投资者画像：寻求多年期稳定复合回报的家族办公室/退休账户、愿意接受单季度财报波动换取长期确定性、看好美国核现代化超级周期和欧洲军备扩张趋势、不介意短期FCF被CapEx拖累。
+
+不适合的投资者画像：追求高速增长的成长股投资者、对地缘政治“和平红利”有信念的投资者、对国防股伦理敏感的ESG投资者。
+
+综合评级4/5星——商业质量优秀、估值合理偏低、管理层中规中矩、长期确定性强，但增长速度有限（年化~5-8%收入增长），不适合追求超额成长的资金。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">B-21量产爬坡——单架交付节奏与单位成本变化（是否仍有额外损失拨备？是否达成25%产能扩张目标？）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">Sentinel重组进展——Nunn-McCurdy违规后的成本上限谈判结果和2026年底原型机验证</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">季度Aeronautics利润率——Q1已恢复9.3%，能否在Q2/Q3/Q4稳定在10%+水平</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">自由现金流季度兑现节奏——Q2/Q3能否如指引追上全年$3.1-3.5B（Q1为use of $1.8B）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">国际订单占比——能否突破15%（Q2 2025国际销售同比+18%是好兆头，但订单周期长）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">6.</span>
+    <span style="font-size:14px;">Golden Dome美国本土导弹防御计划中NOC的份额（SpaceX已拿到$3.2B合同，NOC需要在地面拦截层抢份额）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">7.</span>
+    <span style="font-size:14px;">Backlog质量演变——成本加成 vs 固定价格合同比例，固定价格占比上升是风险信号</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">8.</span>
+    <span style="font-size:14px;">管理层变动——Kathy Warden接班人计划，董事长/CEO分离的治理改革进度</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for Northrop Grumman (NOC) · 2026-05-11<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [2,3,3,0,2],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vistra Corp 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { padding:18px 22px; border-radius:10px; margin:12px 0; border-left:4px solid; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Vistra Corp 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：VST</div>
+      <div>🏛️ 交易所：NYSE</div>
+      <div>🏷️ 行业：能源 / 独立发电商（IPP）</div>
+      <div>📅 分析日期：2026-05-11</div>
+    </div>
+    <div class="one-liner">💡 Vistra 通过运营 41GW 多元化发电资产（核电/天然气/煤/可再生）+ 美国最大独立零售电力业务，向 ERCOT/PJM 等批发市场和约500万零售客户销售电力，正借 AI 数据中心爆发从「传统 IPP」重估为「AI 电力基础设施」</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  <!-- 模块一 -->
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：资产重型 + 平台整合（发电+零售垂直一体）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">核心业务为电力发电与销售。装机总量约41GW，包含：①核电6.4GW（Comanche Peak双机组在Texas + Beaver Valley/Davis-Besse/Perry三座PJM核电站，全部20年license延期至2050s+）；②天然气燃机~25GW（含2026新整合的Lotus 2.6GW + Cogentrix 5.5GW）；③煤电（持续退役中）；④太阳能+电池储能（Moss Landing为全球最大BESS之一）。零售端通过TXU Energy、Ambit、Dynegy Energy Services等品牌覆盖美国20+州约500万客户，是美国最大的独立竞争性零售商。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">B2B + B2C双轮：①批发市场：通过ERCOT（Texas）、PJM（美东）、ISO-NE、CAISO等独立系统运营商出售电力给电力公司、零售商；②近期最大变化——直接签订长期hyperscaler PPA：Meta 20年2.6GW（三座核电站）、AWS 20年1.2GW（Comanche Peak）、AWS Oak Hill 200MW太阳能。③零售端约500万家庭和工商业客户，平均合同周期1-3年。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">100% 美国本土。重仓两大市场：Texas/ERCOT（约45%装机+总部所在地，受益AI数据中心爆发性增长）；PJM 美东走廊（约35%装机+三座核电，靠近Northern Virginia数据中心走廊）。其余分布加州CAISO、新英格兰ISO-NE等。地理集中度高=机会大但风险大（ERCOT单一市场极端天气和监管风险）。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">2025全年营收约$20B；2026E营收$22.7B（增速+13%）。Q1 2026营收$5.64B（YoY+大幅增长，超预期$5.22B）。EBITDA结构：Texas段约40%、East段约25%、Retail段约30%、West/AC约5%。2025 Adjusted EBITDA $5.91B（指引中位数上修）。2026E EBITDA指引$6.5B+，2027E$10B+累计现金生成目标。关键变化：契约化EBITDA占比从2024年约30%升至2026年60%+，2027E接近70%——从纯周期性现金流向准受监管现金流的关键转型。</div></div>
+    </div>
+  </div>
+
+  <!-- 模块二 -->
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级：窄护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">核电边际成本$20-30/MWh（已完全折旧+IRA核电PTC $15/MWh的兜底），是ERCOT/PJM现货市场中最低成本的baseload；煤电正在系统性淘汰；天然气燃机依赖燃料价格无独特成本优势。综合而言，6.4GW核电是真正的成本护城河，但只占总装机16%，无法成为压倒性优势。整体评中级偏弱。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">这是VST最强的护城河维度。美国自1979年三里岛事件后30年未新建大型核电，2020年代仅有Vogtle机组艰难完工（超支$15B+、延期7年）。这意味着Vistra手中6.4GW已运营核电是事实上的不可复制资产。NRC（核管会）已批准Comanche Peak、Perry等关键机组延期运营至2050s+。新建核电需要10-15年许可+施工+$10B+资本，构成铁壁监管壁垒。Meta敢签20年PPA、AWS敢签Comanche Peak的根本原因就是没有替代品。这一项给满分★★★。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">批发电力（约70%收入）是完美同质化商品，无任何转换成本——电子无差异。零售端虽有合同但客户切换简单（一通电话+30天）。近期hyperscaler 20年PPA是合同性锁定（提升contract-driven moat），但本质是商业合同而非客户被绑定的转换成本。给低分。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">0/3</span>
+    </div>
+    <p class="dim-text">电力商业模式不存在网络效应。一个用户使用Vistra电力不会让其他用户的电力更有价值。完全不适用此维度。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">41GW装机带来三方面规模经济：①燃料采购（天然气、铀燃料）议价能力；②跨区域调度优化（在ERCOT高价时段调动East段资源）；③对冲与风险管理团队的固定成本摊薄。零售端500万客户对客户获取成本、品牌支出形成规模摊薄。但整体规模效应在公用事业行业是必要条件而非差异化优势——CEG装机更大（59GW），NRG也有相似规模。给中级。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">核电稀缺性是VST最硬的护城河——6.4GW运营中、license延至2050s+、Meta/AWS 20年PPA已锁定中-高teen IRR。叠加ERCOT位置优势（美国负载增长最快的市场+宽松监管），形成「无形资产+地理位置」的双重锁定。这是为什么市场愿意把VST从「周期性IPP」重估为「AI基础设施」的根本原因。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">护城河的「宽度」被两个事实限制：①核电只占装机16%，剩余84%的气/煤/再生资产没有独特护城河，竞争依然激烈；②批发电力本质同质化，定价权依赖市场而非品牌；③杠杆较高（D/E 3.69）放大了任何运营失误的下行风险；④地理高度集中Texas，单一极端天气事件（如2021 Uri寒潮）可重创单季业绩。</div>
+    </div>
+  </div>
+
+  <!-- 模块三：估值研究 -->
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：能源 - 公用事业</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：独立发电商（IPP）+ AI电力基础设施</span>
+      <span class="badge" style="background:#10b98122;color:#10b981;border:1px solid #10b98144">估值结论：偏低估</span>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：EV/EBITDA + Forward PE + FCF Yield + Contract Coverage Ratio</div>
+      <div class="text">VST处于估值范式切换的中间态：传统IPP用EV/EBITDA和周期低点PE估值（CapEx大、周期性强）；但随着60%+ EBITDA被20年PPA契约化，其现金流模式越来越接近受监管公用事业，应享受EV/EBITDA倍数扩张。同时，作为「AI电力」概念股，市场还会给予hyperscaler关系的成长溢价。需要同时用三套框架交叉验证：①IPP传统估值（EV/EBITDA 8-10x）；②准受监管公用事业（10-13x）；③AI基础设施成长股（15x+）。本次分析采用混合框架。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">Forward PE (2026E)</td>
+    <td class="num">14.3x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">传统公用事业18-20x；纯IPP 12-15x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/EBITDA (2026E)</td>
+    <td class="num">10x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">公用事业10-12x；CEG 21-31x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">FCF Yield (2026E)</td>
+    <td class="num">~7%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>5%健康，>8%极佳</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">Contracted EBITDA %</td>
+    <td class="num">60%+</td>
+    <td class="num" style="color:#64748b;font-size:13px;">越高越好，正在快速提升</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">净债务/EBITDA</td>
+    <td class="num">~3.2x</td>
+    <td class="num" style="color:#64748b;font-size:13px;"><2x安全，<3.5x可控</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">股息收益率</td>
+    <td class="num">~0.6%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">公用事业3-5%（VST选择回购替代）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">ROIC</td>
+    <td class="num">~12%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>10%优秀（资本密集行业）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">2026E 营收增速</td>
+    <td class="num">+13%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">公用事业典型3-5%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr></tbody>
+    </table>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>Forward PE</th><th>EV/EBITDA</th><th>核电占比</th><th>EBITDA增速</th><th>市值</th></tr></thead>
+      <tbody><tr><td class="label" style="background:#fef3c7;;font-weight:700;">VST</td><td class="num" style="background:#fef3c7;;">14.3x</td><td class="num" style="background:#fef3c7;;">10x</td><td class="num" style="background:#fef3c7;;">16%</td><td class="num" style="background:#fef3c7;;">+15%</td><td class="num" style="background:#fef3c7;;">$50B</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">CEG</td><td class="num" style="background:transparent;;">25-27x</td><td class="num" style="background:transparent;;">21-31x</td><td class="num" style="background:transparent;;">67%</td><td class="num" style="background:transparent;;">+20%</td><td class="num" style="background:transparent;;">$110B</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">NRG</td><td class="num" style="background:transparent;;">12-14x</td><td class="num" style="background:transparent;;">9x</td><td class="num" style="background:transparent;;">0%</td><td class="num" style="background:transparent;;">+8%</td><td class="num" style="background:transparent;;">$25B</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">TLN</td><td class="num" style="background:transparent;;">18-20x</td><td class="num" style="background:transparent;;">13x</td><td class="num" style="background:transparent;;">100%</td><td class="num" style="background:transparent;;">+25%</td><td class="num" style="background:transparent;;">$15B</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">公用事业行业中位数</td><td class="num" style="background:transparent;;">18x</td><td class="num" style="background:transparent;;">11x</td><td class="num" style="background:transparent;;">N/A</td><td class="num" style="background:transparent;;">+4%</td><td class="num" style="background:transparent;;">—</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司</p>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（基于行业框架）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear">
+        <div class="label">悲观情景 Bear</div>
+        <div class="value">$130</div>
+      </div>
+      <div class="fv-card base">
+        <div class="label">基准情景 Base</div>
+        <div class="value">$190</div>
+      </div>
+      <div class="fv-card bull">
+        <div class="label">乐观情景 Bull</div>
+        <div class="value">$260</div>
+      </div>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">VST相对核电纯播放CEG折价约40%（CEG核电占比67% vs VST的16%，享受更纯粹的「碳中和baseload」溢价）；相对传统气电IPP（NRG）有约15%溢价（因VST有核电+更高AI暴露）；相对纯小型核电TLN折价约25%。从历史看，VST已从52周高点$219回撤约27%至当前$160，估值压缩明显，提供了相对较好的风险调整后入场点。整体定位：「IPP中等溢价 + 公用事业折价 + AI基础设施早期」——三重定价拉扯，给低估vs高估均留下论证空间。我们的判断：合理偏低估。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>把VST当「纯AI播放」——实际上只有16%装机是核电，其余84%仍是周期性气电/煤电，应避免按CEG/TLN的纯核电估值倍数定价
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>忽视2025净利润骤降（$2.66B → $944M）——对冲损失、Moss Landing火灾事件、整合费用都是一次性扰动，但需关注是否会持续
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>用传统受监管公用事业的P/B估值——VST是deregulated IPP，资产价值不适用监管资本回报模型
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>把hyperscaler PPA当无风险锁定——FERC已驳回过Talen-AWS的behind-the-meter安排（2024年），PJM区域监管路径仍存变数
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱5：</strong>用周期顶部低PE误读估值——电力价格目前处于AI需求驱动的上行周期顶部，如果数据中心capex放缓，2028+盈利可能下修
+  </div>
+  </div>
+
+  <!-- 模块四 -->
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;font-size:16px;padding:8px 18px">综合评级：B级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">CEO Jim Burke自2022年掌舵以来执行「Burke Plan」三原则：运营卓越、财务纪律、「One Team」整合。资本配置历史：①2024年完成$3.4B收购Energy Harbor（4座核电）→事后看是教科书式神来之笔，立即解锁Meta/AWS PPA估值重估；②2025年$3.1B收购Lotus Infrastructure（2.6GW气电）；③2026年宣布$1.5B+收购Cogentrix（5.5GW气电）；④2025-2027返还股东$10B+（其中$3B+回购）；⑤2026年信用评级升至投资级BBB-降低融资成本。ROIC约12%显著高于WACC（约7-8%），创造真实价值。综合评价：资本配置积极但有边际递减担忧——Energy Harbor是大胜，Lotus/Cogentrix在AI需求峰值附近收购，是否买在山顶有待观察。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">管理层信披总体透明：每季度详细披露各业务段EBITDA、Contracted EBITDA占比、PPA进展。但2025年多个季度EPS miss（Q3 2025 actual $1.75 vs consensus $2.08）显示guidance准确性需改进——管理层倾向给出「保守可达」指引但实际波动较大，部分由于对冲会计的复杂性。审计师为Deloitte（Big 4），无审计意见保留。无关联交易红旗。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">执行能力被Energy Harbor整合的成功证明，但前置的Cogentrix和Lotus尚未到验证窗口（2027才看协同效应）。运营层面：核电capacity factor持续>95%（行业领先）、Moss Landing电池设施虽2025年遇火灾事件但保险已覆盖、信用评级提升表明balance sheet执行扎实。战略执行：从2022年提出「核电是被低估的战略资产」到2026年Meta/AWS PPA落地，3-4年时间完成估值范式转变，战略前瞻性强。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">2025-2027承诺$3B+回购 vs 公司年股本约$13B → 累计回购可达7-8%流通股，且SBC占比极低（<0.5%营收，工业公司特征），属于真回购而非「抵消稀释」——是把价值真正还给股东。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">Energy Harbor并购+核电资产战略重估是过去5年美国公用事业最成功的资本运作之一。从估值范式转换角度，CEO Burke让市场重新认识老核电的战略价值，间接推动整个IPP板块重估。返还股东$10B+计划+真回购（持续降低股本）显示对股东价值的真实承诺。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">①两宗大型收购（Lotus+Cogentrix共$4.6B+）尚在整合中，AI周期如果在2027-2028放缓，可能买在山顶；②杠杆率攀升（D/E 3.06→3.69），如果遇上加息或核电意外事件，资产负债表压力会很快暴露；③缺少创始人持股结构（私募KKR背景而非家族企业），长期决策视野可能比家族企业更短；④2025多季度EPS miss显示预测能力可改进。</div>
+    </div>
+  </div>
+
+  <!-- 整体结论 -->
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★★☆</div>
+      <div style="color:#475569; font-size:14px">4/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>VST是当前美国电力板块风险调整后回报最具吸引力的「AI电力」标的之一。
+
+它处于估值范式切换的中间态：既不是纯核电纯播放（不如CEG/TLN享受溢价），也不是纯气电传统IPP（不如NRG便宜）——这种「中间态」反而构成不对称机会：拥有足够的核电享受未来重估、又有足够的气电资产灵活捕捉AI数据中心快速上线需求、还有零售业务对冲批发市场波动。三重资产组合在AI时代提供了独特的「核电+气电+零售」稀缺性。
+
+核心投资逻辑可归纳为四点：①结构性alpha——美国电力需求20年来首次大幅上行，IPP是首要受益者；②资产价值重估——旧核电从「成本中心」变成「战略资源」，20年PPA锁定中-高teen IRR；③现金流可见度提升——从纯周期性向60%+ contracted转型，应享估值倍数扩张；④估值并不昂贵——14x Forward PE对一个仍在双位数增长的IPP+AI概念股偏便宜。
+
+主要风险包括：FERC关于co-located数据中心的监管不确定（直接影响Comanche Peak模式可复制性）；AI capex周期如在2027-2028放缓将冲击需求叙事；杠杆+大型并购整合的执行风险；以及核电运营黑天鹅事件。
+
+操作上：当前$160价位对应base case约19%上行、bull case 60%+上行、bear case约19%下行，约2.5:1的风险收益比，对长期投资者（>2年视野）属于合理建仓区。Beta较高（~1.5）需准备波动，建议分批介入并紧密跟踪PPA签约和监管动态。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">新增hyperscaler PPA签约（每1GW约$5-8/股估值贡献）——重点看MSFT、GOOGL是否加入Meta/AWS阵营</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">Cogentrix整合进度——2027年是否兑现mid-single digit FCF增厚承诺</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">2026全年EBITDA能否达$6.5B+（vs 2025的$5.91B），验证增长路径</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">FERC关于behind-the-meter数据中心co-location规则的最终裁决——若收紧，对Comanche Peak等PPA重定价</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">净债务/EBITDA能否在Cogentrix消化后回落至<3x，验证管理层杠杆管理纪律</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">6.</span>
+    <span style="font-size:14px;">$3B回购计划执行进度——每季度跟踪实际回购金额vs计划</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">7.</span>
+    <span style="font-size:14px;">ERCOT夏季峰值定价 + 极端天气事件影响——Texas市场仍是利润最大变量</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for Vistra Corp (VST) · 2026-05-11<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [2,3,1,0,2],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>
