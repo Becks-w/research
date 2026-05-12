@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IREN Limited 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>IREN Limited 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：IREN</div>
+      <div>🏛️ 交易所：NASDAQ</div>
+      <div>🏷️ 行业：AI云基础设施 / Neocloud</div>
+      <div>📅 分析日期：2026-05-11</div>
+    </div>
+    <div class="one-liner">💡 IREN通过自建可再生能源数据中心，向比特币网络与Microsoft/Nvidia等AI客户出售算力，正从纯比特币矿工转型为垂直整合的AI云基础设施提供商，已锁定$13.1B合同pipeline。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：资产重型 + 长合同B2B + 周期性现金牛（BTC）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">三条业务线：(1) 比特币挖矿——Q3 FY26贡献$111.2M，正主动退场，硬件被decommission腾出GPU空间；(2) AI云服务——出租GPU集群给Microsoft、Nvidia等hyperscaler，Q3收入$33.6M（环比+94%）；(3) 数据中心与电力开发——5GW全球管线，分布在加拿大BC省（水电）、美国得州（Childress 750MW、Sweetwater 1.4GW）、西班牙（Nostrum收购）、Oklahoma 1.6GW（2028年起）。垂直整合从land+grid connection+data center build+GPU stack全栈自有，是最大差异化。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">B2B客户结构高度集中：(1) Microsoft——$9.7B/5年合同，约占2026E收入55%，使用Nvidia GB300 GPU；(2) Nvidia——$3.4B/5年AI Cloud合同，并以$70/股价格获得30M股购股权（$2.1B潜在投资）；(3) 比特币网络——挖矿出售给公开市场。AI客户高度集中是最大客户结构风险。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">运营资产主要在加拿大BC省（Canal Flats、Mackenzie、Prince George——水电、低成本、低延迟）和美国得州（Childress、Sweetwater——风电+太阳能丰富）。最近通过收购Nostrum进入西班牙，进入欧洲市场。Oklahoma 1.6GW新园区2028年起爬坡。澳大利亚总部仅为法律架构，运营资产全部在北美+欧洲。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">Q3 FY26：总收入$144.8M（环比-21.6%）。BTC挖矿$111.2M（占77%，下降中）；AI云$33.6M（占23%，环比+94%）；其他~$0。合同ARR目标$3.7B（2026年底），其中Microsoft贡献$1.94B/年，Nvidia贡献~$680M/年，BC省Prince George扩张$0.4-0.5B/年。总合同backlog价值$13.1B。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级：窄护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">垂直整合带来明显成本优势：自建数据中心而非租用Equinix/Digital Realty（CRWV模式），单MW建造成本$14-16M，含数据中心基础设施$9-11M+其他$3-5M。运营在水电/风电丰富区域，电价远低于近大城市的传统数据中心。但比特币哈希率竞争和AI算力商品化都会侵蚀此优势。综合给2/3分。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">Nvidia战略合作（$3.4B AI云合同+5GW partnership+$2.1B潜在投资）赋予GPU优先分配权，类似CRWV和NBIS的Nvidia股权关系，但并非独占。无专利壁垒、无品牌溢价。Microsoft合同对企业声誉是正向背书。综合给1/3分。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">5年期合同结构 + 20% Microsoft预付款锁定客户初始投入。GPU部署位置一旦绑定，迁移涉及物理硬件搬迁、网络重建、性能基准重测，转换成本中等偏高。但合同到期续约本质是商品价格博弈，议价权未必倾向IREN。综合给2/3分。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">0/3</span>
+    </div>
+    <p class="dim-text">纯B2B基础设施服务，无双边网络效应，无用户互联价值积累。客户之间互不相关。综合给0/3分。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">5GW管线提供规模优势：电力grid connection是AI infra真正稀缺资源，「land+power」前置投入构成自然护城河。但相对CRWV（市值$53B，体量约IREN的4倍）和NBIS仍是中型玩家。Oklahoma 2,000英亩园区显示土地储备充裕。综合给2/3分。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">最强护城河是「电力+土地+垂直整合」组合：在AI算力扩张的关键瓶颈（电力grid connection和data center build速度）上前置布局5GW，且自建而非租用，单MW成本结构更优。这是CRWV的asset-light模式无法复制的实物优势。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">三大致命弱点：(1) 客户高度集中——Microsoft占预期收入55%，单一客户合同条款变化即重创业绩；(2) GPU算力本质是商品，5年合同到期后续约议价权未必在IREN手中，且GPU折旧周期争议（Jim Chanos公开质疑「80% marginal EBITDA是hopium」）会持续打压估值；(3) 资本依赖——9个月股本稀释32%，未来仍需GPU融资+可转债+潜在增发补血。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：AI云基础设施 / Neocloud</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：垂直整合型（介于纯BTC矿工与纯AI cloud之间）</span>
+      <span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">估值结论：合理偏高估</span>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：EV/Forward Sales + EV/ARR + 单MW项目经济性 + 合同backlog NPV</div>
+      <div class="text">IREN正经历剧烈业务转型——TTM收入由BTC挖矿主导，未来收入由AI云主导，两者商业模型完全不同。传统P/E（当前210x）完全失真，因为GAAP损益被$140.4M挖矿硬件减值、$23.7M衍生品未实现损失等非现金项目主导。最合理的估值锚是：(1) 按合同ARR目标$3.7B给EV/ARR倍数，参照CRWV（~4-5x）和NBIS（~6-7x）的位置；(2) 单MW项目EBITDA率（管理层声称85%）的可信度；(3) 合同backlog $13.1B的NPV折现（考虑capex前置、收入后置的时间错配）。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">股价 / 市值</td>
+    <td class="num">$56 / $18.6B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">5/11/2026收盘</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">Q3 FY26 收入</td>
+    <td class="num">$144.8M</td>
+    <td class="num" style="color:#64748b;font-size:13px;">环比-21.6%（转型阵痛）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">AI Cloud收入增速</td>
+    <td class="num">+94% QoQ</td>
+    <td class="num" style="color:#64748b;font-size:13px;">Q2→Q3从$17M到$33.6M</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">合同ARR</td>
+    <td class="num">$3.1B → $3.7B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">年底目标，覆盖极高</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">总合同backlog</td>
+    <td class="num">$13.1B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">MSFT $9.7B + NVDA $3.4B</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/ARR (基于$3.7B)</td>
+    <td class="num">~5.0x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">CRWV 5x, NBIS 7x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">现金</td>
+    <td class="num">$2.6B (4月30日)</td>
+    <td class="num" style="color:#64748b;font-size:13px;">流动性充裕</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">Adj. EBITDA Margin</td>
+    <td class="num">41%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">Q3 $59.5M / 收入$144.8M</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">项目EBITDA Margin（声称）</td>
+    <td class="num">85%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">Chanos质疑为'hopium'</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">Q3 Capex</td>
+    <td class="num">>$1.4B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">远超季度收入</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">股本稀释</td>
+    <td class="num">+32% (9个月)</td>
+    <td class="num" style="color:#64748b;font-size:13px;">2.58亿→3.41亿股</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">净亏损</td>
+    <td class="num">$(247.8)M</td>
+    <td class="num" style="color:#64748b;font-size:13px;">含$140.4M非现金减值</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr></tbody>
+    </table>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 Neocloud行业横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>市值</th><th>2026E收入</th><th>EV/Sales (Forward)</th><th>合同Backlog</th><th>净亏损规模</th><th>客户集中度</th></tr></thead>
+      <tbody><tr><td class="label" style="background:transparent;;font-weight:700;">CRWV (CoreWeave)</td><td class="num" style="background:transparent;;">$53B</td><td class="num" style="background:transparent;;">$12-13B</td><td class="num" style="background:transparent;;">~4x</td><td class="num" style="background:transparent;;">$66.8B</td><td class="num" style="background:transparent;;">Q4亏$452M</td><td class="num" style="background:transparent;;">OpenAI+Meta ~55%</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">NBIS (Nebius)</td><td class="num" style="background:transparent;;">$22B</td><td class="num" style="background:transparent;;">$3-3.5B</td><td class="num" style="background:transparent;;">~6-7x</td><td class="num" style="background:transparent;;">$20B+</td><td class="num" style="background:transparent;;">2025亏$447M</td><td class="num" style="background:transparent;;">MSFT+Meta ~80%</td></tr><tr><td class="label" style="background:#fef3c7;;font-weight:700;">IREN</td><td class="num" style="background:#fef3c7;;">$18.6B</td><td class="num" style="background:#fef3c7;;">$2-2.5B</td><td class="num" style="background:#fef3c7;;">~5x (ARR)</td><td class="num" style="background:#fef3c7;;">$13.1B</td><td class="num" style="background:#fef3c7;;">Q3亏$248M</td><td class="num" style="background:#fef3c7;;">MSFT ~55%</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">CORZ (Core Scientific)</td><td class="num" style="background:transparent;;">$8B</td><td class="num" style="background:transparent;;">~$2.5B</td><td class="num" style="background:transparent;;">~3-4x</td><td class="num" style="background:transparent;;">$10B</td><td class="num" style="background:transparent;;">收窄</td><td class="num" style="background:transparent;;">CRWV (单一)</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">HUT (Hut 8)</td><td class="num" style="background:transparent;;">$3.5B</td><td class="num" style="background:transparent;;">~$0.8B</td><td class="num" style="background:transparent;;">~3x</td><td class="num" style="background:transparent;;">$7B (Google)</td><td class="num" style="background:transparent;;">正利润</td><td class="num" style="background:transparent;;">Fluidstack</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">MARA (Marathon)</td><td class="num" style="background:transparent;;">$3.5B</td><td class="num" style="background:transparent;;">~$1B</td><td class="num" style="background:transparent;;">~3-4x</td><td class="num" style="background:transparent;;">无AI合同</td><td class="num" style="background:transparent;;">周期性</td><td class="num" style="background:transparent;;">纯BTC</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司</p>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（基于EV/ARR与同业对比）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear">
+        <div class="label">悲观情景 Bear</div>
+        <div class="value">$32-35</div>
+      </div>
+      <div class="fv-card base">
+        <div class="label">基准情景 Base</div>
+        <div class="value">$60-70</div>
+      </div>
+      <div class="fv-card bull">
+        <div class="label">乐观情景 Bull</div>
+        <div class="value">$90-110</div>
+      </div>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">IREN当前估值位置：相对CRWV有溢价（按EV/ARR约5x vs CRWV 4x），主要因（1）资产负债表更干净（净现金vs CRWV $30B债务），（2）垂直整合自有数据中心而非租用Equinix，（3）5GW电力管线相对其规模占比高。相对NBIS有折扣（5x vs 7x），主要因（1）BTC业务残留拖累纯度，（2）股权稀释更猛（NBIS主要靠Meta签约后债券融资），（3）转型期GAAP利润表更混乱。距52周高点$76.87下跌27%，反映Q3财报miss和Chanos公开做空言论冲击。当前股价$56基本反映「合理执行」预期，留给「超预期」的空间不大，留给「不及预期」的下行空间较大。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：用P/E判断估值——</strong>P/E 210x完全失真。转型期GAAP损益被$140.4M挖矿硬件减值、$23.7M衍生品未实现损失等非现金项目主导，TTM EPS无意义。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：把ARR等同于已确认收入——</strong>Microsoft $9.7B合同2026年才分批交付，期间capex先发生（Q3已花$1.4B+），收入后兑现，现金流压力极大。$3.7B年底ARR目标若延期一个季度兑现，估值倍数会被严厉重估。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：相信85%项目EBITDA率持续性——</strong>这是基于「满载满价」的理想假设。GPU折旧周期（IREN用5年vs CRWV更短）的会计选择会显著影响利润表。Jim Chanos公开批评此为「hopium」，认为ROIC可能接近0%。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：忽略股权稀释速度——</strong>9个月内股本从2.58亿增至3.41亿（+32%），叠加Nvidia 30M股购股权一旦行使再加8.8%稀释，老股东被反复摊薄。每股价值增长慢于市值增长。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱5：低估客户集中度风险——</strong>Microsoft一家占预期收入55%。一旦Microsoft自有数据中心建成、合同到期不续签、或合同条款重谈，IREN业绩面临断崖式下跌。这是结构性风险而非周期风险。
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;font-size:16px;padding:8px 18px">综合评级：B级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">Daniel Roberts和Will Roberts双联合CEO模式，8年前布局电力+土地资源（彼时只是为BTC挖矿），2024-2025年果断pivot AI cloud。资本配置层面：(1) 2025年12月发行$2B可转债（0.25%/2032 + 1.00%/2033利率极低），同时回购$544M老转债（3.25%和3.50%），主动优化资本结构；(2) Q3 capex $1.4B+全部投向AI cloud GPU采购和Horizon数据中心建设；(3) 收购Mirantis（$625M）补足云软件能力，收购Nostrum进入欧洲；(4) 无回购、无分红，全部现金流再投入扩张。决策果断但每一步容错空间小，单MW $14-16M的capex规模意味着任何战略误判都不可逆转。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">8-K披露详细：对Microsoft合同（$9.7B总值、20%预付、4个Horizon数据中心200MW）、Dell采购$5.8B、Nvidia $2.1B股权认购权（$70/股、30M股、5年期）等关键条款都做了具体披露，未见明显信息隐藏。但管理层在路演中频繁使用「85% Project EBITDA margin」、「all operational capacity fully contracted」等指标，缺乏GAAP桥接，且回避讨论GPU折旧周期对ROIC的真实影响，需要警惕。审计师为KPMG（澳大利亚），符合Big 4标准。无关联交易红旗。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">执行力迄今扎实：(1) Sweetwater 1变电站按期能化（2026年5月1日）；(2) Childress Horizon 1-4液冷数据中心按进度推进，支撑$9.7B Microsoft合同；(3) Mirantis收购增加650名云工程师，补足软件能力短板；(4) BC省Prince George扩张签约$0.4B ARR。但2027年1.21GW的扩张目标在AI infra行业历史上罕见，且需在GPU供给链、电力grid connection、液冷工程、客户验收等多环节同时不出错。联合CEO模式在分秒必争的环境下是否带来决策摩擦，仍需观察。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">N/A —— 公司处于猛烈capex扩张期，无回购计划。所有现金流和融资款都被$1.4B+/季度的GPU采购+数据中心建设吸纳。这本身是合理的资本配置（在AI infra黄金扩张窗口期应该扩张而非回购），但意味着股东回报完全依赖未来业绩兑现。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">管理层最值得肯定的两点：(1) 前瞻性布局电力资源——8年前为BTC挖矿储备的电力grid connection，在AI infra时代成为最稀缺资源，这是「正确赌对了大趋势」级别的决策能力；(2) 主动管理资本结构——在估值高位发行低息可转债置换老高息债，并锁定Nvidia股权认购权（$70/股锁定5年），显示对资本市场窗口的敏锐把握。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">主要风险点：(1) 股权稀释32%/9个月堪称残酷，老股东被反复摊薄，每股价值增长慢于市值增长；(2) 联合CEO模式在执行密度极高的AI infra扩张期是否高效，未经长期检验；(3) 短期内仍需通过GPU融资、可转债、潜在增发补血，资本市场冰冻是致命伤；(4) 管理层路演口径偏激进（85% project EBITDA等指标），需保持警惕。</div>
+    </div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★★☆</div>
+      <div style="color:#475569; font-size:14px">4/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>IREN代表了一个独特的非对称机会：极少数比特币矿工成功完成AI转型并签下Microsoft+Nvidia顶级合同的公司。$13.1B合同backlog和$3.7B年底ARR目标给出了清晰的业绩可见度，垂直整合的资产模式相对CRWV更干净（净现金vs净债务$30B），估值低于NBIS的纯AI溢价水平。
+
+但风险也极其聚焦且不可忽视：(1) 客户集中度——Microsoft一家占预期收入55%，结构性风险高于周期性风险；(2) GPU折旧周期——Jim Chanos公开批评的核心点，若实际折旧快于5年假设，「85% project EBITDA margin」立刻崩塌；(3) 资本市场依赖——Q3 capex $1.4B远超内生现金流，任何融资窗口冰冻都可能致命；(4) 转型期任何一个季度的执行失误都会被市场严厉惩罚（参考Q3财报后股价从高点-27%）。
+
+对家族办公室视角而言，IREN可作为AI infrastructure组合中「垂直整合+电力稀缺资产」的代表性配置，但仓位应控制在能承受40-50%回撤的范围内（看NBIS和CRWV的历史最大回撤都在此区间）。建议配置思路：以base case $60-70为锚定，分批建仓而非一次性投入，跟踪未来12-18个月Microsoft合同的实际兑现节奏作为关键加减仓信号。这是典型的「高确信度的高风险机会」——确信度来自合同backlog的可见度，风险来自执行的复杂度和资本市场的脆弱度。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">Childress Horizon 1-4数据中心能化进度——Microsoft合同收入兑现的硬性前提，目标2026年分阶段交付4 × 50MW</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">季度AI Cloud收入增速与利润率——$33.6M（Q3）能否在4个季度内突破$200M/季度，验证$3.7B ARR目标</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">GPU折旧政策与单MW项目EBITDA实际兑现率——Chanos批评的核心点，看实际vs 85%声称差距</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">股权稀释速度——Nvidia 30M股$70购股权何时行使、是否再发可转债、是否触发增发</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">5GW管线进度——Oklahoma 1.6GW（2028年起爬坡）、Sweetwater 1.4GW满载时间表、Nostrum欧洲整合</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">6.</span>
+    <span style="font-size:14px;">Bitcoin价格与挖矿业务残值——BTC价格若大幅下跌，残留挖矿业务的现金贡献会变成负担</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for IREN Limited (IREN) · 2026-05-11<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [2,1,2,0,2],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>
