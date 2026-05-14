@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cognex Corporation 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Cognex Corporation 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：CGNX</div>
+      <div>🏛️ 交易所：NASDAQ</div>
+      <div>🏷️ 行业：工业自动化 / 机器视觉</div>
+      <div>📅 分析日期：2026-05-13</div>
+    </div>
+    <div class="one-liner">💡 Cognex 通过给工厂和物流仓库提供 AI 视觉检测系统（智能相机 + 算法软件），向汽车、电子、物流、包装四大行业客户销售设备和软件</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" data-tab="m0">💡 小白版</button>
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  
+  <div class="section" id="m0">
+    <h2>💡 模块零：金融小白友好版商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言把这家技术公司"翻译"清楚——后续分析的基础</p>
+
+    <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:24px 28px;border-radius:12px;margin-bottom:20px;border-left:4px solid #d97706;">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:15px;">🎯 核心比喻</div>
+      <div style="font-size:15px;color:#0f172a;line-height:1.8;">Cognex 像工厂流水线上的「自动质检员 + AI 验货员」——以前流水线上要雇人盯着产品看有没有瑕疵、贴错标签、装错零件；Cognex 卖一台「会看的相机 + 大脑（算法）」，每分钟扫几百件产品，比人眼快 10 倍、准 99.9%。每台机器一次性卖 $3,000-$50,000，相当于卖给工厂一个永不疲倦、不请病假的质检工人。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📦 商业模式三问</h3>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #2563eb;">
+        <div class="label" style="color:#2563eb;">① 卖什么？</div>
+        <div class="value">四件事：① 智能相机（In-Sight 系列，看产品有没有缺陷）；② 条码扫描器（DataMan 系列，物流仓库扫快递）；③ 3D 视觉系统（看物体的形状/位置，给机器人当眼睛）；④ AI 软件平台（VisionPro 和新推出的 OneVision 云平台，让工程师在云上训练 AI 模型）。硬件占收入 90%+，软件占不到 10%（但软件正在快速成长）。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #059669;">
+        <div class="label" style="color:#059669;">② 怎么收费？</div>
+        <div class="value"><strong>一次性硬件销售为主</strong>（典型客户付 $3,000-$50,000 一台），不是订阅制。一条产线通常装 5-20 台机器。客户黏性来自「集成成本」：把 Cognex 系统嵌入产线要花 3-6 个月调试，工程师团队要专门培训。换品牌等于推倒重来。新推 OneVision 云平台想转 SaaS，但目前订阅收入还很小。Q1 2026 总收入 $268M，全年指引 $1.05B+。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;">
+        <div class="label" style="color:#dc2626;">③ 客户为什么必须买？</div>
+        <div class="value"><strong>三重驱动</strong>。① 劳动力短缺——全球 3500 万视觉检验工人，老龄化 + 人力贵，质检岗位最先被自动化；② 质量恐惧——汽车厂漏检一个缺陷可能召回 10 万辆车（亿美元级），半导体厂漏检一片晶圆损失几十万；③ 物流速度——Amazon、UPS 仓库每秒扫几十个包裹，没有 Cognex 这种 ms 级响应根本玩不转。客户的「买单动机」是<strong>风险规避 + 速度刚需</strong>，不是 nice-to-have。</div>
+      </div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">💼 客户结构 + 护城河金融比喻</h3>
+    <div class="summary-box info">
+      <div class="title">具体客户名单 + 客户分层</div>
+      <div class="text"><strong>典型客户名单</strong>——汽车端（特斯拉、BYD、宝马的电池厂）；消费电子端（苹果代工厂富士康、和硕、立讯）；物流端（Amazon、FedEx、UPS、Walmart 配送中心）；包装端（宝洁、可口可乐）；半导体端（台积电、ASML 设备厂）。<strong>客户结构</strong>：橄榄型偏分散——3万+ 全球客户，单一客户占比都不超过 10%，<strong>苹果产业链是最大单一暴露</strong>（约占消费电子板块 30-40%）。地理上美洲 ~40%、欧洲 ~25%、大中华区 ~25%、其他 ~10%。</div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">护城河本质（金融场景比喻）</div>
+      <div class="text">Cognex 的护城河像「<strong>彭博终端 + SAP 企业系统的工业版</strong>」——一旦客户的产线集成了 Cognex 算法和接口，换掉它就像让一家投行把交易系统从彭博换到 Refinitiv（理论可行，实践灾难）。但它的弱点是「<strong>硬件壳子比软件薄</strong>」——单看相机本身，日本 Keyence 做得更易部署、Omron 包装得更全面，类似<strong>顶级精品投行 vs 摩根大通捆绑销售的关系</strong>。Cognex 在算法深度上有 10 年 AI 视觉积累（2017 收购 ViDi Systems），在「复杂场景里识别变形/反光/异常缺陷」这种活儿上仍是同业第一，但在「简单场景标准件」上正被 Keyence 抢市场。</div>
+    </div>
+
+    <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:14px 18px;border-radius:8px;margin-top:20px;font-size:13px;color:#64748b;line-height:1.6;">
+      📌 <strong>使用提示</strong>：本模块为后续模块一至四的"翻译层"。读完后再进入「商业模式」「护城河」「估值研究」「管理层」等专业分析模块，能事半功倍。
+    </div>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：产品销售 + 研发驱动</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">工业机器视觉系统硬件 + 软件一体化解决方案。四大产品线：① In-Sight 智能相机系列（最新型号 In-Sight 3900/6900，集成边缘 AI 处理器）；② DataMan 条码扫描器（物流和工厂追溯）；③ 3D 视觉系统（机器人引导）；④ VisionPro / OneVision AI 软件平台（云端模型训练 + 边缘部署）。Q1 2026 重磅推出两款 AI 视觉新品，并正式上线 OneVision 云平台向 SaaS 化转型。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">B2B 工厂和仓库客户，全球 3 万+ 客户。四大终端市场：物流（~30%，Amazon/FedEx/UPS/Walmart 配送中心）、消费电子（~25%，苹果产业链富士康/立讯/和硕）、汽车（~20%，特斯拉/BYD/宝马的电池厂和组装线）、包装（~15%，宝洁/可口可乐等快消品厂）、其他（~10%，半导体台积电/ASML、医疗、食饮）。客户集中度低，单一客户都不超 10%。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">美洲约 40%（核心市场，受益于近岸化和半导体回流）；欧洲约 25%（汽车和制药驱动）；大中华区约 25%（消费电子产业链 + 中国汽车 EV 浪潮）；其他亚太 ~10%。Q1 2026 各区域均录得双位数增长。2026 年 4 月剥离日本贸易子公司（Moritex 收购的非核心业务），每季度减少约 $5M 收入。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">Q1 2026 收入 $268M（YoY +24%，固定汇率 +21%），超指引上限 $255M 约 5%。全年指引隐含 $1.05-1.10B，对比 2025 全年 $994M 约 +6-10%。<strong>产品收入占比 >90%</strong>，服务/订阅 <10%。FY2026 调整后 EBITDA 利润率指引 27-29%（vs 2024 的 17%），margin expansion 是核心叙事。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级：窄护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text"><strong>规模上明显弱于 Keyence</strong>——Keyence 2024 财年收入约 ¥1.58 万亿（$11.6B），是 Cognex 的 11 倍以上，且 Keyence 50%+ 营业利润率是 CGNX 22% 的 2 倍多。这意味着 Keyence 有更强的研发投入能力和供应链议价权。CGNX 在「单台设备成本」上没有结构性优势，只能靠技术差异化避战。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text"><strong>最强护城河</strong>。① <strong>1,400+ 专利</strong>覆盖视觉算法、相机硬件、深度学习接口；② <strong>VisionPro + ViDi 软件平台 10 年积累</strong>——2017 年收购 ViDi Systems 开启 AI 视觉先发优势，2026 年已推出第四代 AI 视觉技术；③ <strong>「Cognex」品牌在汽车/电子高端制造领域是 spec-in 标准</strong>——客户写规格书时直接点名 CGNX 设备，新进入者要花数年攻克白名单。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text"><strong>中等转换成本</strong>。客户把 CGNX 系统嵌入产线需要 3-6 个月调试、工程师专门培训、与 PLC/机器人系统深度集成。一旦上线，单点替换可行但代价不菲——必须重新写算法、重新调参、重新认证。但相比 ERP/CRM 类系统的「换不掉」程度，机器视觉换替仍属于「贵但能做」级别，不是真正锁死。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">0/3</span>
+    </div>
+    <p class="dim-text">无明显网络效应。客户 A 装 CGNX 不会让客户 B 更愿意装。OneVision 云平台理论上可以构建「模型库网络效应」——客户上传训练数据、CGNX 用其训练通用模型反哺所有客户——但目前仍处早期，未形成飞轮。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text"><strong>规模效应有限</strong>。71% 毛利率体现软件含量但 22% 营业利润率说明 SG&A 和 R&D 摊薄空间有限。规模上不及 Keyence（50% 营业利润率），所以「越大越赚钱」的逻辑在 CGNX 这里成立度一般。新 CEO Moschner 正在推动 $35-40M 年化降本来挤运营杠杆，效果初显。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text"><strong>无形资产</strong>（ViDi 算法 10 年深耕 + 1400 专利 + 高端品牌）和<strong>转换成本</strong>（产线集成黏性）是双护城河支柱。AI 视觉在复杂缺陷检测领域，CGNX 几乎没有真正的对手——这是其能维持 71% 毛利率的根本原因。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">① <strong>Keyence 持续侵蚀份额</strong>——Keyence 直销模式 + 广产品矩阵在「简单场景标准件」上更易部署，慢慢蚕食 CGNX 中低端市场；② <strong>强周期性</strong>——客户资本支出敏感，2022-2024 年消费电子+汽车下行期收入跌了 20%+；③ <strong>苹果产业链依赖</strong>——单一大客户砍单一次可能砸下 5-10% 收入；④ <strong>规模劣势</strong>——研发预算 $145M vs Keyence 数倍体量。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：工业 / 制造（专精）</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：工业自动化 - 机器视觉</span>
+      <span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">估值结论：偏高估</span>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：Forward PE + EV/EBITDA + 周期位置判断</div>
+      <div class="text">CGNX 估值需要混合框架：<strong>不能用 SaaS 的 EV/Sales</strong>（订阅收入 <10%，会被高估）；<strong>不能用纯硬件的 P/B</strong>（71% 毛利率有软件特征）；<strong>不能用周期资源行业的 P/B</strong>（无大量固定资产）。半导体设备公司的估值思路最适用——以 Forward PE 为锚，EV/EBITDA 横向对比同业（精密工业仪器类），并叠加客户资本支出周期位置判断。当前处于 2024-2025 周期底部反弹的早期，但估值已 price in 大部分复苏。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">Forward PE</td>
+    <td class="num">33.9x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">5年均值 48.5x；同业 22-35x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/EBITDA (TTM)</td>
+    <td class="num">40.8x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">10年中位 37x；同业 12-25x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">Q1 收入增速 YoY</td>
+    <td class="num">+24%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">周期复苏期，超指引上限 5%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">毛利率</td>
+    <td class="num">71.1%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">Keyence 83%, Omron 44%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">营业利润率</td>
+    <td class="num">22.3%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">Keyence 50%, 同业 8-18%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">调整后 EBITDA Margin</td>
+    <td class="num">26.9%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">FY26 指引 27-29%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">现金 / 市值</td>
+    <td class="num">$622M / $10.9B = 5.7%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">零负债 + 强现金</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">回购真实性测试</td>
+    <td class="num">Q1 回购 $99M vs SBC ~$10M = 9.9x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>1.5x = 真回购</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr></tbody>
+    </table>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>类型</th><th>增长率</th><th>毛利率</th><th>营业利润率</th><th>Forward PE</th><th>EV/EBITDA</th></tr></thead>
+      <tbody><tr><td class="label" style="background:#fef3c7;;font-weight:700;">CGNX</td><td class="num" style="background:#fef3c7;;">机器视觉龙头</td><td class="num" style="background:#fef3c7;;">+24%</td><td class="num" style="background:#fef3c7;;">71%</td><td class="num" style="background:#fef3c7;;">22%</td><td class="num" style="background:#fef3c7;;">34x</td><td class="num" style="background:#fef3c7;;">40x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">Keyence (6861.JP)</td><td class="num" style="background:transparent;;">综合自动化龙头</td><td class="num" style="background:transparent;;">+5%</td><td class="num" style="background:transparent;;">83%</td><td class="num" style="background:transparent;;">50%</td><td class="num" style="background:transparent;;">35x</td><td class="num" style="background:transparent;;">25x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">Omron (6645.JP)</td><td class="num" style="background:transparent;;">综合自动化</td><td class="num" style="background:transparent;;">+3%</td><td class="num" style="background:transparent;;">44%</td><td class="num" style="background:transparent;;">8%</td><td class="num" style="background:transparent;;">22x</td><td class="num" style="background:transparent;;">12x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">TDY</td><td class="num" style="background:transparent;;">影像/工业</td><td class="num" style="background:transparent;;">+5%</td><td class="num" style="background:transparent;;">44%</td><td class="num" style="background:transparent;;">18%</td><td class="num" style="background:transparent;;">22x</td><td class="num" style="background:transparent;;">16x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">NOVT</td><td class="num" style="background:transparent;;">精密技术</td><td class="num" style="background:transparent;;">+6%</td><td class="num" style="background:transparent;;">45%</td><td class="num" style="background:transparent;;">14%</td><td class="num" style="background:transparent;;">28x</td><td class="num" style="background:transparent;;">19x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">ZBRA</td><td class="num" style="background:transparent;;">条码/物流</td><td class="num" style="background:transparent;;">+8%</td><td class="num" style="background:transparent;;">48%</td><td class="num" style="background:transparent;;">18%</td><td class="num" style="background:transparent;;">16x</td><td class="num" style="background:transparent;;">13x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">FTV</td><td class="num" style="background:transparent;;">丹纳赫系工业</td><td class="num" style="background:transparent;;">+4%</td><td class="num" style="background:transparent;;">50%</td><td class="num" style="background:transparent;;">23%</td><td class="num" style="background:transparent;;">20x</td><td class="num" style="background:transparent;;">15x</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司</p>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（基于行业框架）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear">
+        <div class="label">悲观情景 Bear</div>
+        <div class="value">$50</div>
+      </div>
+      <div class="fv-card base">
+        <div class="label">基准情景 Base</div>
+        <div class="value">$66</div>
+      </div>
+      <div class="fv-card bull">
+        <div class="label">乐观情景 Bull</div>
+        <div class="value">$80</div>
+      </div>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text"><strong>偏高估，已 price in 大部分复苏预期</strong>。Forward PE 34x 接近 Keyence（35x）但 Keyence 营业利润率是 CGNX 的 2 倍多——意味着市场给 CGNX 的 PE 倍数 implies 「未来增长会比 Keyence 强」，对执行压力大。EV/EBITDA 40x 处于历史 10 年区间中位以上（中位 37x，低点 15x，高点 83x），且远高于工业自动化同业 12-25x 区间。<strong>YTD 股价从 $40 涨至 $66（+65%）</strong>，分析师上调空间有限（25 位分析师中位目标价 $66.5，对应仅 1.6% 上行）。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>用 SaaS 估值框架高估——CGNX 订阅收入 <10%，OneVision 云平台 ARR 尚未到规模，目前用 EV/Sales 6.5x 会显著高估业务质地
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>忽略客户资本开支周期——CGNX 收入与消费电子/汽车/物流资本支出强相关，2022-2024 周期下行期收入跌 20%+，单看 Q1 2026 的 +24% 增速可能误判持续性
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>把 71% 毛利率当成宽护城河证据——Keyence 83% 毛利率证明在同行业可以更高，CGNX 的毛利率优势是相对工业平均而非绝对天花板
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>苹果产业链单一暴露——消费电子板块约 25% 收入，其中苹果产业链贡献 30-40%。一次砍单可能砸下 5-10% 总收入
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱5：</strong>以新 CEO 复苏叙事追高——Moschner 在位仅 10 个月，DBS 文化兑现仍待时间检验，连续 7 季度 beat 之后均值回归风险上升
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;font-size:16px;padding:8px 18px">综合评级：B级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value"><strong>偏积极、有纪律。</strong> Q1 2026 单季 $99M 回购 + $14M 分红，全年回报节奏 $400M+。现金 $622M 零负债。$500M 新回购授权进行中。2024-2025 完成 Moritex 收购（日本镜头技术）后 2026 年剥离非核心日本贸易业务，体现 portfolio optimization 思路——典型丹纳赫系打法。$35-40M 年化降本计划接近完成。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value"><strong>透明度优秀。</strong> 连续 7 个季度业绩 beat 自己的指引（Q1 2026 收入 $268M 超指引上限 $255M 约 5%，EPS beat 37%）。指引相对保守，符合丹纳赫体系风格。董事会近期更替——6 位独立董事自 2021 年起新增，2026 年 3 月新增两位董事 Dr. Sami Atiya 和 Chris Donato，前 CEO Willett 退出。治理结构刷新积极。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value"><strong>新 CEO Matt Moschner（前丹纳赫高管，2025 年 7 月就任）执行节奏紧凑。</strong> 上任 10 个月内完成：① 战略重组（三大目标：AI 领导、客户体验、5 年客户翻倍）；② 8 位高管全部从内部提拔（避免外部空降的整合风险）；③ 日本贸易业务剥离；④ OneVision 云平台上线；⑤ In-Sight 3900/6900 两款 AI 旗舰产品发布。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">Q1 2026 回购 $99M（季度）vs 估算 SBC ~$10M = <strong>9.9 倍</strong>（远超 1.5x 真回购临界）。这是真回购而非冲销稀释。FY26 全年预计 $400M+ 股东回报，相当于市值 ~4% 的回报率。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text"><strong>「丹纳赫系」运营文化正在被复制</strong>——这是 Fortive、Vontier、Roper Industries 等公司共同的强基因：纪律性资本配置、bolt-on M&A 加复利效应、margin discipline、KPI 驱动。Moschner 来自该体系是核心信用背书。Q1 单季把 EBITDA 利润率从 16.9% 拉到 26.9%（+1,010 bps），margin expansion 速度超预期。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">① <strong>CEO 在位仅 10 个月</strong>，复杂周期下的真实判断力尚未被验证（连续 beat 在低基数 + 复苏期容易做到）；② <strong>持股比例低</strong>——职业经理人模式，与创始人级管理者「Skin in the game」程度不同；③ <strong>「5 年客户翻倍」目标雄心勃勃</strong>，需新增客户 3 万+，执行难度极大，未达预期会重挫估值；④ Moschner 还未做过大型 M&A，并购能力未知数。</div>
+    </div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★★☆</div>
+      <div style="color:#475569; font-size:14px">4/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>Cognex 是机器视觉行业全球前三的高质量企业——71% 毛利率、22% 营业利润率、零负债 $622M 现金、3 万+ 客户、1,400+ 专利，财务质地一流。AI 视觉转型（ViDi 算法 + OneVision 云平台）让它从「卖相机」向「卖软件」演进，是长期叙事。新 CEO Matt Moschner 来自丹纳赫体系，DBS 运营文化正在显著提升 margin expansion 速度——Q1 2026 调整后 EBITDA 利润率单季 +1,010 bps 即是明证。
+
+但当前估值偏高：Forward PE 34x 接近 Keyence 35x 而 Keyence 利润率是 CGNX 的 2 倍多；EV/EBITDA 40x 也处于历史区间中位以上。YTD 股价 +65% 已经 price in 大部分复苏预期，分析师上调空间有限（25 位分析师中位目标价 $66.5 仅对应 1.6% 上行）。Keyence 的份额压力 + 周期性敏感 + 苹果产业链依赖是中长期三大风险点。
+
+<strong>操作含义：质地优秀的公司 + 偏贵的估值。</strong> 当前 $66 适合放入 watch list 而非追入。若回撤至 $50-55 区间（Bear/Base 之间），是更具吸引力的入场点。如果想布局工业自动化 + AI 视觉这条赛道，CGNX 是比 Keyence（在美国投资者难买、Yen 风险）更便利的载体。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">大中华区收入趋势：占总收入 25%、消费电子板块的关键变量，对苹果产业链订单极敏感</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">OneVision 订阅收入披露：管理层会在哪个季度首次披露 ARR？这是估值能否从 PE 转向 EV/Sales 溢价的关键</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">毛利率能否稳定在 70%+：若跌破 68%，可能是 Keyence 价格战的早期信号</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">物流板块订单（Amazon、UPS 等大客户资本开支）：电商资本支出周期是 CGNX 短期最大边际催化剂</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">Moschner 的第一次重大并购决策：丹纳赫系 CEO 通常都会做 bolt-on M&A，第一笔 deal 的尺寸和方向会暴露真实战略</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for Cognex Corporation (CGNX) · 2026-05-13<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [1,3,2,0,1],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>

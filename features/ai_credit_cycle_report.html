@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 主导的信贷周期 · 投研报告</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --ink: #1a1814;
+    --ink-soft: #4a4640;
+    --ink-mute: #8a857c;
+    --paper: #f5f1e8;
+    --paper-warm: #ebe4d4;
+    --rule: #d4ccba;
+    --accent: #8b2c1e;
+    --accent-soft: #c54732;
+    --gold: #a8843a;
+    --teal: #2d5a52;
+    --warn: #b8741a;
+    --danger: #8b2c1e;
+    --green: #4a6b3a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Newsreader', Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.65;
+    font-size: 17px;
+    font-weight: 400;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
+  .container-narrow { max-width: 760px; margin: 0 auto; padding: 0 48px; }
+
+  /* Header */
+  .masthead {
+    border-bottom: 2px solid var(--ink);
+    padding: 32px 0 24px;
+    margin-bottom: 56px;
+    background: var(--paper);
+  }
+  .masthead-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 18px;
+    border-bottom: 0.5px solid var(--rule);
+    padding-bottom: 18px;
+  }
+  .masthead-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    font-style: italic;
+  }
+  .masthead-title em { font-style: normal; color: var(--accent); }
+  .masthead-sub {
+    font-family: 'Newsreader', serif;
+    font-size: 19px;
+    color: var(--ink-soft);
+    font-weight: 300;
+    max-width: 720px;
+    line-height: 1.5;
+  }
+  .masthead-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .masthead-meta span strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* TOC */
+  .toc {
+    background: var(--paper-warm);
+    border: 0.5px solid var(--rule);
+    padding: 24px 32px;
+    margin-bottom: 64px;
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .toc-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 14px;
+  }
+  .toc ol {
+    list-style: none;
+    counter-reset: section;
+    columns: 2;
+    column-gap: 48px;
+  }
+  .toc li {
+    counter-increment: section;
+    padding: 6px 0;
+    font-size: 15px;
+    break-inside: avoid;
+  }
+  .toc li::before {
+    content: counter(section, decimal-leading-zero);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    margin-right: 12px;
+    font-weight: 500;
+  }
+  .toc a {
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--accent); }
+
+  /* Section */
+  section { padding: 56px 0; }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 42px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    margin-bottom: 16px;
+  }
+  h1 em { color: var(--accent); font-style: italic; font-weight: 300; }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1.2;
+    margin: 48px 0 16px;
+    letter-spacing: -0.01em;
+  }
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 21px;
+    margin: 32px 0 12px;
+    color: var(--ink);
+  }
+  h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 20px 0 10px;
+    font-weight: 500;
+  }
+  p { margin-bottom: 16px; max-width: 720px; }
+  p.lead {
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin-bottom: 32px;
+    font-weight: 300;
+  }
+  strong { font-weight: 500; color: var(--ink); }
+  em { font-style: italic; }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88em;
+    background: var(--paper-warm);
+    padding: 1px 6px;
+    border-radius: 2px;
+  }
+
+  /* Pullquote */
+  .pullquote {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 26px;
+    line-height: 1.35;
+    border-left: 3px solid var(--accent);
+    padding: 12px 0 12px 28px;
+    margin: 36px 0;
+    color: var(--ink);
+    max-width: 720px;
+  }
+  .pullquote-source {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+    margin-top: 16px;
+    font-style: normal;
+    text-transform: uppercase;
+  }
+
+  /* Stat strip */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin: 40px 0;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+  .stat {
+    padding: 24px 20px;
+    border-right: 0.5px solid var(--rule);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 38px;
+    line-height: 1;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .stat-num.accent { color: var(--accent); }
+  .stat-num.gold { color: var(--gold); }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    line-height: 1.4;
+  }
+
+  /* Card */
+  .card {
+    background: white;
+    border: 0.5px solid var(--rule);
+    padding: 28px 32px;
+    margin: 24px 0;
+  }
+  .card.warn { border-left: 3px solid var(--warn); }
+  .card.danger { border-left: 3px solid var(--danger); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 8px;
+  }
+  .card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  /* Winners/Losers grid */
+  .vs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 32px 0;
+    border: 0.5px solid var(--rule);
+  }
+  .vs-col {
+    padding: 28px 32px;
+  }
+  .vs-col.win { background: rgba(74, 107, 58, 0.04); border-right: 0.5px solid var(--rule); }
+  .vs-col.lose { background: rgba(139, 44, 30, 0.04); }
+  .vs-header {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 0.5px solid var(--rule);
+  }
+  .vs-col.win .vs-header { color: var(--green); }
+  .vs-col.lose .vs-header { color: var(--accent); }
+  .vs-item {
+    padding: 14px 0;
+    border-bottom: 0.5px dashed var(--rule);
+  }
+  .vs-item:last-child { border-bottom: none; }
+  .vs-item-name {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .vs-item-tickers {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+  .vs-item-note {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 14px;
+  }
+  th {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  td {
+    padding: 14px 14px;
+    border-bottom: 0.5px solid var(--rule);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  td:first-child { font-weight: 500; }
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 2px;
+  }
+  .tag.high { background: rgba(139, 44, 30, 0.12); color: var(--accent); }
+  .tag.mid { background: rgba(184, 116, 26, 0.12); color: var(--warn); }
+  .tag.low { background: rgba(74, 107, 58, 0.12); color: var(--green); }
+
+  /* Chart container */
+  .chart-block {
+    background: white;
+    border: 0.5px solid var(--rule);
+    padding: 28px 32px;
+    margin: 32px 0;
+  }
+  .chart-block-title {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .chart-block-sub {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+    height: 320px;
+  }
+  .chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+  .legend-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+    vertical-align: middle;
+    border-radius: 1px;
+  }
+
+  /* Flow diagram */
+  .flow-section {
+    background: var(--paper-warm);
+    padding: 48px 0;
+    margin: 56px 0;
+    border-top: 0.5px solid var(--rule);
+    border-bottom: 0.5px solid var(--rule);
+  }
+  .flow-svg { width: 100%; max-width: 1000px; margin: 0 auto; display: block; }
+
+  /* Private credit cards */
+  .pc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin: 32px 0;
+  }
+  .pc-card {
+    background: white;
+    border: 0.5px solid var(--rule);
+    padding: 24px;
+    position: relative;
+  }
+  .pc-card-ticker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .pc-card-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .pc-card-aum {
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-bottom: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+  .pc-card-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-top: 0.5px solid var(--rule);
+    font-size: 13px;
+  }
+  .pc-card-row-label {
+    color: var(--ink-mute);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .pc-card-row-val {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .pc-card-narrative {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 0.5px solid var(--rule);
+    font-style: italic;
+  }
+
+  /* Drop cap */
+  .dropcap::first-letter {
+    font-family: 'Fraunces', serif;
+    font-size: 64px;
+    font-weight: 400;
+    float: left;
+    line-height: 0.85;
+    margin: 4px 12px 0 0;
+    color: var(--accent);
+  }
+
+  /* Footer */
+  footer {
+    border-top: 2px solid var(--ink);
+    padding: 48px 0;
+    margin-top: 80px;
+    background: var(--paper-warm);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 48px;
+  }
+  .footer-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+  }
+  .footer-disclaimer {
+    font-size: 12px;
+    color: var(--ink-mute);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* Divider */
+  .divider {
+    text-align: center;
+    margin: 56px auto;
+    color: var(--gold);
+    font-size: 18px;
+    letter-spacing: 1em;
+  }
+
+  /* Sticky nav */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    border-bottom: 0.5px solid var(--rule);
+    padding: 10px 0;
+    z-index: 100;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .sticky-nav-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--ink-mute);
+  }
+  .sticky-nav a { color: var(--ink-soft); text-decoration: none; margin-left: 24px; }
+  .sticky-nav a:hover { color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .container, .container-narrow { padding: 0 24px; }
+    .masthead-title { font-size: 40px; }
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .toc ol { columns: 1; }
+    .stat-strip { grid-template-columns: 1fr 1fr; }
+    .stat { border-bottom: 0.5px solid var(--rule); }
+    .vs-grid { grid-template-columns: 1fr; }
+    .vs-col.win { border-right: none; border-bottom: 0.5px solid var(--rule); }
+    .footer-grid { grid-template-columns: 1fr; }
+    .sticky-nav-inner { padding: 0 24px; }
+    .sticky-nav a { margin-left: 12px; }
+    .masthead-meta { flex-wrap: wrap; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-nav">
+  <div class="sticky-nav-inner">
+    <span>AI 信贷周期 / 2026.05</span>
+    <span>
+      <a href="#part-1">I. Shopify</a>
+      <a href="#part-2">II. 框架</a>
+      <a href="#part-3">III. 板块</a>
+      <a href="#part-4">IV. 私募信贷</a>
+      <a href="#part-5">V. 结论</a>
+    </span>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="container">
+    <div class="masthead-top">
+      <span>家办内部研究 · 仅供内部参考</span>
+      <span>Vol. 01 · 2026年5月14日</span>
+    </div>
+    <h1 class="masthead-title">当信贷遇上<em>智能</em></h1>
+    <p class="masthead-sub">从 Shopify Capital 的应收账款看 AI 主导的科技变革如何重塑信贷周期的供给端、需求端与分销端 —— 以及这意味着什么</p>
+    <div class="masthead-meta">
+      <span>分析师 <strong>Claude</strong></span>
+      <span>主题 <strong>AI · 信贷 · 嵌入式金融</strong></span>
+      <span>页数 <strong>5 部分</strong></span>
+      <span>资料截止 <strong>2026.05.14</strong></span>
+    </div>
+  </div>
+</header>
+
+<div class="toc">
+  <div class="toc-label">目录</div>
+  <ol>
+    <li><a href="#part-1">Shopify Capital · 一个看起来好的资产组合是如何变成预警的</a></li>
+    <li><a href="#part-2">框架 · AI 信贷周期的三条传导通道</a></li>
+    <li><a href="#part-3">板块横向 · AI 信贷周期里的赢家与输家</a></li>
+    <li><a href="#part-4">深挖 · 私募信贷市场的具体暴露</a></li>
+    <li><a href="#part-5">结论 · 给家办的实操清单</a></li>
+  </ol>
+</div>
+
+<!-- PART 1: SHOPIFY -->
+<section id="part-1">
+  <div class="container-narrow">
+    <div class="section-num">第一部分 · CASE STUDY</div>
+    <h1>Shopify Capital · 一个看起来好的资产组合是如何<em>变成预警的</em></h1>
+    <p class="lead">市场在 5 月 13 日支付板块的下跌里，给 Shopify 贴上了一个新标签 —— 不再是软件公司，而是一家嵌入式放贷机构。理解这个转变，是理解整个 AI 信贷周期的起点。</p>
+  </div>
+
+  <div class="container">
+    <div class="stat-strip">
+      <div class="stat">
+        <div class="stat-num">$1.8B</div>
+        <div class="stat-label">贷款组合规模<br>2025 年底，同比 +50%</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">$1.4B</div>
+        <div class="stat-label">单季度新增放款<br>Q1 2026，同比 +71%</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num accent">+55%</div>
+        <div class="stat-label">坏账拨备 YoY 增速<br>跑赢贷款本金增速</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num accent">91.9%</div>
+        <div class="stat-label">当期还款贷款占比<br>同比下降 180 bp</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-narrow">
+    <h2>1.1 表面数据没问题，结构里有问题</h2>
+    <p class="dropcap">Shopify 2026 年第一季度交出了一份漂亮的财报：营收同比增长 34% 到 $31.7 亿，GAAP 每股收益 $0.45 是市场预期的近两倍。但财报后股价仍然下跌超过 7%，市场的关注点高度集中在一个数字：交易及贷款损失从去年同期 3.2% 升到了营收的 3.7%。</p>
+
+    <p>这个 50 个基点的变化看起来很小，但它揭示了一个根本性的问题 —— Shopify 不再是一家纯粹的软件公司。商户服务 (Merchant Solutions) 已占营收 76%，其中越来越大的比例来自支付、贷款和现金垫款。市场要重新用金融机构的视角给 Shopify 定价。</p>
+
+    <div class="pullquote">
+      银行拥有贷款，卡网经营道路。但当一家软件公司开始两边都做的时候，估值模型就坏了。
+      <span class="pullquote-source">家办内部判断</span>
+    </div>
+
+    <h2>1.2 信贷质量的轨迹比绝对值更危险</h2>
+    <p>真正令人警觉的不是数字本身，而是它们的<strong>方向</strong>。坏账拨备从 2024 年底的 $1.10 亿升至 2025 年底的 $1.60 亿（增速约 45%），而同期贷款本金增速约 50%。乍看之下拨备增速还低于本金增速，但拆解 Q1 2026 之后会发现 —— 当期还款的贷款占比从 93.7% 降到了 91.9%。</p>
+    <p>这是放贷机构最早的"晨曦预警"信号：<strong>当期还款率掉了 180 个基点，意味着新形成的逾期正在加速</strong>。在一个 $18 亿的贷款组合里，这相当于约 $3200 万的额外问题资产 —— 还不算还在累积的部分。</p>
+  </div>
+
+  <div class="container">
+    <div class="chart-block">
+      <div class="chart-block-title">贷款组合规模 vs 损失拨备</div>
+      <div class="chart-block-sub">拨备增速正逐步追平本金增速 —— 这是周期顶部的典型形态</div>
+      <div class="chart-legend">
+        <span><span class="legend-dot" style="background: #2d5a52;"></span>贷款组合 ($M, 左轴)</span>
+        <span><span class="legend-dot" style="background: #8b2c1e;"></span>损失拨备 ($M, 右轴)</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="shopifyChart" role="img" aria-label="Shopify Capital 贷款组合从 2024 年 Q3 的 9.5 亿增长到 Q1 2026 的 19 亿，损失拨备从 0.58 亿增长到 1.75 亿"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-narrow">
+    <h2>1.3 四条信贷周期的传导路径</h2>
+
+    <h3>路径一 · 宏观周期传导</h3>
+    <p>SMB 信贷是顺周期最强的资产类别之一。在线放贷机构的历史违约率区间为 5-15%，纯 MCA 产品可达 15-20%+。我估算 Shopify Capital 的有效违约率在 6-9% 区间。若 5 月 13 日公布的 PPI 数据（同比 6%，2022 年以来最高）促使美联储维持高利率更久，传导链条会是：消费疲软 → GMV 减速 → 商户营收下降 → 违约率上升。<strong>典型时滞 3-6 个月</strong>，意味着 Q1 2026 看到的还只是开始。</p>
+
+    <h3>路径二 · AI 承销模型的衰减</h3>
+    <p>Shopify 用平台数据做承销有一个核心假设：历史 GMV 预测未来还款能力。但在 AI 时代，这个假设正在崩溃 —— 2025-2026 年 AI 让开店成本骤降，平台涌入大量低承销含量的小卖家；关税不确定性让历史数据失去预测力；AI agent 商务会"价格优化"压缩可选消费类目利润。<strong>承销模型衰减是个隐形但严重的风险</strong>。</p>
+
+    <h3>路径三 · 增长压力诱发承销放松</h3>
+    <p>Q2 营收指引减速到"高 20%"，市场需要新增长。Capital Flex（2026 年初推出的循环信贷产品）是新的增长点 —— 但<strong>循环信贷产品在周期顶部最容易扩张，在周期下行时核销最猛烈</strong>。Q2 财报会首次完整披露 Capital Flex 数据，是关键观察点。</p>
+
+    <h3>路径四 · WebBank 结构的"真实放贷人"风险</h3>
+    <p>所有美国产品通过 WebBank 发放（rent-a-bank 结构）。这绕过了各州的高利率上限，但面临两重压力：CFPB 1071 条款 2026 年 6 月生效；如法院认定 Shopify 是实际放贷人，会触发追溯性的州法律合规问题。这不是会突然爆炸的风险，而是<strong>慢性提高资本成本和合规成本的因素</strong>。</p>
+
+    <h2>1.4 压力测试 · 三个情景</h2>
+    <p>把这四条路径合并，可以得出一个简化的压力测试。重点不是 Shopify 会不会"爆雷" —— $18 亿贷款相对 $115 亿现金及等价物完全可控。重点是<strong>估值重定价的幅度</strong>。</p>
+  </div>
+
+  <div class="container">
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 32px 0;">
+      <div class="card green">
+        <div class="card-label">基础情景 · 概率 45%</div>
+        <div class="card-title">损失率稳定 ~7%</div>
+        <p style="font-size: 14px; color: var(--ink-soft); margin: 0;">损失占营收约 3.5%，对利润率无实质拖累。市场已部分定价。Forward PE 维持 50-55x。</p>
+      </div>
+      <div class="card warn">
+        <div class="card-label">温和衰退 · 概率 35%</div>
+        <div class="card-title">损失率升至 ~12%</div>
+        <p style="font-size: 14px; color: var(--ink-soft); margin: 0;">损失占营收 5-6%，营业利润率压缩 200-300 bp。估值再压缩至 35-40x，股价下行 20-30%。</p>
+      </div>
+      <div class="card danger">
+        <div class="card-label">严重压力 · 概率 20%</div>
+        <div class="card-title">损失率升至 ~18%</div>
+        <p style="font-size: 14px; color: var(--ink-soft); margin: 0;">损失占营收 8-10%，自由现金流腰斩。估值压至 20-25x，股价潜在 40-50% 回撤。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-narrow">
+    <h2>1.5 Shopify 的真正问题</h2>
+    <p>用 business-analysis 的护城河视角看：Shopify 的护城河仍然完好 —— 开发者生态、AI commerce 领先、enterprise 渗透。但<strong>金融业务正在稀释护城河的纯度</strong>。市场愿意为软件付 50-60x 的乘数，但只愿意为 embedded lending 付 10-15x。这是估值的根本撕扯，也是为什么 Q1 财报"业绩超预期"反而下跌 7%。</p>
+
+    <p>关键的拐点不在基本面，而在 <strong>Q2 财报 (8 月 4 日)</strong>：Capital Flex 首次完整季度数据 + 信贷质量趋势是否触底。在拨备/贷款比稳定下来之前，估值不会再扩张。</p>
+  </div>
+</section>
+
+<div class="divider">· · ·</div>
+
+<!-- PART 2: FRAMEWORK -->
+<section id="part-2">
+  <div class="container-narrow">
+    <div class="section-num">第二部分 · 框架</div>
+    <h1>AI 信贷周期的<em>三条</em>传导通道</h1>
+    <p class="lead">Shopify 的故事不是孤立的。它是一个更大叙事的缩影：AI 主导的科技变革正在同时改变信贷的供给端、需求端和分销端。</p>
+
+    <h2>2.1 这不是普通的信贷周期</h2>
+    <p>传统信贷周期由消费者杠杆驱动 —— 储蓄率下降、消费过热、央行加息、违约率上升、衰退。<strong>这一轮 AI 周期不是这样的</strong>。</p>
+
+    <p>这一轮的本质是：<strong>生产端的资本支出超级周期，遇上消费端的就业范式转换</strong>。两条线在 2026 年开始交汇，而金融体系（特别是私募信贷）正在为两端同时提供燃料。这创造了一个历史上罕见的局面 —— 生产力革命与劳动需求收缩同时发生，由债务而非股权驱动。</p>
+
+    <div class="pullquote">
+      这是金融史上第一次，一个生产力革命同时通过债务来融资生产力工具的扩张、又通过裁员来削弱使用这些工具的消费者的购买力，而两端的杠杆都在加速积累。
+      <span class="pullquote-source">本报告核心论点</span>
+    </div>
+  </div>
+
+  <div class="flow-section">
+    <div class="container">
+      <svg class="flow-svg" viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="三条传导通道：超大规模厂商资本支出、劳动力市场冻结、SMB嵌入式贷款">
+        <defs>
+          <marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 Z" fill="#4a4640"/>
+          </marker>
+        </defs>
+
+        <text x="500" y="32" text-anchor="middle" font-family="Fraunces, serif" font-size="22" font-style="italic" fill="#1a1814" font-weight="400">三条通道在 2026 年开始交汇</text>
+
+        <!-- Channel 1 -->
+        <g>
+          <rect x="40" y="80" width="280" height="130" fill="#f5f1e8" stroke="#8b2c1e" stroke-width="0.8"/>
+          <text x="180" y="112" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#a8843a" letter-spacing="1.5">CHANNEL I</text>
+          <text x="180" y="140" text-anchor="middle" font-family="Fraunces, serif" font-size="20" font-weight="500" fill="#1a1814">资本支出债务</text>
+          <text x="180" y="166" text-anchor="middle" font-family="Newsreader, serif" font-size="13" fill="#4a4640">$602B hyperscaler capex</text>
+          <text x="180" y="184" text-anchor="middle" font-family="Newsreader, serif" font-size="13" fill="#4a4640">$1.5T 新增 IG/私募信贷</text>
+        </g>
+
+        <!-- Channel 2 -->
+        <g>
+          <rect x="360" y="80" width="280" height="130" fill="#f5f1e8" stroke="#b8741a" stroke-width="0.8"/>
+          <text x="500" y="112" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#a8843a" letter-spacing="1.5">CHANNEL II</text>
+          <text x="500" y="140" text-anchor="middle" font-family="Fraunces, serif" font-size="20" font-weight="500" fill="#1a1814">劳动力冻结</text>
+          <text x="500" y="166" text-anchor="middle" font-family="Newsreader, serif" font-size="13" fill="#4a4640">每日 961 名科技裁员</text>
+          <text x="500" y="184" text-anchor="middle" font-family="Newsreader, serif" font-size="13" fill="#4a4640">26% 直接归因于 AI</text>
+        </g>
+
+        <!-- Channel 3 -->
+        <g>
+          <rect x="680" y="80" width="280" height="130" fill="#f5f1e8" stroke="#2d5a52" stroke-width="0.8"/>
+          <text x="820" y="112" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#a8843a" letter-spacing="1.5">CHANNEL III</text>
+          <text x="820" y="140" text-anchor="middle" font-family="Fraunces, serif" font-size="20" font-weight="500" fill="#1a1814">SMB 嵌入贷款</text>
+          <text x="820" y="166" text-anchor="middle" font-family="Newsreader, serif" font-size="13" fill="#4a4640">平台放贷快速扩张</text>
+          <text x="820" y="184" text-anchor="middle" font-family="Newsreader, serif" font-size="13" fill="#4a4640">AI 压缩商户利润率</text>
+        </g>
+
+        <!-- Arrows down -->
+        <line x1="180" y1="215" x2="180" y2="260" stroke="#4a4640" stroke-width="1.2" marker-end="url(#arrow1)"/>
+        <line x1="500" y1="215" x2="500" y2="260" stroke="#4a4640" stroke-width="1.2" marker-end="url(#arrow1)"/>
+        <line x1="820" y1="215" x2="820" y2="260" stroke="#4a4640" stroke-width="1.2" marker-end="url(#arrow1)"/>
+
+        <!-- Risks -->
+        <g>
+          <rect x="40" y="270" width="280" height="110" fill="white" stroke="#d4ccba" stroke-width="0.5"/>
+          <text x="180" y="298" text-anchor="middle" font-family="Fraunces, serif" font-size="15" font-weight="500" fill="#8b2c1e" font-style="italic">循环融资风险</text>
+          <text x="180" y="322" text-anchor="middle" font-family="Newsreader, serif" font-size="12" fill="#4a4640">Nvidia → OpenAI → Oracle</text>
+          <text x="180" y="340" text-anchor="middle" font-family="Newsreader, serif" font-size="12" fill="#4a4640">→ CoreWeave → Nvidia</text>
+          <text x="180" y="362" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#8b2c1e">Oracle CDS 上涨 3x</text>
+        </g>
+
+        <g>
+          <rect x="360" y="270" width="280" height="110" fill="white" stroke="#d4ccba" stroke-width="0.5"/>
+          <text x="500" y="298" text-anchor="middle" font-family="Fraunces, serif" font-size="15" font-weight="500" fill="#b8741a" font-style="italic">白领消费挤压</text>
+          <text x="500" y="322" text-anchor="middle" font-family="Newsreader, serif" font-size="12" fill="#4a4640">专业服务 -150K YoY</text>
+          <text x="500" y="340" text-anchor="middle" font-family="Newsreader, serif" font-size="12" fill="#4a4640">入门级岗位首当其冲</text>
+          <text x="500" y="362" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#b8741a">违约滞后 6-12 月</text>
+        </g>
+
+        <g>
+          <rect x="680" y="270" width="280" height="110" fill="white" stroke="#d4ccba" stroke-width="0.5"/>
+          <text x="820" y="298" text-anchor="middle" font-family="Fraunces, serif" font-size="15" font-weight="500" fill="#2d5a52" font-style="italic">平台贷款压力</text>
+          <text x="820" y="322" text-anchor="middle" font-family="Newsreader, serif" font-size="12" fill="#4a4640">Shopify, PayPal, Block</text>
+          <text x="820" y="340" text-anchor="middle" font-family="Newsreader, serif" font-size="12" fill="#4a4640">当期还款率全行业下滑</text>
+          <text x="820" y="362" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#2d5a52">拨备增速跑赢本金</text>
+        </g>
+
+        <!-- Converging arrows -->
+        <path d="M180 385 Q 350 430 480 460" fill="none" stroke="#4a4640" stroke-width="1.2" marker-end="url(#arrow1)"/>
+        <line x1="500" y1="385" x2="500" y2="460" stroke="#4a4640" stroke-width="1.2" marker-end="url(#arrow1)"/>
+        <path d="M820 385 Q 650 430 520 460" fill="none" stroke="#4a4640" stroke-width="1.2" marker-end="url(#arrow1)"/>
+
+        <!-- Convergence point -->
+        <g>
+          <rect x="240" y="470" width="520" height="105" fill="#ebe4d4" stroke="#8b2c1e" stroke-width="1.2"/>
+          <text x="500" y="502" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#8b2c1e" letter-spacing="1.5">THE CONVERGENCE</text>
+          <text x="500" y="530" text-anchor="middle" font-family="Fraunces, serif" font-size="20" font-weight="500" font-style="italic" fill="#1a1814">$38B Oracle 数据中心债务被打折出售</text>
+          <text x="500" y="554" text-anchor="middle" font-family="Newsreader, serif" font-size="13" fill="#4a4640">"out of scale to anything we've thought about, ever"</text>
+        </g>
+
+        <text x="500" y="606" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#8a857c" font-style="italic">三条通道按不同时滞响应：I 期 12-24 月 · II 期 6-12 月 · III 期 3-6 月</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="container-narrow">
+    <h2>2.2 通道一 · 超大规模厂商资本支出</h2>
+    <p>2026 年大五家 hyperscaler 资本开支预计 $6020 亿，每家 Amazon、Microsoft、Google、Meta 都将单独超过 $1000 亿。<strong>资本开支强度达到营收的 45-57%</strong> —— 历史上不可想象的水平。Oracle 占 86%，Meta 占 54%，微软 47%，Alphabet 46%。$1.5 万亿的新增债务将用于 AI 基础设施。</p>
+
+    <p>这意味着两件事：第一，<strong>科技板块从"自筹资本"变成"持续依赖债务市场"</strong>，运营现金流已无法覆盖投资需求；第二，<strong>未来 5 年的 IG 债券指数将被科技板块主导</strong> —— Google 的指数权重将从第 67 位跳到第 8 位。如果你持有任何被动 IG 债券基金，你实际上是在为 AI capex 出资。</p>
+
+    <h3>真正的薄弱环节：GPU 抵押贷款的久期错配</h3>
+    <p>越来越多的贷款直接以 GPU 硬件作为抵押 —— CoreWeave 的 $75 亿融资、Fluidstack 的 $100 亿安排。但 CoreWeave 将 GPU 折旧 6 年，工程师估算实际使用寿命 3-4 年，部分分析师认为只有 2-3 年。H100 租金自 2023 年以来下降了 70-90%。</p>
+
+    <div class="pullquote">
+      用 GPU 抵押的贷款去买新 GPU，就像用一张信用卡去还另一张信用卡的债。
+      <span class="pullquote-source">数据中心融资观察人士</span>
+    </div>
+
+    <h2>2.3 通道二 · 劳动力市场冻结</h2>
+    <p>表面数据看起来还行：690 万个职位空缺，裁员稳定，4 月初次申请失业救济金 (initial jobless claims) 降到几十年来低点。但深入看，这是经济学家说的<strong>"低招低裁" (low hire, low fire)</strong> —— 一个冻结而不是健康的劳动市场。</p>
+
+    <p>结构里的信号才是关键。2025 年科技行业每天裁员 674 人；2026 年每天 961 人。<strong>2026 年 4 月，AI 成为裁员的主要原因，占当月失业的 26%</strong>。Cognizant 在"Project Leap"下裁员约 4000 人以增强 AI 能力。Block 裁掉 40% 的全球员工。措辞从"成本削减"变成了"重新分配资源到 AI 团队"。</p>
+
+    <p>这对信贷周期的意义是：<strong>白领失业群体负债更高</strong>（按揭、学贷、信用卡），<strong>入门级岗位被冲击最大</strong>，而<strong>消费者信贷违约率往往滞后失业率 6-12 个月</strong>。如果 AI 在 2025-2026 年加速替代专业服务岗位，<em>真正的信用卡和无担保贷款违约浪潮会在 2027 年</em>显现。</p>
+
+    <h2>2.4 通道三 · SMB 嵌入式贷款</h2>
+    <p>这是第一部分讲的 Shopify 故事的延伸。Shopify、PayPal、Block、Stripe 这些 embedded lending 平台面临两个矛盾的趋势：</p>
+    <ul style="margin: 16px 0 24px 24px; font-size: 16px;">
+      <li style="margin-bottom: 8px;"><strong>正向</strong>：AI 让小企业开店成本骤降，用户激增 → 贷款本金快速扩张</li>
+      <li><strong>反向</strong>：AI agent commerce 压低小商家利润率 → 现金流恶化 → 还款能力下降</li>
+    </ul>
+    <p>结果就是：<strong>当期还款率全行业下滑（Shopify -180bp，PayPal -60bp）</strong>，但贷款本金还在加速增长 —— 典型的周期顶部信号。</p>
+  </div>
+</section>
+
+<div class="divider">· · ·</div>
+
+<!-- PART 3: SECTOR WINNERS / LOSERS -->
+<section id="part-3">
+  <div class="container-narrow">
+    <div class="section-num">第三部分 · 横向比较</div>
+    <h1>AI 信贷周期里的<em>赢家</em>与<em>输家</em></h1>
+    <p class="lead">这不是简单的"AI 受益 vs AI 受损"的二分法。真正重要的是把每个板块放到信贷周期的不同位置 —— 谁在创造信贷需求，谁在承担信贷风险，谁能定价。</p>
+  </div>
+
+  <div class="container">
+    <div class="chart-block">
+      <div class="chart-block-title">板块在 AI 信贷周期中的相对位置</div>
+      <div class="chart-block-sub">X 轴：AI 暴露程度 / Y 轴：信贷周期防御性 / 气泡大小：板块市值占 S&P 权重</div>
+      <div class="chart-wrap" style="height: 420px;">
+        <canvas id="quadrantChart" role="img" aria-label="板块在AI暴露和信贷周期防御性两个维度的散点图"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-narrow">
+    <h2>3.1 第一象限 · 高 AI 暴露 + 高防御性</h2>
+    <p>这是 2026 年最理想的位置 —— 直接从 AI 资本支出超级周期受益，同时由于业务的不可替代性，即使信贷周期下行，需求依然刚性。</p>
+  </div>
+
+  <div class="container">
+    <div class="vs-grid">
+      <div class="vs-col win">
+        <div class="vs-header">★★★★★ 顶级赢家 · 不可替代</div>
+        <div class="vs-item">
+          <div class="vs-item-name">独立电力生产商 / 核能</div>
+          <div class="vs-item-tickers">CEG · VST · TLN · NRG</div>
+          <div class="vs-item-note">数据中心从 2024 年起重新定义了电力需求曲线 —— 经历近 20 年的零增长后，美国电力需求重新进入资本开支大周期。Constellation 和 Talen 已与 hyperscaler 签下"behind-the-meter"核电协议，定价权完全在卖方。</div>
+        </div>
+        <div class="vs-item">
+          <div class="vs-item-name">电气设备 & 数据中心建设</div>
+          <div class="vs-item-tickers">ETN · VRT · PWR · EMR</div>
+          <div class="vs-item-note">Vertiv 单季度营收增长 30%，订单积压创历史新高。Eaton 受益于变压器、开关柜、配电系统的结构性需求。这些不是 AI 应用层 —— 是 AI 的"水管工"，定价权强，技术替代风险低。</div>
+        </div>
+        <div class="vs-item">
+          <div class="vs-item-name">先进半导体设计</div>
+          <div class="vs-item-tickers">NVDA · TSM · AVGO · ARM</div>
+          <div class="vs-item-note">2026 年 AI 加速器需求 90% 由 Nvidia 捕获。但 ARM 在 Edge AI 的位置同样关键 —— 智能手机、汽车、工业机器人都开始本地部署 AI。</div>
+        </div>
+      </div>
+      <div class="vs-col win">
+        <div class="vs-header">★★★★ 优质赢家 · 受益但有竞争</div>
+        <div class="vs-item">
+          <div class="vs-item-name">受监管电力公司</div>
+          <div class="vs-item-tickers">NEE · DUK · SO · AEP</div>
+          <div class="vs-item-note">这些公司在受监管资产基础上赚取固定回报率 —— 数据中心需求让他们能部署更多资本到监管回报里。增长缓但稳定，是真正的 AI 防御性配置。</div>
+        </div>
+        <div class="vs-item">
+          <div class="vs-item-name">有专有数据的软件</div>
+          <div class="vs-item-tickers">GOOGL · MSFT · CRM</div>
+          <div class="vs-item-note">软件不再被 AI 杀死 —— 但只有拥有专有数据、深度客户关系、关键业务流程的软件才能存活。GOOGL（前述对话已分析）是 AI 时代最被低估的软件公司之一。</div>
+        </div>
+        <div class="vs-item">
+          <div class="vs-item-name">光网络 & 高速互联</div>
+          <div class="vs-item-tickers">AAOI · CIEN · LITE</div>
+          <div class="vs-item-note">AI 工作负载需要服务器之间和数据中心之间的超快数据传输 —— 这是个被低估的细分赛道，估值还未充分反映需求。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-narrow">
+    <h2>3.2 第二象限 · 高 AI 暴露 + 低防御性</h2>
+    <p>这是最危险的位置 —— 表面上是 AI 故事，但其实是在承担巨额信贷风险，等待 ROI 兑现。市场已经开始重新定价。</p>
+  </div>
+
+  <div class="container">
+    <div class="vs-grid">
+      <div class="vs-col lose">
+        <div class="vs-header">▼▼▼ 高风险 · 杠杆暴露过高</div>
+        <div class="vs-item">
+          <div class="vs-item-name">AI 基础设施集中风险</div>
+          <div class="vs-item-tickers">ORCL · CRWV</div>
+          <div class="vs-item-note">Oracle 当前债务 $1050 亿，表外租赁承诺 $2480 亿。摩根士丹利预测如执行当前 capex 计划，2028 财年净债务将达 $2900 亿。营收偿债能力高度集中在单一客户 OpenAI —— 而 OpenAI 自己的偿付能力依赖资本市场持续开放。Oracle 5Y CDS 自 9 月以来上涨超过 3 倍。</div>
+        </div>
+        <div class="vs-item">
+          <div class="vs-item-name">商业地产 · 数据中心 REIT</div>
+          <div class="vs-item-tickers">DLR · EQIX · IRM</div>
+          <div class="vs-item-note">数据中心 REIT 看似是 AI 受益方，但实际上承担了三重风险：电力供应瓶颈延迟交付 · GPU 折旧速度快于建筑生命周期 · 大客户违约风险（CoreWeave、xAI）。注意 IRM 已转型数据中心赛道。</div>
+        </div>
+        <div class="vs-item">
+          <div class="vs-item-name">应用层 SaaS · 容易被 AI 替代</div>
+          <div class="vs-item-tickers">FIVN · WDAY · NOW (部分)</div>
+          <div class="vs-item-note">Five9 这类纯客服 SaaS 直接被 AI 替代。Workday 自己已经裁掉 8.5% 员工。市场正在把"软件暴露"等同于"信贷风险"，因为 AI 压缩护城河的速度快过传统估值模型。</div>
+        </div>
+      </div>
+      <div class="vs-col lose">
+        <div class="vs-header">▼▼ 中等风险 · 业务受 AI 周期性挤压</div>
+        <div class="vs-item">
+          <div class="vs-item-name">嵌入式贷款平台</div>
+          <div class="vs-item-tickers">SHOP · PYPL · SQ (Block)</div>
+          <div class="vs-item-note">详见第一部分。AI 同时刺激和侵蚀 SMB 商户 —— 贷款本金扩张但还款率下降。Block 已裁员 40%，自身的 AI 应对都不顺利。</div>
+        </div>
+        <div class="vs-item">
+          <div class="vs-item-name">消费金融 · 信用卡</div>
+          <div class="vs-item-tickers">AFRM · UPST · SYF · COF</div>
+          <div class="vs-item-note">这是通道二的直接承受方 —— 白领失业潮的滞后违约会在 2027 年集中爆发。SYF（消费信贷为主）和 COF（次级信用卡敞口）是最脆弱的。Affirm 的 BNPL 商户主要是可选消费类目，双重挤压。</div>
+        </div>
+        <div class="vs-item">
+          <div class="vs-item-name">区域银行 · 商业地产敞口</div>
+          <div class="vs-item-tickers">KRE · 区域银行 ETF</div>
+          <div class="vs-item-note">不只是 CRE 问题。区域银行还在通过 syndicated loans 间接参与 AI 数据中心融资，但议价权不如大行。如果 2026-2027 年 AI 信贷出现问题，区域银行是次级受害者。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-narrow">
+    <h2>3.3 第三象限 · 低 AI 暴露 + 高防御性</h2>
+    <p>这是被市场忽视的"避风港"板块。它们与 AI 资本支出周期无直接关联，但在劳动力市场冻结、消费分化的环境下，反而是稳定现金流的来源。</p>
+  </div>
+
+  <div class="container">
+    <div class="vs-grid">
+      <div class="vs-col win">
+        <div class="vs-header">★★★ 隐形赢家 · 周期防御</div>
+        <div class="vs-item">
+          <div class="vs-item-name">消费必需品 · 折扣零售</div>
+          <div class="vs-item-tickers">WMT · COST · DG</div>
+          <div class="vs-item-note">"K 型经济"加剧时，低端消费迁移加速。Walmart 还有稳定币结算 + AI 议价能力的双重叙事（前一对话已分析）。</div>
+        </div>
+        <div class="vs-item">
+          <div class="vs-item-name">医保 · 必需消费</div>
+          <div class="vs-item-tickers">UNH · MCK · CI</div>
+          <div class="vs-item-note">需求非周期性，劳动力市场恶化反而增加政府医保参与人数。注意监管风险，但估值已大幅压缩。</div>
+        </div>
+        <div class="vs-item">
+          <div class="vs-item-name">Pre-clinical 生物科技 · AI 药物发现</div>
+          <div class="vs-item-tickers">RXRX · Insilico · 私募</div>
+          <div class="vs-item-note">对家办特别有意义：成败逻辑独立于宏观资本周期，生物制药的 AI 红利创造新一波小型 biotech 的估值溢价。这是为什么 RyboDyn 类标的在当前环境反而有相对吸引力。</div>
+        </div>
+      </div>
+      <div class="vs-col lose">
+        <div class="vs-header">▼ 表面防御 · 实则中性</div>
+        <div class="vs-item">
+          <div class="vs-item-name">公用事业 ETF (整体)</div>
+          <div class="vs-item-tickers">XLU</div>
+          <div class="vs-item-note">注意：XLU 整体已大幅 rerate，独立 IPP 估值更具吸引力，受监管电力则估值合理但增长有限。整个板块"AI 受益方"叙事透支严重。</div>
+        </div>
+        <div class="vs-item">
+          <div class="vs-item-name">传统消费 staples</div>
+          <div class="vs-item-tickers">KO · PG · PEP</div>
+          <div class="vs-item-note">估值仍不便宜，且通胀消化能力被高估。AI 时代真正的 staples 应该是"AI 增强的 staples" —— 比如 WMT 的供应链革命，而非简单的品牌护城河。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-narrow">
+    <h2>3.4 第四象限 · 低 AI 暴露 + 低防御性</h2>
+    <p>明确避免。这些板块同时承受 AI 范式转换的间接冲击和信贷周期的直接冲击。</p>
+
+    <div class="card danger">
+      <div class="card-label">明确回避</div>
+      <div class="card-title">三类标的</div>
+      <p style="font-size: 15px; margin: 12px 0 0; color: var(--ink-soft);"><strong>1. 可选消费 · 中端品牌：</strong>劳动力市场恶化的最先受害者，没有 AI 故事可讲。<br><br><strong>2. 商业房地产 · 写字楼：</strong>白领远程工作 + AI 替代双重打击，租金已结构性走低。<br><br><strong>3. 传统电信 · 媒体：</strong>资本结构差 + AI 颠覆压力。</p>
+    </div>
+
+    <h2>3.5 实操配置建议</h2>
+    <p>从家办视角看，在当前 AI 信贷周期的位置上，配置思路应该是：</p>
+    <ul style="margin: 16px 0 24px 24px; font-size: 16px;">
+      <li style="margin-bottom: 10px;"><strong>超配</strong>：第一象限标的（CEG, ETN, VRT, NVDA, ARM, GOOGL, AVGO）—— 这是真正的"AI 卖水人"</li>
+      <li style="margin-bottom: 10px;"><strong>标配</strong>：第三象限消费必需 + biotech venture（特别是 AI 药物发现）</li>
+      <li style="margin-bottom: 10px;"><strong>低配/择时</strong>：第二象限里的优质名字（SHOP, PYPL）—— 估值已压缩，等待信贷质量稳定的拐点</li>
+      <li><strong>回避</strong>：第二象限里的高杠杆名字（ORCL, CRWV）和第四象限的所有标的</li>
+    </ul>
+  </div>
+</section>
+
+<div class="divider">· · ·</div>
+
+<!-- PART 4: PRIVATE CREDIT -->
+<section id="part-4">
+  <div class="container-narrow">
+    <div class="section-num">第四部分 · 深挖</div>
+    <h1>私募信贷市场的<em>具体暴露</em></h1>
+    <p class="lead">如果 AI 信贷周期出问题，传导路径不是通过传统银行，而是通过私募信贷。问题是：哪些公司、哪些产品、暴露多大？</p>
+  </div>
+
+  <div class="container">
+    <div class="stat-strip">
+      <div class="stat">
+        <div class="stat-num">$1.5T</div>
+        <div class="stat-label">2025-2028 数据中心融资缺口<br>过半数将来自私募信贷</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num accent">-$265B</div>
+        <div class="stat-label">2024-2025 五大另类资管<br>市值蒸发额</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">$120B</div>
+        <div class="stat-label">表外 SPV 数据中心债务<br>Meta · Oracle · CoreWeave</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num accent">773 bp</div>
+        <div class="stat-label">CoreWeave 5Y CDS<br>2026 年 2 月峰值</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-narrow">
+    <h2>4.1 为什么私募信贷成了 AI 融资的"主管道"</h2>
+    <p>2008 年后银行受 Basel III 监管约束，无法持有大量长期、非标资产。AI 数据中心融资有两个特征让它天然适合私募信贷：<strong>规模巨大、期限长、资产专用性强</strong>。这些是公开 IG 市场难以消化的特征。</p>
+
+    <p>结果就是：摩根士丹利预测<strong>$1.5 万亿数据中心融资缺口的过半数将来自私募信贷</strong>。这创造了一个全新的资产类别，但也让原本"另类资管"的传统业务暴露在前所未有的集中度风险中。</p>
+
+    <h2>4.2 五大另类资管 · 谁暴露在哪里</h2>
+    <p>2024-2025 的反弹之后，2026 年的回调是教科书式的：从早期 2023 年到 2025 年 1 月，私募股权 PE 公司迎来历史性涨幅（KKR +103%, Blue Owl +81%, Apollo +78%）。然后从 2025 年 9 月起暴跌：Apollo -41%, Blackstone -46%, Ares 和 KKR 各 -48%，<strong>Blue Owl 暴跌三分之二</strong>。市值蒸发超过 $2650 亿。</p>
+  </div>
+
+  <div class="container">
+    <div class="pc-grid">
+      <div class="pc-card">
+        <div class="pc-card-ticker">NYSE: BX</div>
+        <div class="pc-card-name">Blackstone</div>
+        <div class="pc-card-aum">AUM $1.1T · 全球最大另类资管</div>
+        <div class="pc-card-row"><span class="pc-card-row-label">AI 数据中心</span><span class="pc-card-row-val">QTS · 重大持仓</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">私募信贷规模</span><span class="pc-card-row-val">$432B</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">软件 LBO 暴露</span><span class="pc-card-row-val">中高</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">回撤幅度</span><span class="pc-card-row-val" style="color: var(--accent);">-46%</span></div>
+        <div class="pc-card-narrative">QTS 是美国最大的私有数据中心运营商，是 Blackstone AI 暴露的核心。BCRED（Blackstone Private Credit Fund）规模超过 $700 亿，是零售投资者私募信贷的标杆。流动性风险高于看似的"GP 公司"。</div>
+      </div>
+
+      <div class="pc-card">
+        <div class="pc-card-ticker">NYSE: APO</div>
+        <div class="pc-card-name">Apollo</div>
+        <div class="pc-card-aum">AUM $750B · 最积极的 AI 信贷参与方</div>
+        <div class="pc-card-row"><span class="pc-card-row-label">AI 数据中心</span><span class="pc-card-row-val">$11B Meta JV</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">私募信贷规模</span><span class="pc-card-row-val">$610B</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">资产管理特点</span><span class="pc-card-row-val">基金式 · Athene 保险</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">回撤幅度</span><span class="pc-card-row-val" style="color: var(--accent);">-41%</span></div>
+        <div class="pc-card-narrative">Apollo 是 AI 数据中心融资最积极的参与者之一，参与 Meta $270 亿数据中心 JV 的结构化融资。同时通过 Athene 保险子公司持有大量长期 AI 相关债务。Apollo 在 First Brands 和 Tricolor 信贷恶化中提前做空获利，显示团队风险识别能力较强。</div>
+        </div>
+
+      <div class="pc-card">
+        <div class="pc-card-ticker">NYSE: KKR</div>
+        <div class="pc-card-name">KKR</div>
+        <div class="pc-card-aum">AUM $653B · 多元化最强</div>
+        <div class="pc-card-row"><span class="pc-card-row-label">AI 数据中心</span><span class="pc-card-row-val">Global Infra Fund</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">私募信贷规模</span><span class="pc-card-row-val">$255B</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">业务结构</span><span class="pc-card-row-val">PE · 信贷 · 基建 · 保险</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">回撤幅度</span><span class="pc-card-row-val" style="color: var(--accent);">-48%</span></div>
+        <div class="pc-card-narrative">KKR 通过 Global Infrastructure Fund 持有多个 AI 数据中心资产，但相对其他几家更加多元化。其保险子公司 Global Atlantic 暴露与 Apollo 的 Athene 模式类似。</div>
+      </div>
+
+      <div class="pc-card">
+        <div class="pc-card-ticker">NYSE: ARES</div>
+        <div class="pc-card-name">Ares Management</div>
+        <div class="pc-card-aum">AUM $463B · 最大直接放贷人</div>
+        <div class="pc-card-row"><span class="pc-card-row-label">AI 数据中心</span><span class="pc-card-row-val">直接贷款 + 基建</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">私募信贷规模</span><span class="pc-card-row-val">$338B</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">业务集中度</span><span class="pc-card-row-val">高 · 70%+ 信贷</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">回撤幅度</span><span class="pc-card-row-val" style="color: var(--accent);">-48%</span></div>
+        <div class="pc-card-narrative">Ares 是美国最大的直接放贷机构，私募信贷占其 AUM 比例最高，因此对周期最敏感。在 AI 数据中心建设贷款中是核心参与者，但管理团队历史上承销纪律较好。</div>
+      </div>
+
+      <div class="pc-card" style="border: 2px solid var(--accent);">
+        <div class="pc-card-ticker" style="color: var(--accent);">NYSE: OWL · 重点观察</div>
+        <div class="pc-card-name">Blue Owl Capital</div>
+        <div class="pc-card-aum">AUM $300B+ · 软件 LBO 集中</div>
+        <div class="pc-card-row"><span class="pc-card-row-label">AI 数据中心</span><span class="pc-card-row-val">直接 + GP 投资</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">软件 LBO 暴露</span><span class="pc-card-row-val" style="color: var(--accent);">极高</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">零售客户占比</span><span class="pc-card-row-val">~40% AUM</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">回撤幅度</span><span class="pc-card-row-val" style="color: var(--accent);">-67%</span></div>
+        <div class="pc-card-narrative"><strong>风险最高的一家。</strong>软件 LBO 是 Blue Owl 的核心业务，在 AI 压缩软件估值的环境下首当其冲。40% 资产来自零售客户（其他几家 5-15%），semi-liquid 产品（BDC）面临赎回压力。已重组多个软件借款人。但管理层 2026 年初向市场强调其软件借款人都是"深度嵌入客户业务流程"的高监管行业（金融、医疗），并通过新的 $3 亿股票回购计划展示信心。</div>
+      </div>
+
+      <div class="pc-card">
+        <div class="pc-card-ticker">NYSE: BAM</div>
+        <div class="pc-card-name">Brookfield · BIP</div>
+        <div class="pc-card-aum">AUM $1T · 基建为核心</div>
+        <div class="pc-card-row"><span class="pc-card-row-label">AI 数据中心</span><span class="pc-card-row-val">直接持有运营商</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">业务特点</span><span class="pc-card-row-val">真实资产 · 长期持有</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">财务杠杆</span><span class="pc-card-row-val">中等</span></div>
+        <div class="pc-card-row"><span class="pc-card-row-label">相对位置</span><span class="pc-card-row-val" style="color: var(--green);">相对较好</span></div>
+        <div class="pc-card-narrative">Brookfield 持有数据中心运营资产而非数据中心贷款，避开了债务结构风险。但要看清楚：BAM（资管公司）和 BIP（基础设施合伙）是两个不同的标的，BIP 直接持有实物资产，更适合保守配置。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-narrow">
+    <h2>4.3 真正的风险传导路径</h2>
+    <p>需要警惕的不是这些 GP（管理公司）会破产 —— 他们大多有 capital-light 的业务模型。<strong>真正的风险在他们管理的 LP 基金里</strong>，尤其是销售给零售投资者的 semi-liquid 产品（BDC、interval funds、BCRED 等）。</p>
+
+    <p>这些产品有两个致命特征：<strong>承诺定期赎回，但底层资产是非流动的</strong>。如果信贷恶化叠加赎回压力，会出现 2008 年 RMBS 式的"挤兑"动态。Blue Owl 2025 年 11 月已经重组了首批受影响的软件借款人，这是早期信号。</p>
+
+    <h2>4.4 银行如何转移 AI 信贷风险</h2>
+    <p>更隐蔽的传导路径是<strong>银行的"重大风险转移" (Significant Risk Transfer, SRT)</strong>。摩根大通、摩根士丹利、SMBC 等银行通过 SRT 把数据中心贷款最危险的部分卖给私募信贷基金，同时保留中间部分。这意味着<strong>银行系统名义上没问题，但风险已经转移到 GP 管理的基金里</strong>，而这些基金又有一部分零售投资者持仓。</p>
+
+    <p>$380 亿的 Oracle 德州/威斯康星数据中心建设债务，正是通过这种方式被分销。投行老兵称这个规模"out of scale to anything we've thought about, ever"。<strong>这就是 2026 年版本的 2007 年次贷传染机制 —— 不一样的资产类别，相似的风险结构</strong>。</p>
+
+    <h2>4.5 监控信号</h2>
+  </div>
+
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th>信号</th>
+          <th>当前状态</th>
+          <th>警戒位</th>
+          <th>风险等级</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Oracle 5Y CDS</td>
+          <td>较 9 月上涨 3x+</td>
+          <td>>500 bp 持续</td>
+          <td><span class="tag high">高</span></td>
+        </tr>
+        <tr>
+          <td>CoreWeave 5Y CDS</td>
+          <td>2026 年 2 月达 773 bp</td>
+          <td>持续 >600 bp</td>
+          <td><span class="tag high">极高</span></td>
+        </tr>
+        <tr>
+          <td>BX BCRED 赎回率</td>
+          <td>满额赎回</td>
+          <td>gating 启动</td>
+          <td><span class="tag mid">中</span></td>
+        </tr>
+        <tr>
+          <td>OWL 软件借款人重组数</td>
+          <td>多个案例</td>
+          <td>季度新增 >5 例</td>
+          <td><span class="tag high">高</span></td>
+        </tr>
+        <tr>
+          <td>GPU 二级市场租金</td>
+          <td>较 2023 -70%~-90%</td>
+          <td>新一代 release 后</td>
+          <td><span class="tag high">高</span></td>
+        </tr>
+        <tr>
+          <td>BDC 折价交易幅度</td>
+          <td>多数 NAV 折价 5-15%</td>
+          <td>>20% 持续</td>
+          <td><span class="tag mid">中</span></td>
+        </tr>
+        <tr>
+          <td>美联储 SLOOS 调查</td>
+          <td>商业贷款标准趋严</td>
+          <td>净比例 >20% 收紧</td>
+          <td><span class="tag low">低-中</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider">· · ·</div>
+
+<!-- PART 5: CONCLUSION -->
+<section id="part-5">
+  <div class="container-narrow">
+    <div class="section-num">第五部分 · 给家办的实操清单</div>
+    <h1>结论 · 给家办的<em>实操清单</em></h1>
+    <p class="lead">这是一份个性化的清单，基于你目前在新加坡 family office 的位置和现有投研方向。重点不是预测，而是<strong>建立可观察的体系</strong>。</p>
+
+    <h2>5.1 核心判断</h2>
+    <p>AI 主导的科技变革不是普通的信贷周期，而是同时改变了信贷的供给端、需求端和分销端。<strong>历史上没有完美对照</strong>。最接近的可能是 19 世纪铁路热 —— 大规模债务融资基础设施 + 工业革命对手工业者的替代，最终引发 1873 年长萧条。但当时没有今天这种复杂的衍生品和私募信贷结构。</p>
+
+    <p>最大的不确定性是时机：</p>
+    <ul style="margin: 16px 0 24px 24px; font-size: 16px;">
+      <li style="margin-bottom: 10px;"><strong>如果 AI 生产力红利在 2027-2028 年真正释放</strong> → 所有这些债务都会被消化掉</li>
+      <li><strong>如果 ROI 低于预期或滞后 2-3 年</strong> → 这就是 2008 式的事件，只是发生在私募信贷市场而不是次贷市场</li>
+    </ul>
+
+    <h2>5.2 家办视角的四个行动</h2>
+
+    <h3>行动一 · 检查隐性 AI 暴露</h3>
+    <p>如果你或合作家办持有任何 IG 债券指数基金（特别是 AGG、LQD 这类），实际上正在为 AI capex 出资。<strong>科技板块在 IG 指数的权重 12 个月内从 2.2% 翻倍到 4.1%</strong>，未来 5 年还会快速上升。问自己：愿意接受这种隐性集中度吗？如果不愿意，考虑 short-duration 或 active selection 替代被动指数敞口。</p>
+
+    <h3>行动二 · "买股不买债"的不对称</h3>
+    <p>Hyperscaler 的负债/资产比率在 2025 年 Q3 降到 48%，接近 2015 年水平，而 S&P 500 整体维持在近 80%。这意味着 <strong>hyperscaler 的股权仍然是高质量资产</strong>，但他们发行的债券承担的是 AI 失败的风险。在持仓里 GOOG、MSFT、AVGO 是合理的，但应避免持有这些公司新发行的长期债券。</p>
+
+    <h3>行动三 · 跟踪两个关键拐点</h3>
+    <div class="card">
+      <div class="card-title">拐点 A · 信贷质量趋势 (Q2 2026 财报季 · 8 月)</div>
+      <p style="margin: 8px 0 0; font-size: 15px; color: var(--ink-soft);">Shopify Capital Flex 首次完整披露 · PayPal Business Loans 当期还款率 · Block Square Capital 拨备变化。三家中至少两家信贷质量企稳是估值修复的前提。</p>
+    </div>
+    <div class="card">
+      <div class="card-title">拐点 B · AI ROI 信号 (Q4 2026 - Q1 2027)</div>
+      <p style="margin: 8px 0 0; font-size: 15px; color: var(--ink-soft);">看 Microsoft Azure AI 营收占比 · Google Cloud AI ARR · Oracle OCI 收入兑现。如果到 2027 年第一季度仍看不到 hyperscaler AI 营收对 capex 的兑现 → Channel 1 的债务再融资压力会开始显现。</p>
+    </div>
+
+    <h3>行动四 · 你的 venture 配置反而是优势</h3>
+    <p>值得明确说一句：你考虑的 RyboDyn 这类 pre-clinical biotech，<strong>实际上处在 AI 信贷周期的相对避风港</strong> —— 它的成败逻辑独立于宏观资本周期，而且生物制药的 AI 红利（如 Recursion、Insilico 模式的成功）正在创造新一波小型 biotech 的估值溢价。家办 venture 的多元化在这种环境下不是缺点而是优势。</p>
+
+    <h2>5.3 监控仪表盘 · 按时效</h2>
+  </div>
+
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th>指标</th>
+          <th>频率</th>
+          <th>含义</th>
+          <th>当前位置</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Oracle / CoreWeave 5Y CDS</td>
+          <td>日</td>
+          <td>AI 债务市场温度计</td>
+          <td><span class="tag high">紧张</span></td>
+        </tr>
+        <tr>
+          <td>BX / OWL / APO 股价 vs S&P</td>
+          <td>周</td>
+          <td>私募信贷情绪</td>
+          <td><span class="tag high">已大幅折让</span></td>
+        </tr>
+        <tr>
+          <td>Challenger 裁员 AI 占比</td>
+          <td>月</td>
+          <td>Channel 2 加速度</td>
+          <td><span class="tag mid">26% · 上升中</span></td>
+        </tr>
+        <tr>
+          <td>初次申请失业救济金</td>
+          <td>周</td>
+          <td>劳动力市场冰封状态</td>
+          <td><span class="tag low">仍处低位</span></td>
+        </tr>
+        <tr>
+          <td>Shopify / PayPal 当期还款率</td>
+          <td>季度</td>
+          <td>SMB 周期信号</td>
+          <td><span class="tag mid">连续下滑</span></td>
+        </tr>
+        <tr>
+          <td>GPU H100 二手租金</td>
+          <td>实时</td>
+          <td>抵押物贬值速度</td>
+          <td><span class="tag high">已 -70%~-90%</span></td>
+        </tr>
+        <tr>
+          <td>美联储 SLOOS</td>
+          <td>季度</td>
+          <td>银行信贷标准</td>
+          <td><span class="tag mid">趋严</span></td>
+        </tr>
+        <tr>
+          <td>BIS 私募信贷违约报告</td>
+          <td>季度</td>
+          <td>系统性风险预警</td>
+          <td><span class="tag mid">关注中</span></td>
+        </tr>
+        <tr>
+          <td>美国 BDC 折价水平</td>
+          <td>周</td>
+          <td>retail 私募信贷情绪</td>
+          <td><span class="tag mid">NAV 折让 5-15%</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="container-narrow">
+    <h2>5.4 一段话总结</h2>
+
+    <div class="pullquote" style="font-size: 24px; border-color: var(--gold);">
+      把 2026 想成是 AI 信贷周期的"早期发现期"。Shopify Capital 的拨备上升是缩影 · Hyperscaler 的债务发行是规模 · 私募信贷的零售化是机制 · 白领失业的滞后效应是定时器。我们不知道这个故事会以哪个章节结束 —— 但所有需要观察的信号都已经摆在桌面上。
+      <span class="pullquote-source">本报告结语</span>
+    </div>
+
+    <p style="margin-top: 32px; font-size: 16px; color: var(--ink-soft); font-style: italic;">投资从来不是预测未来，而是<strong>识别已经发生但还未被定价的事</strong>。AI 信贷周期最特殊的地方在于：它的每一个组成部分都已经在公开数据里，但市场还没有把它们连起来看。把这份报告作为一个起点，每个季度回来更新一次仪表盘 —— 比任何预测都更有价值。</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-meta">
+        <div><strong style="color: var(--ink); font-size: 13px;">研究方法</strong></div>
+        <div style="margin-top: 8px;">本报告综合 SEC 10-Q/10-K 财报数据 · BIS 季度评论 · Apollo Academy 信贷展望 · CreditSights 报告 · Morgan Stanley/Goldman Sachs 行业研究 · 主流财经媒体（FT, Reuters, Bloomberg, CNBC, PYMNTS）的实时报道，覆盖时间 2025 年 11 月至 2026 年 5 月 14 日。</div>
+        <div style="margin-top: 24px;"><strong style="color: var(--ink); font-size: 13px;">使用方法</strong></div>
+        <div style="margin-top: 8px;">建议每季度回顾仪表盘指标 · 重点关注 Q2 2026 (8月) 财报季关于 SMB 信贷质量的拐点信号 · 长期跟踪 hyperscaler AI 营收兑现进度。</div>
+      </div>
+      <div>
+        <div class="footer-meta" style="margin-bottom: 16px;"><strong style="color: var(--ink); font-size: 13px;">免责声明</strong></div>
+        <p class="footer-disclaimer">本报告由 Claude 基于公开信息整理生成，仅供家办内部研究参考。不构成投资建议、不构成任何证券的买入或卖出推荐。所有数据截止 2026 年 5 月 14 日。投资有风险，决策需独立判断。</p>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 48px; padding-top: 24px; border-top: 0.5px solid var(--rule); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--ink-mute);">
+      — END OF REPORT —
+    </div>
+  </div>
+</footer>
+
+<script>
+// Shopify chart
+new Chart(document.getElementById('shopifyChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026'],
+    datasets: [
+      {
+        label: '贷款组合 ($M)',
+        data: [950, 1200, 1350, 1730, 1800, 1900],
+        backgroundColor: '#2d5a52',
+        yAxisID: 'y',
+        borderRadius: 2,
+      },
+      {
+        label: '损失拨备 ($M)',
+        data: [58, 110, 75, 148, 160, 175],
+        backgroundColor: '#8b2c1e',
+        yAxisID: 'y1',
+        borderRadius: 2,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: {
+        type: 'linear', position: 'left',
+        title: { display: true, text: '贷款组合 ($M)', font: { family: 'JetBrains Mono', size: 10 }, color: '#8a857c' },
+        grid: { color: 'rgba(0,0,0,0.04)' },
+        ticks: { font: { family: 'JetBrains Mono', size: 11 }, color: '#4a4640' }
+      },
+      y1: {
+        type: 'linear', position: 'right',
+        title: { display: true, text: '拨备 ($M)', font: { family: 'JetBrains Mono', size: 10 }, color: '#8a857c' },
+        grid: { drawOnChartArea: false },
+        ticks: { font: { family: 'JetBrains Mono', size: 11 }, color: '#4a4640' }
+      },
+      x: {
+        grid: { display: false },
+        ticks: { autoSkip: false, font: { family: 'JetBrains Mono', size: 11 }, color: '#4a4640' }
+      }
+    }
+  }
+});
+
+// Quadrant chart
+const sectorData = {
+  datasets: [
+    {
+      label: '★ 顶级赢家',
+      data: [
+        { x: 9, y: 8.5, r: 22, label: '半导体' },
+        { x: 9, y: 8, r: 18, label: 'IPP/核能' },
+        { x: 8.5, y: 7.5, r: 16, label: '电气设备' },
+      ],
+      backgroundColor: 'rgba(74, 107, 58, 0.6)',
+      borderColor: '#4a6b3a',
+      borderWidth: 1,
+    },
+    {
+      label: '★ 优质赢家',
+      data: [
+        { x: 7.5, y: 7, r: 20, label: '专有数据软件' },
+        { x: 7, y: 7.5, r: 14, label: '受监管电力' },
+      ],
+      backgroundColor: 'rgba(45, 90, 82, 0.6)',
+      borderColor: '#2d5a52',
+      borderWidth: 1,
+    },
+    {
+      label: '▼ 高杠杆暴露',
+      data: [
+        { x: 9, y: 2.5, r: 16, label: 'Oracle/CRWV' },
+        { x: 7.5, y: 3, r: 14, label: '数据中心 REIT' },
+        { x: 8, y: 3.5, r: 13, label: '应用层 SaaS' },
+      ],
+      backgroundColor: 'rgba(139, 44, 30, 0.6)',
+      borderColor: '#8b2c1e',
+      borderWidth: 1,
+    },
+    {
+      label: '▼ 周期挤压',
+      data: [
+        { x: 6, y: 3.5, r: 15, label: '嵌入贷款平台' },
+        { x: 5, y: 3, r: 14, label: '消费金融' },
+        { x: 4.5, y: 4, r: 13, label: '区域银行' },
+      ],
+      backgroundColor: 'rgba(184, 116, 26, 0.6)',
+      borderColor: '#b8741a',
+      borderWidth: 1,
+    },
+    {
+      label: '★ 隐形赢家',
+      data: [
+        { x: 2.5, y: 8, r: 17, label: '消费必需品' },
+        { x: 2, y: 7.5, r: 14, label: '医保' },
+        { x: 4, y: 8, r: 12, label: 'AI Biotech' },
+      ],
+      backgroundColor: 'rgba(168, 132, 58, 0.6)',
+      borderColor: '#a8843a',
+      borderWidth: 1,
+    },
+    {
+      label: '回避',
+      data: [
+        { x: 2.5, y: 2.5, r: 13, label: '中端消费' },
+        { x: 2, y: 3, r: 12, label: 'CRE 写字楼' },
+        { x: 3, y: 2, r: 11, label: '传统电信' },
+      ],
+      backgroundColor: 'rgba(74, 70, 64, 0.4)',
+      borderColor: '#4a4640',
+      borderWidth: 1,
+    }
+  ]
+};
+
+new Chart(document.getElementById('quadrantChart'), {
+  type: 'bubble',
+  data: sectorData,
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: { font: { family: 'Newsreader', size: 12 }, color: '#4a4640', usePointStyle: true, padding: 16 }
+      },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            return ctx.raw.label;
+          }
+        },
+        bodyFont: { family: 'JetBrains Mono', size: 11 },
+        backgroundColor: 'rgba(26, 24, 20, 0.95)',
+      }
+    },
+    scales: {
+      x: {
+        min: 0, max: 10,
+        title: { display: true, text: 'AI 暴露程度 →', font: { family: 'JetBrains Mono', size: 11 }, color: '#8a857c' },
+        grid: { color: 'rgba(0,0,0,0.04)', drawBorder: false },
+        ticks: { display: false }
+      },
+      y: {
+        min: 0, max: 10,
+        title: { display: true, text: '信贷周期防御性 →', font: { family: 'JetBrains Mono', size: 11 }, color: '#8a857c' },
+        grid: { color: 'rgba(0,0,0,0.04)', drawBorder: false },
+        ticks: { display: false }
+      }
+    },
+    layout: { padding: 20 }
+  },
+  plugins: [{
+    afterDraw: function(chart) {
+      const ctx = chart.ctx;
+      const xScale = chart.scales.x;
+      const yScale = chart.scales.y;
+      const midX = xScale.getPixelForValue(5);
+      const midY = yScale.getPixelForValue(5);
+      ctx.save();
+      ctx.strokeStyle = 'rgba(74, 70, 64, 0.2)';
+      ctx.setLineDash([3, 3]);
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(midX, yScale.top);
+      ctx.lineTo(midX, yScale.bottom);
+      ctx.moveTo(xScale.left, midY);
+      ctx.lineTo(xScale.right, midY);
+      ctx.stroke();
+      ctx.restore();
+
+      // Quadrant labels
+      ctx.save();
+      ctx.font = 'italic 11px Fraunces';
+      ctx.fillStyle = 'rgba(74, 70, 64, 0.4)';
+      ctx.textAlign = 'center';
+      ctx.fillText('III · 隐形赢家', xScale.getPixelForValue(2.5), yScale.getPixelForValue(9.5));
+      ctx.fillText('I · 顶级赢家', xScale.getPixelForValue(8), yScale.getPixelForValue(9.5));
+      ctx.fillText('IV · 回避', xScale.getPixelForValue(2.5), yScale.getPixelForValue(0.6));
+      ctx.fillText('II · 高风险', xScale.getPixelForValue(8), yScale.getPixelForValue(0.6));
+      ctx.restore();
+    }
+  }]
+});
+</script>
+
+</body>
+</html>
