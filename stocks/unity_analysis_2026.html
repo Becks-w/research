@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unity Software (U) - 商业模式分析报告</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}
+.wrap{max-width:960px;margin:0 auto;padding:32px 24px}
+.hero{background:linear-gradient(135deg,#1e3a5f 0%,#0f172a 100%);border:1px solid #2d4a6b;border-radius:20px;padding:40px;margin-bottom:28px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(255,255,255,0.04),transparent 70%);border-radius:50%}
+.hero h1{font-size:28px;font-weight:800;color:#fff;margin-bottom:12px}
+.hero .meta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.hero .meta div{background:rgba(255,255,255,0.08);padding:6px 14px;border-radius:8px;font-size:13px;color:#94a3b8}
+.hero .one-liner{background:rgba(59,130,246,0.15);border-left:3px solid #3b82f6;padding:12px 16px;border-radius:0 8px 8px 0;font-size:14px;color:#93c5fd;line-height:1.6}
+.tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.tab{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;padding:9px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s}
+.tab:hover,.tab.active{background:#3b82f6;border-color:#3b82f6;color:#fff}
+.section{display:none;background:#1e293b;border:1px solid #334155;border-radius:16px;padding:32px;margin-bottom:24px}
+.section.active{display:block}
+.section h2{font-size:20px;font-weight:800;color:#fff;margin-bottom:6px}
+.section .subtitle{color:#64748b;font-size:13px;margin-bottom:24px}
+.badge{display:inline-block;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:700;margin-right:8px;margin-bottom:8px;letter-spacing:0.05em;text-transform:uppercase}
+.kv-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.kv-card{background:#0f172a;border:1px solid #334155;border-radius:12px;padding:18px}
+.kv-card .label{font-size:11px;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px}
+.kv-card .value{font-size:14px;color:#e2e8f0;line-height:1.7}
+.chart-wrap{background:#0f172a;border:1px solid #334155;border-radius:12px;padding:20px;height:280px;margin-bottom:20px}
+.moat-row{display:grid;grid-template-columns:1fr auto;align-items:center;padding:14px 0;border-bottom:1px solid #1e293b}
+.moat-row:last-child{border-bottom:none}
+.moat-row .name{font-size:14px;color:#e2e8f0;font-weight:600}
+.moat-row .desc{font-size:12px;color:#64748b;margin-top:3px}
+.moat-row .score{font-size:22px;letter-spacing:2px}
+.summary-box{border-radius:10px;padding:18px;margin-top:14px}
+.summary-box.success{background:rgba(5,150,105,0.1);border:1px solid rgba(5,150,105,0.3)}
+.summary-box.danger{background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.3)}
+.summary-box.info{background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3)}
+.summary-box.warn{background:rgba(217,119,6,0.1);border:1px solid rgba(217,119,6,0.3)}
+.summary-box .title{font-size:13px;font-weight:700;margin-bottom:8px;color:#fff}
+.summary-box .text{font-size:14px;line-height:1.7;color:#cbd5e1}
+.star-rating{font-size:36px;color:#fbbf24;letter-spacing:4px;margin:12px 0}
+.conclusion{background:#0f172a;color:#fff;padding:32px;border-radius:16px;margin-top:24px;border:1px solid #334155}
+.conclusion h3{font-size:18px;margin-bottom:12px;color:#fff}
+.conclusion p{font-size:14px;line-height:1.8;color:#cbd5e1;margin-bottom:12px;white-space:pre-line}
+.next-step{background:#0f172a;border:2px dashed #d97706;padding:20px 24px;border-radius:12px;margin-top:16px}
+.next-step .title{color:#d97706;font-weight:700;margin-bottom:8px}
+.foot{text-align:center;padding:24px;color:#475569;font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:16px 0}
+table th{background:#0f172a;color:#94a3b8;padding:12px 14px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;border-bottom:1px solid #334155}
+table td{padding:11px 14px;border-bottom:1px solid #1e293b;color:#cbd5e1}
+table tr:last-child td{border-bottom:none}
+table tr.highlight td{background:rgba(59,130,246,0.12);color:#93c5fd;font-weight:700}
+.label{font-weight:600;color:#e2e8f0}
+.num{font-family:'JetBrains Mono',monospace;font-weight:600}
+.fair-value{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.fv-card{background:#0f172a;padding:20px;border-radius:12px;border:1px solid #334155;text-align:center}
+.fv-card .label{font-size:11px;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px}
+.fv-card .value{font-size:26px;font-weight:800;font-family:'JetBrains Mono',monospace}
+.fv-card.bear{border-color:#dc2626}.fv-card.bear .value{color:#dc2626}
+.fv-card.base{border-color:#3b82f6}.fv-card.base .value{color:#3b82f6}
+.fv-card.bull{border-color:#059669}.fv-card.bull .value{color:#059669}
+.pitfall{background:#0f172a;border:1px solid #334155;border-radius:10px;padding:14px 16px;margin-top:10px}
+.pitfall .pt{font-size:13px;font-weight:700;color:#fbbf24;margin-bottom:4px}
+.pitfall .pd{font-size:13px;color:#94a3b8;line-height:1.6}
+.m0-block{background:#0f172a;border:1px solid #334155;border-radius:12px;padding:22px;margin-top:16px}
+.m0-block h3{font-size:15px;font-weight:800;color:#fff;margin-bottom:12px}
+.m0-block p{font-size:14px;color:#cbd5e1;line-height:1.8}
+.m0-block .highlight{color:#fbbf24;font-weight:700}
+.alert-bar{background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.4);border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#fcd34d;display:flex;gap:10px;align-items:flex-start}
+@media(max-width:640px){.wrap{padding:16px 12px}.kv-grid{grid-template-columns:1fr}.fair-value{grid-template-columns:1fr}.hero{padding:24px 20px}.hero h1{font-size:22px}.section{padding:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Unity Software 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：NYSE: U</div>
+      <div>🏛️ 交易所：纽约证券交易所</div>
+      <div>🏷️ 行业：游戏引擎 / 移动广告科技</div>
+      <div>📅 分析日期：2026年5月14日</div>
+    </div>
+    <div class="one-liner">💡 Unity通过向游戏开发者销售引擎工具（Create）并运营AI驱动的移动广告网络（Grow/Vector），赚取订阅费+广告收益分成——一家既是"游戏开发工具厂"又是"移动广告中间商"的双面平台。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="m0">🔍 商业模式拆解</button>
+    <button class="tab" data-tab="m1">📦 模块一</button>
+    <button class="tab" data-tab="m2">🏰 护城河</button>
+    <button class="tab" data-tab="m3">💰 估值研究</button>
+    <button class="tab" data-tab="m4">👔 管理层</button>
+    <button class="tab" data-tab="conclusion">🎯 结论</button>
+  </div>
+
+  <!-- 模块零 -->
+  <div class="section active" id="m0">
+    <h2>🔍 模块零：商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言，把Unity这家公司翻译清楚</p>
+
+    <div class="m0-block">
+      <h3>【核心比喻】Unity是什么？</h3>
+      <p>Unity就像<span class="highlight">「Adobe + 彭博终端 + Visa」三合一的游戏世界基础设施</span>。</p>
+      <p style="margin-top:12px">首先，它是游戏界的"Adobe全家桶"（Create业务）——70%的手机游戏用Unity引擎制作，就像设计师必须用Photoshop一样，游戏开发者每年付订阅费用Unity出游戏。</p>
+      <p style="margin-top:12px">其次，它是手游界的"Visa支付网络"（Grow/Vector业务）——当玩家在游戏里看到广告、点击安装新游戏，Unity收取中间的广告费用。每发生10万亿次广告展示/月，Unity就抽一刀。</p>
+      <p style="margin-top:12px">关键是：<span class="highlight">制作游戏的人（Create端）和在游戏里投广告的人（Grow端）是同一批人</span>——这形成了独特的双面飞轮，是Unity区别于纯广告公司（如AppLovin）的本质优势。</p>
+    </div>
+
+    <div class="m0-block">
+      <h3>【商业模式三问】</h3>
+      <p><strong style="color:#93c5fd">① 卖什么？</strong></p>
+      <p style="margin-top:8px">两件事：一是"建造工具"——Unity引擎（Create），帮开发者制作2D/3D游戏，含编辑器、多人联机、云存储等工具套件；二是"变现工具"——Unity Vector广告平台（Grow），帮开发者在自己的游戏里展示广告赚钱，同时帮广告主（其他游戏公司）找到新玩家。简单说：前者是"盖房子的工具"，后者是"房子里的广告牌租赁业务"。</p>
+      <p style="margin-top:14px"><strong style="color:#93c5fd">② 怎么收费？</strong></p>
+      <p style="margin-top:8px">Create业务：订阅制。Unity个人版免费（年收入低于$20万），Pro版约$2,200/座位/年，Enterprise版面向年收入超$2,500万的大型游戏公司按合同定价，通常数十万美元/年。大客户还为云构建、联机等增值服务额外付费。Create全年约贡献~$600M收入。</p>
+      <p style="margin-top:8px">Grow（Vector）业务：广告收益分成模式。Unity的Vector AI算法撮合广告主与游戏开发者，按安装、点击或广告展示收费，Unity抽取中间差价。Q1 2026 Grow收入同比增长49%，Vector单独增速80%，全年有望跑出$1B以上年化收入。</p>
+      <p style="margin-top:14px"><strong style="color:#93c5fd">③ 客户为什么必须买？</strong></p>
+      <p style="margin-top:8px">Create侧：<span class="highlight">切换成本极高</span>。独立/中小游戏开发者用了3-5年的Unity项目资产（代码、美术资源、插件）全部绑定在Unity格式上，换用虚幻引擎（Unreal/Epic）需要重建所有内容，成本可高达数百万美元+1-2年工期。90%活跃开发者已在用Unity 6，锁定效应极强。</p>
+      <p style="margin-top:8px">Grow侧：<span class="highlight">数据飞轮+ROAS驱动</span>。游戏公司投广告是为了获取高质量新玩家（ROAS=广告投入回报率）。Vector的AI看到的数据越多，预测越准，ROAS越高，广告主越愿意付更高价钱。这是正向飞轮——不用Vector的公司会发现自己的用户获取成本越来越高。</p>
+    </div>
+
+    <div class="m0-block">
+      <h3>【客户结构 + 护城河金融比喻】</h3>
+      <p><strong style="color:#93c5fd">客户名单（Create端）：</strong>Zynga（Take-Two旗下）、EA手游团队、网易、腾讯旗下工作室、Kabam、Supercell、Voodoo、SciPlay（科学游戏公司）——Unity自称70%的Top 1000手游由Unity制作，全球超150万月活开发者，90%活跃用户已升级Unity 6。客户结构偏<span class="highlight">分散型</span>——大量中小独立开发者+部分大型AAA工作室，头部客户集中度不如企业SaaS。</p>
+      <p style="margin-top:12px"><strong style="color:#93c5fd">客户名单（Grow广告端）：</strong>本质上是全球手游公司互相买卖广告位，Unity是中间商/广告网络。SciPlay和Voodoo已签约即将推出的Unity商务平台。竞争对手AppLovin的MAX平台覆盖更广，但Vector在游戏内场景里的ROAS有独特优势。</p>
+      <p style="margin-top:12px"><strong style="color:#93c5fd">护城河金融比喻：</strong><br>
+      Create护城河≈<span class="highlight">SAP ERP系统</span>——没人愿意换，不是因为它完美，而是因为换掉要花的钱和时间太可怕；<br>
+      Grow/Vector护城河≈<span class="highlight">征信局数据飞轮</span>——处理广告数据越多，算法越准，ROAS越高，越有竞争力，形成自我强化的数据护城河；<br>
+      但关键弱点是：<span class="highlight">AppLovin的Axon算法曾经比Vector更强</span>，类似彭博终端崛起时FactSet的处境——功能差不多，但用户反馈ROAS更好，这是Unity Grow侧最大的生死之战。</p>
+    </div>
+  </div>
+
+  <!-- 模块一 -->
+  <div class="section" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px">
+      <span class="badge" style="background:rgba(59,130,246,0.2);color:#93c5fd;border:1px solid rgba(59,130,246,0.4)">双平台 · 订阅制 + 广告分成</span>
+      <span class="badge" style="background:rgba(139,92,246,0.2);color:#c4b5fd;border:1px solid rgba(139,92,246,0.4)">AI转型中</span>
+    </div>
+    <div class="kv-grid">
+      <div class="kv-card">
+        <div class="label">核心产品/服务</div>
+        <div class="value">
+          <strong>Create Solutions（创作工具）：</strong>Unity游戏引擎、编辑器、Unity 6、云服务、Unity AI（公测中）；面向游戏开发者的完整制作工具链。<br><br>
+          <strong>Grow Solutions（变现工具）：</strong>Unity Vector AI广告网络（核心增长引擎）、Unity LevelPlay广告中介平台；即将推出Unity Commerce Platform。ironSource已于2026年Q1开始退出。
+        </div>
+      </div>
+      <div class="kv-card">
+        <div class="label">客户群体</div>
+        <div class="value">
+          <strong>主要客户：</strong>全球游戏开发者（手机/PC/主机/XR）<br><br>
+          <strong>Create侧：</strong>150万+月活开发者；从独立开发者到EA、网易、腾讯工作室<br><br>
+          <strong>Grow侧：</strong>手游广告主（买用户）+ 手游开发者（卖广告位），本质上是同一批人
+        </div>
+      </div>
+      <div class="kv-card">
+        <div class="label">地理分布</div>
+        <div class="value">
+          全球布局，含中国市场（正在剥离，预计售价超$10亿）<br><br>
+          中国Create Q4 2025同比增长近50%，是亮点之一，但因地缘政治压力决定出售中国业务以专注核心市场和简化管理层注意力
+        </div>
+      </div>
+      <div class="kv-card">
+        <div class="label">收入结构（FY2025）</div>
+        <div class="value">
+          <strong>总收入：</strong>$18.5亿（同比+2%，低增长期）<br><br>
+          <strong>Q1 2026：</strong>$5.08亿（同比+17%，加速！）<br>
+          ├ Grow Solutions：约$3.3亿（YoY+49%，Vector驱动）<br>
+          └ Create Solutions：约$1.8亿（加速，Unity 6稳定拉动）<br><br>
+          <strong>FY2026共识预测：</strong>约$21亿（同比+13%）
+        </div>
+      </div>
+    </div>
+    <div class="summary-box info" style="margin-top:20px">
+      <div class="title">📌 战略转折点：2024-2026年的「大重构」</div>
+      <div class="text">Unity正经历从"ironSource驱动的拼凑式广告公司"向"AI原生游戏开发+广告平台"的深刻转型。Bromberg接任CEO后的三板斧：① 放弃Runtime Fee争议，修复开发者关系；② 关停ironSource Ads，集中资源做Vector；③ 出售中国业务+Supersonic，聚焦核心。代价是FY2025增速仅2%，但换来的是更清晰的商业逻辑和更强的利润率弹性。</div>
+    </div>
+  </div>
+
+  <!-- 模块二 -->
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px">
+      <span class="badge" style="background:rgba(217,119,6,0.2);color:#fbbf24;border:1px solid rgba(217,119,6,0.4)">综合评级：窄护城河（Create宽 / Grow窄）</span>
+    </div>
+    <div class="chart-wrap">
+      <canvas id="moatChart"></canvas>
+    </div>
+
+    <div class="moat-row">
+      <div><div class="name">① 转换成本（Create侧）</div><div class="desc">游戏资产绑定Unity格式，换引擎需重建全部内容，成本极高；Unity 6是史上升级最快的版本（70%市占率稳固）</div></div>
+      <div class="score">★★★</div>
+    </div>
+    <div class="moat-row">
+      <div><div class="name">② 数据飞轮（Grow/Vector侧）</div><div class="desc">Vector处理100亿+次/月广告展示，数据越多算法越准，ROAS越高，广告主越愿意付溢价；但AppLovin的Axon曾领先，优势仍在追赶中</div></div>
+      <div class="score">★★</div>
+    </div>
+    <div class="moat-row">
+      <div><div class="name">③ 网络效应（双面平台）</div><div class="desc">Create开发者用Unity → 游戏在Unity平台上运行 → Unity Ads有更多原生广告位 → 广告主愿意在Unity Ads上投钱 → Create开发者赚到更多广告收益 → 飞轮但仍不够强</div></div>
+      <div class="score">★★</div>
+    </div>
+    <div class="moat-row">
+      <div><div class="name">④ 品牌/无形资产</div><div class="desc">游戏开发者社区中Unity品牌深入人心，"Made with Unity"是移动游戏的行业标志；但2023年Runtime Fee丑闻严重损伤了品牌信任度</div></div>
+      <div class="score">★★</div>
+    </div>
+    <div class="moat-row">
+      <div><div class="name">⑤ 规模经济</div><div class="desc">软件边际成本接近零，规模越大利润率越高；但Grow侧的广告网络需要持续AI算力投入，高SBC也摊薄真实盈利质量</div></div>
+      <div class="score">★★</div>
+    </div>
+
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 核心优势</div>
+      <div class="text">Create引擎的切换成本是Unity最坚固的护城河，几乎无可撼动——没有哪家游戏公司愿意重写几年的游戏资产。70%手游市占率是真实的竞争壁垒。Vector的AI能力正在快速追赶AppLovin，Q1 2026同比+80%的增速说明数据飞轮开始加速转动。Unity AI公测（用户附着率70%）和Commerce Platform（SciPlay/Voodoo已签约）是两个潜在的收入膨胀点。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">Grow侧的护城河远不及Create侧牢固。AppLovin的Axon在历史上一直比Vector更强，且AppLovin的市值和现金流均大幅领先Unity（APP 2025年FCF近$40亿 vs U仍在亏损）。开源引擎Godot的崛起对低端独立开发者构成持续分流威胁。极高的股权激励（SBC）导致真实股东回报被稀释——FY2025 SBC约占收入的25-30%，这是GAAP利润长期为负的核心原因。中国业务剥离过程中存在估值和执行风险。</div>
+    </div>
+  </div>
+
+  <!-- 模块三 -->
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+    <div style="margin-bottom:20px">
+      <span class="badge" style="background:rgba(59,130,246,0.2);color:#93c5fd;border:1px solid rgba(59,130,246,0.4)">行业：游戏SaaS + Ad-Tech混合</span>
+      <span class="badge" style="background:rgba(139,92,246,0.2);color:#c4b5fd;border:1px solid rgba(139,92,246,0.4)">子类：SaaS订阅 + 广告收益分成</span>
+      <span class="badge" style="background:rgba(217,119,6,0.2);color:#fbbf24;border:1px solid rgba(217,119,6,0.4)">估值结论：合理偏贵（但存在重估空间）</span>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：EV/Sales（主）+ Rule of 40 + Forward EV/EBITDA（辅）</div>
+      <div class="text">Unity目前仍处于亏损期（GAAP），传统PE不适用。用EV/NTM Sales衡量成长预期，配合Rule of 40（收入增长率+EBITDA利润率）判断成长质量，Forward EV/EBITDA则用于预判向盈利过渡后的估值锚点。SBC调整后的非GAAP EBITDA更接近真实经营现金流，需同时关注SBC/Revenue比率作为稀释风险指标。目标GAAP盈利在Q4 2026，届时将触发估值体系的"范式切换"。</div>
+    </div>
+
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 12px;color:#fff">📊 公司核心估值指标（2026年5月）</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+        <tr><td class="label">股价（约）</td><td class="num">~$30</td><td>—</td><td>—</td></tr>
+        <tr><td class="label">市值（约）</td><td class="num">~$130亿</td><td>—</td><td>—</td></tr>
+        <tr><td class="label">EV/NTM Sales</td><td class="num">~6x</td><td>SaaS龙头8-12x</td><td><span style="color:#fbbf24">◑ 合理</span></td></tr>
+        <tr><td class="label">FY2026E 收入</td><td class="num">$21亿</td><td>+13%增速</td><td><span style="color:#059669">✓ 加速</span></td></tr>
+        <tr><td class="label">Q1 2026调整后EBITDA率</td><td class="num">27%</td><td>成熟SaaS 25-35%</td><td><span style="color:#059669">✓ 强劲</span></td></tr>
+        <tr><td class="label">Rule of 40（Q1 2026）</td><td class="num">~44（17%增速+27%EBITDA）</td><td>&gt;40为优质</td><td><span style="color:#059669">✓ 达标</span></td></tr>
+        <tr><td class="label">SBC/Revenue（FY2025）</td><td class="num">~25-30%</td><td>健康&lt;15%</td><td><span style="color:#dc2626">✗ 警戒</span></td></tr>
+        <tr><td class="label">GAAP净利润</td><td class="num">-$4亿（FY2025）</td><td>—</td><td><span style="color:#fbbf24">◑ 转型中</span></td></tr>
+        <tr><td class="label">净债务/现金</td><td class="num">净债务~$2.7亿</td><td>—</td><td><span style="color:#fbbf24">◑ 可控</span></td></tr>
+        <tr><td class="label">Vector增速</td><td class="num">+80% YoY（Q1'26）</td><td>—</td><td><span style="color:#059669">✓ 关键催化剂</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 12px;color:#fff">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>市值</th><th>FY26E增速</th><th>EBITDA率</th><th>EV/Sales</th><th>护城河</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td class="label">Unity (U) ★</td><td class="num">~$130亿</td><td class="num">+13%</td><td class="num">~27%</td><td class="num">~6x</td><td>窄（创作宽/广告窄）</td></tr>
+        <tr><td class="label">AppLovin (APP)</td><td class="num">~$1,600亿</td><td class="num">+25%+</td><td class="num">~80%!</td><td class="num">~20x+</td><td>宽（Axon数据飞轮）</td></tr>
+        <tr><td class="label">Roblox (RBLX)</td><td class="num">~$340亿</td><td class="num">+25%</td><td class="num">亏损</td><td class="num">~8x</td><td>窄（社区黏性）</td></tr>
+        <tr><td class="label">Epic/Unreal</td><td class="num">私有</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td>宽（AAA游戏）</td></tr>
+        <tr><td class="label">ironSource（已整合）</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td>退出中</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:#64748b;margin-top:8px">📌 高亮行为本次分析的目标公司。AppLovin是最直接的Grow侧竞争对手，体量和利润率均大幅领先Unity。</p>
+
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 12px;color:#fff">🎯 合理估值区间（三情景）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear"><div class="label">悲观 Bear</div><div class="value">$18–22</div><div style="font-size:12px;color:#64748b;margin-top:6px">Vector增速放缓，AppLovin持续抢份额，SBC稀释超预期，GAAP盈利延期</div></div>
+      <div class="fv-card base"><div class="label">基准 Base</div><div class="value">$30–38</div><div style="font-size:12px;color:#64748b;margin-top:6px">FY2026收入达$21亿，Q4实现GAAP盈利，Vector破$1B年化，多重重估触发</div></div>
+      <div class="fv-card bull"><div class="label">乐观 Bull</div><div class="value">$45–55</div><div style="font-size:12px;color:#64748b;margin-top:6px">China卖出$10亿+注资，Commerce Platform成功商业化，Unity AI成为开发者工具标配，估值向AppLovin靠拢</div></div>
+    </div>
+
+    <div class="summary-box warn">
+      <div class="title">📍 当前估值位置（约$30/股）</div>
+      <div class="text">当前估值约在Base情景区间下沿，并非明显低估。EV/NTM Sales约6倍对于一家Rule of 40刚过线（~44）、仍处GAAP亏损的公司属合理范围，但SBC稀释问题和AppLovin竞争压力是两个不可忽视的折价因素。若以"Q4 2026 GAAP盈利"为催化剂，当前持有者需等待约2个季度的执行验证期。中国业务卖出后的净现金改善可能触发阶段性重估。</div>
+    </div>
+
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 12px;color:#fff">⚠️ 估值常见陷阱</h3>
+    <div class="pitfall"><div class="pt">⚠ 陷阱一：混淆Non-GAAP与GAAP</div><div class="pd">Unity的Non-GAAP EBITDA利润率已达27%，看起来很健康。但加回巨额SBC后，GAAP亏损FY2025仍有-$4亿。SBC稀释导致股本扩张每年~6%，真实股东回报被大幅摊薄。</div></div>
+    <div class="pitfall"><div class="pt">⚠ 陷阱二：把Vector增速外推</div><div class="pd">+80% YoY令人兴奋，但这部分是从低基数（ironSource退出后的真空）反弹的结构性恢复，而非完全的有机增长。2027年后当比较基数提高，增速将自然回落。</div></div>
+    <div class="pitfall"><div class="pt">⚠ 陷阱三：低估AppLovin的护城河</div><div class="pd">AppLovin EBITDA率~80%、FCF $40亿，比Unity整个市值还高；其Axon算法经过更多迭代，在高价值游戏类型（中重度）中仍领先。Unity赢回份额需要持续证明ROAS能超越AppLovin。</div></div>
+    <div class="pitfall"><div class="pt">⚠ 陷阱四：忽视Godot威胁</div><div class="pd">开源引擎Godot在Runtime Fee风波后吸引大量小型开发者。目前对Unity创收的威胁有限（Godot用户付费意愿低），但长期可能影响Create侧的低端生态。</div></div>
+  </div>
+
+  <!-- 模块四 -->
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px">
+      <span class="badge" style="background:rgba(59,130,246,0.2);color:#93c5fd;border:1px solid rgba(59,130,246,0.4);font-size:14px;padding:8px 18px">综合评级：B+级（危机救火人，执行中改善）</span>
+    </div>
+    <div class="kv-grid">
+      <div class="kv-card">
+        <div class="label">💰 资本配置能力</div>
+        <div class="value">
+          <strong>中等偏上，方向正确</strong><br><br>
+          Bromberg上任后聚焦退出非核心资产（Weta FX、ironSource、Supersonic、中国业务），将资源集中在Vector和Unity AI，是务实的"减法式资本配置"。出售中国业务目标$10亿+，若成功将大幅改善净现金状况。但历史上ironSource这笔$44亿的并购是上一任CEO的败笔，Bromberg正在清理遗留问题。
+        </div>
+      </div>
+      <div class="kv-card">
+        <div class="label">🤝 诚信与透明度</div>
+        <div class="value">
+          <strong>明显改善，坦诚风格</strong><br><br>
+          Bromberg曾公开承认"我们和客户几乎处于战争状态"，这种直白的自我批评在大公司CEO中少见。取消Runtime Fee的决策公开透明，季报指引保守且频繁超预期（Q1 2026大幅超越$480-490M指引，实际$508M）。相较前任Riccitiello"称开发者为笨蛋"的傲慢风格，新管理层的公信力显著改善。
+        </div>
+      </div>
+      <div class="kv-card">
+        <div class="label">🎯 战略执行力</div>
+        <div class="value">
+          <strong>执行扎实，但历史不长</strong><br><br>
+          Bromberg任期约2年（2024年5月上任），已完成：① 社区关系修复；② Unity 6成功上线（90%开发者升级）；③ Vector增速跑通；④ ironSource退出计划明确。前Zynga COO背景带来了"老兵式执行力"。但完整的战略执行验证需等到FY2026年底——GAAP盈利和Commerce Platform推出是两大关键里程碑。
+        </div>
+      </div>
+      <div class="kv-card">
+        <div class="label">💸 股权激励（SBC）风险测试</div>
+        <div class="value">
+          <strong>仍是最大红旗</strong><br><br>
+          CEO年薪包约$5,200万（99%为股权激励），这在科技公司中并不罕见，但全公司SBC占收入25-30%的比例严重稀释股东价值。股本每年扩张~6%，相当于真实GAAP盈利被"吃掉"。管理层已承诺削减SBC，2027年摊销将降至$25M以下（当前$55-80M/季），这是值得关注的正面趋势，但执行力仍待验证。
+        </div>
+      </div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 管理层主要亮点</div>
+      <div class="text">Bromberg接手的是一个"烂摊子"——开发者社区愤怒、ironSource整合失败、股价暴跌90%。他的最大贡献是"止血+正确定向"：关停ironSource、取消Runtime Fee、All-in Vector。"我认为Unity是一家产品公司，产品要创造真实价值，而不是靠商业技巧绑定客户"——这句话反映了与前任根本不同的产品哲学，也是重建开发者信任的基础。新董事会成员Bernard Kim（Zynga前CEO）等加入，深化了移动游戏实战经验。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">① SBC稀释严重，短期内无法完全解决，真实股东回报被系统性削弱；② Bromberg的战略执行记录只有约2年，完整证明尚需时间；③ 中国业务出售价格和条款存在不确定性，谈判中的信息不对称风险；④ 历史上高层人员流失严重（CFO、CMO、CTO、CPO均在2023-2024年离职），文化稳定性仍需观察。</div>
+    </div>
+  </div>
+
+  <!-- 结论 -->
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center;padding:24px 0;border-bottom:1px solid #334155;margin-bottom:24px">
+      <div style="font-size:14px;color:#64748b;margin-bottom:8px">商业质量综合评级</div>
+      <div class="star-rating">★★★</div>
+      <div style="color:#94a3b8;font-size:14px">3/5 星 · 窄护城河，转型期，高风险/高弹性</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>Unity是一家正处于"涅槃时刻"的游戏基础设施公司。它的Create引擎是移动游戏生态的真实基础——70%市占率背后是数亿美元的开发者切换成本，这个护城河短期内无可撼动。
+
+Grow/Vector侧是一场仍在进行中的硬仗。AppLovin在移动广告领域拥有更成熟的算法（Axon）和惊人的盈利能力（EBITDA率80%），Unity的Vector需要不断用数据和ROAS结果证明自己，这个过程不可能一蹴而就。但Q1 2026的+80% YoY和即将突破$1B年化运行率，说明势头是真实的。
+
+最大的悬而未决问题是：SBC何时真正降下来？Vector能否在非游戏垂类（电商、CTV）复制成功？中国业务$10亿+的卖出能否顺利落地？
+
+对于有耐心的投资者而言，Unity在GAAP盈利前（Q4 2026）是一个"Show Me"故事——每季度的指引超越是维持信心的必要条件。当前约$30的股价（EV/Sales ~6x）已定价了合理预期，但若Vector增速持续超预期 + GAAP盈利如期到来，股价重估空间仍较大（Base ~$38，Bull ~$55）。
+
+核心风险：AppLovin竞争压力失控 + SBC稀释高于预期 + 中国资产卖出遇阻。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+        <div style="font-size:13px;color:#cbd5e1;padding:8px 12px;background:rgba(255,255,255,0.05);border-radius:6px">📊 <strong>Vector季度增速</strong>：能否在Q3/Q4 2026维持50%+（对AppLovin的追赶进度晴雨表）</div>
+        <div style="font-size:13px;color:#cbd5e1;padding:8px 12px;background:rgba(255,255,255,0.05);border-radius:6px">💵 <strong>Q4 2026 GAAP盈利</strong>：里程碑是否如期实现，以及SBC绝对额的下降轨迹</div>
+        <div style="font-size:13px;color:#cbd5e1;padding:8px 12px;background:rgba(255,255,255,0.05);border-radius:6px">🇨🇳 <strong>中国资产出售</strong>：交易能否在$10亿+价格完成，是否影响Grow侧数据完整性</div>
+        <div style="font-size:13px;color:#cbd5e1;padding:8px 12px;background:rgba(255,255,255,0.05);border-radius:6px">🛒 <strong>Unity Commerce Platform</strong>：Q2/Q3 2026推出后的GMV和收入分成数据（新增收入曲线）</div>
+        <div style="font-size:13px;color:#cbd5e1;padding:8px 12px;background:rgba(255,255,255,0.05);border-radius:6px">🤖 <strong>Unity AI使用率</strong>：从70%公测附着率是否转化为付费升级（Create定价权的证明）</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for Unity Software Inc. (NYSE: U) · 2026年5月14日<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ['转换成本\n(Create)', '数据飞轮\n(Vector)', '网络效应\n(双面)', '品牌/无形资产', '规模经济'],
+    datasets: [{
+      label: '护城河强度',
+      data: [3, 2, 2, 2, 2],
+      backgroundColor: 'rgba(59,130,246,0.2)',
+      borderColor: '#3b82f6',
+      borderWidth: 2,
+      pointBackgroundColor: '#3b82f6',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      r: {
+        beginAtZero: true,
+        max: 3,
+        ticks: { stepSize: 1, display: false, color: '#64748b' },
+        grid: { color: '#334155' },
+        angleLines: { color: '#334155' },
+        pointLabels: { font: { size: 12, weight: '600' }, color: '#94a3b8' }
+      }
+    },
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' }, color: '#fff' }
+    }
+  }
+});
+</script>
+</body>
+</html>

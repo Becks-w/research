@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SoftBank Group Corp. (软银集团) 投资分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--text:#0f172a;--muted:#64748b;--accent:#7c3aed;--green:#059669;--yellow:#d97706;--red:#dc2626}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}
+.hero{background:linear-gradient(135deg,#1e1b4b 0%,#312e81 50%,#4c1d95 100%);padding:48px 32px 40px;color:#fff}
+.hero-inner{max-width:960px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:99px;padding:6px 16px;font-size:13px;color:#e0e7ff;margin-bottom:20px}
+.badge::before{content:'';width:8px;height:8px;background:#a5b4fc;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-size:32px;font-weight:800;letter-spacing:-1px;margin-bottom:10px}
+.hero .meta{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:20px;font-size:13px;opacity:.8}
+.one-liner{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:16px 20px;font-size:14px;line-height:1.7;color:#e0e7ff}
+.warning-top{background:#fef3c7;border-left:4px solid #d97706;padding:14px 20px;font-size:13px;color:#92400e;line-height:1.6;max-width:960px;margin:0 auto}
+.tabs{display:flex;gap:4px;padding:0 32px;background:#fff;border-bottom:2px solid var(--border);overflow-x:auto;position:sticky;top:0;z-index:10;max-width:100%}
+.tab{padding:14px 18px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .2s;margin-bottom:-2px}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-color:var(--accent)}
+.content{max-width:960px;margin:0 auto;padding:32px 24px}
+.panel{display:none}.panel.active{display:block}
+.section-title{font-size:20px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.section-sub{font-size:14px;color:var(--muted);margin-bottom:24px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.info-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:14px}
+.info-card .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;font-weight:600}
+.info-card .value{font-size:13px;line-height:1.7;color:var(--text)}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center}
+.kpi .num{font-size:20px;font-weight:800;color:var(--accent);margin-bottom:4px}
+.kpi .lbl{font-size:11px;color:var(--muted)}
+.rating-badge{display:inline-flex;align-items:center;padding:10px 20px;border-radius:10px;font-weight:700;font-size:15px;margin-bottom:20px}
+.dim-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:10px}
+.dim-header{display:flex;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.dim-name{font-weight:600;font-size:14px;min-width:76px;color:var(--text)}
+.dim-bar-wrap{flex:1;min-width:100px;background:#f1f5f9;border-radius:99px;height:8px;overflow:hidden}
+.dim-bar{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),#a78bfa)}
+.dim-text{font-size:13px;color:var(--muted);line-height:1.7}
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+.chart-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
+.chart-box h4{font-size:13px;color:var(--muted);margin-bottom:16px;text-align:center;font-weight:600}
+.chart-box canvas{max-height:220px}
+.highlight-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.highlight-card{border-radius:12px;padding:18px 20px}
+.highlight-card.green{background:#f0fdf4;border:1px solid #86efac}
+.highlight-card.red{background:#fff1f2;border:1px solid #fecdd3}
+.highlight-card h4{font-size:12px;font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.highlight-card.green h4{color:var(--green)}.highlight-card.red h4{color:var(--red)}
+.highlight-card p{font-size:13px;color:#475569;line-height:1.7}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:20px;background:var(--surface);border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+th{background:#0f172a;color:#fff;padding:10px 14px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+td{padding:10px 14px;border-bottom:1px solid #f1f5f9;vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.label{font-weight:600;color:var(--text)}
+.stress-section{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px}
+.stress-title{font-size:16px;font-weight:700;margin-bottom:6px;color:var(--text)}
+.stress-sub{font-size:13px;color:var(--muted);margin-bottom:16px}
+.info-box{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:12px;font-size:13px;line-height:1.7;color:#374151}
+.info-box.warning{background:#fffbeb;border-color:#fde68a}
+.info-box.danger{background:#fff1f2;border-color:#fecdd3}
+.info-box.success{background:#f0fdf4;border-color:#86efac}
+.fv-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.fv-card{padding:20px;border-radius:12px;text-align:center;border:2px solid}
+.fv-card.bear{background:#fff1f2;border-color:#dc2626}
+.fv-card.base{background:#eff6ff;border-color:#2563eb}
+.fv-card.bull{background:#f0fdf4;border-color:#059669}
+.fv-card .fvlabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.fv-card.bear .fvlabel{color:#dc2626}.fv-card.base .fvlabel{color:#2563eb}.fv-card.bull .fvlabel{color:#059669}
+.fv-card .fvval{font-size:28px;font-weight:900}
+.fv-card.bear .fvval{color:#dc2626}.fv-card.base .fvval{color:#2563eb}.fv-card.bull .fvval{color:#059669}
+.conclusion-box{background:#0f172a;color:#fff;border-radius:16px;padding:32px;margin-bottom:20px}
+.conclusion-box h3{font-size:18px;font-weight:700;margin-bottom:16px;color:#e0e7ff}
+.star-row{font-size:32px;color:#fbbf24;margin-bottom:12px;letter-spacing:4px}
+.monitoring-box{background:#fff;border:2px dashed #7c3aed;border-radius:12px;padding:20px 24px}
+.monitoring-box h4{color:var(--accent);font-weight:700;margin-bottom:12px;font-size:14px;text-transform:uppercase;letter-spacing:.5px}
+.monitoring-box ul{padding-left:18px}
+.analogy-card{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:14px;padding:24px;color:#e0e7ff;font-size:14px;line-height:1.8;margin-bottom:20px}
+@media(max-width:640px){.info-grid,.chart-grid,.highlight-grid,.kpi-row,.fv-row{grid-template-columns:1fr}.hero h1{font-size:22px}.content{padding:20px 14px}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="badge">投资价值分析报告 · FY2025财报版</div>
+    <h1>SoftBank Group Corp. (软银集团)</h1>
+    <div class="meta">
+      <span>代码：SFTBY</span>
+      <span>行业：另类资产管理 / 科技控股集团</span>
+      <span>分析日期：2026-05-19</span>
+      <span>商业质量：★★★☆☆ (3/5)</span>
+    </div>
+    <div class="one-liner">💡 软银本质是Masayoshi Son操盘的一只超高杠杆AI主题封闭式基金——用电信运营商（SBKK）的稳定现金流、ARM等核心资产抵押融资，押注OpenAI等AI前沿公司，以获得超越普通投资者的AI时代超额回报，但代价是持续的杠杆风险和NAV大幅波动。</div>
+  </div>
+</div>
+<div class="warning-top">
+  ⚠️ <strong>重要提示：</strong>软银FY2025净利润5万亿日元中约84%来自OpenAI的mark-to-market浮盈（未上市资产，主观估值），不代表真实现金流。S&P已将展望下调至"负面"。本报告重点分析NAV/LTV结构和爆雷风险，请结合自身风险偏好阅读。
+</div>
+<div class="tabs">
+  <div class="tab active" onclick="show('m0',this)">🏷️ 业务解读</div>
+  <div class="tab" onclick="show('m1',this)">📊 商业模式</div>
+  <div class="tab" onclick="show('m2',this)">🛡️ 护城河</div>
+  <div class="tab" onclick="show('m3',this)">💰 估值研究</div>
+  <div class="tab" onclick="show('stress',this)">💣 爆雷风险</div>
+  <div class="tab" onclick="show('m4',this)">👔 管理层</div>
+  <div class="tab" onclick="show('conclusion',this)">🎯 结论</div>
+</div>
+<div class="content">
+
+  <!-- 模块零：业务解读 -->
+  <div id="m0" class="panel active">
+    <div class="section-title">🏷️ 金融小白友好版：软银是什么东西？</div>
+    <div class="section-sub">先把这家公司翻译清楚，再谈投资价值</div>
+    <div class="analogy-card">
+      <strong>📌 核心比喻：</strong><br>软银不是一家传统公司——它更像是一个【用别人的房产做抵押来炒股的高净值投资者】。这位投资者（孙正义）手里有几栋稳定出租的大楼（SBKK日本电信、T-Mobile股份），拿这些资产去银行抵押借钱，再把借来的钱押注在他认为能改变世界的科技公司上（OpenAI、ARM）。当这些科技股涨了，他账面财富暴增，可以继续借更多钱追加投资；当科技股跌了，银行会要求他补充抵押物或还钱，他就必须卖掉部分资产。这就是软银NAV高峰期超过35万亿日元、低谷期跌破20万亿的原因——底层逻辑完全是杠杆放大的资产波动。
+    </div>
+    <div class="info-card"><div class="label">卖什么？</div><div class="value">软银集团本质上卖的是"孙正义的AI判断力"——通过控股ARM（全球芯片架构底层基础设施）、大规模投资OpenAI（约13%股权，累计投资646亿美元），以及Vision Fund（两期合计投入超2000亿美元）中的数百家AI/科技公司，软银的核心产品是：让持有其股票的投资者以折价（通常30-40%的NAV折价）买入这个AI资产篮子。</div></div>
+    <div class="info-card"><div class="label">怎么赚钱？</div><div class="value">软银有两套收费/盈利机制：①资本增值（主要）——持有资产升值带来的mark-to-market利润（FY2025净利润5.0万亿日元，其中4.2万亿来自OpenAI升值）；②运营收益（次要）——SBKK（软银日本电信）每年产生约5500亿日元净利润，是集团真正的"现金奶牛"；ARM每年产生约10亿美元净利润，随AI需求增长。其余Vision Fund投资组合整体仍处于浮盈/浮亏状态，很少有真实现金流。</div></div>
+    <div class="info-card"><div class="label">为什么有人买（投资逻辑）？</div><div class="value">投资者"必须买"软银的理由只有一个：相信孙正义对AI时代的赌注是对的，同时愿意接受30-40%的NAV折价换取进场费。软银让散户以折价方式持有OpenAI（未上市）、ARM（已上市但高估值）的混合敞口，这是市场上极少数能间接持有OpenAI的方式之一。但这个逻辑完全依赖：①OpenAI估值继续上涨；②ARM股价不崩；③孙正义的下一笔赌注是对的。</div></div>
+    <div class="info-card"><div class="label">护城河的金融比喻</div><div class="value">软银的护城河本质上是【孙正义的个人信任背书 + 超大规模资本的谈判优势】。就像某些顶级PE/VC基金（KKR、红杉）因为规模和声誉能拿到普通机构拿不到的交易一样，软银的646亿美元OpenAI仓位是任何普通基金无法复制的首发优势。但这是一把双刃剑——超大仓位使软银在OpenAI的命运上高度集中，一旦OpenAI出现重大负面事件（竞争失利、监管、估值大幅下调），软银承受的冲击将是毁灭性的。</div></div>
+  </div>
+
+  <!-- 模块一 -->
+  <div id="m1" class="panel">
+    <div class="section-title">📊 模块一：商业模式画像</div>
+    <div class="section-sub">软银是控股公司，不是运营型企业——数字含义与普通公司完全不同</div>
+    <div class="kpi-row">
+      <div class="kpi"><div class="num">¥5.0万亿</div><div class="lbl">FY2025净利润（历史最高）</div></div>
+      <div class="kpi"><div class="num">$796B</div><div class="lbl">OpenAI公允价值</div></div>
+      <div class="kpi"><div class="num">~21%</div><div class="lbl">LTV（贷款/资产比）</div></div>
+      <div class="kpi"><div class="num">¥35T+</div><div class="lbl">估计NAV（历史最高）</div></div>
+    </div>
+    <div class="info-grid">
+      <div class="info-card" style="margin-bottom:0"><div class="label">商业模式类型</div><div class="value"><strong>杠杆化控股公司 / 另类资产管理（非传统运营型企业）</strong></div></div>
+      <div class="info-card" style="margin-bottom:0"><div class="label">护城河评级</div><div class="value"><strong>窄护城河</strong>（子公司层面有宽护城河，集团层面窄）</div></div>
+    </div>
+    <div class="info-card"><div class="label">核心资产组合</div><div class="value">四大资产板块：①ARM Holdings（约90%股权）——全球CPU架构IP垄断者，FY2026全年收入49.2亿美元，是软银NAV最大的上市资产，约占NAV 40-50%；②OpenAI（约13%股权）——累计投资346亿美元，公允价值796亿美元，市账率约2.3倍，是FY2025净利润的决定性来源；③Vision Fund 1&2（数百家AI/科技公司）——已部署资金超2000亿美元，含Uber、DoorDash等已成熟公司和大量未上市AI公司；④SBKK（日本软银电信，约66%股权）——稳定现金流来源，FY2025净利润5508亿日元。</div></div>
+    <div class="info-card"><div class="label">资金来源与股东</div><div class="value">软银本身不是运营型企业，"客户"是其投资组合中的各类公司。资金来源：①公开市场融资（发行债券，存量约18万亿日元）；②资产抵押融资（ARM股权抵押贷款200亿美元，SBKK股权抵押贷款1.2万亿日元）；③资产出售（FY2025出售T-Mobile股份162亿美元、NVIDIA股份58亿美元）。股东结构：散户和机构持有SFTBY/9984.T ADR，以获得孙正义的AI押注敞口。</div></div>
+    <div class="info-card"><div class="label">NAV地理构成与汇率风险</div><div class="value">NAV构成：ARM（英国/纳斯达克）约占45%，OpenAI/Vision Fund（美国AI资产）约占35%，SBKK（日本）约占10%，T-Mobile/德意志电信/其他约占10%。收入来源：SBKK为日本本土收入，ARM为全球授权收入，Vision Fund为全球投资组合。汇率风险显著：日元走强会使美元计价资产（ARM、OpenAI）的日元NAV缩水，FY2025外汇损失达6744亿日元。</div></div>
+    <div class="info-card"><div class="label">FY2025财报核心数据</div><div class="value">FY2025（截至2026年3月31日）关键数据：净利润5.0万亿日元（约$320亿），同比+334%，创公司历史最高纪录。其中Vision Fund税前收入6.44万亿日元（FY2024同期亏损1150亿日元），主要来自OpenAI公允价值上升4.50万亿日元（$420亿用于mark-to-market）。SBKK净利润5508亿日元（+5%，稳定增长）。ARM净利润约12亿美元（全年）。NAV（截至2026年3月31日）：历史最高水平，精确数字待年报披露，估计超35万亿日元。LTV：约20-22%，处于管控目标（<25%）内。</div></div>
+  </div>
+
+  <!-- 模块二 -->
+  <div id="m2" class="panel">
+    <div class="section-title">🛡️ 模块二：护城河分析</div>
+    <div class="section-sub">集团层面窄护城河，但嵌套了ARM的宽护城河资产</div>
+    <div class="rating-badge" style="background:#d9770615;border:1px solid #d9770644;color:#d97706">🏰 综合评级：窄护城河</div>
+    <div class="chart-grid">
+      <div class="chart-box"><h4>护城河五维评分（满分3）</h4><canvas id="moatChart"></canvas></div>
+      <div class="info-card" style="margin-bottom:0;display:flex;flex-direction:column;gap:14px">
+        <div><div class="label" style="margin-bottom:8px">主要优势</div><p style="font-size:13px;color:var(--muted);line-height:1.7">ARM控股（真实宽护城河）+ 孙正义个人AI赌注先发优势（OpenAI646亿美元仓位，其他机构无法复制）+ SBKK稳定现金流（每年约5500亿日元净利润，是集团债务的真实偿债来源）。</p></div>
+        <div><div class="label" style="margin-bottom:8px">致命弱点</div><p style="font-size:13px;color:var(--muted);line-height:1.7">致命弱点：①高度集中于单一非流动性资产（OpenAI，未上市）；②杠杆结构本质上是"用流动性资产抵押借钱买非流动性资产"——在市场压力下可能出现流动性陷阱；③ARM股价波动直接影响抵押品价值和可用融资额度；④孙正义个人绑定风险极高。</p></div>
+      </div>
+    </div>
+    <div class="dim-card"><div class="dim-header"><span class="dim-name">成本优势</span><div class="dim-bar-wrap"><div class="dim-bar" style="width:33%"></div></div><span style="padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span></div><p class="dim-text">软银本身没有传统意义的成本优势。其融资成本（债券利率）高于同等规模的主权财富基金或大型PE，因为信用评级（S&P BBB-，刚好投资级）受杠杆水平限制。SBKK在日本电信市场有一定规模成本优势，但这只是子公司层面的优势。真正的"成本"优势更多体现在交易优势上：孙正义的声誉使软银能以其他机构无法获得的条件参与特定交易（如OpenAI的特别股结构），但这不是可持续的可量化成本优势。</p></div><div class="dim-card"><div class="dim-header"><span class="dim-name">无形资产</span><div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div><span style="padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span></div><p class="dim-text">孙正义个人品牌是软银最强的无形资产。在AI/科技领域，孙正义的"愿景"被硅谷视为稀缺的判断力资产——这使软银能参与其他机构无缘的deal（OpenAI 13%股权、ARM收购）。ARM品牌和35年专利组合是嵌套在软银内部的真实宽护城河。OpenAI投资的先发地位（在$30亿估值时开始投资）是不可复制的历史优势。但孙正义个人的不可替代性也是一把双刃剑——一旦他离任或判断力失准，这个"无形资产"可能快速消失。</p></div><div class="dim-card"><div class="dim-header"><span class="dim-name">转换成本</span><div class="dim-bar-wrap"><div class="dim-bar" style="width:67%"></div></div><span style="padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span></div><p class="dim-text">SBKK（日本电信）的客户留存率高，日本电信用户具有典型的高转换成本（合约绑定、号码迁移成本、设备补贴摊销）。ARM的生态系统锁定在之前的分析中已详细说明（宽护城河）。但这些转换成本属于子公司层面，并不能保护软银集团本身不受资本市场抛售。若市场对软银整体杠杆水平失去信心，即使底层资产优质，集团层面的股价和融资成本仍会大幅恶化。</p></div><div class="dim-card"><div class="dim-header"><span class="dim-name">网络效应</span><div class="dim-bar-wrap"><div class="dim-bar" style="width:33%"></div></div><span style="padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span></div><p class="dim-text">软银在AI投资生态中具有一定的网络效应：一旦成为OpenAI的大股东和ARM的母公司，它能吸引到更多优质AI初创公司的投资邀请（因为软银能带来ARM的合作、OpenAI的技术对接）。这是硅谷VC的"信号网络效应"——顶级投资者入股会吸引其他优质资本跟进。但这种网络效应远弱于平台型公司，且很大程度依赖于孙正义的个人声誉。</p></div><div class="dim-card"><div class="dim-header"><span class="dim-name">规模效应</span><div class="dim-bar-wrap"><div class="dim-bar" style="width:67%"></div></div><span style="padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span></div><p class="dim-text">软银的规模效应主要体现在融资能力上：作为全球最大的科技投资机构之一，其债券发行规模（每次数十亿美元）能获得相对较低的融资成本；同时大规模资产（ARM 200亿美元抵押贷款、SBKK 1.2万亿日元抵押贷款）提供了一般机构无法获得的流动性工具。但规模本身也带来了集中风险——OpenAI一项持仓就占NAV约25-30%，是典型的"规模成为风险"而非规模成为优势的案例。</p></div>
+  </div>
+
+  <!-- 模块三：估值研究 -->
+  <div id="m3" class="panel">
+    <div class="section-title">💰 模块三：行业自适应估值研究</div>
+    <div class="section-sub">NAV折价分析 + LTV框架——不适合用P/E</div>
+    <div class="info-box warning">🛠️ <strong>适用估值框架：NAV折价分析 + LTV压力测试 + 资产集中度风险模型</strong><br><br>软银不适合传统PE/EV/EBITDA估值——它没有稳定的运营现金流可供折现。分析师普遍使用：①NAV折价法（当前股价 vs 持仓总资产净值的折价率）；②LTV分析（债务/资产价值比，安全线25%，警戒线35%，危机线40%+）；③持仓组合波动传导模型（ARM/OpenAI价格变动对NAV和LTV的敏感性分析）。估值陷阱：不要用P/E——FY2025 5万亿日元净利润中4.2万亿是OpenAI mark-to-market浮盈，明年可能翻转为亏损。</div>
+    <h3 style="font-size:16px;font-weight:700;margin:20px 0 12px">📊 核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>基准/上限</th><th>评级</th></tr></thead>
+      <tbody><tr><td class="label">NAV（截至FY2025 Q3）</td><td>约¥33万亿 (~$2100亿)</td><td>N/A</td><td>创历史新高</td></tr><tr><td class="label">NAV折价率</td><td>约28-35%</td><td>历史均值30%</td><td>正常区间</td></tr><tr><td class="label">LTV（贷款/资产比）</td><td>约20-22%</td><td>上限25%</td><td>安全区间</td></tr><tr><td class="label">ARM持仓占NAV</td><td>约40-45%</td><td>健康<30%</td><td>高度集中</td></tr><tr><td class="label">OpenAI公允价值</td><td>$796亿（成本$346亿）</td><td>未上市资产</td><td>2.3x账面</td></tr><tr><td class="label">SBKK年净利润</td><td>¥5508亿 (~$35亿)</td><td>债务覆盖率测试</td><td>稳健</td></tr><tr><td class="label">债券存量</td><td>约¥18万亿 (~$1150亿)</td><td>2年流动性覆盖</td><td>已满足</td></tr><tr><td class="label">OpenAI桥接贷款</td><td>$400亿（已提取$200亿）</td><td>新增债务压力</td><td>需跟踪</td></tr></tbody>
+    </table>
+    <h3 style="font-size:16px;font-weight:700;margin:20px 0 12px">🔍 同类控股公司横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>代码</th><th>NAV折价</th><th>LTV水平</th></tr></thead>
+      <tbody><tr style="background:#fef9c3"><td class="label">SoftBank Group (SFTBY) ◀</td><td>SFTBY</td><td>28-35%</td><td>~21%</td></tr><tr><td class="label">Berkshire Hathaway </td><td>BRK.B</td><td>近0%（溢价）</td><td><5%</td></tr><tr><td class="label">Prosus/Naspers </td><td>PRX NA</td><td>~40%</td><td><10%</td></tr><tr><td class="label">KKR </td><td>KKR</td><td>N/A（PE管理费模式）</td><td><15%</td></tr><tr><td class="label">Altholding/Rocket Internet等 </td><td>Various</td><td>20-50%</td><td>各异</td></tr></tbody>
+    </table>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:20px">◀ 高亮行为本次分析目标</p>
+    <h3 style="font-size:16px;font-weight:700;margin:20px 0 12px">🎯 合理估值区间（SFTBY ADR参考）</h3>
+    <div class="fv-row">
+      <div class="fv-card bear"><div class="fvlabel">悲观 Bear<br>ARM -30%+OpenAI -20%</div><div class="fvval">$20</div></div>
+      <div class="fv-card base"><div class="fvlabel">基准 Base<br>现状维持</div><div class="fvval">$28</div></div>
+      <div class="fv-card bull"><div class="fvlabel">乐观 Bull<br>OpenAI IPO兑现</div><div class="fvval">$38</div></div>
+    </div>
+    <div class="info-box">当前SFTBY约$26-28（参考），基准情景对应约0-10%折价于NAV估算，位于历史折价区间的窄端。牛市情景需要：OpenAI维持当前$3000亿+估值 + ARM股价稳定 + LTV持续受控 + 市场重估控股集团折价。熊市情景触发：ARM股价下跌30%+ → 抵押品价值下降 → 可用流动性收缩 → 可能触发追加抵押或强制减仓。</div>
+    <h3 style="font-size:16px;font-weight:700;margin:20px 0 12px">⚠️ 估值常见陷阱</h3>
+    <div class="dim-card" style="border-color:#dc262633"><p class="dim-text">⚠️ P/E陷阱：FY2025净利润5万亿日元中84%是OpenAI浮盈，明年若OpenAI估值不再上升，净利润可能回落90%。</p></div><div class="dim-card" style="border-color:#dc262633"><p class="dim-text">⚠️ NAV真实性陷阱：OpenAI是私有公司，$3000亿估值基于最新融资轮，没有公开市场定价，是"意见价值"而非"市场价值"。</p></div><div class="dim-card" style="border-color:#dc262633"><p class="dim-text">⚠️ 汇率放大效应：日元走强10%，以日元计算的ARM/OpenAI价值减少10%，NAV可能缩水3-5万亿日元。</p></div><div class="dim-card" style="border-color:#dc262633"><p class="dim-text">⚠️ LTV非线性风险：ARM股价下跌40%→ ARM抵押贷款价值缩水→ 软银可能被迫减仓ARM→ 加速ARM股价下跌（死亡螺旋风险，类似2020年Archegos事件）。</p></div>
+  </div>
+
+  <!-- 爆雷风险 -->
+  <div id="stress" class="panel">
+    <div class="section-title">💣 持仓组合波动 → SFTBY爆雷风险评估</div>
+    <div class="section-sub">重点：ARM股价下跌如何通过抵押贷款链条传导至软银集团</div>
+    <div class="stress-section">
+      <div class="stress-title">📐 LTV压力测试：ARM股价下跌的链式传导</div>
+      <div class="stress-sub">当前基准LTV：约21%（FY2025 Q3，安全区间）</div>
+      <table>
+        <thead><tr><th>情景</th><th>LTV影响</th><th>管理层需采取的行动</th><th>爆雷风险</th></tr></thead>
+        <tbody><tr><td class="label">ARM -20%</td><td>+4pp → ~25%</td><td style="font-size:12px">触达上限，但可控；需减少新投资</td><td><span style="padding:2px 8px;border-radius:99px;font-size:12px;background:#05966922;color:#059669;border:1px solid #05966944">低</span></td></tr><tr><td class="label">ARM -35%</td><td>+7pp → ~28%</td><td style="font-size:12px">超出25%目标，需资产变现（卖T-Mobile/德意志电信等）</td><td><span style="padding:2px 8px;border-radius:99px;font-size:12px;background:#d9770622;color:#d97706;border:1px solid #d9770644">中</span></td></tr><tr><td class="label">ARM -50%</td><td>+10pp → ~31%</td><td style="font-size:12px">进入警戒区，抵押贷款可能触发追加保证金条款</td><td><span style="padding:2px 8px;border-radius:99px;font-size:12px;background:#dc262622;color:#dc2626;border:1px solid #dc262644">高</span></td></tr><tr><td class="label">ARM -50% + OpenAI -30%</td><td>+18pp → ~39%</td><td style="font-size:12px">接近40%危机线，可能被迫大规模减仓SBKK/ARM</td><td><span style="padding:2px 8px;border-radius:99px;font-size:12px;background:#7c3aed22;color:#7c3aed;border:1px solid #7c3aed44">极高</span></td></tr></tbody>
+      </table>
+      <div class="info-box warning"><strong>缓释机制：</strong>OpenAI作为抵押品（Q4财报会议确认）是关键缓冲：若OpenAI $3000亿估值可用于借款，理论上可增加数百亿美元可用流动性，大幅提升LTV缓冲空间。但OpenAI抵押品的折扣率（haircut）通常为30-50%，实际可借金额有限。</div>
+    </div>
+    <div class="stress-section">
+      <div class="stress-title">📋 FY2025财报对风险格局的改变</div>
+      <div class="info-box success">
+        <strong>✅ 三大正面变化（显著降低短期爆雷风险）：</strong><br><br>
+        1. <strong>净利润5.0万亿日元</strong>（含OpenAI mark-to-market收益）改善了市场对软银偿债能力的信心，短期内降低债券再融资风险。<br><br>
+        2. <strong>OpenAI作为抵押品确认</strong>（Q4财报会议）——这是最重要的结构性改变。$796亿的OpenAI持仓若可用于抵押融资（即使haircut 50%，也能提供约$400亿的额外流动性空间），使软银在ARM股价下跌时有更多缓冲手段，大幅降低"ARM抵押→被迫卖ARM→ARM进一步下跌"的死亡螺旋风险。<br><br>
+        3. <strong>NAV历史最高水平</strong>意味着当前LTV缓冲空间最充裕，即使ARM和OpenAI同时下跌20%，LTV仍能维持在25%以下。
+      </div>
+      <div class="info-box danger">
+        <strong>⚠️ 三大持续风险（不能忽视）：</strong><br><br>
+        1. <strong>$400亿桥接贷款压力</strong>——为支付OpenAI投资，2026年3月软银安排了$400亿桥接贷款，其中$200亿已提取。这笔钱的偿还来源主要依赖OpenAI IPO或Vision Fund的资产变现，若时间表延误，将持续推高实质LTV。S&P正是基于此将展望下调至"负面"。<br><br>
+        2. <strong>OpenAI估值的可信度问题</strong>——$796亿公允价值基于2026年2月融资轮的$3000亿估值，但OpenAI本身是私有公司，这个数字没有日内可变现的市场价格。若OpenAI出现重大负面事件（竞争、监管、技术路线争议），会计准则要求软银在下一个季度做减值，可能带来数万亿日元的净利润逆转。<br><br>
+        3. <strong>ARM单资产集中度过高</strong>——ARM占NAV约40-45%，远超健康的单资产上限（通常30%）。在ARM股价高波动期（财报前后、市场Risk-off期间），软银NAV和LTV可能在单季度内发生剧烈波动。
+      </div>
+      <div class="info-box">
+        <strong>📊 最终爆雷风险综合判断：</strong><br><br>
+        <strong>短期（12个月）：低风险。</strong> LTV 21%有8-14pp的缓冲空间，OpenAI作为抵押品显著改善了流动性灵活性，SBKK每年$35亿净利润是稳定的还债来源。<br><br>
+        <strong>中期（2-3年）：中等风险。</strong> 关键变量是OpenAI IPO时间表和ARM股价趋势。若两者均朝正面方向发展，软银将逐步去杠杆；若OpenAI IPO推迟至2028年以后且ARM股价同期下跌30%以上，中期爆雷概率上升至25-35%。<br><br>
+        <strong>真正的"黑天鹅"情景（概率低但影响极大）：</strong> OpenAI出现技术或商业模式的根本性挫折（如AGI方向判断错误、监管强制拆分）→ 公允价值从$796亿腰斩至$400亿 → NAV减少约5-6万亿日元 → LTV瞬间升至35%+ → S&P降级至BB+ → 机构被迫减仓 → 市值螺旋下跌。这是软银唯一真正的"爆雷"情景，而不是ARM股价波动。
+      </div>
+    </div>
+  </div>
+
+  <!-- 模块四 -->
+  <div id="m4" class="panel">
+    <div class="section-title">👔 模块四：管理层评估</div>
+    <div class="section-sub">孙正义：科技投资史上最具争议的天才赌徒</div>
+    <div class="rating-badge" style="background:#d9770615;border:1px solid #d9770644;color:#d97706">管理层综合评级：C 级（历史记录两极分化）</div>
+    <div class="highlight-grid">
+      <div class="highlight-card green"><h4>✅ 主要亮点</h4><p>①ARM和OpenAI押注的先发优势真实且不可复制；②SBKK稳定现金流是整个杠杆结构的真实还款来源；③OpenAI作为抵押品的新战略（Q4财报会议确认）显著改善了债务融资的灵活性——使646亿美元押注从"纯负债资产"变成"可变现工具"，这是重大的结构性改善。</p></div>
+      <div class="highlight-card red"><h4>⚠️ 主要风险</h4><p>①孙正义个人判断力集中风险（一旦失误，整个结构面临系统性压力）；②OpenAI私有估值的可靠性风险（目前占NAV约25-30%，任何大幅下调都会直接重创LTV）；③桥接贷款规模（$400亿，$200亿已提取）在OpenAI股权IPO前将持续增加财务压力；④S&P展望"负面"预警了信用降级风险，若降至BB+（投机级），将触发机构强制减仓。</p></div>
+    </div>
+    <div class="info-card"><div class="label">资本配置能力</div><div class="value">孙正义的资本配置记录极度两极化。成功案例：阿里巴巴（2000年2000万美元→峰值超$1500亿）；ARM（320亿美元收购→当前价值超$2000亿）；OpenAI（早期投资者之一，当前账面浮盈$450亿）。灾难案例：WeWork（最高估值470亿美元，最终破产，损失超180亿美元）；Vision Fund 1整体IRR至今仍为负；众多"软银效应"投资（高额注资但商业模式无法自洽的公司）。FY2025的646亿美元OpenAI押注是他职业生涯最大的单笔赌注，正确则名留青史，错误则再度重演Vision Fund 1的噩梦。</div></div>
+    <div class="info-card"><div class="label">诚信与信披透明度</div><div class="value">信息披露质量中等。优点：NAV/LTV框架透明，每季度更新，已成行业标杆；ARM在纳斯达克上市后财务数据充分透明。缺点：①OpenAI估值完全依赖内部假设（每季度用最新融资轮估值，可能滞后于真实市场情绪）；②Vision Fund私有投资组合的个别资产质量不透明；③MgmtCo（孙正义个人控制的管理公司）持有Vision Fund 17.25%的普通权益，存在潜在利益输送风险（该结构在历史上曾引发股东质疑）；④S&P 2026年3月将展望从稳定下调至"负面"，理由是OpenAI投资带来的债务激增。</div></div>
+    <div class="info-card"><div class="label">战略执行力</div><div class="value">战略执行力：顶级（押注正确时）/ 灾难性（押注错误时）。当前周期：FY2025创纪录净利润5万亿日元是孙正义"AI弹药库"战略的阶段性验证。ARM的上市和股价表现（IPO $51→当前约$170-210）是他任职以来最成功的资本运作之一。但必须注意：孙正义今年已经65岁，接班人问题（Yoshimitsu Goto首席财务官）悬而未决。执行力的核心风险是：在OpenAI这个单一押注上集中了太多资本，丧失了风险分散的灵活性。</div></div>
+    <div class="info-card"><div class="label">回购测试（是否言行一致）</div><div class="value">软银自2019年以来已累计回购超5万亿日元的自家股票，是全球规模最大的公司回购计划之一。这一行为表明孙正义确实认为当前股价相对NAV存在折价——这是管理层对"股价被低估"最有力的非言语表达。但回购资金来源（部分来自出售T-Mobile、NVIDIA股份）意味着回购和投资之间存在资本竞争，不是"无成本"的资本配置。</div></div>
+  </div>
+
+  <!-- 结论 -->
+  <div id="conclusion" class="panel">
+    <div class="section-title">🎯 整体结论与投资建议</div>
+    <div class="section-sub">结合FY2025财报的综合评估</div>
+    <div style="text-align:center;padding:24px 0;border-bottom:1px solid var(--border);margin-bottom:24px">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:8px">商业质量评级（控股公司框架）</div>
+      <div style="font-size:36px;color:#fbbf24;letter-spacing:4px">★★★☆☆</div>
+      <div style="color:var(--muted);font-size:13px">3/5 星（考虑了杠杆风险的调整评分）</div>
+    </div>
+    <div class="conclusion-box">
+      <h3>📝 综合评述</h3>
+      <p style="margin-bottom:14px;font-size:14px;line-height:1.8;color:#cbd5e1">软银集团（SFTBY）是一个极度独特的投资标的——它本质上是"孙正义的AI时代豪赌"的上市载体，而非传统意义上的可持续运营企业。分析SFTBY的核心框架不是P/E或EV/EBITDA，而是一个简单的问题：你相信孙正义在OpenAI和ARM上的两个超级赌注是对的吗？</p><p style="margin-bottom:14px;font-size:14px;line-height:1.8;color:#cbd5e1">FY2025财报（5.0万亿日元净利润，历史最高）和OpenAI公允价值（$796亿，成本$346亿，浮盈$450亿）是极为靓丽的表面数字，但必须清醒认识到：这一切都建立在未上市资产（OpenAI）的主观估值上，而非真实的现金流兑现。当OpenAI IPO真正发生之前，这个$450亿的浮盈是一个会计上的数字，不是可以花出去的钱。</p><p style="margin-bottom:14px;font-size:14px;line-height:1.8;color:#cbd5e1">爆雷风险评估：短期（12个月内）低。LTV约21%处于安全区间，OpenAI作为抵押品显著改善了流动性灵活性，SBKK稳定现金流（$35亿/年净利润）足以覆盖债务利息。OpenAI IPO若在2026-2027年发生，将是重大的流动性释放事件。中期（2-3年）中等。$400亿桥接贷款的偿还压力、S&P负面展望的潜在降级路径、以及ARM股价单季下跌>35%可能触发的保证金追缴，是三个需要持续跟踪的风险因子。</p><p style="margin-bottom:14px;font-size:14px;line-height:1.8;color:#cbd5e1">对于你的投资组合而言，SFTBY的本质是一个"AI时代的杠杆化期权"——上行情景（OpenAI维持估值并IPO + ARM继续增长）下，当前28-35%的NAV折价提供了合理的安全边际；下行情景（AI泡沫出现明显回调 + 日元大幅升值）下，这个结构的脆弱性将被快速暴露。不建议作为核心持仓，更适合作为"AI整体押注的卫星仓位"，仓位不超过总组合的5%。</p>
+    </div>
+    <div class="monitoring-box">
+      <h4>🔍 关键观察指标（未来12-24个月）</h4>
+      <ul><li style="margin-bottom:8px;font-size:13px;color:#475569">ARM股价（季度末）：若跌破$100，触达LTV警戒线，需重新评估</li><li style="margin-bottom:8px;font-size:13px;color:#475569">LTV季度数据：关键阈值25%（目标上限）和35%（危机预警）</li><li style="margin-bottom:8px;font-size:13px;color:#475569">OpenAI IPO时间表：一旦宣布上市，$450亿浮盈从账面变现，是最大的正面催化剂</li><li style="margin-bottom:8px;font-size:13px;color:#475569">S&P/穆迪信用评级：若下调至BB+，触发机构强制减仓规则，股价可能急跌</li><li style="margin-bottom:8px;font-size:13px;color:#475569">$400亿桥接贷款到期安排：关注再融资条款和OpenAI后续投资节奏</li><li style="margin-bottom:8px;font-size:13px;color:#475569">日元兑美元汇率：日元升值10%约使NAV缩水3-5%，关注日本央行利率政策</li></ul>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function show(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  if(id==='m2')initMoat();
+}
+let moatInited=false;
+function initMoat(){
+  if(moatInited)return;moatInited=true;
+  new Chart(document.getElementById('moatChart'),{
+    type:'radar',
+    data:{
+      labels:["成本优势","无形资产","转换成本","网络效应","规模效应"],
+      datasets:[{data:[1,3,2,1,2],backgroundColor:'rgba(124,58,237,.15)',borderColor:'#7c3aed',pointBackgroundColor:'#7c3aed',borderWidth:2,pointRadius:5}]
+    },
+    options:{plugins:{legend:{display:false}},scales:{r:{min:0,max:3,ticks:{display:false,stepSize:1},grid:{color:'rgba(0,0,0,.08)'},pointLabels:{color:'#374151',font:{size:12,weight:'600'}},angleLines:{color:'rgba(0,0,0,.06)'}}}}
+  });
+}
+</script>
+</body>
+</html>
