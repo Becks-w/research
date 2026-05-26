@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI连接芯片三巨头横向估值对比 ALAB vs CRDO vs MRVL</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#0d1117; color:#e6edf3; line-height:1.65; }
+.wrap { max-width:1200px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1f2937 0%,#111827 100%); padding:40px 36px; border-radius:16px; margin-bottom:24px; border:1px solid #30363d; }
+.hero h1 { font-size:28px; font-weight:700; margin-bottom:8px; background:linear-gradient(90deg,#f59e0b,#10b981,#3b82f6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.hero .sub { color:#8b949e; font-size:14px; margin-bottom:20px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:13px; color:#8b949e; }
+
+.cards-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:16px; margin-bottom:24px; }
+.stock-card { background:#161b22; border:1px solid #30363d; border-radius:12px; padding:20px; }
+.card-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid #30363d; }
+.ticker { font-size:24px; font-weight:800; color:#e6edf3; letter-spacing:1px; }
+.name { font-size:12px; color:#8b949e; margin-top:2px; }
+.price-val { font-size:22px; font-weight:700; color:#e6edf3; text-align:right; font-family:'JetBrains Mono', monospace; }
+.market-cap { font-size:11px; color:#8b949e; text-align:right; margin-top:2px; }
+.card-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px; }
+.metric { background:#0d1117; padding:10px 8px; border-radius:6px; text-align:center; border:1px solid #21262d; }
+.ml { font-size:10px; color:#8b949e; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+.mv { font-size:15px; font-weight:700; color:#e6edf3; font-family:'JetBrains Mono', monospace; }
+.verdict { padding:8px 12px; border-radius:6px; font-size:12px; font-weight:600; text-align:center; }
+
+.tabs { display:flex; gap:4px; background:#161b22; padding:6px; border-radius:12px; margin-bottom:24px; border:1px solid #30363d; overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#8b949e; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#e6edf3; }
+.tab.active { background:#21262d; color:#e6edf3; border:1px solid #30363d; }
+
+.section { background:#161b22; border:1px solid #30363d; border-radius:16px; padding:32px; margin-bottom:20px; display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:20px; font-weight:700; margin-bottom:8px; color:#e6edf3; }
+.section .subtitle { color:#8b949e; font-size:14px; margin-bottom:24px; }
+
+.chart-wrap { background:#0d1117; padding:20px; border-radius:10px; margin:16px 0; border:1px solid #21262d; }
+.chart-title { font-size:14px; font-weight:600; color:#e6edf3; margin-bottom:4px; }
+.chart-subtitle { font-size:12px; color:#8b949e; margin-bottom:16px; }
+
+/* === 纯HTML水平条形图 === */
+.hbar-group { margin-bottom:20px; }
+.hbar-group:last-child { margin-bottom:0; }
+.hbar-group-title { font-size:12px; color:#8b949e; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #21262d; }
+.hbar-row { display:grid; grid-template-columns:60px 1fr 90px; gap:12px; align-items:center; margin-bottom:10px; }
+.hbar-row:last-child { margin-bottom:0; }
+.hbar-ticker { font-size:13px; font-weight:700; color:#e6edf3; letter-spacing:0.5px; }
+.hbar-track { background:#21262d; height:28px; border-radius:6px; overflow:hidden; position:relative; }
+.hbar-fill { height:100%; border-radius:6px; display:flex; align-items:center; justify-content:flex-end; padding-right:10px; transition:width 0.6s ease; min-width:40px; }
+.hbar-fill-label { font-size:12px; font-weight:700; color:#fff; font-family:'JetBrains Mono', monospace; white-space:nowrap; text-shadow:0 1px 2px rgba(0,0,0,0.5); }
+.hbar-tag { font-size:11px; color:#8b949e; text-align:right; line-height:1.3; }
+.hbar-tag strong { color:#e6edf3; display:block; font-size:13px; font-family:'JetBrains Mono', monospace; }
+
+/* === 散点矩阵（替换气泡图） === */
+.scatter-matrix { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-top:12px; }
+.scatter-card { background:#161b22; border:1px solid #30363d; border-radius:10px; padding:18px 16px; text-align:center; position:relative; overflow:hidden; }
+.scatter-card::before { content:""; position:absolute; top:0; left:0; right:0; height:3px; }
+.scatter-card.alab::before { background:#f59e0b; }
+.scatter-card.crdo::before { background:#10b981; }
+.scatter-card.mrvl::before { background:#3b82f6; }
+.scatter-ticker { font-size:14px; font-weight:800; letter-spacing:1px; margin-bottom:14px; }
+.scatter-ticker.alab { color:#f59e0b; }
+.scatter-ticker.crdo { color:#10b981; }
+.scatter-ticker.mrvl { color:#3b82f6; }
+.scatter-row { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px dashed #21262d; font-size:12px; }
+.scatter-row:last-child { border-bottom:none; }
+.scatter-label { color:#8b949e; }
+.scatter-value { color:#e6edf3; font-weight:700; font-family:'JetBrains Mono', monospace; }
+.scatter-verdict { margin-top:12px; padding:6px 10px; border-radius:6px; font-size:11px; font-weight:600; }
+
+/* === 多指标条形矩阵 === */
+.metric-matrix { display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin-top:8px; }
+.matrix-col { background:#161b22; border:1px solid #30363d; border-radius:10px; padding:16px 14px; }
+.matrix-col-title { font-size:13px; font-weight:700; text-align:center; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #21262d; letter-spacing:0.5px; }
+.matrix-col-title.alab { color:#f59e0b; }
+.matrix-col-title.crdo { color:#10b981; }
+.matrix-col-title.mrvl { color:#3b82f6; }
+.matrix-metric { margin-bottom:14px; }
+.matrix-metric:last-child { margin-bottom:0; }
+.matrix-metric-head { display:flex; justify-content:space-between; margin-bottom:5px; font-size:11px; }
+.matrix-metric-label { color:#8b949e; }
+.matrix-metric-value { color:#e6edf3; font-weight:700; font-family:'JetBrains Mono', monospace; font-size:12px; }
+.matrix-bar-track { background:#0d1117; height:6px; border-radius:99px; overflow:hidden; }
+.matrix-bar-fill { height:100%; border-radius:99px; transition:width 0.6s; }
+.matrix-rank { display:inline-block; padding:1px 6px; border-radius:99px; font-size:9px; font-weight:700; margin-left:5px; vertical-align:middle; }
+.matrix-rank.best { background:#05966922; color:#10b981; border:1px solid #05966944; }
+.matrix-rank.mid { background:#3b82f622; color:#3b82f6; border:1px solid #3b82f644; }
+.matrix-rank.worst { background:#d9770622; color:#d97706; border:1px solid #d9770644; }
+
+table.comp-table { width:100%; border-collapse:collapse; font-size:13px; margin:16px 0; background:#0d1117; border-radius:8px; overflow:hidden; }
+table.comp-table th { background:#21262d; color:#e6edf3; padding:12px 14px; text-align:center; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid #30363d; }
+table.comp-table th:first-child { text-align:left; }
+table.comp-table td { padding:10px 14px; border-bottom:1px solid #21262d; text-align:center; color:#c9d1d9; font-family:'JetBrains Mono', monospace; }
+table.comp-table tr:last-child td { border-bottom:none; }
+table.comp-table tr.highlight { background:rgba(245,158,11,0.06); }
+table.comp-table tr.highlight td { color:#e6edf3; font-weight:600; }
+table.comp-table .label { font-weight:600; color:#e6edf3; text-align:left; font-family:-apple-system, sans-serif; }
+table.comp-table tr:hover { background:rgba(255,255,255,0.02); }
+
+.thesis-block { background:#0d1117; border:1px solid #30363d; border-radius:12px; padding:24px; margin-bottom:16px; border-left:4px solid; }
+.thesis-block.alab { border-left-color:#f59e0b; }
+.thesis-block.crdo { border-left-color:#10b981; }
+.thesis-block.mrvl { border-left-color:#3b82f6; }
+.thesis-block h3 { font-size:18px; font-weight:700; margin-bottom:12px; color:#e6edf3; }
+.thesis-block .biz { font-size:13px; color:#8b949e; margin-bottom:16px; font-style:italic; }
+.thesis-block .bull, .thesis-block .bear { padding:12px 16px; border-radius:8px; margin-bottom:10px; font-size:14px; line-height:1.7; color:#c9d1d9; }
+.thesis-block .bull { background:rgba(16,185,129,0.08); border-left:3px solid #10b981; }
+.thesis-block .bear { background:rgba(220,38,38,0.08); border-left:3px solid #dc2626; }
+.thesis-block .bull strong, .thesis-block .bear strong { color:#e6edf3; }
+
+.ranking-list { background:#0d1117; border:1px solid #30363d; border-radius:12px; padding:24px; margin-top:20px; }
+.ranking-item { display:flex; align-items:center; gap:16px; padding:16px 0; border-bottom:1px solid #21262d; }
+.ranking-item:last-child { border-bottom:none; }
+.ranking-num { font-size:36px; font-weight:800; min-width:50px; text-align:center; font-family:'JetBrains Mono', monospace; }
+.ranking-content { flex:1; }
+.ranking-ticker { font-size:18px; font-weight:700; color:#e6edf3; margin-bottom:4px; }
+.ranking-tag { font-size:12px; color:#8b949e; margin-bottom:6px; }
+.ranking-reason { font-size:13px; color:#c9d1d9; line-height:1.7; }
+
+.warn-box { background:rgba(220,38,38,0.08); border:1px solid rgba(220,38,38,0.3); border-left:4px solid #dc2626; padding:14px 18px; border-radius:8px; margin:16px 0; font-size:13px; color:#fca5a5; line-height:1.7; }
+.info-box { background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.3); border-left:4px solid #3b82f6; padding:14px 18px; border-radius:8px; margin:16px 0; font-size:13px; color:#93c5fd; line-height:1.7; }
+
+.foot { text-align:center; padding:24px; color:#6e7681; font-size:12px; }
+
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .cards-grid { grid-template-columns:1fr; }
+  .card-grid { grid-template-columns:repeat(2,1fr); }
+  table.comp-table { font-size:11px; }
+  table.comp-table td, table.comp-table th { padding:8px 6px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>AI连接芯片三巨头横向估值对比</h1>
+    <div class="sub">ALAB vs CRDO vs MRVL — 同赛道，不同打法，不同赔率</div>
+    <div class="meta">
+      <div>📅 数据日期：2026-05-18</div>
+      <div>💱 货币口径：USD</div>
+      <div>📊 PE口径：GAAP（除Fwd PE基于非GAAP共识）</div>
+      <div>🎯 分析角度：长期持有</div>
+    </div>
+  </div>
+
+  <!-- 顶部卡片 -->
+  <div class="cards-grid">
+    
+  <div class="stock-card" style="border-top:4px solid #f59e0b">
+    <div class="card-header">
+      <div>
+        <div class="ticker">ALAB</div>
+        <div class="name">Astera Labs</div>
+      </div>
+      <div class="price">
+        <div class="price-val">$232.68</div>
+        <div class="market-cap">市值 $40B</div>
+      </div>
+    </div>
+    <div class="card-grid">
+      <div class="metric"><div class="ml">Fwd PE</div><div class="mv">75x</div></div>
+      <div class="metric"><div class="ml">PEG</div><div class="mv" style="color:#10b981">0.81</div></div>
+      <div class="metric"><div class="ml">收入增速</div><div class="mv">+93%</div></div>
+      <div class="metric"><div class="ml">毛利率</div><div class="mv">76.4%</div></div>
+      <div class="metric"><div class="ml">目标价</div><div class="mv">$222</div></div>
+      <div class="metric"><div class="ml">上行空间</div><div class="mv" style="color:#d97706">-4.6%</div></div>
+    </div>
+    <div class="verdict" style="background:#10b98122;color:#10b981;border:1px solid #10b98144">合理偏低</div>
+  </div>
+  <div class="stock-card" style="border-top:4px solid #10b981">
+    <div class="card-header">
+      <div>
+        <div class="ticker">CRDO</div>
+        <div class="name">Credo Technology</div>
+      </div>
+      <div class="price">
+        <div class="price-val">$153.89</div>
+        <div class="market-cap">市值 $34B</div>
+      </div>
+    </div>
+    <div class="card-grid">
+      <div class="metric"><div class="ml">Fwd PE</div><div class="mv">38x</div></div>
+      <div class="metric"><div class="ml">PEG</div><div class="mv" style="color:#059669">0.19</div></div>
+      <div class="metric"><div class="ml">收入增速</div><div class="mv">+201%</div></div>
+      <div class="metric"><div class="ml">毛利率</div><div class="mv">68.6%</div></div>
+      <div class="metric"><div class="ml">目标价</div><div class="mv">$209</div></div>
+      <div class="metric"><div class="ml">上行空间</div><div class="mv" style="color:#059669">+33.8%</div></div>
+    </div>
+    <div class="verdict" style="background:#05966922;color:#059669;border:1px solid #05966944">便宜（PEG极低）</div>
+  </div>
+  <div class="stock-card" style="border-top:4px solid #3b82f6">
+    <div class="card-header">
+      <div>
+        <div class="ticker">MRVL</div>
+        <div class="name">Marvell Technology</div>
+      </div>
+      <div class="price">
+        <div class="price-val">$177.30</div>
+        <div class="market-cap">市值 $155B</div>
+      </div>
+    </div>
+    <div class="card-grid">
+      <div class="metric"><div class="ml">Fwd PE</div><div class="mv">47x</div></div>
+      <div class="metric"><div class="ml">PEG</div><div class="mv" style="color:#d97706">2.14</div></div>
+      <div class="metric"><div class="ml">收入增速</div><div class="mv">+22%</div></div>
+      <div class="metric"><div class="ml">毛利率</div><div class="mv">59%</div></div>
+      <div class="metric"><div class="ml">目标价</div><div class="mv">$140</div></div>
+      <div class="metric"><div class="ml">上行空间</div><div class="mv" style="color:#dc2626">-21.0%</div></div>
+    </div>
+    <div class="verdict" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">偏贵</div>
+  </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" data-tab="t1">📊 估值对比</button>
+    <button class="tab" data-tab="t2">📈 增长与盈利</button>
+    <button class="tab" data-tab="t3">🎯 综合雷达</button>
+    <button class="tab" data-tab="t4">💼 投资结论</button>
+  </div>
+
+  <!-- Tab 1: 估值对比 -->
+  <div class="section active" id="t1">
+    <h2>📊 估值对比</h2>
+    <p class="subtitle">同样的AI叙事，三家公司的估值差异巨大——CRDO的PEG只有0.19，ALAB是0.81，MRVL是2.14</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">📊 估值倍数对比（PE/EV-Sales/PEG）</div>
+      <div class="chart-subtitle">三个估值维度，所有数字直接标在条上。条越长 = 数值越大；PEG越小越便宜</div>
+
+      <div class="hbar-group">
+        <div class="hbar-group-title">① Forward PE（基于非GAAP共识，越低越便宜）</div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#f59e0b">ALAB</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:100%;background:linear-gradient(90deg,#d97706,#f59e0b);"><span class="hbar-fill-label">75x</span></div></div>
+          <div class="hbar-tag"><strong>最贵</strong>定价完美执行</div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#10b981">CRDO</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:50.7%;background:linear-gradient(90deg,#059669,#10b981);"><span class="hbar-fill-label">38x</span></div></div>
+          <div class="hbar-tag"><strong>最低</strong>显得便宜</div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#3b82f6">MRVL</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:62.7%;background:linear-gradient(90deg,#2563eb,#3b82f6);"><span class="hbar-fill-label">47x</span></div></div>
+          <div class="hbar-tag"><strong>中间</strong>低于行业中位</div>
+        </div>
+      </div>
+
+      <div class="hbar-group">
+        <div class="hbar-group-title">② EV/Sales Forward（高成长Fabless基准10-15x，越低越便宜）</div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#f59e0b">ALAB</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:100%;background:linear-gradient(90deg,#d97706,#f59e0b);"><span class="hbar-fill-label">27x</span></div></div>
+          <div class="hbar-tag"><strong>27x</strong>极度溢价</div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#10b981">CRDO</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:96.3%;background:linear-gradient(90deg,#059669,#10b981);"><span class="hbar-fill-label">26x</span></div></div>
+          <div class="hbar-tag"><strong>26x</strong>极度溢价</div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#3b82f6">MRVL</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:66.7%;background:linear-gradient(90deg,#2563eb,#3b82f6);"><span class="hbar-fill-label">18x</span></div></div>
+          <div class="hbar-tag"><strong>18x</strong>三家中最低</div>
+        </div>
+      </div>
+
+      <div class="hbar-group">
+        <div class="hbar-group-title">③ PEG ratio（PE÷增速，&lt;1视为便宜，越小越好）</div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#f59e0b">ALAB</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:37.9%;background:linear-gradient(90deg,#d97706,#f59e0b);"><span class="hbar-fill-label">0.81</span></div></div>
+          <div class="hbar-tag"><strong>合理偏低</strong>但绝对值已高</div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#10b981">CRDO</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:8.9%;background:linear-gradient(90deg,#059669,#10b981);"><span class="hbar-fill-label">0.19</span></div></div>
+          <div class="hbar-tag"><strong>极低</strong>但增速会腰斩</div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#3b82f6">MRVL</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:100%;background:linear-gradient(90deg,#2563eb,#3b82f6);"><span class="hbar-fill-label">2.14</span></div></div>
+          <div class="hbar-tag"><strong>偏贵</strong>对降速敏感</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <div class="chart-title">🎯 PE × 增速 估值定位矩阵</div>
+      <div class="chart-subtitle">把三家放在"估值-增长"二维空间中：CRDO高增长低PE（看似便宜）、MRVL低增长中PE（稳健）、ALAB中增长高PE（溢价）</div>
+      <div class="scatter-matrix">
+        <div class="scatter-card alab">
+          <div class="scatter-ticker alab">🟠 ALAB</div>
+          <div class="scatter-row"><span class="scatter-label">Fwd PE</span><span class="scatter-value">75x</span></div>
+          <div class="scatter-row"><span class="scatter-label">收入增速</span><span class="scatter-value">+93%</span></div>
+          <div class="scatter-row"><span class="scatter-label">市值</span><span class="scatter-value">$40B</span></div>
+          <div class="scatter-row"><span class="scatter-label">PEG</span><span class="scatter-value">0.81</span></div>
+          <div class="scatter-verdict" style="background:rgba(245,158,11,0.15);color:#f59e0b">高PE × 高增长</div>
+        </div>
+        <div class="scatter-card crdo">
+          <div class="scatter-ticker crdo">🟢 CRDO</div>
+          <div class="scatter-row"><span class="scatter-label">Fwd PE</span><span class="scatter-value">38x</span></div>
+          <div class="scatter-row"><span class="scatter-label">收入增速</span><span class="scatter-value">+201%</span></div>
+          <div class="scatter-row"><span class="scatter-label">市值</span><span class="scatter-value">$34B</span></div>
+          <div class="scatter-row"><span class="scatter-label">PEG</span><span class="scatter-value">0.19</span></div>
+          <div class="scatter-verdict" style="background:rgba(16,185,129,0.15);color:#10b981">低PE × 极高增长</div>
+        </div>
+        <div class="scatter-card mrvl">
+          <div class="scatter-ticker mrvl">🔵 MRVL</div>
+          <div class="scatter-row"><span class="scatter-label">Fwd PE</span><span class="scatter-value">47x</span></div>
+          <div class="scatter-row"><span class="scatter-label">收入增速</span><span class="scatter-value">+22%</span></div>
+          <div class="scatter-row"><span class="scatter-label">市值</span><span class="scatter-value">$155B</span></div>
+          <div class="scatter-row"><span class="scatter-label">PEG</span><span class="scatter-value">2.14</span></div>
+          <div class="scatter-verdict" style="background:rgba(59,130,246,0.15);color:#3b82f6">中PE × 稳健增长</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:16px;font-weight:600;color:#e6edf3;margin:24px 0 12px;">📋 完整估值对比表</h3>
+    
+<table class="comp-table">
+  <thead>
+    <tr>
+      <th>指标</th>
+      <th style="color:#f59e0b">ALAB</th><th style="color:#10b981">CRDO</th><th style="color:#3b82f6">MRVL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="label">现价 (USD)</td><td>$232.68</td><td>$153.89</td><td>$177.30</td></tr>
+    <tr><td class="label">市值 (USD Bn)</td><td>$40B</td><td>$34B</td><td>$155B</td></tr>
+    <tr><td class="label">TTM PE (GAAP)</td><td>165x</td><td>96x</td><td>58x</td></tr>
+    <tr class="highlight"><td class="label">Forward PE</td><td>75x</td><td>38x</td><td>47x</td></tr>
+    <tr class="highlight"><td class="label">PEG ratio</td><td style="font-weight:700">0.81</td><td style="font-weight:700">0.19</td><td style="font-weight:700">2.14</td></tr>
+    <tr><td class="label">EV/Sales (Forward)</td><td>27x</td><td>26x</td><td>18x</td></tr>
+    <tr class="highlight"><td class="label">收入增速 YoY</td><td>+93%</td><td>+201%</td><td>+22%</td></tr>
+    <tr><td class="label">EPS增速 YoY</td><td>+152%</td><td>+300%</td><td>+33%</td></tr>
+    <tr><td class="label">毛利率 (非GAAP)</td><td>76.4%</td><td>68.6%</td><td>59%</td></tr>
+    <tr><td class="label">净利率</td><td>26%</td><td>31.8%</td><td>32.6%</td></tr>
+    <tr><td class="label">ROE</td><td>18.8%</td><td>14%</td><td>19.3%</td></tr>
+    <tr><td class="label">R&D/Revenue</td><td>30%</td><td>22%</td><td>25%</td></tr>
+    <tr><td class="label">SBC/Revenue</td><td>15.9%</td><td>12%</td><td>13%</td></tr>
+    <tr><td class="label">客户集中度</td><td style="font-size:12px">5客户=60%+</td><td style="font-size:12px">头部2客户>50%</td><td style="font-size:12px">Top 4客户~50%（更分散）</td></tr>
+    <tr><td class="label">分析师评级</td><td>Buy</td><td>Strong Buy</td><td>Strong Buy</td></tr>
+    <tr class="highlight"><td class="label">12月目标价</td><td>$222</td><td>$209</td><td>$140</td></tr>
+    <tr><td class="label">隐含上行空间</td><td style="color:#dc2626;font-weight:700">-4.6%</td><td style="color:#059669;font-weight:700">+33.8%</td><td style="color:#dc2626;font-weight:700">-21.0%</td></tr>
+  </tbody>
+</table>
+
+    <div class="info-box">
+      <strong>口径说明</strong>：TTM PE基于GAAP数据；Forward PE基于分析师Non-GAAP共识。三家公司SBC比例都偏高（12-16%），使得Non-GAAP PE显著低于GAAP PE。建议用EV/Sales交叉验证，避免被Non-GAAP数字误导。
+    </div>
+
+    <div class="warn-box">
+      <strong>关键警示：MRVL目标价异常</strong>——分析师共识目标价$139低于现价$177约21%。这是非常少见的"Strong Buy + 目标价低于现价"组合，意味着大量分析师还未来得及上调目标价，最新单家目标价（如TD Cowen $180、RBC $200、BofA $200）已显著高于共识平均。这是数据滞后导致的假象，**实际MRVL最新分析师视角偏好**。
+    </div>
+  </div>
+
+  <!-- Tab 2: 增长与盈利 -->
+  <div class="section" id="t2">
+    <h2>📈 增长与盈利质量</h2>
+    <p class="subtitle">CRDO增速最炸（+201%），ALAB稳定双倍（+93%），MRVL增速最稳但绝对数最高</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">📈 最近季度收入增速 YoY</div>
+      <div class="chart-subtitle">CRDO的+201%是真实数字（Q3 FY26）但已是增速顶部；ALAB +93%稳定双倍；MRVL +22%规模摊薄后</div>
+      <div class="hbar-group">
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#f59e0b">ALAB</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:46.3%;background:linear-gradient(90deg,#d97706,#f59e0b);"><span class="hbar-fill-label">+93%</span></div></div>
+          <div class="hbar-tag">Q1 FY26<strong>$308M</strong></div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#10b981">CRDO</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:100%;background:linear-gradient(90deg,#059669,#10b981);"><span class="hbar-fill-label">+201%</span></div></div>
+          <div class="hbar-tag">Q3 FY26<strong>$407M</strong></div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#3b82f6">MRVL</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:10.9%;background:linear-gradient(90deg,#2563eb,#3b82f6);"><span class="hbar-fill-label">+22%</span></div></div>
+          <div class="hbar-tag">Q4 FY26<strong>$2,220M</strong></div>
+        </div>
+      </div>
+      <div style="background:#161b22;padding:10px 14px;border-radius:6px;margin-top:14px;font-size:12px;color:#8b949e;border:1px dashed #30363d;">
+        💡 <strong style="color:#e6edf3;">关键观察</strong>：CRDO的爆发性增速来自小基数（基数仅$135M），管理层guidance FY2027 "&gt;50% YoY"暗示增速会从201%腰斩到50-70%。MRVL虽然增速看似最慢，但$2.2B季度收入×4 = $8.8B年化规模，是CRDO的5倍以上。<strong style="color:#e6edf3;">看百分比的同时必须看绝对规模。</strong>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <div class="chart-title">💎 盈利质量三指标横向矩阵</div>
+      <div class="chart-subtitle">每列代表一家公司，红绿标签标注每个指标的排名（🥇最佳、🥈中等、🥉最弱）</div>
+      <div class="metric-matrix">
+
+        <!-- ALAB -->
+        <div class="matrix-col">
+          <div class="matrix-col-title alab">🟠 ALAB</div>
+          <div class="matrix-metric">
+            <div class="matrix-metric-head">
+              <span class="matrix-metric-label">毛利率（非GAAP）<span class="matrix-rank best">🥇</span></span>
+              <span class="matrix-metric-value">76.4%</span>
+            </div>
+            <div class="matrix-bar-track"><div class="matrix-bar-fill" style="width:100%;background:#f59e0b"></div></div>
+          </div>
+          <div class="matrix-metric">
+            <div class="matrix-metric-head">
+              <span class="matrix-metric-label">净利率<span class="matrix-rank worst">🥉</span></span>
+              <span class="matrix-metric-value">26.0%</span>
+            </div>
+            <div class="matrix-bar-track"><div class="matrix-bar-fill" style="width:79.8%;background:#f59e0b"></div></div>
+          </div>
+          <div class="matrix-metric">
+            <div class="matrix-metric-head">
+              <span class="matrix-metric-label">ROE<span class="matrix-rank mid">🥈</span></span>
+              <span class="matrix-metric-value">18.8%</span>
+            </div>
+            <div class="matrix-bar-track"><div class="matrix-bar-fill" style="width:97.4%;background:#f59e0b"></div></div>
+          </div>
+        </div>
+
+        <!-- CRDO -->
+        <div class="matrix-col">
+          <div class="matrix-col-title crdo">🟢 CRDO</div>
+          <div class="matrix-metric">
+            <div class="matrix-metric-head">
+              <span class="matrix-metric-label">毛利率（非GAAP）<span class="matrix-rank mid">🥈</span></span>
+              <span class="matrix-metric-value">68.6%</span>
+            </div>
+            <div class="matrix-bar-track"><div class="matrix-bar-fill" style="width:89.8%;background:#10b981"></div></div>
+          </div>
+          <div class="matrix-metric">
+            <div class="matrix-metric-head">
+              <span class="matrix-metric-label">净利率<span class="matrix-rank mid">🥈</span></span>
+              <span class="matrix-metric-value">31.8%</span>
+            </div>
+            <div class="matrix-bar-track"><div class="matrix-bar-fill" style="width:97.5%;background:#10b981"></div></div>
+          </div>
+          <div class="matrix-metric">
+            <div class="matrix-metric-head">
+              <span class="matrix-metric-label">ROE<span class="matrix-rank worst">🥉</span></span>
+              <span class="matrix-metric-value">14.0%</span>
+            </div>
+            <div class="matrix-bar-track"><div class="matrix-bar-fill" style="width:72.5%;background:#10b981"></div></div>
+          </div>
+        </div>
+
+        <!-- MRVL -->
+        <div class="matrix-col">
+          <div class="matrix-col-title mrvl">🔵 MRVL</div>
+          <div class="matrix-metric">
+            <div class="matrix-metric-head">
+              <span class="matrix-metric-label">毛利率（非GAAP）<span class="matrix-rank worst">🥉</span></span>
+              <span class="matrix-metric-value">59.0%</span>
+            </div>
+            <div class="matrix-bar-track"><div class="matrix-bar-fill" style="width:77.2%;background:#3b82f6"></div></div>
+          </div>
+          <div class="matrix-metric">
+            <div class="matrix-metric-head">
+              <span class="matrix-metric-label">净利率<span class="matrix-rank best">🥇</span></span>
+              <span class="matrix-metric-value">32.6%</span>
+            </div>
+            <div class="matrix-bar-track"><div class="matrix-bar-fill" style="width:100%;background:#3b82f6"></div></div>
+          </div>
+          <div class="matrix-metric">
+            <div class="matrix-metric-head">
+              <span class="matrix-metric-label">ROE<span class="matrix-rank best">🥇</span></span>
+              <span class="matrix-metric-value">19.3%</span>
+            </div>
+            <div class="matrix-bar-track"><div class="matrix-bar-fill" style="width:100%;background:#3b82f6"></div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>盈利质量的反直觉发现</strong>：ALAB毛利率最高（76.4%）但净利率最低（26%）——因为R&D投入比例高达30%，把毛利吃掉了。CRDO反而毛利率最低（68.6%）净利率最高（31.8%），运营效率最优。MRVL毛利率最低（59%）是因为custom ASIC业务毛利天然偏低，但规模摊薄使净利率仍达32.6%。<strong>这就是为什么不能只看一个指标定胜负</strong>——三家在不同指标上各取榜首。
+    </div>
+
+    <div class="chart-wrap">
+      <div class="chart-title">🔬 R&D投入强度 vs SBC稀释成本</div>
+      <div class="chart-subtitle">R&D高=未来增长的种子（成本但合理）；SBC高=股东价值持续被稀释（成本但隐性）</div>
+
+      <div class="hbar-group">
+        <div class="hbar-group-title">R&D / Revenue（半导体合理区间15-25%）</div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#f59e0b">ALAB</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:100%;background:linear-gradient(90deg,#d97706,#f59e0b);"><span class="hbar-fill-label">30%</span></div></div>
+          <div class="hbar-tag"><strong>偏高</strong>压制利润率</div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#10b981">CRDO</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:73.3%;background:linear-gradient(90deg,#059669,#10b981);"><span class="hbar-fill-label">22%</span></div></div>
+          <div class="hbar-tag"><strong>合理</strong>效率最优</div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#3b82f6">MRVL</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:83.3%;background:linear-gradient(90deg,#2563eb,#3b82f6);"><span class="hbar-fill-label">25%</span></div></div>
+          <div class="hbar-tag"><strong>合理</strong>规模摊薄</div>
+        </div>
+      </div>
+
+      <div class="hbar-group">
+        <div class="hbar-group-title">SBC / Revenue（半导体合理区间&lt;10%，越低越好）</div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#f59e0b">ALAB</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:100%;background:linear-gradient(90deg,#991b1b,#dc2626);"><span class="hbar-fill-label">15.9%</span></div></div>
+          <div class="hbar-tag"><strong>最高</strong>稀释最严重</div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#10b981">CRDO</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:75.5%;background:linear-gradient(90deg,#991b1b,#dc2626);"><span class="hbar-fill-label">12.0%</span></div></div>
+          <div class="hbar-tag"><strong>偏高</strong>但相对最低</div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-ticker" style="color:#3b82f6">MRVL</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:81.8%;background:linear-gradient(90deg,#991b1b,#dc2626);"><span class="hbar-fill-label">13.0%</span></div></div>
+          <div class="hbar-tag"><strong>偏高</strong>但有回购对冲</div>
+        </div>
+      </div>
+
+      <div style="background:#161b22;padding:10px 14px;border-radius:6px;margin-top:14px;font-size:12px;color:#8b949e;border:1px dashed #30363d;">
+        💡 <strong style="color:#e6edf3;">关键差异</strong>：ALAB的R&D（30%）+SBC（15.9%）合计接近收入的46%，且没有做任何回购抵消稀释（股本年增长+36.79%）。MRVL虽然SBC比例也不低（13%），但有持续回购+股本相对稳定。<strong style="color:#e6edf3;">SBC是隐性成本，必须看是否有真回购对冲。</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: 综合雷达 -->
+  <div class="section" id="t3">
+    <h2>🎯 六维综合评分</h2>
+    <p class="subtitle">从估值、增长、盈利、分析师信心、护城河、风险分散六个维度做归一化对比（1-5分）</p>
+
+    <div class="chart-wrap">
+      <canvas id="radarChart" height="280"></canvas>
+    </div>
+
+    <h3 style="font-size:16px;font-weight:600;color:#e6edf3;margin:20px 0 12px;">📐 评分逻辑说明</h3>
+    <div class="info-box" style="background:rgba(139,148,158,0.08);border-left-color:#8b949e;color:#c9d1d9;">
+      <strong>① 估值合理性</strong>：PEG越低分越高。CRDO（PEG 0.19）3.5分，ALAB（PEG 0.81）1.5分（虽然PEG不高但绝对估值已高），MRVL（PEG 2.14）2.0分。<br>
+      <strong>② 增长动能</strong>：CRDO/ALAB增速过高时给5分，MRVL增速22%给3分。<br>
+      <strong>③ 盈利质量</strong>：综合毛利率+净利率+ROE。ALAB毛利最优4.5分，CRDO净利率最优4.0分，MRVL规模最大但毛利偏低3.5分。<br>
+      <strong>④ 分析师信心</strong>：CRDO最新upgrades密集+目标价上行空间34%给5分；MRVL虽然共识目标价滞后但最新单家目标价多在$180-205给2分（按共识反映）；ALAB目标价已基本被现价触达给3.5分。<br>
+      <strong>⑤ 护城河</strong>：MRVL业务最广+NVDA $2B战投4分；ALAB标准参与+COSMOS软件3分；CRDO仅AEC一招鲜2.5分。<br>
+      <strong>⑥ 风险分散</strong>：MRVL客户最分散+业务最多元4.5分；ALAB次之2.0分；CRDO最集中1.5分。
+    </div>
+  </div>
+
+  <!-- Tab 4: 投资结论 -->
+  <div class="section" id="t4">
+    <h2>💼 投资结论</h2>
+    <p class="subtitle">三家不是简单的"更好/更差"，而是不同风险偏好下的不同选择</p>
+
+    <h3 style="font-size:16px;font-weight:600;color:#e6edf3;margin:0 0 16px;">🔑 核心发现</h3>
+    <div class="info-box">
+      <strong>① 三家公司是真正的同业但完全不同的打法</strong>：ALAB是PCIe生态的纯玩家（retimer+switch+CXL），CRDO是高速电缆DSP的细分龙头（AEC+optical DSP），MRVL是数据基础设施的全能选手（custom ASIC+光学+switch+存储）。<br><br>
+      <strong>② PEG最低≠估值最便宜的陷阱</strong>：CRDO的PEG 0.19看似超便宜，但这是基于201%的爆炸性增速——这种增速一定会减速。管理层自己guidance FY2027增速"&gt;50% YoY"已经暗示减速50%以上。如果增速正常化到50%，PEG会立刻跳到0.76，估值优势消失大半。<br><br>
+      <strong>③ MRVL的"低估"是真的低估，但需要重新理解</strong>：MRVL TTM PE 58x看起来不便宜，但NVDA $2B战投+全栈数据中心布局+客户最分散，护城河和风险分散度都是三家中最强。Forward PE 47x对应22%增速看似PEG 2.14偏贵，但分析师正在快速上调价格目标（最新单家$180-205 vs 共识$139），这种"分析师追涨"局面通常预示EPS共识也会上调。<br><br>
+      <strong>④ ALAB是三家中最危险的——估值定价最满+护城河最窄+客户最集中</strong>：现价$232基本贴近分析师共识目标价$222，意味着市场已经定价完美执行。任何一个负面意外（hyperscaler自研、Broadcom抢单、CPO提前到来）都会触发大幅回调。
+    </div>
+
+    <h3 style="font-size:16px;font-weight:600;color:#e6edf3;margin:24px 0 16px;">📊 各股投资论点</h3>
+
+    <div class="thesis-block alab">
+      <h3 style="color:#f59e0b">🟠 ALAB - Astera Labs（最贵+最专精）</h3>
+      <div class="biz">AI数据中心PCIe连接的pure-play龙头，市场对其"AI infrastructure 2.0"叙事给出极致溢价</div>
+      <div class="bull"><strong>✓ 多头理由：</strong>① PCIe Gen 6先发优势+5大hyperscaler深度绑定+标准制定权；② Scorpio 320-lane fabric switch正进入hyperscaler量产，2026年底成最大产品线；③ 执行力极强（Q1 2026收入$308M超guidance $286-297M）；④ 毛利率76.4%是Fabless顶级。</div>
+      <div class="bear"><strong>✗ 空头/警惕：</strong>① 估值已透支（Fwd PE 75x、EV/Sales 27x）；② 现价$232基本贴近共识目标价$222（仅-4.6%上行空间）；③ 5客户=60%+收入，单一hyperscaler自研就是重击；④ Broadcom和Marvell的资源是几十倍量级；⑤ <strong>创始人最近一个月联合套现$130M+是隐性卖出信号</strong>。</div>
+    </div>
+
+    <div class="thesis-block crdo">
+      <h3 style="color:#10b981">🟢 CRDO - Credo Technology（最快+最赌）</h3>
+      <div class="biz">AEC（电气有源电缆）DSP的细分龙头，最近一季度收入暴增201%，分析师最看好</div>
+      <div class="bull"><strong>✓ 多头理由：</strong>① 收入增速201%是三家中最高，PEG只有0.19；② Fwd PE 38x在AI芯片中算非常便宜；③ 净利率31.8%是三家中最高，运营效率最优；④ 12个月目标价$209隐含+34%上行空间；⑤ 16/18分析师给Strong Buy；⑥ 收购DustPhotonics布局CPO，FY2027 optical收入目标$500M+。</div>
+      <div class="bear"><strong>✗ 空头/警惕：</strong>① 客户集中度最高（头部2家占&gt;50%），主要hyperscaler是微软；② 业务最单薄（高度依赖AEC一个产品线）；③ 管理层guidance FY2027 "&gt;50% YoY"已暗示增速会从201%腰斩；④ 一旦增速正常化，PEG会迅速跳升到偏贵区间；⑤ Q3财报后股价跌了18%，市场已经在定价"增速顶部"。</div>
+    </div>
+
+    <div class="thesis-block mrvl">
+      <h3 style="color:#3b82f6">🔵 MRVL - Marvell Technology（最稳+最全）</h3>
+      <div class="biz">数据基础设施全栈大厂，custom ASIC+光学DSP+switch+存储+CXL，NVDA投了$2B战投伙伴</div>
+      <div class="bull"><strong>✓ 多头理由：</strong>① <strong>NVDA $2B战投+NVLink Fusion合作伙伴关系</strong>是稀缺的生态地位；② 业务最广，单一产品/客户风险最低（Top 4客户~50% vs CRDO头2家&gt;50%）；③ 收购Celestial AI（硅光子）+ XConn（PCIe switch）+ Polariton填补全栈布局；④ 最新分析师价格目标普遍$180-205，远高于现价$177；⑤ FY2026 Q4收入$2.22B+22% YoY，规模效应已经显现。</div>
+      <div class="bear"><strong>✗ 空头/警惕：</strong>① 毛利率59%三家中最低（custom ASIC业务拉低）；② TTM PE 58x、Fwd PE 47x绝对数仍贵；③ 内部人士小幅净卖出（过去12个月净卖出$2.7M）；④ PEG 2.14三家中最高，对增速下修最敏感；⑤ 共识目标价$139低于现价（虽然是数据滞后假象）暗示市场对估值的分歧最大。</div>
+    </div>
+
+    <h3 style="font-size:16px;font-weight:600;color:#e6edf3;margin:24px 0 16px;">🏆 横向排序建议（按性价比从高到低）</h3>
+    <div class="ranking-list">
+      <div class="ranking-item">
+        <div class="ranking-num" style="color:#3b82f6">1</div>
+        <div class="ranking-content">
+          <div class="ranking-ticker" style="color:#3b82f6">MRVL — 最佳风险调整后选择</div>
+          <div class="ranking-tag">护城河最深 · 客户最分散 · 业务最全栈 · NVDA战投</div>
+          <div class="ranking-reason">在三家中，MRVL是唯一一家拥有Broadcom-level全栈布局+NVDA战投+客户分散度的公司。估值Fwd PE 47x不便宜但相对其他两家有性价比。最新分析师目标价$180-205隐含5-15%上行空间，下行有$155-165的支撑（200日均线+NVDA合作底）。<strong>适合不想踩雷的稳健投资者。</strong></div>
+        </div>
+      </div>
+      <div class="ranking-item">
+        <div class="ranking-num" style="color:#10b981">2</div>
+        <div class="ranking-content">
+          <div class="ranking-ticker" style="color:#10b981">CRDO — 高增长高赔率赌注</div>
+          <div class="ranking-tag">PEG最低 · 净利率最高 · 但客户集中风险最大</div>
+          <div class="ranking-reason">CRDO的PEG 0.19、Fwd PE 38x、+34%目标价上行空间在数字上看最有吸引力。但单一客户集中度+单一产品（AEC）依赖+201%增速必然腰斩，意味着任何执行偏差都是巨大波动。<strong>适合愿意承受波动博取超额回报的进攻型投资者</strong>，建议仓位限制在小试单（5%以内）。</div>
+        </div>
+      </div>
+      <div class="ranking-item">
+        <div class="ranking-num" style="color:#f59e0b">3</div>
+        <div class="ranking-content">
+          <div class="ranking-ticker" style="color:#f59e0b">ALAB — 最不建议在现价追高</div>
+          <div class="ranking-tag">估值已透支 · 上行空间最小 · 创始人套现警讯</div>
+          <div class="ranking-reason">ALAB是好公司，但$232不是好价位。共识目标价$222（仅-4.6%）+创始人最近一月套现$130M+ +客户集中度最高，构成"上行有限下行很大"的不对称风险。<strong>建议等回调至$160-180（Base估值区）再考虑</strong>。$120-160区间才是真正安全边际。</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:16px;font-weight:600;color:#e6edf3;margin:24px 0 16px;">⚠️ 三家共同风险（敞口集中警告）</h3>
+    <div class="warn-box">
+      <strong>① 同行业beta极高</strong>：三家stock beta都在2.2以上，是市场波动的2倍以上放大器；<br>
+      <strong>② AI capex同步暴露</strong>：三家收入都高度依赖hyperscaler的GPU/AI基础设施支出，一旦GPT-6/Gemini 3.0等模型迭代放缓导致训练需求拐头，三家会同时回调；<br>
+      <strong>③ Top 5 hyperscaler重叠</strong>：AWS/GCP/Azure/Meta/Oracle既是ALAB的5大客户，也是CRDO的核心客户，也是MRVL的custom ASIC合作伙伴——单一hyperscaler自研都会同时打击三家；<br>
+      <strong>④ TSMC供应链共同依赖</strong>：三家都在TSMC代工，台海风险是共同tail risk；<br>
+      <strong>建议：不要同时重仓三家。</strong>选一家做主仓位+小仓位另一家做配置，避免行业风险叠加。
+    </div>
+
+    <div style="background:#0d1117; border:1px dashed #6e7681; padding:14px 18px; border-radius:8px; margin-top:24px; font-size:12px; color:#6e7681; line-height:1.6;">
+      📌 <strong>数据口径与免责声明</strong>：本报告所有股价数据截至2026-05-18收盘；TTM PE基于GAAP财报；Forward PE基于分析师Non-GAAP共识预测；收入增速取最近披露季度YoY增速（ALAB Q1 FY26、CRDO Q3 FY26、MRVL Q4 FY26）；ROE/净利率为TTM口径。本报告基于公开信息分析，仅供研究参考，不构成投资建议。投资决策需结合个人风险承受能力和资产配置目标。
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated · 2026-05-18 · AI Connectivity Chip Cross-Comparison<br>
+    Data sources: Q1/Q3/Q4 earnings transcripts · SEC filings · Analyst consensus
+  </div>
+</div>
+
+<script>
+const COLORS = {
+  ALAB: '#f59e0b',
+  CRDO: '#10b981',
+  MRVL: '#3b82f6'
+};
+
+// Chart 6: 雷达图（Tab 3 综合评分仍使用Chart.js）
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['估值合理性', '增长动能', '盈利质量', '分析师信心', '护城河', '风险分散'],
+    datasets: [
+      {
+        label: 'ALAB',
+        data: [1.5, 5.0, 4.5, 3.5, 3.0, 2.0],
+        backgroundColor: 'rgba(245,158,11,0.15)',
+        borderColor: '#f59e0b',
+        borderWidth: 2,
+        pointBackgroundColor: '#f59e0b',
+        pointRadius: 5
+      },
+      {
+        label: 'CRDO',
+        data: [3.5, 5.0, 4.0, 5.0, 2.5, 1.5],
+        backgroundColor: 'rgba(16,185,129,0.15)',
+        borderColor: '#10b981',
+        borderWidth: 2,
+        pointBackgroundColor: '#10b981',
+        pointRadius: 5
+      },
+      {
+        label: 'MRVL',
+        data: [2.0, 3.0, 3.5, 2.0, 4.0, 4.5],
+        backgroundColor: 'rgba(59,130,246,0.15)',
+        borderColor: '#3b82f6',
+        borderWidth: 2,
+        pointBackgroundColor: '#3b82f6',
+        pointRadius: 5
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      r: {
+        beginAtZero: true,
+        max: 5,
+        ticks: { stepSize: 1, color: '#6e7681', backdropColor: 'transparent' },
+        grid: { color: '#30363d' },
+        angleLines: { color: '#30363d' },
+        pointLabels: { color: '#e6edf3', font: { size: 13, weight: '600' } }
+      }
+    },
+    plugins: {
+      legend: { labels: { color: '#e6edf3', font: { size: 14, weight: '600' } } },
+      title: { display: true, text: '六维综合评分（满分5分，越大越好）', color: '#e6edf3', font: { size: 14 } }
+    }
+  }
+});
+
+// Tab切换
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OneSpan Inc. 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>OneSpan Inc. 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：OSPN</div>
+      <div>🏛️ 交易所：NASDAQ</div>
+      <div>🏷️ 行业：网络安全 / SaaS（身份认证 + 电子签）</div>
+      <div>📅 分析日期：2026-05-19</div>
+    </div>
+    <div class="one-liner">💡 OneSpan通过为全球银行提供身份认证硬件+软件、移动应用防护和电子签名服务，向金融机构客户收取订阅费 + 硬件销售款（80%软件、20%硬件）</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" data-tab="m0">💡 小白版</button>
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  
+  <div class="section" id="m0">
+    <h2>💡 模块零：金融小白友好版商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言把这家技术公司"翻译"清楚——后续分析的基础</p>
+
+    <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:24px 28px;border-radius:12px;margin-bottom:20px;border-left:4px solid #d97706;">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:15px;">🎯 核心比喻</div>
+      <div style="font-size:15px;color:#0f172a;line-height:1.8;">OneSpan像专门为银行服务的'门锁制造商+保安公司'——它给全球一半以上的顶级银行（HSBC、BNP、德意志、美银）提供两样东西：①让客户登录手机银行/转账时'刷脸验证身份'的认证系统（数字门锁）；②防止黑客攻击银行APP的'保安巡逻'（移动应用防护）。最近还加了第三块业务：电子签名（专门给银行的合同签署服务，类似DocuSign但更合规）。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📦 商业模式三问</h3>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #2563eb;">
+        <div class="label" style="color:#2563eb;">① 卖什么？</div>
+        <div class="value">卖三样东西：①身份认证产品——硬件OTP令牌（那种小钥匙串显示6位动态密码的）+ 软件认证（手机APP生物识别、FIDO无密码登录）；②移动应用防护（App Shielding）——给银行的手机APP穿一层'防弹衣'，防止被反编译、注入恶意代码；③电子签名（Digital Agreements）——专为银行/保险合规场景的电子签名，竞争对手是DocuSign。其中前两块占80%（叫Cybersecurity），电子签名占20%。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #059669;">
+        <div class="label" style="color:#059669;">② 怎么收费？</div>
+        <div class="value">混合收费：①订阅费——FY25订阅收入$156M（占64%），典型一家银行年付几十万到数百万美元，按用户数或交易数收费；②硬件销售——FY25硬件收入约$53M（占22%，且每年下滑15-17%），一个OTP令牌单价$5-15；③电子签按签署份数收费（97%按签署量收费而非按席位）。FY25 ARR $187M，NRR 105%（老客户每年自然增长5%），毛利率74%。整体客户10000+家。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;">
+        <div class="label" style="color:#dc2626;">③ 客户为什么必须买？</div>
+        <div class="value">**合规驱动 + 恐惧驱动**——这是OSPN护城河的核心。①欧洲PSD2/SCA法规、美国FFIEC指引要求银行登录必须做强认证（不是建议是法律强制），这是合规必需品；②银行APP被黑一次损失千万到亿级（数据泄露+监管罚款），所以银行宁可贵也要买可靠的；③金融业的IT替换周期极长，HSBC已经用了OSPN超过15年——一旦集成进核心系统，换一家要重新做合规认证，没人愿意承担这个风险。这就是为什么OSPN虽然小，但能在Microsoft、Okta这些巨头边上活得很好。</div>
+      </div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">💼 客户结构 + 护城河金融比喻</h3>
+    <div class="summary-box info">
+      <div class="title">具体客户名单 + 客户分层</div>
+      <div class="text">**客户名单（10000+客户，全球前100大银行的60%以上是其客户）**：HSBC、BNP Paribas、Deutsche Bank、Bank of America、Barclays、Royal Bank of Scotland、Societe Generale、Norway的BankID（覆盖400万挪威人）、美国NASA JPL、USDA、ING、Rabobank、Santander等。**地区分布**：美洲46% / EMEA 38% / APAC 17%。**客户结构是高度分散的橄榄型**——头部银行客户付费几百万美元，长尾中小金融机构付几万到几十万。客户都是受监管的金融机构（BFSI占绝大多数），这意味着客户的付费能力强、违约率极低，但销售周期长（6-18个月）。</div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">护城河本质（金融场景比喻）</div>
+      <div class="text">OneSpan的护城河像**'银行核心系统供应商 + 合规审计师事务所'的混合体**——FIS/Fiserv这种银行核心系统一旦装上去用20年不换，因为换一次要重新做监管审批，OSPN就是这个逻辑的'迷你版'。客户在欧洲银行系统里集成OneSpan的身份认证模块往往跑了10-15年，每次合规审计都要重新跑流程，这就是典型的**高转换成本+合规性绑定**护城河。但有一个致命弱点：它的护城河仅限于'银行场景'——一旦走出BFSI赛道，与Microsoft Entra（原Azure AD）、Okta这种通用身份认证巨头正面竞争，OSPN没有任何规模优势，就像区域性律所遇到Skadden——专业小赛道有壁垒，主流市场打不过。</div>
+    </div>
+
+    <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:14px 18px;border-radius:8px;margin-top:20px;font-size:13px;color:#64748b;line-height:1.6;">
+      📌 <strong>使用提示</strong>：本模块为后续模块一至四的"翻译层"。读完后再进入「商业模式」「护城河」「估值研究」「管理层」等专业分析模块，能事半功倍。
+    </div>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：订阅制 + 硬件销售（混合模式，向软件订阅转型中）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">两大业务部门：①**Cybersecurity网络安全**（占80%收入，$194M/FY25）——包括Digipass硬件OTP令牌、Mobile App Shielding移动应用防护（最近收购Build38、ThreatFabric投资）、Cloud Authentication云端认证（最近收购Nok Nok Labs补齐FIDO2无密码认证）；②**Digital Agreements电子签**（占20%收入，$49M/FY25）——专为金融行业定制的电子签名解决方案。FY25整体收入$243M，订阅收入$156M（+12%YoY），硬件收入约$53M（-17%YoY长期衰退中）。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">B2B2C模式：直接客户是金融机构（BFSI占绝大多数），最终用户是这些机构的客户（开户、登录、签合同的银行客户）。10000+企业客户，覆盖全球Top 100银行中的60%以上。具体客户包括HSBC、BNP Paribas、Deutsche Bank、Bank of America、Barclays、RBS、Societe Generale、ING、Santander、Norway BankID等顶级机构，以及NASA JPL、USDA等政府机构。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">Americas 46%（增长靠eSignature和移动应用扩张）、EMEA 38%（成熟市场，受硬件下滑拖累）、APAC 17%（增长机会区域，但硬件下滑明显）。地理分散度高，无单一国家集中风险。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">FY25收入结构：订阅$156M（64%，+12%YoY）+ 维护合同$33M（14%，稳定）+ 硬件$53M（22%，-17%YoY长期衰退）+ 专业服务$1M。**正在经历从硬件到软件订阅的关键转型期**——管理层主动接受短期收入持平的'阵痛'。FY26指引：收入$244-249M（+0~2%）、ARR $194-198M（+5%）、调整EBITDA $64-68M（投资期下降）。Q1 26实际表现优于预期：收入$66M(+4%)、ARR $192M(+14%)，全年ARR指引上调至$194-198M。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级：窄护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">**成本优势-弱**。OSPN没有规模成本优势，年收入$243M在认证领域属于小厂，研发费用绝对值（$33M/FY25）远低于Microsoft Entra、Okta（R&D $700M+）。毛利率74%在SaaS行业中等偏下（同业SaaS普遍80%+），主要因为还有22%硬件业务（毛利低）。但软件部分毛利率高达80%+，转型后毛利率有望提升至78-80%。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">**无形资产-中**。①品牌：'OneSpan/Vasco'在欧洲银行业身份认证领域有20+年品牌积淀，但出了BFSI赛道认知度低；②合规认证：FIDO Alliance创始成员、Common Criteria EAL4+、FIPS 140-2、PSD2 SCA合规等关键认证齐全，是欧洲PSD2/SCA合规清单上的'准默认选项'；③专利组合：在Mobile App Shielding、动态认证算法有专利积累，Build38、Nok Nok收购进一步扩充IP。在欧洲监管环境下品牌+合规组合是真实壁垒。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">**转换成本-强**（最强护城河维度）。①集成深度：身份认证模块深度集成到银行核心系统、移动APP，更换需要数月的开发+QA+UAT+监管再审批，成本和风险都极高；②合规绑定：欧洲银行换认证供应商需要重新跑PSD2/SCA认证，光合规审计就要6-12个月；③ARR增速14% + NRR 105% + 全球Top 100银行的60%以上长期使用，HSBC等客户合作超15年——这些是高转换成本的硬证据。这是OSPN作为小厂仍能稳定盈利的根本原因。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">0/3</span>
+    </div>
+    <p class="dim-text">**网络效应-无**。OSPN本质是B2B工具型软件，客户之间没有相互连接价值——HSBC用OSPN和德意志用OSPN不会让产品更值钱。这是OSPN相比Visa、SWIFT这类'金融基础设施'的本质差距。最近投资ThreatFabric（移动威胁情报）试图建一些数据网络效应，但规模有限。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">**规模效应-弱**。SaaS本应有规模效应（边际成本接近零），但OSPN规模太小（$243M收入），相比Microsoft（$240B+）、Okta（$3B+）、Thales（$20B+）几乎没有规模优势。R&D投入绝对值小（$33M vs Okta $700M+），新产品开发节奏会受限。规模劣势是OSPN长期需要警惕的风险点——未来5-10年AI驱动的认证需要更大研发投入。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">**最强护城河是转换成本**：金融机构客户一旦集成OSPN到核心系统/移动APP（HSBC等部分客户合作超15年），更换需要数月开发+合规再审批+监管重新认证，成本和风险都让客户'懒得换'。配合**无形资产维度的欧洲监管合规壁垒**（PSD2/SCA、FIDO、FIPS 140-2认证齐全），OSPN在欧洲银行业身份认证赛道形成了'专业小赛道但难撼动'的位置——这就是为什么它在Microsoft、Okta边上活了20多年。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">**最大弱点是规模劣势 + 行业天花板**：①OSPN的护城河仅在BFSI赛道有效，离开银行场景与Microsoft Entra、Okta竞争完全没有优势；②硬件业务长期下滑（-17%/年）拖累整体增速，转型为纯软件公司过程中收入持平已有3年；③规模太小（$243M收入 vs Okta $3B vs Microsoft $240B），AI时代认证需要更大研发投入，长期可能被巨头通过捆绑销售挤压。最致命的风险是'被收购'——这种规模的合规优势资产是Thales、Entrust等中型玩家的并购首选。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：网络安全 / SaaS（混合订阅+硬件）</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：身份认证 + 电子签 - 金融垂直</span>
+      <span class="badge" style="background:#10b98122;color:#10b981;border:1px solid #10b98144">估值结论：偏低估</span>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：EV/EBITDA + EV/ARR + FCF Yield + 战略并购价值</div>
+      <div class="text">OSPN处于一个特殊位置：①不是纯高增长SaaS（增速仅4%），EV/Sales这种成长股估值法不适用；②已经实现稳定盈利（GAAP营业利润率20%+、EBITDA率32%），可以用EV/EBITDA和PE这种成熟公司框架；③ARR增速14%反映真实订阅增长，但被硬件下滑稀释，所以EV/ARR比EV/Sales更能反映核心业务价值；④无负债、$86M净现金、强自由现金流，FCF Yield是关键参考指标；⑤公司规模较小+护城河属性，存在显著的战略并购价值——Thales、Entrust等并购的可能溢价是关键的'看涨期权'。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">市值 / 企业价值</td>
+    <td class="num">$454M / $370M</td>
+    <td class="num" style="color:#64748b;font-size:13px;">净现金$86M无负债</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/Revenue (FY26E)</td>
+    <td class="num">1.5x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">SaaS 3-10x，但OSPN增速低</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#2563eb22;color:#2563eb;">偏低</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/ARR (FY26E)</td>
+    <td class="num">1.9x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">成熟SaaS 3-5x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#2563eb22;color:#2563eb;">偏低</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/EBITDA (FY26E)</td>
+    <td class="num">5.5-6x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">SaaS 15-25x，价值股 8-12x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#2563eb22;color:#2563eb;">偏低</span></td>
+  </tr>
+  <tr>
+    <td class="label">Forward PE</td>
+    <td class="num">10-11x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">SaaS 25-40x，价值股 12-18x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#2563eb22;color:#2563eb;">偏低</span></td>
+  </tr>
+  <tr>
+    <td class="label">FCF Yield</td>
+    <td class="num">~12%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>5%健康，>10%深度价值</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">ARR YoY</td>
+    <td class="num">+14%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">SaaS健康基准>20%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">Rule of 40</td>
+    <td class="num">~46（4%增速+32%EBITDA率）</td>
+    <td class="num" style="color:#64748b;font-size:13px;">≥40 健康</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">毛利率</td>
+    <td class="num">74%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">纯SaaS 75-85%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">NRR 净留存率</td>
+    <td class="num">105%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">≥110%为优秀</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">SBC / Revenue</td>
+    <td class="num">~4%</td>
+    <td class="num" style="color:#64748b;font-size:13px;"><10%健康（OSPN极低，价值股属性）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">股息收益率</td>
+    <td class="num">4.2%（年$0.52/股）</td>
+    <td class="num" style="color:#64748b;font-size:13px;">成长SaaS不分红，OSPN已是收益股</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr></tbody>
+    </table>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>Ticker</th><th>收入规模</th><th>ARR增速</th><th>EV/Sales</th><th>EV/EBITDA</th><th>FCF Yield</th><th>Forward PE</th></tr></thead>
+      <tbody><tr><td class="label" style="background:#fef3c7;;font-weight:700;">OneSpan (本公司)</td><td class="num" style="background:#fef3c7;;">OSPN</td><td class="num" style="background:#fef3c7;;">$243M</td><td class="num" style="background:#fef3c7;;">+14%</td><td class="num" style="background:#fef3c7;;">1.5x</td><td class="num" style="background:#fef3c7;;">5.5x</td><td class="num" style="background:#fef3c7;;">12%</td><td class="num" style="background:#fef3c7;;">11x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">Okta</td><td class="num" style="background:transparent;;">OKTA</td><td class="num" style="background:transparent;;">$3B</td><td class="num" style="background:transparent;;">+9%</td><td class="num" style="background:transparent;;">3.7x</td><td class="num" style="background:transparent;;">13.8x</td><td class="num" style="background:transparent;;">6.3%</td><td class="num" style="background:transparent;;">21x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">DocuSign（电子签龙头）</td><td class="num" style="background:transparent;;">DOCU</td><td class="num" style="background:transparent;;">$3.4B</td><td class="num" style="background:transparent;;">+8%</td><td class="num" style="background:transparent;;">3.2x</td><td class="num" style="background:transparent;;">20x</td><td class="num" style="background:transparent;;">13%</td><td class="num" style="background:transparent;;">10x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">Ping Identity（已退市）</td><td class="num" style="background:transparent;;">—</td><td class="num" style="background:transparent;;">$0.4B</td><td class="num" style="background:transparent;;">+15%</td><td class="num" style="background:transparent;;">8x*</td><td class="num" style="background:transparent;;">—</td><td class="num" style="background:transparent;;">—</td><td class="num" style="background:transparent;;">—</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">Entrust（私有化）</td><td class="num" style="background:transparent;;">—</td><td class="num" style="background:transparent;;">$0.8B</td><td class="num" style="background:transparent;;">—</td><td class="num" style="background:transparent;;">—</td><td class="num" style="background:transparent;;">—</td><td class="num" style="background:transparent;;">—</td><td class="num" style="background:transparent;;">—</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">Thales（综合集团）</td><td class="num" style="background:transparent;;">HO.PA</td><td class="num" style="background:transparent;;">€20B+</td><td class="num" style="background:transparent;;">+5-7%</td><td class="num" style="background:transparent;;">1.8x</td><td class="num" style="background:transparent;;">10x</td><td class="num" style="background:transparent;;">5%</td><td class="num" style="background:transparent;;">18x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">CyberArk（身份安全）</td><td class="num" style="background:transparent;;">CYBR</td><td class="num" style="background:transparent;;">$1.1B</td><td class="num" style="background:transparent;;">+25%</td><td class="num" style="background:transparent;;">12x</td><td class="num" style="background:transparent;;">60x</td><td class="num" style="background:transparent;;">1.5%</td><td class="num" style="background:transparent;;">75x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">Adobe（含Sign）</td><td class="num" style="background:transparent;;">ADBE</td><td class="num" style="background:transparent;;">$22B</td><td class="num" style="background:transparent;;">+10%</td><td class="num" style="background:transparent;;">8x</td><td class="num" style="background:transparent;;">18x</td><td class="num" style="background:transparent;;">5%</td><td class="num" style="background:transparent;;">21x</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司</p>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（基于行业框架）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear">
+        <div class="label">悲观情景 Bear</div>
+        <div class="value">$10</div>
+      </div>
+      <div class="fv-card base">
+        <div class="label">基准情景 Base</div>
+        <div class="value">$16</div>
+      </div>
+      <div class="fv-card bull">
+        <div class="label">乐观情景 Bull</div>
+        <div class="value">$25</div>
+      </div>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">OSPN当前估值在所有可比公司中**显著最低**：①EV/Sales 1.5x vs Okta 3.7x、DocuSign 3.2x；②EV/EBITDA 5.5x vs Okta 13.8x、DocuSign 20x；③Forward PE 11x vs Okta 21x。表面上严重折价。**但折价有合理性**：增速仅4%（vs Okta 9%、DOCU 8%）、规模小（行业巨头并购整合的诱饵）、硬件业务长期衰退。**关键问题是：1.5x EV/Sales + 12% FCF Yield 是否充分反映了'被并购看涨期权'+'14%ARR增速+105%NRR'的真实订阅价值？分析师共识价格目标$16-19（高于现价30-60%），暗示市场正在缓慢消化转型故事**。Ping Identity在2022年被Thoma Bravo以~8x EV/Sales私有化，给OSPN提供并购估值锚点——若被收购理论价值可达$25-40。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>用纯SaaS估值倍数（EV/Sales 5-10x）评估OSPN——OSPN混合硬件+订阅，且增速仅4%，应该用混合估值法（订阅业务EV/ARR + 硬件业务EV/EBITDA + 净现金）
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>忽略硬件业务长期下滑的拖累——硬件每年-17%，正在从22%占比逐步降至10%以下，过程中整体收入持平是结构性问题不是周期性问题
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>把'被收购'当成必然——管理层（CEO Limongelli今年4月才上任不到2年）明确表示要做大公司而非待价而沽，并购溢价是看涨期权不是基础情景
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>忽视FY26投资期的EBITDA下滑——指引EBITDA从$78M降到$64-68M，是主动加大GTM/R&D投入，不是经营恶化，需1-2年才能验证投资回报
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱5：</strong>拿OSPN和Okta直接对标——Okta是企业SSO（员工身份），OSPN是B2B2C金融客户身份认证（银行的最终用户），两者市场完全不同
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;font-size:16px;padding:8px 18px">综合评级：B级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">**资本配置纪律良好**。CEO Victor Limongelli（2024年12月上任）的策略清晰：①不为收入扩张盲目并购——Build38、Nok Nok Labs都是'技术驱动'小型并购，明确说'买技术不买收入'；②稳定回购+分红——FY25回购$15M共1.56M股，年股息$0.52（+8%），4.2%股息率；③在ThreatFabric做15%战略股权投资而非全资收购，控制资本投入。ROIC约15-16%，明显高于WACC（~9%）。**真回购测试**：年回购$15M vs 年SBC约$10M = 1.5倍——刚好达到真回购临界线，是合格但不优秀的资本回报。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">**诚信度中等偏上**。①管理层对FY26的指引清晰透明，公开说Build38收购会拖累EBITDA $3-4M、Q1硬件下滑、Q2有$3M ARR头风——不画大饼；②业绩指引历史准确度高，连续多季度beat预期（Q1 26 EPS $0.45 vs 预期 $0.35）；③有过历史包袱——前身Vasco Data Security在2017-2019年经历过转型阵痛和管理层动荡，2020年改名OneSpan后稳定下来；④审计师为KPMG（Big 4），无审计意见保留记录。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">**战略执行力良好（B+）**。①2024年开始的从硬件到软件订阅的转型逐步兑现——订阅占比从2023年的50%提升到FY25的64%，软件+服务占80%；②收购整合效果好——Nok Nok Labs收购10个月内ARR增长20%；③对硬件下滑没有抵抗式投入，主动接受短期收入持平换取长期软件占比提升；④Digital Agreements业务从2020年战略调整以来连续多年保持10%+增长，证明在DocuSign主导市场仍能差异化生存。**不足**：增长仍然偏慢，相比SaaS同业差距明显。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">FY25回购$15M vs 年SBC约$10M = 1.5倍 → 刚好达到'真回购临界点'。比Costco（10x+）、Apple（5x+）这种'明星真回购公司'差距明显，但比大多数SaaS同业（往往SBC>回购）已经好很多。属于'合格但不优秀'。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">①CEO清醒的资本配置纪律——明确表态'买技术不买收入'，避免了行业常见的破坏性收购；②有持续股东回报机制（4.2%股息率+回购）在SaaS同业中罕见；③转型节奏掌握得当——主动牺牲短期EBITDA（FY26）换取长期GTM和R&D投入；④对外部环境判断清醒——主动布局FIDO无密码、AI驱动认证，承认AI既是机会也是威胁。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">①CEO Limongelli上任时间短（2024年12月），完整业绩验证期不到2年，长期战略执行能力尚需观察；②管理层持股偏少（CEO持股约2-3%），与股东利益绑定不够强；③前身Vasco有过激进会计争议历史（2014-2018年间），虽然OneSpan改名后整改完成，但小盘股管理层的治理质量需要持续关注；④目前FY26投资期EBITDA下滑$10M，如果1-2年内投入无法转化为ARR加速，资本配置纪律会面临严重质疑。</div>
+    </div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★☆☆</div>
+      <div style="color:#475569; font-size:14px">3/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>OneSpan是一家**质量良好的小型利基（niche）公司**，处在一个非常有意思的'估值陷阱 or 转型机会'的十字路口。
+
+**商业质量上有真实壁垒**：全球Top 100银行的60%+是其客户，HSBC等部分客户合作超15年，ARR增速14%、NRR 105%——这些是真实的、可量化的、可持续的转换成本护城河证据。在欧洲PSD2/SCA强合规环境下，OneSpan的合规认证组合（FIDO、FIPS、Common Criteria）是巨头进入金融垂直时的真实障碍。从这个角度，OSPN的护城河属于"窄但深"——窄在赛道局限BFSI，深在客户粘性极高、监管壁垒坚固。
+
+**核心矛盾是规模与增速**：$243M收入在AI驱动认证升级的时代是巨大劣势，研发投入绝对值（$33M）远不如Okta（$700M+）。硬件业务长期-17%衰退稀释整体增速（仅4%），导致市场用价值股估值倍数（Forward PE 11x、EV/EBITDA 5.5x）而非SaaS倍数（25x+）给它定价。
+
+**估值上是真实的低估**：当前EV/Sales 1.5x、EV/EBITDA 5.5x、FCF Yield 12%、分析师目标价$16-19，相对Okta（EV/Sales 3.7x）、DocuSign（EV/EBITDA 20x）显著折价。如果能成功完成硬件到纯软件订阅的转型（FY27-28），整体增速有望从4%回升到8-10%，估值有重估空间。
+
+**最重要的看涨期权是被收购**：$370M企业价值 + 全球Top 100银行60%客户基础 + 合规认证全套 + 强FCF生成——这是Thales、Entrust、HID Global、Microsoft等做金融垂直身份认证的玩家的并购首选。Ping Identity在2022年被Thoma Bravo以~8x EV/Sales私有化，给OSPN提供清晰的并购估值锚点（理论被收购价$25-40）。
+
+**给Becks的判断**：OSPN适合**深度价值+特殊事件套利**型仓位——不是核心仓位（增长太慢，没有大幅资本增值故事），但适合5-8%仓位的'高安全边际+股息收益+并购看涨期权'组合。基础情景持有18-24个月，base case目标$16-18（+30-50%）+ 4.2%股息，bull case被收购或转型加速$25+，bear case持续EBITDA下滑$10。下行风险有限（市值已接近账面价值+净现金），上行催化剂明确。**建议入场窗口**：当前$12价位有充分安全边际，可分批建仓。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">ARR增速能否维持14%+（FY26 H2若降到个位数则转型故事破裂）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">硬件收入占比能否在18个月内降至15%以下（验证软件转型进度）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">Build38、Nok Nok整合后的ARR贡献——目标整合后ARR新增>$15M</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">FY26投资期EBITDA下滑$10M能否在FY27回升到$75M+（验证R&D投入ROI）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">Net Retention Rate能否从105%恢复到110%+（之前ETF牛市期曾达到110%）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">6.</span>
+    <span style="font-size:14px;">并购传闻或Thoma Bravo等PE机构动向（被收购看涨期权催化剂）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">7.</span>
+    <span style="font-size:14px;">FCF生成能否维持>$70M/年（深度价值股的核心支撑）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">8.</span>
+    <span style="font-size:14px;">新CEO Limongelli第二年完整年度业绩（2026是关键验证年）</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for OneSpan Inc. (OSPN) · 2026-05-19<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [1,2,3,0,1],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>

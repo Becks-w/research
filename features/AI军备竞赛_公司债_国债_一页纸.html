@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI军备竞赛 → 公司债 → 美国国债：三层数据穿透</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    background: #ebe8df;
+    padding: 20px;
+    color: #1a1a1a;
+    line-height: 1.45;
+  }
+  .page {
+    max-width: 880px;
+    margin: 0 auto;
+    background: white;
+    padding: 28px 34px 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    border-radius: 4px;
+  }
+  .header {
+    border-bottom: 2.5px solid #1a1a1a;
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+  }
+  .title {
+    font-size: 21px;
+    font-weight: 800;
+    margin-bottom: 3px;
+    letter-spacing: -0.3px;
+  }
+  .subtitle {
+    font-size: 12px;
+    color: #666;
+  }
+  .verify-badge {
+    display: inline-block;
+    background: #2d5016;
+    color: white;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 2px;
+    margin-left: 8px;
+  }
+  
+  /* 上半部分：三层数据 */
+  .top-section {
+    margin-bottom: 18px;
+  }
+  .section-tag {
+    display: inline-block;
+    background: #1a1a1a;
+    color: white;
+    padding: 3px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+  .thesis {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.6;
+    color: #2a2a2a;
+    margin-bottom: 14px;
+    padding: 10px 14px;
+    background: #fef7e7;
+    border-left: 3px solid #c9302c;
+    border-radius: 3px;
+  }
+  .thesis strong {
+    color: #c9302c;
+  }
+  
+  /* 三层卡片 */
+  .layer {
+    margin-bottom: 12px;
+    background: white;
+    border: 1.5px solid #e0e0d8;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .layer-header {
+    display: flex;
+    align-items: center;
+    padding: 8px 14px;
+    background: linear-gradient(90deg, #f5f5f0 0%, #fafaf5 100%);
+    border-bottom: 1px solid #e8e8e0;
+  }
+  .layer-num {
+    background: #1a1a1a;
+    color: white;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    margin-right: 10px;
+  }
+  .layer-1 .layer-num { background: #6b8e23; }
+  .layer-2 .layer-num { background: #d97706; }
+  .layer-3 .layer-num { background: #c9302c; }
+  .layer-title {
+    font-size: 14px;
+    font-weight: 700;
+    flex-grow: 1;
+  }
+  .layer-tag {
+    font-size: 10px;
+    color: #888;
+    background: white;
+    padding: 2px 8px;
+    border-radius: 2px;
+    border: 1px solid #e0e0d8;
+  }
+  .layer-body {
+    padding: 10px 14px;
+  }
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  .data-cell {
+    text-align: center;
+    padding: 6px 4px;
+    background: #fafaf5;
+    border-radius: 3px;
+  }
+  .data-cell-label {
+    font-size: 9.5px;
+    color: #888;
+    margin-bottom: 2px;
+  }
+  .data-cell-value {
+    font-size: 13px;
+    font-weight: 800;
+    color: #1a1a1a;
+  }
+  .data-cell-sub {
+    font-size: 9.5px;
+    color: #666;
+    margin-top: 1px;
+  }
+  .layer-note {
+    margin-top: 8px;
+    font-size: 11px;
+    color: #444;
+    padding-top: 6px;
+    border-top: 1px dashed #e8e8e0;
+  }
+  .layer-note strong {
+    color: #c9302c;
+  }
+  
+  /* 下半部分 */
+  .bottom-section {
+    background: #f9f7f1;
+    padding: 16px;
+    border-radius: 6px;
+    border-left: 4px solid #2d5016;
+  }
+  .key-insight {
+    background: white;
+    padding: 10px 14px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    border: 1px solid #e0e0d8;
+  }
+  .key-insight-title {
+    font-size: 11px;
+    color: #2d5016;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    margin-bottom: 4px;
+  }
+  .key-insight-text {
+    font-size: 12.5px;
+    color: #333;
+    line-height: 1.55;
+  }
+  .key-insight-text strong {
+    background: linear-gradient(180deg, transparent 60%, #fff3a0 60%);
+    padding: 0 2px;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+  
+  .action-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .action-card {
+    background: white;
+    padding: 10px 12px;
+    border-radius: 4px;
+    border: 1px solid #e0e0d8;
+  }
+  .action-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #2d5016;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .action-icon {
+    background: #2d5016;
+    color: white;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .action-text {
+    font-size: 11px;
+    color: #333;
+    line-height: 1.5;
+  }
+  .action-text strong { color: #1a1a1a; }
+  
+  .corrections {
+    background: #fef3c7;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-top: 12px;
+    font-size: 10.5px;
+    color: #5b3a0e;
+    line-height: 1.5;
+  }
+  .corrections strong { color: #92400e; }
+  
+  .footer {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid #e0e0d8;
+    font-size: 9.5px;
+    color: #999;
+    text-align: center;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="title">AI军备竞赛 → 公司债 → 美国国债<span class="verify-badge">已核实</span></div>
+    <div class="subtitle">三层数据穿透 · 2026年5月 · 数据已对照 CreditSights / CBO / Apollo / Epoch AI 等公开来源校正</div>
+  </div>
+
+  <!-- 上半部分 -->
+  <div class="top-section">
+    <span class="section-tag">三层传导</span>
+    
+    <div class="thesis">
+      五大科技巨头2026年合计 capex 约 <strong>$700-750B</strong>，其中 75% 砸向 AI 基建 → 自由现金流被挤压 → 历史性大规模发债融资 → AI 相关科技债已占美国投资级公司债 <strong>~14-15%</strong>，与同期国债供给同步膨胀挤占信用市场容量。
+    </div>
+
+    <!-- 第一层：Capex -->
+    <div class="layer layer-1">
+      <div class="layer-header">
+        <span class="layer-num">1</span>
+        <span class="layer-title">CapEx 超级周期：五大巨头 2026 年总投入 $700B+</span>
+        <span class="layer-tag">capex/收入比 25%-86%</span>
+      </div>
+      <div class="layer-body">
+        <div class="data-grid">
+          <div class="data-cell">
+            <div class="data-cell-label">Amazon</div>
+            <div class="data-cell-value">$200B</div>
+            <div class="data-cell-sub">25%/收入</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-cell-label">Alphabet</div>
+            <div class="data-cell-value">$175-185B</div>
+            <div class="data-cell-sub">46%/收入</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-cell-label">Meta</div>
+            <div class="data-cell-value">$115-135B</div>
+            <div class="data-cell-sub">54%/收入</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-cell-label">Microsoft</div>
+            <div class="data-cell-value">$120B+</div>
+            <div class="data-cell-sub">47%/收入</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-cell-label">Oracle</div>
+            <div class="data-cell-value">$50B</div>
+            <div class="data-cell-sub"><strong style="color:#c9302c">86%/收入</strong></div>
+          </div>
+        </div>
+        <div class="layer-note">
+          ⚠️ <strong>Oracle 是最脆弱节点</strong>——capex 已达收入 86%，靠 OpenAI/Stargate 单一大客户讲故事支撑发债。Amazon FCF TTM 同比骤降 ~95%。
+        </div>
+      </div>
+    </div>
+
+    <!-- 第二层：公司债 -->
+    <div class="layer layer-2">
+      <div class="layer-header">
+        <span class="layer-num">2</span>
+        <span class="layer-title">公司债：AI 科技债 ~$1.2-1.3 万亿，已占美国 IG 公司债 14-15%</span>
+        <span class="layer-tag">利差阶梯分化</span>
+      </div>
+      <div class="layer-body">
+        <div class="data-grid">
+          <div class="data-cell">
+            <div class="data-cell-label">Alphabet (AA+)</div>
+            <div class="data-cell-value">+27-95bps</div>
+            <div class="data-cell-sub">最窄</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-cell-label">Meta (AA-)</div>
+            <div class="data-cell-value">+147bps</div>
+            <div class="data-cell-sub">40Y 长端</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-cell-label">Amazon (AA)</div>
+            <div class="data-cell-value">+35-125bps</div>
+            <div class="data-cell-sub">短到长</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-cell-label">Oracle (BBB)</div>
+            <div class="data-cell-value">+95-195bps</div>
+            <div class="data-cell-sub">最高溢价</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-cell-label">CoreWeave</div>
+            <div class="data-cell-value">Ba2/BB+</div>
+            <div class="data-cell-sub">GPU 抵押贷</div>
+          </div>
+        </div>
+        <div class="layer-note">
+          ⚠️ Meta 40Y 长债利差从2025年10月的 +110bps 走阔到2026年5月的 +147bps（<strong>+37bps</strong>），是市场开始索要"AI 供给溢价"的第一个信号。Meta 实际借贷成本 = 4.73% (UST) + 1.47% = <strong>6.20%</strong>。
+        </div>
+      </div>
+    </div>
+
+    <!-- 第三层：国债 -->
+    <div class="layer layer-3">
+      <div class="layer-header">
+        <span class="layer-num">3</span>
+        <span class="layer-title">美国国债：总额 $39 万亿，月均利息 $88B 历史新高</span>
+        <span class="layer-tag">利息支出 > 国防</span>
+      </div>
+      <div class="layer-body">
+        <div class="data-grid">
+          <div class="data-cell">
+            <div class="data-cell-label">总国债</div>
+            <div class="data-cell-value">$39万亿</div>
+            <div class="data-cell-sub">超 GDP</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-cell-label">公众持有</div>
+            <div class="data-cell-value">$30万亿+</div>
+            <div class="data-cell-sub">~80%</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-cell-label">平均利率</div>
+            <div class="data-cell-value">3.355%</div>
+            <div class="data-cell-sub">5年前 1.51%</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-cell-label">月均利息</div>
+            <div class="data-cell-value">$88B</div>
+            <div class="data-cell-sub">CBO H1FY26</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-cell-label">年化净利息</div>
+            <div class="data-cell-value">$1万亿+</div>
+            <div class="data-cell-sub">2025=$970B</div>
+          </div>
+        </div>
+        <div class="layer-note">
+          ⚠️ 每收 $100 税收，<strong>$22.1 用于付利息</strong>。利息已超过国防+联邦医保支出，仅次于社保。AI 科技债 + 国债同步扩张，<strong>共同争夺固定收益资金池</strong>。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 下半部分：洞察 + 行动 -->
+  <div class="bottom-section">
+    <span class="section-tag" style="background: #2d5016;">核心洞察 & 行动指引</span>
+    
+    <div class="key-insight">
+      <div class="key-insight-title">💡 一句话总结</div>
+      <div class="key-insight-text">
+        科技巨头正在 <strong>从"轻资产高 FCF"模式转向"重资产高杠杆公用事业"模式</strong>——它们的股权仍然是高质量资产（负债/资产仅 48%，接近2015水平），但它们发行的债承担的是 AI 商业化失败的风险。债市与国债同时扩张挤压期限溢价，10年美债收益率难以下行。
+      </div>
+    </div>
+
+    <div class="action-row">
+      <div class="action-card">
+        <div class="action-title"><span class="action-icon">1</span>股优于债</div>
+        <div class="action-text">
+          GOOG / MSFT / AMZN <strong>持股</strong>，不持债。股权吃到AI变现红利的上行，债券只能赚利差且承担尾部风险。
+        </div>
+      </div>
+      <div class="action-card">
+        <div class="action-title"><span class="action-icon">2</span>避开杠杆链末端</div>
+        <div class="action-text">
+          Oracle、CoreWeave、IREN 这类"GPU 抵押 + 单一大客户"组合是<strong>最脆弱节点</strong>。仓位上限要严控。
+        </div>
+      </div>
+      <div class="action-card">
+        <div class="action-title"><span class="action-icon">3</span>盯三个早期信号</div>
+        <div class="action-text">
+          ① Oracle/CRWV 5Y CDS 日频；② Meta 长端利差是否再走阔；③ <strong>10Y美债 vs IG OAS 比值</strong>。
+        </div>
+      </div>
+      <div class="action-card">
+        <div class="action-title"><span class="action-icon">4</span>电力是真护城河</div>
+        <div class="action-text">
+          美国电网缺口 11GW，AI 故事失败也仍需电。<strong>CEG、VST</strong> 这类独立电力商确定性最高。
+        </div>
+      </div>
+    </div>
+
+    <div class="corrections">
+      <strong>📋 原报告校正说明：</strong>
+      ① Microsoft 2026 capex 实际约 <strong>$120B+</strong>（部分口径含融资租赁可拉高，但远不及 $190B）；
+      ② 五大总 capex 共识区间是 <strong>$660-750B</strong>，原"$725-750B"偏上限；
+      ③ 美国总国债已突破 <strong>$39万亿</strong>（不是 $39B 大关附近，是已稳定在 $38.86-39万亿）；
+      ④ 月均利息 CBO 口径约 <strong>$88B</strong>（原"$865-$1015亿"区间偏高，含口径差异）；
+      ⑤ AI 科技债占 IG 市场 ~14-15% 的说法成立，但口径敏感，建议看作"已成最大单一板块"的方向性判断。
+    </div>
+
+    <div class="footer">
+      数据来源：CreditSights、CBO、PGPF、Apollo Chief Economist、Epoch AI、Introl Research、ICE BofA Indices、各公司财报。仅供讨论，非投资建议。
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
