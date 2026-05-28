@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InP 产业链垂直整合度对比 & 地缘时间线 · 投资研究</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
+:root {
+  --bg: #0a0e14;
+  --panel: #111722;
+  --panel2: #161e2b;
+  --line: #1f2a3a;
+  --ink: #e8eef6;
+  --muted: #8294ab;
+  --dim: #5a6b80;
+  --accent: #38bdf8;
+  --gold: #fbbf24;
+  --green: #34d399;
+  --red: #f87171;
+  --purple: #a78bfa;
+  /* layer colors */
+  --L1: #ef4444; /* 原料 */
+  --L2: #f59e0b; /* 衬底 */
+  --L3: #10b981; /* 外延+PIC */
+  --L4: #3b82f6; /* 模块系统 */
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Noto Sans SC','Sora',sans-serif;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(56,189,248,0.08), transparent 60%),
+    radial-gradient(900px 500px at 5% 100%, rgba(167,139,250,0.06), transparent 55%),
+    var(--bg);
+  color:var(--ink); line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap { max-width:1080px; margin:0 auto; padding:40px 22px 60px; }
+
+/* HERO */
+.hero { position:relative; border:1px solid var(--line); border-radius:20px; padding:38px 34px; overflow:hidden;
+  background:linear-gradient(135deg, #0d1420 0%, #131c2a 100%); margin-bottom:26px; }
+.hero::before { content:''; position:absolute; inset:0; background-image:
+  linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px);
+  background-size:38px 38px; mask:radial-gradient(600px 300px at 80% 0%, #000, transparent 75%); }
+.hero .eyebrow { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.28em; color:var(--accent); text-transform:uppercase; margin-bottom:14px; position:relative; }
+.hero h1 { font-family:'Sora','Noto Sans SC',sans-serif; font-weight:800; font-size:30px; line-height:1.25; letter-spacing:-0.5px; position:relative; margin-bottom:12px; }
+.hero h1 .hl { color:var(--accent); }
+.hero p.sub { color:var(--muted); font-size:14.5px; max-width:680px; position:relative; }
+.hero .meta { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; position:relative; }
+.chip { font-family:'JetBrains Mono',monospace; font-size:11.5px; padding:6px 12px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,0.02); color:var(--muted); }
+
+/* TABS */
+.tabs { display:flex; gap:8px; margin:26px 0 22px; flex-wrap:wrap; }
+.tab { font-family:'Sora',sans-serif; font-weight:600; cursor:pointer; padding:11px 18px; border-radius:12px;
+  border:1px solid var(--line); background:var(--panel); color:var(--muted); font-size:13.5px; transition:all .18s; display:flex; align-items:center; gap:8px; }
+.tab:hover { color:var(--ink); border-color:#2c3a4f; }
+.tab.active { background:var(--accent); color:#04121d; border-color:var(--accent); box-shadow:0 6px 24px -8px rgba(56,189,248,0.6); }
+.tab .n { font-family:'JetBrains Mono',monospace; opacity:.7; }
+
+.view { display:none; animation:fade .4s ease; }
+.view.active { display:block; }
+@keyframes fade { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+h2.sec { font-family:'Sora',sans-serif; font-weight:700; font-size:19px; margin-bottom:6px; display:flex; align-items:center; gap:10px; }
+h2.sec .bar { width:4px; height:20px; border-radius:2px; background:var(--accent); }
+.sec-sub { color:var(--muted); font-size:13.5px; margin-bottom:22px; }
+
+/* LAYER STACK */
+.legend { display:flex; flex-wrap:wrap; gap:14px; margin-bottom:18px; }
+.legend .item { display:flex; align-items:center; gap:7px; font-size:12px; color:var(--muted); }
+.legend .sw { width:13px; height:13px; border-radius:4px; }
+
+.stack-card { border:1px solid var(--line); border-radius:16px; background:var(--panel); padding:8px; margin-bottom:24px; }
+.stack-head { display:grid; grid-template-columns:150px repeat(3,1fr); gap:8px; padding:14px 12px 10px; align-items:end; }
+.stack-head .corner { font-size:11px; color:var(--dim); font-family:'JetBrains Mono',monospace; }
+.co-head { text-align:center; padding:10px 6px; border-radius:10px; background:var(--panel2); border:1px solid var(--line); }
+.co-head .nm { font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px; }
+.co-head .tk { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--dim); margin-top:2px; }
+.co-head .role { font-size:10.5px; margin-top:6px; padding:3px 8px; border-radius:999px; display:inline-block; }
+
+.layer-row { display:grid; grid-template-columns:150px repeat(3,1fr); gap:8px; padding:7px 12px; align-items:stretch; }
+.layer-label { display:flex; flex-direction:column; justify-content:center; padding:10px 12px; border-radius:10px; background:var(--panel2); border-left:4px solid; }
+.layer-label .ln { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--dim); }
+.layer-label .lt { font-weight:700; font-size:13px; margin-top:2px; }
+.layer-label .ld { font-size:10.5px; color:var(--muted); margin-top:2px; line-height:1.4; }
+.cell { border-radius:10px; padding:12px 10px; font-size:12px; display:flex; flex-direction:column; gap:5px; justify-content:center; min-height:62px; border:1px solid transparent; transition:transform .15s; }
+.cell:hover { transform:translateY(-2px); }
+.cell .tag { font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.05em; text-transform:uppercase; opacity:.85; }
+.cell .txt { font-size:11.5px; line-height:1.45; }
+.cell.own { color:#04121d; font-weight:600; }
+.cell.buy { background:rgba(248,113,113,0.08); border-color:rgba(248,113,113,0.25); color:#fca5a5; }
+.cell.partial { background:rgba(251,191,36,0.08); border-color:rgba(251,191,36,0.25); color:#fcd34d; }
+.cell.none { background:rgba(90,107,128,0.06); border-color:rgba(90,107,128,0.18); color:var(--dim); }
+
+/* integration meter */
+.meter-row { display:grid; grid-template-columns:150px repeat(3,1fr); gap:8px; padding:14px 12px 8px; align-items:center; }
+.meter-row .ml { font-size:12px; color:var(--muted); font-weight:600; }
+.meter { background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:10px; text-align:center; }
+.meter .pct { font-family:'JetBrains Mono',monospace; font-weight:700; font-size:22px; }
+.meter .barwrap { height:6px; border-radius:3px; background:#0a0e14; margin-top:8px; overflow:hidden; }
+.meter .barfill { height:100%; border-radius:3px; }
+.meter .cap { font-size:10px; color:var(--dim); margin-top:6px; }
+
+/* company deep cards */
+.co-detail { border:1px solid var(--line); border-radius:14px; background:var(--panel); padding:20px 22px; margin-bottom:14px; }
+.co-detail .top { display:flex; align-items:center; gap:14px; margin-bottom:14px; flex-wrap:wrap; }
+.co-detail .badge { width:42px; height:42px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-family:'Sora'; font-weight:800; font-size:13px; flex-shrink:0; }
+.co-detail .name { font-family:'Sora'; font-weight:700; font-size:17px; }
+.co-detail .ticker { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--dim); }
+.co-detail .verdict { margin-left:auto; font-size:11.5px; padding:5px 12px; border-radius:999px; font-weight:600; }
+.kv { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+.kv .box { background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:11px 13px; }
+.kv .box .k { font-size:10.5px; color:var(--dim); text-transform:uppercase; letter-spacing:0.05em; font-family:'JetBrains Mono',monospace; }
+.kv .box .v { font-size:12.5px; margin-top:4px; color:var(--ink); line-height:1.5; }
+.risk-line { margin-top:12px; font-size:12px; padding:10px 13px; border-radius:10px; background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.2); color:#fca5a5; }
+.risk-line b { color:#fecaca; }
+
+/* TIMELINE */
+.tl { position:relative; padding:10px 0 0 0; margin-top:8px; }
+.tl::before { content:''; position:absolute; left:26px; top:18px; bottom:30px; width:2px; background:linear-gradient(var(--green), var(--gold) 55%, var(--red)); }
+.tl-item { position:relative; padding:0 0 26px 64px; }
+.tl-dot { position:absolute; left:18px; top:2px; width:18px; height:18px; border-radius:50%; border:3px solid var(--bg); box-shadow:0 0 0 2px currentColor; }
+.tl-date { font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:0.05em; font-weight:700; }
+.tl-card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-top:7px; }
+.tl-card .t { font-family:'Sora'; font-weight:700; font-size:14.5px; margin-bottom:5px; }
+.tl-card .d { font-size:12.5px; color:var(--muted); line-height:1.55; }
+.tl-impact { display:flex; gap:8px; margin-top:11px; flex-wrap:wrap; }
+.imp { font-size:11px; font-family:'JetBrains Mono',monospace; padding:4px 10px; border-radius:8px; display:flex; align-items:center; gap:6px; border:1px solid; }
+.imp .ar { font-weight:700; }
+.future { border-style:dashed !important; opacity:0.96; }
+.future .tl-card { background:rgba(248,113,113,0.05); border-color:rgba(248,113,113,0.3); border-style:dashed; }
+
+.callout { border:1px solid var(--line); border-left:4px solid var(--gold); border-radius:12px; background:linear-gradient(90deg, rgba(251,191,36,0.06), transparent 60%); padding:16px 18px; margin-top:20px; }
+.callout .ct { font-family:'Sora'; font-weight:700; font-size:13.5px; color:var(--gold); margin-bottom:7px; display:flex; align-items:center; gap:7px; }
+.callout p { font-size:12.5px; color:var(--muted); line-height:1.65; }
+
+.foot { margin-top:34px; padding-top:20px; border-top:1px solid var(--line); text-align:center; color:var(--dim); font-size:11px; line-height:1.9; font-family:'JetBrains Mono',monospace; }
+
+@media (max-width:760px) {
+  .hero h1 { font-size:23px; }
+  .stack-head, .layer-row, .meter-row { grid-template-columns:84px 1fr 1fr 1fr; }
+  .layer-label .ld { display:none; }
+  .co-head .nm { font-size:12px; }
+  .cell .txt { font-size:10.5px; }
+  .kv { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">AI 光互联 · 上游材料卡口研究</div>
+    <h1>InP 产业链<span class="hl">垂直整合度</span>对比 & <span class="hl">地缘风险时间线</span></h1>
+    <p class="sub">磷化铟(InP)是 AI 光互联 800G→1.6T→3.2T 军备竞赛的最上游地基材料。本报告拆解 Nokia、Coherent、AXT 三家"卡在产业链不同层级"的玩家——谁的护城河最深、谁的上游风险最大——并叠加 2025–2026 中美铟出口管制的关键催化节点。</p>
+    <div class="meta">
+      <span class="chip">分析日期 2026-05-28</span>
+      <span class="chip">3 家标的 · 4 层产业链</span>
+      <span class="chip">用途 · 投资研究评估</span>
+      <span class="chip">不构成投资建议</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-view="v1"><span class="n">01</span> 垂直整合度对比</button>
+    <button class="tab" data-view="v2"><span class="n">02</span> 三家深度拆解</button>
+    <button class="tab" data-view="v3"><span class="n">03</span> 地缘风险时间线</button>
+  </div>
+
+  <!-- ============ VIEW 1: STACK MATRIX ============ -->
+  <div class="view active" id="v1">
+    <h2 class="sec"><span class="bar"></span>谁卡在产业链的哪一层?</h2>
+    <p class="sec-sub">从下往上四层。每个格子表示该公司在这一层是<b style="color:var(--green)">自产掌控</b>、<b style="color:var(--gold)">部分/外购整合</b>、<b style="color:var(--red)">依赖外购</b>还是<b style="color:var(--dim)">不涉及</b>。</p>
+
+    <div class="legend">
+      <div class="item"><span class="sw" style="background:var(--green)"></span>自产掌控 OWN</div>
+      <div class="item"><span class="sw" style="background:var(--gold)"></span>部分整合 PARTIAL</div>
+      <div class="item"><span class="sw" style="background:var(--red)"></span>依赖外购 BUY</div>
+      <div class="item"><span class="sw" style="background:var(--dim)"></span>不涉及 N/A</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="stack-head">
+        <div class="corner">产业链层级 ↓ / 公司 →</div>
+        <div class="co-head"><div class="nm">Nokia</div><div class="tk">NOK · 含 Infinera</div><div class="role" style="background:rgba(59,130,246,0.15);color:#93c5fd">PIC 集成商</div></div>
+        <div class="co-head"><div class="nm">Coherent</div><div class="tk">COHR</div><div class="role" style="background:rgba(16,185,129,0.15);color:#6ee7b7">衬底+器件</div></div>
+        <div class="co-head"><div class="nm">AXT</div><div class="tk">AXTI · 通美</div><div class="role" style="background:rgba(245,158,11,0.15);color:#fcd34d">纯衬底</div></div>
+      </div>
+
+      <!-- L4 -->
+      <div class="layer-row">
+        <div class="layer-label" style="border-color:var(--L4)"><div class="ln">第 ④ 层 · 最下游</div><div class="lt">光模块 / 系统</div><div class="ld">transceiver / 整机系统</div></div>
+        <div class="cell own" style="background:var(--L4)"><span class="tag">OWN · 自产</span><span class="txt">光网络系统 + DCO/可插拔模块,核心客户群</span></div>
+        <div class="cell own" style="background:var(--L4)"><span class="tag">OWN · 自产</span><span class="txt">光模块龙头,收入份额第一(~22%)</span></div>
+        <div class="cell none"><span class="tag">N/A</span><span class="txt">不做模块,只卖衬底给上述厂商</span></div>
+      </div>
+
+      <!-- L3 -->
+      <div class="layer-row">
+        <div class="layer-label" style="border-color:var(--L3)"><div class="ln">第 ③ 层</div><div class="lt">外延 + PIC</div><div class="ld">MOCVD 外延 / 光子集成电路</div></div>
+        <div class="cell own" style="background:var(--L3)"><span class="tag">OWN · 核心护城河</span><span class="txt">圣何塞自有 InP 晶圆厂,自长 6 寸晶圆+单片 PIC(ICE-D/TROSA)</span></div>
+        <div class="cell own" style="background:var(--L3)"><span class="tag">OWN · 主导</span><span class="txt">高端外延片主导者,InP 光器件全球 ~40% 份额</span></div>
+        <div class="cell none"><span class="tag">N/A</span><span class="txt">不做外延/PIC</span></div>
+      </div>
+
+      <!-- L2 -->
+      <div class="layer-row">
+        <div class="layer-label" style="border-color:var(--L2)"><div class="ln">第 ② 层</div><div class="lt">衬底 / 单晶片</div><div class="ld">InP substrate wafer 拉晶</div></div>
+        <div class="cell partial"><span class="tag">PARTIAL · 部分外购</span><span class="txt">自长晶圆,但空白衬底/多晶料部分仍外购</span></div>
+        <div class="cell own" style="background:var(--L2);color:#04121d"><span class="tag">OWN · 罕见整合</span><span class="txt">自产 6 寸 InP 衬底,衬底+器件双重玩家</span></div>
+        <div class="cell own" style="background:var(--L2);color:#04121d"><span class="tag">OWN · 主业</span><span class="txt">全球衬底第二(~35%),VGF 法 6 寸量产,成本优势</span></div>
+      </div>
+
+      <!-- L1 -->
+      <div class="layer-row">
+        <div class="layer-label" style="border-color:var(--L1)"><div class="ln">第 ① 层 · 最上游</div><div class="lt">铟原料 / 提纯</div><div class="ld">金属铟 → 多晶 InP · 中国主导</div></div>
+        <div class="cell buy"><span class="tag">BUY · 依赖外购</span><span class="txt">不挖矿不提纯,铟原料依赖外部(暴露中国管制)</span></div>
+        <div class="cell buy"><span class="tag">BUY · 依赖外购</span><span class="txt">不挖矿,铟仍需外购,40% 份额=对铟最敏感</span></div>
+        <div class="cell partial"><span class="tag">PARTIAL · 在华整合</span><span class="txt">产能在华,部分参股 10 家中国原料厂,但受中国出口许可约束</span></div>
+      </div>
+
+      <!-- INTEGRATION METER -->
+      <div class="meter-row">
+        <div class="ml">垂直整合<br>纵深评分</div>
+        <div class="meter"><div class="pct" style="color:var(--L3)">★★★</div><div class="barwrap"><div class="barfill" style="width:78%;background:var(--L3)"></div></div><div class="cap">L3→L4 深,L2 部分,L1 缺</div></div>
+        <div class="meter"><div class="pct" style="color:var(--green)">★★★★</div><div class="barwrap"><div class="barfill" style="width:92%;background:var(--green)"></div></div><div class="cap">L2→L4 全栈,唯 L1 缺</div></div>
+        <div class="meter"><div class="pct" style="color:var(--L2)">★★</div><div class="barwrap"><div class="barfill" style="width:40%;background:var(--L2)"></div></div><div class="cap">专注 L2,向下不延伸</div></div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="ct">⚡ 一眼看清</div>
+      <p><b style="color:var(--green)">Coherent 整合最深</b>——是唯一从"衬底(L2)→外延/PIC(L3)→模块(L4)"全栈打通的西方玩家,护城河最宽,但 40% 的 InP 器件份额也让它对上游铟最敏感,这次特朗普访华它 CEO 亲自上桌正因如此。<b style="color:#93c5fd">Nokia</b> 靠收购 Infinera 卡住 L3(PIC)+ L4(系统),自长晶圆但衬底/料部分外购,是"西方稀缺的垂直整合 + NVIDIA 背书"叙事。<b style="color:var(--gold)">AXT</b> 是纯 L2 衬底玩家,弹性最大但全部产能在华,直接坐在管制风暴眼上。<b style="color:var(--red)">三家的共同软肋都是 L1 铟原料——它由中国主导,谁都没整合到"种棉花"那一步。</b></p>
+    </div>
+  </div>
+
+  <!-- ============ VIEW 2: COMPANY DEEP DIVE ============ -->
+  <div class="view" id="v2">
+    <h2 class="sec"><span class="bar" style="background:var(--purple)"></span>三家深度拆解</h2>
+    <p class="sec-sub">护城河纵深、关键定位与上游风险逐一对照。</p>
+
+    <div class="co-detail">
+      <div class="top">
+        <div class="badge" style="background:rgba(16,185,129,0.18);color:var(--green)">COHR</div>
+        <div><div class="name">Coherent</div><div class="ticker">NYSE: COHR · 衬底+器件 双重玩家</div></div>
+        <div class="verdict" style="background:rgba(52,211,153,0.15);color:var(--green)">护城河最宽 · 上游最敏感</div>
+      </div>
+      <div class="kv">
+        <div class="box"><div class="k">整合纵深</div><div class="v">L2→L4 全栈:自产 6 寸 InP 衬底 + 高端外延片主导 + 800G/1.6T 模块量产,3.2T/6.4T 研发中。全球首条 6 寸 InP 产线。</div></div>
+        <div class="box"><div class="k">护城河本质</div><div class="v">像"光通信界的应用材料"——从激光器芯片到模块的垂直技术栈,InP 光器件全球约 40% 份额,CPO 时代仍卡位核心光器件。</div></div>
+        <div class="box"><div class="k">扩产动作</div><div class="v">计划 2026 年把 InP 产能扩到当前 5 倍;InP 相关业务曾录得同比 +200%。背靠美国 CHIPS 法案激励。</div></div>
+        <div class="box"><div class="k">与 NVIDIA 关系</div><div class="v">NVIDIA 硅光生态创新伙伴;CEO 随特朗普访华企业代表团出访北京。</div></div>
+      </div>
+      <div class="risk-line">⚠ <b>上游风险:</b>40% 份额 = 对中国铟许可最敏感。分析师警告:若中国许可发放缓慢或带政治附加条件,Coherent 可能面临更高投入成本、配额问题、产能扩张延迟、难以满足超大规模客户需求。</div>
+    </div>
+
+    <div class="co-detail">
+      <div class="top">
+        <div class="badge" style="background:rgba(59,130,246,0.18);color:#60a5fa">NOK</div>
+        <div><div class="name">Nokia (含 Infinera)</div><div class="ticker">NYSE/HEL: NOK · PIC 集成商</div></div>
+        <div class="verdict" style="background:rgba(59,130,246,0.15);color:#60a5fa">西方稀缺整合 · NVIDIA 注资</div>
+      </div>
+      <div class="kv">
+        <div class="box"><div class="k">整合纵深</div><div class="v">L3→L4 深、L2 部分:23 亿美元收购 Infinera 拿到圣何塞 InP 晶圆厂,引入 Aixtron G10-AsP 设备自长 6 寸 InP 晶圆,产能拟提升 10 倍。</div></div>
+        <div class="box"><div class="k">护城河本质</div><div class="v">像"自己织布+成衣的高端裁缝"——自做外延+单片 PIC(ICE-D 可降数据中心连接功耗 75%),但纺纱用的铟料仍外购。西方唯一这种整合度的厂商。</div></div>
+        <div class="box"><div class="k">战略重组</div><div class="v">2026年1月起 Network Infrastructure 定位为 AI 数据中心成长板块(光网络/IP/固网);卖掉海底光缆 ASN 聚焦光互联。</div></div>
+        <div class="box"><div class="k">与 NVIDIA 关系</div><div class="v">NVIDIA 以约 10 亿美元(每股 $6.01)认购 Nokia 新股;合作把 Nokia 数据中心交换+光技术整合进 NVIDIA 未来 AI 架构。</div></div>
+      </div>
+      <div class="risk-line">⚠ <b>上游风险:</b>自长晶圆但最源头铟金属/多晶料仍靠采购,与 AXT/COHR 同根暴露于中国铟管制。优势是美国本土产能=「去中国化/主权 AI」叙事的相对受益方。</div>
+    </div>
+
+    <div class="co-detail">
+      <div class="top">
+        <div class="badge" style="background:rgba(245,158,11,0.18);color:var(--gold)">AXTI</div>
+        <div><div class="name">AXT (北京通美)</div><div class="ticker">NasdaqGS: AXTI · 纯衬底</div></div>
+        <div class="verdict" style="background:rgba(248,113,113,0.15);color:var(--red)">弹性最大 · 风险最集中</div>
+      </div>
+      <div class="kv">
+        <div class="box"><div class="k">整合纵深</div><div class="v">专注 L2 衬底:全球 InP 衬底第二(~35%),VGF 法实现 6 寸量产,低蚀刻坑密度(EPD)等关键规格领先。向下不延伸做器件/模块。</div></div>
+        <div class="box"><div class="k">护城河本质</div><div class="v">像"老牌瑞士钟表匠"——专有晶体生长炉+定制掺杂+十年认证周期。美股唯一可直接买的 InP 纯标的。</div></div>
+        <div class="box"><div class="k">供需弹性</div><div class="v">全球 InP 供需缺口 ~70%,订单排满到 2026;融资 1 亿美元扩北京产能,拟 2026 翻倍。Q3'25 InP 营收环比 +250%,创三年新高。</div></div>
+        <div class="box"><div class="k">财务状态</div><div class="v">仍处亏损:2025 Q1 因出口限制 InP 销售环比 -58%、净亏 880 万美元;需判断是否周期底部。</div></div>
+      </div>
+      <div class="risk-line">⚠ <b>上游风险:</b>全部产能在华,直接坐在管制风暴眼上——但反过来,放松出口许可时它弹性最大(2025年6月首获出口许可后 Q3 营收即暴增)。"双刃剑"特征最强。</div>
+    </div>
+  </div>
+
+  <!-- ============ VIEW 3: GEOPOLITICAL TIMELINE ============ -->
+  <div class="view" id="v3">
+    <h2 class="sec"><span class="bar" style="background:var(--red)"></span>InP 供应链地缘风险时间线</h2>
+    <p class="sec-sub">铟(InP 原料)的中美管制博弈节奏。叠加 COHR / AXTI 关键风险节点。<b style="color:var(--red)">虚线 = 未来风险窗口。</b></p>
+
+    <div class="tl">
+      <div class="tl-item" style="color:var(--red)">
+        <div class="tl-dot"></div>
+        <div class="tl-date" style="color:var(--red)">2025 · 02 · 04</div>
+        <div class="tl-card">
+          <div class="t">🚫 中国把铟列入出口管制清单</div>
+          <div class="d">中国商务部和海关对钨、碲、铋、钼、<b style="color:#fca5a5">铟</b>等相关物项实施出口管制。铟是 InP 的核心金属原料,管制直接掐住全球 InP 衬底供应的源头。</div>
+          <div class="tl-impact">
+            <span class="imp" style="border-color:rgba(248,113,113,0.4);color:var(--red)"><span class="ar">↓</span> AXTI 出口受阻</span>
+            <span class="imp" style="border-color:rgba(248,113,113,0.4);color:var(--red)"><span class="ar">↓</span> COHR 投入成本承压</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item" style="color:var(--red)">
+        <div class="tl-dot"></div>
+        <div class="tl-date" style="color:var(--red)">2025 · Q1</div>
+        <div class="tl-card">
+          <div class="t">📉 管制冲击落地 AXT 财报</div>
+          <div class="d">AXT 因中国出口限制,InP 销售环比<b style="color:#fca5a5">暴跌 58%</b>,录得净亏损 880 万美元。这是地缘风险直接砸进财务报表的实证。</div>
+          <div class="tl-impact">
+            <span class="imp" style="border-color:rgba(248,113,113,0.4);color:var(--red)">AXTI 净亏 $8.8M</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item" style="color:var(--green)">
+        <div class="tl-dot"></div>
+        <div class="tl-date" style="color:var(--green)">2025 · 06</div>
+        <div class="tl-card">
+          <div class="t">🟢 AXT 首获出口许可</div>
+          <div class="d">AXT 在 6 月拿到首批出口许可,得以把 InP 衬底运往中国境外客户。供给开始边际松动——证明这个赛道的波动由"许可发放速度"主导。</div>
+          <div class="tl-impact">
+            <span class="imp" style="border-color:rgba(52,211,153,0.4);color:var(--green)"><span class="ar">↑</span> AXTI 出口重启</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item" style="color:var(--gold)">
+        <div class="tl-dot"></div>
+        <div class="tl-date" style="color:var(--gold)">2025 · 10 · 30</div>
+        <div class="tl-card">
+          <div class="t">🤝 釜山特习会 · 一年期休战</div>
+          <div class="d">特朗普与习近平在韩国釜山会晤。中方暂停 10月9日宣布的稀土出口管制、<b style="color:var(--gold)">延迟一年执行</b>;美方相应推迟 9月29日措施。全球股市波动、金价上涨,市场评估这一脆弱停火。</div>
+          <div class="tl-impact">
+            <span class="imp" style="border-color:rgba(52,211,153,0.4);color:var(--green)"><span class="ar">↑</span> AXTI Q3 营收 +250%</span>
+            <span class="imp" style="border-color:rgba(251,191,36,0.4);color:var(--gold)">休战≠放开</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item" style="color:var(--gold)">
+        <div class="tl-dot"></div>
+        <div class="tl-date" style="color:var(--gold)">2026 · 05 · 中旬</div>
+        <div class="tl-card">
+          <div class="t">✈️ 特朗普访华 · 铟被点名</div>
+          <div class="d">美中稀土/关键矿产谈判中,美方表示中国将解决短缺问题,<b style="color:var(--gold)">明确点名钇、钪、钕和铟</b>。<b style="color:#93c5fd">Coherent CEO 随企业代表团访京</b>(因其在 InP 器件 40% 份额而最受影响)。被各方评为"平淡(underwhelming)"的有限协议——白宫拿到小胜,但中国出口管制体制将长期存在。</div>
+          <div class="tl-impact">
+            <span class="imp" style="border-color:rgba(59,130,246,0.4);color:#93c5fd">COHR CEO 上桌</span>
+            <span class="imp" style="border-color:rgba(251,191,36,0.4);color:var(--gold)">治标不治本</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item future" style="color:var(--red)">
+        <div class="tl-dot"></div>
+        <div class="tl-date" style="color:var(--red)">2026 · 11 · ?? ⚠ 未来风险窗口</div>
+        <div class="tl-card">
+          <div class="t">⏳ 一年期休战到期</div>
+          <div class="d">釜山会晤达成的针对更广泛中国稀土限制的一年期休战将在 <b style="color:#fca5a5">2026 年 11 月到期</b>。届时铟/稀土管制可能重新成为风险节点——这是当前 InP 链最重要的下一个催化剂时点。背景:中国控制几乎全部全球稀土加工,美方目标是 12–24 个月内摆脱依赖(扶持本土采矿、联合澳加沙等)。</div>
+          <div class="tl-impact">
+            <span class="imp" style="border-color:rgba(248,113,113,0.5);color:var(--red)"><span class="ar">⚡</span> 重新定价风险</span>
+            <span class="imp" style="border-color:rgba(248,113,113,0.5);color:var(--red)">COHR/AXTI 双标的敏感</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="ct">🎯 投资视角速记</div>
+      <p>这条链的核心矛盾:<b style="color:var(--green)">需求由 AI 数据中心拉动(确定性高)</b>,<b style="color:var(--red)">供给被中国铟出口许可的"快慢与政治附加条件"主导(波动性大)</b>——地缘比技术更主导短期股价。这次访华不是"风险解除",而是"风险窗口被延后到 2026年11月"。<b style="color:var(--gold)">下一个该盯的催化剂就是 11 月休战到期。</b>方向上:COHR 情绪利好但份额=敏感;AXTI 双刃剑、弹性最大;NOK 是去中国化叙事的相对受益方。</p>
+    </div>
+  </div>
+
+  <div class="foot">
+    数据来源 · Reuters / Mordor Intelligence / 36Kr / TrendForce / 各公司 SEC 财报 / Nokia·ASN·AXT 官网 (2024–2026)<br>
+    市占率为各机构口径近似值 · 垂直整合纵深为基于公开信息的定性评分 · 仅供投资研究参考,不构成投资建议<br>
+    GENERATED 2026-05-28
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.view).classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>

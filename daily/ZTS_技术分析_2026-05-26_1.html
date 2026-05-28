@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zoetis Inc. 技术分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.score-badge { display:inline-block; padding:8px 18px; border-radius:99px; font-size:16px; font-weight:700; margin-top:12px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:110px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; white-space:pre-line; }
+.metric-row { display:flex; justify-content:space-between; align-items:center; padding:14px 18px; background:#f8fafc; border-radius:8px; margin-bottom:10px; border-left:3px solid #e2e8f0; }
+.metric-row.positive { border-left-color:#059669; }
+.metric-row.negative { border-left-color:#dc2626; }
+.metric-row.neutral { border-left-color:#d97706; }
+.metric-name { font-weight:600; font-size:14px; }
+.metric-value { font-family:'JetBrains Mono', monospace; font-weight:600; font-size:13px; max-width:60%; text-align:right; }
+.price-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.price-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.price-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.price-card .value { font-size:24px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.price-card.bear { border-color:#dc2626; }
+.price-card.bear .value { color:#dc2626; }
+.price-card.base { border-color:#2563eb; }
+.price-card.base .value { color:#2563eb; }
+.price-card.bull { border-color:#059669; }
+.price-card.bull .value { color:#059669; }
+.score-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin:20px 0; }
+.score-item { background:#f8fafc; padding:16px; border-radius:10px; text-align:center; border:1px solid #e2e8f0; }
+.score-item .dim { font-size:12px; color:#64748b; margin-bottom:8px; font-weight:600; }
+.score-item .num { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; color:#0f172a; }
+.score-item .max { font-size:14px; color:#94a3b8; }
+.quadrant { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:20px 0; }
+.quad-cell { padding:20px; border-radius:10px; border:2px solid #e2e8f0; }
+.quad-cell.active { border-color:#d97706; background:#fef3c7; }
+.quad-cell .label { font-size:12px; color:#64748b; font-weight:600; margin-bottom:6px; }
+.quad-cell .verdict { font-size:14px; font-weight:600; }
+.warning-banner { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); border:1px solid #f59e0b; border-radius:10px; padding:14px 18px; margin-bottom:16px; font-size:13px; color:#78350f; line-height:1.6; }
+.ma-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:16px 0; }
+.ma-card { background:#f8fafc; padding:14px; border-radius:8px; text-align:center; border:1px solid #e2e8f0; }
+.ma-card .label { font-size:11px; color:#64748b; font-weight:600; margin-bottom:4px; }
+.ma-card .value { font-size:18px; font-weight:700; font-family:'JetBrains Mono', monospace; }
+.ma-card .diff { font-size:12px; color:#dc2626; margin-top:4px; font-weight:600; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .price-cards { grid-template-columns:1fr; }
+  .quadrant { grid-template-columns:1fr; }
+  .ma-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Zoetis Inc. 技术分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：ZTS</div>
+      <div>🏛️ 交易所：NYSE</div>
+      <div>💵 当前价：$80.07</div>
+      <div>📅 分析日期：2026-05-26</div>
+      <div>⏰ 时间维度：中线持有（周线为主，多周期共振）</div>
+    </div>
+    <div class="one-liner">💡 ZTS处于'基本面崩塌+技术面破位'的双杀阶段——5月7日Q1财报双miss引发暴跌（3日累计-30%），从52周高点$172已下跌-53%。所有时间维度趋势确认下行，典型空头排列，当前不接飞刀。</div>
+    <span class="score-badge" style="background:#dc2626;color:#fff">综合评级：远离 · 3/10 分</span>
+  </div>
+
+  <div class="warning-banner">
+    ⚠️ <strong>使用提示</strong>：技术分析不是预测，是概率管理。本报告基于多周期 + 多指标共振方法论，单一信号不构成操作依据。<br>
+    📊 <strong>数据说明</strong>：K 线数据基于公开关键节点（macrotrends、Yahoo、TipRanks、stockanalysis）估算，绝对数值存在 ±5% 误差，但形态和位置关系准确。建议与 business-analysis（基本面）报告交叉使用。
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="m1">📈 趋势</button>
+    <button class="tab" data-tab="m2">📊 指标</button>
+    <button class="tab" data-tab="m3">🎯 形态</button>
+    <button class="tab" data-tab="m4">⭐ 评分</button>
+    <button class="tab" data-tab="m5">💰 策略</button>
+    <button class="tab" data-tab="m6">🔄 基本面交叉</button>
+  </div>
+
+  <!-- 模块一：趋势 -->
+  <div class="section active" id="m1">
+    <h2>📈 模块一：趋势诊断</h2>
+    <p class="subtitle">市场处于上升、下降还是震荡？这是一切的起点</p>
+    <div class="chart-wrap"><canvas id="priceChart" height="320"></canvas></div>
+    
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 12px;">三均线位置（典型空头排列）</h3>
+    <div class="ma-grid">
+      <div class="ma-card">
+        <div class="label">MA50</div>
+        <div class="value" style="color:#2563eb;">$108.75</div>
+        <div class="diff">价格低于 -26.4%</div>
+      </div>
+      <div class="ma-card">
+        <div class="label">MA100</div>
+        <div class="value" style="color:#d97706;">$119.74</div>
+        <div class="diff">价格低于 -33.1%</div>
+      </div>
+      <div class="ma-card">
+        <div class="label">MA200</div>
+        <div class="value" style="color:#dc2626;">$134.25</div>
+        <div class="diff">价格低于 -40.4%</div>
+      </div>
+    </div>
+    
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">月线趋势</div><div class="value">下行（2024年初见顶$197，至今-52%）</div></div>
+      <div class="kv-card"><div class="label">周线趋势</div><div class="value">深度空头（5月单周-31%创历史级别恐慌）</div></div>
+      <div class="kv-card"><div class="label">日线趋势</div><div class="value">弱反弹（5/18起从$72反弹至$80，但量能不足）</div></div>
+      <div class="kv-card"><div class="label">多周期共振</div><div class="value">月/周/日全部向下，仅日线技术性反弹——反弹而非反转</div></div>
+    </div>
+    <div class="summary-box info">
+      <div class="title">道氏理论高低点分析</div>
+      <div class="text">连续3波'更低高点+更低低点'：①2025/7 高点$172→2025/10 低点$148；②2025/12 高点$145→2026/2 低点$128；③2026/4 高点$117→2026/5/15 极端低点$72.38。下降趋势确认强烈，无任何反转结构。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">趋势诊断结论</div>
+      <div class="text">典型空头排列：价格$80 < MA50($109) < MA100($120) < MA200($134)，全部向下。这是技术分析中最负面的均线组合形态，意味着任何反弹都是熊市反弹，需要至少先反转MA50才能讨论趋势变化。</div>
+    </div>
+  </div>
+
+  <!-- 模块二：指标 -->
+  <div class="section" id="m2">
+    <h2>📊 模块二：四大类指标共振分析</h2>
+    <p class="subtitle">每类指标独立投票，至少 3 类同向才算有效信号</p>
+    <div class="chart-wrap"><canvas id="indicatorRadar" height="240"></canvas></div>
+    <div class="metric-row negative">
+      <span class="metric-name">趋势类 · MACD</span>
+      <span class="metric-value">周线MACD远低于零轴，DIF和DEA仍在加速下行 → 强空头</span>
+    </div>
+    <div class="metric-row neutral">
+      <span class="metric-name">动量类 · RSI (28)</span>
+      <span class="metric-value">14日RSI接近超卖区(25-30)，周线RSI 20极度超卖。但强趋势中RSI可长期<30，超卖≠反转 → 超卖但无反转信号</span>
+    </div>
+    <div class="metric-row positive">
+      <span class="metric-name">波动类 · 布林带</span>
+      <span class="metric-value">跌破布林下轨数日，带宽极端扩张 → 极端超卖修复（轻度多头）</span>
+    </div>
+    <div class="metric-row negative">
+      <span class="metric-name">量能类 · Volume/OBV</span>
+      <span class="metric-value">5/7-8日爆量近20M股（3倍平均），价跌量增=恐慌抛售；5/18-22日反弹缩量至4-6M，价反弹+量未跟进=反弹无力；OBV连续创新低 → 恐慌已发生，反弹未确认</span>
+    </div>
+    <div class="summary-box info" style="margin-top:20px">
+      <div class="title">共振结果：1/4 指标偏多（仅布林带超卖修复）</div>
+      <div class="text">四类指标中，趋势(MACD)和量能(OBV)两个最重要维度都明确指向下行未止；RSI虽超卖但无反转信号；只有布林带因极端跌幅出现修复需求。这是典型的'下跌末端但未到底'特征——超卖不等于见底，需要价格行为和量能配合确认。</div>
+    </div>
+  </div>
+
+  <!-- 模块三：形态 -->
+  <div class="section" id="m3">
+    <h2>🎯 模块三：形态识别</h2>
+    <p class="subtitle">K 线组合 + 经典图形 — 位置 > 形状，量能配合是关键</p>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">K 线组合</div><div class="value">5/7-8日'瀑布缺口'（暴跌跳空）+ 5/11-15日锤子线雏形但缺乏次日确认。5/22-23小阳线但量能极小</div></div>
+      <div class="kv-card"><div class="label">图形形态</div><div class="value">暴跌后正在形成潜在'V型/W型底部'，但形态远未确认——至少需要再次回探$72-75不破并放量反弹至$90+才能确认</div></div>
+      <div class="kv-card"><div class="label">关键位置</div><div class="value">支撑：$72.38(5/15新低) / $70(IPO以来心理位) / $65(2020新冠低点修正区) | 压力：$90-95(暴跌起始+Stifel目标) / $108(MA50) / $120(MA100，前期密集成交)</div></div>
+      <div class="kv-card"><div class="label">量能配合</div><div class="value">反弹日量能严重不足（5/22仅3.7M，远低于平均6M+），价升量缩=可疑上涨。真正的底部反转需要单日量能放大至10M+且价格收复关键位</div></div>
+    </div>
+    <div class="summary-box">
+      <div class="title">形态识别结论</div>
+      <div class="text">无强反转形态。当前处于恐慌后修复期，可能正在筑底但远未确认。形态分析铁律：突破必须放量，回踩不破才算真突破——这两个条件目前都没有</div>
+    </div>
+  </div>
+
+  <!-- 模块四：评分 -->
+  <div class="section" id="m4">
+    <h2>⭐ 模块四：信号强度综合评分</h2>
+    <p class="subtitle">5 个维度，满分 10 分 — 浓缩前三个模块的所有发现</p>
+    <div class="score-grid">
+      <div class="score-item"><div class="dim">趋势方向</div><div class="num">0<span class="max">/2</span></div></div>
+      <div class="score-item"><div class="dim">指标共振</div><div class="num">0.5<span class="max">/2</span></div></div>
+      <div class="score-item"><div class="dim">形态确认</div><div class="num">0.5<span class="max">/2</span></div></div>
+      <div class="score-item"><div class="dim">位置质量</div><div class="num">1.5<span class="max">/2</span></div></div>
+      <div class="score-item"><div class="dim">量价配合</div><div class="num">0.5<span class="max">/2</span></div></div>
+    </div>
+    <div class="chart-wrap"><canvas id="scoreChart" height="200"></canvas></div>
+    <div class="summary-box danger" style="background:#dc262622;border-left-color:#dc2626">
+      <div class="title">综合评分：3/10 → 远离</div>
+      <div class="text">弱信号 ★★ — 观望，等待更好位置</div>
+    </div>
+  </div>
+
+  <!-- 模块五：策略 -->
+  <div class="section" id="m5">
+    <h2>💰 模块五：买卖点策略 + 风险管理</h2>
+    <p class="subtitle">具体到价位的可执行建议</p>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #059669;">
+        <div class="label" style="color:#059669;">理想买入区间</div>
+        <div class="value" style="font-family:'JetBrains Mono', monospace; font-weight:700;">$70-75（52周低点确认区 + $70心理整数关）</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;">
+        <div class="label" style="color:#dc2626;">止损位（认错离场）</div>
+        <div class="value" style="font-family:'JetBrains Mono', monospace; font-weight:700;">$68（跌破即趋势继续，下方目标$60甚至$55）</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #2563eb;">
+        <div class="label" style="color:#2563eb;">建议仓位</div>
+        <div class="value" style="font-weight:700;">现价不建仓 / 回踩$72-75可试探15-25%</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #d97706;">
+        <div class="label" style="color:#d97706;">风险收益比</div>
+        <div class="value" style="font-family:'JetBrains Mono', monospace; font-weight:700;">条件触发后 1:4.4（按$73买、$68止损、$95目标）</div>
+      </div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 目标价区间</h3>
+    <div class="price-cards">
+      <div class="price-card bear"><div class="label">悲观 Bear</div><div class="value">$60-65</div></div>
+      <div class="price-card base"><div class="label">基准 Base</div><div class="value">$95</div></div>
+      <div class="price-card bull"><div class="label">乐观 Bull</div><div class="value">$120</div></div>
+    </div>
+    <div class="summary-box info" style="margin-top:20px">
+      <div class="title">分批建仓策略</div>
+      <div class="text">• <strong>第一档（试探）</strong>：回踩 $72-75 不破 + 底分型形成 → 15-25% 仓位
+• <strong>第二档（追加）</strong>：突破 $90 并放量（单日量能 > 10M）→ 加至 50% 仓位
+• <strong>第三档（完整）</strong>：突破 MA50（约 $108）且回踩不破 → 加至 100% 仓位
+• <strong>退出</strong>：跌破 $68 严格止损全部清仓；目标达成或 MA200 站稳后部分获利</div>
+    </div>
+  </div>
+
+  <!-- 模块六：基本面交叉 -->
+  <div class="section" id="m6">
+    <h2>🔄 模块六：与基本面交叉验证</h2>
+    <p class="subtitle">技术面 + 基本面双确认才是最佳建仓机会</p>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">基本面评级</div><div class="value">3星（业务质量良好但成长性受质疑）</div></div>
+      <div class="kv-card"><div class="label">基本面结论</div><div class="value">偏低估（但需重新评估，因股价$80已跌破前次分析的Bear case $90）</div></div>
+      <div class="kv-card"><div class="label">技术面结论</div><div class="value">极度超卖+趋势未反转，处于左侧布局观察窗口；不接飞刀但底部探寻已开始</div></div>
+      <div class="kv-card"><div class="label">四象限定位</div><div class="value">基本面利好 + 技术面弱 → 等待技术面确认（左侧布局）</div></div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 四象限决策矩阵</h3>
+    <div class="quadrant">
+      
+  <div class="quad-cell">
+    <div class="label">基本面利好 + 技术面强</div>
+    <div class="verdict" style="color:#059669;">✅ 最佳建仓机会（双确认）</div>
+  </div>
+  <div class="quad-cell">
+    <div class="label">基本面利空 + 技术面强</div>
+    <div class="verdict" style="color:#d97706;">⚠️ 投机机会，仓位严控</div>
+  </div>
+  <div class="quad-cell active">
+    <div class="label">基本面利好 + 技术面弱</div>
+    <div class="verdict" style="color:#2563eb;">⏳ 等待技术面确认（左侧布局）</div>
+  </div>
+  <div class="quad-cell">
+    <div class="label">基本面利空 + 技术面弱</div>
+    <div class="verdict" style="color:#dc2626;">❌ 远离，无任何理由介入</div>
+  </div>
+
+    </div>
+    <div class="summary-box success">
+      <div class="title">📝 最终行动建议</div>
+      <div class="text">1. 基本面：好公司但成长性遭质疑，估值已被打到10年最低（前次分析的Bear case已部分实现）
+2. 技术面：极度超卖但趋势未反转，典型空头排列+量能未确认反转，处于左侧布局观察窗口
+3. 行动：现价$80不追，等回踩$72-75不破+量能配合再小仓位试探（15-25%）；跌破$68严格止损出场；突破$90+放量可加仓至50%；突破MA50($108)且回踩不破再加至完整仓位
+
+核心提醒：基本面+技术面双杀阶段是最危险但也可能是最有机会的时刻。耐心比聪明重要——等待右侧确认信号，比左侧抄底更安全。这是'耐心型'交易标的，不适合追求快速回报的投资者。</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for Zoetis Inc. (ZTS) · 2026-05-26<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议<br>
+    Technical Analysis Skill v1.0 · 与 business-analysis skill 配合使用
+  </div>
+</div>
+
+<script>
+const ohlcvData = [{"date":"2026-01-20","o":131.02,"h":132.31,"l":130.63,"c":132.11,"v":3.2,"ma50":139.49,"ma100":145.87,"ma200":null},{"date":"2026-01-21","o":133.9,"h":135.13,"l":133.74,"c":134.58,"v":3.8,"ma50":139.26,"ma100":145.63,"ma200":null},{"date":"2026-01-22","o":132.79,"h":133.17,"l":131.91,"c":132.44,"v":4.4,"ma50":139.05,"ma100":145.35,"ma200":null},{"date":"2026-01-23","o":133.76,"h":135.28,"l":132.64,"c":134.69,"v":2.67,"ma50":138.88,"ma100":145.09,"ma200":null},{"date":"2026-01-26","o":134.23,"h":134.93,"l":132.69,"c":134.17,"v":2.74,"ma50":138.71,"ma100":144.82,"ma200":null},{"date":"2026-01-27","o":133.17,"h":133.69,"l":131.81,"c":132.77,"v":2.79,"ma50":138.49,"ma100":144.54,"ma200":null},{"date":"2026-01-28","o":129.91,"h":131.36,"l":129.1,"c":131.01,"v":4.69,"ma50":138.23,"ma100":144.27,"ma200":null},{"date":"2026-01-29","o":131.91,"h":132.66,"l":130.81,"c":131.81,"v":2.9,"ma50":138.03,"ma100":143.99,"ma200":null},{"date":"2026-01-30","o":133.58,"h":134.74,"l":132.04,"c":133.12,"v":3.36,"ma50":137.83,"ma100":143.74,"ma200":null},{"date":"2026-02-02","o":131.31,"h":132,"l":130.94,"c":131.59,"v":2.88,"ma50":137.58,"ma100":143.49,"ma200":null},{"date":"2026-02-03","o":130.99,"h":131.52,"l":129.77,"c":131.32,"v":2.77,"ma50":137.32,"ma100":143.23,"ma200":null},{"date":"2026-02-04","o":132.13,"h":133.29,"l":131.52,"c":132.74,"v":4.73,"ma50":137.09,"ma100":142.98,"ma200":null},{"date":"2026-02-05","o":131.18,"h":131.74,"l":130.75,"c":131.59,"v":5.16,"ma50":136.88,"ma100":142.73,"ma200":null},{"date":"2026-02-06","o":132.72,"h":134.18,"l":131.15,"c":132.06,"v":3.91,"ma50":136.68,"ma100":142.5,"ma200":null},{"date":"2026-02-09","o":131.11,"h":131.3,"l":130.75,"c":130.84,"v":5.88,"ma50":136.46,"ma100":142.26,"ma200":null},{"date":"2026-02-10","o":130.05,"h":131.17,"l":128.66,"c":129.84,"v":6.4,"ma50":136.2,"ma100":142.01,"ma200":null},{"date":"2026-02-11","o":131.78,"h":131.81,"l":130.26,"c":131.42,"v":5.82,"ma50":135.99,"ma100":141.76,"ma200":null},{"date":"2026-02-12","o":129.43,"h":129.68,"l":128.81,"c":129.09,"v":2.52,"ma50":135.73,"ma100":141.52,"ma200":null},{"date":"2026-02-13","o":131.04,"h":131.45,"l":130.28,"c":131.28,"v":2.62,"ma50":135.52,"ma100":141.28,"ma200":null},{"date":"2026-02-16","o":130.17,"h":130.6,"l":129.86,"c":130.31,"v":5.39,"ma50":135.32,"ma100":141.02,"ma200":null},{"date":"2026-02-17","o":129.27,"h":130.33,"l":129.09,"c":130.27,"v":4.97,"ma50":135.12,"ma100":140.76,"ma200":null},{"date":"2026-02-18","o":130,"h":130.44,"l":129.3,"c":129.71,"v":3.59,"ma50":134.94,"ma100":140.54,"ma200":null},{"date":"2026-02-19","o":129.75,"h":130.07,"l":129.24,"c":129.86,"v":4.45,"ma50":134.76,"ma100":140.29,"ma200":null},{"date":"2026-02-20","o":129.21,"h":129.77,"l":129.21,"c":129.36,"v":3.71,"ma50":134.58,"ma100":140.04,"ma200":null},{"date":"2026-02-23","o":126.74,"h":127.37,"l":126.73,"c":127.11,"v":5.49,"ma50":134.31,"ma100":139.78,"ma200":null},{"date":"2026-02-24","o":127.23,"h":127.73,"l":125.98,"c":126.82,"v":5.72,"ma50":134.07,"ma100":139.52,"ma200":null},{"date":"2026-02-25","o":124.92,"h":126.29,"l":123.57,"c":126.26,"v":5.95,"ma50":133.85,"ma100":139.25,"ma200":null},{"date":"2026-02-26","o":128.53,"h":129.03,"l":127.9,"c":128.03,"v":2.58,"ma50":133.63,"ma100":139.02,"ma200":null},{"date":"2026-02-27","o":127.24,"h":128.41,"l":125.62,"c":126.91,"v":2.85,"ma50":133.41,"ma100":138.78,"ma200":151.55},{"date":"2026-03-02","o":128.56,"h":129.02,"l":128.07,"c":128.41,"v":3.74,"ma50":133.16,"ma100":138.58,"ma200":151.34},{"date":"2026-03-03","o":125.69,"h":126.81,"l":125.58,"c":126.32,"v":4.54,"ma50":132.89,"ma100":138.34,"ma200":151.11},{"date":"2026-03-04","o":128.76,"h":129.55,"l":127.53,"c":128.32,"v":3.45,"ma50":132.71,"ma100":138.12,"ma200":150.92},{"date":"2026-03-05","o":125.44,"h":126.06,"l":124.73,"c":125.27,"v":3.21,"ma50":132.43,"ma100":137.87,"ma200":150.69},{"date":"2026-03-06","o":128.05,"h":128.88,"l":126.99,"c":127.49,"v":6.2,"ma50":132.2,"ma100":137.64,"ma200":150.47},{"date":"2026-03-09","o":126.52,"h":127.58,"l":125.44,"c":126.21,"v":3.1,"ma50":131.99,"ma100":137.4,"ma200":150.24},{"date":"2026-03-10","o":123.76,"h":124.46,"l":123.71,"c":124.18,"v":4.53,"ma50":131.72,"ma100":137.17,"ma200":150.01},{"date":"2026-03-11","o":124,"h":125.81,"l":123.92,"c":124.93,"v":5.96,"ma50":131.44,"ma100":136.93,"ma200":149.8},{"date":"2026-03-12","o":126.84,"h":127.4,"l":126.15,"c":126.82,"v":5.67,"ma50":131.2,"ma100":136.71,"ma200":149.58},{"date":"2026-03-13","o":127.46,"h":128.15,"l":126.47,"c":126.81,"v":4.4,"ma50":131,"ma100":136.49,"ma200":149.37},{"date":"2026-03-16","o":122.93,"h":124.08,"l":122.69,"c":123.47,"v":5.36,"ma50":130.72,"ma100":136.25,"ma200":149.13},{"date":"2026-03-17","o":124.17,"h":124.91,"l":123.83,"c":124.57,"v":4.59,"ma50":130.53,"ma100":136.01,"ma200":148.92},{"date":"2026-03-18","o":122.63,"h":123.45,"l":122.3,"c":123.05,"v":4.89,"ma50":130.23,"ma100":135.76,"ma200":148.68},{"date":"2026-03-19","o":124.11,"h":125.29,"l":123.28,"c":125.17,"v":3.64,"ma50":130.03,"ma100":135.56,"ma200":148.47},{"date":"2026-03-20","o":125.7,"h":126.77,"l":124.29,"c":124.7,"v":4.83,"ma50":129.79,"ma100":135.36,"ma200":148.26},{"date":"2026-03-23","o":122.75,"h":123.4,"l":121.5,"c":121.87,"v":4.88,"ma50":129.53,"ma100":135.12,"ma200":148.03},{"date":"2026-03-24","o":124.36,"h":125.3,"l":123.63,"c":124.58,"v":5.18,"ma50":129.32,"ma100":134.9,"ma200":147.8},{"date":"2026-03-25","o":124.43,"h":125.11,"l":123.12,"c":123.95,"v":4.19,"ma50":129.09,"ma100":134.68,"ma200":147.58},{"date":"2026-03-26","o":121.4,"h":122.21,"l":120.51,"c":122.01,"v":4.45,"ma50":128.81,"ma100":134.46,"ma200":147.35},{"date":"2026-03-27","o":120.66,"h":121.91,"l":120.59,"c":121.29,"v":5.58,"ma50":128.51,"ma100":134.23,"ma200":147.1},{"date":"2026-03-30","o":121.53,"h":123.31,"l":120.44,"c":122.84,"v":3.02,"ma50":128.31,"ma100":134.03,"ma200":146.86},{"date":"2026-03-31","o":121.44,"h":122.02,"l":120.33,"c":120.94,"v":3.16,"ma50":128.08,"ma100":133.79,"ma200":146.63},{"date":"2026-04-01","o":121.28,"h":121.51,"l":120.5,"c":120.93,"v":3.64,"ma50":127.81,"ma100":133.54,"ma200":146.38},{"date":"2026-04-02","o":121.91,"h":122.22,"l":121.02,"c":121.84,"v":4.38,"ma50":127.6,"ma100":133.32,"ma200":146.13},{"date":"2026-04-03","o":122.76,"h":123.68,"l":121.49,"c":121.92,"v":3.63,"ma50":127.34,"ma100":133.11,"ma200":145.9},{"date":"2026-04-06","o":120.61,"h":121.49,"l":118.75,"c":119.61,"v":3.05,"ma50":127.05,"ma100":132.88,"ma200":145.63},{"date":"2026-04-07","o":119.79,"h":120.44,"l":118.79,"c":118.91,"v":5.88,"ma50":126.78,"ma100":132.63,"ma200":145.38},{"date":"2026-04-08","o":121.29,"h":121.52,"l":120.07,"c":120.84,"v":3.09,"ma50":126.57,"ma100":132.4,"ma200":145.14},{"date":"2026-04-09","o":118.33,"h":119.78,"l":117.82,"c":119.13,"v":2.61,"ma50":126.32,"ma100":132.18,"ma200":144.89},{"date":"2026-04-10","o":116.98,"h":118.57,"l":116.59,"c":117.53,"v":2.61,"ma50":126.01,"ma100":131.92,"ma200":144.62},{"date":"2026-04-13","o":120.38,"h":121.44,"l":119.8,"c":119.98,"v":3.65,"ma50":125.77,"ma100":131.68,"ma200":144.36},{"date":"2026-04-14","o":118.52,"h":120.25,"l":117.98,"c":119.4,"v":2.52,"ma50":125.54,"ma100":131.43,"ma200":144.09},{"date":"2026-04-15","o":117.06,"h":117.51,"l":115.92,"c":116.51,"v":4.61,"ma50":125.21,"ma100":131.15,"ma200":143.82},{"date":"2026-04-16","o":115.97,"h":116.35,"l":115.62,"c":116.31,"v":5.68,"ma50":124.91,"ma100":130.89,"ma200":143.54},{"date":"2026-04-17","o":117.76,"h":118.17,"l":117.2,"c":117.21,"v":4.56,"ma50":124.61,"ma100":130.64,"ma200":143.27},{"date":"2026-04-20","o":115.39,"h":115.93,"l":115.22,"c":115.5,"v":4.17,"ma50":124.3,"ma100":130.38,"ma200":142.99},{"date":"2026-04-21","o":117.27,"h":117.31,"l":116.3,"c":116.65,"v":4.53,"ma50":124.04,"ma100":130.12,"ma200":142.71},{"date":"2026-04-22","o":117.22,"h":117.95,"l":116.54,"c":117.45,"v":6.42,"ma50":123.76,"ma100":129.87,"ma200":142.44},{"date":"2026-04-23","o":114.92,"h":115.13,"l":114.15,"c":114.58,"v":5.01,"ma50":123.47,"ma100":129.6,"ma200":142.16},{"date":"2026-04-24","o":115.65,"h":116.1,"l":114.98,"c":116.05,"v":5.75,"ma50":123.16,"ma100":129.34,"ma200":141.9},{"date":"2026-04-27","o":112.95,"h":113.9,"l":112.17,"c":113.04,"v":5.75,"ma50":122.82,"ma100":129.07,"ma200":141.61},{"date":"2026-04-28","o":112.23,"h":112.7,"l":112.18,"c":112.34,"v":3.3,"ma50":122.46,"ma100":128.79,"ma200":141.33},{"date":"2026-04-29","o":112.58,"h":113.93,"l":111.79,"c":112.53,"v":3.51,"ma50":122.12,"ma100":128.53,"ma200":141.06},{"date":"2026-04-30","o":115.03,"h":115.82,"l":114.39,"c":115.24,"v":3.83,"ma50":121.82,"ma100":128.29,"ma200":140.8},{"date":"2026-05-01","o":114.05,"h":114.71,"l":112.56,"c":113.35,"v":4.05,"ma50":121.5,"ma100":128.04,"ma200":140.51},{"date":"2026-05-04","o":117.09,"h":118.03,"l":116.57,"c":117.1,"v":5.7,"ma50":121.3,"ma100":127.81,"ma200":140.25},{"date":"2026-05-05","o":116.65,"h":117.18,"l":116.16,"c":116.52,"v":3.78,"ma50":121.1,"ma100":127.59,"ma200":140.01},{"date":"2026-05-06","o":114.09,"h":115.23,"l":113.6,"c":114.54,"v":5.26,"ma50":120.86,"ma100":127.36,"ma200":139.74},{"date":"2026-05-07","o":99.95,"h":100.14,"l":99.02,"c":99.55,"v":19.84,"ma50":120.29,"ma100":126.96,"ma200":139.41},{"date":"2026-05-08","o":95.41,"h":95.6,"l":94.84,"c":95.26,"v":19.62,"ma50":119.66,"ma100":126.53,"ma200":139.05},{"date":"2026-05-11","o":76.26,"h":76.29,"l":75.8,"c":75.85,"v":14.93,"ma50":118.61,"ma100":125.88,"ma200":138.59},{"date":"2026-05-12","o":75.48,"h":75.95,"l":74.67,"c":75.33,"v":3.99,"ma50":117.59,"ma100":125.24,"ma200":138.15},{"date":"2026-05-13","o":75.15,"h":75.43,"l":74.66,"c":75.11,"v":3.5,"ma50":116.53,"ma100":124.62,"ma200":137.7},{"date":"2026-05-14","o":72.6,"h":72.9,"l":72.17,"c":72.6,"v":3.55,"ma50":115.47,"ma100":123.95,"ma200":137.25},{"date":"2026-05-15","o":72.46,"h":72.63,"l":71.31,"c":71.86,"v":12.98,"ma50":114.36,"ma100":123.28,"ma200":136.8},{"date":"2026-05-18","o":76.3,"h":76.58,"l":75.74,"c":75.79,"v":5.23,"ma50":113.35,"ma100":122.67,"ma200":136.35},{"date":"2026-05-19","o":77.2,"h":77.41,"l":76.89,"c":77.37,"v":6.07,"ma50":112.41,"ma100":122.07,"ma200":135.93},{"date":"2026-05-20","o":79.67,"h":80.19,"l":78.34,"c":78.98,"v":4.54,"ma50":111.5,"ma100":121.47,"ma200":135.51},{"date":"2026-05-21","o":78.46,"h":79.24,"l":78.45,"c":78.83,"v":4.72,"ma50":110.54,"ma100":120.87,"ma200":135.09},{"date":"2026-05-22","o":81.09,"h":81.64,"l":80.92,"c":81,"v":3.74,"ma50":109.62,"ma100":120.31,"ma200":134.67},{"date":"2026-05-23","o":79.07,"h":81.57,"l":78.57,"c":80.07,"v":6.3,"ma50":108.75,"ma100":119.74,"ma200":134.25}];
+const D_m2_scores = {"macd":-2,"rsi":0,"bollinger":1,"volumeObv":-1};
+const D_m4_scores = {"trendDirection":0,"indicatorResonance":0.5,"patternConfirm":0.5,"positionQuality":1.5,"volumePrice":0.5};
+
+const chartsBuilt = { m1: false, m2: false, m4: false };
+const chartBuilders = {
+  m1: () => new Chart(document.getElementById('priceChart'), {
+    type: 'line',
+    data: {
+      labels: ohlcvData.map(d => d.date),
+      datasets: [
+        { label: '收盘价', data: ohlcvData.map(d => d.c),
+          borderColor: '#0f172a', backgroundColor: 'rgba(15,23,42,0.08)',
+          borderWidth: 2.5, pointRadius: 0, tension: 0.1, fill: true },
+        { label: 'MA50', data: ohlcvData.map(d => d.ma50 || null),
+          borderColor: '#2563eb', borderWidth: 1.5, pointRadius: 0, borderDash: [4,4] },
+        { label: 'MA100', data: ohlcvData.map(d => d.ma100 || null),
+          borderColor: '#d97706', borderWidth: 1.5, pointRadius: 0, borderDash: [4,4] },
+        { label: 'MA200', data: ohlcvData.map(d => d.ma200 || null),
+          borderColor: '#dc2626', borderWidth: 1.5, pointRadius: 0 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        title: { display: true, text: 'K 线走势 + 三均线（50/100/200）— 价格远低于所有均线，典型空头排列', font: { size: 14, weight: '600' } },
+        legend: { position: 'top' }
+      },
+      scales: { y: { beginAtZero: false, ticks: { callback: v => '$' + v } } }
+    }
+  }),
+  m2: () => new Chart(document.getElementById('indicatorRadar'), {
+    type: 'radar',
+    data: {
+      labels: ['趋势 MACD', '动量 RSI', '波动 BB', '量能 OBV'],
+      datasets: [{
+        label: '信号方向（-2 强空 ~ +2 强多）',
+        data: [D_m2_scores.macd, D_m2_scores.rsi, D_m2_scores.bollinger, D_m2_scores.volumeObv],
+        backgroundColor: 'rgba(220,38,38,0.2)', borderColor: '#dc2626', borderWidth: 2,
+        pointBackgroundColor: '#dc2626', pointRadius: 5
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { r: { min: -2, max: 2, ticks: { stepSize: 1 }, pointLabels: { font: { size: 13, weight: '600' } } } },
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: '四大类指标方向（蓝绿区域=多头，红色区域=空头）', font: { size: 14, weight: '600' } }
+      }
+    }
+  }),
+  m4: () => new Chart(document.getElementById('scoreChart'), {
+    type: 'bar',
+    data: {
+      labels: ['趋势方向', '指标共振', '形态确认', '位置质量', '量价配合'],
+      datasets: [{
+        label: '得分（满分 2 分）',
+        data: [D_m4_scores.trendDirection, D_m4_scores.indicatorResonance, D_m4_scores.patternConfirm, D_m4_scores.positionQuality, D_m4_scores.volumePrice],
+        backgroundColor: ['#dc2626','#dc2626','#d97706','#059669','#dc2626'],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: '5 维评分（各项满分 2 分，总分 10）', font: { size: 14, weight: '600' } }
+      },
+      scales: { x: { beginAtZero: true, max: 2, ticks: { stepSize: 0.5 } } }
+    }
+  })
+};
+
+function ensureChart(tabId) {
+  if (chartBuilders[tabId] && !chartsBuilt[tabId]) {
+    chartBuilders[tabId]();
+    chartsBuilt[tabId] = true;
+  }
+}
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+    requestAnimationFrame(() => ensureChart(tab.dataset.tab));
+  });
+});
+
+window.addEventListener('load', () => {
+  requestAnimationFrame(() => ensureChart('m1'));
+});
+</script>
+</body>
+</html>
