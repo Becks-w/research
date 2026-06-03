@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>泡沫预警 2026-05-28</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #ffffff; --bg2: #f5f5f3; --bg3: #eeecea;
+    --text: #1a1a1a; --text2: #555552; --text3: #888784;
+    --border: #dddbd8; --accent: #3266ad;
+    --green: #1D9E75; --yellow: #C7A11A;
+    --orange: #BA7517; --red: #E24B4A;
+    --font: -apple-system, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text);
+         font-size: 14px; line-height: 1.7; max-width: 920px;
+         margin: 0 auto; padding: 32px 24px 64px; }
+  h1 { font-size: 24px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.3px; }
+  h2 { font-size: 17px; font-weight: 600; margin: 32px 0 12px; padding-bottom: 6px;
+       border-bottom: 1px solid var(--border); }
+  h3 { font-size: 14px; font-weight: 600; margin: 18px 0 8px; color: var(--text); }
+  p { margin: 8px 0; }
+  .stage-banner { padding: 18px 22px; border-radius: 8px; margin: 16px 0 28px;
+                  background: var(--bg2); border-left: 4px solid var(--accent); }
+  .stage-banner.red { border-color: var(--red); background: rgba(226,75,74,0.06); }
+  .stage-banner.orange { border-color: var(--orange); background: rgba(186,117,23,0.06); }
+  .stage-banner.yellow { border-color: var(--yellow); background: rgba(199,161,26,0.06); }
+  .stage-banner.green { border-color: var(--green); background: rgba(29,158,117,0.06); }
+  .stage-banner h2 { border: none; margin: 0 0 10px; padding: 0; font-size: 19px; }
+  .stage-banner .row { margin: 4px 0; }
+  .stage-banner strong { font-weight: 600; }
+  .score-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+                gap: 10px; margin: 12px 0 24px; }
+  .score-card { background: var(--bg2); border-radius: 6px; padding: 12px 14px;
+                border-left: 3px solid var(--border); }
+  .score-card.red { border-color: var(--red); }
+  .score-card.orange { border-color: var(--orange); }
+  .score-card.yellow { border-color: var(--yellow); }
+  .score-card.green { border-color: var(--green); }
+  .score-label { font-size: 11px; color: var(--text2); margin-bottom: 4px;
+                 text-transform: uppercase; letter-spacing: 0.5px; }
+  .score-value { font-size: 20px; font-weight: 500; }
+  .score-detail { font-size: 11px; color: var(--text3); margin-top: 4px; line-height: 1.4; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th { background: var(--bg2); padding: 9px 10px; text-align: left; font-weight: 600;
+       border-bottom: 1px solid var(--border); font-size: 12px;
+       text-transform: uppercase; letter-spacing: 0.3px; color: var(--text2); }
+  td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  td.num { font-feature-settings: "tnum"; }
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 10px;
+           font-size: 11px; font-weight: 500; white-space: nowrap; }
+  .badge.red { background: rgba(226,75,74,0.15); color: var(--red); }
+  .badge.orange { background: rgba(186,117,23,0.15); color: var(--orange); }
+  .badge.yellow { background: rgba(199,161,26,0.18); color: #846908; }
+  .badge.green { background: rgba(29,158,117,0.15); color: var(--green); }
+  .meta { color: var(--text3); font-size: 12px; margin-bottom: 20px; }
+  .chart-wrap { background: var(--bg2); border-radius: 8px; padding: 20px;
+                margin: 16px 0 24px; }
+  .chart-wrap h3 { margin-top: 0; }
+  .chart-canvas { max-height: 360px; }
+  .red-list { background: rgba(226,75,74,0.04); padding: 12px 16px;
+              border-radius: 6px; margin: 8px 0 16px; border: 1px solid rgba(226,75,74,0.18); }
+  .red-list ol { margin-left: 20px; }
+  .red-list li { margin: 4px 0; font-size: 13px; }
+  .position-table th { background: rgba(50,102,173,0.07); }
+  .callout { background: var(--bg3); padding: 14px 18px; border-radius: 6px;
+             margin: 16px 0; font-size: 13px; color: var(--text2); }
+  .footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border);
+            font-size: 12px; color: var(--text3); line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<h1>泡沫预警报告 · 2026-05-28</h1>
+<div class="meta">报告期: 2026年5月28日（周四收盘后） | 时区: SGT (UTC+8) | 数据截至: 2026-05-29 上午 SGT</div>
+
+<div class="stage-banner red">
+  <h2>当前阶段判断：泡沫晚期</h2>
+  <div class="row">总分：<strong>15 / 18</strong>（距"极端泡沫"门槛仅 1 分）</div>
+  <div class="row">红色指标触发：<strong>11 项</strong>（分布于 A 类、C 类、D 类、F 类四个模块）</div>
+  <div class="row" style="margin-top: 10px;">建议仓位调整：<strong>减仓 50% 高 Beta，对冲资产至 10-15%，启动尾部保护（put spread）</strong></div>
+</div>
+
+<h2>六大模块得分总览</h2>
+<div class="score-grid">
+  <div class="score-card red">
+    <div class="score-label">A · 泡沫阶段</div>
+    <div class="score-value">3 / 3</div>
+    <div class="score-detail">巴菲特指数 236% 史高<br>GS RAI 99 百分位</div>
+  </div>
+  <div class="score-card orange">
+    <div class="score-label">B · 财报离散</div>
+    <div class="score-value">2 / 3</div>
+    <div class="score-detail">NVDA 反应衰减, AMD 强反弹</div>
+  </div>
+  <div class="score-card red">
+    <div class="score-label">C · 流动性/情绪</div>
+    <div class="score-value">3 / 3</div>
+    <div class="score-detail">P/C 0.39, 0DTE 61%, Margin $1.3T</div>
+  </div>
+  <div class="score-card red">
+    <div class="score-label">D · 聪明钱</div>
+    <div class="score-value">3 / 3</div>
+    <div class="score-detail">NVDA 18个月内部人零买入 -$33B</div>
+  </div>
+  <div class="score-card yellow">
+    <div class="score-label">E · 宏观共振</div>
+    <div class="score-value">1 / 3</div>
+    <div class="score-detail">金银已脱钩, ERP 压缩</div>
+  </div>
+  <div class="score-card red">
+    <div class="score-label">F · 亚洲杠杆</div>
+    <div class="score-value">3 / 3</div>
+    <div class="score-detail">韩国保证金破历史顶 +42%</div>
+  </div>
+</div>
+
+<div class="red-list">
+<strong>本次触发的 11 项红色指标</strong>
+<ol>
+  <li><strong>巴菲特指数 236.2%</strong>（Wilshire 5000 / GDP，5/22）—— 有史以来最高，比 2000 互联网泡沫峰值（~146%）高 +62%、比 2021 末（~200%）高 +18%</li>
+  <li>高盛 Risk Appetite Indicator > 1.1，99 百分位（1991 起），自 2000 年以来首次与动量 z > 3.0 同时出现</li>
+  <li>SPHB（高 Beta）YTD +25.6% vs SPLV（低波动）YTD +4.81%，比值持续极端化</li>
+  <li>AI 改名小盘股井喷：BIRD（NewBird AI）单日 +582%、MYSE（Myseum.AI）盘前 +200%、AIXC 等多起，Bloomberg 称"Peak Euphoria"</li>
+  <li>CBOE 股票 Put/Call Ratio 5/28 = <strong>0.39</strong>，远低于红色阈值 0.55，极度乐观</li>
+  <li>0DTE 期权占 SPX 总量 <strong>61%</strong>（5 月创历史新高，4 月还是 52%），散户占 0DTE 54%</li>
+  <li>FINRA 保证金债务 4 月 = <strong>$1.30 万亿</strong>（历史新高，同比 +53.3%），Margin/GDP 4.09%（突破历史 95 分位）</li>
+  <li>NVDA 内部人 18 个月减持 <strong>$33 亿</strong>，15 名高管 0 笔买入，Jensen Huang 一人 $29 亿</li>
+  <li>韩国保证金贷款余额 5/14 = <strong>36.47 万亿韩元</strong>，超 2021 历史峰值 25.65 万亿韩元 +42%，YTD +33.66%</li>
+  <li>香港 CSOP SK Hynix 2x 杠杆 ETF（07709.HK）AUM 突破 <strong>HK$60 亿</strong>，超越 TSLL 成为全球最大单股杠杆 ETF</li>
+  <li>韩国 FSC + FSS 5/25 联合发出"<strong>不寻常的强烈警告</strong>"，警告单日可能损失 60%，"不理解结构者勿投"</li>
+</ol>
+</div>
+
+<div class="chart-wrap">
+  <h3>图表 1：六大模块得分雷达图（满分 3 分/模块）</h3>
+  <canvas id="radarChart" class="chart-canvas"></canvas>
+</div>
+
+<h2>A. 泡沫阶段判断指标</h2>
+<table>
+  <thead><tr>
+    <th>指标</th><th>当前读数</th><th>历史定位</th><th>预警</th>
+  </tr></thead>
+  <tbody>
+    <tr><td>GS Risk Appetite Indicator</td>
+        <td class="num">> 1.1</td>
+        <td>99 百分位（1991 起），1950 起仅 2% 时间在 1.0 上</td>
+        <td><span class="badge red">红色</span></td></tr>
+    <tr><td>GS Speculative Trading Indicator</td>
+        <td>历史第二高</td>
+        <td>仅次于 1998-2001 互联网泡沫和 2020-2021 meme stock</td>
+        <td><span class="badge red">红色</span></td></tr>
+    <tr><td>SPHB / SPLV YTD 表现</td>
+        <td class="num">+25.6% vs +4.81%</td>
+        <td>价差 +20.8 pct，60 日滚动跑赢极端</td>
+        <td><span class="badge red">红色</span></td></tr>
+    <tr><td>AI 改名小盘股案例</td>
+        <td>≥ 4 例（30 日内）</td>
+        <td>BIRD +582%, MYSE +200%, AIXC, JUNE→SUPX</td>
+        <td><span class="badge red">红色</span></td></tr>
+    <tr><td>Russell 2000 亏损公司比例</td>
+        <td class="num">42%</td>
+        <td>亏损股 YTD +53% vs 盈利股 +22%（自 4/8 低点）</td>
+        <td><span class="badge orange">橙色</span></td></tr>
+    <tr><td>Shiller P/E（参考）</td>
+        <td class="num">39.6×</td>
+        <td>历史可比情景均值 26.5×（高盛 5/13 报告）</td>
+        <td><span class="badge red">红色</span></td></tr>
+    <tr><td><strong>巴菲特指数</strong>（Wilshire 5000 / GDP）</td>
+        <td class="num"><strong>236.2%</strong>（5/22）</td>
+        <td><strong>有史以来最高</strong>；2000 顶 ~146%，2021 顶 ~200%；现高于趋势线 +2.0 SD</td>
+        <td><span class="badge red">红色</span></td></tr>
+  </tbody>
+</table>
+
+<div class="callout" style="background: rgba(226,75,74,0.05); border-left: 3px solid var(--red);">
+<strong>关于巴菲特指数的关键背景：</strong>巴菲特本人 2001 年称这是"判断市场估值最好的单一指标"，并认为 200% 是"玩火"区域。当前 236.2% 不仅创历史新高，<strong>且比 2000 年互联网泡沫峰值高出 +62%、比 2021 年末峰值高出 +18%</strong>。Advisor Perspectives（基于"非金融企业股权 / GDP"的口径）给出 229.5%，比趋势线高 +64.7%（2.0 标准差），同样是历史第二高（仅次于上一季度）。三个独立口径——GuruFocus 236.2%、Advisor Perspectives 229.5%、CurrentMarketValuation 219%——都指向同一结论：股市市值与实体经济产出的比例已极度脱节。
+</div>
+
+<h2>B. 财报反应离散度（5 月半导体财报季）</h2>
+<table>
+  <thead><tr>
+    <th>标的</th><th>财报日</th><th>营收 beat</th><th>EPS beat</th><th>±2 日反应</th><th>解读</th>
+  </tr></thead>
+  <tbody>
+    <tr><td>AMD</td><td>5/5</td><td>+4.4%</td><td>+6.2%</td><td class="num"><strong style="color:var(--green)">+16~18%</strong></td><td>二线接力强反应</td></tr>
+    <tr><td>MU</td><td>5/5 联动</td><td>—</td><td>—</td><td class="num">+11%</td><td>创 52 周新高</td></tr>
+    <tr><td>AVGO</td><td>5/5 联动</td><td>—</td><td>—</td><td class="num">52 周新高</td><td>联动二线接力</td></tr>
+    <tr><td>NVDA</td><td>5/20</td><td>+3.6%</td><td>+6.3%</td><td class="num"><strong style="color:var(--red)">-0.5%</strong></td><td>龙头反应衰减</td></tr>
+    <tr><td>NVDA（盘后）</td><td>5/20</td><td>—</td><td>—</td><td class="num">+1.37%</td><td>盘后温和，未触发 36h 反转</td></tr>
+  </tbody>
+</table>
+<div class="callout">
+<strong>判断：极差 ~18%（10-25% 区间）= 健康轮换偏激烈。</strong>核心信号是 NVDA 大幅 beat（营收 +85% YoY、Data Center +92%）但市场反应几乎归零——典型"对正面消息反应衰减"的牛市晚期信号。资金从龙头 NVDA 流向二线 AMD/MU/AVGO，但尚未进一步流向三线垃圾股（SOUN/PLTR），所以暂定<span class="badge orange">橙色</span>而非红色。
+</div>
+
+<div class="chart-wrap">
+  <h3>图表 2：5 月半导体财报后 ±2 日股价反应</h3>
+  <canvas id="earningsChart" class="chart-canvas"></canvas>
+</div>
+
+<h2>C. 流动性 / 情绪极端</h2>
+<table>
+  <thead><tr>
+    <th>指标</th><th>当前读数</th><th>阈值</th><th>预警</th>
+  </tr></thead>
+  <tbody>
+    <tr><td>CBOE Equity Put/Call Ratio</td>
+        <td class="num">0.39（5/28）</td>
+        <td>红色 < 0.55</td>
+        <td><span class="badge red">红色</span></td></tr>
+    <tr><td>0DTE 占 SPX 总量</td>
+        <td class="num">61%（5 月）</td>
+        <td>红色 > 50%</td>
+        <td><span class="badge red">红色</span></td></tr>
+    <tr><td>VIX 收盘</td>
+        <td class="num">15.74 (5/28)</td>
+        <td>52 周低位区</td>
+        <td><span class="badge orange">橙色</span></td></tr>
+    <tr><td>FINRA Margin Debt</td>
+        <td class="num">$1.30 万亿（4 月）</td>
+        <td>历史新高，同比 +53.3%</td>
+        <td><span class="badge red">红色</span></td></tr>
+    <tr><td>Margin / GDP</td>
+        <td class="num">4.09%</td>
+        <td>50 年中位数 1.5%，历史新高</td>
+        <td><span class="badge red">红色</span></td></tr>
+    <tr><td>Net 信用余额</td>
+        <td class="num">-$8710 亿</td>
+        <td>仅比 1 月历史低点高 0.8%</td>
+        <td><span class="badge red">红色</span></td></tr>
+  </tbody>
+</table>
+
+<h2>D. 关键人物与资金流（Q1 2026 13F）</h2>
+<table>
+  <thead><tr>
+    <th>主体</th><th>关键动作</th><th>解读</th>
+  </tr></thead>
+  <tbody>
+    <tr><td>NVDA 内部人</td>
+        <td>18 个月减持 $33 亿，15 人参与，0 笔买入；CEO 黄仁勋一人 $29 亿</td>
+        <td><span class="badge red">红色</span> 龙头股高管集中减持</td></tr>
+    <tr><td>TCI Fund（Hohn）</td>
+        <td>MSFT 持仓从 1,678 万股削减到 273 万股（-84%）</td>
+        <td><span class="badge orange">橙色</span> 大幅减持核心科技</td></tr>
+    <tr><td>Druckenmiller / Duquesne</td>
+        <td>清仓 GOOGL（38.5 万股）；新建 AVGO；3 倍加仓 STM</td>
+        <td><span class="badge yellow">黄色</span> 在科技板块内换股</td></tr>
+    <tr><td>Loeb / Third Point</td>
+        <td>退出 MSFT；新建 META、GOOGL、SPDR Gold、Hut 8 (BTC mining)</td>
+        <td><span class="badge yellow">黄色</span> 加仓黄金 + BTC，去风险</td></tr>
+    <tr><td>Berkshire Hathaway</td>
+        <td>大幅加仓 GOOGL 至 5,780 万股（约 $166 亿，第五大持仓）</td>
+        <td><span class="badge green">中性</span> Greg Abel 接任首季抄底</td></tr>
+    <tr><td>Burry / Scion</td>
+        <td>已于 Q4 2025 注销基金，无 Q1 2026 13F</td>
+        <td>—</td></tr>
+  </tbody>
+</table>
+
+<h2>E. 宏观共振</h2>
+<table>
+  <thead><tr>
+    <th>指标</th><th>当前读数</th><th>解读</th><th>预警</th>
+  </tr></thead>
+  <tbody>
+    <tr><td>GLD 价格</td>
+        <td class="num">$412.77（5/29）</td>
+        <td>距 52 周高点 $509.70 回落 -19%</td>
+        <td><span class="badge green">绿色</span></td></tr>
+    <tr><td>金银 vs 科技股相关性</td>
+        <td>已转负 / 脱钩</td>
+        <td>5 月伊朗战争开战以来黄金 -8%；不再共振</td>
+        <td><span class="badge green">绿色</span></td></tr>
+    <tr><td>DXY</td>
+        <td class="num">99.28（5/28）</td>
+        <td>52 周区间 95.55-100.90，未进入流动性放水区</td>
+        <td><span class="badge green">绿色</span></td></tr>
+    <tr><td>10Y 美债收益率</td>
+        <td class="num">4.59%</td>
+        <td>市场已转为 12 月加息 50% 概率</td>
+        <td><span class="badge yellow">黄色</span></td></tr>
+    <tr><td>S&P 500 ERP（估算）</td>
+        <td class="num">≈ 0~0.5%</td>
+        <td>Forward 收益率 ~5.0% − 10Y 4.59% = 风险溢价被压缩到极低</td>
+        <td><span class="badge orange">橙色</span></td></tr>
+  </tbody>
+</table>
+<div class="callout">
+<strong>判断：宏观层尚未完全确认泡沫。</strong>贵金属与科技股已经在 1 月-4 月期间脱钩（白银从 $100 跌回 $73；黄金从 $5,100+ 回落到 $4,500 附近），美元也没有崩盘式贬值——这两个关键的"流动性驱动泡沫"特征都不满足。但 ERP 接近 0 意味着股票相对债券已无吸引力，估值层面已经在极端区。
+</div>
+
+<h2>F. 亚洲杠杆需求（本报告特色模块）</h2>
+<table>
+  <thead><tr>
+    <th>指标</th><th>当前读数</th><th>历史对照</th><th>预警</th>
+  </tr></thead>
+  <tbody>
+    <tr><td>韩国保证金贷款余额</td>
+        <td class="num">36.47 万亿韩元（5/14）</td>
+        <td>2021 历史峰值 25.65 万亿，超出 +42%；YTD +33.66%</td>
+        <td><span class="badge red">红色</span></td></tr>
+    <tr><td>韩国短卖余额</td>
+        <td class="num">21.17 万亿韩元（5/11）</td>
+        <td>单月 +38%，与保证金同步极端</td>
+        <td><span class="badge red">红色</span></td></tr>
+    <tr><td>CSOP SK Hynix 2x ETF (HK)</td>
+        <td>AUM HK$60 亿（5/13）</td>
+        <td>7 个月内涨 1,011%，超越 TSLL 成全球最大单股杠杆 ETF</td>
+        <td><span class="badge red">红色</span></td></tr>
+    <tr><td>韩国本土 Samsung/SK Hynix 2x ETF</td>
+        <td>5/27 上市 18 只</td>
+        <td>预计上市净流入 5.3 万亿韩元（$35 亿）</td>
+        <td><span class="badge red">红色</span></td></tr>
+    <tr><td>韩国 ETF 杠杆教育人数</td>
+        <td>5/19 累计 74,315 人</td>
+        <td>2 天内新增 14,599 人（散户入场前合规动作）</td>
+        <td><span class="badge orange">橙色</span></td></tr>
+    <tr><td>韩国监管联合警告</td>
+        <td>5/25 FSC + FSS 警告</td>
+        <td>"单日可能 -60%，不理解结构者勿投" — 不寻常的强烈措辞</td>
+        <td><span class="badge red">红色</span></td></tr>
+    <tr><td>韩国持有 TSLL 比例</td>
+        <td class="num">44%</td>
+        <td>韩国零售持有美股杠杆 ETF 总规模的 14.2%（占 $1100 亿）</td>
+        <td><span class="badge red">红色</span></td></tr>
+  </tbody>
+</table>
+
+<div class="chart-wrap">
+  <h3>图表 3：韩国保证金贷款余额历史走势</h3>
+  <canvas id="koreaChart" class="chart-canvas"></canvas>
+</div>
+
+<h2>分层判断：美国本土 vs 亚洲杠杆</h2>
+<div class="callout" style="background: rgba(226,75,74,0.05); border-left: 3px solid var(--red);">
+<strong>美国本土投资者已显著过热（GS RAI 99 百分位、Margin Debt 历史新高、Put/Call 0.39、0DTE 61%），亚洲散户更已进入合规警告区间（韩国监管不寻常警告、CSOP SK Hynix ETF 全球最大）。但贵金属未与科技共振、DXY 未崩、AMD 财报反应仍强劲，说明这不是 2021 Q4 那种"所有标的同步暴涨"的极端泡沫。</strong> 当前更像 1999 年 11 月-2000 年 1 月的窗口：龙头开始让位、二线接力、垃圾股局部投机化、内部人持续派发——典型的"泡沫晚期"，距离"极端泡沫"只差 1 分。
+</div>
+
+<h2>仓位建议：针对您的核心持仓</h2>
+<table class="position-table">
+  <thead><tr>
+    <th>持仓</th><th>类别</th><th>泡沫风险敞口</th><th>建议动作</th>
+  </tr></thead>
+  <tbody>
+    <tr><td>AVGO</td><td>AI 半导体</td><td>高（二线接力的最大受益者）</td><td>减仓 30-40%；保留底仓</td></tr>
+    <tr><td>GOOG / MSFT</td><td>大科技平台</td><td>中（TCI/Druckenmiller 已减持 MSFT）</td><td>减仓 25-30%</td></tr>
+    <tr><td>COIN / CRCL / HOOD / IBIT</td><td>加密 + 散户经纪</td><td>极高（散户狂热直接对应）</td><td>减仓 40-50%；止盈一部分</td></tr>
+    <tr><td>V</td><td>支付防御</td><td>低</td><td>维持</td></tr>
+    <tr><td>LULU / DUOL</td><td>防御性消费 / 教育</td><td>低（高 PE 但低 Beta）</td><td>维持；DUOL 可作泡沫破灭后承接</td></tr>
+    <tr><td>LEU</td><td>核能主题</td><td>低（与 AI 主题相对独立）</td><td>维持</td></tr>
+  </tbody>
+</table>
+
+<h3>对冲性资产配置建议（提升至总仓位 10-15%）</h3>
+<p style="font-size: 13px; color: var(--text2);">
+• <strong>黄金/GLD（5-7%）</strong>：贵金属已与科技脱钩，是少数仍能在风险事件中提供保护的资产<br>
+• <strong>短久期美债 / 货币基金（3-5%）</strong>：ERP 已接近 0，债券相对吸引力上升<br>
+• <strong>SPY put spread（1-2%）</strong>：3-6 个月期，行权价 -7% 到 -12%，对冲尾部风险<br>
+• <strong>现金（保留 5-8%）</strong>：等待回调后承接 LEU/DUOL/AVGO 等长期标的
+</p>
+
+<h2>历史阶段对照</h2>
+<table>
+  <thead><tr>
+    <th>历史泡沫晚期</th><th>持续时间</th><th>结局</th>
+  </tr></thead>
+  <tbody>
+    <tr><td>1999/11 – 2000/3（互联网泡沫顶部）</td><td>约 4 个月</td><td>纳指随后 -78%</td></tr>
+    <tr><td>2020/11 – 2021/2（meme stock 顶部）</td><td>约 4 个月</td><td>多数投机标的 -80% 以上</td></tr>
+    <tr><td>2021/10 – 2022/1（成长股顶部）</td><td>约 3 个月</td><td>QQQ -33%, ARKK -75%</td></tr>
+  </tbody>
+</table>
+<p style="font-size: 13px; color: var(--text2); margin-top: 8px;">
+当前若已进入"泡沫晚期"窗口，历史经验显示通常持续 3-6 个月后过渡到回调或熊市。重要的是：在阶段判断锁定期间（4-6 周）不要每周来回切换判断。下次更新若 NVDA / AVGO 出现 36h 财报反转 或 韩国保证金破 40 万亿、或 任一宏观聪明钱完整退出 NVDA/META/GOOG，立即下调至"极端泡沫"。
+</p>
+
+<h2>数据缺口与诚实性声明</h2>
+<p style="font-size: 13px; color: var(--text2);">
+本报告以下数据通过二手报道获取或采用估算：<br>
+• GS STI / RAI 当前精确数值（仅 GS 客户可见，依赖 TheStreet/Sherwood News 等转载）<br>
+• 0DTE 5 月占比 61% 来自 Cboe Mandy Xu 的 6 月初评论（数据截至 5 月底）<br>
+• 韩国 KSD 美股单股杠杆 ETF 周净流入未取得最新单周数据，以 CSOP 香港 AUM 替代验证<br>
+• Bybit / Binance 美股永续 OI 数据未公开披露，未纳入本期评分
+</p>
+
+<div class="footer">
+数据来源：Goldman Sachs (TheStreet, Sherwood News 转载)、CBOE Global Markets、FINRA、Korea Financial Investment Association (KOFIA)、Korea Securities Depository (KSD)、Korea Exchange (KRX)、CSOP Asset Management、Seoul Economic Daily、KED Global、Bloomberg、Axios、Yahoo Finance、SEC EDGAR 13F filings、Investing.com、Macromicro、Advisor Perspectives (dshort)。<br><br>
+本报告为系统性宏观/情绪指标的综合判读，仅供信息参考，不构成投资建议。投资决策应结合自身风险承受能力与独立尽职调查。市场可以在"泡沫晚期"持续数月，及时减仓不等于完全清仓；保留核心底仓与持续监控同等重要。
+</div>
+
+<script>
+// ============ 图表 1：六大模块雷达图 ============
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['A. 泡沫阶段', 'B. 财报离散', 'C. 流动性/情绪', 'D. 聪明钱流向', 'E. 宏观共振', 'F. 亚洲杠杆'],
+    datasets: [{
+      label: '当前得分',
+      data: [3, 2, 3, 3, 1, 3],
+      backgroundColor: 'rgba(226,75,74,0.18)',
+      borderColor: 'rgba(226,75,74,0.85)',
+      borderWidth: 2,
+      pointBackgroundColor: 'rgba(226,75,74,1)',
+      pointRadius: 4
+    }, {
+      label: '红色阈值 (3 分)',
+      data: [3, 3, 3, 3, 3, 3],
+      backgroundColor: 'rgba(0,0,0,0)',
+      borderColor: 'rgba(120,120,120,0.35)',
+      borderWidth: 1,
+      borderDash: [4, 4],
+      pointRadius: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 12 } } },
+      title: {
+        display: true,
+        text: '总分 15 / 18（泡沫晚期）',
+        font: { size: 14, weight: 'bold' },
+        color: '#E24B4A'
+      }
+    },
+    scales: {
+      r: {
+        beginAtZero: true,
+        max: 3,
+        ticks: { stepSize: 1, font: { size: 10 } },
+        grid: { color: 'rgba(0,0,0,0.08)' },
+        angleLines: { color: 'rgba(0,0,0,0.1)' },
+        pointLabels: { font: { size: 12 } }
+      }
+    }
+  }
+});
+
+// ============ 图表 2：半导体财报反应 ============
+new Chart(document.getElementById('earningsChart'), {
+  type: 'bar',
+  data: {
+    labels: ['AMD\n(5/5)', 'MU\n(5/5 联动)', 'AVGO\n(5/5 联动)', 'NVDA 盘后\n(5/20)', 'NVDA 次日\n(5/21)'],
+    datasets: [{
+      label: '±2 日股价反应 (%)',
+      data: [17, 11, 8, 1.37, -0.5],
+      backgroundColor: [
+        'rgba(29,158,117,0.75)',
+        'rgba(29,158,117,0.55)',
+        'rgba(29,158,117,0.45)',
+        'rgba(199,161,26,0.65)',
+        'rgba(226,75,74,0.75)'
+      ],
+      borderColor: [
+        'rgba(29,158,117,1)',
+        'rgba(29,158,117,1)',
+        'rgba(29,158,117,1)',
+        'rgba(199,161,26,1)',
+        'rgba(226,75,74,1)'
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: '极差 17.5%（健康轮换偏激烈）；NVDA 龙头反应明显衰减',
+        font: { size: 13 }
+      }
+    },
+    scales: {
+      y: {
+        title: { display: true, text: '财报后 ±2 日涨跌幅 (%)' },
+        grid: { color: 'rgba(0,0,0,0.05)' }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// ============ 图表 3：韩国保证金贷款余额历史 ============
+new Chart(document.getElementById('koreaChart'), {
+  type: 'line',
+  data: {
+    labels: ['2020', '2021 高点', '2024 末', '2026/1', '2026/3', '2026/4', '2026/5/14'],
+    datasets: [{
+      label: '韩国保证金贷款余额（万亿韩元）',
+      data: [15.8, 25.65, 19.2, 28.2, 32.67, 34.5, 36.47],
+      borderColor: 'rgba(226,75,74,0.9)',
+      backgroundColor: 'rgba(226,75,74,0.12)',
+      borderWidth: 2.5,
+      fill: true,
+      tension: 0.25,
+      pointRadius: 5,
+      pointBackgroundColor: 'rgba(226,75,74,1)'
+    }, {
+      label: '2021 历史峰值（25.65 万亿）',
+      data: [25.65, 25.65, 25.65, 25.65, 25.65, 25.65, 25.65],
+      borderColor: 'rgba(120,120,120,0.55)',
+      borderWidth: 1,
+      borderDash: [5, 5],
+      fill: false,
+      pointRadius: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 11 } } },
+      title: {
+        display: true,
+        text: '当前 36.47 万亿韩元 vs 2021 历史峰值 25.65 万亿 → 超出 +42%',
+        font: { size: 13, weight: 'bold' },
+        color: '#E24B4A'
+      }
+    },
+    scales: {
+      y: {
+        title: { display: true, text: '万亿韩元' },
+        grid: { color: 'rgba(0,0,0,0.05)' }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
