@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>量子计算横向对比：Quantinuum (QNT) vs IonQ (IONQ) vs PsiQuantum</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --border:#30363d;
+    --txt:#e6edf3; --muted:#8b949e; --accent:#58a6ff;
+    --qnt:#f78166; --ionq:#3fb950; --psi:#a371f7;
+    --warn:#d29922; --bad:#f85149; --good:#3fb950;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;padding:24px 16px 64px}
+  .wrap{max-width:1080px;margin:0 auto}
+  h1{font-size:24px;font-weight:700;letter-spacing:.3px}
+  h2{font-size:18px;margin:8px 0 14px;color:var(--accent)}
+  h3{font-size:15px;margin:18px 0 8px}
+  .sub{color:var(--muted);font-size:13px;margin-top:6px}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--border);margin-right:6px;color:var(--muted)}
+  .banner{background:var(--panel2);border:1px solid var(--warn);border-radius:10px;padding:14px 16px;margin:18px 0;font-size:13.5px}
+  .banner b{color:var(--warn)}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px}
+  .card .nm{font-size:16px;font-weight:700}
+  .card .tk{font-size:12px;color:var(--muted);margin-bottom:10px}
+  .card .row{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px dashed var(--border)}
+  .card .row:last-child{border-bottom:none}
+  .card .row .k{color:var(--muted)}
+  .c-qnt{border-top:3px solid var(--qnt)}
+  .c-ionq{border-top:3px solid var(--ionq)}
+  .c-psi{border-top:3px solid var(--psi)}
+  .tabs{display:flex;gap:6px;margin:24px 0 0;flex-wrap:wrap}
+  .tab{padding:9px 16px;background:var(--panel);border:1px solid var(--border);border-bottom:none;border-radius:8px 8px 0 0;cursor:pointer;font-size:13.5px;color:var(--muted);transition:.15s}
+  .tab.active{background:var(--panel2);color:var(--txt);font-weight:600}
+  .panel{background:var(--panel2);border:1px solid var(--border);border-radius:0 10px 10px 10px;padding:22px}
+  .pane{display:none}
+  .pane.active{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .chart-box{position:relative;height:340px;margin:14px 0 8px}
+  .chart-box.tall{height:420px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+  th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--border)}
+  th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+  td.qnt{color:var(--qnt)} td.ionq{color:var(--ionq)} td.psi{color:var(--psi)}
+  .pill{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600}
+  .p-cheap{background:rgba(63,185,80,.15);color:var(--good)}
+  .p-fair{background:rgba(88,166,255,.15);color:var(--accent)}
+  .p-rich{background:rgba(210,153,34,.15);color:var(--warn)}
+  .p-extreme{background:rgba(248,81,73,.15);color:var(--bad)}
+  .concl{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:14px 16px;margin:12px 0;font-size:13.5px}
+  .concl.qnt{border-left-color:var(--qnt)} .concl.ionq{border-left-color:var(--ionq)} .concl.psi{border-left-color:var(--psi)}
+  .concl .h{font-weight:700;margin-bottom:4px}
+  .rank{counter-reset:r;list-style:none;margin:10px 0}
+  .rank li{counter-increment:r;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:12px 14px 12px 46px;position:relative;margin-bottom:8px;font-size:13.5px}
+  .rank li::before{content:counter(r);position:absolute;left:12px;top:12px;width:24px;height:24px;background:var(--accent);color:#0d1117;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px}
+  .note{font-size:12px;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;margin:6px 0 0}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .dot{width:10px;height:10px;border-radius:3px;display:inline-block}
+  ul.x{margin:6px 0 6px 18px;font-size:13px}
+  ul.x li{margin:3px 0}
+  @media(max-width:720px){.cards{grid-template-columns:1fr}.chart-box{height:300px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>量子计算三强横向对比</h1>
+  <div class="sub">Quantinuum (QNT) · IonQ (IONQ) · PsiQuantum &nbsp;|&nbsp; 数据截止 <b>2026-06-04</b>，货币口径统一 USD &nbsp;|&nbsp; 长期持有视角</div>
+  <div style="margin-top:8px">
+    <span class="tag" style="color:var(--qnt)">QNT · 今日 IPO 首日</span>
+    <span class="tag" style="color:var(--ionq)">IONQ · 2021 已上市</span>
+    <span class="tag" style="color:var(--psi)">PsiQuantum · 仍为私有公司</span>
+  </div>
+
+  <div class="banner">
+    <b>⚠ 口径前提必读：</b>三家并非"同日 IPO"。<b>仅 QNT（Quantinuum）于 2026-06-04 在 Nasdaq 首日交易</b>（IPO 定价 $60、募资 $1.68B）；<b>IONQ 自 2021 年已上市</b>；<b>PsiQuantum 至今仍是私有公司</b>，无 IPO、无公开代码，仅有二级私募市场估值。三者均深度亏损、EPS 为负 → <b>传统 PE/PEG 失效</b>，本报告改用 EV/Revenue、收入增速、现金跑道、bookings 与定性护城河评分。所有"估值倍数"为高量级近似，量子板块溢价极端、波动剧烈，仅供框架参考。
+  </div>
+
+  <!-- 概览卡片 -->
+  <div class="cards">
+    <div class="card c-qnt">
+      <div class="nm">Quantinuum</div>
+      <div class="tk">Nasdaq: QNT · 离子阱 · 今日上市</div>
+      <div class="row"><span class="k">IPO 定价</span><span>$60.00 / 股</span></div>
+      <div class="row"><span class="k">募资额</span><span>$1.68B（2,800万股）</span></div>
+      <div class="row"><span class="k">隐含估值</span><span>≈ $15B（摊薄）</span></div>
+      <div class="row"><span class="k">FY2025 收入</span><span>$30.9M（+34% YoY）</span></div>
+      <div class="row"><span class="k">FY2025 净亏损</span><span>-$192.6M</span></div>
+      <div class="row"><span class="k">EV/Rev（'25）</span><span>≈ 485x</span></div>
+    </div>
+    <div class="card c-ionq">
+      <div class="nm">IonQ</div>
+      <div class="tk">NYSE: IONQ · 离子阱 · 已上市</div>
+      <div class="row"><span class="k">现价（6/3）</span><span>$68.21（52周 26–85）</span></div>
+      <div class="row"><span class="k">市值</span><span>≈ $29–30B</span></div>
+      <div class="row"><span class="k">现金</span><span>$3.3B（'25年末）</span></div>
+      <div class="row"><span class="k">FY2025 收入</span><span>$130.0M（+202% YoY）</span></div>
+      <div class="row"><span class="k">FY2026 指引</span><span>$260–270M</span></div>
+      <div class="row"><span class="k">EV/Rev（'26E）</span><span>≈ 100x</span></div>
+    </div>
+    <div class="card c-psi">
+      <div class="nm">PsiQuantum</div>
+      <div class="tk">私有 · 光量子(硅光) · 无 IPO</div>
+      <div class="row"><span class="k">公开代码</span><span>无</span></div>
+      <div class="row"><span class="k">最近估值</span><span>$7B（'25/09 E轮）</span></div>
+      <div class="row"><span class="k">二级估价</span><span>≈ $33–43 / 股</span></div>
+      <div class="row"><span class="k">累计融资</span><span>$2.1B+（自2016）</span></div>
+      <div class="row"><span class="k">收入</span><span>基本 pre-revenue（未披露）</span></div>
+      <div class="row"><span class="k">EV/Rev</span><span>N/A（无营收）</span></div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" data-t="0">估值对比</div>
+    <div class="tab" data-t="1">增长与质量</div>
+    <div class="tab" data-t="2">雷达综合评分</div>
+    <div class="tab" data-t="3">投资结论</div>
+  </div>
+
+  <div class="panel">
+    <!-- TAB 1 -->
+    <div class="pane active" id="p0">
+      <h2>① 估值定位：极端溢价光谱</h2>
+      <p style="font-size:13.5px">量子板块尚处商业化早期，三家收入体量极小、全部亏损，PE/PEG 无意义。下图用 <b>EV/Revenue（企业价值 / 收入倍数）</b> 衡量市场愿意为每一美元收入支付的溢价——倍数越高，对未来兑现的押注越激进。</p>
+      <div class="chart-box"><canvas id="evChart"></canvas></div>
+      <div class="legend">
+        <span><i class="dot" style="background:var(--qnt)"></i>QNT（FY2025 收入口径）</span>
+        <span><i class="dot" style="background:var(--ionq)"></i>IONQ（FY2025 / FY2026E 口径）</span>
+        <span><i class="dot" style="background:var(--psi)"></i>PsiQuantum（无营收，未入图）</span>
+      </div>
+
+      <h3>估值对比表</h3>
+      <table>
+        <tr><th>指标</th><th>QNT</th><th>IONQ</th><th>PsiQuantum</th></tr>
+        <tr><td>当前估值</td><td class="qnt">$15B（IPO 摊薄）</td><td class="ionq">$29–30B（市值）</td><td class="psi">$7B（私募 E 轮）</td></tr>
+        <tr><td>最新收入（年化）</td><td class="qnt">$30.9M</td><td class="ionq">$130.0M</td><td class="psi">未披露 ≈ 0</td></tr>
+        <tr><td>EV/Revenue</td><td class="qnt">≈ 485x（'25）</td><td class="ionq">≈ 203x（'25）/ 100x（'26E）</td><td class="psi">N/A</td></tr>
+        <tr><td>现金及等价物</td><td class="qnt">≈ $1.7B+（IPO后）</td><td class="ionq">$3.3B</td><td class="psi">$1B E轮 + 政府支持</td></tr>
+        <tr><td>估值定性</td>
+          <td class="qnt"><span class="pill p-extreme">极度溢价</span></td>
+          <td class="ionq"><span class="pill p-rich">高度溢价</span></td>
+          <td class="psi"><span class="pill p-fair">绝对值最低/难定价</span></td>
+        </tr>
+      </table>
+      <div class="note">注：QNT 摊薄估值取媒体披露的 $14–15B 区间中值；IONQ 市值按 6/3 收盘 $68.21 × 约 4.4 亿股估算，随股价剧烈波动；EV 近似 = 估值 − 净现金。PsiQuantum 为私有公司，$7B 来自 2025/09 Series E，二级市场 NPM/Forge 报价 $33–43/股。倍数为高量级近似，非精确值。</div>
+    </div>
+
+    <!-- TAB 2 -->
+    <div class="pane" id="p1">
+      <h2>② 增长动能与商业化质量</h2>
+      <p style="font-size:13.5px">收入增速与绝对规模，是早期量子公司唯一可量化的"兑现进度"。IonQ 在三者中商业化最领先，是<b>首家年收入破 $100M 的量子公司</b>；Quantinuum 收入更小但有 Honeywell 工业背书；PsiQuantum 仍未进入营收阶段，押注 2027 落地。</p>
+      <div class="chart-box"><canvas id="revChart"></canvas></div>
+
+      <h3>增长与质量对比</h3>
+      <table>
+        <tr><th>指标</th><th>QNT</th><th>IONQ</th><th>PsiQuantum</th></tr>
+        <tr><td>最新财年收入</td><td class="qnt">$30.9M</td><td class="ionq">$130.0M</td><td class="psi">pre-revenue</td></tr>
+        <tr><td>收入 YoY</td><td class="qnt">+34%</td><td class="ionq">+202%</td><td class="psi">—</td></tr>
+        <tr><td>最新季度收入</td><td class="qnt">$5.2M（Q1'26）</td><td class="ionq">$64.7M（Q1'26，+755%）</td><td class="psi">—</td></tr>
+        <tr><td>Bookings / 订单</td><td class="qnt">$79.3M（'25）</td><td class="ionq">RPO $470M（+554%）</td><td class="psi">政府 LOI $100M（商务部）</td></tr>
+        <tr><td>最新年净亏损</td><td class="qnt">-$192.6M</td><td class="ionq">FY24 -$331.6M（'25/'26含巨额权证非现金扰动）</td><td class="psi">未披露（高资本开支）</td></tr>
+        <tr><td>毛利率</td><td class="qnt">未稳定披露</td><td class="ionq">低/部分季度为负</td><td class="psi">N/A</td></tr>
+        <tr><td>FY2026 收入指引</td><td class="qnt">未给（刚上市）</td><td class="ionq">$260–270M（~翻倍）</td><td class="psi">目标 2027 系统投运</td></tr>
+      </table>
+      <div class="note">注：IonQ 的 GAAP 净利受认股权证（warrant）公允价值变动剧烈扰动——Q3'25 单季 GAAP 净亏 -$1.1B、Q1'26 反转为 GAAP 净利 +$805M（均为非现金），故其"盈利"应看 <b>Adjusted EBITDA loss</b>（Q1'26 ≈ -$96.8M）。三家均为重研发、重资本投入的现金消耗型企业。</div>
+    </div>
+
+    <!-- TAB 3 -->
+    <div class="pane" id="p2">
+      <h2>③ 六维综合评分（定性 1–5 分）</h2>
+      <p style="font-size:13.5px">基于估值、增长、商业化、技术护城河、资本实力、风险容错六个维度的主观打分（分数越高越优；"风险容错"维度越高代表越安全）。评分逻辑见下表，仅为分析框架，非投资建议。</p>
+      <div class="chart-box tall"><canvas id="radar"></canvas></div>
+
+      <h3>评分逻辑</h3>
+      <table>
+        <tr><th>维度</th><th>QNT</th><th>IONQ</th><th>PsiQuantum</th><th>打分依据</th></tr>
+        <tr><td>估值合理性</td><td class="qnt">2.0</td><td class="ionq">2.5</td><td class="psi">3.0</td><td>QNT 倍数最极端；PsiQuantum 绝对估值最低但 pre-revenue 难定价</td></tr>
+        <tr><td>增长动能</td><td class="qnt">2.5</td><td class="ionq">5.0</td><td class="psi">2.0</td><td>IonQ 收入 +202%/+755% 碾压；PsiQuantum 尚无营收</td></tr>
+        <tr><td>商业化进度</td><td class="qnt">3.0</td><td class="ionq">4.5</td><td class="psi">1.5</td><td>IonQ 首破 $100M；QNT 有 bookings；PsiQuantum 押注 2027</td></tr>
+        <tr><td>技术护城河</td><td class="qnt">4.0</td><td class="ionq">3.5</td><td class="psi">4.0</td><td>QNT 离子阱保真度领先+剑桥软件栈；PsiQuantum 硅光路线扩展性潜力大但未验证；IonQ 专利厚但扩展性存疑</td></tr>
+        <tr><td>资本实力/跑道</td><td class="qnt">3.5</td><td class="ionq">5.0</td><td class="psi">3.0</td><td>IonQ $3.3B 现金最厚；QNT 刚募 $1.68B + Honeywell；PsiQuantum 重资本开支</td></tr>
+        <tr><td>风险容错</td><td class="qnt">3.0</td><td class="ionq">3.5</td><td class="psi">2.0</td><td>IonQ 最成熟但估值贵；PsiQuantum 技术+时间表+流动性风险最高（私有、二元结果）</td></tr>
+      </table>
+      <div class="note">技术路线差异：QNT/IONQ = 离子阱（trapped-ion，保真度高、门速慢、扩展难）；PsiQuantum = 光量子/硅光（可复用现有 CMOS 半导体产线，理论扩展性最强，但离实用最远、技术风险最高）。护城河评分高方差，尤其 PsiQuantum 属"高潜力/未证实"。</div>
+    </div>
+
+    <!-- TAB 4 -->
+    <div class="pane" id="p3">
+      <h2>④ 投资结论</h2>
+
+      <h3>核心发现</h3>
+      <p style="font-size:13.5px">三者本质是"对量子计算长期愿景的看涨期权"，全部深度亏损、估值靠叙事驱动。<b>可比性有限</b>：QNT 是今日新上市的离子阱全栈玩家、估值倍数最极端；IONQ 是商业化最领先、资产负债表最厚、增长最猛但已被市场充分定价的"龙头"；PsiQuantum 是绝对估值最低、技术路线最差异化（硅光）但仍 pre-revenue 且无法被零售投资者买入的"私募押注"。</p>
+
+      <div class="concl qnt">
+        <div class="h">Quantinuum (QNT) — 新股博弈，溢价最极端</div>
+        论点：Honeywell 工业背书 + 剑桥量子软件栈 + 离子阱高保真度，全栈能力扎实，IPO 获双位数超额认购、定价上调至 $60。<br>
+        风险：FY2025 收入仅 $30.9M、EV/Rev ≈ 485x 为三者最贵；新上市无锁定期外浮动筹码、首日波动剧烈；增速（+34%）远逊 IonQ。<b>本质是高 beta 新股事件交易，而非基本面买点。</b>
+      </div>
+
+      <div class="concl ionq">
+        <div class="h">IonQ (IONQ) — 商业化龙头，但已被充分定价</div>
+        论点：首家年收入破 $100M 的量子公司，FY2025 +202%、Q1'26 +755%，$3.3B 现金最雄厚，全栈布局（计算+网络+传感+安全）+ 密集并购（Oxford Ionics、SkyWater 等），分析师 Strong Buy。<br>
+        风险：EV/Rev ~100x（'26E）仍极贵、现价已近分析师均值目标（$67.6）；增长部分来自并购（非纯有机）；权证扰动使 GAAP 盈利失真；离子阱扩展性长期存疑；大额增发持续稀释。
+      </div>
+
+      <div class="concl psi">
+        <div class="h">PsiQuantum — 差异化路线，但零售不可投 + 二元风险</div>
+        论点：硅光路线可复用成熟半导体产线，理论扩展性最强；$7B 绝对估值最低；BlackRock / Temasek / NVIDIA 背书 + 商务部 $100M LOI；布里斯班 & 芝加哥 utility-scale 设施在建。<br>
+        风险：<b>仍为私有公司，零售投资者无法买入</b>（仅 Hiive/Forge 等合格投资者二级市场）；pre-revenue、押注 2027 落地，技术+时间表风险最高；结果高度二元（成 or 不成）；流动性极差。
+      </div>
+
+      <h3>横向排序（性价比 → 最需谨慎）</h3>
+      <ol class="rank">
+        <li><b>IonQ (IONQ)</b> — 若必须在"可买入的二级市场标的"里选基本面最扎实者，IonQ 是唯一有规模化收入、强现金、明确增长的选项。但买点而非估值——现价已贵，宜等回调或分批。</li>
+        <li><b>PsiQuantum</b> — 估值锚最低、路线最差异化，长期赔率有想象空间；但<b>零售不可投</b>，且二元风险与流动性问题使其更适合风险承受力极强的合格投资者，而非常规配置。</li>
+        <li><b>Quantinuum (QNT)</b> — 资产质量不差，但今日 IPO 首日 + 全场最贵倍数 + 新股波动，更像事件性博弈。基本面买点需等首日情绪消化、价格与基本面重新锚定后再评估。</li>
+      </ol>
+
+      <h3>数据口径与风险提示</h3>
+      <ul class="x">
+        <li><b>口径：</b>全部 USD；估值倍数为高量级近似（量子板块溢价极端、无成熟可比锚）；IonQ 盈利看 Adjusted EBITDA，GAAP 受权证非现金扰动失真。</li>
+        <li><b>时点：</b>QNT 数据为 IPO 定价（6/3）+ 首日（6/4），首日真实成交价尚在形成；IONQ 现价取 6/3；PsiQuantum 为私募/二级估值。</li>
+        <li><b>板块风险：</b>量子计算商业化仍处早期，三家盈利时间表均不确定；估值对增速下修与叙事降温高度敏感，回撤可能剧烈。</li>
+      </ul>
+
+      <div class="note"><b>免责声明：</b>本报告基于公开信息整理，仅作研究框架参考，不构成任何投资、财务或法律建议。量子计算属高风险早期主题，请独立判断并咨询持牌专业人士后再做决策。</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const C={qnt:'#f78166',ionq:'#3fb950',psi:'#a371f7',grid:'#30363d',txt:'#e6edf3',muted:'#8b949e'};
+Chart.defaults.color=C.muted; Chart.defaults.borderColor=C.grid; Chart.defaults.font.family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif";
+
+// Tabs
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.pane').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  document.getElementById('p'+t.dataset.t).classList.add('active');
+}));
+
+// Tab1: EV/Revenue
+new Chart(document.getElementById('evChart'),{
+  type:'bar',
+  data:{labels:['QNT (FY25)','IONQ (FY25)','IONQ (FY26E)'],
+    datasets:[{label:'EV / Revenue (x)',
+      data:[485,203,100],
+      backgroundColor:[C.qnt,C.ionq,'rgba(63,185,80,.55)'],
+      borderRadius:6}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>' EV/Rev ≈ '+c.parsed.y+'x'}},
+      title:{display:true,text:'EV/Revenue 倍数（越高=溢价越极端）',color:C.txt,font:{size:13}}},
+    scales:{y:{title:{display:true,text:'倍数 (x)'},grid:{color:C.grid}},x:{grid:{display:false}}}}
+});
+
+// Tab2: Revenue scale + growth
+new Chart(document.getElementById('revChart'),{
+  type:'bar',
+  data:{labels:['QNT','IONQ'],
+    datasets:[
+      {label:'FY2024 收入 ($M)',data:[23.0,43.1],backgroundColor:'rgba(139,148,158,.5)',borderRadius:5},
+      {label:'FY2025 收入 ($M)',data:[30.9,130.0],backgroundColor:[C.qnt,C.ionq],borderRadius:5}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'top'},
+      title:{display:true,text:'收入规模与增速（PsiQuantum 为 pre-revenue 未入图）',color:C.txt,font:{size:13}},
+      tooltip:{callbacks:{label:c=>' '+c.dataset.label+': $'+c.parsed.y+'M'}}},
+    scales:{y:{title:{display:true,text:'收入 ($M)'},grid:{color:C.grid}},x:{grid:{display:false}}}}
+});
+
+// Tab3: Radar
+new Chart(document.getElementById('radar'),{
+  type:'radar',
+  data:{labels:['估值合理性','增长动能','商业化进度','技术护城河','资本实力/跑道','风险容错'],
+    datasets:[
+      {label:'QNT',data:[2.0,2.5,3.0,4.0,3.5,3.0],borderColor:C.qnt,backgroundColor:'rgba(247,129,102,.18)',pointBackgroundColor:C.qnt},
+      {label:'IONQ',data:[2.5,5.0,4.5,3.5,5.0,3.5],borderColor:C.ionq,backgroundColor:'rgba(63,185,80,.15)',pointBackgroundColor:C.ionq},
+      {label:'PsiQuantum',data:[3.0,2.0,1.5,4.0,3.0,2.0],borderColor:C.psi,backgroundColor:'rgba(163,113,247,.15)',pointBackgroundColor:C.psi}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'top'}},
+    scales:{r:{min:0,max:5,ticks:{stepSize:1,backdropColor:'transparent',color:C.muted},
+      grid:{color:C.grid},angleLines:{color:C.grid},
+      pointLabels:{color:C.txt,font:{size:12.5}}}}}
+});
+</script>
+</body>
+</html>
