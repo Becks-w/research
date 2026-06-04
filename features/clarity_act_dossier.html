@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLARITY Act 投研档案 · 2026/06/03</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f5efe2;
+    --paper-2: #ebe3d1;
+    --ink: #1f1a14;
+    --ink-soft: #3d342a;
+    --muted: #7a6d57;
+    --rule: #c9bda3;
+    --rule-soft: #ddd2b8;
+    --crimson: #8b2635;
+    --crimson-soft: #b85060;
+    --teal: #1f4441;
+    --teal-soft: #3a6a64;
+    --gold: #a07a2e;
+    --warn: #c4862a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'EB Garamond', 'Noto Serif SC', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.65;
+    padding: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(160, 122, 46, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(31, 68, 65, 0.025) 0%, transparent 50%);
+  }
+
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 60px 50px 80px;
+    position: relative;
+  }
+
+  /* ─── COVER ─── */
+  .cover {
+    border-top: 4px double var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 40px 0 30px;
+    margin-bottom: 50px;
+    position: relative;
+  }
+
+  .cover-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 30px;
+  }
+
+  .cover-meta span {
+    display: inline-block;
+  }
+
+  .classification {
+    color: var(--crimson);
+    font-weight: 600;
+  }
+
+  h1.title {
+    font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+    font-weight: 500;
+    font-size: 58px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+    color: var(--ink);
+  }
+
+  h1.title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--crimson);
+  }
+
+  .subtitle {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-soft);
+    margin-bottom: 25px;
+    max-width: 720px;
+  }
+
+  .cover-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+
+  .cover-details > div {
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .cover-details strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    margin-top: 5px;
+    font-size: 13px;
+  }
+
+  /* ─── TOC ─── */
+  .toc {
+    background: var(--paper-2);
+    border-left: 3px solid var(--crimson);
+    padding: 25px 30px;
+    margin: 40px 0 60px;
+  }
+
+  .toc-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .toc ol {
+    list-style: none;
+    counter-reset: toc;
+  }
+
+  .toc li {
+    counter-increment: toc;
+    padding: 7px 0;
+    border-bottom: 1px dotted var(--rule);
+    display: flex;
+    align-items: baseline;
+    gap: 15px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+  }
+
+  .toc li:last-child { border-bottom: none; }
+
+  .toc li::before {
+    content: "0" counter(toc);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--crimson);
+    font-weight: 600;
+    min-width: 25px;
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    margin-bottom: 70px;
+    scroll-margin-top: 20px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--crimson);
+    font-weight: 600;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+    font-weight: 600;
+    font-size: 34px;
+    line-height: 1.1;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+    font-weight: 600;
+    font-size: 22px;
+    margin: 30px 0 14px;
+    color: var(--ink);
+  }
+
+  h4 {
+    font-family: 'EB Garamond', serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin: 22px 0 10px;
+    color: var(--ink);
+    font-variant: small-caps;
+    letter-spacing: 0.05em;
+  }
+
+  p { margin-bottom: 14px; }
+
+  p.lead {
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin-bottom: 25px;
+    padding-left: 20px;
+    border-left: 2px solid var(--crimson);
+  }
+
+  strong { font-weight: 600; color: var(--ink); }
+
+  em { font-style: italic; }
+
+  /* ─── DATA & TABLES ─── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 22px 0;
+    font-size: 15px;
+  }
+
+  th {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 12px;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--rule-soft);
+    vertical-align: top;
+  }
+
+  tr:nth-child(even) td { background: rgba(201, 189, 163, 0.12); }
+
+  td.num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  td.pos { color: var(--teal); font-weight: 600; }
+  td.neg { color: var(--crimson); font-weight: 600; }
+  td.warn { color: var(--warn); font-weight: 600; }
+
+  /* ─── CALLOUTS ─── */
+  .callout {
+    margin: 28px 0;
+    padding: 22px 28px;
+    background: var(--paper-2);
+    border-left: 4px solid var(--ink);
+    position: relative;
+  }
+
+  .callout.crimson { border-left-color: var(--crimson); }
+  .callout.teal { border-left-color: var(--teal); }
+  .callout.gold { border-left-color: var(--gold); }
+
+  .callout-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .callout.crimson .callout-label { color: var(--crimson); }
+  .callout.teal .callout-label { color: var(--teal); }
+
+  /* ─── KEY METRIC ─── */
+  .metric-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: 25px 0;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .metric {
+    padding: 18px 20px;
+    border-right: 1px solid var(--rule);
+    text-align: center;
+  }
+
+  .metric:last-child { border-right: none; }
+
+  .metric-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .metric-value.crimson { color: var(--crimson); }
+  .metric-value.teal { color: var(--teal); }
+  .metric-value.gold { color: var(--gold); }
+
+  .metric-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  /* ─── PROBABILITY BAR ─── */
+  .prob-bar {
+    margin: 12px 0 18px;
+  }
+
+  .prob-track {
+    height: 8px;
+    background: var(--rule-soft);
+    border: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .prob-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal-soft), var(--teal));
+  }
+
+  .prob-fill.crimson { background: linear-gradient(90deg, var(--crimson-soft), var(--crimson)); }
+  .prob-fill.warn { background: linear-gradient(90deg, #d4a653, var(--warn)); }
+
+  .prob-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 5px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── PULL QUOTE ─── */
+  .pull {
+    margin: 35px 0;
+    padding: 25px 0;
+    border-top: 3px double var(--ink);
+    border-bottom: 1px solid var(--ink);
+    text-align: center;
+  }
+
+  .pull-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 26px;
+    line-height: 1.35;
+    color: var(--ink);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .pull-text::before, .pull-text::after {
+    color: var(--crimson);
+    font-weight: 600;
+  }
+
+  .pull-text::before { content: "「"; }
+  .pull-text::after { content: "」"; }
+
+  /* ─── TIMELINE ─── */
+  .timeline {
+    margin: 30px 0;
+    position: relative;
+    padding-left: 30px;
+    border-left: 2px solid var(--ink);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding: 0 0 28px 25px;
+  }
+
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -36px;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+  }
+
+  .timeline-item.key::before {
+    background: var(--crimson);
+    border-color: var(--crimson);
+    width: 14px;
+    height: 14px;
+    left: -37px;
+  }
+
+  .timeline-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--crimson);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .timeline-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .timeline-desc {
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+
+  /* ─── LIST ─── */
+  ul.classy {
+    list-style: none;
+    margin: 15px 0;
+  }
+
+  ul.classy li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 8px;
+  }
+
+  ul.classy li::before {
+    content: "◆";
+    position: absolute;
+    left: 0;
+    color: var(--crimson);
+    font-size: 10px;
+    top: 6px;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    margin-top: 80px;
+    padding-top: 30px;
+    border-top: 3px double var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  footer strong {
+    display: block;
+    color: var(--ink);
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+
+  /* ─── TAGS / CHIPS ─── */
+  .chip {
+    display: inline-block;
+    padding: 2px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    border: 1px solid var(--ink);
+    text-transform: uppercase;
+    margin-right: 5px;
+    margin-bottom: 3px;
+  }
+
+  .chip.crimson { color: var(--crimson); border-color: var(--crimson); }
+  .chip.teal { color: var(--teal); border-color: var(--teal); }
+  .chip.gold { color: var(--gold); border-color: var(--gold); }
+
+  /* ─── COMPARISON GRID ─── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 25px 0;
+    border: 1px solid var(--ink);
+  }
+
+  .compare-col {
+    padding: 22px 25px;
+    border-right: 1px solid var(--rule);
+  }
+
+  .compare-col:last-child { border-right: none; }
+
+  .compare-col h4 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .compare-col.pro { background: rgba(31, 68, 65, 0.05); }
+  .compare-col.con { background: rgba(139, 38, 53, 0.05); }
+
+  .compare-col.pro h4 { color: var(--teal); }
+  .compare-col.con h4 { color: var(--crimson); }
+
+  /* Print */
+  @media print {
+    body { font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    section { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 768px) {
+    .container { padding: 30px 20px; }
+    h1.title { font-size: 38px; }
+    .cover-details { grid-template-columns: 1fr; gap: 15px; }
+    .metric-row { grid-template-columns: 1fr; }
+    .metric { border-right: none; border-bottom: 1px solid var(--rule); }
+    .compare-grid { grid-template-columns: 1fr; }
+    .compare-col { border-right: none; border-bottom: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ═══════════════ COVER ═══════════════ -->
+  <header class="cover">
+    <div class="cover-meta">
+      <span>Becks · Investment Research Archive</span>
+      <span class="classification">For Personal Use · 个人参考</span>
+    </div>
+    <h1 class="title">CLARITY Act<br><em>立法终局与交易日历</em></h1>
+    <p class="subtitle">From committee markup to enforceable rules — a complete dossier on the bill that will redraw the U.S. crypto regulatory map and reshape COIN, HOOD, CRCL, and IBIT through 2027.</p>
+    <div class="cover-details">
+      <div>Date<strong>June 3, 2026</strong></div>
+      <div>Focus Tickers<strong>COIN · HOOD · CRCL · IBIT · V</strong></div>
+      <div>Status<strong>Senate Calendar (步骤 5/9)</strong></div>
+    </div>
+  </header>
+
+  <!-- ═══════════════ TOC ═══════════════ -->
+  <nav class="toc">
+    <div class="toc-title">Contents · 目录</div>
+    <ol>
+      <li>Executive Summary · 核心结论</li>
+      <li>Current State of Play · 立法进展实时图谱</li>
+      <li>The Two Camps · 阵营博弈结构</li>
+      <li>Final Form Forecast · 最终形态推演</li>
+      <li>GENIUS vs CLARITY · 法案对比解构</li>
+      <li>Historical Price Action · GENIUS Act 历史 base rate</li>
+      <li>Stock-by-Stock Impact · 个股影响差异化分析</li>
+      <li>The Trading Calendar · 9-Catalyst 实操日历</li>
+      <li>Risk Monitors · 风险监控仪表板</li>
+    </ol>
+  </nav>
+
+  <!-- ═══════════════ SECTION 1 ═══════════════ -->
+  <section>
+    <div class="section-header">
+      <span class="section-number">SECTION 01</span>
+      <h2>Executive Summary · 核心结论</h2>
+    </div>
+
+    <p class="lead">CLARITY Act 不是单一事件，是 9 个 catalyst 的接力赛。参议院 Floor Vote 是最大涨幅日，签字日是中期顶部，Rulemaking 阶段是长期 alpha 战场——这是 GENIUS Act playbook 直接外推得出的核心结论。</p>
+
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-value crimson">55%</div>
+        <div class="metric-label">Polymarket 2026<br>通过概率</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value teal">60%</div>
+        <div class="metric-label">情景 A 概率<br>完整妥协通过</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value gold">7票</div>
+        <div class="metric-label">还需民主党<br>跨党派支持</div>
+      </div>
+    </div>
+
+    <h4>四点核心判断</h4>
+    <ul class="classy">
+      <li><strong>核心结构锁定（95%）：</strong>SEC/CFTC 管辖权划分几乎必然成法——这是加密产业的最大奖品，无法被推翻。</li>
+      <li><strong>稳定币 yield 妥协稳固（90%）：</strong>被动 yield 禁止 + 活动型奖励保留——CRCL 因此结构性受损，COIN 因 pass-through 经济学相对中性。</li>
+      <li><strong>道德条款会以稀释版通过（75%）：</strong>市场目前在 binary pricing——但实际路径是"披露而非禁止"，足以解锁中间派民主党投票，但不会真正限制 Trump 家族业务。</li>
+      <li><strong>Sell-the-news 几乎必然发生：</strong>GENIUS Act 签字后 CRCL 跌 71%，COIN 跌 60%——CLARITY 大概率重演相同模式。</li>
+    </ul>
+
+    <div class="callout crimson">
+      <div class="callout-label">⚠ Critical Insight</div>
+      <p>Polymarket 概率从 73% 跌至 55%——这是 <strong>预期错位的交易机会</strong>。如果你认为最终概率在 65-75% 区间，当前是布局窗口；如果认为在 40-50% 区间，应当减仓或对冲。机构资金（Galaxy Digital $10M 押注 2026 通过）正在加码。</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SECTION 2 ═══════════════ -->
+  <section>
+    <div class="section-header">
+      <span class="section-number">SECTION 02</span>
+      <h2>Current State of Play · 立法进展</h2>
+    </div>
+
+    <p>截至 2026 年 6 月 3 日，CLARITY Act 已完成成法路径上的 9 步中的 5 步：</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">2025/07/17</div>
+        <div class="timeline-title">众议院通过</div>
+        <div class="timeline-desc">294-134 跨党派通过，78 名民主党人跨党。但参议院重大修改意味着后续需重新表决。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2026/01/14</div>
+        <div class="timeline-title">首次 markup 被推迟</div>
+        <div class="timeline-desc">Coinbase CEO Brian Armstrong 临阵撤回支持，因稳定币 yield 条款分歧。法案停滞 4 个月。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2026/05/01</div>
+        <div class="timeline-title">Tillis-Alsobrooks 妥协</div>
+        <div class="timeline-desc">两党达成稳定币 yield 妥协：禁止被动 yield，保留活动型奖励。这是法案重启的关键。</div>
+      </div>
+      <div class="timeline-item key">
+        <div class="timeline-date">2026/05/14</div>
+        <div class="timeline-title">参议院银行委员会通过（15-9）</div>
+        <div class="timeline-desc">13 名共和党 + Gallego (D-AZ) + Alsobrooks (D-MD)。Van Hollen 道德修正案以 11-13 失败，仍是 floor 阶段最大未决议题。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2026/06/02</div>
+        <div class="timeline-title">列入参议院立法日历</div>
+        <div class="timeline-desc">法案正式排队等待全体审议。参议院领导层（多数党领袖 Thune）需决定 floor debate 时间表。</div>
+      </div>
+      <div class="timeline-item key">
+        <div class="timeline-date">~2026/06 下旬 - 07/03</div>
+        <div class="timeline-title">参议院 Floor Vote（预期）</div>
+        <div class="timeline-desc">需 60 票（53 共和党 + 7+ 民主党）。如 July 4 前未通过，下一窗口为 7/21 ~ 8/8 休会后。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2026/08-09</div>
+        <div class="timeline-title">House Reconciliation</div>
+        <div class="timeline-desc">众议院需重新表决参议院修改版本。历史投票模式显示通过几率高（base rate 85%）。</div>
+      </div>
+      <div class="timeline-item key">
+        <div class="timeline-date">2026/07/04 ~ 2026/Q4</div>
+        <div class="timeline-title">总统签署</div>
+        <div class="timeline-desc">乐观情景 7 月 4 日，基准情景秋季。⚠ Sell-the-news 风险最大点。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2027/H1 ~ 2028</div>
+        <div class="timeline-title">SEC/CFTC/Treasury Rulemaking</div>
+        <div class="timeline-desc">立法是框架，实施细则才是真正影响业务。注册路径 2027 年初开放，完整合规 2028 年。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SECTION 3 ═══════════════ -->
+  <section>
+    <div class="section-header">
+      <span class="section-number">SECTION 03</span>
+      <h2>The Two Camps · 阵营博弈结构</h2>
+    </div>
+
+    <p class="lead">理解阵营 = 理解法案最终形态。这不是简单的"加密 vs 银行"对决——是涉及存款流失、监管管辖权、政治献金、国家安全、消费者保护的多维博弈。</p>
+
+    <div class="compare-grid">
+      <div class="compare-col pro">
+        <h4>✓ 支持阵营</h4>
+        <ul class="classy">
+          <li><strong>加密原生公司：</strong>Coinbase、Circle、Ripple、Kraken、Gemini、Robinhood Crypto</li>
+          <li><strong>风险投资：</strong>a16z、Paradigm、Multicoin、Pantera</li>
+          <li><strong>白宫与行政：</strong>Trump、David Sacks（加密事务专员）、Bessent（财长）、SEC（Atkins）、CFTC</li>
+          <li><strong>共和党几乎全员</strong>+ Moderate 民主党：Tillis、Alsobrooks、Gallego、Warner、Cortez Masto</li>
+          <li><strong>关键人物：</strong>Cynthia Lummis（数字资产小组主席）</li>
+          <li><strong>行业协会：</strong>Blockchain Association、Crypto Council、DeFi Education Fund</li>
+          <li><strong>隐形支持：</strong>Visa、Mastercard、PayPal（reframe 为 infra 提供者）</li>
+        </ul>
+        <p style="margin-top: 15px; font-style: italic; color: var(--ink-soft); font-size: 14px;">核心诉求：监管确定性、合法化、机构资金入场、防止人才外流至新加坡/迪拜</p>
+      </div>
+
+      <div class="compare-col con">
+        <h4>✗ 反对阵营</h4>
+        <ul class="classy">
+          <li><strong>社区银行（最激烈）：</strong>ICBA + 数千家地方银行</li>
+          <li><strong>大型银行（立场分裂）：</strong>JPMorgan/Dimon 反对；BofA 称"净利好"</li>
+          <li><strong>银行游说组织：</strong>American Bankers Association、Bank Policy Institute</li>
+          <li><strong>进步派民主党：</strong>Warren、Sanders、Van Hollen、Merkley、Reed</li>
+          <li><strong>执法 & 国安：</strong>前 OFAC/FinCEN 官员、DOJ 网络犯罪部门（非正式）</li>
+          <li><strong>消费者保护：</strong>Consumer Federation、Public Citizen、Better Markets</li>
+          <li><strong>劳工：</strong>AFL-CIO</li>
+          <li><strong>加密原教旨主义者：</strong>Bitcoin maximalists、部分 DeFi 协议</li>
+        </ul>
+        <p style="margin-top: 15px; font-style: italic; color: var(--ink-soft); font-size: 14px;">核心诉求：保护存款基础、限制竞争、加强 AML、加入道德条款限制 Trump 家族利益冲突</p>
+      </div>
+    </div>
+
+    <h3>三个被忽视的"暗线"利益方</h3>
+    <ul class="classy">
+      <li><strong>Cantor Fitzgerald / Howard Lutnick 阵营：</strong>Tether 的主要美债托管行，Lutnick 现任商务部长。Tether 是 CLARITY 通过后最大隐形赢家——从未付 yield、不受禁令影响，USDC 失去差异化武器。</li>
+      <li><strong>传统支付公司（V/MA/PayPal）：</strong>表面"中立 / 支持"，实际两面下注——一边游说让法案给空间做 stablecoin settlement，一边内部加速建设。</li>
+      <li><strong>地缘政治背景音：</strong>中国是否主导下一个金融秩序的恐惧叙事——这是支持派最强的杠杆。</li>
+    </ul>
+  </section>
+
+  <!-- ═══════════════ SECTION 4 ═══════════════ -->
+  <section>
+    <div class="section-header">
+      <span class="section-number">SECTION 04</span>
+      <h2>Final Form Forecast · 最终形态推演</h2>
+    </div>
+
+    <h3>三种情景的概率分布</h3>
+
+    <h4>🎯 情景 A：完整妥协版（概率 60%）</h4>
+    <div class="prob-bar">
+      <div class="prob-track"><div class="prob-fill" style="width: 60%"></div></div>
+      <div class="prob-label"><span>2026/07 - 08 签署</span><span>60%</span></div>
+    </div>
+    <p>SEC/CFTC 边界保留 + Tillis-Alsobrooks yield 妥协 + 稀释版道德条款 + AML 部分强化 + 银行业获额外资本要求 + DeFi exemption 略收紧 + CBDC 禁令通过。Floor 投票预测：62-64 票。</p>
+
+    <h4>🟡 情景 B：延期妥协版（概率 25%）</h4>
+    <div class="prob-bar">
+      <div class="prob-track"><div class="prob-fill warn" style="width: 25%"></div></div>
+      <div class="prob-label"><span>2026/09 - 11 签署</span><span>25%</span></div>
+    </div>
+    <p>结构同 A，但更多 carve-outs 和日落条款，部分条款实施推迟到 2028 后。监管机构 rulemaking 权限被扩大（细节下放）——这是 Dodd-Frank 模式。</p>
+
+    <h4>🔴 情景 C：本届国会死亡（概率 15%）</h4>
+    <div class="prob-bar">
+      <div class="prob-track"><div class="prob-fill crimson" style="width: 15%"></div></div>
+      <div class="prob-label"><span>2027 或 2030 后</span><span>15%</span></div>
+    </div>
+    <p>道德条款谈判破裂 + 7 月 4 日后失去动能 + midterm campaign 挤占日程。Lummis 和 Moreno 警告：如果错过当前窗口，下一个可行立法窗口可能滑至 2030 年。</p>
+
+    <h3>条款级最终形态预测（概率加权）</h3>
+    <table>
+      <thead>
+        <tr><th>条款类别</th><th>最可能最终形态</th><th>确定度</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>SEC/CFTC 边界</strong></td><td>完全按现版，CFTC 管"数字商品" spot 市场，SEC 管证券类</td><td class="num pos">95%</td></tr>
+        <tr><td><strong>稳定币 yield</strong></td><td>被动禁 + 活动奖励留 + 银行/非银行差异化</td><td class="num pos">90%</td></tr>
+        <tr><td><strong>道德条款</strong></td><td>稀释版——披露而非禁止；适用国会但宽待总统</td><td class="num warn">75%</td></tr>
+        <tr><td><strong>AML/制裁</strong></td><td>部分强化——Tornado Cash 类混币器要求增强但不全禁</td><td class="num warn">80%</td></tr>
+        <tr><td><strong>CBDC 禁令</strong></td><td>加入——共和党红线</td><td class="num warn">70%</td></tr>
+        <tr><td><strong>DeFi exemption</strong></td><td>留 carve-out 但收紧"去中心化测试" + 前端 KYC</td><td class="num warn">70%</td></tr>
+        <tr><td><strong>资本充足率</strong></td><td>加密公司简化版资本要求（银行业部分让步）</td><td class="num warn">70%</td></tr>
+        <tr><td><strong>托管要求</strong></td><td>与银行类似但简化</td><td class="num pos">85%</td></tr>
+        <tr><td><strong>实施时间表</strong></td><td>分阶段——核心 2027 上半年生效，复杂条款 2028</td><td class="num pos">90%</td></tr>
+      </tbody>
+    </table>
+
+    <div class="pull">
+      <p class="pull-text">这是 GENIUS Act 2.0 的 playbook：双方都能宣称胜利，但加密产业拿走了最大的奖品（监管确定性），银行业拿走了次要奖品（防止存款流失），Warren 阵营保住了道德条款的面子。</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SECTION 5 ═══════════════ -->
+  <section>
+    <div class="section-header">
+      <span class="section-number">SECTION 05</span>
+      <h2>GENIUS vs CLARITY · 法案对比</h2>
+    </div>
+
+    <p class="lead">直观比喻：GENIUS Act = "造钱的人需要拿牌照"（针对稳定币发行方）；CLARITY Act = "整个数字资产市场的游戏规则"（针对所有 token、交易所、DeFi 协议）。CLARITY 在范围上是 GENIUS 的 5-10 倍。</p>
+
+    <table>
+      <thead>
+        <tr><th style="width: 18%">维度</th><th>GENIUS Act</th><th>CLARITY Act</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>覆盖范围</strong></td><td>只管支付稳定币</td><td>所有数字资产市场结构</td></tr>
+        <tr><td><strong>核心问题</strong></td><td>谁能发稳定币 + 怎么发</td><td>SEC/CFTC 谁管什么</td></tr>
+        <tr><td><strong>监管主体</strong></td><td>Treasury + OCC + 州监管</td><td>SEC + CFTC + Treasury</td></tr>
+        <tr><td><strong>影响范围</strong></td><td>USDC、USDT、PYUSD</td><td>BTC、ETH、SOL、XRP + DeFi</td></tr>
+        <tr><td><strong>直接受益者</strong></td><td>Circle、银行</td><td>Coinbase、Robinhood、Kraken、Ripple、a16z</td></tr>
+        <tr><td><strong>法律地位</strong></td><td class="pos">已成法（2025/07/18）</td><td class="warn">委员会通过 → Floor → House</td></tr>
+        <tr><td><strong>政治阻力</strong></td><td>中等（窄范围）</td><td>大（SEC/CFTC 利益、银行业、道德条款）</td></tr>
+        <tr><td><strong>参议院投票</strong></td><td>68-30（17 Dems 跨党）</td><td>预期 62-64</td></tr>
+      </tbody>
+    </table>
+
+    <h3>GENIUS Act 核心条款回顾</h3>
+    <ul class="classy">
+      <li><strong>发行限制：</strong>只有被许可的支付稳定币发行方可发——(1) 保险存款机构子公司；(2) OCC 监管的非银行机构；(3) 州牌照实体</li>
+      <li><strong>储备金 100%：</strong>由现金/活期存款/短期国债支持</li>
+      <li><strong>禁止 yield：</strong>不得以任何形式向稳定币持有者支付利息、股息或收益</li>
+      <li><strong>破产优先权：</strong>持有者获得破产法优先地位，储备金资产从债务人遗产中排除</li>
+      <li><strong>一家发行方一个稳定币：</strong>后续 OCC 规则细化</li>
+      <li><strong>生效日期：</strong>2027 年 1 月前后，或最终规则发布后 120 天</li>
+    </ul>
+  </section>
+
+  <!-- ═══════════════ SECTION 6 ═══════════════ -->
+  <section>
+    <div class="section-header">
+      <span class="section-number">SECTION 06</span>
+      <h2>Historical Price Action · GENIUS Act Base Rate</h2>
+    </div>
+
+    <p class="lead">GENIUS Act 通过时的市场反应是预判 CLARITY Act 通过后 price action 的最佳 base rate。关键时间节点：参议院通过日 = 最大单日涨幅；签字日 = 中期顶部。</p>
+
+    <h3>参议院通过日（2025/06/17，68-30）</h3>
+
+    <table>
+      <thead>
+        <tr><th>标的</th><th>单日涨幅</th><th>一周累计</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>CRCL</strong></td><td class="pos">+33.8%</td><td class="pos">+50%+</td><td>直接受益者，最大涨幅</td></tr>
+        <tr><td><strong>COIN</strong></td><td class="pos">+16.3%</td><td class="pos">+38%</td><td>间接受益，USDC 分成</td></tr>
+        <tr><td><strong>HOOD</strong></td><td class="pos">+4.5%</td><td class="num">+8%</td><td>创历史新高 $78.35</td></tr>
+        <tr><td><strong>BTC</strong></td><td class="num">~0%</td><td class="num">+2%</td><td>反应平淡（已 priced in）</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Sell-the-news：签字日（2025/07/18）后的崩盘</h3>
+
+    <div class="callout crimson">
+      <div class="callout-label">⚠ 关键历史教训</div>
+      <p><strong>CRCL：</strong>6 月底触顶 ~$298 → 9 月跌至 $150 → 2026/04 跌至 $85.10（<span style="color: var(--crimson);">较高点 -71%</span>）</p>
+      <p><strong>COIN：</strong>7 月触顶 ~$444 → 2026/03 跌至 $178（<span style="color: var(--crimson);">YTD -21%</span>）</p>
+      <p style="margin-top: 12px; font-style: italic;">这不是简单的获利了结——是法案细节让市场失望（OCC 规则更严格、储备金管理灵活性受限、Tether 海外市场不受影响）+ 关注点转向 rulemaking 不确定性。</p>
+    </div>
+
+    <h3>5 个 GENIUS 教给我们的规律</h3>
+    <ol style="margin-left: 22px;">
+      <li style="margin-bottom: 10px;"><strong>参议院通过 = 最大单日涨幅</strong>（不是签字日）——因为参议院是最高门槛</li>
+      <li style="margin-bottom: 10px;"><strong>Sell the news 几乎必然发生</strong>——预期 priced in + 细节失望 + 散户庆祝买入</li>
+      <li style="margin-bottom: 10px;"><strong>直接受益最大 ≠ 长期最优</strong>——CRCL 单日 +34% 但中期 -71%</li>
+      <li style="margin-bottom: 10px;"><strong>HOOD 类二阶受益者反而更稳</strong>——单日涨幅小，但回吐也小</li>
+      <li style="margin-bottom: 10px;"><strong>Rulemaking 阶段是新的 alpha 战场</strong>——OCC/BPI 等机构的规则细化引发二次波动</li>
+    </ol>
+  </section>
+
+  <!-- ═══════════════ SECTION 7 ═══════════════ -->
+  <section>
+    <div class="section-header">
+      <span class="section-number">SECTION 07</span>
+      <h2>Stock-by-Stock Impact · 个股影响</h2>
+    </div>
+
+    <h3>概率加权净影响（综合三种情景）</h3>
+
+    <table>
+      <thead>
+        <tr><th>持仓</th><th>情景 A (60%)</th><th>情景 B (25%)</th><th>情景 C (15%)</th><th>加权 EV</th><th>判断</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>COIN</strong></td><td class="pos">+15-25%</td><td class="num">+5-10%</td><td class="neg">-10-15%</td><td class="pos">+10-15%</td><td><span class="chip teal">✓ Buy</span></td></tr>
+        <tr><td><strong>HOOD</strong></td><td class="pos">+10-20%</td><td class="num">+3-8%</td><td class="neg">-5-10%</td><td class="pos">+7-12%</td><td><span class="chip teal">✓ Buy</span></td></tr>
+        <tr><td><strong>IBIT</strong></td><td class="pos">+5-10%</td><td class="num">+0-5%</td><td class="neg">-5-10%</td><td class="num">+3-5%</td><td><span class="chip gold">Hold</span></td></tr>
+        <tr><td><strong>CRCL</strong></td><td class="num">-5 ~ +5%</td><td class="neg">-10 ~ -5%</td><td class="neg">-15-20%</td><td class="neg">-3 ~ -5%</td><td><span class="chip crimson">✗ Avoid</span></td></tr>
+        <tr><td><strong>V</strong></td><td class="neg">-3-7%</td><td class="neg">-2-5%</td><td class="num">+1-3%</td><td class="neg">-3-5%</td><td><span class="chip crimson">Trim</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3>核心逻辑差异化</h3>
+
+    <h4>COIN——最大长期赢家，但要警惕 sell-the-news</h4>
+    <p>USDC 相关收入占比仅 ~20%；pass-through 经济学（收入 = 成本）让 yield 禁令对 EPS 影响有限。真正受益于 SEC/CFTC 管辖权清晰——为期多年的诉讼威胁消失。</p>
+
+    <h4>HOOD——被低估的二阶受益者</h4>
+    <p>加密业务获明确监管地位 + 零售渗透率 + 多元化收入。GENIUS 时只涨 4.5%，但也没像 CRCL 那样大幅回吐——稳健的非对称押注。</p>
+
+    <h4>CRCL——结构性输家</h4>
+    <p>USDC 储备利息收入占比 95%+；GENIUS 已限制储备管理灵活性；CLARITY 禁 passive yield 进一步削弱核心差异化武器；50%+ 收入分给 Coinbase。Tether（从未付 yield）成为政策套利赢家。</p>
+
+    <h4>V——温水煮青蛙</h4>
+    <p>跨境业务（24% 收入但贡献远超比例利润）take rate ~1%，是 stablecoin 最大威胁区。但 V 已 reframe 为 stablecoin infrastructure provider（USDC settlement 已上线）。短期股价波动远大于实际业务冲击。</p>
+
+    <div class="callout teal">
+      <div class="callout-label">★ Pair Trade 思路</div>
+      <p><strong>Long COIN / Short CRCL</strong>——同一法案的相反方向影响，是表达 CLARITY thesis 的最干净配对。需注意 CRCL 因稳定币 yield 风险不是干净 pair（已部分回吐）。</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SECTION 8 ═══════════════ -->
+  <section>
+    <div class="section-header">
+      <span class="section-number">SECTION 08</span>
+      <h2>The Trading Calendar · 9-Catalyst 实操日历</h2>
+    </div>
+
+    <p class="lead">从立法时间线到实操仓位曲线——这是整个研究最关键的转化。</p>
+
+    <h3>9 个 Catalyst 概览</h3>
+
+    <table>
+      <thead>
+        <tr><th>#</th><th>Catalyst</th><th>时间窗口</th><th>概率</th><th>预期影响</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="num">01</td><td>Floor Vote 时间表公布</td><td>2026/6/9 ~ 6/27</td><td class="num">70%</td><td class="pos">COIN +3-5%</td></tr>
+        <tr><td class="num">02</td><td>Floor Debate & 修正案投票</td><td>2026/6/16 ~ 7/3</td><td class="num">85%</td><td>±5-10% 波动</td></tr>
+        <tr style="background: rgba(139, 38, 53, 0.08);"><td class="num"><strong>03</strong></td><td><strong>参议院 Floor Vote ⭐</strong></td><td><strong>2026/6/30 ~ 8/8</strong></td><td class="num warn"><strong>65-80%</strong></td><td class="pos"><strong>COIN +10-15% 当日</strong></td></tr>
+        <tr><td class="num">04</td><td>两版本合并</td><td>Floor+1-3 周</td><td class="num pos">95%</td><td>±2-3%</td></tr>
+        <tr><td class="num">05</td><td>众议院重新表决</td><td>2026/8 ~ 9</td><td class="num">85%</td><td class="pos">COIN +3-5%</td></tr>
+        <tr style="background: rgba(139, 38, 53, 0.08);"><td class="num"><strong>06</strong></td><td><strong>Trump 签署 ⚠</strong></td><td><strong>2026/7/4 ~ Q4</strong></td><td class="num warn"><strong>70%</strong></td><td class="neg"><strong>COIN -10-20% (30天)</strong></td></tr>
+        <tr><td class="num">07</td><td>初始 Rulemaking 提案</td><td>2026/Q4 - 2027/Q1</td><td class="num pos">100%</td><td>±10-15%</td></tr>
+        <tr><td class="num">08</td><td>中期选举</td><td>2026/11/3</td><td class="num pos">100%</td><td>取决于结果</td></tr>
+        <tr><td class="num">09</td><td>最终规则 + 实施</td><td>2027 H1 - 2028</td><td class="num pos">100%</td><td>长期决定 fundamentals</td></tr>
+      </tbody>
+    </table>
+
+    <h3>仓位曲线（以 COIN 为例，目标核心仓位 = 100 单位）</h3>
+
+    <table>
+      <thead>
+        <tr><th>阶段</th><th>时间</th><th>COIN</th><th>HOOD</th><th>IBIT</th><th>动作</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>现在</td><td>6/3</td><td class="num">50-60</td><td class="num">40-50</td><td class="num">现有</td><td>逐步建仓</td></tr>
+        <tr><td>Floor 日程公布</td><td>6 中旬</td><td class="num">70</td><td class="num">60</td><td class="num">+5%</td><td>加仓至 70%</td></tr>
+        <tr><td>Floor 通过前</td><td>6 下旬</td><td class="num pos">100</td><td class="num pos">90</td><td class="num pos">+10%</td><td>完成目标仓位</td></tr>
+        <tr style="background: rgba(196, 134, 42, 0.1);"><td>Floor 通过当日</td><td>T 日</td><td class="num warn">100</td><td class="num warn">90</td><td class="num warn">+10%</td><td><strong>不追涨</strong></td></tr>
+        <tr><td>Floor + 1 周</td><td>T+5</td><td class="num">75-80</td><td class="num">70-75</td><td class="num">维持</td><td class="neg">Trim 15-25%</td></tr>
+        <tr><td>House 重投</td><td>8-9 月</td><td class="num">65-70</td><td class="num">60</td><td class="num">维持</td><td class="neg">再 Trim 10%</td></tr>
+        <tr style="background: rgba(139, 38, 53, 0.1);"><td><strong>签字日</strong></td><td>7-10 月</td><td class="num neg">50-55</td><td class="num neg">50-55</td><td class="num neg">-10%</td><td class="neg"><strong>大幅 Trim</strong></td></tr>
+        <tr><td>签字 + 30 天</td><td>8-11 月</td><td class="num">45-50</td><td class="num">45-50</td><td class="num">维持</td><td>观察 sell-the-news</td></tr>
+        <tr><td>Rulemaking 关键期</td><td>2026 Q4 - 2027</td><td class="num">50</td><td class="num">55</td><td>视 BTC</td><td>核心 hold</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout gold">
+      <div class="callout-label">期权策略整合</div>
+      <ul class="classy">
+        <li><strong>Floor 前横盘期：</strong>COIN $250-280 区间卖 bull put spread 收 premium</li>
+        <li><strong>Floor 通过当日：</strong>开始建立 8 月到期 covered calls（COIN 高位）</li>
+        <li><strong>签字日附近：</strong>停止 bull put spread；建立 9-10 月 OTM put spreads 在 COIN 防御 sell-the-news</li>
+        <li><strong>选举前 2 周：</strong>HOOD 加 protective puts</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Margin 账户使用建议</div>
+      <p>Floor vote 前 1-2 周：仅用 30-40% 保证金，留充足缓冲。Floor 通过后：立即将 leverage 降回 20-30%。签字日附近：净杠杆降至 < 20%，留 ammunition 抓 sell-the-news 反向操作机会。</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SECTION 9 ═══════════════ -->
+  <section>
+    <div class="section-header">
+      <span class="section-number">SECTION 09</span>
+      <h2>Risk Monitors · 风险监控仪表板</h2>
+    </div>
+
+    <h3>5 个必须监控的 Leading Indicators</h3>
+
+    <table>
+      <thead>
+        <tr><th>信号</th><th>当前值</th><th>警戒阈值</th><th>含义</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Polymarket 2026 通过概率</td><td class="num warn">55% ↓</td><td>&lt; 50%</td><td>通过预期下降</td></tr>
+        <tr><td>Kalshi 8 月成法概率</td><td class="num warn">27%</td><td>&lt; 20%</td><td>July 4 已 miss</td></tr>
+        <tr><td>Gillibrand 公开表态</td><td class="num">未明确</td><td>"支持" = +10% 概率</td><td>关键 swing vote</td></tr>
+        <tr><td>JPM Dimon 软化</td><td class="num warn">仍反对</td><td>任何软化</td><td>银行阵营瓦解信号</td></tr>
+        <tr><td>BTC 价格</td><td class="num warn">&lt;$68k</td><td>&lt; $60k</td><td>加密板块整体压力</td></tr>
+      </tbody>
+    </table>
+
+    <h3>三大尾部风险 + 对冲方案</h3>
+
+    <table>
+      <thead>
+        <tr><th>风险</th><th>触发条件</th><th>COIN 影响</th><th>对冲方案</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Floor vote 失败</strong></td><td>票数 &lt; 60，无法 cloture</td><td class="neg">-20-30%</td><td>9 月 COIN OTM puts</td></tr>
+        <tr><td><strong>道德条款破裂</strong></td><td>导致法案 2026 死亡</td><td class="neg">-25-35%</td><td>SQQQ 增持 20-30%</td></tr>
+        <tr><td><strong>宏观挤占</strong></td><td>Iran/通胀挤占立法日程</td><td class="neg">-15-25%</td><td>SOXS/SQQQ 保持 20-30%</td></tr>
+      </tbody>
+    </table>
+
+    <div class="pull">
+      <p class="pull-text">CLARITY Act 不是单一 catalyst，是 9 个 catalysts 的接力赛。Floor Vote = 最大涨幅日，签字日 = 中期顶部，Rulemaking = 长期 alpha 战场。</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer>
+    <strong>END OF DOSSIER · 报告结束</strong>
+    <p>Compiled 2026/06/03 · For personal reference only · Not investment advice</p>
+    <p style="margin-top: 8px;">Sources: CoinDesk · Fortune · Bitcoin Magazine · Bloomberg · WSJ · Senate Banking Committee · Polymarket · Kalshi</p>
+  </footer>
+
+</div>
+</body>
+</html>

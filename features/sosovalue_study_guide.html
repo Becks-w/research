@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SoSoValue 白皮书 · 完整学习资料</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Noto+Serif+SC:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1a1c1a;
+    --ink-soft:#3d423d;
+    --paper:#f5f2ea;
+    --paper-2:#ece7da;
+    --card:#fffdf7;
+    --accent:#0c6b5e;       /* deep teal */
+    --accent-2:#c8612d;     /* burnt orange */
+    --gold:#b08529;
+    --line:#d9d2c1;
+    --line-strong:#bfb6a0;
+    --shadow:0 1px 2px rgba(26,28,26,.04),0 8px 28px rgba(26,28,26,.07);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Noto Serif SC",Georgia,serif;
+    line-height:1.85;font-size:17px;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* ---------- layout ---------- */
+  .wrap{display:grid;grid-template-columns:288px 1fr;max-width:1320px;margin:0 auto;}
+  nav.toc{
+    position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;
+    background:var(--paper-2);border-right:1px solid var(--line);
+    padding:34px 22px 60px;
+  }
+  main{padding:0 clamp(20px,5vw,76px) 120px;min-width:0;}
+  /* ---------- toc ---------- */
+  .toc-brand{font-family:"Fraunces",serif;font-weight:700;font-size:21px;letter-spacing:-.01em;line-height:1.2;margin-bottom:3px;color:var(--accent);}
+  .toc-sub{font-family:"Noto Sans SC";font-size:11.5px;color:var(--ink-soft);letter-spacing:.18em;text-transform:uppercase;margin-bottom:26px;}
+  .toc a{display:block;text-decoration:none;color:var(--ink-soft);font-family:"Noto Sans SC";font-size:13.5px;padding:5px 10px;border-radius:7px;border-left:2px solid transparent;transition:.18s;}
+  .toc a:hover{background:rgba(12,107,94,.08);color:var(--accent);}
+  .toc a.chap{font-weight:700;color:var(--ink);margin-top:14px;font-size:14px;}
+  .toc a.sub{padding-left:22px;font-size:12.5px;}
+  .toc a.active{border-left-color:var(--accent);background:rgba(12,107,94,.10);color:var(--accent);}
+  .toc-meta{margin-top:30px;padding-top:18px;border-top:1px solid var(--line-strong);font-family:"Noto Sans SC";font-size:11.5px;color:var(--ink-soft);line-height:1.7;}
+  /* ---------- hero ---------- */
+  header.hero{padding:74px 0 40px;border-bottom:2px solid var(--ink);margin-bottom:14px;}
+  .kicker{font-family:"Noto Sans SC";font-size:12.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent-2);font-weight:700;margin-bottom:18px;}
+  header.hero h1{font-family:"Fraunces",serif;font-weight:700;font-size:clamp(40px,6vw,68px);line-height:1.02;letter-spacing:-.02em;margin:0 0 6px;}
+  header.hero .h1zh{font-family:"Noto Sans SC";font-weight:900;font-size:clamp(22px,3.4vw,34px);color:var(--ink);margin:0 0 26px;letter-spacing:.01em;}
+  header.hero .lede{font-size:18.5px;max-width:60ch;color:var(--ink-soft);}
+  .hero-stats{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;}
+  .hero-stats .pill{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px 18px;box-shadow:var(--shadow);min-width:140px;}
+  .hero-stats .pill b{display:block;font-family:"Fraunces",serif;font-size:25px;color:var(--accent);line-height:1;}
+  .hero-stats .pill span{font-family:"Noto Sans SC";font-size:12px;color:var(--ink-soft);display:block;margin-top:6px;}
+  /* ---------- chapter ---------- */
+  section.chap{padding-top:54px;margin-top:18px;border-top:1px dashed var(--line-strong);}
+  section.chap:first-of-type{border-top:none;}
+  .chap-no{font-family:"Fraunces",serif;font-style:italic;font-size:16px;color:var(--accent-2);font-weight:600;}
+  section.chap > h2{font-family:"Noto Sans SC";font-weight:900;font-size:clamp(27px,3.6vw,38px);line-height:1.18;letter-spacing:-.01em;margin:6px 0 4px;}
+  .read-time{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);background:var(--paper-2);border:1px solid var(--line);padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:18px;}
+  h3{font-family:"Noto Sans SC";font-weight:700;font-size:21px;margin:38px 0 10px;padding-left:14px;border-left:4px solid var(--accent);}
+  h4{font-family:"Noto Sans SC";font-weight:700;font-size:16.5px;margin:26px 0 8px;color:var(--accent);}
+  p{margin:12px 0;}
+  strong{color:var(--ink);font-weight:700;}
+  .en{font-family:"Fraunces",serif;font-style:italic;color:var(--ink-soft);}
+  code{font-family:"IBM Plex Mono",monospace;font-size:13.5px;background:var(--paper-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--accent-2);word-break:break-all;}
+  ul,ol{margin:12px 0;padding-left:24px;}
+  li{margin:7px 0;}
+  /* ---------- callouts ---------- */
+  .key{background:linear-gradient(180deg,#fffdf7,#fbf7ec);border:1px solid var(--line-strong);border-left:5px solid var(--gold);border-radius:12px;padding:18px 22px;margin:24px 0;box-shadow:var(--shadow);}
+  .key .kt{font-family:"Noto Sans SC";font-weight:900;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+  .key ul{margin:6px 0 0;}
+  .note{background:rgba(12,107,94,.06);border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 20px;margin:20px 0;font-size:15.5px;}
+  .note .nt{font-family:"Noto Sans SC";font-weight:700;color:var(--accent);font-size:13px;letter-spacing:.05em;}
+  .warn{background:rgba(200,97,45,.07);border-left:4px solid var(--accent-2);border-radius:0 10px 10px 0;padding:14px 20px;margin:20px 0;font-size:15.5px;}
+  .warn .nt{font-family:"Noto Sans SC";font-weight:700;color:var(--accent-2);font-size:13px;letter-spacing:.05em;}
+  /* ---------- tables ---------- */
+  .tbl{overflow-x:auto;margin:22px 0;border:1px solid var(--line-strong);border-radius:12px;box-shadow:var(--shadow);}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--card);font-family:"Noto Sans SC";}
+  th,td{text-align:left;padding:11px 15px;border-bottom:1px solid var(--line);vertical-align:top;}
+  thead th{background:var(--ink);color:var(--paper);font-weight:700;font-size:13px;letter-spacing:.03em;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:nth-child(even){background:rgba(236,231,218,.45);}
+  td b,td strong{color:var(--accent);}
+  /* ---------- misc ---------- */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;}
+  .mini{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow);}
+  .mini h4{margin-top:0;}
+  .flow{counter-reset:step;list-style:none;padding-left:0;margin:20px 0;}
+  .flow li{counter-increment:step;position:relative;padding:10px 0 10px 46px;border-bottom:1px solid var(--line);}
+  .flow li:last-child{border-bottom:none;}
+  .flow li::before{content:counter(step);position:absolute;left:0;top:9px;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-family:"Fraunces",serif;font-weight:600;display:flex;align-items:center;justify-content:center;font-size:14px;}
+  .footer{margin-top:70px;padding-top:26px;border-top:2px solid var(--ink);font-family:"Noto Sans SC";font-size:13px;color:var(--ink-soft);}
+  .tag{display:inline-block;font-family:"Noto Sans SC";font-size:11.5px;font-weight:700;background:var(--accent);color:#fff;padding:2px 9px;border-radius:5px;margin-right:6px;letter-spacing:.04em;}
+  .tag.alt{background:var(--accent-2);}
+  .tag.ghost{background:transparent;color:var(--ink-soft);border:1px solid var(--line-strong);}
+  hr.soft{border:none;border-top:1px solid var(--line);margin:30px 0;}
+  /* mobile */
+  .menu-btn{display:none;}
+  @media(max-width:880px){
+    .wrap{grid-template-columns:1fr;}
+    nav.toc{position:fixed;inset:0 auto 0 0;width:280px;z-index:50;transform:translateX(-100%);transition:.25s;box-shadow:0 0 40px rgba(0,0,0,.25);}
+    nav.toc.open{transform:translateX(0);}
+    .menu-btn{display:flex;position:fixed;top:14px;left:14px;z-index:60;background:var(--ink);color:var(--paper);border:none;border-radius:10px;width:46px;height:46px;font-size:20px;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow);}
+    main{padding:58px 18px 90px;}
+    .grid2{grid-template-columns:1fr;}
+    body{font-size:16px;}
+  }
+</style>
+</head>
+<body>
+<button class="menu-btn" onclick="document.querySelector('nav.toc').classList.toggle('open')">☰</button>
+<div class="wrap">
+
+<!-- ============ TOC ============ -->
+<nav class="toc">
+  <div class="toc-brand">SoSoValue</div>
+  <div class="toc-sub">Whitepaper · 学习资料</div>
+  <a class="chap" href="#c1">1 · 产品介绍</a>
+  <a class="chap" href="#c2">2 · 行业痛点</a>
+  <a class="chap" href="#c3">3 · 解决方案框架</a>
+  <a class="sub" href="#c3-1">3.1 数据 · 洞察</a>
+  <a class="sub" href="#c3-2">3.2 AI · 效率</a>
+  <a class="sub" href="#c3-3">3.3 协议 · 可靠</a>
+  <a class="sub" href="#c3-4">3.4 基础设施 · 可持续</a>
+  <a class="chap" href="#c4">4 · 市场机会</a>
+  <a class="chap" href="#c5">5 · SSI 指数协议</a>
+  <a class="sub" href="#c5-2">5.2 四大旗舰产品</a>
+  <a class="sub" href="#c5-3">5.3 协议机制设计</a>
+  <a class="sub" href="#c5-4">5.4 指数方法论</a>
+  <a class="sub" href="#c5-6">5.6 指数创建工具</a>
+  <a class="chap" href="#c6">6 · SoDEX 交易所</a>
+  <a class="sub" href="#c6-2">6.2 CLOB + Mirror</a>
+  <a class="sub" href="#c6-4">6.4 交易机制详解</a>
+  <a class="chap" href="#c7">7 · ValueChain 公链</a>
+  <a class="chap" href="#c8">8 · 代币经济学</a>
+  <a class="sub" href="#c8-2">8.2 分配与解锁</a>
+  <a class="sub" href="#c8-3">8.3 跨链架构</a>
+  <a class="chap" href="#c9">9 · 资源与合规</a>
+  <a class="sub" href="#c9-ads">EXP Ads 广告</a>
+  <a class="sub" href="#c9-risk">风险与司法管辖</a>
+  <a class="chap" href="#cheat">★ 速记卡</a>
+  <div class="toc-meta">
+    来源 · SoSoValue 官方 GitBook 白皮书<br>
+    结构 · 9 大章节<br>
+    预计阅读 · 约 45–60 分钟
+  </div>
+</nav>
+
+<!-- ============ MAIN ============ -->
+<main>
+<header class="hero">
+  <div class="kicker">CeFi × DeFi · 全栈加密投资基础设施</div>
+  <h1>SoSoValue</h1>
+  <div class="h1zh">白皮书完整学习资料</div>
+  <p class="lede">一个以 AI 驱动的加密投资与研究平台,目标是让加密投资走向全球大众。本资料按官方白皮书章节系统梳理,保留全部关键机制、数据与公式,供深度学习与查阅。</p>
+  <div class="hero-stats">
+    <div class="pill"><b>4</b><span>核心组件<br>Terminal/SSI/SoDEX/ValueChain</span></div>
+    <div class="pill"><b>10亿</b><span>SOSO 固定供应<br>无通胀</span></div>
+    <div class="pill"><b>$15–20T</b><span>五年加密市值<br>预测目标</span></div>
+    <div class="pill"><b>13</b><span>市场赛道板块<br>分类体系</span></div>
+  </div>
+  <div class="note" style="margin-top:30px">
+    <span class="nt">如何使用本资料</span><br>
+    建议先看第 1–4 章建立全局认知(约 15 分钟),再按兴趣深入第 5–8 章的技术与代币机制。文末"速记卡"可作为快速复习。每章顶部标有预计阅读时长。
+  </div>
+</header>
+
+<!-- ===== 全景图 ===== -->
+<section class="chap" id="overview">
+  <span class="chap-no">Big Picture</span>
+  <h2>一张图看懂 SoSoValue 全栈</h2>
+  <p>SoSoValue 的核心叙事是把"投资决策的完整链路"全部搬到链上,并融合中心化金融(CeFi)的效率与去中心化金融(DeFi)的透明。四大组件构成一条从<strong>信息发现 → 组合构建 → 专业交易</strong>的完整投资栈:</p>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>层级</th><th>组件</th><th>解决什么</th><th>类比传统金融</th></tr></thead>
+    <tbody>
+      <tr><td>信息层</td><td><b>SoSoValue Terminal</b></td><td>过滤、聚合、综合海量市场数据,提供可操作洞察</td><td>Bloomberg 终端</td></tr>
+      <tr><td>产品层</td><td><b>SSI Protocol</b><br>(SoSoValue Indexes)</td><td>基于 EVM 的链上现货指数协议,提供分散化、透明的被动投资组合</td><td>指数 ETF(如 SPY)</td></tr>
+      <tr><td>交易层</td><td><b>SoDEX</b></td><td>高性能全链上订单簿交易所,深度流动性、低延迟、链上结算</td><td>纳斯达克/中心化交易所</td></tr>
+      <tr><td>基础设施层</td><td><b>ValueChain</b></td><td>为 SoDEX 及整个生态量身打造的 Layer-1,模块化、可扩展、安全</td><td>清算与结算基础设施</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="key">
+    <div class="kt">核心记忆点</div>
+    <ul>
+      <li><strong>统一价值载体是 SOSO 代币</strong>:既是 ValueChain 的 gas,又是 SoDEX 的手续费折扣凭证,还是治理与质押资产。</li>
+      <li>四大组件不是并列产品,而是<strong>自下而上层层支撑</strong>的一条投资栈。</li>
+      <li>定位关键词:绕过高费用、慢结算、地域限制三大传统壁垒。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== Ch1 ===== -->
+<section class="chap" id="c1">
+  <span class="chap-no">Chapter 1</span>
+  <h2>产品介绍:SoSoValue 是什么</h2>
+  <span class="read-time">⏱ 约 3 分钟</span>
+  <p>SoSoValue 是一个 <strong>AI 驱动的加密投资与研究平台</strong>,使命是让加密投资普惠全球大众。它要解决的根本问题是:加密市场信息爆炸、各类链生态代币激增,普通投资者难以有效导航市场、管理组合、实现可持续的财富管理。</p>
+  <p>平台通过整合<strong>数据、AI、指数协议与下一代交易基础设施</strong>,提供一个完整的投资栈——从信息发现,到组合构建,再到专业级交易。这种"全栈"思路绕过了传统金融的三大壁垒:高费用、慢结算、地域限制。</p>
+  <div class="note">
+    <span class="nt">一句话定位</span><br>
+    通过统一 CeFi 的效率优势与 DeFi 的透明优势,SoSoValue 试图成为加密时代"可扩展、透明、可持续"的投资与财富管理基础设施。
+  </div>
+</section>
+
+<!-- ===== Ch2 ===== -->
+<section class="chap" id="c2">
+  <span class="chap-no">Chapter 2</span>
+  <h2>行业痛点:加密投资者面临的壁垒</h2>
+  <span class="read-time">⏱ 约 4 分钟</span>
+  <p>白皮书把两个标志性事件作为加密"从量变到质变""从小众到主流"的转折点:<strong>2024 年 1 月 10 日比特币现货 ETF 获批</strong>,以及 <strong>2024 年 11 月 7 日特朗普胜选</strong>。传统金融与加密的碰撞融合,带来海量新投资者,也让信息鸿沟在数据洪流中持续扩大。</p>
+  <h3>三大核心问题</h3>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>痛点</th><th>具体表现</th></tr></thead>
+    <tbody>
+      <tr><td><b>① 信息鸿沟<br><span class="en">Information Gap</span></b></td><td>信息碎片化分散在不同圈层,缺乏有效整合与传播,投资者难以形成全面的决策视角。</td></tr>
+      <tr><td><b>② 缺乏简单可靠的被动投资<br><span class="en">No Passive Investing</span></b></td><td>不像传统金融有指数基金,加密投资者被迫追逐单个代币,面对极端波动、高风险,且需自行构建分散组合。</td></tr>
+      <tr><td><b>③ 链上投资基础设施低效<br><span class="en">Inefficient Infra</span></b></td><td>基于 AMM 的 DEX 存在滑点与资本低效,流动性浅且分散;跨链操作增加复杂度与隐性成本,阻碍专业级交易。</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="key">
+    <div class="kt">作者的核心比喻</div>
+    <ul>
+      <li>在加密世界,按传统金融标准做一个理性投资决策<strong>至少需要 10 种不同工具</strong>;管理跨链组合则引入大量难以量化的成本与风险。</li>
+      <li>投资者最根本的三要素——<strong>信息、投资产品、交易基础设施</strong>——本应像现实世界的"水和空气"一样干净、透明、可及;但今天的加密投资者面对的恰恰相反:噪音、低效与碎片化。</li>
+    </ul>
+  </div>
+  <p>SoSoValue 正是用四大组件(Terminal、SSI、SoDEX、ValueChain)逐一对应解决这三大问题。</p>
+</section>
+
+<!-- ===== Ch3 ===== -->
+<section class="chap" id="c3">
+  <span class="chap-no">Chapter 3</span>
+  <h2>解决方案框架:四个"让……成为可能"</h2>
+  <span class="read-time">⏱ 约 9 分钟</span>
+  <p>第三章是全书的逻辑骨架,用四个递进命题把四大组件串起来:<strong>数据让洞察成为可能 → AI 让效率成为可能 → 协议让投资可靠 → 基础设施让生态可持续</strong>。</p>
+
+  <h3 id="c3-1">3.1 数据让洞察成为可能</h3>
+  <p>加密市场诞生于技术、金融与社会学的交汇,因此分析它需要跨学科、跨宏观/中观/微观的多维视角。市面工具往往只覆盖单一维度,这是投资者迷失于信息洪流的主因。SoSoValue 从"投资决策要素"出发,把全网数据<strong>重新分类重组为七大板块</strong>:</p>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>#</th><th>板块</th><th>内容要点</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>加密市场总览</b></td><td>市场仪表盘含五部分:二级市场(Cryptocurrencies)、加密相关股票(Crypto Stocks)、一级市场融资(Fundraising)、ETF 仪表盘、链上二级市场(DEX Pool)。</td></tr>
+      <tr><td>2</td><td><b>板块与指数</b></td><td>将生态分为 <b>13 大赛道</b>:Layer1、StableCoins、PayFi、CeFi、Meme、DeFi、Layer2、DePIN、AI、GameFi、SocialFi、RWA、NFT,并为每个赛道编制指数追踪趋势,捕捉板块轮动与 alpha。</td></tr>
+      <tr><td>3</td><td><b>代币与项目</b></td><td>结构化分析代币经济学、解锁时间表、团队背景、路线图、市场趋势;聚合解读重大升级、治理提案、监管动态。</td></tr>
+      <tr><td>4</td><td><b>新闻与研究</b></td><td>AI 聚合新闻、深度研报、专家观点、机构分析,实时过滤分类,支持按币种/赛道精准检索。</td></tr>
+      <tr><td>5</td><td><b>宏观经济</b></td><td>策展传统金融关键宏观数据与指标,提供历史趋势与预期分歧,连接加密趋势与全球经济变化。</td></tr>
+      <tr><td>6</td><td><b>链上数据</b></td><td>可视化网络活跃度(地址数/交易量)、资金流(巨鲸/大额转账)、TVL、DEX 交易量、L2 使用、合约部署等。</td></tr>
+      <tr><td>7</td><td><b>研究社区 Token Bar</b></td><td>借助 AI 跨语言实时翻译,让全球投资者无障碍讨论特定代币/赛道,形成集体智慧。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 id="c3-2">3.2 AI 让一切成为可能</h3>
+  <p>白皮书的关键对比:<strong>全球 86.9% 人口净资产低于 10 万美元,而一份 Bloomberg 订阅高达每年 3 万美元</strong>。SoSoValue 用 AI 把"Bloomberg 级"服务平民化,实现信息平权。生成式 AI 在三个层面重塑投研:</p>
+  <div class="grid2">
+    <div class="mini"><h4>① 数据处理</h4>过滤与摘要海量数据,聚焦关键信息。币种详情页只显示最相关新闻;NewsFeed 顶部用 AI 实时摘要过去 24 小时最重要的 10 条新闻,给你"10 秒市场快照"。</div>
+    <div class="mini"><h4>② 分析与告警</h4>整合多维信息分析市场模式与趋势,在快速变化的市场中提供及时、可操作的洞察与告警。每日语音简报提供最新趋势的精炼更新。</div>
+  </div>
+  <div class="mini"><h4>③ 个性化</h4>生成式 AI 快速适应每个用户的需求与偏好,成为专属 AI agent。菜单栏的 AI 助手 <strong>SoCates</strong> 是 7×24 小时个人投研助理;Watchlist 还将解锁针对你组合的每日 AI 观察清单报告(规划中)。</div>
+  <p class="note"><span class="nt">细节</span><br>SoSoValue 称已训练多种专用 LLM 模型与 AI agent,以实现最高效、最准确的信息处理流程。</p>
+
+  <h3 id="c3-3">3.3 协议让投资可靠</h3>
+  <p>核心论据:回顾过去 3/5/10 年表现,<strong>约 90% 的主动型基金跑输基准指数</strong>。在信息过载、新概念层出不穷的加密市场,主动选币比预想更难,被动指数追踪因此成为追求稳健增长者的可靠选择。</p>
+  <p>SSI Protocol 用链上智能合约,把多链多资产组合<strong>重新封装为 Wrapped Token(SSI)</strong>。这些代币代表一篮子底层资产,从而追踪篮子价值波动,实现被动指数投资效果。协议由六类参与者构成(详见 5.3)。投资者借此可专注<strong>宏观趋势与核心市场逻辑</strong>,轻松捕获 beta(市场广度增长)与 alpha(赛道/细分机会)。</p>
+
+  <h3 id="c3-4">3.4 基础设施让生态可持续</h3>
+  <p>要让加密投资真正规模化,除了数据、AI、协议,还需能承载高性能交易与长期生态增长的底层基础设施——这就是 <strong>SoDEX + ValueChain</strong>。</p>
+  <ul>
+    <li><strong>SoDEX</strong>:高性能、全链上订单簿 DEX,带来专业级交易体验(深度流动性、低延迟、透明结算)。相比 AMM 模型避免了滑点与资本低效。</li>
+    <li><strong>ValueChain</strong>:专为可持续扩展打造的 L1,采用 <strong>HostChain + GuestChain 架构</strong>,让不同应用链(现货、永续、RWA 等)在共享安全与流动性的前提下互操作。</li>
+  </ul>
+  <div class="key">
+    <div class="kt">SoDEX + ValueChain 的四大支柱</div>
+    <ul>
+      <li><strong>性能</strong>:订单簿交易,毫秒级响应。</li>
+      <li><strong>安全</strong>:链上结算 + 透明托管。</li>
+      <li><strong>可扩展</strong>:模块化架构支持专用应用链而不产生碎片化。</li>
+      <li><strong>可持续</strong>:统一基础设施可随市场需求演进。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== Ch4 ===== -->
+<section class="chap" id="c4">
+  <span class="chap-no">Chapter 4</span>
+  <h2>市场机会:三个五年预测</h2>
+  <span class="read-time">⏱ 约 5 分钟</span>
+  <p>第四章是 SoSoValue 的 TAM(可寻址市场)论证,用三个量化预测支撑赛道空间。</p>
+
+  <h3>4.1 加密总市值:五年内达 $15–20 万亿</h3>
+  <p>逻辑链条:加密资产凭借去中心化发行与抗通胀机制,成为新经济体系的基础共识与替代储备资产;购买与持有门槛极低(无需银行账户),全球普及更快。预计未来 10–20 年,加密资产将占个人可投资组合<strong>至少 10%</strong>。</p>
+  <ul>
+    <li>2024 年初美国比特币现货 ETF 开通合规通道,迄今为生态带来超 <strong>350 亿美元</strong>资金。</li>
+    <li>加密在<strong>支付</strong>(人人拥有数字资产账户、资金全球实时流动)与<strong>资产</strong>(RWA 把股票债券等代币化、重构发行—定价—交易全流程)两个层面重塑金融底座。</li>
+    <li>类比:纳斯达克 100 自 1985 年推出后,美股 40 年从 2.3 万亿增长 35 倍至 80 万亿。当前加密 <strong>3.8 万亿</strong>市值仅是起点,五年内有望达至少 10 万亿,并快速突破 15–20 万亿。</li>
+  </ul>
+
+  <h3>4.2 指数被动投资:五年内达 $5000 亿</h3>
+  <ul>
+    <li>美国被动投资已占资管 <strong>逾 50%</strong>,股票 ETF 总规模 8.3 万亿美元,最大单只 ETF 超 6000 亿美元。</li>
+    <li>加密每月新增超百万枚代币,学习门槛高、波动大、单币回撤剧烈——指数化被动产品最适合关注长期趋势的专业投资者。</li>
+    <li>历史参照:首只标普 500 ETF(SPY)1993 年上市时,美股总市值约 4.5 万亿;当前加密总市值已接近 4 万亿,正是推出指数被动产品的时机。</li>
+    <li>美股 ETF 约占总市值 10%;加密被动产品预计增长更快,五年内有望<strong>占加密市值 5% 以上,规模约 5000 亿美元</strong>。</li>
+  </ul>
+
+  <h3>4.3 数据与科技服务:五年内年收入 $500–1000 亿</h3>
+  <ul>
+    <li>传统金融龙头年收入:Bloomberg 133 亿、S&P Global 125 亿、Refinitiv 62.5 亿美元。</li>
+    <li>传统金融数据科技服务支出约占市场总规模的 <strong>0.5%/年</strong>;套用到加密市场,五年内该赛道年收入预计达 <strong>500 亿美元</strong>(标题为 50–100B 区间)。</li>
+  </ul>
+  <div class="key">
+    <div class="kt">第四章速记</div>
+    <ul>
+      <li>三个锚:<strong>市值 $15–20T · 被动指数 $500B · 数据科技 $50–100B</strong>。</li>
+      <li>论证方法都是"用美股成熟比例 × 加密当前规模"做线性外推。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== Ch5 ===== -->
+<section class="chap" id="c5">
+  <span class="chap-no">Chapter 5</span>
+  <h2>SSI 指数协议:面向大众的被动投资新范式</h2>
+  <span class="read-time">⏱ 约 12 分钟(全书技术重点)</span>
+  <p>SSI(SoSoValue Indexes)Protocol 是一个<strong>现货加密指数协议</strong>,用链上智能合约把多链多资产组合封装为 Wrapped Token(SSI)。构建在纯链上架构、由可信第三方托管支持,提供安全、透明、低成本的被动投资方案,免去 DeFi 复杂操作与单币选择难题。首批于 <strong>2024 年 12 月</strong>上线四只产品。</p>
+
+  <h3 id="c5-2">5.2 四大旗舰产品</h3>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>产品</th><th>成分数</th><th>权重规则</th><th>再平衡</th><th>定位亮点</th></tr></thead>
+    <tbody>
+      <tr><td><b>MAG7.ssi</b></td><td>7</td><td>每币最低 10%,其余按流通市值加权</td><td>月度</td><td>市值前 7 强、强社会共识、流动性充足;10% 等权确保 BTC/ETH 之外二线龙头敞口。</td></tr>
+      <tr><td><b>MEME.ssi</b></td><td>10</td><td>流通市值加权</td><td>月度</td><td>聚焦头部 Meme,一站式敞口;成分流通市值从约 600 亿到 8 亿美元不等,兼顾流动性与策略容量。</td></tr>
+      <tr><td><b>DEFI.ssi</b></td><td>10</td><td>流通市值加权</td><td>月度</td><td>纳入成熟 DeFi 资产,监管利好下有突破潜力;市值加权兼顾广度与流动性风险。</td></tr>
+      <tr><td><b>USSI</b><br>(对冲型)</td><td>市值前 7</td><td>系统化 Delta 对冲,维持 Delta 中性</td><td>动态</td><td>通过资金费率优化收益;牛市资金费率可超 <b>100% 年化</b>,提供低风险超额收益,回撤极小。</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>托管方均为 <strong>Cobo / Ceffu</strong>。USSI 的风控分三层:代币层(仅大市值资产)、账户层(实时流动性)、系统层(策略与风控模块隔离)。</p>
+
+  <h3 id="c5-3">5.3 协议机制设计</h3>
+  <h4>六类参与者</h4>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>角色</th><th>职责</th></tr></thead>
+    <tbody>
+      <tr><td><b>User 用户</b></td><td>购买指数代币获取 beta/alpha 收益。</td></tr>
+      <tr><td><b>UNI LP</b><br>(Uniswap 流动性提供者)</td><td>在 Uniswap 提供流动性,赚取交易手续费。</td></tr>
+      <tr><td><b>WLP</b><br>(白名单参与者)</td><td>通过协议铸造/赎回 SSI,并通过市价买卖平衡 Uniswap 价格,使其对齐底层资产价值,赚取套利。</td></tr>
+      <tr><td><b>PMM</b><br>(私有做市商)</td><td>帮助购买指数代币的底层现货资产并存入托管账户。</td></tr>
+      <tr><td><b>Custody 托管</b></td><td>确保底层资产安全存储。</td></tr>
+      <tr><td><b>Index Compiler<br>指数编制方</b></td><td>制定指数编制方法论,确定成分与权重,保障指数长期有效运行。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h4>铸造 / 赎回 / 再平衡流程</h4>
+  <div class="grid2">
+    <div class="mini"><h4>铸造 Mint</h4>
+      <ol style="padding-left:18px;margin:0">
+        <li>WLP 向协议服务器询价,获报价单</li>
+        <li>价格合适则链上申请铸造,现金先转入协议合约</li>
+        <li>协议验证后通知 PMM 成交</li>
+        <li>PMM 将底层代币转入托管钱包</li>
+        <li>验证后协议把现金转给 PMM,并向 WLP 铸造 SSI</li>
+      </ol>
+    </div>
+    <div class="mini"><h4>赎回 Burn</h4>
+      <ol style="padding-left:18px;margin:0">
+        <li>WLP 询价获单,SSI 先转入协议合约</li>
+        <li>协议验证后通知 PMM 成交</li>
+        <li>PMM 把现金转入协议合约</li>
+        <li>协议从托管钱包提取底层代币给 PMM</li>
+        <li>验证后销毁 SSI 并把现金转给 WLP</li>
+      </ol>
+    </div>
+  </div>
+  <p><strong>再平衡 Rebalance</strong>:协议进入再平衡态并暂停铸造/赎回 → 从编制方获取目标成分信息 → 向 PMM 询价 → 验证并通知成交 → 在托管钱包与 PMM 钱包间转移代币(卖出剔除币、买入纳入币,由链上合约保障可信)→ 更新成分信息、标记完成 → 恢复铸造/赎回。</p>
+
+  <div class="note">
+    <span class="nt">WLP 套利机制(理解协议如何锚定价值的关键)</span><br>
+    每个 WLP 须通过 <strong>KYB</strong> 验证才获得铸造/赎回权。当二级市场价格偏离底层资产价值时,WLP 套利使其回归。例:买盘把 MAG7.ssi 二级价推到 $1.02 而底层资产仍值 $1.00,出现约 <strong>2% 正溢价</strong>;WLP 可用 USDC 以接近 $1.00 铸造新币、在二级市场以 $1.02 卖出,赚取 2% 套利,同时扩大 SSI 流通量与协议 AUM。
+  </div>
+
+  <h4>关键合约地址(Base 链)</h4>
+  <p>四只产品代币地址:MAG7.ssi <code>0x9E6A46f2…403B55</code> · DEFI.ssi <code>0x164ffdaE…079D0</code> · MEME.ssi <code>0xdd3acDBD…5743aA</code> · USSI <code>0x3a46ed8F…D2Ed18</code>。协议主合约含 swap / factory / issuer / rebalancer / feeManager / stakeFactory / assetLocking 等;Protocol OWNER 由 <strong>Cobo Custody</strong> 控制。</p>
+
+  <h4>审计(五阶段)</h4>
+  <p>SSI 协议先后由 <strong>SlowMist(Phase 1–2)、Zenith + BlockSec + TenArmor(Phase 3)、Quantstamp + Zellic(Phase 4)</strong> 审计;2025 年 6 月 3 日合约全面升级后,再由 <strong>TenArmor + BlockSec(Phase 5)</strong> 进行专项审计。</p>
+
+  <h3 id="c5-4">5.4 指数通用方法论</h3>
+  <h4>资产范围资格(Asset Universe Eligibility)</h4>
+  <ul>
+    <li><strong>交易所要求</strong>:须在 Binance、OKEx、Coinbase、Bybit、Bitget 之一交易。</li>
+    <li><strong>数据要求</strong>:须被 SoSoValue 数据源支持。</li>
+    <li><strong>交易对要求</strong>:须支持 USD / USDT / USDC 至少一种。</li>
+    <li><strong>合规要求</strong>:须符合相关法律法规。</li>
+    <li><strong>排除项</strong>:不含稳定币,也不含其他加密货币的衍生代币。</li>
+    <li><strong>流动性</strong>:按 30 日日均成交量降序,剔除末尾 10%。</li>
+    <li><strong>市值</strong>:按 30 日均市值降序,剔除末尾 10%。</li>
+  </ul>
+  <h4>成分筛选维度</h4>
+  <p>包括:上市时长门槛、市值排名与测试(30 日均值)、FDV 排名(全稀释估值 = 价格 × 最大供应量)、流动性(成交量排名 + 流通率测试 + 换手率测试)、黑名单排除。最终按 30 日均流通市值降序选取指定数量;若市值相同,取 30 日均成交量更高者。</p>
+  <h4>加权与计算公式</h4>
+  <p>成分按市值加权。设第 i 个代币市值 <code>Mᵢ = Pᵢ × Sᵢ</code>(价格×流通量),总市值 <code>T = ΣMᵢ</code>,原始权重 <code>Wᵢ = Mᵢ / T</code>。价格变化率 <code>Rᵢ,ₜ = Pᵢ,ₜ / Pᵢ,₀</code>。指数加权变化率 <code>R_weighted,t = Σ(Wᵢ,₀ × Rᵢ,ₜ)</code>。当日指数值 <code>Iₜ = I₀ × R_weighted,t</code>。计算用<strong>调整参考日 UTC 24:00</strong> 价格。</p>
+  <h4>两种特殊加权</h4>
+  <ul>
+    <li><strong>封顶市值(Capped)</strong>:限制最大成分权重不超过设定上限,超出部分按比例分配给其余成分,且按市值降序保证后位权重不超过前位。</li>
+    <li><strong>最低权重分配(Minimum Weighting)</strong>:先给每个成分一个最低权重,剩余部分再按市值比例分配;最终权重 = 最低权重 + 市值比例份额(MAG7.ssi 的 10% 即此机制)。</li>
+  </ul>
+  <h4>维护与治理</h4>
+  <p>定期再平衡,涉及关键日期:<strong>再平衡频率、参考日(月末前数日)、实施与公告日(新月首日附近)</strong>。增删规则:低于下限阈值的现成分剔除,非成分须达到/超过上限阈值才纳入。基准:基准日 + 基准值(常用 10)+ 指数货币 USD。最终方法论修改权归 SoSoValue 内部<strong>指数监督委员会</strong>,任何修改提前公告。<em>(方法论 2024/12/24 初版,2025/9/15 修订引入最低权重框架。)</em></p>
+
+  <h3 id="c5-6">5.6 开放指数生态 & 指数创建工具</h3>
+  <p>SoSoValue 正构建<strong>开放指数编制生态</strong>:用户可在可视化环境中无需编程地设计多维策略并发布为可交易指数,配有丰富数据源与回测工具。创建工具的 8 步工作流:</p>
+  <ol class="flow">
+    <li><strong>创建指数</strong>:命名(仅字母数字空格,发布前可改)。</li>
+    <li><strong>设计策略</strong>:选板块/Spotlight(BTC 单独成一板块),设市值/FDV/成交量/流通率/换手率门槛及排除币。</li>
+    <li><strong>设置加权</strong>:成分数量、每板块最低数量、市值加权,可选封顶上限(超出迭代再分配)与最低权重。</li>
+    <li><strong>设置再平衡</strong>:当前仅支持月度(每月 1 日自动执行);可选 Buffer Zone(删除阈值/添加阈值)减少频繁换仓。</li>
+    <li><strong>运行回测</strong>:最早从 2024-01-10 起按月模拟,输出 1M/3M/6M/YTD ROI,起点归一化为 100%。</li>
+    <li><strong>编辑信息</strong>:Ticker(3–6 位大写字母数字,一经创建不可改)、名称(不可改)、基准日、基准值固定为 10。</li>
+    <li><strong>发布</strong>:填写编制者信息 → 提交审核。</li>
+    <li><strong>管理</strong>:状态分 Draft / Data Preparation(60–90 分钟初始化)/ Online(可设 Unlisted 或 Public)/ Offline。</li>
+  </ol>
+  <div class="key">
+    <div class="kt">创建工具要点</div>
+    <ul>
+      <li>当前需<strong>邀请码</strong>激活;每个正式激活用户获 5 个邀请码(被邀请账户不再获新码)。</li>
+      <li>每个指数可含 <strong>3–50 个代币</strong>;默认月度再平衡。</li>
+      <li>三重价值:研究工具(回测验证)、个人影响力(展示投资逻辑)、持续收益(未来可经 SSI 协议发币,创建者分得协议收入)。</li>
+      <li>样本空间自动剔除市值末 10% 与日均成交量末 10% 的代币。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== Ch6 ===== -->
+<section class="chap" id="c6">
+  <span class="chap-no">Chapter 6</span>
+  <h2>SoDEX:在效率与去中心化间追求极致交易体验</h2>
+  <span class="read-time">⏱ 约 11 分钟</span>
+
+  <h3>6.1 矛盾:三重困境</h3>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>体系</th><th>核心问题</th></tr></thead>
+    <tbody>
+      <tr><td><b>传统金融 TradFi</b></td><td>排他性强:资本管制、政治不稳、银行垄断、基础设施落后,数亿人被系统性壁垒排除在外。</td></tr>
+      <tr><td><b>中心化交易所 CEX</b></td><td>信任困境:高性能但用户无法核验内部运作,易受不透明操作与隐性操纵伤害。</td></tr>
+      <tr><td><b>早期 DeFi(AMM)</b></td><td>性能瓶颈:资本低效(流动性铺在宽价格区间、大量闲置)、体验差(滑点高、gas/钱包门槛)、通用链吞吐低延迟高,撑不起高频专业交易。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 id="c6-2">6.2 解决方案:订单簿 DEX(CLOB) + Mirror Protocol</h3>
+  <p>SoDEX 是构建在 ValueChain 上的<strong>高性能订单簿 DEX</strong>,试图把中心化订单簿(CLOB)的毫秒级体验与深度流动性,与去中心化的非托管、透明、抗审查结合起来。它对四大痛点的回应:</p>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>特性</th><th>核心价值</th><th>实现方式</th></tr></thead>
+    <tbody>
+      <tr><td>无缝体验</td><td>CeFi 般顺滑</td><td>抽象化 gas、简化钱包交互,体验接近中心化交易所。</td></tr>
+      <tr><td>订单簿撮合</td><td>专业级精确执行</td><td>支持多档限价/止损单,价格精确执行,消除 AMM 滑点,适配量化与高频策略。</td></tr>
+      <tr><td>安全</td><td>机构级资产保护</td><td>非托管钱包 + 机构托管;集成链上 KYT(Know-Your-Transaction)实时识别风险地址。</td></tr>
+      <tr><td>链上透明</td><td>可验证的信任</td><td>所有交易、撮合、结算逻辑由智能合约链上执行,公开可追溯可验证。</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note">
+    <span class="nt">Mirror Protocol 跨链聚合流动性</span><br>
+    Mirror Protocol 是把外部资产安全接入 ValueChain 的互操作层,本质是<strong>信任最小化的资产桥</strong>。用户可经 Base 链官方桥存入 USDC、MAG7.ssi 等原生资产,或经第三方托管伙伴存入 BTC、SOL、XRP。检测并验证存款后,Mirror 在 SoDEX EVM 链铸造等量镜像代币(mirror token),可在现货/永续应用链自由交易;提现则反向<strong>销毁镜像代币</strong>再释放原链资产。其预言机采用 <strong>MPC + TEE 验证者架构</strong>:一组配备可信执行环境的分布式节点共同验证存取款事件、达成共识后才执行铸造/赎回,杜绝单点故障。
+  </div>
+
+  <h3>6.3 测试网上手</h3>
+  <p>连接已提交的白名单钱包后流程:接受条款 → 领测试代币 → 在 Trade 中 Add 把 ValueChain 加入钱包 → 从 EVM 资金账户划转测试代币到现货账户 → 钱包确认授权 → 启用免 gas 交易 → 下首个市价/限价单 → 完成任务并报告 bug 赚积分。</p>
+
+  <h3 id="c6-4">6.4 交易机制详解(高密度技术段)</h3>
+  <h4>订单簿与基础交易</h4>
+  <p>订单簿与 CEX 一致但全链上执行,价格须为 tick size 整数倍、数量须为 lot size 整数倍,严格<strong>价格-时间优先</strong>撮合。现货按市价/限价买卖,成交即转移所有权。永续合约为无到期日的加密衍生品,通过周期性资金费率把价格锚定现货,支持杠杆多空。</p>
+  <h4>测试网费率</h4>
+  <p>现货:Taker <strong>0.1%</strong> / Maker <strong>0.05%</strong>;永续:Taker <strong>0.05%</strong> / Maker <strong>0.02%</strong>。未来将按近期交易量分级折扣,并引入质押与推荐机制。</p>
+  <h4>订单类型与选项</h4>
+  <ul>
+    <li>类型:市价 Market、限价 Limit、止损市价 Stop Market、止损限价 Stop Limit。</li>
+    <li>选项:只减仓 Reduce Only、GTC(撤销前有效)、IOC(立即成交否则取消)、止盈 TP、止损 SL。TP/SL 默认市价,以<strong>标记价</strong>为触发基准,市价单默认 5% 滑点容忍。</li>
+  </ul>
+  <h4>保证金模式与杠杆</h4>
+  <p>开仓须选保证金模式:<strong>全仓 Cross</strong>(默认,共享抵押品、资本效率最高)或<strong>逐仓 Isolated</strong>(抵押品限定于该仓位)。杠杆为 1 到资产上限的整数,<code>初始保证金 = 仓位规模 × 标记价 ÷ 杠杆</code>。</p>
+  <h4>维持保证金分档与清算(测试网,2025.08.01)</h4>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>档</th><th>最大名义价值(USDC)</th><th>维持保证金率</th><th>起始保证金率</th><th>最大杠杆</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>10,000,000</td><td>0.30%</td><td>0.50%</td><td><b>200x</b></td></tr>
+      <tr><td>2</td><td>12,500,000</td><td>0.40%</td><td>0.80%</td><td>125x</td></tr>
+      <tr><td>3</td><td>20,000,000</td><td>0.50%</td><td>1.00%</td><td>100x</td></tr>
+      <tr><td>4</td><td>25,000,000</td><td>1.00%</td><td>2.00%</td><td>50x</td></tr>
+      <tr><td>5</td><td>50,000,000</td><td>2.50%</td><td>5.00%</td><td>20x</td></tr>
+      <tr><td>6</td><td>100,000,000</td><td>5.00%</td><td>10.00%</td><td>10x</td></tr>
+      <tr><td>7</td><td>200,000,000</td><td>10.00%</td><td>20.00%</td><td>5x</td></tr>
+      <tr><td>8</td><td>400,000,000</td><td>12.50%</td><td>25.00%</td><td>4x</td></tr>
+      <tr><td>9</td><td>1,500,000,000</td><td>15.00%</td><td>33.30%</td><td>3x</td></tr>
+      <tr><td>10</td><td>2,000,000,000</td><td>25.00%</td><td>50.00%</td><td>2x</td></tr>
+      <tr><td>11</td><td>5,000,000,000</td><td>50.00%</td><td>100.00%</td><td>1x</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>全仓清算触发条件:<code>账户价值(含未实现盈亏) &lt; 维持保证金率 × 总持仓名义价值</code>。</p>
+  <h4>清算流程</h4>
+  <ol style="padding-left:22px">
+    <li><strong>初次清算</strong>:账户权益低于维持保证金时,系统以市价单平掉全部仓位;若部分/全部平仓后保证金恢复,剩余抵押品归交易者。</li>
+    <li><strong>兜底清算 Backstop</strong>:若簿内清算失败且权益跌破<strong>维持保证金的 2/3</strong>,仓位转入 SoDEX Vault 与清算策略账户。</li>
+    <li><strong>兜底中的保证金处理</strong>:全仓的所有仓位与保证金转给清算方(无逐仓则账户权益归零);逐仓仅转移受影响仓位及其保证金。维持保证金<strong>不退还</strong>,作为金库盈利缓冲。</li>
+  </ol>
+  <h4>标记价格(Mark Price)</h4>
+  <p>清算用标记价(综合外部 CEX 价与 SoDEX 簿内状态)以增强稳健性。期权类标记价用 <strong>Black-Scholes 模型</strong>实时计算,隐含波动率由最优买/卖价并结合系统波动率上下限推导。标记价用于:计算保证金、触发清算、激活 TP/SL、确定未实现盈亏。验证者提交新预言机价格时更新,<strong>标记价与预言机价约每 3 秒刷新一次</strong>。</p>
+  <h4>盈亏公式</h4>
+  <p>开仓:<code>新入场价 = 加权平均(当前入场价, 成交价)</code>;平仓不改入场价。未实现盈亏:<code>side × (标记价 − 入场价) × 仓位规模</code>(多 side=1,空 side=−1);已实现盈亏:<code>手续费 + side × (平仓价 − 入场价) × 仓位规模</code>。</p>
+  <h4>资金费率(Funding)</h4>
+  <p>资金费率是永续多空双方周期性互付、用于锚定现货的费用。<code>资金额 = 仓位名义价值 × 资金费率</code>。只有在结算时刻(如 UTC 08:00:00)持仓者才付/收;结算处理可能耗时 1 分钟。费率由溢价指数 P 与利率 I 构成,SoDEX 中 <strong>I = 0.01%</strong>:</p>
+  <p style="text-align:center"><code>F = 平均溢价指数 P + clamp(I − P, −0.05%, +0.05%)</code></p>
+  <p>计算分步:① 由订单簿深度计算冲击买/卖价(基于固定抵押品的可交易名义值 IMN);② 每 5 秒计算溢价指数(8 小时内 5760 次);③ 计算时间加权平均溢价指数;④ 套用上式;⑤ 封顶/封底:<code>Floor = Cap = 0.75 × 维持保证金率</code>。</p>
+</section>
+
+<!-- ===== Ch7 ===== -->
+<section class="chap" id="c7">
+  <span class="chap-no">Chapter 7</span>
+  <h2>ValueChain:从应用到基础设施</h2>
+  <span class="read-time">⏱ 约 6 分钟</span>
+
+  <h3>7.1 为什么必须自建公链</h3>
+  <p>设计 SoDEX 时团队发现,即便最先进的现有公链也不是为"全球规模、高频、低延迟、全链上交易"而生的。SoDEX 需要:支持<strong>纳斯达克级吞吐</strong>的订单簿、<strong>Visa 级并发</strong>的结算层、原生链上订单簿与模块化执行环境、与 EVM 智能合约无缝组合、以及去中心化与透明可及。<strong>没有现成链能同时满足这些,于是他们自建了 ValueChain。</strong></p>
+
+  <h3 id="c7-2">7.2 容器化架构与 D²APP</h3>
+  <p>ValueChain 采用<strong>容器化区块链架构</strong>:由共识算法产出的 <strong>HostChain</strong> 作为基础宿主层,承载多条 GuestChain——包括一条 EVM 兼容的系统链(syschain)和若干应用链(appchains)。</p>
+  <ul>
+    <li><strong>EVM syschain 作统一账户系统</strong>:管理全局系统状态、支持所有 EVM dApp,并作为其他 appchain 的统一账户,保证互操作性。</li>
+    <li><strong>GuestChain 逻辑独立、物理同处</strong>:各 guest-chain 逻辑上独立,但数据都物理共置于 HostChain 区块内,从而在 HostChain 内实现快速可靠的消息通道,达成即时互操作。</li>
+  </ul>
+  <p>当前构成:现货订单簿 appchain(SoDEX Spot)、永续订单簿 appchain(SoDEX Perps)、EVM 系统链、以及未来定制 appchain(RWA、稳定币、借贷等)。SoDEX 是 ValueChain 的首个应用,前两条 appchain 即为其现货与永续而设。</p>
+  <div class="note">
+    <span class="nt">D²APP 与"应用驱动链设计"</span><br>
+    Vitalik 也重申 EVM 优先可靠性与抗审查而非执行速度,EVM 并行化遇到理论与实现瓶颈。ValueChain 走<strong>应用驱动</strong>路线:从应用层真实需求反推基础设施创新。在去中心化系统中每个节点须独立得出相同结果,因此引入 <strong>D²APP(Deterministic Decentralized Applications,确定性去中心化应用)</strong>——产生可验证、确定性结果的应用。ValueChain 提供首个面向 D²APP 的通用公共基础设施,类比 NVIDIA CUDA 标准化 GPU 并行计算;通过 <strong>MegaBlock 架构</strong>把每条 guest chain 视为可独立扩展的"专用区",天然可组合、可并行。它向开发者提供:确定性执行环境、把传统 App 改造为 D²APP 的框架与 SDK、灵活的子链结构。
+  </div>
+
+  <h3 id="c7-3">7.3 验证者网络</h3>
+  <p>ValueChain 安全与去中心化的核心是验证者网络,采用 <strong>PoS 共识 + CometBFT</strong>。成为验证者须质押原生 <strong>$SOSO</strong>(既是经济安全层,也是网络信任的协调信号)。验证者奖励 = <strong>SoDEX 交易费分成 + EVM 链及子链 gas 费</strong>。</p>
+  <ul>
+    <li><strong>活跃验证者</strong>:质押排名靠前者,实际参与出块与共识。</li>
+    <li><strong>非活跃验证者</strong>:排名较低,验证区块但不参与共识(除非被提升)。</li>
+  </ul>
+  <p>任何人都可运行节点(验证者或全节点)。主网初期用精简验证者集保证稳定与性能,后续逐步扩容至更分散的集合,迈向开放无许可的验证者经济。</p>
+</section>
+
+<!-- ===== Ch8 ===== -->
+<section class="chap" id="c8">
+  <span class="chap-no">Chapter 8</span>
+  <h2>代币经济学:SOSO</h2>
+  <span class="read-time">⏱ 约 6 分钟</span>
+
+  <h3>8.1 SOSO 代币定位</h3>
+  <p>SoSoValue 的投资平权建立在三大支柱上:① 优质信息的免费可及;② 透明可持续的被动投资(链上现货指数);③ 高效安全的主动投资(去中心化专业交易)。据此构建全栈:Terminal 解决信息差 → SSI 协议民主化被动投资 → SoDEX 提供高性能订单簿交易 → ValueChain 作 L1 支撑整个系统。</p>
+  <p>SOSO 是统一的效用工具,核心用途:</p>
+  <ul>
+    <li><strong>治理</strong>:通过透明的链上投票参与社区决策。</li>
+    <li><strong>手续费折扣</strong>:质押 SOSO 降低 SoDEX 交易费。</li>
+    <li><strong>Gas</strong>:作为 ValueChain 的原生 gas 代币。</li>
+  </ul>
+  <p>SOSO 永久固定供应 <strong>10 亿枚、无通胀</strong>,保证长期稀缺性与可预测性;价值绑定真实使用与生态现金流,激励从短期投机转向长期参与、治理与共建。未来效用可经社区链上投票进一步扩展。</p>
+
+  <h3 id="c8-2">8.2 分配与解锁</h3>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>类别</th><th>占比</th><th>解锁安排</th></tr></thead>
+    <tbody>
+      <tr><td><b>核心贡献者</b><br>团队与顾问</td><td>33%</td><td>18 个月 cliff(此前不解锁)+ 36 个月按月线性释放。</td></tr>
+      <tr><td><b>合作伙伴</b></td><td>3.5%</td><td>18 个月 cliff + 36 个月按月线性。</td></tr>
+      <tr><td><b>基金会</b></td><td>17%</td><td>12% 用于项目与生态成长 + 5%(社区治理批准)用于 SoDEX/ValueChain 上线、验证者节点与初始质押。TGE 释放 2.55%;2025-09-06 解锁 5%(验证者初始化);其余 60 个月按月线性。</td></tr>
+      <tr><td><b>生态</b></td><td>30%</td><td>20% 通用生态(用户激励、社区、流动性挖矿)+ 10%(社区治理批准)用于 SoDEX & ValueChain 一期激励。TGE 释放 4.5%;2025-09-06 解锁 10%(一期激励);其余按生态挖矿与增长计划释放。<em>(与时间挂钩较弱,更挂钩增长与贡献。)</em></td></tr>
+      <tr><td><b>投资者</b></td><td>16.5%</td><td>12 个月 cliff + 18 个月按月线性。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 id="c8-3">8.3 跨链架构(Lock-and-Release)</h3>
+  <p>SOSO 最初部署为以太坊上的 ERC-20,后经官方 Base 桥上线 Base;ValueChain 主网启动后,SOSO 被指定为 ValueChain 的<strong>原生 gas 代币</strong>(用于手续费、质押、治理)。</p>
+  <ul>
+    <li><strong>锁定-释放机制</strong>:不同于传统"锁定-铸造"桥发行包装资产,因 SOSO 在 ValueChain 是原生代币。源链(ETH/Base)上 ERC-20 被永久锁入桥合约/多签钱包,目标链(ValueChain)从桥储备释放等量原生 SOSO。跨所有链的总供应保持恒定。</li>
+    <li><strong>单向桥</strong>:当前仅支持从 ETH/Base → ValueChain,体现"以 ValueChain 为 SOSO 主要流动性与结算场所"的长期目标,同时在 ETH/Base 保留 ERC-20 供交易所上市与生态可及。</li>
+    <li><strong>SoDEX 存款网关</strong>:用户把 ERC-20 SOSO 存入 SoDEX 时平台自动完成锁定-释放,直接记入原生 SOSO,无需用户直接交互桥合约。</li>
+    <li><strong>源链销毁时间表</strong>:跨链后被锁的 ERC-20 不立即销毁,先托管一段时间。原因是 CoinMarketCap、CoinGecko 等主流聚合器尚未原生索引 ValueChain,过早销毁会导致总供应被低估;待主流聚合器接入 ValueChain 后,再永久销毁源链锁定的 ERC-20。</li>
+  </ul>
+  <div class="warn">
+    <span class="nt">合约地址(可公开链上验证)</span><br>
+    SOSO 代币:Ethereum <code>0x76A0e276…Cea2D</code> · Base <code>0x624e2e7f…98831</code>。三条链均部署了桥合约与多签钱包,ValueChain 另有创世钱包、SoDEX 生态基金等地址。
+  </div>
+</section>
+
+<!-- ===== Ch9 ===== -->
+<section class="chap" id="c9">
+  <span class="chap-no">Chapter 9</span>
+  <h2>资源、操作与合规</h2>
+  <span class="read-time">⏱ 约 7 分钟</span>
+
+  <h3>购买与质押 SSI(操作要点)</h3>
+  <ul>
+    <li>购买 SSI 须在 <strong>Base 主网</strong>钱包持有 <strong>USDC</strong>(用于买入)+ <strong>ETH</strong>(用于 gas)。</li>
+    <li>获取 Base USDC/ETH 的三条路径:经 Uniswap 等跨网转账 / 从 CEX 提币(选 Base Mainnet 链)/ 在 CEX 内兑换为 USDC。</li>
+    <li>首次交易需做 <strong>approval 授权</strong>:Approve(需 gas)→ Permit2 签名(无 gas)→ 确认买卖(需 gas)。授权有效期 <strong>30 天</strong>,到期需重新授权。</li>
+  </ul>
+
+  <h3>FAQ 核心问答</h3>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>问题</th><th>要点</th></tr></thead>
+    <tbody>
+      <tr><td>谁能铸造/赎回 SSI?</td><td>仅完成 KYC/KYB 的 <b>WLP</b>;普通用户在 Uniswap 7×24 购买交易。大额购买可邮件 <code>vip@sosovalue.com</code>。</td></tr>
+      <tr><td>底层资产如何保障?</td><td>仅由受监管持牌托管方与 MPC 钱包提供商持有;多托管方实现资产与合约所有者及托管方自身资产隔离。</td></tr>
+      <tr><td>成分调整怎么办?</td><td>SSI 内底层资产自动随之更新,<b>月度自动调整</b>,用户无需操作。</td></tr>
+      <tr><td>服务费如何计?</td><td>协议按底层资产价值收取<b>每日 0.01%</b>服务费,每日计算、可经合约追溯。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>审计与合规文件</h3>
+  <ul>
+    <li><strong>审计</strong>:五阶段,涵盖 SlowMist、Zenith、BlockSec、TenArmor、Quantstamp、Zellic。</li>
+    <li><strong>MiCAR 白皮书</strong>:依欧盟《加密资产市场监管法》(MiCAR, EU 2023/1114)要求公开发行/上市加密资产须备白皮书;注意该文件<strong>未经任何欧盟成员国主管机关批准</strong>。</li>
+    <li>运营主体:<strong>Digvaluable Ltd.</strong>(英属维尔京群岛注册);争议适用 BVI 法律与仲裁,放弃集体诉讼,索赔时效 1 年。</li>
+  </ul>
+
+  <h3 id="c9-ads">SoSoValue EXP Ads(社区治理广告)</h3>
+  <p>触达 1000 万+ 经验证的加密+AI 研究用户,起价 $100。流程亮点:</p>
+  <ul>
+    <li>定价 <strong>$100 / 小时 / 任务</strong>,最短 1 小时、最长 7 天,全平台同一时段最多 6 条广告并发。</li>
+    <li>付款用 <strong>USDC,仅 ValueChain</strong>(最低 5 USDC,其他链不入账),资金进公开链上托管。</li>
+    <li><strong>24 小时社区审核</strong>:sSOSO 持有者质押投票,通过须 <strong>赞成 ≥ 80% 且总质押 sSOSO ≥ 3,000</strong>。通过则按小时计费上线;拒绝则<strong>自动退还 95%</strong>(5% 审核费,封顶 $100)。</li>
+    <li>每 1 美元广告费链上分配:<strong>70% 给完成任务的验证用户、25% 平台技术服务费、5% 给参与审核的 sSOSO 持有者</strong>。</li>
+    <li>不接受:色情、赌博、欺诈、毒品、宗教、政治、加密货币交易所。</li>
+  </ul>
+
+  <h3 id="c9-risk">风险披露与司法管辖(重要)</h3>
+  <div class="warn">
+    <span class="nt">关键合规细节</span><br>
+    SSI 网站(ssi.sosovalue.com)条款将若干地区列为 <strong>Excluded Jurisdiction(排除司法管辖区)</strong>,其中明确包括<strong>美国、中国大陆、新加坡、英国、俄罗斯、古巴等</strong>,以及 FATF 高风险监控地区。Excluded Person 不得访问/使用该网站功能。这意味着不同地区用户在合规可用性上存在差异——具体以官方条款为准。
+  </div>
+  <p>通用风险披露强调:加密资产在多数地区<strong>非法定货币</strong>;价格波动剧烈、估值多属投机;流动性风险可能令你无法在期望时点平仓;易受投机泡沫、操纵、诈骗影响;数字生态网络犯罪(如 51% 攻击、钓鱼、恶意软件)更普遍;交易<strong>不可逆</strong>,误操作损失难以追回;依赖支付方/托管方/交易所/银行等第三方;税务责任自负。平台一律声明<strong>不提供投资或法律建议</strong>,数据"按现状"提供、不保证准确完整。</p>
+  <div class="key">
+    <div class="kt">永远不会被索取的信息</div>
+    <ul><li>平台<strong>绝不会</strong>要求你提供钱包私钥或助记词,也不存储你的密码/私钥/助记词。任何索取这些信息的人或网站都不可信。</li></ul>
+  </div>
+</section>
+
+<!-- ===== Cheat ===== -->
+<section class="chap" id="cheat">
+  <span class="chap-no">Quick Reference</span>
+  <h2>★ 速记卡:30 秒复盘全书</h2>
+  <span class="read-time">⏱ 复习用</span>
+  <div class="grid2">
+    <div class="mini"><h4>四大组件</h4>Terminal(信息)· SSI(被动指数)· SoDEX(订单簿交易)· ValueChain(L1 基础设施)。统一价值载体 = SOSO。</div>
+    <div class="mini"><h4>三大痛点</h4>① 信息鸿沟 ② 缺被动投资 ③ 链上基础设施低效。</div>
+    <div class="mini"><h4>三个五年预测</h4>加密市值 $15–20T · 指数被动 $500B · 数据科技 $50–100B。</div>
+    <div class="mini"><h4>四只 SSI</h4>MAG7(7,最低10%) · MEME(10) · DEFI(10) · USSI(Delta 中性,资金费率收益)。月度再平衡,Base 链,服务费 0.01%/日。</div>
+    <div class="mini"><h4>SSI 六角色</h4>User · UNI LP · WLP(套利锚定) · PMM(买现货) · Custody(托管) · Index Compiler(编制)。</div>
+    <div class="mini"><h4>SoDEX 关键数</h4>现货 Taker 0.1%/Maker 0.05%;杠杆最高 200x;标记价 ~3 秒刷新;资金利率 I=0.01%;Backstop 触发于维持保证金 2/3。</div>
+    <div class="mini"><h4>ValueChain</h4>HostChain + GuestChain(EVM syschain + appchains)· D²APP · MegaBlock · PoS+CometBFT,质押 SOSO。</div>
+    <div class="mini"><h4>SOSO 代币</h4>10 亿固定供应、无通胀;用途=治理/手续费折扣/gas。分配:贡献者33% · 生态30% · 基金会17% · 投资者16.5% · 伙伴3.5%。跨链=单向 lock-and-release。</div>
+  </div>
+  <div class="footer">
+    <p><strong>SoSoValue 白皮书学习资料</strong> · 依据官方 GitBook 白皮书(共 9 章)系统整理与中文重构,保留全部关键机制、数据与公式。</p>
+    <p>本资料仅供学习与查阅,不构成任何投资、法律或税务建议。所有数据(费率、地址、分配、预测等)以官方最新文档为准;部分为测试网阶段参数,可能调整。涉及司法管辖区可用性请以官方条款为准。</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+  // active TOC highlight
+  const links=[...document.querySelectorAll('nav.toc a')];
+  const map=new Map();
+  links.forEach(l=>{const id=l.getAttribute('href').slice(1);const el=document.getElementById(id);if(el)map.set(el,l);});
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.remove('active'));
+        const l=map.get(e.target);if(l)l.classList.add('active');
+      }
+    });
+  },{rootMargin:'-15% 0px -75% 0px'});
+  map.forEach((l,el)=>obs.observe(el));
+  // close mobile menu on link tap
+  links.forEach(l=>l.addEventListener('click',()=>{if(window.innerWidth<=880)document.querySelector('nav.toc').classList.remove('open');}));
+</script>
+</body>
+</html>

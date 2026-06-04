@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coherent Corp. 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Coherent Corp. 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：COHR</div>
+      <div>🏛️ 交易所：NYSE</div>
+      <div>🏷️ 行业：半导体 · 光子学/光通信器件（垂直整合制造）</div>
+      <div>📅 分析日期：2026-06-04</div>
+    </div>
+    <div class="one-liner">💡 Coherent 通过“自种稀缺材料（InP晶圆）→ 造激光芯片 → 组装光模块”的垂直整合，向英伟达和云厂商收取 AI 数据中心光互连器件销售款，具备“上游真、下游红海”的窄护城河，处于 AI 光互连超级周期的加速放量阶段。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" data-tab="m0">💡 小白版</button>
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  
+  <div class="section" id="m0">
+    <h2>💡 模块零：金融小白友好版商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言把这家技术公司"翻译"清楚——后续分析的基础</p>
+    <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:24px 28px;border-radius:12px;margin-bottom:20px;border-left:4px solid #d97706;">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:15px;">🎯 核心比喻</div>
+      <div style="font-size:15px;color:#0f172a;line-height:1.8;">Coherent 像 AI 数据中心里“光的搬运工 + 上游矿场”的结合体。AI 芯片之间要以光速传数据，靠的是光模块——把电信号变成激光、再变回电信号。Coherent 不只卖这些“光信号收发器”，更稀缺的是它<strong>自己能种出造激光芯片的“特种水晶”——磷化铟（InP）晶圆</strong>。等于一家既开矿（稀缺材料）、又冶炼（激光芯片）、又组装成品（光模块）的垂直整合工厂，把货卖给英伟达和超大规模云厂商。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📦 商业模式三问</h3>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #2563eb;">
+        <div class="label" style="color:#2563eb;">① 卖什么？</div>
+        <div class="value">卖两类东西，但赚钱的逻辑完全不同。<strong>第一类（占收入约72%、且在高速增长）：AI 数据中心里的“光速网线”</strong>——把电信号转成激光在光纤里跑、再转回来的光收发器（transceiver），让上万块英伟达 GPU 能互相高速对话。这就像给整个数据中心铺设“光纤神经网络”。<strong>第二类（占约28%、基本不增长）：工业激光与材料</strong>——给半导体设备、显示面板制造、精密加工用的激光器和特种材料。简单说：一边是飞奔的 AI 业务，一边是稳但慢的传统工业业务。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #059669;">
+        <div class="label" style="color:#059669;">② 怎么收费？</div>
+        <div class="value"><strong>一次性产品销售为主（卖硬件）</strong>，不是订阅。典型逻辑是：英伟达和云厂商按需下单买光模块/激光芯片，单价随速率升级（800G → 1.6T → 3.2T）不断提高，速率越快单价越贵、毛利越好。关键变化是“锁量”——2026年3月英伟达直接砸 <strong>$20亿</strong> 现金入股 Coherent（7.79M股、每股$256.80、约5%股权），外加一份延续到本十年末的<strong>数十亿美元多年采购承诺</strong>，把未来订单能见度锁到 2028 日历年。等于把“一次性卖货”升级成了“有长约保底的卖货”。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;">
+        <div class="label" style="color:#dc2626;">③ 客户为什么必须买？</div>
+        <div class="value"><strong>速度驱动 + 供给稀缺驱动</strong>。AI 集群规模爆炸，GPU 之间的数据搬运（铜线已撞“铜墙”）成了硬瓶颈，光互连是唯一出路——这是“不买就扩不了算力”的运营刚需。更关键的是<strong>供给稀缺</strong>：造光模块的核心——高端 EML/CW 激光芯片，全球只有 Coherent 和 Lumentum 两家能量产，2025年曾出现25–30%的 InP 激光供给缺口。英伟达宁可掏 $40亿 同时入股这两家锁产能，也不愿只下采购单，说明在它眼里光子学是“卡脖子”环节。客户买的不只是产品，是<strong>稀缺产能的优先权</strong>。</div>
+      </div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">💼 客户结构 + 护城河金融比喻</h3>
+    <div class="summary-box info">
+      <div class="title">具体客户名单 + 客户分层</div>
+      <div class="text">客户高度集中在 <strong>AI/云基础设施巨头</strong>：英伟达（既是大客户又是股东，$2B入股+多年长约）、以及 Amazon、Microsoft、Google、Meta 等超大规模云厂商（通过其设备供应商间接采购）、思科等设备商，工业端则有半导体设备厂（如显示/半导体资本设备客户）。结构是<strong>金字塔型且日益头部化</strong>——Datacenter & Communications 分部已占收入约72%且同比+34%，少数 AI 客户贡献了增量的大头；Industrial 分部约28%、增速接近零，是稳定的“压舱石”但非增长引擎。英伟达入股后，单一客户依赖度上升，是机会也是集中度风险。</div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">护城河本质（金融场景比喻）</div>
+      <div class="text">Coherent 的护城河像<strong>“上游有一座别人挖不动的稀土矿（强护城河）+ 下游开了一家在红海里拼价格的加工厂（弱护城河）”的组合体</strong>。上游的 InP/SiC 材料与高端激光芯片产能，类似<strong>全球只有两家能开采的稀缺矿山</strong>——英伟达掏 $40亿 把两家矿都“包场”、把对手交付排到2027年后，这是真正的定价权来源（类比掌握了支付清算“专网”的稀缺基础设施）。但下游的模块组装环节，更像<strong>代工红海</strong>：中国的 Innolight（占英伟达800G采购超50%）、Eoptolink 控制了约60%的800G模块市场、净利率20–33%，靠成本碾压。Coherent 的垂直整合让它能同时吃材料+芯片+模块三层利润，但<strong>真正护不住的城墙在上游材料层，不在成品层</strong>——这个区分对判断它能否维持高毛利至关重要。</div>
+    </div>
+    <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:14px 18px;border-radius:8px;margin-top:20px;font-size:13px;color:#64748b;line-height:1.6;">
+      📌 <strong>使用提示</strong>：本模块为后续模块一至四的"翻译层"。读完后再进入「商业模式」「护城河」「估值研究」「管理层」等专业分析模块，能事半功倍。
+    </div>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：产品销售（硬件） + 研发驱动 + 资产重型（垂直整合制造）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">全球光子学龙头，产品横跨“材料—芯片—模块—系统”全链条。核心是 AI 数据中心用光收发器（800G/1.6T/3.2T transceiver）、共封装光学（CPO）相关产品、CW/EML 激光芯片，以及上游自产的磷化铟（InP）、碳化硅（SiC）等化合物半导体材料；另有工业激光（半导体/显示设备、精密加工、聚变能源等）。垂直整合是核心特征——从自己拉晶圆到成品模块全打通，少有同行能做到。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">B2B 为主。Datacenter & Communications 客户为英伟达（同时是股东）、超大规模云厂商及网络设备商；Industrial 客户为半导体/显示资本设备厂、精密制造与仪器客户。客户结构金字塔型且向 AI 头部高度集中。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">收入来自北美、亚太（中国是重要市场，分部在中国、马来西亚、泰国、越南、菲律宾等地设厂）、欧洲。制造与供应链全球化，正按英伟达要求扩张美国本土产能，地缘与对华出口政策是变量。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">FY25（截至2025/6/30）收入 $5.81B（+23% Y/Y）。FY26 季度环比加速：Q1 $1.58B（+17%）→ Q2 $1.69B（+22%*）→ Q3 $1.81B（+21%，pro forma +27%）。结构上 Datacenter & Communications 约占72%且同比+34%，是唯一增长引擎；Industrial 约占28%、增速接近零。FY26 全年收入预计约 $7B 量级。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级：窄护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">垂直整合带来结构性成本优势——自产 InP/SiC 材料和激光芯片，规模化后“吸收效应”摊薄固定成本，是毛利从约31%（FY23）提升到39.6%（Q3 FY26）的主因之一，目标 >42%。但相对纯设计公司（毛利70%+）仍属资本密集、毛利“只有”约40%；下游模块组装环节面对中国厂商的成本碾压（Innolight/Eoptolink 净利率20–33%），成本优势在该环节并不成立。综合给中。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">最强一环。数十年积累的化合物半导体材料科学（InP/SiC晶体生长、6英寸 InP 良率领先）、激光芯片 IP 与 CPO 路线图，是真正难以在数年内复制的无形资产。全球能量产高端 EML/CW 激光芯片的仅 Coherent 与 Lumentum 两家，构成寡头格局。给强。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">光器件进入超大规模/英伟达供应链需12–18个月的严苛认证，一旦切入即形成黏性；英伟达 $2B 入股 + 延续到本十年末的多年采购长约，进一步把需求锁定到2028日历年。但客户（尤其英伟达）同时扶持 Lumentum 作为第二供应商，刻意避免单一依赖，因此转换成本是“双向锁定”而非单边垄断。给中。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">0/3</span>
+    </div>
+    <p class="dim-text">硬件制造业务本身不具备网络效应——更多客户不会让产品对单个客户更有价值。无。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">垂直整合 + 产能规模（InP 产能2027年底前翻倍再翻倍）带来规模效应，且英伟达锁产能把对手交付排到2027年后，强化了规模优先权。但行业资本开支正大幅爬坡，规模扩张以高 CapEx 与短期自由现金流承压为代价。给中。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">上游 InP/SiC 材料与高端激光芯片的稀缺产能（无形资产 + 寡头格局）是核心护城河——英伟达一次性向 Coherent 与 Lumentum 共投约 $40亿 锁产能、把对手交付排到2027年后，这是真正的定价权来源。垂直整合让公司能同时吃材料、芯片、模块三层利润。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">护城河集中在上游材料/芯片层，下游模块组装是红海——中国 Innolight（占英伟达800G采购>50%）、Eoptolink 控制约60%的800G模块市场、净利率高达20–33%，长期对成品价格与毛利构成压力。叠加单一客户（英伟达）依赖度上升、强周期属性、技术代际切换（CPO 既是机会也可能颠覆现有模块业务）三重风险。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：半导体 · 光子学/光通信器件</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：垂直整合光器件制造（材料+激光芯片+光模块）</span>
+      <span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">估值结论：偏高估</span>
+    </div>
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：Forward PE + EV/Sales + EV/EBITDA + 周期位置判断</div>
+      <div class="text">Coherent 是资本密集、强周期的半导体光子学制造商，过去因 II-VI/Coherent 合并的高摊销与一次性费用导致 GAAP 利润失真（FY25 GAAP 仍为亏损 $(0.52)，但 Non-GAAP EPS $3.53），故主用 Forward PE（基于 Non-GAAP）+ EV/Sales 衡量真实业务规模，辅以 EV/EBITDA 看现金盈利能力，并必须叠加“AI 光互连周期位置”——当前处于供需极度紧张的上行期，须警惕周期顶部用低未来 PE“买在山顶”。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">Forward PE (Non-GAAP)</td>
+    <td class="num">~70-75x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">光器件同业 28-50x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">Forward EV/Sales</td>
+    <td class="num">~9.5x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">周期上行光器件 4-12x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">TTM Non-GAAP EPS</td>
+    <td class="num">~$4.86</td>
+    <td class="num" style="color:#64748b;font-size:13px;">FY25 $3.53 → 加速中</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">Non-GAAP 毛利率</td>
+    <td class="num">39.6%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">目标>42%；纯设计公司50-75%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">营收增速 (Q3 pro forma)</td>
+    <td class="num">+27%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">Datacenter分部 +34%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">净债务</td>
+    <td class="num">~$0.8B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">由合并峰值$4.1B大幅去化</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">Beta</td>
+    <td class="num">1.68</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>1 高波动</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr></tbody>
+    </table>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>营收增速 Y/Y</th><th>Non-GAAP毛利率</th><th>Forward PE</th><th>EV/Sales(约)</th></tr></thead>
+      <tbody><tr><td class="label" style="background:#fef3c7;;font-weight:700;">COHR (本标的)</td><td class="num" style="background:#fef3c7;;">+21~27%</td><td class="num" style="background:#fef3c7;;">39.6%</td><td class="num" style="background:#fef3c7;;">~70-75x</td><td class="num" style="background:#fef3c7;;">~9.5x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">LITE (Lumentum)</td><td class="num" style="background:transparent;;">+85%*指引</td><td class="num" style="background:transparent;;">~36%</td><td class="num" style="background:transparent;;">~40-50x</td><td class="num" style="background:transparent;;">~12x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">FN (Fabrinet)</td><td class="num" style="background:transparent;;">~+18%</td><td class="num" style="background:transparent;;">~12%</td><td class="num" style="background:transparent;;">~28x</td><td class="num" style="background:transparent;;">~4x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">MRVL (Marvell)</td><td class="num" style="background:transparent;;">+40~58%</td><td class="num" style="background:transparent;;">~60%</td><td class="num" style="background:transparent;;">~28x</td><td class="num" style="background:transparent;;">~10x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">AVGO (Broadcom)</td><td class="num" style="background:transparent;;">~+20%</td><td class="num" style="background:transparent;;">~77%</td><td class="num" style="background:transparent;;">~38x</td><td class="num" style="background:transparent;;">~22x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">GLW (Corning)</td><td class="num" style="background:transparent;;">~+15%</td><td class="num" style="background:transparent;;">~38%</td><td class="num" style="background:transparent;;">~22x</td><td class="num" style="background:transparent;;">~4.5x</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司；同业倍数为周期上行期近似值，仅供定位参考</p>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（基于行业框架，FY27 基础）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear"><div class="label">悲观情景 Bear</div><div class="value">$160</div></div>
+      <div class="fv-card base"><div class="label">基准情景 Base</div><div class="value">$280</div></div>
+      <div class="fv-card bull"><div class="label">乐观情景 Bull</div><div class="value">$420</div></div>
+    </div>
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">现价约 $417（2026/6/3 收盘 $417.43），过去一年涨约350%、年内涨约94%，5月触及历史高位。在光器件同业中，COHR 的 Forward PE（~70-75x）显著高于 Fabrinet（~28x）、与 Lumentum 上沿相当、高于 Marvell/Corning。溢价部分由英伟达 $2B 入股 + 多年长约、InP 上游稀缺性、毛利持续扩张的故事支撑，但<strong>现价已基本等于本报告的 Bull 情景（$420）</strong>——市场把 FY27-28 的乐观增长定价完毕，当前价位安全边际很薄。注：peer 倍数为周期上行期近似值，仅供定位，COHR 数据取自最新财报。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>用 GAAP PE 误读——合并高摊销使 GAAP 利润长期失真（FY25 GAAP 仍亏损），须用 Non-GAAP 与 EV/Sales 衡量真实业务
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>周期顶部“低未来 PE”买在山顶——AI 光互连当前处供需极紧的上行期，一旦超大规模云厂商 CapEx 进入消化期，盈利与估值可能双杀
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>把“AI 概念”等同于无限定价权——真正护城河在上游 InP/激光芯片层，下游模块面对中国厂商（Innolight/Eoptolink）的成本碾压，毛利未必能无限扩张
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>忽视英伟达双重身份——既是大客户又是股东（约5%稀释），且同时扶持 Lumentum 为第二供应商，单一客户集中度是隐性风险
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;font-size:16px;padding:8px 18px">综合评级：B级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">Jim Anderson 2024年6月上任后“三板斧”清晰且执行到位：①组合修剪——剥离非核心资产（卖掉英国半导体晶圆厂、航空国防业务，后者带来$115M出售收益）；②去杠杆——把合并遗留的 $4.1B 债务降到 $3.19B（FY25 还债$437M，FY26 又陆续偿还$400M+并再融资降息）；③重投 AI——把资本集中投向 InP 产能扩张。资本配置理性、聚焦，是这届管理层最大亮点。但当前 CapEx 大幅爬坡，自由现金流短期承压（H1 FY26 经营现金流同比下降，因存货与应收增加）。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">信披透明、指引兑现度高，连续季度营收/毛利超预期。FY26 起主动重组分部为 Datacenter & Communications / Industrial 两段，并追溯重述，便于投资者跟踪 AI 业务真实增速，体现透明度。审计与治理无明显红旗。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">执行力是这届管理层的核心卖点。Anderson 来自 Lattice 半导体（任内股价多倍、利润创纪录的扭亏标杆），履历横跨 AMD/Intel/Broadcom/LSI，MIT/Purdue 学历。上任两年内把毛利从约31%拉到39.6%、谈下英伟达 $2B 战略入股 + 多年长约、6英寸 InP 良率超越3英寸并将产能排到翻倍再翻倍，执行兑现度高。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">当前不回购、不分红——所有现金（含英伟达 $2B）优先投向 InP 产能扩张与去杠杆。在高增长+资本密集的扩张期，“不回购、把钱投进护城河”是合理选择，但也意味着股东回报完全依赖股价增长，无现金分红托底。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">CEO Jim Anderson 的扭亏与运营提效能力 + 与英伟达谈成 $2B 入股和延续到本十年末的多年长约——把一家“合并后消化不良、背着 $4B 债”的公司，重塑为 AI 光互连超级周期的核心受益者。薪酬高度股权绑定（上任时 $48M inducement equity），利益与股东一致。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">①转型仍处早期，CapEx 大幅爬坡使自由现金流短期承压；②英伟达 $2B 入股带来约5%股权稀释，且抬升单一客户依赖；③Anderson 上任仅两年，长期资本配置纪律仍待更长周期检验；④强周期行业，若 AI CapEx 见顶，执行力再强也难抗β。</div>
+    </div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★★☆</div>
+      <div style="color:#475569; font-size:14px">4/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>Coherent 是 AI 光互连超级周期里资产质量与赛道卡位一流的公司。它的真护城河在上游——全球仅两家能量产高端 InP/EML 激光芯片，英伟达一次性向它和 Lumentum 共投约 $40亿 锁产能、把对手交付排到2027年后，这是稀缺基础设施级别的定价权。叠加 Jim Anderson 上任两年内“剥离非核心 + 降杠杆 + 提毛利（31%→39.6%）+ 谈成英伟达 $2B 入股”的强执行，基本面正处在加速向上的拐点。
+
+但必须冷静区分“好公司”与“好价格”。第一，护城河并不均匀——上游材料/激光芯片是宽的，下游模块组装是红海，中国厂商（Innolight、Eoptolink）控制约60%的800G模块市场、净利率20–33%，长期压制成品毛利；公司能否把毛利推到 >42% 仍需验证。第二，强周期 + 资本密集 + 单一大客户（英伟达既是客户又是股东）三重属性，使其盈利对 AI CapEx 周期高度敏感。第三，也是最关键的——<strong>现价约 $417 基本等于本报告的 Bull 情景（$420），市场已把 FY27-28 的乐观增长定价完毕</strong>，Forward PE ~70-75x 显著高于 Fabrinet（~28x）等同业，当前价位几乎没有安全边际。
+
+结论：商业质量给 4 星，但这是对“公司”的评分，不是对“当前买点”的评分。对长期看好 AI 光互连的资金，更理性的做法是等待周期性回调（这类高 β 标的年内振幅极大）分批建仓，而非在历史高位、估值打满时追高。对已持仓者，可继续持有但需把英伟达长约兑现、毛利能否破42%、超大规模云厂商 CapEx 拐点作为减仓信号来跟踪。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">毛利率能否如期向 >42% 攀升（破则验证上游定价权，不破则模块红海侵蚀）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">英伟达多年采购长约与 CPO 产品的实际收入兑现节奏（2026下半年-2028）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">超大规模云厂商 AI CapEx 是否出现见顶/消化信号——周期顶部最大风险</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">InP 产能扩张兑现度 + 自由现金流能否随产能爬坡转正（CapEx 高峰）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">中国模块厂商（Innolight/Eoptolink）在高速率（1.6T/3.2T）的份额变化与价格战烈度</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">6.</span>
+    <span style="font-size:14px;">英伟达持股动向与第二供应商 Lumentum 的份额此消彼长</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for Coherent Corp. (COHR) · 2026-06-04<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [2,3,2,0,2],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>
