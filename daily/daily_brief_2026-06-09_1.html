@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宏观日报 2026-06-09</title>
+<style>
+  :root {
+    --bg: #ffffff; --bg2: #f5f5f3; --bg3: #eeecea;
+    --text: #1a1a1a; --text2: #555552; --text3: #888784;
+    --border: #dddbd8; --accent: #3266ad; --danger: #E24B4A;
+    --warning: #BA7517; --success: #1D9E75;
+    --font: -apple-system, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text);
+         font-size: 14px; line-height: 1.7; max-width: 860px;
+         margin: 0 auto; padding: 32px 24px 64px; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  h2 { font-size: 16px; font-weight: 600; margin: 32px 0 12px;
+       padding-bottom: 6px; border-bottom: 1.5px solid var(--border); }
+  h3 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; color: var(--text2); }
+  p { margin-bottom: 10px; color: var(--text); }
+  ul, ol { padding-left: 20px; margin-bottom: 10px; }
+  li { margin-bottom: 4px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th { background: var(--bg2); padding: 7px 10px; text-align: left;
+       border: 1px solid var(--border); font-weight: 600; }
+  td { padding: 6px 10px; border: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--bg2); }
+  .header { border-bottom: 2px solid var(--accent); padding-bottom: 16px; margin-bottom: 8px; }
+  .meta { font-size: 12px; color: var(--text3); margin-top: 4px; }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 8px;
+         border-radius: 4px; font-weight: 600; margin-right: 4px; }
+  .tag-fed { background: #e8f0fb; color: #185FA5; }
+  .tag-geo { background: #faeeda; color: #854F0B; }
+  .tag-earn { background: #eaf3de; color: #3B6D11; }
+  .tag-macro { background: #EEEDFE; color: #534AB7; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+              gap: 10px; margin: 12px 0; }
+  .kpi { background: var(--bg2); border-radius: 8px; padding: 12px 14px; }
+  .kpi-label { font-size: 11px; color: var(--text3); margin-bottom: 3px; }
+  .kpi-value { font-size: 20px; font-weight: 600; }
+  .kpi-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .up { color: var(--success); } .down { color: var(--danger); }
+  .warn { color: var(--warning); }
+  .callout { background: var(--bg2); border-left: 3px solid var(--accent);
+             border-radius: 0 6px 6px 0; padding: 10px 14px; margin: 12px 0;
+             font-size: 13px; color: var(--text2); }
+  .danger-box { background: #fbeceb; border-left: 3px solid var(--danger); color: #8a2a28; }
+  @media (prefers-color-scheme: dark) { .danger-box { background: #2a1110; color: #F0A39F; } }
+  .chart-wrap { margin: 16px 0; }
+  .sources { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); }
+  .sources h2 { font-size: 13px; color: var(--text3); border: none; margin: 0 0 8px; }
+  .sources ul { font-size: 12px; color: var(--text3); }
+  .disclaimer { margin-top: 16px; font-size: 11px; color: var(--text3);
+                padding: 10px 14px; background: var(--bg2); border-radius: 6px; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1a1a18; --bg2: #242422; --bg3: #2e2e2c;
+            --text: #e8e6e0; --text2: #b0aea8; --text3: #888784;
+            --border: #3a3a38; }
+    .tag-fed { background: #0c2240; color: #85B7EB; }
+    .tag-geo { background: #2a1f08; color: #FAC775; }
+    .tag-earn { background: #0d1f08; color: #97C459; }
+    .tag-macro { background: #1a1840; color: #AFA9EC; }
+    th { background: var(--bg3); }
+    tr:nth-child(even) td { background: var(--bg2); }
+  }
+  @media print { body { max-width: 100%; padding: 20px; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="meta">📰 宏观新闻日报</div>
+  <h1>2026年6月9日，星期二</h1>
+  <div class="meta">生成时间：SGT 上午 · 数据截止：美东 6/8（周一）收盘（SGT 6/9 04:00）· 全程时间为新加坡时间（SGT）</div>
+</div>
+
+<div class="callout danger-box">🚨 <strong>下周为双央行周：BOJ 会议 6/15（一）–16（二），决议 6/16（周二）；FOMC 会议 6/16–17，决议 6/17（周三）</strong>。今天距 BOJ 会议 6 天，按模块 G 规则（会议前后一周内），日元套息平仓监控已<strong>升级至头条</strong>。当前宏观主线是「全球加息潮共振」：美联储转向加息倾向（12月加息 ~72%）、BOJ 大概率加息至 1%、伊朗战争推升油价与通胀。<strong>本周（6/8–12）无央行决议，唯一关键数据是周三 6/10 的 CPI。</strong></div>
+
+<!-- ===== G. 日元套息平仓监控（本周升级至头条）===== -->
+<h2>💴 G. 日元套息平仓监控（议息周·头条）</h2>
+
+<h3>汇率与利差快照（6/8 收盘）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">USD/JPY</div><div class="kpi-value warn">~160.1</div><div class="kpi-sub">紧贴 160 干预线｜年内高点 160.35（4/29）</div></div>
+  <div class="kpi"><div class="kpi-label">美日 10Y 利差（估算）</div><div class="kpi-value">~255 bp</div><div class="kpi-sub">US 4.56% − JP ~2.0%｜低于 2024/8 触发区 ~283bp</div></div>
+  <div class="kpi"><div class="kpi-label">日本政策利率</div><div class="kpi-value">0.75%</div><div class="kpi-sub">6/15–16 会议，掉期定价加息至 1% ~88%</div></div>
+</div>
+
+<h3>三大引信状态仪表盘</h3>
+<table>
+  <tr><th>引信</th><th>当前读数</th><th>点燃条件</th><th>状态</th></tr>
+  <tr><td>① BOJ 路径意外</td><td>植田偏鹰；6 天后会议；4月已3委员投加息</td><td>暗示加息提前/上调中性利率</td><td class="warn">🟡 待植田发布会措辞</td></tr>
+  <tr><td>② 外部冲击</td><td>伊朗战争·油价 ~$96；CPI 周三公布；但美就业<strong>过热</strong>（NFP 17.2万）</td><td>油价飙升 <em>或</em> 失业率+0.5ppt</td><td class="warn">🟡 通胀冲击在，衰退信号无</td></tr>
+  <tr><td>③ 利差骤窄</td><td>美联储<strong>同步转鹰</strong>，美债收益率上行 → 利差未收窄</td><td>短期收窄 &gt;80bp</td><td class="up">🟢 利差稳，反支撑套息</td></tr>
+</table>
+
+<h3>减震器读数</h3>
+<ul>
+  <li>加息定价程度：~88%（高 → 加息「无意外」，类似 2025/12 平稳剧本）</li>
+  <li>CFTC 杠杆基金日元净空头：拥挤度仍高（需 CoT 报告实时确认）</li>
+  <li>VIX：18.92（-12%，低位 → 市场未定价踩踏）｜日经 VI：未见异动</li>
+</ul>
+
+<h3>贵金属联动（与模块 C 交叉验证）</h3>
+<ul>
+  <li>金银比（Gold/Silver Ratio）：<strong>63.8</strong>（周五 63.82，基本持平）→ 处于低位、<strong>未现踩踏式飙升</strong></li>
+  <li>阶段研判：<strong>中性偏第二阶段回调</strong>——金银下跌由「实际利率上行」驱动（基本面），非「流动性踩踏」（金银比未飙升即为证据）</li>
+  <li>联动提示：当前引信未点燃，金银走弱属利率逻辑而非套息平仓；若 6/16（周二）植田放鹰 + USD/JPY 急升，则切换至「先踩踏后反弹」剧本，届时盯金银比拐点</li>
+</ul>
+
+<div class="callout">📌 <strong>综合研判（基准情形·可控）</strong>：本周最反常、也最关键的一点是——<strong>美联储同步转鹰</strong>，使美日利差不仅没收窄、反而维持高位（引信③亮绿灯）。这与 2024/8（Fed 转鸽 + BOJ 意外加息，利差骤窄）的「鸡尾酒」截然相反。因此即便 BOJ 在 6/16（周二）加息至 1%（已定价 88%），只要植田不释放「加快加息」的鹰派意外，套息平仓大概率温和可控。<strong>唯一的尾部风险是引信①（植田放鹰）+ 引信②（伊朗/通胀失控）共振。</strong>盯点优先级：植田发布会措辞 &gt; USD/JPY 是否急升破 157/155 &gt; 周三 CPI。</div>
+
+<h3>历史对照</h3>
+<table>
+  <tr><th>事件</th><th>USD/JPY 反应</th><th>日经</th><th>全球外溢</th></tr>
+  <tr><td>2024/8/5（意外加息·爆）</td><td>两周 -10%</td><td class="down">-12.4% 单日</td><td>三周蒸发 $6.4T 市值</td></tr>
+  <tr><td>2025/12/19（定价充分·稳）</td><td>+40 点小升</td><td class="up">回暖</td><td>冲击有限</td></tr>
+  <tr><td>本次（6/15–16 前瞻）</td><td>~160，待会议</td><td>待定（依植田）</td><td>Fed 同步转鹰 → 利差缓冲，基准可控</td></tr>
+</table>
+
+<!-- ===== A. 宏观动态 & 美联储 ===== -->
+<h2>🏦 A. 宏观动态 &amp; 美联储</h2>
+
+<h3>联储动向</h3>
+<p>美联储维持基准利率 <strong>3.50–3.75%</strong>（4/29 会议维持，新任主席 Kevin Warsh 已于 5 月中旬接任）。下次会议 <strong>6/17</strong>，CME FedWatch 显示维持不变概率 ~99%。但政策<strong>风向已逆转</strong>：受 5 月强劲非农（17.2 万 vs 预期 8.5 万）+ 伊朗战争推升油价与通胀影响，市场已从「降息」翻转为「加息」预期。Hawkish 基调确立。</p>
+
+<h3>加息概率（CME FedWatch）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">6月会议（6/17）维持不变</div><div class="kpi-value">~99%</div></div>
+  <div class="kpi"><div class="kpi-label">12月加息概率</div><div class="kpi-value warn">~72%</div><div class="kpi-sub">一周前仅 45%</div></div>
+  <div class="kpi"><div class="kpi-label">当前基准利率</div><div class="kpi-value">3.50–3.75%</div></div>
+</div>
+
+<h3>利率市场（6/5–6/8）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">2Y 国债收益率</div><div class="kpi-value">4.17%</div><div class="kpi-sub">短端反映加息预期升温</div></div>
+  <div class="kpi"><div class="kpi-label">10Y 国债收益率</div><div class="kpi-value">4.564%</div><div class="kpi-sub">6/8 +2.8 bp，两周高位</div></div>
+  <div class="kpi"><div class="kpi-label">期限利差（10Y-2Y）</div><div class="kpi-value">+38 bp</div><div class="kpi-sub">正常化（30Y 5.01%）</div></div>
+</div>
+<div class="callout">实际利率上行是本周资产定价的总开关：压制黄金、利好美元、为套息交易托底。</div>
+
+<h3>📉 对美股盘面的即时影响（6/8 收盘）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">S&amp;P 500</div><div class="kpi-value">7,405.73</div><div class="kpi-sub up">+0.30%</div></div>
+  <div class="kpi"><div class="kpi-label">Nasdaq</div><div class="kpi-value">25,929.66</div><div class="kpi-sub up">+0.86%</div></div>
+  <div class="kpi"><div class="kpi-label">Dow Jones</div><div class="kpi-value">50,786.01</div><div class="kpi-sub down">-0.16%</div></div>
+  <div class="kpi"><div class="kpi-label">VIX</div><div class="kpi-value">18.92</div><div class="kpi-sub up">-12.0%</div></div>
+</div>
+<p>6/8 美股温和反弹，主要由半导体领涨（周五暴跌后修复）。但加息预期升温压制了反弹力度——Dow 收跌、长端收益率上行。比特币 ~$62,500（-1.7%），Brent 原油 ~$93–94（伊朗局势支撑）。</p>
+
+<h3>📅 未来 3 个交易日重要事件</h3>
+<table>
+  <tr><th>日期（SGT）</th><th>事件</th><th>类型</th><th>市场预期/备注</th></tr>
+  <tr><td>6/10（周三晚）</td><td>美国 5 月 CPI</td><td><span class="tag tag-macro">宏观数据</span></td><td>关键！将定调加息节奏；预期受油价推升走高</td></tr>
+  <tr><td>6/15–16</td><td>BOJ 议息会议 + 植田发布会</td><td><span class="tag tag-fed">央行</span></td><td>加息至 1% ~88% 定价；焦点在路径指引</td></tr>
+  <tr><td>6/17（周三晚）</td><td>FOMC 决议 + 点阵图</td><td><span class="tag tag-fed">联储</span></td><td>维持 ~99%；看点阵图是否确认 Dec 加息</td></tr>
+  <tr><td>持续</td><td>以色列-伊朗冲突（"名义停火"）</td><td><span class="tag tag-geo">地缘政治</span></td><td>油价 ~$96，输入性通胀压力</td></tr>
+</table>
+
+<h3>📊 UMich 消费者信心指数</h3>
+<p>本日非发布日。下次初值约 <strong>6/12</strong> 发布。历史定位：2026 年 4 月初值 <strong>47.6</strong>（历史新低，低于 2022 年通胀低点 50.0 与 2008 年危机低点 55.3）。5 月及最新数据待 6/12 更新——伊朗战争 + 通胀飙升背景下，消费者信心料持续承压。</p>
+
+<!-- ===== B. Polymarket ===== -->
+<h2>🎯 B. Polymarket 最热预测市场 TOP 3</h2>
+<table>
+  <tr><th>#</th><th>预测主题</th><th>当前概率</th><th>市场规模</th></tr>
+  <tr><td>1</td><td>2026 NBA 总冠军（纽约尼克斯）</td><td>78%</td><td>$416M</td></tr>
+  <tr><td>2</td><td>伊朗政权 6/30 前垮台？</td><td>~2% Yes</td><td>$50M</td></tr>
+  <tr><td>3</td><td>美联储 6 月维持利率不变？</td><td>~99% Yes</td><td>高量</td></tr>
+</table>
+<p>热度集中在 NBA 季后赛（资金量最大）；但宏观看点在第 2、3 条：伊朗政权更迭概率虽低（2%），却是当前油价/通胀/避险叙事的核心变量；美联储 6 月按兵不动已是高度共识，市场真正的博弈在 12 月加息。<span class="meta">（概率为近期快照，24h 变动请实时查阅 polymarket.com）</span></p>
+
+<!-- ===== C. 贵金属 ===== -->
+<h2>🥇 C. 贵金属追踪</h2>
+
+<h3>黄金（Gold）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">现货收盘价</div><div class="kpi-value down">$4,314/oz</div><div class="kpi-sub">日 -0.40%｜两月低｜较 1 月 ATH $5,589 跌 22%</div></div>
+  <div class="kpi"><div class="kpi-label">COMEX 总库存</div><div class="kpi-value">~24M oz</div><div class="kpi-sub">沿用上次更新（4月），待实时刷新</div></div>
+  <div class="kpi"><div class="kpi-label">驱动因素</div><div class="kpi-value warn">实际利率↑</div><div class="kpi-sub">加息预期 + 美债收益率上行</div></div>
+</div>
+<div class="callout">📊 "地缘悖论"：以往伊朗冲突会引发避险买盘，如今油价飙升反而推高通胀预期、抬升实际利率，<strong>反向打压金价</strong>。黄金从避险逻辑切换到利率逻辑。</div>
+
+<h3>白银（Silver）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">现货收盘价</div><div class="kpi-value down">$67.60/oz</div><div class="kpi-sub">日 -0.30%｜YTD -5.7%｜年内 ATH $121.79</div></div>
+  <div class="kpi"><div class="kpi-label">金银比</div><div class="kpi-value">63.8</div><div class="kpi-sub">低位，未现踩踏式飙升</div></div>
+  <div class="kpi"><div class="kpi-label">阶段研判</div><div class="kpi-value">利率回调</div><div class="kpi-sub">非流动性踩踏（见模块 G 联动）</div></div>
+</div>
+<div class="callout">📊 白银较年初疯涨后回吐，但金银比平稳（63.8）说明这是基本面（利率）回调、而非套息平仓式的流动性踩踏。一旦金银比急升 + USD/JPY 急升同步出现，才是踩踏信号。</div>
+
+<h3>COMEX 库存走势图</h3>
+<p class="meta">注：本期日报聚焦价格与宏观，COMEX 库存序列沿用 skill 上次更新（截至 2026/4），最新值为估算，建议实时查阅 MetalCharts/CME 刷新。</p>
+
+<div class="chart-wrap" style="height:260px;">
+  <canvas id="goldChart" role="img" aria-label="COMEX黄金总库存走势图"></canvas>
+</div>
+
+<h3>白银库存走势图</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">当前总库存（估算）</div><div class="kpi-value">~260M oz</div><div class="kpi-sub down">较峰值 -51%</div></div>
+  <div class="kpi"><div class="kpi-label">历史峰值（2025/10）</div><div class="kpi-value">532M oz</div><div class="kpi-sub">实物交割浪潮前</div></div>
+  <div class="kpi"><div class="kpi-label">长期均值</div><div class="kpi-value">321M oz</div><div class="kpi-sub">2022—2026 平均</div></div>
+  <div class="kpi"><div class="kpi-label">当前注册库存（估算）</div><div class="kpi-value down">~30M oz</div><div class="kpi-sub">较注册峰值 -82%</div></div>
+</div>
+
+<div class="chart-wrap" style="height:260px;">
+  <canvas id="silverTotalChart" role="img" aria-label="COMEX白银总库存与注册库存双线走势图"></canvas>
+</div>
+
+<div class="kpi-grid" style="margin-top:20px;">
+  <div class="kpi"><div class="kpi-label">覆盖率（估算）</div><div class="kpi-value down">~13%</div><div class="kpi-sub down">压力区（&lt;15%）</div></div>
+  <div class="kpi"><div class="kpi-label">实物紧缺</div><div class="kpi-value warn">持续</div><div class="kpi-sub">注册库存大幅流出</div></div>
+  <div class="kpi"><div class="kpi-label">价格 vs 库存背离</div><div class="kpi-value">关注</div><div class="kpi-sub">价格回调但实物仍紧</div></div>
+  <div class="kpi"><div class="kpi-label">下一交割月</div><div class="kpi-value">待确认</div><div class="kpi-sub warn">关注交割数据</div></div>
+</div>
+
+<div class="chart-wrap" style="height:200px;">
+  <canvas id="silverCovChart" role="img" aria-label="白银覆盖率历史柱状图"></canvas>
+</div>
+<p style="font-size:11px;color:var(--text3);margin-top:6px;">来源：USAGOLD、FXStreet、CME（MetalCharts）。库存数据为估算（沿用上次更新），白银量级（百M oz）远高于黄金（数十M oz），不可跨品种比较绝对值。</p>
+
+<!-- ===== D. 财报 ===== -->
+<h2>📊 D. 财报后大波动个股</h2>
+<p class="meta">财报季接近尾声（本周收官）。仍有个股因业绩 + AI 主题大幅波动：</p>
+<table>
+  <tr><th>公司/Ticker</th><th>事件</th><th>股价反应</th><th>核心看点</th></tr>
+  <tr><td>Hewlett Packard Enterprise (HPE)</td><td>业绩超预期 + 上调全年指引</td><td class="up">大涨</td><td>AI 服务器需求驱动，6/8 盘前领涨</td></tr>
+  <tr><td>Corning (GLW)</td><td>亚马逊数据中心光纤大单</td><td class="up">+9.3%（盘前）</td><td>AI 数据中心光互联主题，与你关注的光模块链相关</td></tr>
+  <tr><td>Victoria's Secret (VSCO)</td><td>营收与利润双超预期</td><td class="up">大涨</td><td>消费股亮点</td></tr>
+</table>
+<p>背景：上周 Broadcom（AVGO）财报曾引发半导体抛售（6/4–5），6/8 板块大幅修复。本周 Palo Alto（PANW）、Ulta（ULTA）周二（6/9）盘后/盘前公布业绩。</p>
+
+<!-- ===== E. 板块轮动 ===== -->
+<h2>🔄 E. 板块轮动分析</h2>
+<table>
+  <tr><th>方向</th><th>板块</th><th>代表</th><th>6/8 表现</th></tr>
+  <tr><td>领涨</td><td>半导体</td><td>SOXX / VanEck</td><td class="up">+5%（反弹）</td></tr>
+  <tr><td>领涨</td><td>能源</td><td>XLE</td><td class="up">油价上行支撑</td></tr>
+  <tr><td>领跌</td><td>利率敏感/防御</td><td>Dow 成分偏弱</td><td class="down">Dow -0.16%</td></tr>
+  <tr><td>领跌</td><td>软件（上周）</td><td>MSFT/SNOW/CRWD</td><td class="down">前期承压</td></tr>
+</table>
+<p>本周轮动剧烈：6/4 Broadcom 财报 → 半导体抛售 → 6/5 Nasdaq 暴跌 4%、半导体一日蒸发约 $1T → 6/8 半导体强势反弹 +5%。加息预期升温下，资金在「AI 资本开支叙事」与「利率敏感板块」间快速切换。半导体仍是 risk-on 的先行指标。<span class="meta">（板块级具体 % 为方向性判断，精确数值建议核对 XLK/XLE 等 ETF）</span></p>
+
+<h3>💾 半导体 ETF 追踪：SMH vs SOXX</h3>
+<table>
+  <tr><th>指标</th><th>读数</th></tr>
+  <tr><td>费城半导体指数（季度）</td><td class="up">+61% QTD（vs S&amp;P +13%）</td></tr>
+  <tr><td>6/8 反弹</td><td class="up">VanEck/SOXX +5%（修复 6/5 暴跌）</td></tr>
+  <tr><td>本周波动</td><td class="warn">Broadcom 财报 → -$1T → 反弹</td></tr>
+</table>
+<p>半导体本季度大幅跑赢大盘（+61% vs +13%），是 AI 资本开支叙事的核心载体，但波动剧烈、拥挤度高——与模块 F（SoftBank/ARM）和你的 AVGO 持仓高度联动。</p>
+
+<!-- ===== F. SoftBank ===== -->
+<h2>🔭 F. SoftBank 专项追踪</h2>
+
+<div class="callout">📌 <strong>风险框架已切换</strong>：SoftBank 已超越丰田成为<strong>日本第一大市值公司</strong>，SFTBY 近期触及历史新高（~8,000 日元）。ARM 持仓 ~$165B &gt; 净债务 ~$122.9B，<strong>LTV 缓冲当前健康</strong>——风险焦点已从「LTV 强平危机」转向「极端 AI 集中度 + 估值顶部 + 系统性权重」。</div>
+
+<h3>核心持仓与风险仪表盘</h3>
+<table>
+  <tr><th>指标</th><th>当前值</th><th>状态</th></tr>
+  <tr><td>ARM 持仓</td><td>~$165B（~90% 股权，占 NAV 一半以上）</td><td class="up">🟢 &gt; 净债务，缓冲健康</td></tr>
+  <tr><td>OpenAI 持仓</td><td>~$80B（约 $45B 浮盈，占 NAV ~20–25%）</td><td class="warn">🟡 IPO 催化在即</td></tr>
+  <tr><td>净债务</td><td>~$122.9B</td><td class="up">🟢 ARM 单一持仓即覆盖</td></tr>
+  <tr><td>信用评级</td><td>S&amp;P 展望负面（3 月）</td><td class="warn">🟡 市场暂忽视</td></tr>
+  <tr><td>市值地位</td><td>日本第一大（超丰田）</td><td class="down">🔴 系统性权重 → 一旦回调拖累日经</td></tr>
+</table>
+
+<h3>最新动态</h3>
+<ul>
+  <li><strong>OpenAI IPO 临近</strong>：传 OpenAI 即将向美国 SEC 秘密递交 IPO 申请（高盛、摩根士丹利承销）——这是 SoftBank 估值与过桥贷款还款的核心催化剂，重大利好。</li>
+  <li><strong>法国 €75B（$87B）AI 基建</strong>（6/1 宣布）：含 5GW AI 数据中心，欧洲最大承诺；持续加码 AI 资本开支。</li>
+  <li><strong>分析师上调</strong>：SMBC Nikko 目标价升至 8,500 日元（自 5,200）；ARM 目标价 Wells Fargo $410、Mizuho $425。孙正义称 AI 是「比互联网大 50 倍的革命」，任何回调都是「人生最佳买点」。</li>
+</ul>
+
+<h3>与模块 G 的联动（关键）</h3>
+<div class="callout">SoftBank 现已是日经第一权重股，且通过 ARM/OpenAI 高度绑定 AI 叙事。<strong>一旦下周二（6/16）BOJ 加息引发日元急升 / 套息平仓 → 日经踩踏，SoftBank 将首当其冲</strong>，进而冲击 ARM（半导体）与你的 AVGO 持仓。这是模块 G「股汇双杀」情景里最脆弱的传导节点。当前 LTV 缓冲虽健康，但估值已在顶部、容错空间小。<span class="meta">（ARM 单股价格各源数据有冲突，本期以 SoftBank 持仓口径 ~$165B 为锚，精确股价待实时确认）</span></div>
+
+<!-- ===== Chart.js ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
+<script>
+const isDark = matchMedia('(prefers-color-scheme:dark)').matches;
+const gC = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
+const lC = isDark ? '#777' : '#888';
+
+/* 图1：黄金总库存折线图 */
+new Chart(document.getElementById('goldChart'), {
+  type: 'line',
+  data: {
+    labels: ['2025/3','2025/4','2025/5','2025/6','2025/7','2025/8','2025/9','2025/10','2025/11','2025/12','2026/1','2026/2','2026/3','2026/4'],
+    datasets: [{ label:'总库存',
+      data: [43.3,42.0,41.0,40.2,39.5,38.6,38.9,38.5,40.0,39.0,36.5,34.4,30.0,24.5],
+      borderColor:'#3266ad', backgroundColor: isDark ? 'rgba(50,102,173,0.12)' : 'rgba(50,102,173,0.08)',
+      fill:true, tension:0.3, borderWidth:2,
+      pointRadius: [3,3,3,3,3,3,3,3,3,3,3,3,3,6],
+      pointBackgroundColor: [...Array(13).fill('#3266ad'), '#BA7517'],
+      pointBorderColor: [...Array(13).fill('#3266ad'), '#BA7517']
+    }]
+  },
+  options: { responsive:true, maintainAspectRatio:false,
+    plugins: { legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>ctx.parsed.y.toFixed(1)+'M oz'}},
+      annotation:{annotations:{
+        avg:{type:'line',yMin:24.1,yMax:24.1,borderColor:'#888780',borderWidth:1.5,borderDash:[6,4],
+          label:{content:'长期均值 24.1M',display:true,position:'start',font:{size:10},color:'#888780',backgroundColor:'transparent',yAdjust:-10}},
+        base:{type:'line',yMin:17.1,yMax:17.1,borderColor:'#E24B4A',borderWidth:1.5,borderDash:[6,4],
+          label:{content:'关税前 17.1M',display:true,position:'start',font:{size:10},color:'#E24B4A',backgroundColor:'transparent',yAdjust:12}}
+      }}
+    },
+    scales:{
+      x:{ticks:{color:lC,font:{size:10},maxRotation:30,autoSkip:false},grid:{color:gC}},
+      y:{min:14,max:46,ticks:{color:lC,font:{size:10},callback:v=>v+'M'},grid:{color:gC},
+        title:{display:true,text:'百万盎司',color:lC,font:{size:10}}}
+    }
+  }
+});
+
+/* 图2：白银双线图 */
+const silverLabels = ['2025/4','2025/7','2025/8','2025/9','2025/10','2025/11','2025/12','2026/1','2026/2','2026/3','2026/4'];
+const totalData =    [445,498,507,525,532,490,430,380,366,285,260];
+const regData =      [null,null,null,168,167.7,145,120,103,98,52,30];
+new Chart(document.getElementById('silverTotalChart'), {
+  data: { labels: silverLabels,
+    datasets: [
+      { type:'line', label:'总库存（R+E）', data:totalData,
+        borderColor:'#73726c', backgroundColor: isDark?'rgba(115,114,108,0.10)':'rgba(115,114,108,0.07)',
+        fill:true, tension:0.3, borderWidth:2,
+        pointRadius: totalData.map((_,i)=>i===totalData.length-1?6:3),
+        pointBackgroundColor: totalData.map((_,i)=>i===4?'#E24B4A':i===totalData.length-1?'#73726c':'#888'),
+        pointBorderColor:'#73726c', yAxisID:'y' },
+      { type:'line', label:'注册库存（可交割）', data:regData,
+        borderColor:'#E24B4A', backgroundColor:'transparent',
+        fill:false, tension:0.3, borderWidth:2,
+        pointRadius: regData.map((v,i)=>v!=null?(i===regData.length-1?6:3):0),
+        pointBackgroundColor:'#E24B4A', pointBorderColor:'#E24B4A', yAxisID:'y' }
+    ] },
+  options: { responsive:true, maintainAspectRatio:false,
+    plugins: { legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>ctx.parsed.y!=null?ctx.dataset.label+': '+ctx.parsed.y.toFixed(0)+'M oz':''}},
+      annotation:{annotations:{
+        avg:{type:'line',yMin:321,yMax:321,borderColor:'#888780',borderWidth:1.5,borderDash:[6,4],
+          label:{content:'均值 321M',display:true,position:'start',font:{size:10},color:'#888780',backgroundColor:'transparent',yAdjust:-10}}
+      }}
+    },
+    scales:{
+      x:{ticks:{color:lC,font:{size:10},maxRotation:30,autoSkip:false},grid:{color:gC}},
+      y:{min:0,max:580,ticks:{color:lC,font:{size:10},callback:v=>v+'M'},grid:{color:gC},
+        title:{display:true,text:'百万盎司',color:lC,font:{size:10}}}
+    }
+  }
+});
+
+/* 图3：覆盖率柱状图 */
+const covLabels = ['2025/5','2025/7','2025/9','2025/10','2025/12','2026/2','2026/4'];
+const covData =   [34,30,26,22,18,14.5,13.2];
+const covColors = covData.map(v => v < 15 ? '#E24B4A' : v < 25 ? '#BA7517' : '#3266ad');
+new Chart(document.getElementById('silverCovChart'), {
+  type:'bar',
+  data:{ labels:covLabels,
+    datasets:[{label:'覆盖率', data:covData, backgroundColor:covColors, borderRadius:3, borderSkipped:false}] },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>ctx.parsed.y.toFixed(1)+'%'}},
+      annotation:{annotations:{
+        stress:{type:'line',yMin:15,yMax:15,borderColor:'#E24B4A',borderWidth:1.5,borderDash:[5,4],
+          label:{content:'压力阈值 15%',display:true,position:'end',font:{size:10},color:'#E24B4A',backgroundColor:'transparent',yAdjust:-10}}
+      }}
+    },
+    scales:{
+      x:{ticks:{color:lC,font:{size:10}},grid:{display:false}},
+      y:{min:0,max:40,ticks:{color:lC,font:{size:10},callback:v=>v+'%'},grid:{color:gC}}
+    }
+  }
+});
+</script>
+
+<div class="sources">
+  <h2>Data Sources</h2>
+  <ul>
+    <li>TheStreet / CNBC / Yahoo Finance — 6/8 美股指数收盘、VIX、个股反应</li>
+    <li>USAGOLD / FXStreet — 黄金、白银现货价、金银比</li>
+    <li>CME FedWatch / growbeansprout — 加息概率、基准利率</li>
+    <li>StreetStats / FRED — 美债收益率曲线</li>
+    <li>exchange-rates.org / 新浪财经 — USD/JPY、BOJ 6月会议</li>
+    <li>Polymarket — 预测市场概率</li>
+    <li>CNBC / TheStreet / TipRanks / Seeking Alpha — SoftBank、ARM、OpenAI 动态</li>
+    <li>MetalCharts (CME) — COMEX 库存（沿用上次更新，估算）</li>
+  </ul>
+  <div class="disclaimer">本报告仅供参考，不构成投资建议。数据存在时间延迟（COMEX 库存为估算值），投资有风险，决策需谨慎。本日报投研内容与任何机构身份/职务无关。</div>
+</div>
+
+</body>
+</html>
