@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cayman SPC 基金落地结构图 · 务实折中路径</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F7FA;
+    --paper-2:#FFFFFF;
+    --ink:#0F141C;
+    --slate:#48566B;
+    --line:#CAD3DF;
+    --line-soft:#E3E9F0;
+    --ctrl:#B9761E;      /* amber — your control thread */
+    --ctrl-soft:#F3E3CB;
+    --future:#1F6F5E;    /* teal — endgame self-licensed IM */
+    --future-soft:#D7E9E3;
+    --ext:#7C8798;       /* grey — replaceable external IM */
+    --grid:rgba(15,20,28,0.035);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:"Inter","Noto Sans SC",sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:34px 22px 80px}
+  .mono{font-family:"IBM Plex Mono",monospace}
+
+  /* ---------- Header ---------- */
+  header{border-bottom:2px solid var(--ink);padding-bottom:22px;margin-bottom:14px}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--slate);display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .eyebrow .dot{width:6px;height:6px;background:var(--ctrl);border-radius:50%;display:inline-block}
+  h1{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:clamp(27px,5.4vw,44px);line-height:1.05;letter-spacing:-.02em;margin:16px 0 6px}
+  .sub{font-family:"Space Grotesk",sans-serif;font-weight:500;font-size:clamp(15px,2.4vw,19px);color:var(--slate)}
+  .thesis{margin-top:16px;font-size:14.5px;max-width:74ch;color:var(--ink)}
+  .thesis b{color:var(--ctrl);font-weight:600}
+
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:18px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--slate)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .swatch{width:22px;height:0;border-top-width:2.5px;border-top-style:solid;display:inline-block}
+  .sw-ctrl{border-color:var(--ctrl)}
+  .sw-ext{border-color:var(--ext);border-top-style:dashed}
+  .sw-future{border-color:var(--future)}
+  .sw-flow{border-color:var(--slate)}
+
+  /* ---------- Section scaffolding ---------- */
+  .section{margin-top:46px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}
+  .sec-num{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ctrl);font-weight:600;letter-spacing:.1em}
+  .sec-title{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:20px;letter-spacing:-.01em}
+  .sec-title .zh{color:var(--slate);font-weight:500;font-size:15px;font-family:"Noto Sans SC",sans-serif;margin-left:8px}
+
+  /* ---------- Structure diagram ---------- */
+  .diagram{background:var(--paper-2);border:1px solid var(--line);border-radius:4px;padding:26px 22px;position:relative;overflow:hidden}
+  .tier{position:relative}
+  .tier-label{position:absolute;left:-2px;top:-9px;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);background:var(--paper-2);padding:0 8px 0 0}
+  .connector{width:2px;background:var(--slate);margin:0 auto;height:26px;position:relative}
+  .connector::after{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid var(--slate)}
+  .conn-flow-label{font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--slate);text-align:center;letter-spacing:.06em;margin:2px 0 -2px}
+
+  .node{border:1.5px solid var(--ink);border-radius:3px;background:var(--paper-2);padding:14px 16px;position:relative}
+  .node .tag{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate)}
+  .node .name{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:15px;margin-top:3px;letter-spacing:-.01em}
+  .node .name .zh{font-family:"Noto Sans SC",sans-serif;font-weight:400;font-size:12.5px;color:var(--slate);display:block;margin-top:1px}
+  .node .meta{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--slate);margin-top:7px;line-height:1.5}
+  .node .jur{position:absolute;top:12px;right:14px;font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;letter-spacing:.08em;padding:2px 7px;border-radius:2px;background:var(--line-soft);color:var(--slate)}
+
+  .node-lp{border-color:var(--slate);border-style:solid}
+  .node-spc{border-color:var(--ink);border-width:2px;background:linear-gradient(180deg,#fff, #fbfcfe)}
+  .node-ext{border-color:var(--ext);border-style:dashed}
+  .node-ext .jur{background:#eef1f5}
+  .node-adv{border-color:var(--ctrl)}
+  .node-adv .jur{background:var(--ctrl-soft);color:#7a4d12}
+  .node-future{border-color:var(--future);border-style:dashed}
+  .node-future .jur{background:var(--future-soft);color:#14493d}
+
+  .repl-badge{position:absolute;bottom:-1px;right:-1px;font-family:"IBM Plex Mono",monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;border-radius:2px 0 2px 0}
+  .badge-ext{background:var(--ext);color:#fff}
+  .badge-future{background:var(--future);color:#fff}
+  .badge-ctrl{background:var(--ctrl);color:#fff}
+
+  /* SPC with segregated portfolios */
+  .spc-body{margin-top:12px;border-top:1px dashed var(--line);padding-top:12px}
+  .sps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:2px}
+  .sp{border:1px dashed var(--slate);border-radius:2px;padding:8px 9px;background:var(--paper)}
+  .sp .sp-t{font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--slate);letter-spacing:.08em}
+  .sp .sp-n{font-size:11.5px;font-weight:600;margin-top:2px;font-family:"Noto Sans SC",sans-serif;line-height:1.35}
+
+  /* IM row: external now + advisor + future */
+  .im-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+  .im-stack{display:flex;flex-direction:column;gap:12px}
+
+  /* control thread callout */
+  .thread{margin-top:16px;border-left:3px solid var(--ctrl);background:linear-gradient(90deg,var(--ctrl-soft),transparent);padding:11px 14px;border-radius:0 3px 3px 0}
+  .thread .t-h{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#7a4d12;font-weight:600}
+  .thread .t-b{font-size:13px;color:var(--ink);margin-top:3px}
+
+  .svc{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .svc .chip{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--slate);border:1px solid var(--line);border-radius:2px;padding:5px 9px;background:var(--paper)}
+
+  /* ---------- Timeline ---------- */
+  .timeline{position:relative;margin-top:8px}
+  .phase{display:grid;grid-template-columns:96px 1fr;gap:0;position:relative}
+  .phase-rail{position:relative;padding-top:4px}
+  .phase-rail::before{content:"";position:absolute;left:15px;top:0;bottom:-6px;width:2px;background:var(--line)}
+  .phase:last-child .phase-rail::before{bottom:auto;height:20px}
+  .pip{position:relative;z-index:2;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12px;border:2px solid;background:var(--paper-2)}
+  .pip-1{border-color:var(--ext);color:var(--ext)}
+  .pip-2{border-color:var(--ctrl);color:var(--ctrl)}
+  .pip-3{border-color:var(--future);color:var(--future)}
+  .phase-body{padding:0 0 28px 18px}
+  .phase-when{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;color:var(--slate);text-transform:uppercase}
+  .phase-name{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:16.5px;margin:2px 0 6px;letter-spacing:-.01em}
+  .phase-desc{font-size:13.5px;color:var(--ink)}
+  .phase-desc ul{list-style:none;margin-top:7px}
+  .phase-desc li{position:relative;padding-left:16px;margin-bottom:4px;font-size:13px;color:var(--slate)}
+  .phase-desc li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:1.5px;background:var(--ctrl)}
+  .phase-desc li b{color:var(--ink);font-weight:600}
+
+  /* ---------- Roles table ---------- */
+  .tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--paper-2)}
+  table{border-collapse:collapse;width:100%;min-width:640px;font-size:12.5px}
+  th{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);text-align:left;padding:11px 13px;border-bottom:2px solid var(--ink);white-space:nowrap;font-weight:600}
+  td{padding:11px 13px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td .ent{font-weight:600;font-family:"Space Grotesk",sans-serif}
+  td .ent .zh{display:block;font-family:"Noto Sans SC",sans-serif;font-weight:400;font-size:11px;color:var(--slate);margin-top:1px}
+  .pill{font-family:"IBM Plex Mono",monospace;font-size:9.5px;padding:2px 7px;border-radius:2px;white-space:nowrap;font-weight:600}
+  .pill-you{background:var(--ctrl-soft);color:#7a4d12}
+  .pill-repl{background:#eef1f5;color:var(--ext)}
+  .pill-ind{background:var(--line-soft);color:var(--slate)}
+  .pill-fut{background:var(--future-soft);color:#14493d}
+
+  /* ---------- Levers ---------- */
+  .levers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .lever{border:1px solid var(--line);border-top:3px solid var(--ctrl);border-radius:0 0 3px 3px;background:var(--paper-2);padding:16px 15px}
+  .lever .l-code{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ctrl);letter-spacing:.1em;font-weight:600}
+  .lever .l-t{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:14.5px;margin:5px 0 7px}
+  .lever .l-t .zh{display:block;font-family:"Noto Sans SC",sans-serif;font-weight:400;font-size:12px;color:var(--slate)}
+  .lever .l-b{font-size:12.5px;color:var(--slate);line-height:1.55}
+  .lever .l-b b{color:var(--ink);font-weight:600}
+
+  /* ---------- Footer ---------- */
+  footer{margin-top:52px;border-top:1px solid var(--line);padding-top:18px;font-size:11.5px;color:var(--slate)}
+  footer .disc{font-family:"IBM Plex Mono",monospace;font-size:10px;line-height:1.7;letter-spacing:.02em}
+  footer .fx{margin-top:10px;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--slate)}
+
+  /* ---------- Motion ---------- */
+  .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:720px){
+    .im-row{grid-template-columns:1fr}
+    .levers{grid-template-columns:1fr}
+    .sps{grid-template-columns:1fr}
+    .phase{grid-template-columns:56px 1fr}
+    .phase-rail::before{left:15px}
+  }
+  @media print{
+    body{background:#fff}
+    .reveal{opacity:1;transform:none}
+    .diagram,.tbl-scroll,.lever{break-inside:avoid}
+    .wrap{max-width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="reveal">
+    <div class="eyebrow"><span class="dot"></span>结构备忘 · Structuring Memo<span>·</span>预备与法律顾问对齐</div>
+    <h1>Cayman SPC 基金落地结构</h1>
+    <div class="sub">务实折中路径 — 外部香港 IM 快速起步 · 新加坡自持牌为后路</div>
+    <p class="thesis">底层为开曼 SPC 伞型载体,承接数据中心资产与一级项目份额。<b>无论 IM 是谁,控制权始终沿琥珀线掌握在你手上</b>:第一阶段借外部香港 Type 9 IM 快速落地并取得统一基金豁免,同步在新加坡搭建自持牌实体作为"后路",时机成熟触发换人条款完成接管。</p>
+    <div class="legend">
+      <span><i class="swatch sw-flow"></i>资金 / 服务流</span>
+      <span><i class="swatch sw-ctrl"></i>你的控制线</span>
+      <span><i class="swatch sw-ext"></i>可替换外部 IM</span>
+      <span><i class="swatch sw-future"></i>终局自持牌 IM</span>
+    </div>
+  </header>
+
+  <!-- ============ STRUCTURE DIAGRAM ============ -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <span class="sec-title">Structure<span class="zh">主体结构</span></span>
+    </div>
+
+    <div class="diagram">
+
+      <!-- Tier: investors -->
+      <div class="tier">
+        <div class="node node-lp">
+          <span class="jur">GLOBAL / ASIA</span>
+          <div class="tag">Limited Partners</div>
+          <div class="name">合格 & 机构投资者<span class="zh">Accredited / Institutional Investors</span></div>
+          <div class="meta">起步阶段仅面向 A/I 投资人 · 规避零售牌照与招股书要求</div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="conn-flow-label">出资 CAPITAL · 认购份额</div>
+
+      <!-- Tier: fund vehicle -->
+      <div class="tier">
+        <div class="node node-spc">
+          <span class="jur">CAYMAN</span>
+          <div class="tag">Fund Vehicle · 伞型载体</div>
+          <div class="name">Segregated Portfolio Company (SPC)<span class="zh">开曼独立组合公司 · 按《Private Funds Act》向 CIMA 注册</span></div>
+          <div class="meta">一个法律实体,各 SP 资产负债彼此隔离 (ring-fenced) · 董事会你可入席</div>
+          <div class="spc-body">
+            <div class="sps">
+              <div class="sp"><div class="sp-t">SP-01</div><div class="sp-n">数据中心资产</div></div>
+              <div class="sp"><div class="sp-t">SP-02</div><div class="sp-n">一级项目份额 A</div></div>
+              <div class="sp"><div class="sp-t">SP-0n</div><div class="sp-n">后续 deal…</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="conn-flow-label">委托全权管理 DISCRETIONARY MANDATE</div>
+
+      <!-- Tier: management -->
+      <div class="tier" style="margin-top:6px">
+        <div class="im-row">
+          <!-- external IM now -->
+          <div class="node node-ext">
+            <span class="jur">HONG KONG</span>
+            <div class="tag">Phase 1 · 现任投资管理人</div>
+            <div class="name">External Type 9 IM<span class="zh">外部持牌资产管理人 (SFC 第9类)</span></div>
+            <div class="meta">统一基金豁免 · 无最低规模门槛<br>carry 16D 附表 0% 潜力 · "小9" 起步成本低</div>
+            <span class="repl-badge badge-ext">Replaceable · 可替换</span>
+          </div>
+
+          <div class="im-stack">
+            <!-- your advisory entity -->
+            <div class="node node-adv">
+              <span class="jur">SINGAPORE</span>
+              <div class="tag">Phase 1 · 你的实体(顾问角色)</div>
+              <div class="name">Your Advisory Entity<span class="zh">你的投资顾问 / 次顾问实体</span></div>
+              <div class="meta">合法参与投资决策的切入口 · 顾问持牌门槛低于全权管理</div>
+              <span class="repl-badge badge-ctrl">You · 你</span>
+            </div>
+            <!-- future licensed IM -->
+            <div class="node node-future">
+              <span class="jur">SINGAPORE</span>
+              <div class="tag">Phase 2 → 3 · 后路(建成后接管)</div>
+              <div class="name">Your A/I LFMC<span class="zh">你自持牌的持牌基金管理公司 (MAS CMS)</span></div>
+              <div class="meta">你可亲任 IP 之一 · 基础资本 S$250k · substance 天然满足</div>
+              <span class="repl-badge badge-future">Takes over · 接管</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- control thread -->
+      <div class="thread">
+        <div class="t-h">◈ Control Thread · 控制线</div>
+        <div class="t-b">你(顾问实体)→ 影响投资决策 → 时机成熟拿到新加坡牌照 → 触发换人条款 → 你的 LFMC 成为 IM。外部香港 IM 全程"真管"以满足经济实质,但始终处于可替换位。</div>
+      </div>
+
+      <!-- service providers -->
+      <div class="svc">
+        <span class="chip">Administrator 行政管理人</span>
+        <span class="chip">Auditor 审计师</span>
+        <span class="chip">Custodian 第三方托管</span>
+        <span class="chip">Cayman Directors 注册董事</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIMELINE ============ -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <span class="sec-title">Sequencing<span class="zh">落地时间线</span></span>
+    </div>
+
+    <div class="timeline">
+      <div class="phase">
+        <div class="phase-rail"><div class="pip pip-1">T0</div></div>
+        <div class="phase-body">
+          <div class="phase-when">第 0–6 个月 · 快速起步</div>
+          <div class="phase-name">Launch — 外部香港 IM 起飞</div>
+          <div class="phase-desc">
+            以最短路径把基金推向市场并开始募资。
+            <ul>
+              <li>注册<b>开曼 SPC</b> + 向 CIMA 完成 Private Funds Act 备案</li>
+              <li>委任<b>外部香港 Type 9 IM</b> — 统一豁免、无最低规模,起步友好</li>
+              <li>设立<b>你的新加坡顾问实体</b>,以 sub-advisor 身份参与决策</li>
+              <li>面向 A/I 投资人募资;协议内锁死换人与经济条款</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-rail"><div class="pip pip-2">T1</div></div>
+        <div class="phase-body">
+          <div class="phase-when">第 3–12 个月 · 并行推进</div>
+          <div class="phase-name">Build — 搭建新加坡自持牌实体</div>
+          <div class="phase-desc">
+            与 Phase 1 重叠进行,不耽误募资节奏。
+            <ul>
+              <li>申请 <b>A/I LFMC (CMS 牌照)</b>:基础资本 S$250k、风险资本 ≥120%</li>
+              <li>配齐<b>至少 2 名常驻新加坡 IP</b> — 你本人可充当其一</li>
+              <li>MAS 审批约 6 个月 · fit-and-proper 评估</li>
+              <li>顾问实体积累可证明的 track record,为接管铺路</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-rail"><div class="pip pip-3">T2</div></div>
+        <div class="phase-body">
+          <div class="phase-when">第 12–18 个月+ · 接管</div>
+          <div class="phase-name">Handover — 触发换人,你成为 IM</div>
+          <div class="phase-desc">
+            牌照到手即启动结构里预留的"后门"。
+            <ul>
+              <li>依 IM 协议<b>触发条款</b>(以你持牌为触发点)无因替换外部 IM</li>
+              <li>你的<b>新加坡 LFMC 正式成为基金投资管理人</b></li>
+              <li>视税务测算决定载体是否迁移或维持开曼 SPC</li>
+              <li>控制权 + 经济权益完整回收到自有实体</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ROLES TABLE ============ -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <span class="sec-title">Roles &amp; Control<span class="zh">各方角色与控制权</span></span>
+    </div>
+    <div class="tbl-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>实体 Entity</th>
+            <th>属地</th>
+            <th>职能 Function</th>
+            <th>牌照 / 注册</th>
+            <th>控制</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="ent">Limited Partners<span class="zh">合格 / 机构投资者</span></span></td>
+            <td class="mono">Global</td>
+            <td>出资、认购基金份额</td>
+            <td>Accredited / Institutional</td>
+            <td><span class="pill pill-ind">外部</span></td>
+          </tr>
+          <tr>
+            <td><span class="ent">Cayman SPC<span class="zh">伞型基金载体</span></span></td>
+            <td class="mono">Cayman</td>
+            <td>持有资产;SP 隔离;董事会治理</td>
+            <td>CIMA · Private Funds Act</td>
+            <td><span class="pill pill-you">你可入董事会</span></td>
+          </tr>
+          <tr>
+            <td><span class="ent">External IM<span class="zh">外部投资管理人</span></span></td>
+            <td class="mono">Hong Kong</td>
+            <td>Phase 1 全权投资管理</td>
+            <td>SFC Type 9(可"小9")</td>
+            <td><span class="pill pill-repl">可替换</span></td>
+          </tr>
+          <tr>
+            <td><span class="ent">Advisory Entity<span class="zh">你的顾问实体</span></span></td>
+            <td class="mono">Singapore</td>
+            <td>投资建议 / 次顾问;实质影响决策</td>
+            <td>顾问角色(门槛较低)</td>
+            <td><span class="pill pill-you">你</span></td>
+          </tr>
+          <tr>
+            <td><span class="ent">Your LFMC<span class="zh">自持牌管理公司</span></span></td>
+            <td class="mono">Singapore</td>
+            <td>Phase 3 接管全权投资管理</td>
+            <td>MAS A/I LFMC (CMS)</td>
+            <td><span class="pill pill-fut">你 · 终局</span></td>
+          </tr>
+          <tr>
+            <td><span class="ent">Service Providers<span class="zh">行政 / 审计 / 托管</span></span></td>
+            <td class="mono">Cayman/SG</td>
+            <td>基金行政、审计、资产托管</td>
+            <td>独立第三方</td>
+            <td><span class="pill pill-ind">独立</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ LEVERS ============ -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <span class="sec-title">Back-door Levers<span class="zh">三条"后门"条款(务必写死)</span></span>
+    </div>
+    <div class="levers">
+      <div class="lever">
+        <div class="l-code">CLAUSE · A</div>
+        <div class="l-t">IM 委任协议<span class="zh">Investment Management Agreement</span></div>
+        <div class="l-b"><b>终止 / 更换条款</b>:以"你的实体取得 SFC Type 9 或 A/I LFMC 牌照"为触发点,可<b>无因替换</b>外部 IM。同时<b>封顶外部 IM 经济权益</b>并设 key-man 条款,避免接管时被高价绑架。</div>
+      </div>
+      <div class="lever">
+        <div class="l-code">CLAUSE · B</div>
+        <div class="l-t">投资顾问协议<span class="zh">Advisory Agreement</span></div>
+        <div class="l-b">明确你的顾问实体对投资决策的<b>实质影响权</b>与信息权,为日后平滑过渡提供法律依据,也让你的 track record 归属清晰、可举证。</div>
+      </div>
+      <div class="lever">
+        <div class="l-code">CLAUSE · C</div>
+        <div class="l-t">章程 & LP 协议<span class="zh">SPC Constitution + LPA / PPM</span></div>
+        <div class="l-b">在 SPC 章程与 LPA 内预留<b>管理人变更机制</b>与相应同意门槛,确保换 IM 不触发 LP 集体否决或赎回权,过渡对投资人透明可控。</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="reveal">
+    <div class="disc">
+      ⚠ 本图为结构框架示意,供与法律 / 税务顾问对齐之用,不构成法律或税务意见。开曼 SPC 分别由新加坡 vs 香港管理时的免税适用性(13U / 13D vs 统一基金豁免)、carry 税务、CIMA 与 MAS/SFC 合规,须由通开曼 · 新加坡 · 香港三地的专业顾问做定制测算后定稿。
+    </div>
+    <div class="fx">监管数据基准 2026 · FX 约值:S$250k ≈ US$185k · HK$100k ≈ US$12.8k · HK$2m ≈ US$256k · S$50m ≈ US$37m(汇率随行就市,以定稿时为准)</div>
+  </footer>
+
+</div>
+
+<script>
+  (function(){
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});
+      return;
+    }
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(function(e){io.observe(e)});
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>舜宇光学科技 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>舜宇光学科技 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码:2382.HK</div>
+      <div>🏛️ 交易所:香港联交所 (HKEX)</div>
+      <div>🏷️ 行业:光学元件 / 精密制造（消费电子供应链 + 汽车零部件）</div>
+      <div>📅 分析日期:2026-06-29</div>
+    </div>
+    <div class="one-liner">💡 舜宇通过给全球手机厂、车企、机器人厂商提供「看世界的眼睛」（镜头+摄像头模组）收取硬件销售款，具备规模+车载光学龙头的窄护城河，处于消费电子成熟周期 + 汽车/AI视觉结构性成长的叠加阶段。〔汇率假设：¥7.15=US$1，HK$7.85=US$1；股价以港币计〕</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" data-tab="m0">💡 小白版</button>
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  
+  <div class="section" id="m0">
+    <h2>💡 模块零:金融小白友好版商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言把这家技术公司"翻译"清楚——后续分析的基础</p>
+    <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:24px 28px;border-radius:12px;margin-bottom:20px;border-left:4px solid #d97706;">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:15px;">🎯 核心比喻</div>
+      <div style="font-size:15px;color:#0f172a;line-height:1.8;">舜宇像智能设备的「眼睛制造商」——手机要拍照、汽车要看路、机器人要认路，都靠镜头和摄像头模组。舜宇是全球最大的「眼睛」供应商：既磨高端镜片（像台湾大立光），又把镜头/传感器/马达组装成完整摄像头模组（像富士康做组装）。它是这轮「视觉淘金热」里卖铲子的人。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📦 商业模式三问</h3>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #2563eb;">
+        <div class="label" style="color:#2563eb;">① 卖什么?</div>
+        <div class="value">两类东西。① 镜头：把光聚焦的玻璃/塑料镜片，高毛利、技术活，手机镜头全球第二、车载镜头全球第一。② 摄像头模组（CCM）：把镜头、图像传感器、对焦马达组装成一颗完整摄像头，毛利薄、走量，全球第一。外加少量显微镜、测量仪器等光学仪器。2025总收入 US$60.5亿（¥432.3亿）。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #059669;">
+        <div class="label" style="color:#059669;">② 怎么收费?</div>
+        <div class="value">一次性硬件销售，没有订阅。手机镜头单颗约几毛到几美元，高端潜望式/玻塑混合镜头更贵；一颗手机摄像头模组约几美元到十几美元；车载镜头单价更高、利润更厚。收入按颗数×单价计，因此「量」与「ASP（单价）」是两大杠杆——2025手机业务靠 ASP 升级（高端化）而非走量驱动 +8.6%。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;">
+        <div class="label" style="color:#dc2626;">③ 客户为什么必须买?</div>
+        <div class="value">运营必需 + 技术驱动。每台手机、每辆智能车都离不开摄像头，且摄像头是高端机型最卷的卖点之一（AI影像）。舜宇的价值在于：能把最难的高端镜头（潜望、玻塑混合）做出来、并以高良率大规模交付——这是新进入者数年内难复制的工艺壁垒，也是它定价权的来源。</div>
+      </div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">💼 客户结构 + 护城河金融比喻</h3>
+    <div class="summary-box info">
+      <div class="title">具体客户名单 + 客户分层</div>
+      <div class="text">金字塔型、头部集中。手机端服务苹果、三星、华为、小米、OPPO、vivo；车载端供应全球主流车企与 Tier-1（一级供应商）。苹果与华为等少数大客户贡献显著，集中度高意味着「份额转移」和「地缘制裁」能瞬间冲击需求与股价——例如 2026/6 一则涉及华为供应链的美方制裁传闻，曾致单日重挫约 11%。手机镜头全球份额约17%（大立光约22%居首），CCM 与车载镜头则是全球第一。</div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">护城河本质(金融场景比喻)</div>
+      <div class="text">舜宇的护城河像「半导体代工厂（台积电式的良率/规模壁垒）+ 汽车零部件 Tier-1（长认证周期、强绑定）」的结合体。手机模组那块更像低毛利代工——护城河窄、可被丘钛/高伟等替代；车载光学那块更像被设计锁定的 Tier-1 供应商——一旦 design-in 进某车型，整车生命周期内难以替换，护城河明显更宽、利润更厚。两块业务护城河宽度不同，是理解这家公司的钥匙。</div>
+    </div>
+    <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:14px 18px;border-radius:8px;margin-top:20px;font-size:13px;color:#64748b;line-height:1.6;">
+      📌 <strong>使用提示</strong>:本模块为后续模块一至四的"翻译层"。读完后再进入「商业模式」「护城河」「估值研究」「管理层」等专业分析模块,能事半功倍。
+    </div>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一:商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意?</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型:产品销售（一次性）+ 研发驱动 + 资产较重的精密制造</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">三大报告分部：① 光学零件——手机镜头 + 车载镜头 + 其他镜头，毛利最高、技术壁垒最厚；② 光电产品——手机摄像头模组（CCM）+ 车载模组，是营收主体但毛利最薄；③ 光学仪器——显微镜、测量分析仪器，占比小、稳定。高端化（玻塑混合镜头、潜望式镜头与模组）是2025利润跃升的核心。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">B2B。手机品牌（苹果、三星、华为、小米、OPPO、vivo）+ 全球车企与 Tier-1 供应商 + 安防/IoT/AR厂商。客户金字塔型、头部集中，苹果/华为等大客户对营收与情绪影响大。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">总部位于浙江余姚，制造主要在中国大陆。终端需求全球化（中国安卓阵营 + 苹果全球 + 海外车企）。利润对美元、港币、日元、印度卢比汇率敏感（年报披露的外汇敏感性）。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">2025总收入 US$60.5亿（¥432.3亿，+12.9% YoY）。手机 US$38.2亿（¥273.2亿，约63%，+8.6%）；汽车 US$10.3亿（¥73.3亿，约17%，+21.3%，增速最快）；泛IoT/光学仪器约20%。汽车与泛IoT占比逐年上升、且毛利高于手机，带动整体毛利率升至19.7%（+1.4pp）。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二:护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续,对手能不能复制?</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级:窄护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">规模带来的成本优势中等偏强。舜宇在 CCM（摄像头模组）与车载镜头均为全球出货第一，自动化产线与大规模采购摊薄单位成本。但模组本质接近代工，行业普遍薄利，成本优势更多体现在「不亏钱地拿大单」，而非享受超额毛利。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">无形资产中等。高端镜头（潜望式、玻塑混合）的设计与良率 know-how、数千项专利构成真实技术壁垒。但在纯手机镜头领域，台湾大立光仍是技术与毛利标杆（毛利50%+ vs 舜宇综合19.7%），舜宇尚未在最高端镜头形成绝对垄断。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">转换成本「两极分化」。车载光学：认证周期长（车规级可靠性验证）、design-in 后整车生命周期绑定，转换成本高、客户黏。手机模组：可双供/多供，品牌厂随时调份额，转换成本低。综合给中等。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">0/3</span>
+    </div>
+    <p class="dim-text">基本无网络效应。这是硬件制造生意，客户越多不会让产品对其他客户更有价值（不像支付网络或平台）。规模带来的是成本与议价，而非网络飞轮。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">规模效应强。CCM 全球第一、车载镜头全球第一、手机镜头全球第二，巨量出货支撑研发摊销、设备利用率与供应链议价。规模是舜宇相对二线厂（丘钛、欧菲光等）最实在的护城河。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">① 规模效应——CCM 与车载镜头双料全球第一，出货规模摊薄成本、支撑研发；② 高端镜头工艺壁垒——潜望式/玻塑混合的大规模高良率交付能力，是定价权来源与高端化抓手。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">① 光电模组业务接近代工，毛利个位数，易被丘钛科技、高伟电子等抢单，压制整体盈利质量；② 客户高度集中于苹果/华为，叠加中美科技地缘风险，需求与股价情绪极易被单一事件（制裁、份额转移）放大。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三:估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业:光学元件 / 精密制造</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类:消费电子供应链 + 汽车光学（半导体周期属性）</span>
+      <span class="badge" style="background:#10b98122;color:#10b981;border:1px solid #10b98144">估值结论:偏低估</span>
+    </div>
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架:Forward PE + 分部估值 SOTP + 周期位置判断</div>
+      <div class="text">舜宇是强周期的硬件/零部件商，且三块业务经济特征差异巨大，单一 PE 会失真。卖方惯例用 SOTP（分部加总）：给车载镜头最高倍数（高成长、高毛利、龙头）、手机镜头中等、CCM 模组较低（薄利、代工属性）。同时必须叠加手机+汽车的周期位置判断。注意：2025 净利含大额金融资产投资收益，名义 PE 会低估真实倍数，需还原核心利润。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">滚动 PE（名义）</td>
+    <td class="num">约13–16x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">10年均值约30x / 行业约15x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#2563eb22;color:#2563eb;">偏低</span></td>
+  </tr>
+  <tr>
+    <td class="label">核心 PE（剔投资收益）</td>
+    <td class="num">约16–18x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">成长零部件合理15–20x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">毛利率</td>
+    <td class="num">19.7%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">纯镜头厂50%+；模组拉低</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">净利率</td>
+    <td class="num">约11%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">由7%提升，含投资收益</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">净利增速(YoY)</td>
+    <td class="num">+71.9% / 核心+37.8%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">高基数后2026指引≥7%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">股息率 / 支付率</td>
+    <td class="num">约1.5% / 25%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">支付率由20%上调</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">资产负债 / 现金</td>
+    <td class="num">净现金充裕</td>
+    <td class="num" style="color:#64748b;font-size:13px;">抵御周期能力强</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr></tbody>
+    </table>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>地区</th><th>Forward PE(约)</th><th>毛利率(约)</th><th>核心业务</th></tr></thead>
+      <tbody><tr><td class="label" style="background:#fef3c7;;font-weight:700;">舜宇光学 2382.HK</td><td class="num" style="background:#fef3c7;;">中国</td><td class="num" style="background:#fef3c7;;">13–16x</td><td class="num" style="background:#fef3c7;;">19.7%</td><td class="num" style="background:#fef3c7;;">手机/车载镜头+模组（CCM第一、车载镜头第一）</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">大立光 3008.TW</td><td class="num" style="background:transparent;;">台湾</td><td class="num" style="background:transparent;;">18–22x</td><td class="num" style="background:transparent;;">50%+</td><td class="num" style="background:transparent;;">纯手机镜头（高端镜头标杆、毛利之王）</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">丘钛科技 1478.HK</td><td class="num" style="background:transparent;;">中国</td><td class="num" style="background:transparent;;">10–12x</td><td class="num" style="background:transparent;;">5–8%</td><td class="num" style="background:transparent;;">手机模组+指纹（舜宇的跟随者）</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">高伟电子 1415.HK</td><td class="num" style="background:transparent;;">中国</td><td class="num" style="background:transparent;;">约15x</td><td class="num" style="background:transparent;;">约10%</td><td class="num" style="background:transparent;;">苹果摄像头模组（绑定苹果）</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">蓝思科技 6613.HK</td><td class="num" style="background:transparent;;">中国</td><td class="num" style="background:transparent;;">15–18x</td><td class="num" style="background:transparent;;">约15%</td><td class="num" style="background:transparent;;">玻璃盖板+组装（苹果/折叠+车载延伸）</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司</p>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间(每股,港币)</h3>
+    <div class="fair-value">
+      <div class="fv-card bear"><div class="label">悲观情景 Bear</div><div class="value">HK$52</div></div>
+      <div class="fv-card base"><div class="label">基准情景 Base</div><div class="value">HK$85</div></div>
+      <div class="fv-card bull"><div class="label">乐观情景 Bull</div><div class="value">HK$110</div></div>
+    </div>
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">约 HK$60–67，处于本报告 Base（HK$85）之下，相对自身10年均值PE（约30x）与历史区间均偏低，也低于近一年高点 HK$91.4。但「便宜」很大程度反映了真实风险：客户集中（苹果/华为）、中美地缘制裁、模组薄利、以及净利含投资收益的盈利质量折扣。属于「便宜但有理由」的低估，而非无脑捡漏。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>用名义PE误读估值——2025净利含大额金融资产投资收益，剔除后核心利润增速仅+37.8%，核心PE更高（约16–18x），盈利质量需还原。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>忽视客户集中与地缘——苹果/华为占比高，制裁或份额转移可瞬间冲击（如2026/6华为供应链制裁传闻致单日约-11%）。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>把「模组营收」等同「高质量收入」——光电模组毛利个位数，真正赚钱的是高端镜头与车载光学，营收规模≠利润含金量。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>周期位置误判——手机光学已是成熟周期品，靠ASP升级而非量增；汽车与AI视觉（眼镜/机器人）才是结构性成长引擎，估值应分部看。
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四:管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本?</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;font-size:16px;padding:8px 18px">综合评级:B级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">趋于股东友好。2025股息支付率由20%上调至25%（末期息HK$1.206/股，同比近+130%）；2026年初实施约HK$10.2亿回购（均价约HK$64.11）。同时设立CVC「舜宇资本」布局上游（如以US$2000万作为领益智造的基石投资者），并持续高强度研发投入。整体理性，但需观察并购与CVC是否带来价值破坏。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">披露规范，全面遵守港交所企业管治守则，无重大关联交易，使用知名审计师。沟通透明（年内多次投资者活动）。轻微瑕疵：净利受金融资产投资收益扰动，主业盈利需自行还原；闲置资金配置大额银行理财产品（约¥29.3亿）。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">执行力强。高端化战略连续两年兑现（毛利率连升、玻塑混合/潜望式放量），费用率下降（销售费用-20.9%），手机业务跑赢行业。汽车光学增速+21.3%印证多元化落地。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">2026年初回购约HK$10.2亿（约US$1.3亿），方向正确；但部分用于员工激励对冲稀释，且年内授予逾120万股限制性股票+新一期激励计划，属「半回购半对冲」，非纯粹股东回报。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">高端化与汽车多元化双双落地，连续两年「营收、毛利率、归母净利」三指标齐升；费用控制到位，并明确上调股东回报。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">① 董事会近三年新增5名董事，连续性被第三方评级视为风险点；② 回购部分用于员工股权激励（含对冲稀释成分），「真回购」含金量打折；③ 净利受投资收益扰动，主业盈利质量需持续关注。</div>
+    </div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★☆☆</div>
+      <div style="color:#475569; font-size:14px">3/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>舜宇是细分赛道的全球龙头——摄像头模组（CCM）全球第一、车载镜头全球第一、手机镜头全球第二，数千项专利与高端镜头工艺构成真实壁垒。这是一家 franchise（特许经营权）一流的公司。
+
+但「商业质量」必须扣分的地方同样真实：blended 毛利仅约20%（被薄利的模组业务拉低，对比纯镜头厂大立光50%+），生意强周期、且客户高度集中于苹果/华为，叠加中美科技地缘风险——这些让它的经济性「一般」，因此综合给3星而非更高。
+
+估值层面，约HK$60–67、名义PE约13–16x，相对自身10年均值（约30x）与历史区间明显偏低，分析师目标价中枢约HK$80–88。叠加汽车光学+21%的结构性成长、以及AI智能眼镜/机器人视觉的潜在新增长极，可定性为「以合理价格买入的高质量周期龙头」。
+
+但低估有其理由：盈利含投资收益需还原（核心PE约16–18x）、华为制裁与客户份额波动是真实尾部风险。结论——基本面偏低估、值得纳入观察/分批布局，但务必把它当作「高Beta的周期成长股」而非稳健价值股来管理仓位与止损。本报告为研究参考，不构成投资建议。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标(未来12个月)</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">手机 ASP 与毛利率能否延续高端化（玻塑混合、潜望式镜头/模组渗透率）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">汽车光学营收增速能否维持20%+，车载模组毛利率走向</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">苹果/华为客户份额变化 + 华为供应链制裁落地的实际营收冲击</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">AI智能眼镜/AR光学（waveguide）与机器人/具身智能视觉的新订单放量节奏</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">投资收益占净利比例（还原核心盈利质量）+ 回购与股息的可持续性</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for 舜宇光学科技 (2382.HK) · 2026-06-29<br>
+    本报告基于公开信息分析,仅供研究参考,不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [2,2,2,0,3],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分(0-3分)', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rocket Lab（火箭实验室） 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Rocket Lab（火箭实验室） 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：RKLB</div>
+      <div>🏛️ 交易所：NASDAQ</div>
+      <div>🏷️ 行业：航天 / 国防（发射服务 + 太空系统）</div>
+      <div>📅 分析日期：2026-06-14</div>
+    </div>
+    <div class="one-liner">💡 Rocket Lab 通过自己造的火箭把卫星送上天（发射服务）+ 给整个行业造卫星和零部件（太空系统），向政府、国防与商业客户收取「按任务计价」和「多年项目合同」的钱，正处于从小型火箭向中型可回收火箭（Neutron）跃迁的关键拐点。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" data-tab="m0">💡 小白版</button>
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  
+  <div class="section" id="m0">
+    <h2>💡 模块零：金融小白友好版商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言把这家技术公司"翻译"清楚——后续分析的基础</p>
+    <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:24px 28px;border-radius:12px;margin-bottom:20px;border-left:4px solid #d97706;">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:15px;">🎯 核心比喻</div>
+      <div style="font-size:15px;color:#0f172a;line-height:1.8;">Rocket Lab 像太空经济里的「顺丰速运 + 富士康」合体——一边用自己的火箭把卫星送上天（快递物流），一边给整个行业造卫星、造发动机、造零部件（精密代工）。它不只是「开太空货车的」，还是「造货车 + 造货物 + 造零件」的垂直整合玩家。对比之下，SpaceX 是这个赛道里体量碾压的「亚马逊」，而 RKLB 是定位高端、还能给同行供货的「专业精品运营商」。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📦 商业模式三问</h3>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #2563eb;">
+        <div class="label" style="color:#2563eb;">① 卖什么？</div>
+        <div class="value">卖两样东西。① 发射服务：用 Electron 小火箭（已飞 100+ 次，是美国第二大发射商）和军用变体 HASTE（高超音速测试），把客户的卫星/载荷送上指定轨道；正在研发的 Neutron 中型可回收火箭运力是 Electron 的约 43 倍（13 吨入低轨），直接对标 SpaceX 的猎鹰9号。② 太空系统：替客户设计制造整颗卫星、卫星平台、太阳能板、反应轮、星敏感器、分离系统、飞控软件——这块现在已占总收入约三分之二。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #059669;">
+        <div class="label" style="color:#059669;">② 怎么收费？</div>
+        <div class="value">混合按单收费。Electron 一次专属发射约 $700–800 万；HASTE 高超音速测试单价约 $950 万（最近国防部下了 20 次共 $1.9 亿的大单）；Neutron 未来单价预计 $5,000–5,500 万级别，对标猎鹰9号。太空系统这块是「按项目造」+「多年政府大合同」——例如美国太空发展署 SDA 的 Tranche II/III 星座合同动辄数亿美元，外加成百上千家卫星厂商重复采购它的标准化零部件。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;">
+        <div class="label" style="color:#dc2626;">③ 客户为什么必须买？</div>
+        <div class="value">三重驱动。① 恐惧/可靠性驱动：一颗卫星动辄上亿美元，发射失败全部报废——RKLB 的 100+ 次成功飞行记录是新进入者几年内砸钱都买不到的「信任资本」。② 国防/主权必需：美国政府不想把所有发射都押注 SpaceX 一家，需要一个本土、有安全许可的「第二供应商」，这是政策刚需。③ 速度/专属性：小卫星运营商挤不进猎鹰9号的拼车档期，需要专属、按时的发射窗口。这三点共同决定了它的护城河与定价权。</div>
+      </div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">💼 客户结构 + 护城河金融比喻</h3>
+    <div class="summary-box info">
+      <div class="title">具体客户名单 + 客户分层</div>
+      <div class="text">客户结构正从「商业小卫星」快速向「政府/国防」加权，呈金字塔型——顶端是少数巨型政府项目撑收入。具体名单：美国太空军 / 太空发展署（SDA Tranche II & III 星座）、国防部（HASTE 高超音速、Golden Dome 金穹导弹防御）、NASA（Artemis、科学任务）、防务总包商 Anduril（$1.9亿 HASTE 合作）与 Raytheon（天基拦截器选型）；商业端包括 Synspective、BlackSky、Kineis 等小卫星运营商，以及一个签了 5 次 Neutron 发射的「保密大客户」。零部件层面，全球数百家卫星制造商重复采购它（源自收购来的 Sinclair、SolAero、Planetary Systems、Mynaric 产品线）。</div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">护城河本质（金融场景比喻）</div>
+      <div class="text">RKLB 的护城河像三样金融场景的叠加：① 飞行履历像「有 20 年零事故记录的航空公司 vs 刚成立的廉航」——100+ 次成功发射是监管+声誉资本，新对手要复制需数年和数十亿美元；② 国防准入像「拿到国防部安全许可（ITAR/clearance）的承包商」，外人进不来，政策天然筑墙；③ 垂直整合像「比亚迪自控电池供应链」——自己造发动机、航电、零件，压低成本和交付风险。但有一个致命弱点：它面对的是市值 $2 万亿的 SpaceX，后者凭「猎鹰9号大规模复用」拥有类似 JPMorgan 的资金成本碾压级规模优势——RKLB 像一家优秀的区域性银行，在和摩根大通抢同一块市场。Neutron 能否成功复用，是它把「窄护城河」拓宽的唯一胜负手。</div>
+    </div>
+    <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:14px 18px;border-radius:8px;margin-top:20px;font-size:13px;color:#64748b;line-height:1.6;">
+      📌 <strong>使用提示</strong>：本模块为后续模块一至四的"翻译层"。读完后再进入「商业模式」「护城河」「估值研究」「管理层」等专业分析模块，能事半功倍。
+    </div>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：产品销售（按任务/项目）+ 研发驱动 + 部分政府长约（类订阅）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">两大板块：① 发射服务（Launch Services）——Electron 小型火箭（美国第二大发射商，累计 100+ 次发射）、HASTE 高超音速测试变体、研发中的 Neutron 中型可回收火箭（13吨入低轨，对标猎鹰9号，预计 2026 年底首飞）。② 太空系统（Space Systems）——整星设计制造、卫星平台、太阳能板、反应轮、星敏感器、分离系统、飞控软件、Mynaric 激光通信、Motiv 太空机器人、Gauss 推进平台。垂直整合是核心战略：尽量自己造，控成本控交期。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">B2G 为主（政府/国防占比快速上升）+ B2B（商业卫星运营商 + 零部件采购商）。顶层为太空军/SDA/国防部/NASA 等巨型政府项目，中层为 Anduril、Raytheon 等防务总包，底层为全球数百家卫星厂商的重复零部件采购。客户集中度在政府端较高（少数大合同贡献显著收入）。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">总部及主力制造在美国（加州 Long Beach、弗吉尼亚 Wallops），发射场分布于新西兰（Mahia）和美国弗吉尼亚。收入以美国国防与政府为最大且增长最快的来源，商业客户遍及全球。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">Q1 2026 总营收 $200.3M（+63.5% YoY，首破 2 亿）。结构：太空系统 $136.7M（占约 68%，+57.2%）> 发射服务 $63.7M（+78.9%）。FY2025 营收 $602M（+38%）。Q2 2026 指引 $225–240M。增长引擎正从「小火箭发射」转向「太空系统 + 国防大单」，Neutron 是未来收入天花板的最大变量。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级：窄护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">垂直整合（自造发动机/航电/零件）和 Electron 的部分回收尝试在改善成本，但航天是极度资本密集行业，单位成本相对 SpaceX「猎鹰9号大规模复用」仍处明显劣势。Neutron 的一级可回收是它唯一能把成本拉到对标水平的胜负手，但尚未首飞、未经验证。当前给「弱」。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">最强一项。① 100+ 次 Electron 成功发射构成的「飞行履历」是声誉资本，新对手数年内难复制；② ITAR/国防安全许可 + 美国本土制造身份，构成政策性准入壁垒，让它成为政府「非 SpaceX 第二供应商」的天然选择；③ Archimedes 发动机、Photon 卫星平台等自研技术栈。给「强」。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">中等偏强。一旦客户的卫星围绕 RKLB 的平台/零部件设计，或发射被排进多年星座部署节奏，更换供应商代价高、风险大。SDA Tranche II/III 等多年政府项目天然具备粘性，类似多年期框架合同。但纯商业单次发射客户切换成本较低。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">0/3</span>
+    </div>
+    <p class="dim-text">几乎不存在。太空发射与制造不是网络生意，用户增多不会让产品对其他用户更有价值。这一维度对航天标的本就不适用。给「无」。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">中等。垂直整合 + 制造规模在提升，HASTE/Electron 产能爬坡，毛利率从亏损边缘升至 38%。但相对 SpaceX 仍严重次规模。规模效应的真正杠杆在 Neutron 的复用经济性——能否飞起来、能否回收、能否高频次发射，决定规模护城河能否兑现。给「中」。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">无形资产（飞行履历 + 国防准入）是最硬的护城河——这是政策和声誉双重筑墙，给了它「美国战略性第二发射商」的稀缺定位；叠加垂直整合带来的交付掌控力，构成差异化竞争力。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">头号弱点是直面市值 $2 万亿、拥有规模/成本碾压级优势的 SpaceX；其次是 Neutron 仍未首飞、已有延期记录，整个长期估值高度押注「管理层能否在新一代火箭上规模化执行」这一未验证的赌注。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：航天 / 国防（高增长 + 深度亏损 + 战略转型期）</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：发射服务 + 太空系统（垂直整合太空 prime）</span>
+      <span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">估值结论：偏高估</span>
+    </div>
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：EV/Sales（前瞻）+ 现金跑道 + 单位经济 + 期权价值法</div>
+      <div class="text">RKLB 仍深度亏损（TTM 净利率约 -27%、调整后 EBITDA 为负），PE 完全失真；它主动牺牲利润、重金投入 Neutron 与产能换增长，因此必须用 EV/Sales 衡量真实业务规模，并叠加「现金跑道」判断它能否撑到盈利、用「期权价值」给 Neutron 这一未飞先签的催化剂定价。这是典型的「深度亏损/高增长」标的估值范式，绝不能用传统盈利倍数硬套。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">EV/Sales（TTM）</td>
+    <td class="num">约 88x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">高成长太空股 60–120x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/Sales（2027E 前瞻）</td>
+    <td class="num">约 50–55x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">完美执行下 2028 可压至 30–40x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">营收增速（YoY）</td>
+    <td class="num">+63.5%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>40% 属超高速</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">GAAP 毛利率</td>
+    <td class="num">38.2%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">太空硬件 30–45%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">调整后 EBITDA</td>
+    <td class="num">-$11.8M（收窄）</td>
+    <td class="num" style="color:#64748b;font-size:13px;">趋势向好但仍为负</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">净利率（TTM）</td>
+    <td class="num">约 -27%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">仍深度亏损</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">现金 / 总流动性</td>
+    <td class="num">$1.48B / >$2.0B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">跑道充足</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">Backlog（在手合同）</td>
+    <td class="num">$2.2B（+108%）</td>
+    <td class="num" style="color:#64748b;font-size:13px;">收入可见度高</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr></tbody>
+    </table>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>市值（近似）</th><th>2026E营收</th><th>营收增速</th><th>EV/Sales（近似）</th></tr></thead>
+      <tbody><tr><td class="label" style="background:transparent;;font-weight:700;">SPCX (SpaceX)</td><td class="num" style="background:transparent;;">~$2.0T</td><td class="num" style="background:transparent;;">~$220亿</td><td class="num" style="background:transparent;;">~50%</td><td class="num" style="background:transparent;;">~90x</td></tr><tr><td class="label" style="background:#fef3c7;;font-weight:700;">RKLB</td><td class="num" style="background:#fef3c7;;">~$60B</td><td class="num" style="background:#fef3c7;;">~$9.5亿</td><td class="num" style="background:#fef3c7;;">+63.5%</td><td class="num" style="background:#fef3c7;;">~88x(TTM)</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">ASTS</td><td class="num" style="background:transparent;;">高</td><td class="num" style="background:transparent;;">$1.5–2亿</td><td class="num" style="background:transparent;;">早期爆发</td><td class="num" style="background:transparent;;">>100x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">LUNR</td><td class="num" style="background:transparent;;">中小</td><td class="num" style="background:transparent;;">~$3亿</td><td class="num" style="background:transparent;;">高</td><td class="num" style="background:transparent;;">~10–15x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">RDW</td><td class="num" style="background:transparent;;">小</td><td class="num" style="background:transparent;;">~$4亿</td><td class="num" style="background:transparent;;">高</td><td class="num" style="background:transparent;;">~5–8x</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司；同业数据为近似值，仅用于定位估值水位</p>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（基于行业框架）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear">
+        <div class="label">悲观情景 Bear</div>
+        <div class="value">$60</div>
+      </div>
+      <div class="fv-card base">
+        <div class="label">基准情景 Base</div>
+        <div class="value">$115</div>
+      </div>
+      <div class="fv-card bull">
+        <div class="label">乐观情景 Bull</div>
+        <div class="value">$190</div>
+      </div>
+    </div>
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">当前股价约 $106（市值约 $60B），处于历史高点 $150（5月27日）回落约 30% 后的位置。以 TTM 收入算 EV/Sales 高达约 88x，即便用 2027E 收入也在 50x 量级——这是一个把「Neutron 成功 + 国防大单持续 + SpaceX 上市估值锚提升整个板块」全部计入的价格。6月12日 SpaceX 以 $1.75T 上市、首日冲至约 $2T，短期内既抬高了板块估值天花板（halo），也分流了资金（RKLB 当日下跌）。卖方目标价分歧极大：Needham $120、部分看多者 $140–196，也有分析师下调至「卖出」认为估值已透支。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>用绝对倍数吓退自己 —— 88x 销售额看似离谱，但对未盈利高增长太空股，必须看前瞻倍数压缩路径与 Neutron 期权价值，而非静态 TTM。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>把 Backlog 当确定收入 —— $2.2B 在手合同里，管理层指引未来 12 个月仅转化约 36%，且政府合同存在时点与拨款波动。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>忽视毛利率 mix 风险 —— SDA 大单和 Mynaric 整合会阶段性压低毛利（Q2 指引 GAAP 毛利降至 33–35%），别把单季高毛利线性外推。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>把『不是 SpaceX』当安全垫 —— SpaceX 的规模/成本优势是结构性的；RKLB 的多头逻辑高度依赖 Neutron 这一『未飞先赌』的执行兑现。
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;font-size:16px;padding:8px 18px">综合评级：B级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">创始人 Peter Beck 自 2006 年创立公司，资本配置以「垂直整合并购 + 重投 Neutron/产能」为主线：陆续收购 Sinclair、SolAero、Planetary Systems、Mynaric（激光通信）、Motiv（太空机器人），搭建一站式太空 prime。战略清晰但偏激进，且持续依赖股权融资（约 $10 亿前瞻股权额度）支撑研发——属「为增长稀释」型，尚未到回报股东阶段。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">指引可信度总体较好（Q1 营收、毛利、EBITDA 均超指引），披露透明。需留意的黄旗：过去 12 个月内部人净卖出约 $4,100 万，5月有高管在 ~$145 附近卖出约 7 万股——虽在历史高位常见，但需持续跟踪。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">执行力是 Beck 团队最被认可之处：把 Electron 做到 100+ 次发射、美国第二大发射商，并成功向太空系统与国防转型。但最大考验在前方——Neutron 已有延期记录，能否在 2026 年内首飞并实现一级回收，是对其规模化执行力的终极检验。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">不适用 —— 公司处于重投入期，在增发股权而非回购，SBC（股权激励）规模可观（Q1 运营费用超指引主因即 SBC）。当前阶段应关注「稀释速度 vs 增长兑现」，而非股东回报。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">工程师创始人长期掌舵、战略定力强、把一家小卫星发射商做成接近垂直整合的太空 prime，并精准卡位国防/主权需求（Golden Dome、SDA、HASTE）。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">尚未盈利且持续股权稀释；估值高度押注 Neutron 这一未验证催化剂；内部人净卖出需观察是否为趋势信号。</div>
+    </div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★☆☆</div>
+      <div style="color:#475569; font-size:14px">3/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>Rocket Lab 是当前公开市场上极少数「可投资的纯太空 + 国防成长平台」，业务质量本身相当扎实：63.5% 的营收增速、$2.2B 在手合同、美国第二大发射商地位、太空系统已占六成收入并向国防加速倾斜、现金 $1.48B 跑道充足。单看业务动能与战略卡位，franchise 接近 4 星。
+
+但把它拉回 3 星的，是两件事：① 仍深度亏损（TTM 净利率约 -27%），盈利模型尚未跑通；② 估值极端——TTM EV/Sales 约 88x，即便用 2027E 收入也在 50x 量级，价格已把 Neutron 成功、国防大单持续、SpaceX 上市抬升板块估值这三件事全部计入。
+
+这是一个典型的「高 Beta 期权型成长股」（Beta 约 2.55），不是价值标的。投资逻辑成立与否，几乎完全取决于 Neutron 能否在 2026 年内首飞并实现一级回收——成则护城河从「窄」拓宽、估值有望被新一轮收入兑现消化；败则面临估值与情绪的双杀。SpaceX 以 $1.75T 上市是双刃剑：既验证了赛道、抬高了板块估值锚，也分流资金、强化了「头号竞争者结构性碾压」的叙事。
+
+结论：业务值得长期关注与跟踪，但当前价位对纪律性投资者更适合「等回调 / 分批 / 仓位控制」，而非追高。任何 Neutron 时间表滑点都可能引发剧烈波动。本报告仅供研究参考，不构成投资建议。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">Neutron 能否在 2026 年内完成首飞，以及一级回收（软溅落→驳船回收）是否兑现 —— 最大单一催化剂</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">季度毛利率走向：SDA 大单 + Mynaric 整合会否持续把 GAAP 毛利压到 35% 以下（Q2 指引 33–35%）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">调整后 EBITDA 亏损能否随规模继续收窄、何时转正</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">现金消耗速度 vs Neutron 资本开支，是否需要再次股权融资稀释</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">Backlog 转化率（指引未来 12 个月约转化 36%）与新国防订单（Golden Dome / SDA Tranche III / HASTE 续单）</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for Rocket Lab（火箭实验室） (RKLB) · 2026-06-14<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [1,3,2,0,2],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>

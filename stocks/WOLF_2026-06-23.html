@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wolfspeed 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.warning-top { background:#7f1d1d; color:#fecaca; padding:14px 20px; border-radius:10px; margin-top:16px; font-size:13px; line-height:1.7; border-left:4px solid #dc2626; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Wolfspeed 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：WOLF</div>
+      <div>🏛️ 交易所：NYSE</div>
+      <div>🏷️ 行业：半导体（碳化硅功率器件 / 破产重组扭亏标的）</div>
+      <div>📅 分析日期：2026-06-23</div>
+    </div>
+    <div class="one-liner">💡 Wolfspeed 通过向电动车、工业能源、AI数据中心客户销售碳化硅（SiC）衬底/器件/模块收取产品销售款，具备碳化硅材料与200mm制造的技术护城河，但财务护城河已被高杠杆与EV需求落空击穿，目前处于破产重组后的扭亏验证期。</div>
+    <div class="warning-top">⚠️ <strong>特别提示：本标的为破产重组后(2025/9/29 出表)的「Successor」新实体</strong>，已采用 fresh-start 全新会计基准，财报前后<strong>不可比</strong>；原股东已近乎清零，股价52周区间 $0.39–$80.82 极端波动，存在巨额可转债/认股权证稀释悬顶与33%+空头逼空动能。所有数字均为美元(USD)。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" data-tab="m0">💡 小白版</button>
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  
+  <div class="section" id="m0">
+    <h2>💡 模块零：金融小白友好版商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言把这家技术公司"翻译"清楚——后续分析的基础</p>
+    <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:24px 28px;border-radius:12px;margin-bottom:20px;border-left:4px solid #d97706;">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:15px;">🎯 核心比喻</div>
+      <div style="font-size:15px;color:#0f172a;line-height:1.8;">Wolfspeed 像一家刚从破产保护里走出来的「高端特种钢厂」——它不炼普通钢，而是炼一种又硬又耐高压的『半导体级碳化硅』，做成电动车、电网、AI数据中心电源里最关键的『高效电力开关』。技术全球顶尖，自己长晶、自己外延、自己做器件一条龙；但前几年借了太多钱押注电动车爆发，需求没来、资不抵债，2025年进了破产法庭、甩掉七成债务后重新开张。现在能不能把工厂开满、把成本打下来，就是它的生死线。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📦 商业模式三问</h3>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #2563eb;">
+        <div class="label" style="color:#2563eb;">① 卖什么？</div>
+        <div class="value">卖两类东西：①碳化硅『衬底+外延片』（Materials），相当于卖给同行和自己用的『特种半导体毛坯』；②碳化硅『功率器件与模块』（Power），装在电动车电控、充电桩、太阳能逆变器、AI数据中心电源里的『高效电力开关』。碳化硅比传统硅更耐高压、更省电（800V电动车平台能省2-4%电耗），是电动化与电网升级的关键材料。Q3约2/3收入来自Power（~$100M）、1/3来自Materials（~$50M）。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #059669;">
+        <div class="label" style="color:#059669;">② 怎么收费？</div>
+        <div class="value">一次性产品销售为主（不是订阅）：按晶圆片数、器件颗数、模块数量卖给车企（如丰田）、Tier1、工业与数据中心客户，汽车订单常配『产能预留押金』。要命的是：工厂开工率太低，每片成本摊不下来——Q3光『产能闲置』就吃掉约$4600万毛利，所以毛利率是负的（-21%~-27%），等于『卖一片亏一片』。必须把Mohawk Valley的200mm新厂跑满，毛利才能转正。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;">
+        <div class="label" style="color:#dc2626;">③ 客户为什么必须买？</div>
+        <div class="value">性能驱动+合规驱动。碳化硅能让电动车跑更远、充更快、电源更省电省地方；欧盟2025-2030碳排法规、800V快充、AI数据中心电力密度暴增都在逼客户用SiC。但『必须买Wolfspeed』这一点被破产削弱了——客户怕供应中断，纷纷找英飞凌/ST/onsemi双源采购。它的不可替代性还剩『美国本土产能+材料/衬底技术』，但器件端议价权已被对手蚕食。</div>
+      </div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">💼 客户结构 + 护城河金融比喻</h3>
+    <div class="summary-box info">
+      <div class="title">具体客户名单 + 客户分层</div>
+      <div class="text">客户名单：丰田（BEV车载充电）、各类此前的车企/Tier1、工业与能源客户；瑞萨（Renesas）是重组后的关键角色——既是大客户（原约$20亿预付/贷款），又转成持股~16.85%的大股东（获约1685万股）。客户结构偏汽车集中（橄榄偏头部），正主动向AI数据中心（环比+30%~50%但基数小）、工业能源、航空国防四条线分散。隐忧：汽车端需求软+客户为分散风险双源采购，使『单一大客户+单一终端（EV）』依赖成为风险点。</div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">护城河本质（金融场景比喻）</div>
+      <div class="text">Wolfspeed 的护城河像『一座技术一流、但刚资不抵债过的钞票印刷机供应商』——它的『印钞机模具』（碳化硅长晶/200mm衬底IP+美国本土晶圆厂）确实稀缺，全球只有五家（英飞凌/ST/onsemi/罗姆/它）瓜分90%+市场，资本与IP壁垒极高，类似『四大会计所级别的牌照壁垒』。但护城河的『水』被自己抽干了：负毛利意味着此刻没有定价权，对手却是手握正现金流、可以打价格战的英飞凌（功率半导体~19.5%份额）。技术护城河仍在，财务护城河已被高杠杆击穿——能否重新蓄水，取决于把工厂开满、成本打到对手之下。</div>
+    </div>
+    <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:14px 18px;border-radius:8px;margin-top:20px;font-size:13px;color:#64748b;line-height:1.6;">
+      📌 <strong>使用提示</strong>：本模块为后续模块一至四的"翻译层"。读完后再进入「商业模式」「护城河」「估值研究」「管理层」等专业分析模块，能事半功倍。
+    </div>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：产品销售 + 研发驱动（强周期、重资产半导体制造 / IDM垂直一体化）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">两大产品线。①Power（功率器件与模块，约占Q3收入2/3，~$100M）：碳化硅MOSFET、功率模块、分立器件与功率裸片，用于电动车电控、充电、工业、AI数据中心电源；其中90%来自Mohawk Valley的200mm晶圆厂，10%为150mm旧库存的『最后一次采购』。②Materials（材料，约1/3，~$50M）：碳化硅晶圆衬底与外延片，外销+自用。2026年推出全球首款商用10kV碳化硅功率MOSFET及下一代TOLT封装，瞄准AI数据中心与电网现代化，并推进300mm衬底平台。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">B2B为主。终端覆盖汽车（丰田等BEV平台）、工业与能源（含AI数据中心电源、电网）、航空国防，以及材料外销客户。瑞萨（Renesas）兼具大客户与持股~16.85%大股东双重身份。当前结构对汽车/EV依赖偏高，公司明确把AI数据中心、工业能源、航空国防、材料列为四大增长线主动分散。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">全球销售，制造重心在美国：纽约州Mohawk Valley（200mm器件厂，全美规模化的稀缺SiC器件产能）、北卡Durham（材料基地，已聚焦衬底/材料）。2026年新设大中华区、EMEA、亚太销售团队拓展海外。美国本土产能在CHIPS法案与国防供应链本地化语境下具战略价值。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">Q3 FY26合并收入约$1.50亿（命中指引中值）：Power ~$100M、Materials ~$50M（环比持平）。TTM收入约$7.58亿。Q4 FY26指引$1.40-1.60亿，毛利率仍为负。AI数据中心收入连续两季环比+30%（前一季+50%），但占比仍小，短期难抵消EV疲软。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级：窄护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">成本端是当前最大软肋。受工厂开工率严重不足拖累，Q3 GAAP毛利率-27%、Non-GAAP -21%，仅『产能闲置』一项就侵蚀约$4600万毛利——等于卖一片亏一片，毫无成本优势可言。长期看，向200mm晶圆转产是关键成本杠杆（每片出片量约2.2倍、单位成本最多降40%），且公司在推进300mm衬底；但这些红利要等产能跑满后才兑现。与手握正毛利、可打价格战的英飞凌/ST/onsemi相比，目前处于明显成本劣势。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">无形资产是最硬的护城河。Wolfspeed是碳化硅的开创者（源自Cree），在晶体生长、衬底、200mm/300mm制造工艺上积累深厚专利与know-how；全球仅五家厂商瓜分90%+收入，资本与IP壁垒极高。叠加美国本土产能在CHIPS法案/国防供应链中的战略稀缺性。但破产事件削弱了『供应可靠性』这一软性品牌资产，需要时间修复客户信任。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">转换成本中等。汽车与工业级碳化硅器件需经过漫长的设计导入（design-in）与车规认证，一旦上车通常多年锁定，黏性真实存在（如丰田BEV车载充电合作）。但破产引发的供应担忧促使客户加速双源采购（英飞凌/ST/onsemi），部分抵消黏性；材料端衬底客户还面临中国厂商（三安等）价格竞争。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">0/3</span>
+    </div>
+    <p class="dim-text">作为上游元器件/材料制造商，不存在『用户越多产品越值钱』的网络效应。该维度为零，属行业特征而非缺陷。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">规模效应当前为负。虽然垂直一体化（长晶→外延→器件→模块）理论上利于成本与品控，但公司体量与产能利用率均不足，固定成本（含每季约$52M利息、巨额折旧）摊薄不充分，呈现负经营杠杆。对手英飞凌/ST/onsemi拥有更大、更多元且盈利的半导体平台，规模优势明显占优。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">①碳化硅材料与衬底的开创者地位+深厚IP，全球仅五强瓜分90%+市场，壁垒极高；②美国本土200mm产能（Mohawk Valley）在CHIPS与国防供应链中具战略稀缺性；③破产后债务砍70%、利息降约60%、2030年前无到期，获得了执行扭亏的『喘息窗口』。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">①负毛利=当前毫无定价权，对手却能用正现金流打价格战；②核心EV终端需求疲软，新增长（AI数据中心/工业）基数仍小、需时间放量；③巨额可转债与认股权证构成沉重稀释悬顶（完全稀释后股本或翻倍至~1.1亿股+）；④破产削弱了『供应可靠』这一关键软资产，客户转向双源采购。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：半导体</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：碳化硅功率半导体（IDM垂直一体化/重资产）+ 破产重组扭亏标的</span>
+      <span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">估值结论：偏高估</span>
+    </div>
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：EV/Sales + P/B + 周期/扭亏期权框架（PE、EV/EBITDA因深度亏损失效）</div>
+      <div class="text">WOLF当前毛利率与EBITDA均为负，PE、EV/EBITDA、PEG等盈利倍数全部失效。对深度亏损、战略转型期的重资产半导体制造商，行业分析师通常改用：①EV/Sales衡量收入相对企业价值是否被过度计价；②P/B衡量重组后净资产相对市值；③叠加『扭亏期权』思维——把股价视为一份『能否在产能爬坡中把毛利打正』的看涨期权来定价，而非用稳态盈利估值。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">EV/Sales (TTM)</td>
+    <td class="num">~4x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">盈利SiC同行3-4x（但为正毛利）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/Sales (Forward)</td>
+    <td class="num">~5x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">负毛利公司理应折价</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">GAAP毛利率</td>
+    <td class="num">-27%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">行业40-55%（先进制程）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">Non-GAAP毛利率</td>
+    <td class="num">-21%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">转正才及格</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">调整后EBITDA</td>
+    <td class="num">-$62M/季</td>
+    <td class="num" style="color:#64748b;font-size:13px;">转正是首要里程碑</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">P/B</td>
+    <td class="num">~2x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">重组后净资产~$1.0-1.4B</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">季度利息支出</td>
+    <td class="num">~$52M</td>
+    <td class="num" style="color:#64748b;font-size:13px;">约占收入35%，沉重</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">现金及短投</td>
+    <td class="num">$1.2B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">提供数季扭亏跑道</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr></tbody>
+    </table>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>角色 / 子类</th><th>毛利率</th><th>EV/Sales</th><th>盈利状态</th></tr></thead>
+      <tbody><tr><td class="label" style="background:transparent;;font-weight:700;">Infineon (IFX)</td><td class="num" style="background:transparent;;">功率半导体龙头(~19.5%份额)</td><td class="num" style="background:transparent;;">~38-40%</td><td class="num" style="background:transparent;;">~3-4x</td><td class="num" style="background:transparent;;">盈利</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">STMicro (STM)</td><td class="num" style="background:transparent;;">SiC+综合半导体</td><td class="num" style="background:transparent;;">~33-35%</td><td class="num" style="background:transparent;;">~2-3x</td><td class="num" style="background:transparent;;">盈利</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">onsemi (ON)</td><td class="num" style="background:transparent;;">SiC+功率/传感</td><td class="num" style="background:transparent;;">~40%</td><td class="num" style="background:transparent;;">~3-4x</td><td class="num" style="background:transparent;;">盈利</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">ROHM</td><td class="num" style="background:transparent;;">SiC+分立器件</td><td class="num" style="background:transparent;;">~30%</td><td class="num" style="background:transparent;;">~1-2x</td><td class="num" style="background:transparent;;">微利/周期</td></tr><tr><td class="label" style="background:#fef3c7;;font-weight:700;">WOLF</td><td class="num" style="background:#fef3c7;;">SiC纯玩+重组扭亏</td><td class="num" style="background:#fef3c7;;">-21~-27%</td><td class="num" style="background:#fef3c7;;">~4-5x</td><td class="num" style="background:#fef3c7;;">深度亏损</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司。同行倍数为概略区间，仅作量级参照。</p>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（基于行业框架）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear"><div class="label">悲观情景 Bear</div><div class="value">$10-15</div></div>
+      <div class="fv-card base"><div class="label">基准情景 Base</div><div class="value">$25-35</div></div>
+      <div class="fv-card bull"><div class="label">乐观情景 Bull</div><div class="value">$70-90+</div></div>
+    </div>
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">现价约$55（2026年6月中旬，52周区间$0.39-$80.82，波动极端），对应市值约$30亿、EV/Sales约4-5x。吊诡之处在于：WOLF以负毛利之身，却享受着与正毛利同行相当甚至更高的收入倍数。这一估值并非由基本面支撑，而是由①破产重组后的『重生期权』叙事（AI数据中心+200mm成本拐点）；②高达流通股33%+的空头回补/逼空动能共同推高。换言之，现价更像一份高溢价看涨期权，而非合理的稳态估值。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>用收入倍数硬套——WOLF负毛利时EV/Sales与盈利同行不可比，每1元收入此刻是『亏损放大器』而非价值。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>忽视稀释悬顶——可转债+认股权证完全稀释后股本或翻倍（~1.1亿股+），按完全稀释市值算，真实估值远比表面贵。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>把逼空当价值——33%+空头占比带来的剧烈波动是交易现象，与企业内在价值无关，追高风险极大。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>把破产甩债当价值兑现——债务砍70%只是『续命』，真正的价值创造在于毛利能否转正，目前尚未验证。
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644;font-size:16px;padding:8px 18px">综合评级：C级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">需区分新旧两套班子。旧管理层是这场灾难的根源：在EV狂热期举债约$67亿大举扩产、押注需求爆发，结果EV放缓、资不抵债，直接把公司送进破产法庭、几乎清零原股东——教科书级的资本配置失败。重组后的新CEO Robert Feurle、新CFO Gregor van Issum与新董事会（含Renesas提名）接手，迄今扭亏动作干净利落：91天预重整甩债$46亿、利息降~60%、再融资$4.76亿削减最高息一留债43%、严控CapEx（Q3净资本开支仅~$5M，靠纽约州$33M补贴对冲）。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">新班子披露相对透明：Q3收入命中指引中值，主动提示负毛利、产能闲置、稀释等风险，未粉饰。但fresh-start会计使财报前后不可比，$11亿『重组收益』是会计性而非经营性，投资者须看穿。审计与治理处于重组后重建期。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">战略执行有亮点也有硬伤。亮点：提前完成全部器件向200mm Mohawk Valley转产、推出10kV MOSFET与TOLT封装、AI数据中心收入连续两季环比+30%~50%。硬伤：核心EV需求仍软、毛利转正无明确时间表、剩余一留债仍待处理、长期财务目标（承诺2026年内更新）尚未量化。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">不适用——公司深度亏损、现金需全力保扭亏，无任何回购/分红；当前主线是『削债+保现金』而非股东回报。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">新管理层在极短时间内完成预重整并稳住客户/供应链运营，资产负债表实质性改善（2030年前无到期、现金$12亿），为扭亏争取了真实窗口；在AI数据中心与高压新品上动作积极。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">①扭亏验证未过关——毛利转正、产能跑满仍是『承诺』而非『事实』；②稀释悬顶巨大，后续若再融资将进一步摊薄；③新团队尚无完整周期业绩记录，公司历史信用差；④对Renesas这一『大客户兼大股东』的治理依赖需观察是否存在利益绑定。</div>
+    </div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★☆☆☆</div>
+      <div style="color:#475569; font-size:14px">2/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>Wolfspeed 是一个典型的『好资产、坏资产负债表』被重置后的高风险扭亏故事。它的技术与战略地位是真实的：碳化硅开创者、全球五强之一、美国本土稀缺的200mm产能、在AI数据中心与高压电网等新方向上卡位领先——这是它值得关注的根本理由。
+
+但把镜头拉回当下，基本面仍在危险区：Q3毛利率-21%~-27%，调整后EBITDA每季亏$6200万，核心EV终端需求疲软，产能闲置每季吞噬约$4600万毛利。破产甩掉70%债务只是『续命』，真正的价值创造——把毛利打正、把工厂跑满——尚未被验证，且无明确时间表。
+
+估值层面更需警惕：现价约$55对应EV/Sales约4-5x，却是负毛利之身，享受着与正毛利同行相当甚至更高的倍数。支撑现价的不是稳态盈利，而是『重生期权』叙事加上占流通股33%+的空头逼空动能。叠加可转债与认股权证的巨额稀释悬顶（完全稀释股本或翻倍至~1.1亿股+），按完全稀释口径，真实估值比表面更贵。这意味着股价波动极其剧烈（52周$0.39-$80.82已是明证），更像一份高溢价看涨期权。
+
+综合判断：作为『企业』，商业质量评级仅2星——技术护城河仍在，但财务护城河被击穿，扭亏未过关，稀释与历史信用是硬伤。作为『股票』，它是一个高方差的事件驱动/扭亏期权：若200mm成本拐点+AI数据中心放量兑现、毛利转正，可能驱动戏剧性重估；若EV持续疲软、稀释加码，下行空间同样巨大。从风险属性看，它属于能承受归零的小仓位投机性标的，而非可安心持有的核心价值仓——任何研究结论都应紧盯毛利率与产能利用率这两个生死指标。本报告仅供研究参考，不构成投资建议。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">Non-GAAP毛利率能否在未来2-3季度收窄至接近0并转正（产能利用率是核心变量）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">Mohawk Valley 200mm产能利用率/出货爬坡进度（直接决定单位成本）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">AI数据中心+工业能源收入占比能否持续放量，对冲EV需求疲软</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">可转债/认股权证的转股节奏与是否新增融资（稀释速度）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">剩余一留债处理进度与现金消耗速度（$1.2B现金的跑道还剩几季）</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for Wolfspeed (WOLF) · 2026-06-23<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [1,2,2,0,1],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>
