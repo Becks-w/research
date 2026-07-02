@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI光互连·上下游卡位对比</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#0d1117;color:#e6edf3;line-height:1.65;}
+.wrap{max-width:1180px;margin:0 auto;padding:32px 22px;}
+.hero{background:linear-gradient(135deg,#161b22 0%,#0d1117 100%);border:1px solid #21262d;border-radius:16px;padding:32px 30px;margin-bottom:22px;}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:6px;background:linear-gradient(90deg,#f59e0b,#22d3ee,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero .sub{color:#8b949e;font-size:13px;margin-bottom:14px;}
+.hero .note{background:#161b22;border-left:3px solid #f59e0b;border-radius:8px;padding:10px 14px;font-size:12px;color:#b9c2cc;}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:22px;}
+.card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:16px 16px;border-top:3px solid var(--c);}
+.card .nm{font-size:15px;font-weight:700;}
+.card .tk{font-size:11px;color:#8b949e;font-family:monospace;margin-bottom:2px;}
+.card .sb{font-size:11px;color:var(--c);margin-bottom:10px;}
+.card .row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px solid #1c2128;}
+.card .row:last-child{border-bottom:none;}
+.card .k{color:#8b949e;}
+.card .v{font-family:monospace;font-weight:600;}
+.tier{display:inline-block;margin-top:8px;font-size:10.5px;background:#0d1117;border:1px solid var(--c);color:var(--c);border-radius:99px;padding:3px 8px;}
+.tabs{display:flex;gap:4px;background:#161b22;border:1px solid #21262d;padding:6px;border-radius:12px;margin-bottom:20px;overflow-x:auto;}
+.tab{flex:1;min-width:120px;padding:11px 14px;border:none;background:transparent;font-size:13.5px;font-weight:600;color:#8b949e;cursor:pointer;border-radius:8px;white-space:nowrap;transition:all .2s;}
+.tab:hover{color:#e6edf3;}
+.tab.active{background:#f59e0b;color:#0d1117;}
+.section{background:#161b22;border:1px solid #21262d;border-radius:14px;padding:26px;margin-bottom:18px;display:none;}
+.section.active{display:block;animation:fade .3s;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.section h2{font-size:19px;margin-bottom:4px;}
+.section .desc{color:#8b949e;font-size:13px;margin-bottom:20px;}
+.chart-box{background:#0d1117;border:1px solid #21262d;border-radius:12px;padding:18px;margin:14px 0;}
+.chart-box h3{font-size:14px;color:#b9c2cc;margin-bottom:12px;font-weight:600;}
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin:6px 0 18px;}
+.flow-col{flex:1;min-width:180px;background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:14px;}
+.flow-col .t{font-size:12px;font-weight:700;color:#f59e0b;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;}
+.flow-col .item{font-size:12.5px;padding:5px 0;border-bottom:1px dashed #1c2128;}
+.flow-col .item:last-child{border-bottom:none;}
+.flow-arrow{display:flex;align-items:center;color:#484f58;font-size:20px;}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0;}
+th{background:#0d1117;color:#8b949e;padding:9px 10px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid #21262d;}
+td{padding:8px 10px;border-bottom:1px solid #1c2128;}
+td.nm{font-weight:700;}
+td.num{font-family:monospace;}
+.hl{background:rgba(245,158,11,.08);}
+.concl{margin-bottom:18px;}
+.concl h3{font-size:15px;margin-bottom:8px;color:#f59e0b;}
+.concl p{font-size:13.5px;color:#c9d1d9;margin-bottom:10px;}
+.stock-thesis{background:#0d1117;border:1px solid #21262d;border-left:3px solid var(--c);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+.stock-thesis .h{font-size:14px;font-weight:700;margin-bottom:5px;}
+.stock-thesis .h span{font-size:11px;color:#8b949e;font-family:monospace;font-weight:400;}
+.stock-thesis p{font-size:12.5px;color:#b9c2cc;margin:0;}
+.rank{counter-reset:r;list-style:none;}
+.rank li{counter-increment:r;background:#0d1117;border:1px solid #21262d;border-radius:8px;padding:11px 14px 11px 44px;margin-bottom:8px;position:relative;font-size:13px;}
+.rank li::before{content:counter(r);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:24px;height:24px;background:#f59e0b;color:#0d1117;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
+.warn{background:#1c1208;border:1px solid #3d2b0a;border-radius:10px;padding:14px 16px;font-size:12px;color:#d4a857;margin-top:14px;}
+.foot{text-align:center;color:#484f58;font-size:11px;padding:18px;}
+@media(max-width:640px){.flow-arrow{display:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>AI光互连 · 上下游卡位对比</h1>
+    <div class="sub">舜宇光学（硅光线）vs 天孚通信 · 中际旭创 · Coherent · Lumentum　|　分析日期 2026-06-29</div>
+    <div class="note">📌 市值统一换算为美元（人民币÷7.15、港币÷7.85，截至约2026/6下旬，A股/美股近期波动较大，部分数据为估算）</div>
+  </div>
+
+  <div class="cards" id="cards"></div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="t0">产业链卡位</button>
+    <button class="tab" data-tab="t1">估值对比</button>
+    <button class="tab" data-tab="t2">增长与盈利</button>
+    <button class="tab" data-tab="t3">雷达综合评分</button>
+    <button class="tab" data-tab="t4">投资结论</button>
+  </div>
+
+  <!-- Tab 0: 卡位 -->
+  <div class="section active" id="t0">
+    <h2>🔗 产业链卡位：谁在上游，谁在下游</h2>
+    <p class="desc">光模块价值链：硅片/材料 → 激光器/调制器（有源）+ 透镜/FAU/耦合（无源）→ 光引擎 → 光模块成品 → 交换机/GPU集群。下面按各家主战场定位。</p>
+    <div class="flow">
+      <div class="flow-col">
+        <div class="t">① 上游·无源光学&耦合</div>
+        <div class="item" style="color:#f59e0b;font-weight:700;">舜宇（切入中）<br><span style="color:#8b949e;font-weight:400;font-size:11px;">FAU/微透镜阵列MLA/微棱镜/光纤阵列，0收入·2027量产</span></div>
+        <div class="item" style="color:#22d3ee;font-weight:700;">天孚（龙头）<br><span style="color:#8b949e;font-weight:400;font-size:11px;">FAU无源国内第一，毛利60%+</span></div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-col">
+        <div class="t">② 中游·有源器件/光引擎</div>
+        <div class="item" style="color:#22d3ee;">天孚（光引擎·有源）</div>
+        <div class="item" style="color:#fb7185;">Lumentum（激光器/EML/OCS）</div>
+        <div class="item" style="color:#34d399;">Coherent（激光器/材料/收发件）</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-col">
+        <div class="t">③ 下游·光模块成品+系统</div>
+        <div class="item" style="color:#a78bfa;font-weight:700;">中际旭创（800G/1.6T龙头）</div>
+        <div class="item" style="color:#34d399;">Coherent（也做收发模块）</div>
+        <div class="item" style="color:#fb7185;">Lumentum（OCS系统/CPO）</div>
+      </div>
+    </div>
+    <div class="chart-box">
+      <h3>一句话卡位</h3>
+      <table>
+        <thead><tr><th>标的</th><th>产业链位置</th><th>与舜宇硅光线的关系</th></tr></thead>
+        <tbody>
+          <tr class="hl"><td class="nm" style="color:#f59e0b;">舜宇 2382.HK</td><td>最上游无源耦合（新进入者）</td><td>主角：用消费电子级精密制造/良率降维切入FAU等无源件</td></tr>
+          <tr><td class="nm" style="color:#22d3ee;">天孚 300394.SZ</td><td>上游器件（有源+无源）</td><td><b>正面竞争</b>：FAU/无源耦合是同一块蛋糕，舜宇最直接对标与"前车之鉴"</td></tr>
+          <tr><td class="nm" style="color:#a78bfa;">中际旭创 300308.SZ</td><td>下游光模块成品</td><td>潜在客户：舜宇器件可卖给它（互补，非竞争）</td></tr>
+          <tr><td class="nm" style="color:#34d399;">Coherent COHR</td><td>材料→器件→模块（纵向）</td><td>海外对标：垂直整合龙头，自产无源件，舜宇难直接进其体系</td></tr>
+          <tr><td class="nm" style="color:#fb7185;">Lumentum LITE</td><td>器件+OCS+CPO</td><td>海外对标：CPO/光引擎玩家，无源耦合环节有交集</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="warn">⚠️ 关键认知：舜宇的硅光线在这5家里<b>只跟天孚正面抢生意</b>（上游无源耦合件），对中际旭创/COHR/LITE更多是"供应商或互补"。但舜宇这条线目前<b>零收入</b>，2027才量产——它是被打包在"消费电子为主"的报表里的<b>期权价值</b>，而非已兑现的业绩。</div>
+  </div>
+
+  <!-- Tab 1: 估值 -->
+  <div class="section" id="t1">
+    <h2>💰 估值对比</h2>
+    <p class="desc">A股/美股光通信标的经过2026大涨，TTM PE普遍100x+，但2026/27盈利高增使Forward PE快速压缩。高增长股PEG意义下降，建议结合Forward PE与增速同看。</p>
+    <div class="chart-box"><h3>TTM PE vs Forward PE（2026E）</h3><canvas id="peChart" height="150"></canvas></div>
+    <div class="chart-box"><h3>气泡图：Forward PE（x） × 营收增速%（y） × 市值（气泡大小）</h3><canvas id="bubbleChart" height="170"></canvas></div>
+    <div class="chart-box">
+      <h3>估值定性标签</h3>
+      <table><thead><tr><th>标的</th><th>市值(USD)</th><th>TTM PE</th><th>Fwd PE(26E)</th><th>定性</th></tr></thead><tbody id="valTable"></tbody></table>
+    </div>
+  </div>
+
+  <!-- Tab 2: 增长盈利 -->
+  <div class="section" id="t2">
+    <h2>📈 增长与盈利质量</h2>
+    <p class="desc">舜宇整体增速最慢、毛利最低（被薄利的消费电子模组拉低）；天孚毛利/净利率最高（上游无源件）；中际旭创体量与增速兼具；COHR/LITE受益于AI数据中心高增长。</p>
+    <div class="chart-box"><h3>最近完整财年营收增速 YoY（%）</h3><canvas id="revChart" height="150"></canvas></div>
+    <div class="chart-box"><h3>盈利能力：毛利率 / 净利率 / ROE（%）</h3><canvas id="profChart" height="160"></canvas></div>
+    <div class="warn">⚠️ 口径提示：COHR/LITE 为美股、财年未结束，用最近季度增速；A股/港股为最近完整财年。COHR/LITE 的 GAAP 净利率受摊销与一次性项目压低，毛利率更能反映真实盈利能力。舜宇净利含一次性投资收益（约¥9.2亿），核心盈利质量需还原。</div>
+  </div>
+
+  <!-- Tab 3: 雷达 -->
+  <div class="section" id="t3">
+    <h2>🎯 六维综合评分（1-5分，越高越好）</h2>
+    <p class="desc">维度：估值安全边际 / 增长动能 / 盈利质量 / 卡位确定性 / 护城河 / 风险可控度。注：舜宇评分针对"整体公司+硅光期权"，其"卡位确定性"最低（硅光尚无收入）。</p>
+    <div class="chart-box"><canvas id="radarChart" height="200"></canvas></div>
+    <div class="chart-box">
+      <h3>评分逻辑</h3>
+      <table><thead><tr><th>维度</th><th>评分依据</th></tr></thead><tbody>
+        <tr><td class="nm">估值安全边际</td><td>Forward PE相对增速的便宜程度。舜宇整体最便宜(4.5)，LITE最贵(1.5)。</td></tr>
+        <tr><td class="nm">增长动能</td><td>近年营收/利润增速。中际旭创最猛(5)，舜宇整体最慢(3，硅光是期权)。</td></tr>
+        <tr><td class="nm">盈利质量</td><td>毛利率/净利率。天孚最高(5)，舜宇最低(2)。</td></tr>
+        <tr><td class="nm">卡位确定性</td><td>产业链位置是否已兑现收入。中际旭创/天孚已兑现(5/4.5)，舜宇硅光0收入(2)。</td></tr>
+        <tr><td class="nm">护城河</td><td>规模/客户/技术壁垒。中际旭创、天孚、COHR较宽(4)。</td></tr>
+        <tr><td class="nm">风险可控度</td><td>估值泡沫+周期+客户集中的反向。舜宇整体便宜+多元缓冲(4)，天孚/LITE估值贵(2)。</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <!-- Tab 4: 结论 -->
+  <div class="section" id="t4">
+    <h2>🧭 投资结论</h2>
+    <div class="concl">
+      <h3>① 核心发现</h3>
+      <p>这5家本质是"同一条AI光互连产业链的不同卡位"，不是简单的同质竞争。<b>真正卡位最值钱的是上游无源耦合（天孚、舜宇硅光线）和下游成品龙头（中际旭创）</b>。舜宇的硅光故事关键在于：它想用手机镜头时代的纳米级精密制造与百万级良率管控，<b>降维切入天孚把守的FAU/无源耦合环节</b>。但这条线目前零收入、2027才量产，是被打包进"消费电子为主报表"里的<b>期权</b>，而非已兑现业绩。</p>
+    </div>
+    <div class="concl">
+      <h3>② 各股投资论点（含主要风险）</h3>
+      <div class="stock-thesis" style="--c:#f59e0b;"><div class="h">舜宇光学 <span>2382.HK</span></div><p>整体估值最便宜（~14-16x）、有手机高端化+车载+硅光多引擎；硅光线是高弹性期权，若FAU/MLA放量可触发"消费电子→AI光互连"估值切换。<b>风险</b>：硅光0收入、2027前纯讲故事；华为供应链制裁+手机周期拖累主业；净利含投资收益需还原。</p></div>
+      <div class="stock-thesis" style="--c:#22d3ee;"><div class="h">天孚通信 <span>300394.SZ</span></div><p>上游无源/光引擎龙头，毛利52%/净利37%全场最高，FAU国内第一、1.6T光引擎放量，是"舜宇想成为的样子"。<b>风险</b>：估值最贵（Fwd ~70-80x），上游原材料（200G EML）短缺扰动，舜宇等新进入者长期或侵蚀份额。</p></div>
+      <div class="stock-thesis" style="--c:#a78bfa;"><div class="h">中际旭创 <span>300308.SZ</span></div><p>下游光模块全球龙头，800G份额~42%、1.6T卡位最强，2026E利润+180%，Forward PE压到~40x。体量与增速兼具。<b>风险</b>：TTM PE~120x高位、52周涨~9倍，大股东密集减持，强周期+单一AICapex依赖。</p></div>
+      <div class="stock-thesis" style="--c:#34d399;"><div class="h">Coherent <span>COHR</span></div><p>美股纵向整合龙头（材料→器件→模块），数据中心占75%、NVDA $2B入股、已进S&P500，Fwd PE ~49x相对合理、最多元化。<b>风险</b>：工业激光周期拖累、整合体量大弹性较低、增速(+21%)不及纯AI标的。</p></div>
+      <div class="stock-thesis" style="--c:#fb7185;"><div class="h">Lumentum <span>LITE</span></div><p>OCS光路交换独家放量（backlog>$400M）+ CPO订单已落地（1H2027交付）+ 激光器/EML强，纯度高、增速最猛（指引+85%）。<b>风险</b>：估值最贵（TTM PE~159x），内部人减持，盈利仍在恢复期，对单一超大客户敞口高。</p></div>
+    </div>
+    <div class="concl">
+      <h3>③ 横向排序建议（性价比角度，长期持有视角）</h3>
+      <ol class="rank">
+        <li><b>中际旭创</b> — 卡位+增速+Forward估值最平衡，下游龙头确定性最高（但需承受高位波动与减持）。</li>
+        <li><b>Coherent</b> — 纵向整合+NVDA背书+估值相对合理，稳健型首选，弹性次之。</li>
+        <li><b>舜宇光学</b> — 整体最便宜+硅光期权，"低估值打底、硅光给想象"；适合愿意等2027、能承受手机周期的人作为非对称布局。</li>
+        <li><b>天孚通信</b> — 基本面最优（毛利/净利最高）但估值最贵，需增速持续兑现才能消化。</li>
+        <li><b>Lumentum</b> — 故事最性感（OCS/CPO）但估值泡沫最重，容错空间最小，最需谨慎。</li>
+      </ol>
+    </div>
+    <div class="warn">
+      ⚠️ <b>数据口径与免责</b>：①跨市场对比，市值已统一为美元，但会计准则（HKFRS/中国会计准则/US GAAP）差异影响净利率可比性；②A股/美股近期波动剧烈，价格与市值为约2026/6下旬估算，请按实际下单价重算；③中际旭创/天孚/LITE的TTM PE被近期盈利爬坡放大，应结合Forward PE看；④舜宇硅光线为<b>未上市/未拆分的内部业务，无独立估值</b>，本报告以舜宇整体财务+硅光卡位定性呈现。本报告仅供研究参考，不构成投资建议。
+    </div>
+  </div>
+
+  <div class="foot">Generated 2026-06-29 · 光互连上下游卡位对比 · 仅供研究参考，不构成投资建议</div>
+</div>
+
+<script>
+const D = {"date":"2026-06-29","fx":"市值统一换算为美元（人民币÷7.15、港币÷7.85，截至约2026/6下旬，A股/美股近期波动较大，部分数据为估算）","stocks":[{"name":"舜宇光学","sub":"整体·内含硅光期权","ticker":"2382.HK","ccy":"HKD","price":"≈HK$63","mcap":"≈$9B","mcapNum":9,"ttmPE":14,"fwdPE":16,"revG":12.9,"epsG":38,"gm":21,"nm":11,"roe":13,"valTag":"整体便宜·硅光未定价","tier":"最上游无源耦合（切入中）","color":"#f59e0b","radar":[4.5,3,2,2,3,4]},{"name":"天孚通信","sub":"FAU/光引擎上游龙头","ticker":"300394.SZ","ccy":"CNY","price":"≈¥312","mcap":"≈$34B","mcapNum":34,"ttmPE":110,"fwdPE":75,"revG":60,"epsG":50,"gm":52,"nm":37,"roe":30,"valTag":"最贵·上游器件龙头","tier":"上游器件（有源光引擎+无源FAU）","color":"#22d3ee","radar":[2,4.5,5,4.5,4,2]},{"name":"中际旭创","sub":"光模块全球龙头","ticker":"300308.SZ","ccy":"CNY","price":"≈¥1178","mcap":"≈$183B","mcapNum":183,"ttmPE":120,"fwdPE":40,"revG":60.3,"epsG":108.8,"gm":42,"nm":30,"roe":32,"valTag":"下游龙头·fwd合理","tier":"下游光模块成品（800G/1.6T）","color":"#a78bfa","radar":[2.5,5,4,5,4,2.5]},{"name":"Coherent","sub":"纵向整合·NVDA背书","ticker":"COHR","ccy":"USD","price":"≈$380","mcap":"≈$60B","mcapNum":60,"ttmPE":75,"fwdPE":49,"revG":21,"epsG":60,"gm":37,"nm":11,"roe":10,"valTag":"纵向整合·相对合理","tier":"材料→器件→模块（纵向整合）","color":"#34d399","radar":[3.5,3.5,3,4.5,4,3.5]},{"name":"Lumentum","sub":"器件+OCS+CPO","ticker":"LITE","ccy":"USD","price":"≈$980","mcap":"≈$75B(估)","mcapNum":75,"ttmPE":159,"fwdPE":45,"revG":66,"epsG":120,"gm":35,"nm":6,"roe":8,"valTag":"最贵·OCS/CPO纯度高","tier":"有源器件+光路交换OCS+CPO","color":"#fb7185","radar":[1.5,4.5,2.5,4,3.5,2]}],"radarDims":["估值安全边际","增长动能","盈利质量","卡位确定性","护城河","风险可控度"]};
+const cardEl = document.getElementById('cards');
+D.stocks.forEach(s=>{
+  cardEl.insertAdjacentHTML('beforeend', `
+  <div class="card" style="--c:${s.color}">
+    <div class="tk">${s.ticker} · ${s.ccy}</div>
+    <div class="nm">${s.name}</div>
+    <div class="sb">${s.sub}</div>
+    <div class="row"><span class="k">价格</span><span class="v">${s.price}</span></div>
+    <div class="row"><span class="k">市值</span><span class="v">${s.mcap}</span></div>
+    <div class="row"><span class="k">TTM PE</span><span class="v">${s.ttmPE}x</span></div>
+    <div class="row"><span class="k">Fwd PE(26E)</span><span class="v">${s.fwdPE}x</span></div>
+    <div class="row"><span class="k">毛利率</span><span class="v">${s.gm}%</span></div>
+    <div class="tier">${s.tier}</div>
+  </div>`);
+});
+
+// valuation table
+const vt = document.getElementById('valTable');
+D.stocks.forEach(s=>{
+  vt.insertAdjacentHTML('beforeend', `<tr class="${s.ticker==='2382.HK'?'hl':''}"><td class="nm" style="color:${s.color}">${s.name}</td><td class="num">${s.mcap}</td><td class="num">${s.ttmPE}x</td><td class="num">${s.fwdPE}x</td><td>${s.valTag}</td></tr>`);
+});
+
+const labels = D.stocks.map(s=>s.name);
+const colors = D.stocks.map(s=>s.color);
+
+// PE chart
+new Chart(document.getElementById('peChart'),{
+  type:'bar',
+  data:{labels:labels,datasets:[
+    {label:'TTM PE',data:D.stocks.map(s=>s.ttmPE),backgroundColor:'#30363d'},
+    {label:'Forward PE (2026E)',data:D.stocks.map(s=>s.fwdPE),backgroundColor:'#f59e0b'}
+  ]},
+  options:{responsive:true,plugins:{legend:{labels:{color:'#b9c2cc'}}},
+    scales:{x:{ticks:{color:'#b9c2cc'},grid:{color:'#21262d'}},y:{ticks:{color:'#8b949e'},grid:{color:'#21262d'},title:{display:true,text:'倍 (x)',color:'#8b949e'}}}}
+});
+
+// bubble chart
+new Chart(document.getElementById('bubbleChart'),{
+  type:'bubble',
+  data:{datasets:D.stocks.map(s=>({
+    label:s.name,
+    data:[{x:s.fwdPE,y:s.revG,r:Math.max(6,Math.sqrt(s.mcapNum)*2.4)}],
+    backgroundColor:s.color+'cc',borderColor:s.color
+  }))},
+  options:{responsive:true,plugins:{legend:{labels:{color:'#b9c2cc'}}},
+    scales:{x:{title:{display:true,text:'Forward PE (2026E, x)',color:'#8b949e'},ticks:{color:'#8b949e'},grid:{color:'#21262d'}},
+            y:{title:{display:true,text:'营收增速 YoY (%)',color:'#8b949e'},ticks:{color:'#8b949e'},grid:{color:'#21262d'}}}}
+});
+
+// rev chart
+new Chart(document.getElementById('revChart'),{
+  type:'bar',
+  data:{labels:labels,datasets:[{label:'营收增速 YoY (%)',data:D.stocks.map(s=>s.revG),backgroundColor:colors}]},
+  options:{responsive:true,plugins:{legend:{display:false}},
+    scales:{x:{ticks:{color:'#b9c2cc'},grid:{color:'#21262d'}},y:{ticks:{color:'#8b949e'},grid:{color:'#21262d'}}}}
+});
+
+// profitability chart
+new Chart(document.getElementById('profChart'),{
+  type:'bar',
+  data:{labels:labels,datasets:[
+    {label:'毛利率%',data:D.stocks.map(s=>s.gm),backgroundColor:'#22d3ee'},
+    {label:'净利率%',data:D.stocks.map(s=>s.nm),backgroundColor:'#a78bfa'},
+    {label:'ROE%',data:D.stocks.map(s=>s.roe),backgroundColor:'#f59e0b'}
+  ]},
+  options:{responsive:true,plugins:{legend:{labels:{color:'#b9c2cc'}}},
+    scales:{x:{ticks:{color:'#b9c2cc'},grid:{color:'#21262d'}},y:{ticks:{color:'#8b949e'},grid:{color:'#21262d'}}}}
+});
+
+// radar
+new Chart(document.getElementById('radarChart'),{
+  type:'radar',
+  data:{labels:D.radarDims,datasets:D.stocks.map(s=>({
+    label:s.name,data:s.radar,
+    backgroundColor:s.color+'22',borderColor:s.color,borderWidth:2,pointBackgroundColor:s.color,pointRadius:3
+  }))},
+  options:{responsive:true,plugins:{legend:{labels:{color:'#b9c2cc'}}},
+    scales:{r:{min:0,max:5,ticks:{stepSize:1,display:false,backdropColor:'transparent'},
+      grid:{color:'#21262d'},angleLines:{color:'#21262d'},pointLabels:{color:'#c9d1d9',font:{size:12,weight:'600'}}}}}
+});
+
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

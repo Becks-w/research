@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Druckenmiller 2026Q1 持仓报告</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --ink:#0a0e0c; --paper:#f5f1e8; --paper-2:#ede7d6; --paper-3:#e3dcc6;
+  --accent:#b8331a; --accent-2:#d4a017; --green:#2c4a3a;
+  --rule:#1a1a1a; --muted:#6b6359; --grid:#c9bfa9;
+}
+* {box-sizing:border-box;margin:0;padding:0}
+body {background:var(--paper);color:var(--ink);font-family:'Noto Serif SC','Cormorant Garamond',Georgia,serif;font-size:16px;line-height:1.65}
+.container {max-width:1240px;margin:0 auto;padding:0 48px}
+.masthead {border-bottom:3px double var(--rule);padding:36px 0 24px}
+.masthead-top {display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--rule);padding-bottom:12px;margin-bottom:24px}
+h1.title {font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,88px);font-weight:700;line-height:.95;letter-spacing:-.02em;margin-bottom:14px}
+h1.title em {font-style:italic;color:var(--accent)}
+.subtitle {font-size:20px;color:var(--muted);max-width:800px;margin-bottom:20px}
+.byline {display:flex;gap:32px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:16px;border-top:1px solid var(--grid)}
+.byline strong {color:var(--ink);font-weight:700;margin-left:6px}
+.section {padding:56px 0;border-bottom:1px solid var(--grid)}
+.section:last-child {border-bottom:none}
+.section-tag {display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);padding:4px 10px;border:1px solid var(--accent);margin-bottom:14px}
+.section-title {font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4.5vw,48px);font-weight:600;line-height:1.05;letter-spacing:-.015em;margin-bottom:10px}
+.section-title em {font-style:italic;color:var(--accent)}
+.section-lede {font-size:18px;color:var(--muted);max-width:780px;margin-bottom:32px;line-height:1.55}
+.stats-bar {display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--rule);border-bottom:2px solid var(--rule);margin:32px 0}
+.stat {padding:22px 22px 22px 0;border-right:1px solid var(--grid)}
+.stat:last-child {border-right:none}
+.stat:not(:first-child) {padding-left:22px}
+.stat-label {font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.stat-value {font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.stat-value .small {font-size:20px;color:var(--muted);margin-left:4px}
+.stat-delta {font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);margin-top:6px}
+.stat-delta.down {color:var(--accent)}
+table.holdings {width:100%;border-collapse:collapse;background:var(--paper-2);border:1px solid var(--rule);margin:20px 0}
+table.holdings th {background:var(--ink);color:var(--paper);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;padding:12px 16px;text-align:left}
+table.holdings th:nth-child(2), table.holdings th:nth-child(3), table.holdings th:nth-child(4) {text-align:right}
+table.holdings td {padding:11px 16px;border-bottom:1px dotted var(--grid);font-size:14px;line-height:1.4;vertical-align:middle}
+table.holdings td:nth-child(2), table.holdings td:nth-child(3), table.holdings td:nth-child(4) {text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px}
+.ticker {font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px}
+.company {font-family:'Noto Serif SC',serif;font-size:11px;color:var(--muted);display:block;margin-top:1px}
+.pct-cell strong {font-weight:700;color:var(--ink)}
+.rank-num {font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;color:var(--accent);margin-right:4px;font-size:14px}
+.change-up {color:var(--green);font-weight:700}
+.change-down {color:var(--accent);font-weight:700}
+.change-new {color:var(--paper);background:var(--accent);padding:1px 6px;font-size:10px;font-weight:700}
+.actions-grid {display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin:24px 0}
+.action-card {background:var(--paper-2);border:1px solid var(--rule);padding:22px}
+.action-card h4 {font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:4px;font-weight:600}
+.action-card .tag {font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--muted);margin-bottom:14px;text-transform:uppercase;display:block}
+.action-card.new h4 {color:var(--accent)}
+.action-card.added h4 {color:var(--green)}
+.action-card.reduced h4 {color:#a04030}
+.action-card.exited h4 {color:#6b6359}
+.action-list {list-style:none;font-size:13px}
+.action-list li {padding:8px 0;border-bottom:1px dotted var(--grid);display:flex;justify-content:space-between;gap:10px}
+.action-list li:last-child {border-bottom:none}
+.mv-name {font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px}
+.mv-detail {color:var(--muted);font-size:11px;font-family:'JetBrains Mono',monospace}
+.sector-row {display:flex;align-items:center;gap:14px;padding:8px 0;font-size:14px}
+.sector-name {width:140px;font-family:'Noto Serif SC',serif}
+.sector-bar {flex:1;height:20px;background:var(--paper-3);border:1px solid var(--rule);position:relative;overflow:hidden}
+.sector-fill {height:100%;background:var(--accent);transition:width .4s}
+.sector-pct {width:60px;text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700}
+.chart-wrap {background:var(--paper-2);padding:28px;margin:28px 0;border:1px solid var(--rule)}
+.chart-title {font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;margin-bottom:4px}
+.chart-sub {font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
+.chart-container {position:relative;height:360px}
+.strategy-note p {margin-bottom:16px;font-size:15px;line-height:1.75;color:#2a281f}
+.strategy-note p:last-child {margin-bottom:0}
+.disclaimer {background:var(--ink);color:var(--paper);padding:36px 40px;margin-top:36px}
+.disclaimer h3 {font-family:'Cormorant Garamond',serif;font-size:24px;margin-bottom:12px;color:var(--accent-2)}
+.disclaimer ul {list-style:none;padding-left:0}
+.disclaimer li {padding:6px 0;font-size:14px;line-height:1.6;color:#ccc8b8}
+.disclaimer li::before {content:"⚠️ ";margin-right:6px}
+.note-box {background:#fff8e6;border:1px solid var(--accent-2);padding:16px 20px;margin:20px 0;font-size:13px;color:#5a4a1a;font-family:'JetBrains Mono',monospace;line-height:1.6}
+footer {padding:36px 0;text-align:center;border-top:2px solid var(--rule);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:900px) {
+  .container {padding:0 20px}
+  .stats-bar {grid-template-columns:repeat(2,1fr)}
+  .actions-grid {grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header class="masthead">
+    <div class="masthead-top">
+      <span>Duquesne Family Office · 13F 持仓报告</span>
+      <span>Auto-Generated · Druckenmiller Tracker</span>
+    </div>
+    <h1 class="title">Druckenmiller<br><em>2026Q1</em> 持仓</h1>
+    <p class="subtitle">基于 SEC EDGAR 13F-HR 官方申报文件自动生成。数据截止 2026-03-31，提交日 2026-05-15。</p>
+    <div class="note-box">
+      注：SEC EDGAR 上 Duquesne 目前最新一期 13F 实际是 2026Q1（本报告主视角），上一期对比对象为 2025Q4。若你之前预期的是 2025Q4 vs 2025Q3，那是因为 2026Q1 的 13F 已于 2026-05-15 公开，比 2025Q4 更新一期，故本报告改用最新数据。
+    </div>
+    <div class="byline">
+      <span>组合规模 <strong>$3.38B</strong></span>
+      <span>持仓数 <strong>68</strong></span>
+      <span>Top 10 集中度 <strong>58.3%</strong></span>
+      <span>换手率 <strong>44%</strong></span>
+    </div>
+  </header>
+
+  <section class="section">
+    <span class="section-tag">Chapter I · 快照</span>
+    <h2 class="section-title">本期 <em>持仓格局</em></h2>
+    <p class="section-lede">Duquesne Family Office 于 2026-05-15 向 SEC 提交的 13F-HR，反映 2026-03-31 收盘时的美国上市股票多头持仓与部分期权。上一期为 2025Q4，规模 $4.49B（QoQ -24.9%）。</p>
+
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="stat-label">组合总市值</div>
+        <div class="stat-value">$3.38<span class="small">B</span></div>
+        <div class="stat-delta down">-24.9% QoQ</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">持仓数量</div>
+        <div class="stat-value">68</div>
+        <div class="stat-delta">披露标的（按 CUSIP 聚合，含期权）</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Top 10 集中度</div>
+        <div class="stat-value">58<span class="small">%</span></div>
+        <div class="stat-delta">头部集中于 10 只</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">季度换手率</div>
+        <div class="stat-value">44<span class="small">%</span></div>
+        <div class="stat-delta down">(新建 + 清仓市值) / 总市值</div>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Cormorant Garamond';font-size:26px;margin:24px 0 8px">Top 15 持仓</h3>
+    <table class="holdings">
+      <thead><tr><th>持仓</th><th>占比</th><th>市值</th><th>QoQ 变化</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="rank-num">1.</span>
+              <span class="ticker">NTRA</span>
+              <span class="company">Natera Inc</span></td>
+          <td class="pct-cell"><strong>18.1%</strong></td>
+          <td>$613M</td>
+          <td><span class="change-up">+5.3pp</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">2.</span>
+              <span class="ticker">EWZ</span>
+              <span class="company">Ishares Inc <span style="color:#6b6359;font-size:10px">(含期权)</span></span></td>
+          <td class="pct-cell"><strong>8.7%</strong></td>
+          <td>$294M</td>
+          <td><span class="change-up">+3.2pp</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">3.</span>
+              <span class="ticker">INSM</span>
+              <span class="company">Insmed Inc</span></td>
+          <td class="pct-cell"><strong>5.6%</strong></td>
+          <td>$189M</td>
+          <td>持有</td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">4.</span>
+              <span class="ticker">TSM</span>
+              <span class="company">Taiwan Semiconductor Manufac</span></td>
+          <td class="pct-cell"><strong>5.0%</strong></td>
+          <td>$167M</td>
+          <td><span class="change-up">+1.3pp</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">5.</span>
+              <span class="ticker">RSP</span>
+              <span class="company">Invesco Exchange Traded Fd T <span style="color:#6b6359;font-size:10px">(含期权)</span></span></td>
+          <td class="pct-cell"><strong>4.7%</strong></td>
+          <td>$158M</td>
+          <td><span class="change-down">-0.3pp</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">6.</span>
+              <span class="ticker">YPF</span>
+              <span class="company">Ypf Sociedad Anonima</span></td>
+          <td class="pct-cell"><strong>4.4%</strong></td>
+          <td>$150M</td>
+          <td><span class="change-up">+3.9pp</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">7.</span>
+              <span class="ticker">TBBB</span>
+              <span class="company">Bbb Foods Inc</span></td>
+          <td class="pct-cell"><strong>3.3%</strong></td>
+          <td>$110M</td>
+          <td><span class="change-up">+1.3pp</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">8.</span>
+              <span class="ticker">AA</span>
+              <span class="company">Alcoa Corp</span></td>
+          <td class="pct-cell"><strong>2.9%</strong></td>
+          <td>$99M</td>
+          <td><span class="change-up">+1.3pp</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">9.</span>
+              <span class="ticker">NAMS</span>
+              <span class="company">Newamsterdam Pharma Company</span></td>
+          <td class="pct-cell"><strong>2.9%</strong></td>
+          <td>$98M</td>
+          <td><span class="change-up">+0.5pp</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">10.</span>
+              <span class="ticker">SE</span>
+              <span class="company">Sea Ltd</span></td>
+          <td class="pct-cell"><strong>2.7%</strong></td>
+          <td>$91M</td>
+          <td>持有</td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">11.</span>
+              <span class="ticker">STM</span>
+              <span class="company">Stmicroelectronics N V</span></td>
+          <td class="pct-cell"><strong>2.7%</strong></td>
+          <td>$90M</td>
+          <td><span class="change-up">+2.2pp</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">12.</span>
+              <span class="ticker">WWD</span>
+              <span class="company">Woodward Inc</span></td>
+          <td class="pct-cell"><strong>2.2%</strong></td>
+          <td>$76M</td>
+          <td><span class="change-down">-1.7pp</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">13.</span>
+              <span class="ticker">TEVA</span>
+              <span class="company">Teva Pharmaceutical Inds Ltd</span></td>
+          <td class="pct-cell"><strong>2.1%</strong></td>
+          <td>$72M</td>
+          <td><span class="change-down">-2.0pp</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">14.</span>
+              <span class="ticker">ROKU</span>
+              <span class="company">Roku Inc</span></td>
+          <td class="pct-cell"><strong>2.1%</strong></td>
+          <td>$71M</td>
+          <td><span class="change-up">+0.7pp</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">15.</span>
+              <span class="ticker">AVGO</span>
+              <span class="company">Broadcom Inc</span></td>
+          <td class="pct-cell"><strong>1.8%</strong></td>
+          <td>$61M</td>
+          <td><span class="change-new">NEW</span></td>
+        </tr></tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <span class="section-tag">Chapter II · 交易动作</span>
+    <h2 class="section-title">四象限 <em>QoQ 信号</em></h2>
+    <p class="section-lede">与上一期 2025Q4 对比生成。变化阈值 ±10% 普通股股数（期权与普通股分开跟踪，期权市值计入总仓位但不参与股数增减判断）。</p>
+
+    <div class="actions-grid">
+      <div class="action-card new">
+        <h4>新建仓 NEW</h4>
+        <span class="tag">本期新买入 · Top 10（共 30 只）</span>
+        <ul class="action-list"><li>
+            <span class="mv-name">AVGO</span>
+            <span class="mv-detail">$61M · 1.8%</span>
+        </li>
+<li>
+            <span class="mv-name">ARGT</span>
+            <span class="mv-detail">$36M · 1.1%</span>
+        </li>
+<li>
+            <span class="mv-name">CAI</span>
+            <span class="mv-detail">$34M · 1.0%</span>
+        </li>
+<li>
+            <span class="mv-name">RVMD</span>
+            <span class="mv-detail">$31M · 0.9%</span>
+        </li>
+<li>
+            <span class="mv-name">SNDK</span>
+            <span class="mv-detail">$24M · 0.7%</span>
+        </li>
+<li>
+            <span class="mv-name">HUM</span>
+            <span class="mv-detail">$24M · 0.7%</span>
+        </li>
+<li>
+            <span class="mv-name">TWLO</span>
+            <span class="mv-detail">$23M · 0.7%</span>
+        </li>
+<li>
+            <span class="mv-name">JBL</span>
+            <span class="mv-detail">$22M · 0.6%</span>
+        </li>
+<li>
+            <span class="mv-name">GSG</span>
+            <span class="mv-detail">$21M · 0.6%</span>
+        </li>
+<li>
+            <span class="mv-name">LIN</span>
+            <span class="mv-detail">$20M · 0.6%</span>
+        </li></ul>
+      </div>
+      <div class="action-card added">
+        <h4>加仓 +</h4>
+        <span class="tag">股数增加 &gt;10% · Top 10（共 9 只）</span>
+        <ul class="action-list"><li>
+            <span class="mv-name">ADMA</span>
+            <span class="mv-detail">+513% 股数 · 现 0.4%</span>
+        </li>
+<li>
+            <span class="mv-name">YPF</span>
+            <span class="mv-detail">+433% 股数 · 现 4.4%</span>
+        </li>
+<li>
+            <span class="mv-name">STM</span>
+            <span class="mv-detail">+238% 股数 · 现 2.7%</span>
+        </li>
+<li>
+            <span class="mv-name">U</span>
+            <span class="mv-detail">+80% 股数 · 现 0.5%</span>
+        </li>
+<li>
+            <span class="mv-name">CLF</span>
+            <span class="mv-detail">+33% 股数 · 现 0.6%</span>
+        </li>
+<li>
+            <span class="mv-name">ROKU</span>
+            <span class="mv-detail">+29% 股数 · 现 2.1%</span>
+        </li>
+<li>
+            <span class="mv-name">NTRA</span>
+            <span class="mv-detail">+22% 股数 · 现 18.1%</span>
+        </li>
+<li>
+            <span class="mv-name">SE</span>
+            <span class="mv-detail">+17% 股数 · 现 2.7%</span>
+        </li>
+<li>
+            <span class="mv-name">TBBB</span>
+            <span class="mv-detail">+16% 股数 · 现 3.3%</span>
+        </li></ul>
+      </div>
+      <div class="action-card reduced">
+        <h4>减仓 −</h4>
+        <span class="tag">股数减少 &gt;10% · Top 10（共 17 只）</span>
+        <ul class="action-list"><li>
+            <span class="mv-name">RSP</span>
+            <span class="mv-detail">-100% 股数 · 现 4.7%</span>
+        </li>
+<li>
+            <span class="mv-name">MELI</span>
+            <span class="mv-detail">-94% 股数 · 现 0.1%</span>
+        </li>
+<li>
+            <span class="mv-name">AMZN</span>
+            <span class="mv-detail">-94% 股数 · 现 1.5%</span>
+        </li>
+<li>
+            <span class="mv-name">BE</span>
+            <span class="mv-detail">-82% 股数 · 现 0.5%</span>
+        </li>
+<li>
+            <span class="mv-name">WAB</span>
+            <span class="mv-detail">-68% 股数 · 现 0.7%</span>
+        </li>
+<li>
+            <span class="mv-name">PCT</span>
+            <span class="mv-detail">-67% 股数 · 现 0.1%</span>
+        </li>
+<li>
+            <span class="mv-name">LSCC</span>
+            <span class="mv-detail">-65% 股数 · 现 0.9%</span>
+        </li>
+<li>
+            <span class="mv-name">WWD</span>
+            <span class="mv-detail">-64% 股数 · 现 2.2%</span>
+        </li>
+<li>
+            <span class="mv-name">QSR</span>
+            <span class="mv-detail">-62% 股数 · 现 1.0%</span>
+        </li>
+<li>
+            <span class="mv-name">CPNG</span>
+            <span class="mv-detail">-61% 股数 · 现 1.5%</span>
+        </li></ul>
+      </div>
+      <div class="action-card exited">
+        <h4>清仓 EXIT</h4>
+        <span class="tag">全部卖出 · Top 10（共 22 只）</span>
+        <ul class="action-list"><li>
+            <span class="mv-name">XLF</span>
+            <span class="mv-detail">上期 $301M · 6.7%</span>
+        </li>
+<li>
+            <span class="mv-name">GOOGL</span>
+            <span class="mv-detail">上期 $121M · 2.7%</span>
+        </li>
+<li>
+            <span class="mv-name">COGT</span>
+            <span class="mv-detail">上期 $79M · 1.8%</span>
+        </li>
+<li>
+            <span class="mv-name">ENTG</span>
+            <span class="mv-detail">上期 $71M · 1.6%</span>
+        </li>
+<li>
+            <span class="mv-name">DOCU</span>
+            <span class="mv-detail">上期 $70M · 1.6%</span>
+        </li>
+<li>
+            <span class="mv-name">EEM</span>
+            <span class="mv-detail">上期 $49M · 1.1%</span>
+        </li>
+<li>
+            <span class="mv-name">DAL</span>
+            <span class="mv-detail">上期 $45M · 1.0%</span>
+        </li>
+<li>
+            <span class="mv-name">ON</span>
+            <span class="mv-detail">上期 $29M · 0.6%</span>
+        </li>
+<li>
+            <span class="mv-name">FLUT</span>
+            <span class="mv-detail">上期 $25M · 0.6%</span>
+        </li>
+<li>
+            <span class="mv-name">AEVA</span>
+            <span class="mv-detail">上期 $24M · 0.5%</span>
+        </li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <span class="section-tag">Chapter III · 板块结构</span>
+    <h2 class="section-title">按 <em>板块</em> 聚合</h2>
+    <p class="section-lede">本期（2026Q1）组合按板块的资金分布，占比按持仓市值加权。</p>
+    <div style="background:var(--paper-2);border:1px solid var(--rule);padding:24px;margin:20px 0">
+      
+    <div class="sector-row">
+        <span class="sector-name">医疗健康</span>
+        <div class="sector-bar"><div class="sector-fill" style="width:73%"></div></div>
+        <span class="sector-pct">36.3%</span>
+    </div>
+    <div class="sector-row">
+        <span class="sector-name">科技</span>
+        <div class="sector-bar"><div class="sector-fill" style="width:41%"></div></div>
+        <span class="sector-pct">20.3%</span>
+    </div>
+    <div class="sector-row">
+        <span class="sector-name">ETF</span>
+        <div class="sector-bar"><div class="sector-fill" style="width:35%"></div></div>
+        <span class="sector-pct">17.4%</span>
+    </div>
+    <div class="sector-row">
+        <span class="sector-name">材料</span>
+        <div class="sector-bar"><div class="sector-fill" style="width:14%"></div></div>
+        <span class="sector-pct">6.8%</span>
+    </div>
+    <div class="sector-row">
+        <span class="sector-name">消费</span>
+        <div class="sector-bar"><div class="sector-fill" style="width:13%"></div></div>
+        <span class="sector-pct">6.5%</span>
+    </div>
+    <div class="sector-row">
+        <span class="sector-name">能源</span>
+        <div class="sector-bar"><div class="sector-fill" style="width:9%"></div></div>
+        <span class="sector-pct">4.7%</span>
+    </div>
+    <div class="sector-row">
+        <span class="sector-name">工业</span>
+        <div class="sector-bar"><div class="sector-fill" style="width:9%"></div></div>
+        <span class="sector-pct">4.5%</span>
+    </div>
+    <div class="sector-row">
+        <span class="sector-name">通讯服务</span>
+        <div class="sector-bar"><div class="sector-fill" style="width:5%"></div></div>
+        <span class="sector-pct">2.3%</span>
+    </div>
+    <div class="sector-row">
+        <span class="sector-name">金融</span>
+        <div class="sector-bar"><div class="sector-fill" style="width:2%"></div></div>
+        <span class="sector-pct">1.2%</span>
+    </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <span class="section-tag">Chapter IV · 权重演化</span>
+    <h2 class="section-title">Top 10 <em>逐季轨迹</em></h2>
+    <p class="section-lede">本期 top 10 持仓在过去 4 个季度（2025Q2–2026Q1）中的组合占比变化。空缺 = 当期不在披露范围内。</p>
+    <div class="chart-wrap">
+      <div class="chart-title">Top 10 持仓权重逐季变化</div>
+      <div class="chart-sub">% of Portfolio · 逐季</div>
+      <div class="chart-container"><canvas id="evoChart"></canvas></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <span class="section-tag">Chapter V · 策略解读</span>
+    <h2 class="section-title">这一期的 <em>宏观叙事</em></h2>
+    <div class="strategy-note">
+
+      <p>本期(2026Q1)组合总市值从上季度(2025Q4)的 $4.49B 骤降至 $3.38B，QoQ -24.9%，是过去几期中最大的一次规模收缩。拆解来看，收缩并非单纯"卖出离场"，更像是一次风险结构的再平衡：Druckenmiller 把两个最大的宏观对冲/beta 敞口彻底砍掉或改造——Financial Select Sector SPDR（XLF，上期 6.7%/$301M）整仓清出；标普500等权重ETF（RSP，上期 5.0%/$225M 普通股）没有清仓，而是把普通股股份清零、换成等值的看涨期权（$157.6M Call），把线性的指数多头换成非线性的杠杆敞口，本质上是用更少的资本金保留了上行参与度，同时降低了对净值的直接拖累。同样的手法出现在 Ishares MSCI Brazil（EWZ）上：新增了大量 Call 仓位（$162M），而普通股部分保留并小幅加仓，显示他对巴西/新兴市场的看法从"现货多头"部分转向"现货+期权"的杠铃结构。</p>
+      <p>个股层面，最大的确定性依旧押在 Natera（NTRA）——本季再加仓 22%，权重从 12.8% 一口气冲到 18.1%，稳坐第一大重仓且集中度进一步提高，这是过去几个季度里少见的"越涨越买"式加码。医疗健康板块整体权重从 28.9% 提升到 36.3%，是本期最大的板块净增；与此同时新建了一批半导体供应链的中小仓位（AVGO、SNDK、STX、INTC、ARM、NET、MU、COHR、CLS、LITE、JBL），单个仓位都不大（多在 0.1%-1.8%区间），更像是对 AI/半导体供应链做一篮子"广撒网"式布局，而不是重仓单一名字。消费板块权重从 11.8% 降到 6.5%，主要是 Coupang（CPNG，-60.6% 股数）、MercadoLibre（MELI，-94.1%）大幅减仓，叠加 Amazon（AMZN，-93.8% 普通股，同时新建 $41.7M Call）——新兴市场电商/消费类的方向性多头明显在降温，换成了期权化的轻仓表达。能源板块从近乎零仓位（0.5%）跳升到 4.7%，主要由 YPF 加仓 433%（阿根廷国家石油公司）驱动，加上新建 Vista Energy，与 Druckenmiller 一贯偏好的阿根廷主题（Milei 改革交易）一致。</p>
+      <p>整体解读：这一期与其说是"看空"，不如说是"降 beta、加 gamma、加个股集中度"——砍掉最容易被动跟随大盘的宽基对冲仓位，把资金从新兴市场消费类电商挪向医疗健康的确定性重仓和半导体供应链的广撒网期权/正股组合。换手率 43.6%，仍处于他历史上 40%-50% 的常态区间，说明这不是一次性的应激减仓，而是他一贯的高频调仓风格。需要提醒的是，13F 只反映季末快照且有 45 天披露延迟，你今天看到的这份仓位，实际上已经是 6 周前的静态截面——他很可能已经在此基础上又做了新的调整。</p>
+
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <h3>免责与数据边界</h3>
+    <ul>
+      <li>13F 披露延迟 45 天：数据截止 2026-03-31，你今天看到的持仓已可能过时 6+ 周</li>
+      <li>只披露美国上市股票多头 + 部分期权，不含空头、非美股票、FX、债券、大宗商品</li>
+      <li>Druckenmiller 季度换手率经常 40-50%，跟单风险高——看思路，不看交易</li>
+      <li>数据源：SEC EDGAR（filings 索引与持仓明细 XML，本报告在 Cowork 沙盒环境下通过 web_fetch 直接抓取原始 XML 解析，未使用第三方付费 API）</li>
+      <li>CUSIP → Ticker / 板块映射为人工核对（基于 nameOfIssuer 逐条比对），未通过 OpenFIGI 接口（沙盒网络策略不允许出站 POST 请求到该域名）；如有映射疑问可核对原始 XML</li>
+      <li>本报告仅供研究参考，不构成投资建议</li>
+    </ul>
+  </div>
+
+  <footer>Generated by druckenmiller-tracker (Cowork 沙盒离线解析版) · 2026-07-02 18:47<br>Data source · SEC EDGAR</footer>
+</div>
+
+<script>
+const evoCtx = document.getElementById('evoChart').getContext('2d');
+new Chart(evoCtx, {
+  type: 'line',
+  data: {
+    labels: ["2025Q2", "2025Q3", "2025Q4", "2026Q1"],
+    datasets: [{"label": "NTRA", "data": [13.28, 13.13, 12.8, 18.14], "borderColor": "#b8331a", "backgroundColor": "#b8331a20", "borderWidth": 2.5, "tension": 0.3, "pointRadius": 5, "pointHoverRadius": 8, "spanGaps": false}, {"label": "EWZ", "data": [0.52, null, 5.5, 8.71], "borderColor": "#d4a017", "backgroundColor": "#d4a01720", "borderWidth": 2.5, "tension": 0.3, "pointRadius": 5, "pointHoverRadius": 8, "spanGaps": false}, {"label": "INSM", "data": [5.82, 8.59, 5.74, 5.59], "borderColor": "#2c4a3a", "backgroundColor": "#2c4a3a20", "borderWidth": 2.5, "tension": 0.3, "pointRadius": 5, "pointHoverRadius": 8, "spanGaps": false}, {"label": "TSM", "data": [4.26, 5.26, 3.67, 4.96], "borderColor": "#5a4634", "backgroundColor": "#5a463420", "borderWidth": 2.5, "tension": 0.3, "pointRadius": 5, "pointHoverRadius": 8, "spanGaps": false}, {"label": "RSP", "data": [null, null, 5.0, 4.67], "borderColor": "#7a5642", "backgroundColor": "#7a564220", "borderWidth": 2.5, "tension": 0.3, "pointRadius": 5, "pointHoverRadius": 8, "spanGaps": false}, {"label": "YPF", "data": [0.54, 0.07, 0.49, 4.43], "borderColor": "#8a8a3a", "backgroundColor": "#8a8a3a20", "borderWidth": 2.5, "tension": 0.3, "pointRadius": 5, "pointHoverRadius": 8, "spanGaps": false}, {"label": "TBBB", "data": [0.25, 0.79, 1.99, 3.26], "borderColor": "#3a6f8a", "backgroundColor": "#3a6f8a20", "borderWidth": 2.5, "tension": 0.3, "pointRadius": 5, "pointHoverRadius": 8, "spanGaps": false}, {"label": "AA", "data": [null, null, 1.63, 2.93], "borderColor": "#6b1a8a", "backgroundColor": "#6b1a8a20", "borderWidth": 2.5, "tension": 0.3, "pointRadius": 5, "pointHoverRadius": 8, "spanGaps": false}, {"label": "NAMS", "data": [0.37, 1.35, 2.4, 2.91], "borderColor": "#1a6b8a", "backgroundColor": "#1a6b8a20", "borderWidth": 2.5, "tension": 0.3, "pointRadius": 5, "pointHoverRadius": 8, "spanGaps": false}, {"label": "SE", "data": [1.22, 1.21, 2.68, 2.7], "borderColor": "#a04030", "backgroundColor": "#a0403020", "borderWidth": 2.5, "tension": 0.3, "pointRadius": 5, "pointHoverRadius": 8, "spanGaps": false}],
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: {position: 'right',
+        labels: {font: {family: "'JetBrains Mono', monospace", size: 11}, color: '#0a0e0c', padding: 8, boxWidth: 14}},
+      tooltip: {backgroundColor: '#0a0e0c',
+        callbacks: {label: function(ctx) { return ctx.dataset.label + ': ' + (ctx.parsed.y === null ? 'N/A' : ctx.parsed.y + '%'); }}}
+    },
+    scales: {
+      y: {beginAtZero: true, ticks: {callback: v => v + '%'}, grid: {color: '#c9bfa9'}},
+      x: {grid: {display: false}}
+    }
+  }
+});
+</script>
+</body></html>
