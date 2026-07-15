@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tower Semiconductor 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:110px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; height:300px; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table .label { font-weight:600; }
+table .num { font-family:'JetBrains Mono',monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:monospace; }
+.fv-card.bear { border-color:#dc2626; } .fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; } .fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; } .fv-card.bull .value { color:#059669; }
+@media (max-width:640px) { .wrap{padding:16px 12px;} .hero{padding:24px 20px;} .hero h1{font-size:22px;} .section{padding:20px;} .fair-value{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Tower Semiconductor 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：TSEM</div>
+      <div>🏛️ 交易所：NASDAQ / TASE</div>
+      <div>🏷️ 行业：半导体 - 特色工艺代工</div>
+      <div>📅 分析日期：2026-07-14</div>
+    </div>
+    <div class="one-liner">💡 Tower通过为芯片设计公司代工特色模拟芯片（射频/光/电源/传感），按晶圆收取代工费；正凭借硅光子（SiPho）从“平价特色代工厂”跃升为AI光互连核心供应商。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="m0">💡 小白版</button>
+    <button class="tab" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+
+  <div class="section active" id="m0">
+    <h2>💡 模块零：金融小白友好版商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言把这家技术公司"翻译"清楚——后续分析的基础</p>
+    <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:24px 28px;border-radius:12px;margin-bottom:20px;border-left:4px solid #d97706;">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:15px;">🎯 核心比喻</div>
+      <div style="font-size:15px;color:#0f172a;line-height:1.8;">如果台积电是印最先进钞票的中央印钞厂，Tower就是一家特种印刷厂——专印护照、防伪证件：它不追求最小字号（先进制程），而是掌握别人没有的特殊油墨和纸张工艺（射频、光子、电源、图像传感等模拟工艺）。客户一旦把“证件设计”在它的产线上认证通过，十年都不会换厂。现在它手里最抢手的业务，是给AI数据中心印“光速通行证”——硅光子芯片，让数据中心内部用光而不是铜线传数据。</div>
+    </div>
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 12px;">📦 商业模式三问</h3>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #2563eb;"><div class="label" style="color:#2563eb;">① 卖什么？</div><div class="value">代工制造“模拟芯片”——不是手机里的CPU，而是负责收发真实世界信号的芯片：手机射频前端（RF-SOI）、摄像头图像传感器、电源管理芯片，以及当前的增长引擎——硅光子芯片（把光信号和电信号互相转换，是AI数据中心光模块/共封装光学CPO的核心部件）。Tower自己不设计芯片，只按客户图纸生产，收“加工费”。</div></div>
+      <div class="kv-card" style="border-left:3px solid #059669;"><div class="label" style="color:#059669;">② 怎么收费？</div><div class="value">纯代工模式，按晶圆片收费，一片8寸/12寸晶圆数百到数千美元，2025年全年收入$15.7亿。硅光子业务带来了新收费形态：客户签长期合同锁定产能并预付现金——2026年Q1一次性收到$2.9亿预付款用于锁定2028年产能，2027年硅光子合同收入已锁定$13亿（相当于2025全年总收入的80%以上）。这在“接单看天吃饭”的代工行业里是罕见的收入可见度。</div></div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;"><div class="label" style="color:#dc2626;">③ 客户为什么必须买？</div><div class="value">两个动机：①切换成本——模拟工艺是“手艺活”，客户芯片在Tower产线上认证需要1-2年，换厂等于重新流片、重新认证，风险巨大，所以老客户极少流失；②AI速度驱动——数据中心内部铜互连已逼近物理极限，必须换成光互连，而Tower是全球少数能大规模量产硅光子晶圆的代工厂，全球最大的AI/网络芯片公司正排队预付现金抢它的产能。</div></div>
+    </div>
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 12px;">💼 客户结构 + 护城河金融比喻</h3>
+    <div class="summary-box info"><div class="title">具体客户名单 + 客户分层</div><div class="text">约300家客户，历史大客户包括Marvell（收购Inphi后的光互连龙头）、Broadcom、ON Semi等模拟大厂，以及三星、ST等IDM伙伴。公司披露2027年$13亿硅光子合同来自“最大的几家客户”（市场普遍推测为Nvidia、Broadcom、Marvell级别的光互连玩家，公司未点名）。客户结构正从分散的橄榄型（单一客户占比低）快速转向头部集中——2027年后硅光子头部数家客户或占收入近半，集中度风险与收入可见度同步上升。</div></div>
+    <div class="summary-box success"><div class="title">护城河本质（金融场景比喻）</div><div class="text">老业务的护城河像“合作20年的核数会计师”——客户换所要重新审计三年账，没人愿意折腾，但审计费也涨不上去（毛利率长期20-30%）。硅光子新业务的护城河更像“淘金热里少数持照的铲子铺”——AI光互连爆发期，能量产SiPho晶圆的代工产能全球稀缺，客户预付$2.9亿排队买铲子。但要清醒：铲子铺的专营权不是永久的——TSMC（COUPE平台）和GlobalFoundries都已宣布杀入硅光子代工。</div></div>
+  </div>
+
+  <div class="section" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：研发驱动 + 资产重型（特色工艺代工）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">特色模拟代工平台组合：硅光子SiPho（Q1'26收入同比增3倍，当前核心引擎）、硅锗SiGe（+24%）、RF-SOI射频（+12%）、电源管理（+10%）、CMOS图像传感（+9%）、MEMS等。不做先进逻辑制程，专注成熟节点上的差异化特殊工艺，行业地位类似“模拟芯片界的富士康+工艺研究所”。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">约300家Fabless设计公司与IDM，B2B。终端市场覆盖：数据中心光互连（当前增长核心）、智能手机射频前端、汽车/工业、医疗、航空航天。硅光子合同客户为全球最大的AI/网络芯片公司（已签约但未公开点名）。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">制造基地全球分布：以色列Migdal Haemek两座（总部）、美国加州Newport Beach、德州San Antonio、日本多座（与Nuvoton合资TPSCo + 今日宣布的Arai/Uozu大扩建）、意大利Agrate（与ST共用300mm）、美国新墨西哥（租用Intel 300mm产能）。收入以美国与亚洲客户为主。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">2025年收入$15.66亿（+9%），净利$2.2亿；2026年Q1收入$4.14亿（+15%）、净利$0.65亿（净利率16%）；Q2指引$4.55亿（+22%，公司纪录），并指引2026年逐季环比增长。2028年模型（2026/7/14最新上调）：收入$36亿、净利$12亿——较2025年收入翻2.3倍，增量几乎全部由硅光子/SiGe产能扩张驱动。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级：窄护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart"></canvas></div>
+
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">以极低价格收购二手fab（Jazz、TPSCo、San Antonio、租用Intel新墨西哥产能）使折旧负担轻于自建，但整体规模远小于TSMC/UMC，无真正成本优势。历史毛利率仅20-25%，2026年Q1也只有26.8%，与TSM的55%+差距巨大——这是“平价代工厂”的宿命。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">20年积累的特色工艺IP组合（SiGe、RF-SOI、SiPho PH18平台等）是核心资产，硅光子代工领域公认全球领先，已交付超500万片光子芯片。但没有消费品牌，工艺壁垒可被资金雄厚的大厂（TSMC/GFS）通过数年研发绕过，专利本身不构成垄断。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">最强护城河。模拟/特色工艺与设计深度耦合，客户认证周期1-2年，产品生命周期长达10年以上（汽车/工业/航天客户尤甚），换厂等于推倒重来。硅光子长约+$2.9亿预付款把粘性变成了合同化锁定。这是Tower能穿越多轮半导体周期存活的根本原因。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">0/3</span>
+    </div>
+    <p class="dim-text">无网络效应。代工是单边生意，客户之间不产生相互增强的价值。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">代工厂固定成本高企，产能利用率决定盈利——Q1'26收入+15%而营业利润+96%，经营杠杆威力尽显。日本4倍扩产落地后规模效应将进一步放大。但硬币的另一面：下行周期同样的杠杆会反向放大亏损，2019、2023年都出现过利润率大幅收缩。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px"><div class="title">✓ 主要优势</div><div class="text">转换成本（模拟工艺认证粘性，★★★）+ 硅光子先发身位：全球率先大规模量产SiPho代工晶圆，握有$13亿2027年合同和$2.9亿客户预付款；2027年Q4日本300mm新产能投产后，先发优势有望再扩大一个身位。</div></div>
+    <div class="summary-box danger"><div class="title">⚠ 主要弱点</div><div class="text">①巨头入场：TSMC（COUPE平台）与GlobalFoundries均已布局硅光子，若CPO最终主流方案绑定TSMC先进封装生态，Tower的独立SiPho代工可能被降格为过渡方案；②老业务（射频/传感/电源）无定价权、强周期，毛利率长期低于30%；③硅光子客户集中度快速上升，头部客户订单变动将剧烈影响业绩。</div></div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：半导体 - 代工</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：特色工艺/模拟代工（硅光子pure-play）</span>
+      <span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">估值结论：偏高估</span>
+    </div>
+    <div class="summary-box info"><div class="title">🛠️ 适用估值框架：EV/EBITDA + CapEx/Revenue + 2028模型情景折算</div><div class="text">代工厂资本密集、折旧巨大，PE受折旧政策扭曲，行业标准用EV/EBITDA。但TSEM的特殊性在于：当前估值完全由2027-28年硅光子ramp预期驱动，当期倍数（EV/EBITDA约50x）严重失真——当期盈利反映的是旧业务，股价定价的是新业务。因此必须以“EV ÷ 2028年目标净利”为锚，叠加执行概率做Bear/Base/Bull情景折算。</div></div>
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table><thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead><tbody>
+  <tr>
+    <td class="label">股价 / 市值</td>
+    <td class="num">$225 / $25.7B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">6/22历史高点$316，已回撤~29%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">Trailing PE</td>
+    <td class="num">~105x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">代工周期中位15-22x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">Forward PE (2026E)</td>
+    <td class="num">~66x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">18-22x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/EBITDA (LTM)</td>
+    <td class="num">~50x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">代工8-12x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV ÷ 2028目标净利($1.2B)</td>
+    <td class="num">~20x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">关键估值锚：需完美执行才合理</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">毛利率 (Q1'26)</td>
+    <td class="num">26.8%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">代工健康40-55%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">CapEx/Revenue (2026E)</td>
+    <td class="num">~55% ($920M)</td>
+    <td class="num" style="color:#64748b;font-size:13px;">30-40%（扩张期偏高属正常）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">净现金</td>
+    <td class="num">$1.34B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">正净现金=抗周期能力强</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">2027年合同收入可见度</td>
+    <td class="num">$1.3B (SiPho)</td>
+    <td class="num" style="color:#64748b;font-size:13px;">代工行业罕见</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr></tbody></table>
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table><thead><tr><th>公司</th><th>Forward PE</th><th>EV/EBITDA</th><th>毛利率</th><th>定位</th></tr></thead><tbody><tr><td class="label" style="font-weight:700;">TSM</td><td class="num" style="">~22x</td><td class="num" style="">~14x</td><td class="num" style="">55%+</td><td class="num" style="">先进制程近垄断</td></tr><tr><td class="label" style="font-weight:700;">GFS</td><td class="num" style="">~40x</td><td class="num" style="">~21x</td><td class="num" style="">~25%</td><td class="num" style="">美国特色代工，同被AI叙事重估</td></tr><tr><td class="label" style="font-weight:700;">UMC</td><td class="num" style="">~14x</td><td class="num" style="">~6x</td><td class="num" style="">~30%</td><td class="num" style="">成熟制程，无AI故事</td></tr><tr><td class="label" style="background:#fef3c7;font-weight:700;">TSEM</td><td class="num" style="background:#fef3c7;">~66x</td><td class="num" style="background:#fef3c7;">~50x</td><td class="num" style="background:#fef3c7;">27%</td><td class="num" style="background:#fef3c7;">硅光子pure-play溢价</td></tr></tbody></table>
+    <p style="font-size:12px;color:#64748b;margin-top:8px;">📌 高亮行为本次分析的目标公司；同业倍数为2026年7月市场近似值</p>
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 12px;">🎯 合理估值区间</h3>
+    <div class="fair-value">
+      <div class="fv-card bear"><div class="label">悲观情景 Bear<br>SiPho ramp受挫/被TSMC替代</div><div class="value">$70</div></div>
+      <div class="fv-card base"><div class="label">基准情景 Base<br>2028达成$3.0B/$900M打折</div><div class="value">$175</div></div>
+      <div class="fv-card bull"><div class="label">乐观情景 Bull<br>2028模型$3.6B/$1.2B完美兑现</div><div class="value">$320</div></div>
+    </div>
+    <div class="summary-box info"><div class="title">📍 当前估值位置（$225）</div><div class="text">$225位于Base（$175）与Bull（$320）之间，市场已定价2028年$3.6B收入/$1.2B净利模型的大部分：EV约$24.4B ÷ 2028目标净利$1.2B ≈ 20x——对两年后才兑现、且需连续完美执行（日本fab如期投产+硅光子毛利率爬坡+竞争者不抢单）的盈利而言，这不便宜，但也不再是6月$316高点时29x的泡沫极端。横向看：Forward PE是UMC的近5倍、GFS的1.6倍——溢价的全部来源是硅光子合同的确定性与稀缺性。</div></div>
+    <h3 style="font-size:17px;font-weight:700;margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;border-radius:0 8px 8px 0;">
+    <strong style="color:#dc2626;">陷阱1：</strong>用当期倍数判断贵贱都失真——当期盈利反映旧业务，估值定价2028新业务，只能做情景折算，不能直接说“PE 105倍太贵”或“2028只有20倍很便宜”
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;border-radius:0 8px 8px 0;">
+    <strong style="color:#dc2626;">陷阱2：</strong>把“合同收入$1.3B”直接当利润——代工合同含量价调整条款，硅光子毛利率能否显著高于公司26.8%的均值尚未经财报验证
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;border-radius:0 8px 8px 0;">
+    <strong style="color:#dc2626;">陷阱3：</strong>忽略CapEx吞噬现金——2026年CapEx $9.2亿约等于全年经营现金流，日本$30亿投资在前，未来两年FCF接近零甚至为负，靠客户预付款和政府补贴续命扩张
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;border-radius:0 8px 8px 0;">
+    <strong style="color:#dc2626;">陷阱4：</strong>忽视技术路线风险——CPO若最终由TSMC先进封装（CoWoS+COUPE）生态主导，独立SiPho代工可能沦为过渡方案，这是Bear情景的核心触发器
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#05966922;color:#059669;border:1px solid #05966944;font-size:16px;padding:8px 18px">综合评级：A级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">Ellwanger团队以“捡便宜fab”闻名业界：2008年收购Jazz Semiconductor、2014年与松下合资TPSCo拿下日本三座fab、2016年仅$40M级别收购San Antonio fab，均以极低成本获取产能再用特色工艺填满。2023年Intel收购案（$53/股）因中国监管未批而流产，反手获得$3.53亿分手费；随后转为租用Intel新墨西哥300mm产能，轻资产扩张。本次日本$30亿扩建获METI补贴+客户预付款支持，继续“别人出钱我扩产”的模式，把重资产生意做出了轻资产的资本效率。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">20年来指引风格保守、达成率高，财报按技术平台细致拆分增速便于外部验证；Big4审计；S&P Maalot给予ilAA评级、正面展望；Intel交易全程信息披露规范。无关联交易红旗。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">2005年接手时Tower濒临破产，20年做到全球特色代工前列、市值从数亿美元到$257亿。硅光子布局始于约2015年，早于AI热潮近十年，如今兑现为$13亿合同——战略前瞻性经过完整验证。需要警惕的新变化：2028模型在两个月内从$2.8B/$750M上调至$3.6B/$1.2B，一贯保守的指引风格罕见地激进化，或反映真实需求爆发，也可能埋下失望种子。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">无大额回购计划，SBC温和（调整项约$9M/季，约占收入2%）。当前处扩张期，现金优先投入产能而非回购，属合理选择——但也意味着股东回报完全依赖股价，而股价依赖2028模型兑现。</div></div>
+    </div>
+    <div class="summary-box success"><div class="title">✨ 主要亮点</div><div class="text">CEO Russell Ellwanger在任20+年，是半导体行业最长寿CEO之一，穿越多轮周期的资本配置纪录几乎无可挑剔；“低成本产能+政府补贴+客户预付”三件套是教科书级的代工厂扩张打法。</div></div>
+    <div class="summary-box danger"><div class="title">⚠️ 主要风险点</div><div class="text">①指引突然激进化，兑现压力陡增；②关键人风险：Ellwanger年事已高、接班人未明；③地缘风险：总部与两座主力fab位于以色列北部，中东局势是长期悬顶之剑。</div></div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资参考</p>
+    <div style="text-align:center;padding:24px 0;border-bottom:1px solid #e2e8f0;margin-bottom:24px">
+      <div style="font-size:14px;color:#64748b;margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★☆☆</div>
+      <div style="color:#475569;font-size:14px">3/5 星</div>
+    </div>
+    <div class="conclusion"><h3>📝 综合评述</h3><p>商业质量3星的公司，遇上了一次可能改变命运的行业迁移。
+
+老业务是“有粘性但没定价权”的平庸代工生意：客户不离开，但毛利率也起不来，20年里估值长期在10-15倍PE徘徊。硅光子改变了故事——AI数据中心从铜互连转向光互连是确定性趋势，而Tower是当下少数能量产SiPho晶圆的代工厂，$13亿合同+$2.9亿预付款证明这不是纯讲故事。
+
+问题在价格：$225已预支了2028年$3.6B/$1.2B模型的大部分成功，安全边际不足。执行路上任何一环出问题（日本fab延期、硅光子毛利率不及预期、TSMC抢走CPO主流方案），股价都可能向Base（$175）甚至Bear（$70）区间修正——Bear情景的跌幅远大于Bull情景的涨幅，赔率结构并不诱人。
+
+操作参考（非投资建议）：已持有者可继续持有，用下方观察指标逐季验证执行；未持有者更好的介入点是回调至$175下方、或2026年H2财报确认硅光子毛利率显著高于公司均值之后。</p></div>
+    <div class="next-step"><div class="title">🔍 关键观察指标（未来12个月）</div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">每季硅光子收入增速及其对整体毛利率的拉动（能否从26.8%向35%+爬坡——这是估值故事成立的核心证据）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">2027年$13亿合同执行细节：是否新增2028年合同与预付款、量价条款有无下修</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">日本Arai fab改造进度（2027年Q4量产是否如期）及METI补贴到位情况</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">TSMC COUPE / GlobalFoundries 硅光子平台的客户导入动向——竞争替代的先行信号</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">CapEx与FCF平衡：扩张期现金消耗是否超出“经营现金流+预付款+补贴”的覆盖能力</span>
+  </div></div>
+  </div>
+
+  <div class="foot">
+    Generated for Tower Semiconductor (TSEM) · 2026-07-14<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: { labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"], datasets: [{ label: '护城河强度', data: [1,2,3,0,2],
+    backgroundColor: 'rgba(217,119,6,0.2)', borderColor: '#d97706', borderWidth: 2,
+    pointBackgroundColor: '#d97706', pointRadius: 5 }] },
+  options: { responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } } }
+});
+</script>
+</body>
+</html>

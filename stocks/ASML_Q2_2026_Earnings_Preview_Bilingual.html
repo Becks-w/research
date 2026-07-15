@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ASML Q2 2026 Earnings Preview / 财报前瞻</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f6f7f9;
+    --text: #1a1d23;
+    --text-muted: #5b6270;
+    --border: #e2e5ea;
+    --accent: #0b5fff;
+    --accent-soft: #eaf1ff;
+    --bull: #0a7d3e;
+    --bull-bg: #eafaf1;
+    --base: #8a6d00;
+    --base-bg: #fdf6e3;
+    --bear: #b3261e;
+    --bear-bg: #fdeceb;
+    --serif: Georgia, "Songti SC", "STSong", "Noto Serif SC", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  :root[data-theme="dark"] {
+    --bg: #14161a;
+    --bg-alt: #1b1e24;
+    --text: #e7e9ec;
+    --text-muted: #9aa1ad;
+    --border: #2b2f37;
+    --accent: #6ea8ff;
+    --accent-soft: #17233f;
+    --bull: #4fd486;
+    --bull-bg: #0f2a1c;
+    --base: #e0c15c;
+    --base-bg: #2c260f;
+    --bear: #ff8a80;
+    --bear-bg: #34181a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14161a;
+      --bg-alt: #1b1e24;
+      --text: #e7e9ec;
+      --text-muted: #9aa1ad;
+      --border: #2b2f37;
+      --accent: #6ea8ff;
+      --accent-soft: #17233f;
+      --bull: #4fd486;
+      --bull-bg: #0f2a1c;
+      --base: #e0c15c;
+      --base-bg: #2c260f;
+      --bear: #ff8a80;
+      --bear-bg: #34181a;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 5rem;
+  }
+
+  /* Header */
+  .doc-header {
+    border-bottom: 3px solid var(--text);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .kicker {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  h1 {
+    font-size: 1.55rem;
+    line-height: 1.3;
+    margin: 0 0 0.6rem;
+    font-weight: 750;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.6rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .meta-row b { color: var(--text); font-weight: 600; }
+
+  /* Language toggle - sticky */
+  .lang-toggle {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    gap: 0.4rem;
+    padding: 0.6rem 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.75rem;
+  }
+  .lang-toggle button {
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--bg-alt);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .lang-toggle button:hover { border-color: var(--accent); color: var(--text); }
+  .lang-toggle button.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* Sections */
+  section { margin-bottom: 2.4rem; }
+  h2 {
+    font-size: 1.05rem;
+    font-weight: 750;
+    margin: 0 0 0.9rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  h2 .num {
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 1.1rem 0 0.4rem;
+  }
+
+  .lang-block { margin-bottom: 0.9rem; }
+  .lang-en { }
+  .lang-zh { font-family: var(--sans); }
+  .lang-zh h1, .lang-zh h2, .lang-zh h3 { font-family: var(--sans); }
+
+  body.mode-en .lang-zh { display: none; }
+  body.mode-zh .lang-en { display: none; }
+  body.mode-both .lang-en,
+  body.mode-both .lang-zh { display: block; }
+  body.mode-both .lang-zh {
+    padding: 0.7rem 0.9rem;
+    margin-top: 0.3rem;
+    background: var(--bg-alt);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.94rem;
+    color: var(--text-muted);
+  }
+  body.mode-both .lang-zh strong { color: var(--text); }
+
+  p { margin: 0 0 0.7rem; }
+  ul, ol { margin: 0 0 0.7rem; padding-left: 1.3rem; }
+  li { margin-bottom: 0.35rem; }
+
+  .source-note {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* Tables */
+  .table-scroll { overflow-x: auto; margin: 0.8rem 0; border: 1px solid var(--border); border-radius: 8px; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.86rem;
+    min-width: 640px;
+  }
+  th, td {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  thead th {
+    background: var(--bg-alt);
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tr.scenario-bull td:first-child { border-left: 3px solid var(--bull); }
+  tr.scenario-base td:first-child { border-left: 3px solid var(--base); }
+  tr.scenario-bear td:first-child { border-left: 3px solid var(--bear); }
+  .tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.12rem 0.5rem;
+    border-radius: 999px;
+  }
+  .tag-bull { background: var(--bull-bg); color: var(--bull); }
+  .tag-base { background: var(--base-bg); color: var(--base); }
+  .tag-bear { background: var(--bear-bg); color: var(--bear); }
+
+  /* Checklist */
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.45rem 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist input[type=checkbox] { margin-top: 0.25rem; flex-shrink: 0; }
+
+  /* Stat strip */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.9rem;
+    margin: 1.1rem 0 1.6rem;
+  }
+  .stat {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.8rem 0.95rem;
+  }
+  .stat .label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+  }
+  .stat .value {
+    font-size: 1.15rem;
+    font-weight: 750;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem; }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+  footer a { color: var(--accent); }
+  footer ul { padding-left: 1.1rem; }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 1.4rem 1rem 4rem; }
+    h1 { font-size: 1.25rem; }
+  }
+</style>
+</head>
+<body class="mode-both">
+<div class="wrap">
+
+  <div class="lang-toggle">
+    <button data-mode="en">EN</button>
+    <button data-mode="zh">中文</button>
+    <button data-mode="both" class="active">双语 / Bilingual</button>
+  </div>
+
+  <header class="doc-header">
+    <div class="kicker">Earnings Preview · 财报前瞻</div>
+    <h1>ASML Holding N.V. <span style="color:var(--text-muted); font-weight:500;">(NASDAQ/AEX: ASML)</span> — Q2 2026 Earnings Preview</h1>
+    <div class="meta-row">
+      <span><b>Report date / 公布时间：</b>July 15, 2026, pre-market</span>
+      <span><b>Prepared / 撰写日期：</b>July 15, 2026</span>
+      <span><b>FX / 汇率假设：</b>EUR/USD = 1.14 (Jul 14, 2026)</span>
+    </div>
+  </header>
+
+  <div class="stat-strip">
+    <div class="stat"><div class="label">Consensus Revenue</div><div class="value">€8.8–9.0bn</div><div class="sub">~$10.0–10.3bn</div></div>
+    <div class="stat"><div class="label">Consensus EPS</div><div class="value">~€6.8–7.0</div><div class="sub">~$7.9–8.0 (USD est.)</div></div>
+    <div class="stat"><div class="label">GM Guidance</div><div class="value">51–52%</div><div class="sub">Q1: 53.0%</div></div>
+    <div class="stat"><div class="label">Options-Implied Move</div><div class="value">~±8.4%</div><div class="sub">vs. ~4% historical avg</div></div>
+  </div>
+
+  <section>
+    <h2><span class="num">1</span> Setup</h2>
+    <div class="lang-block">
+      <div class="lang-en">
+        <ul>
+          <li>ASML has beaten and raised guidance twice already this year: Q4 2025 print set FY2026 sales guidance at €34–39bn; <strong>Q1 2026 beat consensus (€8.8bn vs. ~€8.6bn expected) and raised FY2026 guidance to €36–40bn</strong>, citing customers "accelerating capacity expansion plans" for AI. <span class="source-note">Source: ASML Q1 2026 press release; StockTitan 6-K filing.</span></li>
+          <li>Options market is pricing an <strong>~8.4% move (either direction)</strong> on the print — roughly 2x the stock's average post-earnings move of ~4% over the last four quarters. <span class="source-note">Source: TradingKey Q2 2026 preview — third-party derived estimate, can move intraday.</span></li>
+          <li>Consensus (aggregated via press coverage — <strong>not verified against a paid terminal, flag for recheck</strong>): Revenue €8.8–9.0bn (~$10.0–10.3bn); EPS ~€6.8–7.0; Gross margin ~51–52%, in line with guidance.</li>
+          <li><strong>This is a "meets vs. beats-and-raises" setup.</strong> Two consecutive guidance raises this year have pulled buy-side expectations above the headline guidance range. A quarter that simply lands in-range with unchanged FY26 guidance could be read as a <em>relative</em> disappointment even if it's a "good" quarter in absolute terms.</li>
+        </ul>
+      </div>
+      <div class="lang-zh">
+        <ul>
+          <li>ASML今年已连续两次beat并上调guidance：2025年Q4财报设定FY2026销售额guidance为€34–39bn；<strong>2026年Q1财报beat一致预期（€8.8bn vs. 预期约€8.6bn），并将FY2026 guidance上调至€36–40bn</strong>，管理层表示客户正"加速"AI相关产能扩张计划。<span class="source-note">来源：ASML Q1 2026新闻稿；StockTitan 6-K文件。</span></li>
+          <li>期权市场对本次财报隐含波动约为<strong>±8.4%</strong>——约为过去四个季度平均财报后波动幅度（~4%）的2倍。<span class="source-note">来源：TradingKey Q2 2026前瞻——第三方衍生估算，可能盘中变动。</span></li>
+          <li>一致预期（汇总自媒体报道——<strong>未通过付费终端核实，建议复核</strong>）：营收€8.8–9.0bn（约合$10.0–10.3bn）；EPS约€6.8–7.0；毛利率约51–52%，与guidance一致。</li>
+          <li><strong>这是一个"符合预期 vs. beat-and-raise"的博弈局面。</strong>今年已连续两次上调guidance，把buy-side预期拉高到远超官方guidance区间。哪怕本季度只是"落在区间内、FY26 guidance维持不变"，也可能被市场解读为相对利空——即便这在绝对意义上仍是一份"好"财报。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span> Key Metrics to Watch <span style="font-weight:400; font-size:0.85rem; color:var(--text-muted);">/ 核心关注指标</span></h2>
+
+    <div class="lang-block">
+      <h3 class="lang-en" style="margin-top:0;">1. FY2026 guidance — raised again, held, or cut?</h3>
+      <h3 class="lang-zh" style="margin-top:0;">1. FY2026 guidance——第三次上调、维持不变，还是下调？</h3>
+      <div class="lang-en"><p>FY26 guide is currently €36–40bn (raised from €34–39bn in April). A third consecutive raise would confirm the AI-capex-driven upcycle is broadening; a "held" guide even with an in-line Q2 beat risks a "priced-for-perfection" selloff given the stock's re-rating YTD.</p></div>
+      <div class="lang-zh"><p>当前FY26 guidance为€36–40bn（4月由€34–39bn上调而来）。若连续第三次上调，将确认AI资本开支驱动的上行周期正在扩散；若即便Q2 beat，guidance仍维持不变，鉴于股价年初至今已大幅重估，存在"利好出尽"式抛售的风险。</p></div>
+    </div>
+
+    <div class="lang-block">
+      <h3 class="lang-en">2. China mix and export-control commentary.</h3>
+      <h3 class="lang-zh">2. 中国区收入占比及出口管制相关表态。</h3>
+      <div class="lang-en"><p>China's share of system sales fell from <strong>36% in Q4 2025 to 19% in Q1 2026</strong>, with management guiding China to hover around <strong>~20% for FY2026</strong>. Watch for: (a) confirmation the 20% run-rate is holding; (b) updated commentary on the pending U.S. <strong>MATCH Act</strong> (would further tighten DUV/services exports to China); (c) whether lost China DUV revenue is being fully offset by EUV demand from Taiwan/Korea/US customers. <span class="source-note">Source: press coverage of Q1 2026 results — cross-check against the actual Q2 shareholder letter.</span></p></div>
+      <div class="lang-zh"><p>中国系统销售占比已从<strong>2025年Q4的36%骤降至2026年Q1的19%</strong>，管理层guidance中国区FY2026占比将<strong>维持在约20%左右</strong>。需关注：(a) 20%这一run-rate是否保持稳定；(b) 管理层对<strong>MATCH Act</strong>（若通过将进一步收紧对华DUV/服务出口）的最新表态；(c) 中国DUV收入流失是否已被台湾/韩国/美国客户的EUV需求充分对冲。<span class="source-note">来源：Q1 2026财报相关媒体报道——建议对照Q2实际股东信核实。</span></p></div>
+    </div>
+
+    <div class="lang-block">
+      <h3 class="lang-en">3. Bookings / order momentum proxy — now harder to read.</h3>
+      <h3 class="lang-zh">3. 订单/bookings动能替代指标——比以往更难判断。</h3>
+      <div class="lang-en"><p>ASML <strong>discontinued quarterly net bookings disclosure starting Q1 2026</strong>, removing the market's cleanest forward-demand signal. Listen for commentary on 2H26/2027 delivery cadence, backlog conversion, and customer capacity-expansion language.</p></div>
+      <div class="lang-zh"><p>ASML<strong>自2026年Q1起已停止披露季度净订单数据</strong>，市场因此失去了最清晰的前瞻性需求信号。需重点关注管理层关于下半年/2027年交付节奏、backlog转化及客户产能扩张的定性表态。</p></div>
+    </div>
+
+    <div class="lang-block">
+      <h3 class="lang-en">4. High-NA EUV shipment/qualification progress.</h3>
+      <h3 class="lang-zh">4. High-NA EUV出货与验证进展。</h3>
+      <div class="lang-en"><p>Two High-NA systems shipped in Q4 2025; ASML has guided to <strong>~60 low-NA EUV tool shipments in 2026 (+25% y/y)</strong>, with High-NA adoption still described as more of a <strong>2027 catalyst</strong>. Any slippage in qualification timelines would be a read-through to 2027–2028 revenue, not 2026 numbers.</p></div>
+      <div class="lang-zh"><p>2025年Q4已出货两台High-NA系统；ASML guidance称2026年将出货<strong>约60台low-NA EUV设备（同比+25%）</strong>，High-NA规模化采用更多被视为<strong>2027年的催化剂</strong>。验证时间线若延迟，主要影响2027-2028年营收爬坡预期，而非2026年数字。</p></div>
+    </div>
+
+    <div class="lang-block">
+      <h3 class="lang-en">5. Gross margin trajectory and mix.</h3>
+      <h3 class="lang-zh">5. 毛利率走势及产品结构。</h3>
+      <div class="lang-en"><p>Q1 print was 53.0% gross margin, above the 51–52% Q2 guide, aided by a strong Installed Base Management (service) contribution (~€2.5bn). Watch whether systems mix (EUV vs. DUV) and IBM mix continue to support margins in the guided 51–53% FY26 range.</p></div>
+      <div class="lang-zh"><p>Q1财报毛利率为53.0%，高于Q2 guidance的51-52%，部分受益于强劲的Installed Base Management（服务业务，约€2.5bn）贡献。需关注系统结构（EUV vs. DUV）及IBM占比，能否继续支撑FY26 guidance的51-53%毛利率区间。</p></div>
+    </div>
+
+    <div class="lang-block">
+      <h3 class="lang-en">6. Free cash flow / capital returns.</h3>
+      <h3 class="lang-zh">6. 自由现金流（FCF）与资本回报。</h3>
+      <div class="lang-en"><p>Q1 2026 free cash flow was <strong>negative €2.6bn</strong>, with cash & short-term investments down from €13.3bn to €8.4bn q/q, partly reflecting continued buybacks (€1.1bn in Q1) and dividends. A second consecutive negative FCF quarter is worth flagging, not alarming given the capex/inventory build cycle.</p></div>
+      <div class="lang-zh"><p>2026年Q1自由现金流为<strong>负€2.6bn</strong>，现金及短期投资余额环比从€13.3bn降至€8.4bn，部分反映持续的股票回购（Q1回购€1.1bn）及分红。连续第二个季度FCF为负值得关注，但考虑到当前资本开支/库存建设周期，尚不算警讯。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span> Bull / Base / Bear Scenarios <span style="font-weight:400; font-size:0.85rem; color:var(--text-muted);">/ 情景分析</span></h2>
+
+    <div class="lang-block lang-en">
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Scenario</th><th>Q2 Revenue</th><th>Q2 GM</th><th>FY26 Guidance</th><th>Key Driver</th><th>Likely Stock Reaction</th></tr></thead>
+          <tbody>
+            <tr class="scenario-bull">
+              <td><span class="tag tag-bull">Bull</span></td>
+              <td>Above €9.0bn</td>
+              <td>≥52.5%</td>
+              <td>Raised again, to ~€37–41bn+</td>
+              <td>Broadening AI capex demand; China mix stable/better; upbeat High-NA commentary</td>
+              <td>Break above near-term resistance (~$1,813); retest prior highs</td>
+            </tr>
+            <tr class="scenario-base">
+              <td><span class="tag tag-base">Base</span></td>
+              <td>€8.4–9.0bn range</td>
+              <td>~51–52%</td>
+              <td>Maintained at €36–40bn</td>
+              <td>Results simply confirm the April raise; no new information</td>
+              <td>Muted-to-negative; possible "sell the in-line print"</td>
+            </tr>
+            <tr class="scenario-bear">
+              <td><span class="tag tag-bear">Bear</span></td>
+              <td>Below €8.4bn</td>
+              <td>&lt;51%</td>
+              <td>Held or narrowed toward low end</td>
+              <td>China impact worse than assumed; AI capex digestion narrative; High-NA delays</td>
+              <td>Sharp downside plausible given ~8%+ implied move</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="lang-block lang-zh">
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>情景</th><th>Q2营收</th><th>Q2毛利率</th><th>FY26 guidance</th><th>核心驱动因素</th><th>可能的股价反应</th></tr></thead>
+          <tbody>
+            <tr class="scenario-bull">
+              <td><span class="tag tag-bull">Bull</span></td>
+              <td>高于€9.0bn</td>
+              <td>≥52.5%</td>
+              <td>再次上调，至约€37–41bn以上</td>
+              <td>AI资本开支需求持续扩散；中国区占比维持或优于预期；High-NA表态积极</td>
+              <td>突破近期阻力位（约$1,813）；有望回测前高</td>
+            </tr>
+            <tr class="scenario-base">
+              <td><span class="tag tag-base">Base</span></td>
+              <td>落在€8.4–9.0bn区间内</td>
+              <td>约51–52%</td>
+              <td>维持€36–40bn不变</td>
+              <td>仅确认4月已上调的guidance，无增量信息</td>
+              <td>反应偏淡甚至偏负面；不排除"利好兑现即卖出"</td>
+            </tr>
+            <tr class="scenario-bear">
+              <td><span class="tag tag-bear">Bear</span></td>
+              <td>低于€8.4bn</td>
+              <td>&lt;51%</td>
+              <td>维持不变或收窄至下限</td>
+              <td>中国影响超预期；AI资本开支"消化"叙事升温；High-NA延迟</td>
+              <td>大幅下跌可能性较高（隐含波动已达~8%+）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="lang-block">
+      <p class="lang-en source-note">Historical context: ASML's stock has shown outsized moves on prior prints tied to bookings surprises and guidance changes. With bookings no longer disclosed, the market has fewer anchors, which likely explains the unusually wide implied move for this print. Source: TradingKey / EBC Financial Group previews, July 2026 — sell-side framing, not company guidance.</p>
+      <p class="lang-zh source-note">历史背景：ASML股价在此前涉及订单超预期或guidance变化的财报中均曾出现较大波动。由于订单数据已不再披露，市场失去部分锚点，这很可能是本次隐含波动异常偏高的原因之一。来源：TradingKey / EBC Financial Group前瞻，2026年7月——第三方卖方视角，非公司guidance。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span> Catalyst Checklist <span style="font-weight:400; font-size:0.85rem; color:var(--text-muted);">/ 催化剂清单</span></h2>
+    <div class="lang-block">
+      <div class="lang-en">
+        <ol>
+          <li><strong>FY26 guidance: raised / held / cut</strong> — the single largest swing factor given two prior raises this year.</li>
+          <li><strong>China % of sales and MATCH Act commentary</strong> — regulatory overhang is live and unresolved.</li>
+          <li><strong>Qualitative bookings/demand commentary</strong> — listen closely to CEO Christophe Fouquet's and CFO's tone in prepared remarks and Q&A.</li>
+          <li><strong>Gross margin vs. 51–52% guide</strong> — confirms/denies margin resilience through an EUV-heavy shipment mix.</li>
+          <li><strong>High-NA EUV qualification updates</strong> — shapes the 2027–2028 thesis and multiple.</li>
+        </ol>
+      </div>
+      <div class="lang-zh">
+        <ol>
+          <li><strong>FY26 guidance：上调/维持/下调</strong>——鉴于今年已两次上调，这是最大的股价摆动因子。</li>
+          <li><strong>中国区收入占比及MATCH Act相关表态</strong>——监管不确定性仍未解决。</li>
+          <li><strong>定性订单/需求表态</strong>——需密切关注CEO Christophe Fouquet及CFO在prepared remarks和Q&A中的措辞语气。</li>
+          <li><strong>毛利率相对51–52% guidance的表现</strong>——验证EUV占比较高出货结构下的毛利率韧性。</li>
+          <li><strong>High-NA EUV验证进展更新</strong>——决定2027-2028年成长叙事及估值倍数。</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span> Trading Setup <span style="font-weight:400; font-size:0.85rem; color:var(--text-muted);">/ 交易层面背景（仅供参考，非投资建议）</span></h2>
+    <div class="lang-block">
+      <div class="lang-en">
+        <ul>
+          <li>Stock trading near <strong>$1,808</strong> heading into the print; symmetrical-triangle pattern, resistance ~$1,813, support ~$1,785. <span class="source-note">Source: TradingKey — trading-desk framing, not fundamental analysis.</span></li>
+          <li>Analyst sentiment skews bullish: consensus "Strong Buy," average price target <strong>~$2,120</strong> (range ~$1,650–$2,623); Bernstein raised to $2,623, BofA to $2,345. <span class="source-note">Source: TipRanks/MarketBeat, GuruFocus — pre-earnings, likely revised same-day.</span></li>
+          <li>Options-implied move of <strong>~8.4%</strong> vs. ~4% historical average signals higher stakes than a typical quarter.</li>
+        </ul>
+      </div>
+      <div class="lang-zh">
+        <ul>
+          <li>财报公布前，股价在<strong>$1,808</strong>附近交易，技术面呈对称三角形，阻力位约$1,813，支撑位约$1,785。<span class="source-note">来源：TradingKey——交易台视角，非基本面分析。</span></li>
+          <li>分析师情绪整体偏乐观：一致评级"Strong Buy"，平均目标价约<strong>$2,120</strong>（区间约$1,650–$2,623）；Bernstein上调至$2,623，Bank of America上调至$2,345。<span class="source-note">来源：TipRanks/MarketBeat、GuruFocus——财报前数据，预计今日同步更新。</span></li>
+          <li>期权隐含波动约<strong>±8.4%</strong>，远高于历史平均~4%，表明本次财报比常规季度更具决定性。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>待核对清单 <span style="font-weight:400; font-size:0.85rem; color:var(--text-muted);">/ To Verify Post-Print</span></h2>
+    <ul class="checklist">
+      <li><input type="checkbox" disabled>
+        <span>
+          <span class="lang-en" style="display:block;">Verify actual reported Q2 2026 net sales, gross margin, net income/EPS against ASML's official press release and 6-K filing.</span>
+          <span class="lang-zh" style="display:block;">核实实际公布的2026年Q2净销售额、毛利率、净利润/EPS——对照ASML官方新闻稿及6-K文件。</span>
+        </span>
+      </li>
+      <li><input type="checkbox" disabled>
+        <span>
+          <span class="lang-en" style="display:block;">Confirm whether FY26 guidance was raised, held, or cut, and the exact new range.</span>
+          <span class="lang-zh" style="display:block;">确认FY26 guidance是上调、维持还是下调，及具体新区间。</span>
+        </span>
+      </li>
+      <li><input type="checkbox" disabled>
+        <span>
+          <span class="lang-en" style="display:block;">Confirm actual China % of system sales for Q2 2026 (the ~20% figure here is a Q1 exit-rate assumption).</span>
+          <span class="lang-zh" style="display:block;">确认2026年Q2实际中国区系统销售占比（本文~20%为Q1季末假设值）。</span>
+        </span>
+      </li>
+      <li><input type="checkbox" disabled>
+        <span>
+          <span class="lang-en" style="display:block;">Verify EUR/USD rate used against the actual filing-date rate (proxy of 1.14 used here).</span>
+          <span class="lang-zh" style="display:block;">核实美元换算所用EUR/USD汇率是否与实际发布当日汇率一致（本文暂以1.14为代理值）。</span>
+        </span>
+      </li>
+      <li><input type="checkbox" disabled>
+        <span>
+          <span class="lang-en" style="display:block;">Cross-check consensus revenue/EPS against a paid data source (FactSet/Visible Alpha/Bloomberg).</span>
+          <span class="lang-zh" style="display:block;">与付费数据源（FactSet/Visible Alpha/Bloomberg）交叉核对一致预期营收/EPS数字。</span>
+        </span>
+      </li>
+      <li><input type="checkbox" disabled>
+        <span>
+          <span class="lang-en" style="display:block;">Confirm whether ASML gives qualitative 2027 High-NA revenue commentary on the Q2 call/transcript.</span>
+          <span class="lang-zh" style="display:block;">确认ASML在Q2电话会/transcript中是否给出2027年High-NA营收相关定性表态。</span>
+        </span>
+      </li>
+      <li><input type="checkbox" disabled>
+        <span>
+          <span class="lang-en" style="display:block;">Verify free cash flow and cash balance actuals for Q2 2026 vs. the Q1 negative €2.6bn print.</span>
+          <span class="lang-zh" style="display:block;">核实2026年Q2实际自由现金流及现金余额，与Q1负€2.6bn数字对比。</span>
+        </span>
+      </li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="lang-en"><strong>Sources</strong></div>
+    <div class="lang-zh"><strong>来源</strong></div>
+    <ul>
+      <li><a href="https://www.asml.com/en/news/press-releases/2026/q1-2026-financial-results">ASML Q1 2026 press release</a></li>
+      <li><a href="https://www.stocktitan.net/sec-filings/ASML/6-k-asml-holding-nv-current-report-foreign-issuer-728274d6f07a.html">StockTitan — ASML 6-K Q1 2026 filing</a></li>
+      <li><a href="https://www.tradingkey.com/analysis/stocks/us-stocks/262030125-asml-q2-2026-earnings-preview-eps-triangle-breakout-1800-tradingkey">TradingKey — ASML Q2 2026 Earnings Preview</a></li>
+      <li><a href="https://www.ebc.com/forex/asml-q2-2026-earnings-preview">EBC Financial Group — ASML Q2 2026 Earnings Preview</a></li>
+      <li><a href="https://finance.yahoo.com/markets/stocks/articles/asml-q2-earnings-loom-buy-153000600.html">Yahoo Finance — ASML Q2 Earnings Loom</a></li>
+      <li><a href="https://cryptobriefing.com/asml-china-challenges-capacity-earnings/">Cryptobriefing — ASML China revenue drop</a></li>
+      <li><a href="https://www.fool.com/investing/2026/04/20/asml-just-got-hit-by-a-new-china-export-threat-is/">Motley Fool — ASML China export threat</a></li>
+      <li><a href="https://asiatimes.com/2026/07/chinas-multi-front-campaign-to-blunt-and-beat-us-chip-bans/">Asia Times — China's campaign to blunt chip bans</a></li>
+      <li><a href="https://www.gurufocus.com/news/8945724/asml-maintained-by-bernstein-price-target-raised-to-2623">GuruFocus — Bernstein price target raise</a></li>
+    </ul>
+  </footer>
+
+</div>
+
+<script>
+  var buttons = document.querySelectorAll('.lang-toggle button');
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var mode = btn.getAttribute('data-mode');
+      document.body.classList.remove('mode-en', 'mode-zh', 'mode-both');
+      document.body.classList.add('mode-' + mode);
+      buttons.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      try { localStorage.setItem('asml-preview-lang', mode); } catch(e) {}
+    });
+  });
+  try {
+    var saved = localStorage.getItem('asml-preview-lang');
+    if (saved && ['en','zh','both'].indexOf(saved) !== -1) {
+      document.body.classList.remove('mode-en', 'mode-zh', 'mode-both');
+      document.body.classList.add('mode-' + saved);
+      buttons.forEach(function(b) {
+        b.classList.toggle('active', b.getAttribute('data-mode') === saved);
+      });
+    }
+  } catch(e) {}
+</script>
+</body>
+</html>
