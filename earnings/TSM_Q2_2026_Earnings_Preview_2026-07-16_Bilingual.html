@@ -1,0 +1,728 @@
+<title>TSM Q2 2026 Earnings Preview 财报前瞻</title>
+<style>
+  :root {
+    --bg: #F4F5F7;
+    --surface: #FFFFFF;
+    --surface-2: #EBEEF2;
+    --ink: #12161C;
+    --ink-soft: #3A4250;
+    --muted: #6B7480;
+    --border: #D7DCE3;
+    --border-strong: #C1C8D1;
+    --accent: #1E6E76;
+    --accent-ink: #0F4A50;
+    --accent-soft: #E4F0EF;
+    --bull: #1F7A4D;
+    --bull-bg: #E7F5EC;
+    --base-c: #8A6D1F;
+    --base-bg: #FBF3DF;
+    --bear: #B23A3A;
+    --bear-bg: #FBEAEA;
+    --shadow: 0 1px 2px rgba(20, 24, 31, 0.06), 0 8px 24px -12px rgba(20, 24, 31, 0.12);
+    --font-display: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, "Cascadia Mono", Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0F1319; --surface: #161B22; --surface-2: #1E242C; --ink: #E8EAED; --ink-soft: #C3C9D1;
+      --muted: #8993A1; --border: #2A313B; --border-strong: #384150; --accent: #4FB8B0; --accent-ink: #9FE0D9;
+      --accent-soft: #14312F; --bull: #4CBE85; --bull-bg: #163829; --base-c: #D8B255; --base-bg: #3A2F14;
+      --bear: #E2686B; --bear-bg: #3A1E1F;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0F1319; --surface: #161B22; --surface-2: #1E242C; --ink: #E8EAED; --ink-soft: #C3C9D1;
+    --muted: #8993A1; --border: #2A313B; --border-strong: #384150; --accent: #4FB8B0; --accent-ink: #9FE0D9;
+    --accent-soft: #14312F; --bull: #4CBE85; --bull-bg: #163829; --base-c: #D8B255; --base-bg: #3A2F14;
+    --bear: #E2686B; --bear-bg: #3A1E1F;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+  :root[data-theme="light"] {
+    --bg: #F4F5F7; --surface: #FFFFFF; --surface-2: #EBEEF2; --ink: #12161C; --ink-soft: #3A4250;
+    --muted: #6B7480; --border: #D7DCE3; --border-strong: #C1C8D1; --accent: #1E6E76; --accent-ink: #0F4A50;
+    --accent-soft: #E4F0EF; --bull: #1F7A4D; --bull-bg: #E7F5EC; --base-c: #8A6D1F; --base-bg: #FBF3DF;
+    --bear: #B23A3A; --bear-bg: #FBEAEA;
+    --shadow: 0 1px 2px rgba(20,24,31,.06), 0 8px 24px -12px rgba(20,24,31,.12);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px 80px; }
+
+  /* ---------- Header ---------- */
+  header.masthead {
+    background:
+      radial-gradient(circle at 1px 1px, var(--border-strong) 1px, transparent 1px) 0 0/16px 16px,
+      var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 0 22px;
+  }
+  .masthead-inner { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+  .ticker-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    padding: 3px 9px;
+    margin-bottom: 10px;
+  }
+  h1.title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+  }
+  h1.title .en-line {
+    display: block;
+    font-size: clamp(22px, 3.4vw, 30px);
+    text-wrap: balance;
+  }
+  h1.title .zh-line {
+    display: block;
+    font-size: clamp(16px, 2.2vw, 19px);
+    font-weight: 700;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .subtitle { color: var(--muted); font-size: 14px; margin: 0; }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .meta-row b { color: var(--ink); font-weight: 600; }
+  .meta-row .lbl { font-family: var(--font-body); color: var(--muted); }
+
+  /* ---------- Bilingual pair (side-by-side comparison) ---------- */
+  .bi {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 26px;
+    align-items: start;
+  }
+  .bi .en { color: var(--ink-soft); font-size: 14px; }
+  .bi .zh {
+    color: var(--ink-soft);
+    font-size: 14px;
+    border-left: 1px solid var(--border);
+    padding-left: 26px;
+  }
+  @media (max-width: 640px) {
+    .bi { grid-template-columns: 1fr; row-gap: 8px; }
+    .bi .zh { border-left: none; padding-left: 0; border-top: 1px dashed var(--border); padding-top: 8px; }
+  }
+
+  .timing-note {
+    margin: 16px 0 0;
+    padding: 12px 16px;
+    background: var(--base-bg);
+    border: 1px solid var(--base-c);
+    border-radius: 6px;
+  }
+  .timing-note .bi .en, .timing-note .bi .zh { font-size: 13px; color: var(--ink-soft); }
+  .timing-note b { color: var(--base-c); }
+
+  /* ---------- Sections ---------- */
+  section { margin-top: 44px; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+  }
+  .section-num { font-family: var(--font-mono); font-size: 13px; color: var(--accent); font-weight: 700; }
+  h2 { font-family: var(--font-display); font-size: 19px; font-weight: 700; margin: 0; text-wrap: balance; }
+  h2 .cn { color: var(--muted); font-weight: 600; font-size: 16px; margin-left: 8px; }
+
+  /* ---------- Tables ---------- */
+  .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow); }
+  table { border-collapse: collapse; width: 100%; min-width: 640px; background: var(--surface); }
+  th, td { text-align: left; padding: 10px 14px; font-size: 13.5px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    background: var(--surface-2);
+    white-space: nowrap;
+  }
+  th .cn { display: block; text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--muted); font-size: 11px; margin-top: 2px; }
+  td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  td .note { display: block; font-family: var(--font-body); color: var(--muted); font-size: 11.5px; margin-top: 2px; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface-2); }
+  .cite { margin-top: 10px; }
+  .cite .bi .en, .cite .bi .zh { font-size: 11.5px; color: var(--muted); }
+
+  /* ---------- Ranked metrics list ---------- */
+  ol.metrics { list-style: none; margin: 0; padding: 0; counter-reset: metric; display: flex; flex-direction: column; gap: 2px; }
+  ol.metrics li {
+    counter-increment: metric;
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 14px;
+    padding: 16px 4px;
+    border-bottom: 1px solid var(--border);
+  }
+  ol.metrics li:last-child { border-bottom: none; }
+  ol.metrics li::before {
+    content: counter(metric);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-radius: 6px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .metric-title { font-weight: 700; color: var(--ink); font-size: 14.5px; margin-bottom: 8px; }
+  .metric-title .cn { font-weight: 600; color: var(--ink-soft); font-size: 13.5px; }
+
+  /* ---------- Scenario cards ---------- */
+  .scenario-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 860px) { .scenario-grid { grid-template-columns: 1fr; } }
+  .scenario-card {
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--sc-color);
+    border-radius: 8px;
+    padding: 16px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+  .scenario-card.bull { --sc-color: var(--bull); }
+  .scenario-card.base { --sc-color: var(--base-c); }
+  .scenario-card.bear { --sc-color: var(--bear); }
+  .scenario-pill {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .scenario-card.bull .scenario-pill { color: var(--bull); background: var(--bull-bg); }
+  .scenario-card.base .scenario-pill { color: var(--base-c); background: var(--base-bg); }
+  .scenario-card.bear .scenario-pill { color: var(--bear); background: var(--bear-bg); }
+  .scenario-card dl { margin: 0; }
+  .scenario-card dt { font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); margin-top: 12px; }
+  .scenario-card dt:first-of-type { margin-top: 0; }
+  .scenario-card dt .cn { text-transform: none; letter-spacing: 0; }
+  .scenario-card dd { margin: 3px 0 0; font-size: 13.5px; color: var(--ink); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .scenario-card .driver-en, .scenario-card .driver-zh {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-variant-numeric: normal;
+    display: block;
+  }
+  .scenario-card .driver-zh { margin-top: 4px; padding-top: 4px; border-top: 1px dashed var(--border); }
+  .scenario-reaction { font-weight: 700; color: var(--sc-color) !important; }
+
+  /* ---------- Catalyst checklist ---------- */
+  ul.catalysts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  ul.catalysts li {
+    display: flex;
+    gap: 10px;
+    padding: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  ul.catalysts li::before { content: "▲"; color: var(--accent); font-size: 11px; flex-shrink: 0; margin-top: 4px; }
+  ul.catalysts .bi { flex: 1; }
+  ul.catalysts .bi .en, ul.catalysts .bi .zh { font-size: 14px; }
+  ul.catalysts b { color: var(--ink); }
+
+  /* ---------- Stat tiles ---------- */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+  .stat-tile { border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; background: var(--surface); }
+  .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); margin-bottom: 6px; }
+  .stat-label .cn { display: block; text-transform: none; letter-spacing: 0; font-size: 10.5px; margin-top: 1px; }
+  .stat-value { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .stat-sub { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+  .stat-sub .cn { display: block; margin-top: 1px; }
+
+  /* ---------- Verify checklist ---------- */
+  ul.verify { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+  ul.verify li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  ul.verify li:last-child { border-bottom: none; }
+  ul.verify .box {
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 3px;
+    margin-top: 3px;
+  }
+  ul.verify .bi { flex: 1; }
+  ul.verify .bi .en, ul.verify .bi .zh { font-size: 13px; }
+
+  .flag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--bear);
+    background: var(--bear-bg);
+    border-radius: 4px;
+    padding: 1px 7px;
+    margin-left: 6px;
+  }
+
+  footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+  footer .bi .en, footer .bi .zh { font-size: 11.5px; color: var(--muted); }
+</style>
+
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <span class="ticker-badge">NYSE · TSM &nbsp;/&nbsp; TWSE · 2330</span>
+    <h1 class="title">
+      <span class="en-line">TSMC — Q2 2026 Earnings Preview</span>
+      <span class="zh-line">台积电 TSMC — Q2 2026 财报前瞻</span>
+    </h1>
+    <p class="subtitle">Key things to watch &amp; consensus estimates ahead of the print ｜ 财报公布前的关注点与市场一致预期</p>
+    <div class="meta-row">
+      <span><span class="lbl">Prepared 撰写日期</span>: <b>2026-07-16</b></span>
+      <span><span class="lbl">Report time 发布时间</span>: <b>Jul 16, 2026 · 14:00 Taipei / 02:00 ET</b></span>
+      <span><span class="lbl">Quiet period 静默期</span>: <b>Jul 6–15, 2026</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="timing-note">
+    <div class="bi">
+      <div class="en"><b>Timing note —</b> Taiwan is UTC+8 (12 hrs ahead of ET). Given the 14:00 Taipei-time call, results may already be public by the time this note is read — check newswires before trading on any figures below.</div>
+      <div class="zh"><b>时间提示 —</b> 台湾时间比美东早 12 小时，按 14:00 台北时间的电话会时点推算，本文交付时财报数字很可能已经公布——使用下文数字前请先核对最新新闻源。</div>
+    </div>
+  </div>
+
+  <!-- 1. Consensus vs Guidance -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2>Consensus Estimates vs. Guidance<span class="cn">市场预期 vs. 公司指引</span></h2>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Metric<span class="cn">指标</span></th>
+            <th>Company Guidance (Q1'26 call)<span class="cn">公司指引（Q1'26 电话会）</span></th>
+            <th>Street Consensus<span class="cn">市场一致预期</span></th>
+            <th>Prior Qtr (Q1'26 actual)<span class="cn">上季度实际（Q1'26）</span></th>
+            <th>YoY Comp (Q2'25 actual)<span class="cn">去年同期（Q2'25）</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Revenue (USD)<span class="note">营收</span></td>
+            <td class="num">$39.0B–$40.2B<span class="note">~10% QoQ mid 环比中值约+10%</span></td>
+            <td class="num">~$39.5B–$40B</td>
+            <td class="num">$35.90B<span class="note">+8.4% QoQ, +35.1% YoY</span></td>
+            <td class="num">$30.07B</td>
+          </tr>
+          <tr>
+            <td>Gross margin<span class="note">毛利率</span></td>
+            <td class="num">65.5%–67.5%</td>
+            <td class="num">n/a<span class="note">not widely modeled separately 多数机构未单独建模</span></td>
+            <td class="num">66.2%<span class="note">beat guide 超指引上限</span></td>
+            <td class="num">n/a</td>
+          </tr>
+          <tr>
+            <td>EPS (ADR, USD)</td>
+            <td class="num">Not guided 未给指引</td>
+            <td class="num">$3.77–$3.83</td>
+            <td class="num">$3.49</td>
+            <td class="num">$2.47–$2.61 <span class="flag">verify</span></td>
+          </tr>
+          <tr>
+            <td>EPS (ordinary share, NT$)<span class="note">普通股</span></td>
+            <td class="num">Not guided 未给指引</td>
+            <td class="num">~NT$24.34</td>
+            <td class="num">NT$22.08</td>
+            <td class="num">n/a</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cite">
+      <div class="bi">
+        <div class="en">Sources: TSMC Q1'26 6-K guidance filing (SEC EDGAR); Zacks / TipRanks / Yahoo Finance consensus aggregation, accessed 2026-07-15/16. Q2'25 EPS comp varies across outlets ($2.47 vs. $2.61) — verify before use.</div>
+        <div class="zh">来源：TSMC Q1'26 6-K 指引文件（SEC EDGAR）；Zacks / TipRanks / Yahoo Finance 一致预期汇总，检索于 2026-07-15/16。Q2'25 EPS 对比基数在不同信源中数字不一致（$2.47 vs. $2.61），使用前请核对。</div>
+      </div>
+    </div>
+
+    <div class="stat-grid" style="margin-top:16px;">
+      <div class="stat-tile">
+        <div class="stat-label">June '26 Revenue (MoM)<span class="cn">6月营收（环比）</span></div>
+        <div class="stat-value">NT$442.68B</div>
+        <div class="stat-sub">+6.2% MoM</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-label">June '26 Revenue (YoY)<span class="cn">6月营收（同比）</span></div>
+        <div class="stat-value" style="color:var(--bull)">+67.9%</div>
+        <div class="stat-sub">Leading indicator, de-risks the guide<span class="cn">领先指标，已部分排雷</span></div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-label">1H26 Cumulative Revenue<span class="cn">上半年累计营收</span></div>
+        <div class="stat-value">NT$2,404.5B</div>
+        <div class="stat-sub">+35.6% YoY</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Key metrics to watch -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2>Key Metrics to Watch<span class="cn">核心关注点（按重要性排序）</span></h2>
+    </div>
+    <ol class="metrics">
+      <li>
+        <div>
+          <div class="metric-title">Q3'26 revenue guidance / 2H26 trajectory<span class="cn"> · Q3 营收指引 / 下半年路径</span></div>
+          <div class="bi">
+            <div class="en">Management already raised FY26 USD revenue growth guidance to "above 30%" at the Q1 call. Since Q2 is largely de-risked by the June monthly print, the Q3 guide is the single biggest swing factor for the stock.</div>
+            <div class="zh">管理层已在 Q1 电话会将 FY26 美元营收增速指引上调至"30% 以上"。由于 Q2 已被6月月度数据部分排雷，Q3 指引才是本次财报对股价影响最大的变量。</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="metric-title">Gross margin vs. 65.5–67.5% guide, and margin bridge<span class="cn"> · Gross margin 是否落在指引区间及 margin bridge 表述</span></div>
+          <div class="bi">
+            <div class="en">Two known headwinds: N2 (2nm) ramp diluting FY26 GM ~2–3pp; overseas (Arizona) fab dilution ~2–3pp initially, possibly widening to 3–4pp as it scales. Margin at/above the high end despite these signals pricing power.</div>
+            <div class="zh">两个已知逆风：N2（2nm）爬坡拖累 FY26 GM 约 2–3pp；海外（Arizona）产能拖累约 2–3pp，随产能扩大可能扩至 3–4pp。若 margin 仍达到或超过区间上限，说明提价能力能对冲稀释。</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="metric-title">2026 capex guidance<span class="cn"> · 2026 年 capex 指引</span></div>
+          <div class="bi">
+            <div class="en">Already guided to the high end of $52B–$56B. A further upward revision confirms capital intensity rising with AI demand — bullish signal, but a near-term FCF headwind.</div>
+            <div class="zh">此前已指引至 $52B–$56B 区间上限。若进一步上调，将确认资本开支强度与 AI 需求同步走高——对长期需求是利好，但短期压制 FCF。</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="metric-title">CoWoS / advanced-packaging capacity<span class="cn"> · CoWoS / 先进封装产能</span></div>
+          <div class="bi">
+            <div class="en">Target ~125–130k wafers/month by year-end 2026, up from ~75k at end-2025. This is the binding constraint on AI accelerator shipments (Nvidia, AMD, custom ASICs) across the whole supply chain.</div>
+            <div class="zh">目标 2026 年底达约 12.5–13 万片/月，较 2025 年底约 7.5 万片/月。这是 AI 加速卡出货（Nvidia、AMD、custom ASIC）的硬约束，牵动整个供应链。</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="metric-title">HPC/AI revenue mix<span class="cn"> · HPC/AI 营收占比</span></div>
+          <div class="bi">
+            <div class="en">HPC was 61% of Q1'26 revenue (up from 55% in Q4'25, 51% a year ago). Watch whether concentration keeps climbing, and commentary on customer diversification (Nvidia/AMD vs. hyperscaler custom silicon).</div>
+            <div class="zh">Q1'26 HPC 占营收 61%（Q4'25 为 55%，去年同期 51%）。关注该集中度是否继续上升，及客户结构多元化（Nvidia/AMD vs. 云厂商 custom silicon）相关表态。</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="metric-title">N2 (2nm) ramp commentary<span class="cn"> · N2（2nm）爬坡进展</span></div>
+          <div class="bi">
+            <div class="en">Entered HVM in Q4'25, revenue contribution since March 2026 (Fab 22 Kaohsiung + Fab 20 Hsinchu), ~90–100k wpm combined capacity, both reportedly fully booked for the year. Watch pricing/yield commentary and 2027 capacity plans.</div>
+            <div class="zh">2025 年 Q4 进入 HVM，自 2026 年 3 月起贡献营收（高雄 Fab 22 + 新竹 Fab 20），合计产能约 9–10 万片/月，据称全年已订满。关注定价/良率表态及 2027 年产能规划。</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="metric-title">Smartphone segment trend<span class="cn"> · 智能手机业务趋势</span></div>
+          <div class="bi">
+            <div class="en">Fell 11% QoQ in Q1'26 (seasonal). Watch H2 recovery commentary tied to iPhone/Android build cycles — currently ignored by the market as HPC does the heavy lifting.</div>
+            <div class="zh">Q1'26 环比下滑 11%（季节性）。关注下半年 iPhone/Android 备货周期带动的复苏表态——目前市场因 HPC 强劲而暂未计价手机端疲软。</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="metric-title">Tariff / geopolitical commentary<span class="cn"> · 关税 / 地缘政治相关表述</span></div>
+          <div class="bi">
+            <div class="en">The Apr 27, 2026 US–Taiwan framework ties tariffs to U.S. domestic value-add, not just headline rates. Also watch for new export-control commentary affecting China-bound advanced-node shipments.</div>
+            <div class="zh">2026年4月27日美台框架将关税待遇与美国本土 value-add 挂钩，而非仅看名义税率。同时关注对华先进制程出口管制相关的新表态。</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="metric-title">Pricing power on advanced nodes<span class="cn"> · 先进制程定价能力</span></div>
+          <div class="bi">
+            <div class="en">With N2 capacity fully booked, watch for wafer pricing commentary, particularly framed against Samsung Foundry / Intel Foundry competitive dynamics.</div>
+            <div class="zh">N2 产能已订满背景下，关注晶圆涨价相关表态，尤其是与 Samsung Foundry / Intel Foundry 竞争格局对比下的定价论述。</div>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 3. Scenarios -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2>Bull / Base / Bear Scenarios<span class="cn">情景分析</span></h2>
+    </div>
+    <div class="scenario-grid">
+      <div class="scenario-card bull">
+        <span class="scenario-pill">Bull</span>
+        <dl>
+          <dt>Q2 Revenue<span class="cn"> 营收</span></dt>
+          <dd>&gt; $40.2B</dd>
+          <dt>Q2 Gross Margin</dt>
+          <dd>&gt; 67.5%</dd>
+          <dt>Q3 Guide / FY26 Signal<span class="cn"> Q3 指引 / FY26 信号</span></dt>
+          <dd>
+            <span class="driver-en">Continued double-digit QoQ growth implied; FY26 growth raised further above "30%+"; capex raised again</span>
+            <span class="driver-zh">隐含环比继续双位数增长；FY26 增速进一步上调至"30%+"之上；capex 再度上调</span>
+          </dd>
+          <dt>Key Driver<span class="cn"> 关键驱动</span></dt>
+          <dd>
+            <span class="driver-en">AI/HPC demand still outrunning capacity; CoWoS ahead of schedule; N2 pricing offsets dilution</span>
+            <span class="driver-zh">AI/HPC 需求仍超产能供给；CoWoS 进度超前；N2 定价能力对冲稀释</span>
+          </dd>
+          <dt>Stock Reaction<span class="cn"> 预期股价反应</span></dt>
+          <dd class="scenario-reaction">+5% ~ +8%</dd>
+        </dl>
+      </div>
+      <div class="scenario-card base">
+        <span class="scenario-pill">Base</span>
+        <dl>
+          <dt>Q2 Revenue<span class="cn"> 营收</span></dt>
+          <dd>$39.5B – $40.2B</dd>
+          <dt>Q2 Gross Margin</dt>
+          <dd>66% – 67.5%</dd>
+          <dt>Q3 Guide / FY26 Signal<span class="cn"> Q3 指引 / FY26 信号</span></dt>
+          <dd>
+            <span class="driver-en">Roughly steady/seasonal; FY26 "above 30%" reaffirmed; capex maintained at high end</span>
+            <span class="driver-zh">大致持平/符合季节性；FY26"30%以上"维持不变；capex 维持在区间上限</span>
+          </dd>
+          <dt>Key Driver<span class="cn"> 关键驱动</span></dt>
+          <dd>
+            <span class="driver-en">Results confirm the June monthly print — no major surprise either way</span>
+            <span class="driver-zh">结果印证6月月度数据，无重大超预期或不及预期</span>
+          </dd>
+          <dt>Stock Reaction<span class="cn"> 预期股价反应</span></dt>
+          <dd class="scenario-reaction">−2% ~ +3%</dd>
+        </dl>
+      </div>
+      <div class="scenario-card bear">
+        <span class="scenario-pill">Bear</span>
+        <dl>
+          <dt>Q2 Revenue<span class="cn"> 营收</span></dt>
+          <dd>&le; $39.0B</dd>
+          <dt>Q2 Gross Margin</dt>
+          <dd>&lt; 65.5%</dd>
+          <dt>Q3 Guide / FY26 Signal<span class="cn"> Q3 指引 / FY26 信号</span></dt>
+          <dd>
+            <span class="driver-en">Cautious Q3 guide (inventory digestion, export-control uncertainty); capex walked back or flat</span>
+            <span class="driver-zh">Q3 指引偏保守（库存消化、出口管制不确定性）；capex 指引下修或持平</span>
+          </dd>
+          <dt>Key Driver<span class="cn"> 关键驱动</span></dt>
+          <dd>
+            <span class="driver-en">Faster-than-expected margin dilution from Arizona/N2; hyperscaler AI-capex-digestion narrative bleeds into TSM</span>
+            <span class="driver-zh">Arizona/N2 爬坡拖累 margin 快于预期；云厂商 AI capex 消化叙事传导至 TSM</span>
+          </dd>
+          <dt>Stock Reaction<span class="cn"> 预期股价反应</span></dt>
+          <dd class="scenario-reaction">−5% ~ −10%</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="cite" style="margin-top:14px;">
+      <div class="bi">
+        <div class="en">Historical context: TSM has beaten consensus in each of the trailing four quarters, average positive surprise ~8.3% (TipRanks, accessed 2026-07-16 — verify against optionslam.com before publishing).</div>
+        <div class="zh">历史参考：TSM 过去连续四个季度均超市场预期，平均正向惊喜幅度约 8.3%（TipRanks，检索于 2026-07-16——建议发布前用 optionslam.com 核对）。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Catalyst checklist -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2>Catalyst Checklist<span class="cn">催化剂清单</span></h2>
+    </div>
+    <ul class="catalysts">
+      <li>
+        <div class="bi">
+          <div class="en"><b>Q3'26 revenue guidance</b> vs. buy-side expectations for continued sequential AI-driven growth — matters more than the Q2 beat itself.</div>
+          <div class="zh"><b>Q3 2026 营收指引</b> —— 相较买方对 AI 驱动持续环比增长的预期，这一项比 Q2 本身的 beat 更重要。</div>
+        </div>
+      </li>
+      <li>
+        <div class="bi">
+          <div class="en"><b>Gross margin print and forward bridge</b> — whether management reiterates or widens the 2–3pp (N2) + 2–3pp (overseas) dilution guardrails.</div>
+          <div class="zh"><b>Gross margin 实际值及前瞻 margin bridge</b> —— 关注管理层是否重申或扩大 2–3pp（N2）+ 2–3pp（海外）的稀释区间。</div>
+        </div>
+      </li>
+      <li>
+        <div class="bi">
+          <div class="en"><b>Capex guidance</b> — any move beyond "high end of $52–56B" reads as a strong AI-capex-cycle signal.</div>
+          <div class="zh"><b>Capex 指引</b> —— 若突破"$52–56B 区间上限"的措辞，将被解读为 AI capex 周期强劲的信号。</div>
+        </div>
+      </li>
+      <li>
+        <div class="bi">
+          <div class="en"><b>CoWoS capacity commentary</b> — explicit wpm figures and whether the 125–130k year-end target is on track.</div>
+          <div class="zh"><b>CoWoS 产能相关表态</b> —— 具体片/月数字，及年底 12.5–13 万片/月目标是否如期。</div>
+        </div>
+      </li>
+      <li>
+        <div class="bi">
+          <div class="en"><b>Tariff/export-control language</b> — incremental detail that could reprice geopolitical risk into the stock.</div>
+          <div class="zh"><b>关税/出口管制相关措辞</b> —— 可能重新定价股价中地缘政治风险的增量细节。</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 5. Trading setup -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2>Trading Setup<span class="cn">交易层面设置</span></h2>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-tile">
+        <div class="stat-label">Stock Price (mid-Jul)<span class="cn">股价（7月中旬）</span></div>
+        <div class="stat-value">$432–$434</div>
+        <div class="stat-sub">~9–10% below 52-wk high<span class="cn">低于52周高点</span></div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-label">52-Week Range<span class="cn">52周区间</span></div>
+        <div class="stat-value" style="font-size:16px;">$223.70–$479.00</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-label">YTD Performance<span class="cn">年初至今表现</span></div>
+        <div class="stat-value" style="color:var(--bull)">+40%</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-label">Consensus Price Target<span class="cn">分析师目标价共识</span></div>
+        <div class="stat-value" style="font-size:16px;">$478–$498</div>
+        <div class="stat-sub">13–15% implied upside<span class="cn">隐含上行空间 13–15%</span></div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-label">PT Range (Street)<span class="cn">目标价区间</span></div>
+        <div class="stat-value" style="font-size:16px;">$449–$575</div>
+        <div class="stat-sub">High: Susquehanna, raised 06/22<span class="cn">高端：Susquehanna，6/22 上调</span></div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-label">Options-Implied Move<span class="cn">期权隐含波动幅度</span></div>
+        <div class="stat-value" style="font-size:16px;">±4.8% ~ ±7.2%</div>
+        <div class="stat-sub">Sources disagree, verify live<span class="cn">各信源不一，请核实实时数据</span> <span class="flag">verify</span></div>
+      </div>
+    </div>
+    <div class="cite" style="margin-top:14px;">
+      <div class="bi">
+        <div class="en">IV and IV Rank reported near 52-week highs — options historically expensive heading into this print. Sources: Yahoo Finance / StockAnalysis / TradingView / TipRanks / Benzinga, accessed 2026-07-15/16 (web-search aggregation, not a live quote — verify against IBKR/Bloomberg before use).</div>
+        <div class="zh">IV 及 IV Rank 据报接近 52 周高位——本次财报前期权定价处于历史高位区间。来源：Yahoo Finance / StockAnalysis / TradingView / TipRanks / Benzinga，检索于 2026-07-15/16（网络检索汇总，非实时报价，使用前请以 IBKR/Bloomberg 核对）。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. To-verify checklist -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <h2>To-Verify Checklist<span class="cn">待核对清单</span></h2>
+    </div>
+    <ul class="verify">
+      <li><span class="box"></span>
+        <div class="bi">
+          <div class="en">Confirm actual Q2 2026 print (revenue, GM, EPS) against TSMC's official 6-K / press release once released.</div>
+          <div class="zh">财报公布后，用 TSMC 官方 6-K / 新闻稿核对实际 Q2 2026 数字（营收、GM、EPS）。</div>
+        </div>
+      </li>
+      <li><span class="box"></span>
+        <div class="bi">
+          <div class="en">Reconcile the Q2 2025 EPS comp figure ($2.47 vs. $2.61 cited across sources).</div>
+          <div class="zh">核对 Q2 2025 EPS 对比基数（各信源分别为 $2.47 与 $2.61）。</div>
+        </div>
+      </li>
+      <li><span class="box"></span>
+        <div class="bi">
+          <div class="en">Reconcile options-implied move (4.8% / 5.6% / 7.2%) against a live options chain at time of use.</div>
+          <div class="zh">使用当时实时期权链核对期权隐含波动幅度（4.8% / 5.6% / 7.2%）。</div>
+        </div>
+      </li>
+      <li><span class="box"></span>
+        <div class="bi">
+          <div class="en">Verify exact stock closing price and 52-week high date against IBKR/Bloomberg.</div>
+          <div class="zh">用 IBKR/Bloomberg 核对准确收盘价及 52 周高点日期。</div>
+        </div>
+      </li>
+      <li><span class="box"></span>
+        <div class="bi">
+          <div class="en">Verify Street consensus revenue/EPS against a paid consensus source (FactSet/Visible Alpha) if available.</div>
+          <div class="zh">如可获取付费数据源（FactSet/Visible Alpha），核对街道一致预期营收/EPS 数字。</div>
+        </div>
+      </li>
+      <li><span class="box"></span>
+        <div class="bi">
+          <div class="en">Confirm segment mix (61%/26%/6%/4%) and node mix (3nm 25% / 5nm 36% / 7nm 13%) against the official Q1'26 earnings deck.</div>
+          <div class="zh">用 Q1'26 官方财报 deck 核对分部占比（61%/26%/6%/4%）及制程占比（3nm 25% / 5nm 36% / 7nm 13%）。</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="bi">
+      <div class="en">All figures compiled via web search (model knowledge + live search), not a connected data terminal. Treat all point estimates as directional pending verification against official filings. · TSM_TSMC/Earnings_Preview</div>
+      <div class="zh">本文所有数字均通过 web search 检索汇总（非连接付费数据终端），使用前请以官方 filing 为准进行核对。· TSM_TSMC/Earnings_Preview</div>
+    </div>
+  </footer>
+
+</div>
+</body>

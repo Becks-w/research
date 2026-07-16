@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASML Holding 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>ASML Holding 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：ASML</div>
+      <div>🏛️ 交易所：NASDAQ / Euronext Amsterdam</div>
+      <div>🏷️ 行业：半导体设备（EUV光刻垄断）</div>
+      <div>📅 分析日期：2026-07-15</div>
+    </div>
+    <div class="one-liner">💡 ASML 向全球所有先进芯片厂出售全世界唯一能造的 EUV 光刻机，收取每台 $1.5–4 亿的设备款 + 每年约 $100 亿的服务升级费，坐拥半导体行业最深的技术垄断——但当前股价处于十年估值最高位。（财务数字按 €1=$1.17 换算，括号内为欧元原值）</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" data-tab="m0">💡 小白版</button>
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  
+  <div class="section" id="m0">
+    <h2>💡 模块零：金融小白友好版商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言把这家技术公司"翻译"清楚——后续分析的基础</p>
+    <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:24px 28px;border-radius:12px;margin-bottom:20px;border-left:4px solid #d97706;">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:15px;">🎯 核心比喻</div>
+      <div style="font-size:15px;color:#0f172a;line-height:1.8;">ASML 像全世界唯一能造「印钞机」的工厂——只不过印出来的不是钞票，而是 AI 芯片。任何一颗先进芯片（英伟达 GPU、HBM 内存、苹果处理器）的纳米级电路，都必须经过 ASML 的 EUV 光刻机来「印刷」出来。没有 ASML 的机器，就造不出 3nm 以下的芯片，没有例外。这不是「最好的供应商之一」，而是唯一的供应商——如果全世界只有一家作坊能造各国央行都需要的印钞机，你就懂 ASML 的地位了。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📦 商业模式三问</h3>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #2563eb;">
+        <div class="label" style="color:#2563eb;">① 卖什么？</div>
+        <div class="value">两件事，本质是「卖印钞机 + 卖终身保养」。① 一次性卖光刻机：最先进的 EUV 机器每台约 $1.5–4 亿（重达 180 吨），2026 年计划出货约 60 台 Low-NA EUV，另有更尖端的 High-NA EUV 正在爬坡；还有相对便宜的 DUV 机器（主要卖给中国和成熟制程）。② 长期服务与升级（Installed Base Management）：机器卖出去后，每年靠保养、备件、软件升级持续收费，一年约 $29 亿/季 × 4 ≈ 约 $115 亿。这块像「卖出去的印钞机每年都要回来做保养」，稳定且高毛利。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #059669;">
+        <div class="label" style="color:#059669;">② 怎么收费？</div>
+        <div class="value">混合模式，但两头都是好生意。系统销售是一次性大额（单台 EUV = 一栋楼的价钱），随芯片资本开支周期波动；服务升级（IBM）是经常性收入，约占总收入 28%，几乎不受周期影响，是平滑毛利率的「压舱石」。举例：2026 年全年营收指引 $42–47 亿×10（€36–40B），其中约 $115 亿来自服务升级。头部客户（台积电、三星）单季可能一次下单数台 EUV，动辄十亿美元级订单。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;">
+        <div class="label" style="color:#dc2626;">③ 客户为什么必须买？</div>
+        <div class="value">纯粹的「没有替代品」刚需 + 国家战略级资产。物理定律决定了：要在 3nm 以下节点上「画」出电路，就必须用极紫外光（EUV），而全世界只有 ASML 能造 EUV 机器。台积电想给英伟达代工最新 GPU？必须买 ASML。三星、SK 海力士想造 HBM 内存喂给 AI？必须买 ASML。这不是「速度驱动」或「成本节省」，而是「买不到就直接出局」的生存刚需——这决定了 ASML 拥有半导体产业链里最强的定价权。</div>
+      </div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">💼 客户结构 + 护城河金融比喻</h3>
+    <div class="summary-box info">
+      <div class="title">具体客户名单 + 客户分层</div>
+      <div class="text">极度集中的「哑铃型」客户结构，全球真正的大客户不到 10 家。代工端：台积电（TSMC，最大单一客户）、三星（Samsung）、英特尔（Intel）；存储端：SK 海力士、三星存储、美光（Micron）。2026 Q1 地理分布高度集中——韩国占 45%、台湾占 23%；产品端存储客户异军突起，占系统销售 51%（DRAM 厂用 EUV 替代多重曝光以省产能）。这种结构是双刃剑：客户都是巨头、订单大且黏，但任何一家削减资本开支或某个地区遭遇管制，都会直接冲击 ASML。</div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">护城河本质（金融场景比喻）</div>
+      <div class="text">ASML 的护城河像「SWIFT 全球清算网络 + 戴比尔斯钻石垄断 + 一国央行造币厂」三者合体——它是整个数字经济的单一咽喉要道（choke point）。护城河的本质不是专利本身，而是数十年积累、无法用钱快速复制的物理工程 know-how：EUV 需要 ASML、蔡司（顶级光学）、Cymer（极紫外光源，ASML 已收购）三方数十年协同。这就像四大会计所的品牌+合规壁垒，但更极端——即便是拥有无限资金的国家队（中国），在 EUV 上依然落后数年。这正是它值宽护城河、也值溢价估值的根本原因；但护城河再宽，也不等于任何价格买入都划算。</div>
+    </div>
+    <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:14px 18px;border-radius:8px;margin-top:20px;font-size:13px;color:#64748b;line-height:1.6;">
+      📌 <strong>使用提示</strong>：本模块为后续模块一至四的"翻译层"。读完后再进入「商业模式」「护城河」「估值研究」「管理层」等专业分析模块，能事半功倍。
+    </div>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：研发驱动 + 产品销售 + 经常性服务（混合）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">核心是光刻机（Lithography）——用光把电路图案「印」到硅片上。三条产品线：① EUV（极紫外光刻，全球独家）——Low-NA EUV（NXE 系列，如 NXE:3800，约 230 片/小时）是当前主力，High-NA EUV（EXE 系列）是下一代尖端，用于 2nm 及以下；② DUV（深紫外光刻）——成熟技术，主要面向中国和成熟制程；③ Installed Base Management（IBM，装机基础服务）——保养、备件、软件/硬件升级。EUV 是垄断利润引擎，DUV 是走量业务，IBM 是稳定现金流。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">B2B，客户是全球先进芯片制造商。三类：逻辑代工（台积电、三星、英特尔——造 CPU/GPU）、存储（SK 海力士、三星、美光——造 DRAM/HBM/NAND）。全球真正的大客户不到 10 家，收入高度集中。2026 Q1：韩国 45%、台湾 23%，存储客户占系统销售 51%（AI 拉动 HBM 需求，DRAM 厂加速采用 EUV）。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">全球，但高度集中于东亚。台湾、韩国是核心（台积电+三星+海力士）；美国（英特尔、美光）；中国约占 2026 年收入 20%（以 DUV 为主，EUV 已被出口管制禁运）。中国占比受地缘政治直接影响——这是收入结构里最大的政策变量。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">2025 全年总营收 $38.3B（€32.7B），净利 $11.2B（€9.6B），毛利率 52.8%。其中系统销售约占 72%、服务升级（IBM）约占 28%。2026 全年指引已上调至 $42–47B（€36–40B），主要由 EUV 销量大增和 IBM 增长驱动。Q1 2026 单季 $10.3B（€8.8B），毛利率 53.0%，营业利润率 36.0%，净利 $3.2B（€2.76B），EPS €7.15。年末订单积压（backlog）$45.4B（€38.8B），超过全年营收。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#05966922;color:#059669;border:1px solid #05966944">综合评级：宽护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">成本优势中等偏强。ASML 的护城河更多来自「独家技术」而非「更便宜」——EUV 机器极其昂贵。但在研发规模上有绝对成本优势：每年约 $56 亿（€4.8B）研发投入，是竞争对手无法企及的量级；且作为唯一供应商，可将巨额研发摊薄到全行业。供应链上对蔡司、Cymer 的深度绑定也构成他人难以复制的成本结构。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">护城河的皇冠明珠。EUV 是人类工程学巅峰：需要用高能激光轰击锡液滴产生 13.5nm 极紫外光，配合蔡司世界最平整的反射镜。ASML 积累数十年 know-how + 数千项专利 + 与蔡司/Cymer 的独家协同。这不是「有专利」这么简单，而是「即便公开全部图纸，别人也造不出来」的隐性知识壁垒。中国举国之力攻关多年仍落后数代——这是钱和时间都难以逾越的无形资产。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">转换成本极高，接近「不可切换」。芯片厂的整条产线、工艺配方、工程师技能都围绕 ASML 工具搭建；且每年约 $115 亿的服务/升级合同将客户长期锁定。最关键的是——即便客户想换，也无处可换，因为 EUV 没有第二家供应商。这是转换成本与垄断叠加的极端形态。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">网络效应较弱，但存在装机基础的数据飞轮。ASML 在全球拥有庞大装机量，通过 IBM 业务持续收集机器运行数据，反哺下一代产品优化和预测性维护——类似征信局「数据越多越准」的飞轮。但这不是经典的双边网络效应，客户之间不因彼此存在而获益，故评为弱。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">规模效应中等偏强。作为唯一 EUV 供应商，ASML 独享全行业需求，研发投入可摊薄到最大分母上；采购、供应链、服务网络都有规模优势。但半导体设备是「按台交付」的重资产制造，产能受光学、光源、精密部件供应商制约，规模效应不如纯软件极致。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">无形资产（EUV 技术 know-how）+ 转换成本双双满分，且叠加「全球独家」的垄断地位——这是全世界最深、最难复制的护城河之一。芯片厂造不出先进芯片就得买 ASML，且无处可换。这种「产业链单一咽喉」地位，使 ASML 拥有半导体产业最强的定价权和最长的竞争优势可见度（20 年以上）。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">两大结构性弱点：① 客户极度集中——全球不到 10 家大客户，任何一家（尤其台积电）削减资本开支都会直接冲击收入；② 地缘政治——中国约占 20% 收入，DUV 设备、备件、维修面临持续收紧的出口管制风险（包括近期围绕出口管制的政治博弈）。此外，作为设备商，ASML 本质上是芯片资本开支周期的「放大器」，AI 资本开支若见顶，ASML 首当其冲。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：半导体 - 设备</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：EUV 光刻（全球独家垄断）</span>
+      <span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">估值结论：偏高估</span>
+    </div>
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：Forward PE + 历史估值分位 + 订单周期（Backlog） + 同业横向对比</div>
+      <div class="text">半导体设备是强周期 + 高资本密集行业，但 ASML 因垄断地位周期性弱于同业，可享成长溢价。核心估值锚是 Forward PE，辅以历史估值分位（判断当前贵不贵）和订单积压（未来收入可见度）。关键提醒：ASML 以欧元计价，本表所有美元数字按 €1=$1.17 换算；ADR 股价以美元计，比较时需注意汇率因素。当前最大的估值矛盾是——生意质量顶级，但绝对估值处于十年最高位。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">Trailing PE</td>
+    <td class="num">~58–62x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">十年均值 ~36x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">偏贵</span></td>
+  </tr>
+  <tr>
+    <td class="label">Forward PE</td>
+    <td class="num">~48–50x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">设备成长溢价 25–30x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">毛利率</td>
+    <td class="num">~52–53%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">45–55%（EUV 更高）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">营业利润率</td>
+    <td class="num">~36%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">运营杠杆强</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">R&D/营收</td>
+    <td class="num">~13%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">12–18%（技术领先性）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">订单积压 Backlog</td>
+    <td class="num">$45B（€38.8B）</td>
+    <td class="num" style="color:#64748b;font-size:13px;">超过全年营收</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">2026 营收增速</td>
+    <td class="num">~+13%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">AI 驱动，指引已两次上调</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr></tbody>
+    </table>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>子行业/角色</th><th>Forward PE(约)</th><th>毛利率</th><th>R&D/营收</th></tr></thead>
+      <tbody><tr><td class="label" style="background:#fef3c7;;font-weight:700;">ASML</td><td class="num" style="background:#fef3c7;;">EUV 设备垄断</td><td class="num" style="background:#fef3c7;;">~49x</td><td class="num" style="background:#fef3c7;;">52%</td><td class="num" style="background:#fef3c7;;">13%</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">AMAT</td><td class="num" style="background:transparent;;">半导体设备（沉积/刻蚀）</td><td class="num" style="background:transparent;;">~26x</td><td class="num" style="background:transparent;;">47%</td><td class="num" style="background:transparent;;">13%</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">LRCX</td><td class="num" style="background:transparent;;">刻蚀/沉积设备</td><td class="num" style="background:transparent;;">~28x</td><td class="num" style="background:transparent;;">48%</td><td class="num" style="background:transparent;;">12%</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">KLAC</td><td class="num" style="background:transparent;;">量检测设备</td><td class="num" style="background:transparent;;">~30x</td><td class="num" style="background:transparent;;">60%</td><td class="num" style="background:transparent;;">13%</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">TSM</td><td class="num" style="background:transparent;;">代工龙头（下游客户）</td><td class="num" style="background:transparent;;">~24x</td><td class="num" style="background:transparent;;">59%</td><td class="num" style="background:transparent;;">8%</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">NVDA</td><td class="num" style="background:transparent;;">AI 芯片（终端需求）</td><td class="num" style="background:transparent;;">~36x</td><td class="num" style="background:transparent;;">75%</td><td class="num" style="background:transparent;;">12%</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司。同业 Forward PE 为近似值，2026 年半导体设备板块已集体大幅重估。</p>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（基于行业框架）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear"><div class="label">悲观情景 Bear</div><div class="value">$1,100</div></div>
+      <div class="fv-card base"><div class="label">基准情景 Base</div><div class="value">$1,550</div></div>
+      <div class="fv-card bull"><div class="label">乐观情景 Bull</div><div class="value">$2,200</div></div>
+    </div>
+    <p style="font-size:12px; color:#64748b; margin-top:-8px; margin-bottom:16px;">估值区间为 ADR（美元）每股价格，基于不同 PE 倍数假设 × 前瞻 EPS。Bear≈回归历史均值倍数；Base≈垄断溢价倍数；Bull≈维持当前高倍数 × 2027 EPS 增长。</p>
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">ASML 当前 Forward PE ~48–50x、Trailing PE ~58–62x，是过去十年绝对最高位，比十年均值（~36x）高约 70%。相对同业也处于明显溢价——半导体设备三巨头（AMAT/LRCX/KLAC）2026 年 YTD 分别大涨约 129%/106%/89%，整个设备板块已集体重估，但 ASML 的绝对倍数仍高于其他设备商。需要说明：ASML 的垄断地位确实值得比同业更高的倍数，问题在于「值多高」。第三方估值（如 GuruFocus GF Value 约 $1,100）显示现价（~$1,800）溢价约 65%。换言之，市场已把「AI 资本开支持续加速 + 2027 继续上调指引」的乐观情景充分计入，当前价位的安全边际很薄。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>把「顶级生意」等同于「顶级投资」——ASML 是世界上最好的生意之一，但 60x 的 Trailing PE 意味着即便未来几年高速增长，也可能被估值回归吞掉大部分回报。生意质量 ≠ 当前买点。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>忽略周期放大效应——ASML 是芯片资本开支的「放大器」，AI capex 一旦见顶，设备商的订单会先于终端需求下滑。当前订单强劲不代表 2027–28 无拐点风险。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>用汇率混淆估值——ASML 用欧元报告、美元 ADR 交易，卖方常混用两种货币建模，导致「表面折价/溢价」实为汇率效应，比较时务必统一货币口径。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>低估地缘政治尾部风险——中国约 20% 收入中的 DUV/服务部分，若遭遇更严出口管制，将直接冲击收入和市场情绪，这是无法用财务模型精确定价的政策变量。
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#05966922;color:#059669;border:1px solid #05966944;font-size:16px;padding:8px 18px">综合评级：A级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">资本配置极其自律理性。研发投入克制而聚焦（专注光刻主业，不搞盲目多元化并购）；股东回报机制稳定——2025 年股息 $8.78/股（€7.50，同比 +17%），2026–2028 年推出高达 $14B（€12B）的回购计划，Q1 单季已回购 $1.3B（€1.1B）。ROIC 长期显著高于资本成本。这是典型的「把钱花在刀刃上 + 稳定回馈股东」的优秀资本配置。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">整体透明可信，审计与披露规范。但有一处瑕疵值得警惕：从 2026 Q1 起，ASML 停止披露季度订单（net bookings）——管理层理由是大订单到货不均、会扭曲对趋势的解读，但客观上削弱了投资者对未来收入的前瞻可见度，把「硬数据」变成了「管理层措辞」。在估值高位时，这种可见度下降会放大市场对每一句指引的敏感度。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">战略执行力顶级。多年来 EUV 技术路线图按期兑现，从 Low-NA 到 High-NA 稳步推进，Q4 2025 已确认两台 High-NA 系统收入；面对产能瓶颈（光学、光源、精密部件供应）持续扩产，计划 2026 出货约 60 台、2027 有望达 80 台 Low-NA EUV。在人类工程学最难的领域，能持续如期交付，本身就是执行力的最强证明。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">Q1 单季回购 $1.3B（€1.1B），2026–2028 年计划回购 $14B（€12B）。ASML 的股票薪酬（SBC）占营收比例很低（远低于科技/SaaS 同业），故回购金额数倍于 SBC，属于真回购、真降流通股本——事实上流通股已从 392M 降至约 385M。这是货真价实的股东回报，而非「假回购抵消稀释」。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">① 极致的资本配置纪律（专注主业 + $14B 回购 + 股息 +17%）；② 顶级的技术执行力，EUV/High-NA 路线图长期按期兑现，护城河持续加深。这是一支「言出必行、把钱用在正确地方」的管理层。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">从 2026 Q1 起停止披露季度订单，是本报告对管理层唯一的实质性担忧——在估值十年最高位时降低前瞻可见度，会放大股价对管理层措辞和短期数据的敏感度。此外需持续观察产能爬坡是否跟得上需求（供应链瓶颈可能导致收入递延）。</div>
+    </div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★★★</div>
+      <div style="color:#475569; font-size:14px">5/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>ASML 是全世界最高质量的生意之一，商业质量给满分毫无争议——它是整个数字经济和 AI 革命的单一咽喉要道，拥有半导体产业最深、最难复制的护城河（EUV 技术垄断 + 极端转换成本），管理层资本配置和执行力都属顶级，AI 长期需求为其提供了多年的成长可见度。
+
+但请务必把「生意质量」和「当前投资吸引力」分开看——这正是本次分析最重要的结论。当前 ASML 的 Trailing PE ~58–62x、Forward PE ~48–50x，处于过去十年绝对最高位，比十年均值高约 70%，第三方公允价值估算显示现价溢价约 65%。市场已把最乐观的情景（AI 资本开支持续加速 + 2027 继续上调指引）充分定价。这意味着：即便未来几年基本面继续高速增长，投资者也可能因为「估值回归」而吞掉大部分回报；而一旦 AI capex 见顶或中国管制加码，作为周期「放大器」的 ASML 回撤幅度可能远超基本面的实际恶化。
+
+结论：五星生意，但当前是「偏高估」的价位。对长期投资者，ASML 值得放入观察清单并在显著回调时分批建仓；对当前价位追高，需要清醒认识到安全边际很薄，本质是在为「AI 超级周期不间断」这一假设付费。生意可以给满分，买点不是任何价格都成立。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">AI 资本开支持续性——台积电/三星/海力士的 capex 指引是否维持或上调（ASML 需求的上游先行指标）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">2027 年 EUV 出货指引——能否达到 80 台 Low-NA EUV，以及 High-NA 客户验收进度</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">中国收入与出口管制——DUV/服务收入占比变化，以及新一轮管制立法（如相关出口管制法案）的落地情况</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">年度订单积压（backlog）——因季度订单已不再披露，年度 backlog 成为判断未来收入可见度的关键窗口</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">估值分位回归——Forward PE 能否从 ~49x 向十年均值（~36x）靠拢，是判断买点的核心信号</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for ASML Holding (ASML) · 2026-07-15<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [2,3,3,1,2],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>

@@ -28,6 +28,7 @@ CATEGORIES = {
     'weekly': {'label': '市场周报', 'icon': '📊', 'color': '#95d048'},
     'daily':  {'label': '每日简报', 'icon': '📰', 'color': '#f5a623'},
     'features': {'label': '专题报道', 'icon': '🔍', 'color': '#d2a8ff'},
+    'earnings': {'label': '财报前瞻', 'icon': '📅', 'color': '#f778ba'},
 }
 
 

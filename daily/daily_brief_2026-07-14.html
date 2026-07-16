@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宏观日报 2026-07-14</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
+<style>
+  :root{--bg:#fff;--bg2:#f5f5f3;--bg3:#eeecea;--text:#1a1a1a;--text2:#555552;--text3:#888784;--border:#dddbd8;--accent:#3266ad;--danger:#E24B4A;--warning:#BA7517;--success:#1D9E75;--font:-apple-system,"Helvetica Neue",Arial,sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;line-height:1.7;max-width:900px;margin:0 auto;padding:32px 24px 64px;}
+  h1{font-size:22px;font-weight:600;margin-bottom:4px;}
+  h2{font-size:16px;font-weight:600;margin:32px 0 12px;padding-bottom:6px;border-bottom:1.5px solid var(--border);}
+  h3{font-size:12px;font-weight:600;margin:18px 0 8px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;}
+  p{margin-bottom:10px;}ul,ol{padding-left:20px;margin-bottom:10px;}li{margin-bottom:4px;}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
+  th{background:var(--bg2);padding:7px 10px;text-align:left;border:1px solid var(--border);font-weight:600;font-size:12px;}
+  td{padding:7px 10px;border:1px solid var(--border);vertical-align:top;}
+  tr:nth-child(even) td{background:var(--bg2);}
+  .header{border-bottom:2px solid var(--accent);padding-bottom:16px;margin-bottom:4px;}
+  .meta{font-size:12px;color:var(--text3);margin-top:4px;}
+  .badge{display:inline-block;font-size:11px;padding:2px 7px;border-radius:4px;font-weight:600;margin-right:4px;}
+  .badge-fed{background:#e8f0fb;color:#185FA5;}.badge-geo{background:#faeeda;color:#854F0B;}.badge-macro{background:#EEEDFE;color:#534AB7;}.badge-earn{background:#eaf3de;color:#3B6D11;}
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin:12px 0 16px;}
+  .kpi{background:var(--bg2);border-radius:8px;padding:12px 14px;}
+  .kpi-label{font-size:11px;color:var(--text3);margin-bottom:3px;}.kpi-value{font-size:20px;font-weight:600;}.kpi-sub{font-size:11px;color:var(--text3);margin-top:3px;}
+  .up{color:var(--success);}.down{color:var(--danger);}.warn{color:var(--warning);}
+  .callout{background:var(--bg2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0 16px;font-size:13px;color:var(--text2);}
+  .callout.warn-box{border-color:var(--warning);}.callout.danger-box{border-color:var(--danger);}.callout.success-box{border-color:var(--success);}
+  .chart-wrap{position:relative;width:100%;margin:10px 0 6px;}
+  .legend{display:flex;gap:14px;margin-bottom:8px;font-size:11px;color:var(--text3);flex-wrap:wrap;}
+  .legend span{display:flex;align-items:center;gap:4px;}
+  .dot{width:10px;height:10px;border-radius:2px;display:inline-block;}.lsw{width:20px;height:2px;display:inline-block;}
+  .sources{margin-top:48px;padding-top:20px;border-top:1.5px solid var(--border);}
+  .sources-title{font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;}
+  .sources ul{font-size:12px;color:var(--text3);columns:2;column-gap:32px;}
+  .disclaimer{margin-top:16px;font-size:11px;color:var(--text3);padding:10px 14px;background:var(--bg2);border-radius:6px;}
+  hr.div{border:none;border-top:1px solid var(--border);margin:8px 0 4px;}
+  @media(prefers-color-scheme:dark){
+    :root{--bg:#1a1a18;--bg2:#242422;--bg3:#2e2e2c;--text:#e8e6e0;--text2:#b0aea8;--text3:#777572;--border:#3a3a38;}
+    .badge-fed{background:#0c2240;color:#85B7EB;}.badge-geo{background:#2a1f08;color:#FAC775;}.badge-macro{background:#1a1840;color:#AFA9EC;}.badge-earn{background:#0d1f08;color:#97C459;}
+    th{background:var(--bg3);}tr:nth-child(even) td{background:var(--bg2);}
+  }
+  @media print{body{max-width:100%;padding:20px;}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="meta">📰 宏观新闻日报</div>
+  <h1>2026年7月14日，星期二</h1>
+  <div class="meta">生成时间：SGT 2026-07-15 &nbsp;·&nbsp; 数据截止：美东收盘（SGT 2026-07-15 04:00）</div>
+</div>
+
+<!-- A -->
+<h2>🏦 A. 宏观动态 &amp; 美联储</h2>
+
+<h3>联储动向时间线（三重叠加日）</h3>
+<ul>
+  <li><strong>SGT 7月14日 20:30（美东 08:30）</strong>：BLS 发布6月 CPI——月率 <strong>-0.4%</strong>（预期 -0.1%，前值 +0.5%），年率 <strong>3.5%</strong>（预期 3.8%，前值 4.2%）；核心 CPI 月率 <strong>0.0%</strong>（预期 +0.2%），年率 2.6%（前值 2.9%）。月率降幅为2020年4月以来最大，数据全面低于预期。</li>
+  <li><strong>SGT 7月14日 22:00（美东 10:00）</strong>：Fed 主席 Kevin Warsh 出席众议院金融服务委员会，发表半年度货币政策报告（Humphrey-Hawkins 听证第一天）。明日（7月15日）将在参议院银行委员会继续第二天作证。</li>
+</ul>
+
+<p style="font-size:13px;color:var(--text2);">Warsh 核心表态（偏鹰，但不新增施压）：宣称"通胀将成为历史"；重申 Fed 拥有"对持续高通胀零容忍"的立场；批评前任政策为"错误"；明确 Fed 独立性，回应 Trump 施压质疑称"我们是独立央行"。宣布五大任务小组将就通讯、资产负债表、经济数据、生产力就业、通胀框架提出建议，并向 FOMC 全体成员汇报后方才公开——刻意减少前瞻指引。<strong>整体倾向：鹰派但偏理性，热 CPI 数据带来的压力因6月数据大幅降温而边际缓解。</strong></p>
+
+<h3>6月 CPI 核心数据</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">CPI 月率（6月）</div><div class="kpi-value up">-0.4%</div><div class="kpi-sub">预期 -0.1%；大幅超预期</div></div>
+  <div class="kpi"><div class="kpi-label">CPI 年率（6月）</div><div class="kpi-value">3.5%</div><div class="kpi-sub up">前值 4.2%，5个月来首次回落</div></div>
+  <div class="kpi"><div class="kpi-label">核心 CPI 月率</div><div class="kpi-value up">0.0%</div><div class="kpi-sub">预期 +0.2%，大幅低于预期</div></div>
+  <div class="kpi"><div class="kpi-label">核心 CPI 年率</div><div class="kpi-value">2.6%</div><div class="kpi-sub up">前值 2.9%，大幅低于预期 2.8%</div></div>
+  <div class="kpi"><div class="kpi-label">能源指数（月）</div><div class="kpi-value up">-5.7%</div><div class="kpi-sub">2020年4月来最大月降；含汽油 -9.7%</div></div>
+  <div class="kpi"><div class="kpi-label">能源指数（年）</div><div class="kpi-value warn">+15.7%</div><div class="kpi-sub">仍大幅高位，伊朗停火缓解中</div></div>
+</div>
+<div class="callout success-box">📌 主要驱动：US-Iran 停火后汽油价格 5月大涨 +40.5% 的基数效应在6月得到显著逆转，能源月环比 -5.7% 拉低整体通胀。核心通胀 0.0% 意味着能源外的通胀压力已基本受控。这是连续5个月通胀加速后的首次真正意义上的降温——但 Warsh 明确表示这不是"任务完成"，能源外通胀仍存，伊朗紧张局势可能反复推高能源价格。</div>
+
+<h3>降息/加息概率（Polymarket，7月14日 CPI 发布后更新）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">7月29-30日 FOMC 维持不变</div><div class="kpi-value up">~94%（No change）</div><div class="kpi-sub">Polymarket；CPI 后加息预期降温</div></div>
+  <div class="kpi"><div class="kpi-label">7月加息（25bp）概率</div><div class="kpi-value down">~6%</div><div class="kpi-sub">CPI 发布前约 17%，大幅下降</div></div>
+  <div class="kpi"><div class="kpi-label">年内 0次降息概率</div><div class="kpi-value warn">~80%</div><div class="kpi-sub">Polymarket；降息预期仍极低</div></div>
+  <div class="kpi"><div class="kpi-label">9月加息概率</div><div class="kpi-value warn">~50%</div><div class="kpi-sub">市场仍定价年内某次加息可能</div></div>
+</div>
+
+<h3>利率市场（截至美东收盘，SGT 7月15日 04:00）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">2Y 国债收益率</div><div class="kpi-value">4.181%</div><div class="kpi-sub">日跌 -8 bp | 月 +6 bp | 年 +40 bp</div></div>
+  <div class="kpi"><div class="kpi-label">10Y 国债收益率</div><div class="kpi-value">4.58%</div><div class="kpi-sub">日跌 -5 bp | 月 +3 bp | 年 +10 bp</div></div>
+  <div class="kpi"><div class="kpi-label">30Y 国债收益率</div><div class="kpi-value warn">5.102%</div><div class="kpi-sub">仍在 5% 之上；2008年前来最高区间</div></div>
+  <div class="kpi"><div class="kpi-label">期限利差（10Y-2Y）</div><div class="kpi-value">+40 bp</div><div class="kpi-sub">曲线轻微陡化</div></div>
+</div>
+<div class="callout">CPI 发布后收益率全线下行，但 30Y 仍顽固停在 5.1%——市场在消化"近期通胀缓解 vs 中期能源/伊朗尾部风险"的两难。Warsh 的"无前瞻指引"策略使市场必须逐次数据定价，这本身就增加了利率波动性。2Y 年内升幅仍达 +40bp，反映"今年无降息"仍是基准情景。</div>
+
+<h3>📉 对美股盘面的即时影响</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">S&amp;P 500</div><div class="kpi-value">7,543.59</div><div class="kpi-sub up">昨日 +0.38%</div></div>
+  <div class="kpi"><div class="kpi-label">Nasdaq</div><div class="kpi-value">26,107.01</div><div class="kpi-sub up">昨日 +0.90%（科技领涨）</div></div>
+  <div class="kpi"><div class="kpi-label">Dow Jones</div><div class="kpi-value">52,508.27</div><div class="kpi-sub up">昨日 +0.02%（IBM拖累）</div></div>
+  <div class="kpi"><div class="kpi-label">Russell 2000</div><div class="kpi-value">—</div><div class="kpi-sub up">昨日 +0.39%</div></div>
+</div>
+<p>典型的"CPI 降温 + 科技领涨"组合：凉爽通胀数据压低收益率，解除了短期加息威胁，推动 Nasdaq 上涨 +0.90%，半导体/科技（XLK +1.29%）大幅领跑。但市场格局高度分裂——IBM 历史最惨单日崩跌 -25%（拖累 Dow 几乎原地踏步），高盛 +7.4% 抵消大部分银行板块情绪。六大指数出现少见的"Nasdaq 大涨、Dow 几乎不动"极端分化。</p>
+
+<h3>📅 未来3个交易日重要事件</h3>
+<table>
+  <tr><th>日期（SGT）</th><th>事件</th><th>类型</th><th>市场预期/备注</th></tr>
+  <tr><td>7月15日（今日）全天</td><td><strong>Warsh 参议院银行委员会听证</strong>（第二天）</td><td><span class="badge badge-fed">联储</span></td><td>Warren 已发函质疑 Warsh 拒交点阵图；民主党将施压独立性与透明度问题；CPI 降温是否改变其措辞值得关注</td></tr>
+  <tr><td>7月15日 盘后</td><td>TSMC Q2 2026 财报</td><td><span class="badge badge-earn">财报</span></td><td>AI 晶圆需求核心指标；CoWoS 产能与 CoWoS-L 进展；N3/N2 良率是否提升</td></tr>
+  <tr><td>7月16日 盘后</td><td>Netflix、ASML 财报</td><td><span class="badge badge-earn">财报</span></td><td>ASML 订单量是关键（4月曾因订单骤降 -44% 触发板块暴跌）；Netflix 订阅用户增长质量</td></tr>
+  <tr><td>8月12日 20:30</td><td>7月 CPI 发布（下一个关键通胀节点）</td><td><span class="badge badge-macro">宏观数据</span></td><td>能源价格是否反弹（伊朗局势）将决定通胀路径；9月 FOMC 加息窗口在此打开或关闭</td></tr>
+</table>
+
+<hr class="div">
+
+<!-- B -->
+<h2>🎯 B. Polymarket 最热预测市场 TOP 3</h2>
+<table>
+  <tr><th>#</th><th>预测主题</th><th>Yes/主要概率</th><th>成交量</th><th>核心关注</th></tr>
+  <tr><td>1</td><td>🏦 Fed 7月决议：维持不变（No change）</td><td><strong>85–94%</strong></td><td>$103.5M+（经济政策类）</td><td>CPI 降温后从约 83% 再度升至 94% 区间</td></tr>
+  <tr><td>2</td><td>🕊️ US x Iran 永久和平协议（年底前）</td><td><strong>74%</strong></td><td>$140M（$7M 今日成交）</td><td>全站最大成交量，停火持续但 Hormuz 重新紧张</td></tr>
+  <tr><td>3</td><td>📈 年内 0次降息</td><td><strong>80%</strong></td><td>$59.3M+</td><td>CPI 降温轻微松动，但底部定价仍是"不降息"</td></tr>
+</table>
+<ul>
+  <li>7月 FOMC 维持不变市场：CPI 大幅降温后加息概率从约 17% 暴跌至约 6%，"维持不变"概率反弹至 94%。但多个 Polymarket 数据源显示不同截面的定价在 76%–94% 之间，反映各合约措辞差异；核心信号是：7月加息几乎被排除，但年底加息仍有约 20-50% 概率。</li>
+  <li>美伊永久和平协议（$140M、$7M 今日成交）：全站最大地缘政治合约。上周 Trump 威胁重新封锁 Hormuz，伊朗随即袭击过境油轮；本周 Trump 收回部分威胁后油价小幅回落。"年底前永久协议"Yes 概率约 74%——市场对最终和平的信心仍较高，但近期反复磋商令波动率上升。</li>
+  <li>年内 0次降息（80% Yes）：即便6月通胀超预期降温，Polymarket 显示降息叙事仍无法建立——因为 30Y 收益率依然在 5.1%，能源价格存在反弹风险，Warsh 鹰派框架已确立。"0次降息"仍是最主流定价，1次降息 14.5%，2次降息 4.2%。</li>
+</ul>
+
+<hr class="div">
+
+<!-- C -->
+<h2>🥇 C. 贵金属库存追踪</h2>
+
+<h3>黄金（Gold）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">7月14日现货价（日内）</div><div class="kpi-value up">~$4,080–4,090/oz</div><div class="kpi-sub up">日涨约 +1.9–2.0%（CPI降温驱动）</div></div>
+  <div class="kpi"><div class="kpi-label">月涨跌</div><div class="kpi-value up">约 +3%</div><div class="kpi-sub">7月金价持续回升</div></div>
+  <div class="kpi"><div class="kpi-label">年涨跌</div><div class="kpi-value up">+22%+</div><div class="kpi-sub">含 1月高点 $5,602 回落后反弹</div></div>
+  <div class="kpi"><div class="kpi-label">年内记录高点</div><div class="kpi-value">$5,602/oz</div><div class="kpi-sub">2026年1月28日</div></div>
+</div>
+<div class="callout success-box">📊 CPI 大幅降温 → 加息预期降温 → 美元/国债收益率下滑 → 黄金单日反弹约 2%。停火环境下地缘风险溢价下降（相较高峰）但伊朗 Hormuz 重新紧张再次提供避险支撑，金价呈现"利率 + 地缘双驱"格局。ING 目标价 $5,000 年底不变，认为央行购金是长期底部支撑。COMEX 库存估算约 22–23M oz，已低于长期均值，供给面偏紧格局持续。</div>
+
+<div class="legend">
+  <span><span class="lsw" style="background:#3266ad;height:2px;display:inline-block;"></span>总库存</span>
+  <span><span class="lsw" style="background:#888780;border-top:2px dashed #888780;height:0;display:inline-block;"></span>长期均值 24.1M</span>
+  <span><span class="lsw" style="background:#E24B4A;border-top:2px dashed #E24B4A;height:0;display:inline-block;"></span>关税前基线 17.1M</span>
+</div>
+<div class="chart-wrap" style="height:240px;">
+  <canvas id="goldChart" role="img" aria-label="COMEX黄金库存走势图，现已低于长期均值24.1M，当前约22M，趋势继续下行"></canvas>
+</div>
+
+<h3>白银（Silver）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">7月14日现货价（日内）</div><div class="kpi-value">$57.68/oz（开盘附近）</div><div class="kpi-sub">全天基本持平</div></div>
+  <div class="kpi"><div class="kpi-label">7月以来</div><div class="kpi-value down">较6月底下行</div><div class="kpi-sub">伊朗停火削弱工业避险溢价</div></div>
+  <div class="kpi"><div class="kpi-label">金银比</div><div class="kpi-value warn">约 71:1</div><div class="kpi-sub">银大幅跑输金，工业属性主导</div></div>
+  <div class="kpi"><div class="kpi-label">COMEX 注册库存</div><div class="kpi-value down">~22M oz</div><div class="kpi-sub down">持续低位；覆盖率约 11%</div></div>
+</div>
+<div class="callout danger-box">📊 银价已从4月高点 $82/oz 大幅下跌至 $57–58 区间（跌幅约 30%），金银比从 62 扩大至约 71——这是停火后工业需求预期修复、同时 AI 牛市推动黄金独立上涨叙事的双重结果。注册库存覆盖率约 11%，处于历史极低水平，若银价因任何需求冲击反弹，实物挤兑风险仍存。</div>
+
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">当前总库存（7/14）</div><div class="kpi-value down">~235M oz</div><div class="kpi-sub down">较峰值 -56%</div></div>
+  <div class="kpi"><div class="kpi-label">历史峰值（2025/10）</div><div class="kpi-value">532M oz</div></div>
+  <div class="kpi"><div class="kpi-label">长期均值</div><div class="kpi-value">321M oz</div></div>
+  <div class="kpi"><div class="kpi-label">当前注册库存</div><div class="kpi-value down">~22M oz</div><div class="kpi-sub down">较注册峰值 -87%</div></div>
+</div>
+<div class="legend">
+  <span><span class="lsw" style="background:#73726c;height:2px;display:inline-block;"></span>总库存（R+E）</span>
+  <span><span class="lsw" style="background:#E24B4A;height:2px;display:inline-block;"></span>注册库存（可交割）</span>
+  <span><span class="lsw" style="background:#888780;border-top:2px dashed #888780;height:0;display:inline-block;"></span>长期均值 321M</span>
+</div>
+<div class="chart-wrap" style="height:240px;">
+  <canvas id="silverTotalChart" role="img" aria-label="白银库存双线图，总库存从532M降至235M，注册库存从168M跌至约22M"></canvas>
+</div>
+
+<div class="kpi-grid" style="margin-top:16px;">
+  <div class="kpi"><div class="kpi-label">覆盖率（7/14）</div><div class="kpi-value down">~11%</div><div class="kpi-sub down">压力区（&lt;15%），历史极低</div></div>
+  <div class="kpi"><div class="kpi-label">纸白银杠杆</div><div class="kpi-value">8–9×</div><div class="kpi-sub">继续攀升</div></div>
+  <div class="kpi"><div class="kpi-label">注册库存趋势</div><div class="kpi-value down">持续流出</div><div class="kpi-sub">-87% 较峰值</div></div>
+  <div class="kpi"><div class="kpi-label">7月 FND 状态</div><div class="kpi-value">进行中</div><div class="kpi-sub warn">关注交割数据</div></div>
+</div>
+<div class="legend" style="margin-top:10px;">
+  <span><span class="dot" style="background:#E24B4A;"></span>压力区（&lt;15%）</span>
+  <span><span class="dot" style="background:#BA7517;"></span>警戒区（15–25%）</span>
+  <span><span class="dot" style="background:#3266ad;"></span>正常区（&gt;25%）</span>
+</div>
+<div class="chart-wrap" style="height:180px;">
+  <canvas id="silverCovChart" role="img" aria-label="白银覆盖率历史柱状图，7月约11%为历史极低水平"></canvas>
+</div>
+<p style="font-size:11px;color:var(--text3);margin-top:4px;">来源：CME仓库报告（MetalCharts）、USAGOLD、TradingEconomics。7/14数据含估算值。</p>
+
+<hr class="div">
+
+<!-- D -->
+<h2>📊 D. 财报后大波动个股</h2>
+<p style="font-size:12px;color:var(--text3);margin-bottom:8px;">✅ Q2 2026 财报季正式开启——大银行 + IBM 在 CPI 数据同日登场</p>
+<table>
+  <tr><th>公司/Ticker</th><th>EPS（实际 vs 预期）</th><th>营收（实际 vs 预期）</th><th>股价反应</th><th>核心看点</th></tr>
+  <tr>
+    <td><strong>IBM (IBM)</strong></td>
+    <td>$2.93 adj vs $3.01<br><small class="down">未达预期</small></td>
+    <td>$17.2B（+1% YoY）<br><small class="down">软件增长被咨询/基础设施拖累</small></td>
+    <td class="down"><strong>-25.1%</strong><br><small>历史最差单日（1972年来数据）</small></td>
+    <td>CEO Krishna：客户将预算从软件/咨询转向硬件（服务器、存储、内存）——提前备货应对 AI 推动的价格上涨。"我们执行不力"。这是 AI 叙事对 IBM 传统业务的"挤压效应"，对 AI 芯片/硬件板块是反向利好。</td>
+  </tr>
+  <tr>
+    <td><strong>Goldman Sachs (GS)</strong></td>
+    <td>大幅超预期</td>
+    <td>超预期</td>
+    <td class="up"><strong>+7.4%</strong></td>
+    <td>股票交易业务再创纪录（中东地缘波动推动市场活跃度）；Q2 整体超强。</td>
+  </tr>
+  <tr>
+    <td><strong>JPMorgan Chase (JPM)</strong></td>
+    <td>$6.14 vs $5.59（+10%超预期）</td>
+    <td>管理营收 $58B（超预期）</td>
+    <td class="up"><strong>+2.8%</strong></td>
+    <td>Q2 净利润 $16.9B，每条业务线均创记录；市场部门收入 +35%（受伊朗战争波动驱动）。</td>
+  </tr>
+  <tr>
+    <td><strong>Wells Fargo (WFC)</strong></td>
+    <td>$2.00 vs $1.72（+16%超预期）</td>
+    <td>$22.62B vs $21.84B（超预期）</td>
+    <td class="up"><strong>+1%+</strong></td>
+    <td>净利息收入改善；整体强劲但低于 GS/JPM 的市场反应幅度。</td>
+  </tr>
+  <tr>
+    <td><strong>CrowdStrike (CRWD)</strong></td>
+    <td>超预期</td>
+    <td>超预期</td>
+    <td class="up"><strong>+9.4%</strong></td>
+    <td>企业网安需求旺盛；SoftBank/OpenAI 网安联合项目（7月14日宣布）提供板块催化剂。</td>
+  </tr>
+</table>
+<div class="callout warn-box">IBM 崩跌的隐含信号：客户正将预算从软件/服务迁移到 AI 训练/推理硬件——这正是半导体板块（SMH/SOXX）的核心驱动逻辑，也解释了为何 Micron +4.6%、Nvidia +4.3% 在同一天与 IBM -25% 并存。AI 正在重构企业 IT 支出结构，软件和咨询服务的传统护城河遭到侵蚀。</div>
+
+<hr class="div">
+
+<!-- E -->
+<h2>🔄 E. 板块轮动分析</h2>
+<table>
+  <tr><th>方向</th><th>板块</th><th>ETF</th><th>涨跌</th><th>驱动因素</th></tr>
+  <tr><td>领涨</td><td>信息技术</td><td>XLK</td><td class="up">+1.29%</td><td>CPI 降温 → 收益率下行 → 成长股估值受益；Nvidia +4.3%、Micron +4.6% 带动；IBM -25% 但为单个权重较低名称</td></tr>
+  <tr><td>领涨</td><td>金融</td><td>XLF</td><td class="up">约 +1%+</td><td>GS +7.4%、JPM +2.8%、WFC +1% 大银行全面超预期，市场波动推高交易收入</td></tr>
+  <tr><td>领跌</td><td>医疗健康</td><td>XLV</td><td class="down">-1.93%</td><td>Biogen (BIIB) -8.6%、Stryker (SYK) -6.5% 拖累；板块缺乏催化剂</td></tr>
+  <tr><td>领跌</td><td>必需消费</td><td>XLP</td><td class="down">-1.38%</td><td>通胀降温减少防御需求；资金从防御板块流出</td></tr>
+</table>
+<p>7月14日是"双重利好"叠加的非典型日：CPI 降温给科技/成长股减压，大银行财报全面超预期给金融板块提供基本面支撑——两个力量将 Nasdaq 推至 +0.90%，同时大盘（S&P +0.38%）和 Dow（+0.02%）表现更为克制，因为医疗和消费板块资金轮出。IBM 的历史性崩跌让整个软件/咨询价值链重估，但 Micron、Nvidia 等 AI 硬件直接受益，进一步验证了"AI 硬件 > AI 软件服务"的结构性轮动方向。</p>
+
+<h3>💾 半导体 ETF 追踪：SMH vs SOXX</h3>
+<table>
+  <tr><th>指标</th><th>SMH（VanEck）</th><th>SOXX（iShares）</th></tr>
+  <tr><td>7月14日收盘（估算）</td><td class="up">~$611（7月10日为 $611.03）</td><td class="up">约 $550–560</td></tr>
+  <tr><td>昨日涨跌（7/14估算）</td><td class="up">约 +1.5–2%（Nvidia/Micron 反弹）</td><td class="up">约 +1.5–2%</td></tr>
+  <tr><td>年涨跌 YTD（截至7/10）</td><td class="up"><strong>+69.67%</strong></td><td class="up"><strong>+90.03%（H1）</strong></td></tr>
+  <tr><td>一年回报（截至7/10）</td><td class="up"><strong>+104.34%</strong></td><td class="up">—</td></tr>
+  <tr><td>过去一年净流入</td><td>$73亿</td><td>$19亿</td></tr>
+  <tr><td>7月8日单日净流入</td><td>$5.52亿</td><td class="up"><strong>$54.3亿（单日历史记录）</strong></td></tr>
+  <tr><td>AUM</td><td>~$69.8亿</td><td>~$46.3亿（7/8后）</td></tr>
+</table>
+<div class="callout">本轮半导体 ETF 走势最引人关注的结构性变化：SOXX 今年 YTD 达 +90%，远超 SMH 的 +69%——因为 SOXX 的分散化结构（最大持仓上限8%）在本轮"AI 硬件需求全面扩散"行情中抓住了 AMD、Intel 反弹、内存（SK Hynix、Micron）飙升、设备商（AMAT、LRCX）扩产等多条支线。SMH 因 Nvidia 集中度高（但 Nvidia YTD 仅 +13%），反而跑输 SOXX。7月8日 SOXX 单日净流入 $54.3亿（AUM +11.7%）创历史记录，是机构对"AI 扩散叙事"的最强力资金背书。</div>
+
+<div class="legend"><span><span class="dot" style="background:#1D9E75;"></span>SMH</span><span><span class="dot" style="background:#3266ad;"></span>SOXX</span></div>
+<div class="chart-wrap" style="height:200px;">
+  <canvas id="semivolChart" role="img" aria-label="SMH和SOXX过去5日日成交额，7月8日因大规模资金涌入达历史峰值"></canvas>
+</div>
+
+<hr class="div">
+
+<!-- F -->
+<h2>🔭 F. SoftBank 专项追踪</h2>
+
+<h3>股价与市值（7月14日）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">SFTBY（OTC ADR，7月14日）</div><div class="kpi-value">~$18–19</div><div class="kpi-sub">7月1日部署 $100亿后回落；7月2日因贷款利好反弹 +11%</div></div>
+  <div class="kpi"><div class="kpi-label">市值</div><div class="kpi-value">~$214.85亿</div><div class="kpi-sub">超越丰田成日本第一后回调</div></div>
+  <div class="kpi"><div class="kpi-label">LTV 比率（估算）</div><div class="kpi-value warn">~20–22%</div><div class="kpi-sub">ARM 价格支撑；接近红线 25%</div></div>
+  <div class="kpi"><div class="kpi-label">OpenAI 持仓价值</div><div class="kpi-value up">~$80B</div><div class="kpi-sub up">含约 $45B 未实现利润</div></div>
+</div>
+
+<h3>核心风险仪表盘</h3>
+<table>
+  <tr><th>指标</th><th>当前值</th><th>警戒线</th><th>状态</th></tr>
+  <tr><td>LTV 比率</td><td>~20–22%（估算）</td><td>25%</td><td class="warn">🟡 接近但有缓冲</td></tr>
+  <tr><td>2026年底再融资墙</td><td>~$500亿</td><td>2026年底</td><td class="warn">🟡 倒计时约 5.5 个月</td></tr>
+  <tr><td>ARM 持仓（~90%）</td><td>SMH 年涨 +70%；ARM 受半导体牛市支撑</td><td>$800B（LTV临界）</td><td class="up">🟢 当前缓解</td></tr>
+  <tr><td>OpenAI $10B 贷款</td><td>已加企业追索权担保，Goldman+JPMorgan+Mizuho 谈判</td><td>私募估值可信度</td><td class="warn">🟡 谈判仍在进行</td></tr>
+  <tr><td>OpenAI IPO</td><td>目标 Q3/Q4 2026；Goldman+Morgan Stanley 承销</td><td>2026年底</td><td class="up">🟢 进程推进</td></tr>
+  <tr><td>信用评级</td><td>S&P 展望负面（3月调整）；财务强度评分 3/10</td><td>BBB-</td><td class="warn">🟡</td></tr>
+</table>
+
+<h3>最新动态（7月1日—14日）</h3>
+<ul>
+  <li><strong>7月1日：第二批 $100亿 OpenAI 投资部署完成</strong>——通过 SoftBank Vision Fund 2 执行，SFTBY 当日下跌 4.5%（市场对债务融资的不满）。第三批 $100亿 计划于10月1日部署，若 OpenAI 提前 IPO 则可能加速。总 OpenAI 承诺额已超 $600亿，持股约 13%（$80B 估值）。</li>
+  <li><strong>7月1日：$100亿 OpenAI 股权抵押贷款谈判重启</strong>——加入企业层面追索权担保（此前仅以 OpenAI 股份为抵押），Goldman Sachs、JPMorgan、Mizuho 组成贷款财团。SFTBY 随后 +11%。私募股权估值的可信度问题仍是核心障碍。</li>
+  <li><strong>7月14日：SoftBank World 2026 年会（东京）</strong>——孙正义预测 AI 年投资额到 2040 年将达 $5万亿，称"AI 将贡献全球 GDP 20%，产生约 $46万亿收入"；驳斥 AI 泡沫论为"荒谬"。当天同步宣布与 OpenAI 合作推出企业 AI 网安防御服务（覆盖日本约 3000 家关键基础设施企业）。</li>
+  <li><strong>IBM -25% 对 SoftBank 的间接影响</strong>：IBM 崩跌证明 AI 正将企业预算从软件/咨询迁移到硬件——对 ARM（AI 推理芯片架构主导者）和 OpenAI（企业 AI 应用层）是潜在正面信号，验证了 SoftBank 两大核心押注的底层逻辑。</li>
+</ul>
+
+<h3>ARM 连锁影响评估</h3>
+<ul>
+  <li>ARM 今年持续受益于 AI 推理需求扩散：SMH 成分股中 ARM 权重约 8%，YTD 表现优于 Nvidia</li>
+  <li>IBM CEO 明确指出客户迁移到硬件（服务器/内存）而非软件——进一步验证 ARM 架构在 AI 推理层的护城河</li>
+  <li>本周无 SoftBank 减持 ARM 的信号；ARM 价格走势对 LTV 维持在 25% 以下至关重要</li>
+  <li>对 SMH 影响：若 SoftBank 不需要被迫减持，ARM 持仓稳定有助于半导体 ETF 的流动性预期</li>
+</ul>
+
+<h3>OpenAI 生态信号</h3>
+<ul>
+  <li>IPO 进程：Goldman Sachs + Morgan Stanley 担任承销商；目标 Q3/Q4 2026；当前估值 $7,300亿+；S&P/FTSE Russell "快速通道"规则讨论中，上市后数日内或纳入主要指数</li>
+  <li>竞争格局：SoftBank/OpenAI 网安产品（7/14宣布）显示双方已将合作从 AI 基础设施延伸至企业应用层，为 OpenAI 的 B2B 商业化提供新路径；Anthropic（Alphabet $400亿支持）持续在企业端追赶</li>
+  <li>Stargate 项目：Ohio 数据中心首阶段建设进行中，SoftBank 通过 OpenAI 股权抵押贷款为后续基建融资——10月第三批 $100亿 或用于加速 Stargate 落地</li>
+</ul>
+
+<!-- Sources -->
+<div class="sources">
+  <div class="sources-title">Data Sources</div>
+  <ul>
+    <li>BLS — 6月 CPI 官方数据（USDL-26-1191）</li>
+    <li>CNBC / Bloomberg / CNN — Warsh 听证报道、市场收盘、IBM 崩跌、大银行财报</li>
+    <li>TradingEconomics — 美国通胀率历史、国债收益率、黄金价格 ~$4,080</li>
+    <li>JM Bullion / TradingEconomics — 金价日内数据（$4,088/oz 11:47 ET）</li>
+    <li>USAGOLD / MetalCharts — 贵金属库存数据（估算）</li>
+    <li>TheStreet — 市场每日综述（7月14日）</li>
+    <li>Motley Fool — IBM 崩跌分析、银行财报详情</li>
+    <li>247WallSt — 盘前/实时市场动态</li>
+    <li>CP24 — 市场稳态报告（IBM拖累 Dow 分析）</li>
+    <li>CoinDesk — CPI 对降息/加息预期影响</li>
+    <li>USInflationCalculator.com — CPI 分项数据（逐月）</li>
+    <li>Polymarket — Fed 决议概率、Iran 和平协议、年内降息</li>
+    <li>Blockchain.News — Polymarket 年内降息定价分析</li>
+    <li>ETF.com — SMH vs SOXX 数据、7月8日 SOXX $54.3亿净流入</li>
+    <li>BigGo Finance / 247WallSt / ETF.com — H1 2026 SMH/SOXX 回报数据</li>
+    <li>GURUFocus — SFTBY SoftBank World 2026（孙正义 $5万亿预测）</li>
+    <li>Benzinga — SoftBank $100亿 OpenAI 抵押贷款（追索权担保细节）</li>
+    <li>Blockonomi — SoftBank 7月1日第二批 $100亿 OpenAI 投资</li>
+    <li>Parameter.io — SoftBank/OpenAI 企业 AI 网安防御服务（7月14日）</li>
+    <li>Seeking Alpha — SFTBY NAV 分析；Federal Reserve — Warsh 听证官网记录</li>
+  </ul>
+  <div class="disclaimer">本报告由 AI 自动生成，仅供参考，不构成投资建议。部分数据（含 SMH/SOXX 当日收盘价、COMEX 库存）为基于公开报道的估算值，实际数据以交易所官方公布为准。投资有风险，决策需谨慎。</div>
+</div>
+
+<script>
+const isDark=matchMedia('(prefers-color-scheme:dark)').matches;
+const gC=isDark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.07)';
+const lC=isDark?'#777':'#888';
+
+// 图1：黄金库存（更新至7月，延续低于均值趋势）
+new Chart(document.getElementById('goldChart'),{type:'line',data:{
+  labels:['25/3','25/4','25/5','25/6','25/7','25/8','25/9','25/10','25/11','25/12','26/1','26/2','26/3','26/4','26/5','26/6','26/7'],
+  datasets:[{label:'总库存',data:[43.3,42.0,41.0,40.2,39.5,38.6,38.9,38.5,40.0,39.0,36.5,34.4,30.0,24.5,23.5,23.0,22.5],
+    borderColor:'#3266ad',backgroundColor:isDark?'rgba(50,102,173,0.12)':'rgba(50,102,173,0.08)',
+    fill:true,tension:0.3,borderWidth:2,
+    pointRadius:[...Array(16).fill(3),6],
+    pointBackgroundColor:[...Array(16).fill('#3266ad'),'#E24B4A'],
+    pointBorderColor:[...Array(16).fill('#3266ad'),'#E24B4A']}]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+  tooltip:{callbacks:{label:ctx=>ctx.parsed.y.toFixed(1)+'M oz'}},
+  annotation:{annotations:{
+    avg:{type:'line',yMin:24.1,yMax:24.1,borderColor:'#888780',borderWidth:1.5,borderDash:[6,4],
+      label:{content:'均值 24.1M（已跌破）',display:true,position:'start',font:{size:10},color:'#E24B4A',backgroundColor:'transparent',yAdjust:-10}},
+    base:{type:'line',yMin:17.1,yMax:17.1,borderColor:'#E24B4A',borderWidth:1.5,borderDash:[6,4],
+      label:{content:'关税前 17.1M',display:true,position:'start',font:{size:10},color:'#E24B4A',backgroundColor:'transparent',yAdjust:12}}}}},
+  scales:{x:{ticks:{color:lC,font:{size:10},maxRotation:30,autoSkip:false},grid:{color:gC}},
+    y:{min:14,max:46,ticks:{color:lC,font:{size:10},callback:v=>v+'M'},grid:{color:gC},
+      title:{display:true,text:'百万盎司',color:lC,font:{size:10}}}}}});
+
+// 图2：白银双线
+const slb=['25/4','25/7','25/8','25/9','25/10','25/11','25/12','26/1','26/2','26/3','26/4','26/5','26/6','26/7'];
+const stt=[445,498,507,525,532,490,430,380,366,285,255,248,245,235];
+const srg=[null,null,null,168,167.7,145,120,103,98,52,30,27,25,22];
+new Chart(document.getElementById('silverTotalChart'),{data:{labels:slb,datasets:[
+  {type:'line',label:'总库存（R+E）',data:stt,borderColor:'#73726c',backgroundColor:isDark?'rgba(115,114,108,0.10)':'rgba(115,114,108,0.07)',fill:true,tension:0.3,borderWidth:2,
+    pointRadius:stt.map((_,i)=>i===stt.length-1?6:3),pointBackgroundColor:stt.map((_,i)=>i===stt.length-1?'#73726c':'#888'),pointBorderColor:'#73726c',yAxisID:'y'},
+  {type:'line',label:'注册库存（可交割）',data:srg,borderColor:'#E24B4A',backgroundColor:'transparent',fill:false,tension:0.3,borderWidth:2,
+    pointRadius:srg.map((v,i)=>v!=null?(i===srg.length-1?6:3):0),pointBackgroundColor:'#E24B4A',pointBorderColor:'#E24B4A',yAxisID:'y'}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:ctx=>ctx.parsed.y!=null?ctx.dataset.label+': '+ctx.parsed.y.toFixed(0)+'M oz':''}},
+    annotation:{annotations:{avg:{type:'line',yMin:321,yMax:321,borderColor:'#888780',borderWidth:1.5,borderDash:[6,4],
+      label:{content:'均值 321M',display:true,position:'start',font:{size:10},color:'#888780',backgroundColor:'transparent',yAdjust:-10}}}}},
+  scales:{x:{ticks:{color:lC,font:{size:10},maxRotation:30,autoSkip:false},grid:{color:gC}},
+    y:{min:0,max:580,ticks:{color:lC,font:{size:10},callback:v=>v+'M'},grid:{color:gC},
+      title:{display:true,text:'百万盎司',color:lC,font:{size:10}}}}}});
+
+// 图3：覆盖率（更新至7月约11%）
+const cvl=['25/5','25/7','25/9','25/10','25/12','26/2','26/4','26/6','26/7'];
+const cvd=[34,30,26,22,18,14.5,13,12,11];
+new Chart(document.getElementById('silverCovChart'),{type:'bar',data:{labels:cvl,
+  datasets:[{label:'覆盖率',data:cvd,backgroundColor:cvd.map(v=>v<15?'#E24B4A':v<25?'#BA7517':'#3266ad'),borderRadius:3,borderSkipped:false}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:ctx=>ctx.parsed.y.toFixed(1)+'%'}},
+    annotation:{annotations:{sl:{type:'line',yMin:15,yMax:15,borderColor:'#E24B4A',borderWidth:1.5,borderDash:[5,4],
+      label:{content:'压力阈值 15%',display:true,position:'end',font:{size:10},color:'#E24B4A',backgroundColor:'transparent',yAdjust:-10}}}}},
+  scales:{x:{ticks:{color:lC,font:{size:10}},grid:{display:false}},
+    y:{min:0,max:40,ticks:{color:lC,font:{size:10},callback:v=>v+'%'},grid:{color:gC}}}}});
+
+// 图4：SMH/SOXX（过去5日，含7月8日历史性流入）
+new Chart(document.getElementById('semivolChart'),{type:'bar',data:{
+  labels:['7/8(周三)','7/9(周四)','7/10(周五)','7/13(周一)','7/14(周二)'],
+  datasets:[
+    {label:'SMH',data:[55,28,22,20,35],backgroundColor:'#1D9E75',borderRadius:3,borderSkipped:false},
+    {label:'SOXX',data:[543,85,42,35,48],backgroundColor:'#3266ad',borderRadius:3,borderSkipped:false}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'top',labels:{color:lC,font:{size:11},boxWidth:10}},
+      tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': ~$'+ctx.parsed.y+'亿'}}},
+    scales:{x:{ticks:{color:lC,font:{size:10}},grid:{display:false}},
+      y:{ticks:{color:lC,font:{size:10},callback:v=>'$'+v+'亿'},grid:{color:gC},
+        title:{display:true,text:'日成交额（亿美元，估算）',color:lC,font:{size:10}}}}}});
+</script>
+</body>
+</html>
