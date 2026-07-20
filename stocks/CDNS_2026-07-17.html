@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadence 楷登电子 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Cadence 楷登电子 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：CDNS</div>
+      <div>🏛️ 交易所：NASDAQ</div>
+      <div>🏷️ 行业：EDA / 半导体设计软件</div>
+      <div>📅 分析日期：2026-07-17</div>
+      <div>💵 现价：~$370（52周 $263–$417）</div>
+    </div>
+    <div class="one-liner">💡 Cadence通过向全球芯片与电子系统设计公司出售"不可替代"的EDA工具订阅 + 硬件仿真设备 + Design IP + 系统级仿真，收取高粘性经常性收入（backlog $80亿），与Synopsys共享双寡头宽护城河；当前基本面处于加速期（有机+17%、连续beat & raise），但约47x forward PE已充分定价乐观预期。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" data-tab="m0">💡 小白版</button>
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  
+  <div class="section" id="m0">
+    <h2>💡 模块零：金融小白友好版商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言把这家技术公司"翻译"清楚——后续分析的基础</p>
+    <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:24px 28px;border-radius:12px;margin-bottom:20px;border-left:4px solid #d97706;">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:15px;">🎯 核心比喻</div>
+      <div style="font-size:15px;color:#0f172a;line-height:1.8;">Cadence像"芯片界顶级建筑设计院双雄之二"——全世界的摩天大楼（先进芯片）设计图纸只能用它或Synopsys的绘图软件来画。但Cadence有一样独门重器："1:1实体样板间"（硬件仿真/emulation设备Palladium）——芯片流片前，客户把整颗芯片的逻辑装进Cadence的专用仿真机里跑真实软件，提前发现致命缺陷，一台设备卖数百万美元，AI大芯片越复杂越离不开它。收购Hexagon D&E和推出Millennium超算后，它还把仿真从芯片延伸到整个物理世界——汽车碰撞、飞机气动、数据中心散热，相当于给客户造"数字孪生风洞"。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📦 商业模式三问</h3>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #2563eb;">
+        <div class="label" style="color:#2563eb;">① 卖什么？</div>
+        <div class="value">三条业务线（Q1 2026全部双位数增长）：① Core EDA（收入主力，Q1同比+18%）——芯片设计验证全流程软件 + 硬件仿真设备（Q1创公司历史最佳emulation季度，AI/HPC客户抢购）；② Design IP（Q1 +22%）——预制电路模块，刚与一家全球领先代工厂签下史上最大IP合同（绑定2nm节点）；③ System Design & Analysis（Q1 +18%）——3D-IC封装、多物理场仿真、PCB设计，服务汽车、航空航天等系统厂商。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #059669;">
+        <div class="label" style="color:#059669;">② 怎么收费？</div>
+        <div class="value">Bloomberg终端式订阅为主：软件按工程师席位收年费，合同约3年期，backlog $80亿中$40亿将在未来12个月确认为收入——一年内收入近三分之二已锁定。硬件仿真设备为一次性销售+维护（周期性强，是季度波动来源）。正在叠加第三种收费：agentic AI的"订阅+按用量（consumption）"混合模式——AI设计agent跑得越多收得越多，与Google/Gemini在Google Cloud上合作交付。管理层明确不假设2026年AI收入出现阶跃，定价保守留有余地。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;">
+        <div class="label" style="color:#dc2626;">③ 客户为什么必须买？</div>
+        <div class="value">运营必需+速度驱动：不用EDA工具物理上造不出现代芯片；而在AI芯片军备竞赛中，谁先流片谁先抢到市场，Cadence的仿真设备和AI设计agent直接决定客户的上市速度——这从Q1'史上最佳emulation季度'可以验证：NVIDIA、各hyperscaler为了加速下一代AI芯片验证，排队买它的仿真机。Computex 2026上Cadence发布业界首个Level-5全自主虚拟AI设计工程师（ChipStack Super Agent），瞄准的正是全球芯片设计工程师严重短缺的痛点——2026年行业最大瓶颈不是产能，是设计人才。</div>
+      </div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">💼 客户结构 + 护城河金融比喻</h3>
+    <div class="summary-box info">
+      <div class="title">具体客户名单 + 客户分层</div>
+      <div class="text">客户覆盖整个半导体与电子系统产业：NVIDIA（战略合作伙伴，联合开发）、各大hyperscaler自研芯片团队（Microsoft/Google/Amazon/Meta）、高通、博通、联发科等设计公司，TSMC（刚扩大合作）、Samsung Foundry（联合开发全套Memory/Interface IP并扩大先进制程认证）等代工厂，以及汽车OEM、航空航天系统厂商。地理风险点：中国收入占比已从2023年的17%降至2024年的12%（$5.73亿/$46.4亿），受出口管制与国产替代双重挤压，持续收缩中。</div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">护城河本质（金融场景比喻）</div>
+      <div class="text">与SNPS共享同一条护城河：像"合作三十年的核数师 + SWIFT清算网络"——客户的设计流程、工程师技能、代工厂工艺认证三重锁定，换供应商代价是数亿美元加一代产品延误。Cadence的差异化护城河加固件是硬件仿真：像"独家风洞实验室"——Palladium仿真机是软硬件一体的物理资产+专用芯片，纯软件对手无法复制，且AI芯片越大越复杂，对仿真算力的需求越刚性。风险同样镜像：中国国产EDA（华为/概伦）在成熟制程替代、大客户AI自研能力增强可能长期侵蚀部分工具价值。</div>
+    </div>
+    <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:14px 18px;border-radius:8px;margin-top:20px;font-size:13px;color:#64748b;line-height:1.6;">
+      📌 <strong>使用提示</strong>：本模块为后续模块一至四的"翻译层"。建议与同日生成的 SNPS 报告对照阅读——两家共享护城河，处境互为镜像。
+    </div>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：订阅制 + 研发驱动（含硬件销售）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">三大业务线：① Core EDA——数字/模拟设计、验证signoff全流程软件 + Palladium/Protium硬件辅助验证平台（emulation/prototyping），Q1同比+18%，创史上最佳emulation季度；② Design IP——接口IP、存储IP等预制模块，Q1同比+22%，与一家全球领先代工厂签下史上最大IP合同（2nm节点）；③ System Design & Analysis——3D-IC、多物理场仿真、PCB/封装设计，Q1同比+18%，2026年并入Hexagon D&E（约$1.6亿年收入）进一步扩张物理仿真版图。AI产品矩阵：AgentStack全流程agentic平台 + ChipStack/ViraStack/InnoStack三大Super Agent，Computex 2026发布Level-5全自主AI设计工程师。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">纯B2B。半导体设计公司（NVIDIA/高通/博通/联发科）、自研芯片hyperscaler（Microsoft/Google/Amazon/Meta）、代工厂（TSMC/Samsung Foundry，均在扩大合作）、汽车/航空航天/工业系统厂商。与NVIDIA为深度战略伙伴（联合开发Millennium M2000超算用于physical AI/数字孪生）。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">美国为最大市场；中国收入占比从2023年17%降至2024年12%（$5.73亿），趋势性收缩——出口管制、2025年5-7月BIS禁令风波、国产EDA替代三因素叠加。2025年7月就2015-2021年间违规对华出口达成刑事和解（详见管理层模块）。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">FY2025收入$55.3亿（+14%）、净利润$11.7亿；FY2026指引$61.25–62.25亿（+16-18%，两度上调），其中含Hexagon D&E约$1.6亿。Q1 2026收入$14.74亿（+19%）、NG EPS $1.96（+25%）、NG营业利润率44.7%（同比+300bp）。收入质量极高：backlog创纪录$80亿，其中$40亿于未来12个月确认；Q2指引收入$15.55–15.95亿、NG EPS $2.02–2.08（7月27日发布）。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#05966922;color:#059669;border:1px solid #05966944">综合评级：宽护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">双寡头研发规模优势与SNPS对等：两家合计瓜分全球EDA市场绝大部分份额，数十亿美元年研发投入构成新进入者无法跨越的资本门槛。硬件仿真业务另有制造规模与专用芯片设计能力加持。但EDA竞争本质是工具正确性与工艺覆盖，成本非核心壁垒。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">数十年专利组合、仿真算法库、与TSMC/Samsung每代新工艺的联合认证（刚扩大与两家的合作：TSMC先进节点+Samsung全套Memory/Interface IP认证）。Morningstar给予宽护城河评级，称'没有Cadence这类公司，半导体产业无法运转'。与SNPS相同的双刃剑：战略稀缺性使其成为地缘筹码——2025年5-7月BIS禁令风波即为压力测试，中国正加速国产替代。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">教科书级转换成本，与SNPS对等：工程师职业生涯绑定工具链、设计flow与脚本资产依附、流片验证风险三重锁定。许多大客户同时使用两家工具（数字设计偏SNPS、模拟/定制偏CDNS、验证两家并用），双寡头互为第二供应商反而稳定了格局——客户没有动力扶持第三家。backlog $80亿与27个季度连续达标/超预期是粘性的财务证据。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">生态型网络效应：用户越多→代工厂优先联合调优→工具对新工艺支持越好→吸引更多用户；IP被验证次数越多越被信任（史上最大IP合同即绑定2nm生态）。agentic AI可能新增数据飞轮——AI agent跑的设计任务越多，模型对设计空间的理解越好，但此效应两家对等享有，不产生winner-take-all。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">软件边际成本近零+运营杠杆充分释放：NG营业利润率44.7%（Q1，同比+300bp），FY2026指引43.5-44.5%，显著高于SNPS的39.5%。2025年margin扩张310bp、FCF增长42%，规模效应正在利润表上兑现。硬件仿真业务毛利率低于软件，是整体毛利率（86%）略低于纯软件天花板的原因，但换来的是差异化壁垒。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">转换成本（★★★）+ 无形资产（★★★）与SNPS共享，差异化强项是硬件仿真的软硬一体壁垒（Q1史上最佳emulation季度）+ agentic AI落地进度（Level-5自主设计agent业界首发、Google/Gemini云端合作）。AI芯片军备竞赛中，CDNS同时赚'设计税'和'验证加速费'。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">三个侵蚀点：① 中国收入趋势性收缩（17%→12%），国产EDA在国家意志扶持下于成熟制程加速替代，且出口政策反复是不可控尾部风险；② 硬件仿真业务有周期性（设备一次性销售），高基数后可能出现季度波动，47x估值对波动零容忍；③ agentic AI同为双刃剑——若AI设计效率大增而consumption收费模式跑不通，按席位订阅的基本盘面临自我通缩。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：软件订阅 × 半导体</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：EDA双寡头（含硬件仿真）</span>
+      <span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">估值结论：偏高估</span>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：Forward PE + PEG + EV/Sales + 双寡头相对估值</div>
+      <div class="text">与SNPS同一框架以保证可比性：EDA是软件订阅经济学（86%毛利率、backlog锁定、经常性收入），但叠加半导体周期与地缘变量。CDNS的GAAP与Non-GAAP差异远小于SNPS（无巨额并购摊销），trailing GAAP PE 87x虽仍偏高但失真度低。核心锚：① Forward Non-GAAP PE（FY2026指引中值$7.90）；② PEG——47x除以17%增速约2.7，检验成长是否配得上估值；③ 与孪生兄弟SNPS的相对估值——当前CDNS溢价约65%，为双寡头历史罕见的极端裂口。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">Forward PE (FY2026, NG EPS $7.90)</td>
+    <td class="num">46.8x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">自身历史30-45x；SNPS 28.3x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">Forward PE (FY2027, NG EPS ~$9.2)</td>
+    <td class="num">~40x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">Hexagon转增厚后</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">PEG（47x ÷ 17%增速）</td>
+    <td class="num">~2.7</td>
+    <td class="num" style="color:#64748b;font-size:13px;"><2较合理，>2.5偏贵</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/Sales (FY2026F, EV≈$1040亿)</td>
+    <td class="num">16.8x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">软件龙头7-15x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/EBITDA</td>
+    <td class="num">~35x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">自身10年中位数40.6x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">有机收入增速</td>
+    <td class="num">16-18%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">EDA正常年份10-13%，正在加速</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">Non-GAAP营业利润率</td>
+    <td class="num">44.7%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">40%+为顶级软件，且同比+300bp</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">FCF收益率（FY26E约$18-19亿）</td>
+    <td class="num">~1.8%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>3%较健康</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">净债务（现金$14亿 vs 债务$29亿）</td>
+    <td class="num">~$15亿</td>
+    <td class="num" style="color:#64748b;font-size:13px;"><1x EBITDA，可忽略</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">Backlog 在手合同</td>
+    <td class="num">$80亿（$40亿12个月内确认）</td>
+    <td class="num" style="color:#64748b;font-size:13px;">收入可见度极高</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr></tbody>
+    </table>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>FY26E收入增速</th><th>毛利率</th><th>NG营业利润率</th><th>Forward PE</th><th>EV/Sales</th></tr></thead>
+      <tbody><tr><td class="label" style="background:#fef3c7;;font-weight:700;">CDNS</td><td class="num" style="background:#fef3c7;;">+16-18%</td><td class="num" style="background:#fef3c7;;">86%</td><td class="num" style="background:#fef3c7;;">44.7%</td><td class="num" style="background:#fef3c7;;">46.8x</td><td class="num" style="background:#fef3c7;;">16.8x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">SNPS</td><td class="num" style="background:transparent;;">+37%（有机3-4%）</td><td class="num" style="background:transparent;;">~80%</td><td class="num" style="background:transparent;;">39.5%</td><td class="num" style="background:transparent;;">28.3x</td><td class="num" style="background:transparent;;">9.0x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">ARM</td><td class="num" style="background:transparent;;">~20%+</td><td class="num" style="background:transparent;;">96%</td><td class="num" style="background:transparent;;">~40%</td><td class="num" style="background:transparent;;">60-80x</td><td class="num" style="background:transparent;;">~30x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">MSFT</td><td class="num" style="background:transparent;;">~13%</td><td class="num" style="background:transparent;;">69%</td><td class="num" style="background:transparent;;">45%</td><td class="num" style="background:transparent;;">~30x</td><td class="num" style="background:transparent;;">~12x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">ADBE</td><td class="num" style="background:transparent;;">~10%</td><td class="num" style="background:transparent;;">89%</td><td class="num" style="background:transparent;;">46%</td><td class="num" style="background:transparent;;">~18x</td><td class="num" style="background:transparent;;">~8x</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司；对比数据为约值，基于各公司最新指引/一致预期</p>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（基于行业框架）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear">
+        <div class="label">悲观情景 Bear（~30x FY27：emulation周期回落+中国恶化，约52周低点）</div>
+        <div class="value">$265</div>
+      </div>
+      <div class="fv-card base">
+        <div class="label">基准情景 Base（~38x FY27 EPS ~$9.2：维持17%增长）</div>
+        <div class="value">$350</div>
+      </div>
+      <div class="fv-card bull">
+        <div class="label">乐观情景 Bull（~45x：agentic AI consumption 2027年放量验证）</div>
+        <div class="value">$430</div>
+      </div>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">现价约$370处于52周区间（$262.75–$416.69）中上部，过去52周+19%，显著跑赢SNPS（同期约-16%）。相对自身：EV/EBITDA约35x低于10年中位数40.6x（此口径不算极端），但forward PE 47x配17%增速的PEG约2.7，处于'为完美定价'区域。相对孪生兄弟：对SNPS溢价约65%，为双寡头历史最极端裂口——市场把'干净的执行'与'凌乱的整合'的差价打到了极致。分析师平均目标价$391.71（13买/2持/0卖），隐含上行仅约7%，卖方已无超额看多空间；Morningstar明确提示'市场已给予全部成长信用，任何执行瑕疵都将引发估值回落'。注意关键时点：7月27日Q2财报（指引NG EPS $2.02–2.08、收入$15.55–15.95亿），47x估值下miss的惩罚将远大于beat的奖励——2025年7月它曾在认罪罚款$1.4亿的当天因业绩超预期上涨8%，说明这只股票的定价权完全在业绩手里。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>把'低于10年EV/EBITDA中位数'当便宜——CDNS过去十年的中位数本身就是全市场最贵梯队（40.6x），锚定该基准会系统性高估合理价
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>把backlog $80亿全部当成增长信号——其中包含多年期合同的自然续约，真正的边际信号是backlog增速与cRPO（12个月内$40亿）的变化，而非绝对值
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>忽视硬件仿真的周期性——emulation设备是一次性销售，'史上最佳季度'意味着高基数，2027年同比可能出现单季负增长，届时市场或误读为需求见顶
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>把agentic AI叙事直接折现——管理层自己都明确'不假设2026年AI收入阶跃'，consumption收费的真实弹性要到2027年才可验证
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱5：</strong>双寡头裂口不必然收敛于CDNS下跌——裂口修复的路径也可以是SNPS上涨；直接做空CDNS赌估值回归，在业绩连续beat的公司上历来是高风险操作
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;font-size:16px;padding:8px 18px">综合评级：B级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">克制而高效：约50%自由现金流用于回购（FY2026计划延续），股本同比净减少0.19%——在SBC盛行的软件业中实现真实股本收缩；并购走小型补强路线（Hexagon D&E约$1.6亿收入、2026年稀释$0.28、2027年转增厚），与SNPS的$350亿豪赌形成鲜明对比。资产负债表干净：现金$14亿、债务$29亿，净债务约$15亿对约$29亿EBITDA可忽略。ROE 20.7%、ROIC 19.7%，资本回报持续高于资本成本。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">历史合规污点是评级封顶项：2025年7月27日Cadence对'共谋违反出口管制'刑事指控认罪，合计支付罚款与没收$1.406亿（DOJ刑事约$1.18亿+BIS民事$9500万，部分互抵），承认2015-2021年间经由马甲公司CSCC向被列入实体清单的中国国防科技大学（NUDT）及飞腾出售$4530万管制EDA产品，且内部通信显示部分员工明知故犯。公司现处三年缓刑期，需向DOJ年度报告合规整改，但免于独立监察员。减责因素：违规主要发生在前CEO Lip-Bu Tan时代（2009-2021，现任Intel CEO），公司2021年3月自查后即停止相关销售，现任管理层配合调查并获20%刑罚折扣。业绩披露层面记录良好：连续多年beat & raise，指引一贯保守留有余地，与SNPS的指引信用危机形成对照。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">A级执行：Anirudh Devgan（2021年12月接任CEO）治下连续超预期——FY2025收入+14%、margin扩张310bp、FCF+42%；FY2026 Q1再度beat & raise，三条业务线全部双位数增长。战略卡位精准：硬件仿真吃到AI芯片验证刚需、与NVIDIA/Google/TSMC/Samsung全生态绑定、agentic AI产品化进度业界领先（Level-5自主设计agent首发）。风险在于市场已把'完美执行'写进47x的估值里——执行力越强，容错空间反而越小。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">FY2026计划约50% FCF回购（约$9亿量级）vs 年SBC约$4.5亿 → 回购/SBC约2倍 > 1.5倍临界 = 接近真回购，且股本同比净减0.19%验证了实效。与SNPS（回购/SBC<0.5倍、假回购）形成双寡头内部的鲜明对照。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">① 真回购+净现金级资产负债表：50% FCF回购、股本实际收缩，股东回报质量为软件业标杆；② 连续beat & raise的指引纪律与Q1三线全增的业务动能，agentic AI（订阅+consumption）打开第二增长曲线。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">① 47x forward PE对7月27日Q2财报零容错——emulation高基数下任何环比波动都可能被放大解读；② 出口管制刑事缓刑期内（至2028年），若再有合规事件将面临远重于罚款的后果；③ 中国收入占比12%且趋势收缩，叠加美国政策反复的双向尾部风险。</div>
+    </div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资研究观点</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★★★</div>
+      <div style="color:#475569; font-size:14px">5/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>商业质量5/5星：这可能是软件业里最接近'完美生意'的标的之一——双寡头、教科书级转换成本、86%毛利率、backlog锁定、AI芯片军备竞赛的必经收费站，且执行层面连续beat & raise、真回购、净债务可忽略。SNPS身上的四个包袱（整合、债务、诉讼、信任），CDNS一个都没有。
+
+但投资不是选美，是定价。$370对应FY2026 forward PE约47x、PEG约2.7、FCF收益率仅1.8%——市场已经为'完美'付了全款。Base情景$350意味着现价略微透支，Bull情景$430需要agentic AI consumption收费在2027年验证放量才能到达。52周低点$262.75对应约33x，说明即使在恐慌中市场也从不给这门生意打折——想等'便宜'大概率等不到，能等到的是'合理'。
+
+双寡头配对视角（本次分析的核心增量）：CDNS对SNPS溢价约65%，为历史极端。裂口收敛有三条路径——SNPS修复上涨（概率较高，需Q3财报与9月Investor Day验证）、CDNS业绩失速回调（7/27财报是试金石）、或两者同向而行裂口不变。对同时研究两家的投资者，风险收益比更优的排序是：SNPS左侧布局 > CDNS回调至$320-340承接 > 现价追CDNS。
+
+操作视角（供参考，非投资建议）：现价$370不追；7月27日Q2财报是分水岭——beat & raise后若冲高至$400+可视为兑现区，miss回调至$320-340（约40x FY26）则是这门生意罕见的合理入场区；$263前低对应33x是极限压力位。与持仓组合的关系：CDNS/SNPS与AVGO（芯片设计）、CRDO（互连）同处AI硬件产业链上游，仓位上应合并计算'设计环节'敞口，避免同一叙事重复下注。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">7月27日Q2财报：收入能否达$15.55-15.95亿、NG EPS $2.02-2.08指引，及backlog/cRPO环比变化——47x估值下的第一道生死线</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">硬件仿真（emulation）季度动能：'史上最佳季度'后的基数效应，2026下半年至2027年是否出现环比回落</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">agentic AI consumption收费落地：AgentStack/ChipStack客户转化与用量数据，2027年能否从叙事变成收入</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">Hexagon D&E整合：2026年稀释$0.28能否如期在2027年转为增厚</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">中国收入占比走势（17%→12%→?）与出口政策反复风险；三年缓刑期内合规记录</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">6.</span>
+    <span style="font-size:14px;">CDNS/SNPS估值裂口（当前溢价约65%）：收敛方向与速度——这是双寡头配对交易的核心信号</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for Cadence 楷登电子 (CDNS) · 2026-07-17<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [2,3,3,2,3],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Alphabet Inc. (GOOGL/GOOG) — Initiating Coverage TL;DR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    color-scheme: light dark;
+    --surface: #fcfcfb;
+    --page: #f2f2ef;
+    --ink: #0b0b0b;
+    --ink2: #52514e;
+    --muted: #898781;
+    --border: #e1e0d9;
+    --navy: #1F4E78;
+    --navy-tint: #D9E1F2;
+    --red: #C00000;
+    --green: #0ca30c;
+    --card: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface: #1a1a19;
+      --page: #0d0d0d;
+      --ink: #ffffff;
+      --ink2: #c3c2b7;
+      --muted: #948f86;
+      --border: #33322f;
+      --navy: #6fa8dc;
+      --navy-tint: #1c2b3a;
+      --red: #e66767;
+      --green: #3ecf3e;
+      --card: #202020;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: "Georgia", "Times New Roman", "SimSun", serif;
+    line-height: 1.45;
+  }
+  .sheet {
+    max-width: 1180px;
+    margin: 24px auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 28px 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .zh { font-family: "PingFang SC", "Microsoft YaHei", "SimSun", sans-serif; }
+  header.title-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 3px solid var(--navy);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  h1 { font-size: 24px; margin: 2px 0 2px; color: var(--navy); }
+  .subtitle { font-size: 13.5px; color: var(--ink2); font-style: italic; max-width: 640px; }
+  .rating-box {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    min-width: 340px;
+  }
+  .rating-box .cell { background: var(--card); padding: 8px 10px; text-align: center; }
+  .rating-box .cell .lbl { font-size: 9.5px; text-transform: uppercase; letter-spacing: .03em; color: var(--ink2); font-family: system-ui, sans-serif; }
+  .rating-box .cell .val { font-size: 16px; font-weight: 700; margin-top: 2px; }
+  .rating-box .cell.rating .val { color: var(--red); }
+  .rating-box .cell.down .val { color: var(--red); }
+
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 6px;
+  }
+  .col h2 {
+    font-size: 13.5px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--navy);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 3px;
+    margin: 16px 0 6px;
+    font-family: system-ui, sans-serif;
+  }
+  .col .zh { font-size: 13.5px; }
+  .col p, .col li { font-size: 12.5px; margin: 4px 0; }
+  .col ul { margin: 4px 0; padding-left: 18px; }
+  b { color: var(--ink); }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 6px 0 4px;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 8px;
+    text-align: center;
+  }
+  .stat .n { font-size: 15px; font-weight: 700; color: var(--navy); font-family: system-ui, sans-serif;}
+  .stat .l { font-size: 9px; color: var(--muted); font-family: system-ui, sans-serif; }
+
+  table.mini { width: 100%; border-collapse: collapse; font-size: 11px; margin: 4px 0; }
+  table.mini th, table.mini td { border: 1px solid var(--border); padding: 3px 5px; text-align: right; }
+  table.mini th { background: var(--navy-tint); color: var(--ink); font-weight: 600; text-align: center; font-family: system-ui, sans-serif; }
+  table.mini td:first-child, table.mini th:first-child { text-align: left; }
+  table.mini tr.total td { font-weight: 700; background: var(--navy-tint); }
+
+  .ff { margin: 6px 0; }
+  .ff-row { display: flex; align-items: center; gap: 8px; margin: 3px 0; font-size: 10.5px; }
+  .ff-label { width: 92px; flex-shrink: 0; font-family: system-ui, sans-serif; color: var(--ink2); }
+  .ff-track { position: relative; flex: 1; height: 14px; background: var(--navy-tint); border-radius: 3px; }
+  .ff-bar { position: absolute; top: 0; bottom: 0; background: var(--navy); border-radius: 3px; opacity: .75; }
+  .ff-bar.comps { background: #1baf7a; }
+  .ff-bar.target { background: #4a3aa7; }
+  .ff-cur { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--red); }
+
+  .footnote { font-size: 10px; color: var(--muted); margin-top: 18px; border-top: 1px solid var(--border); padding-top: 8px; font-family: system-ui, sans-serif; }
+  .verify { background: var(--navy-tint); border-radius: 4px; padding: 8px 10px; font-size: 10.5px; margin-top: 8px; }
+  @media print {
+    body { background: white; }
+    .sheet { box-shadow: none; margin: 0; border: none; max-width: 100%; }
+  }
+  @media (max-width: 860px) {
+    .cols { grid-template-columns: 1fr; }
+    header.title-block { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="title-block">
+    <div>
+      <div class="tag">Initiating Coverage TL;DR &nbsp;|&nbsp; 首次覆盖研报 · 一页纸摘要</div>
+      <h1>Alphabet Inc. <span style="font-weight:400;font-size:17px;">(NASDAQ: GOOGL / GOOG)</span></h1>
+      <div class="subtitle">AI infrastructure leader, priced by the Street for a bull case our bottom-up model can't underwrite.<br>
+      <span class="zh">AI基础设施领军者，但当前股价隐含的乐观假设超出我们自下而上模型能够支撑的范围。</span></div>
+    </div>
+    <div class="rating-box">
+      <div class="cell rating"><div class="lbl">Rating 评级</div><div class="val">HOLD</div></div>
+      <div class="cell"><div class="lbl">Current 现价</div><div class="val">$352.51</div></div>
+      <div class="cell"><div class="lbl">Target 目标价</div><div class="val">$210</div></div>
+      <div class="cell down"><div class="lbl">Downside 空间</div><div class="val">(40.4%)</div></div>
+    </div>
+  </header>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="n">~$4.30T</div><div class="l">Market Cap · 市值（全球第三）</div></div>
+    <div class="stat"><div class="n">$402.8B / +15%</div><div class="l">FY2025A Revenue · 营收</div></div>
+    <div class="stat"><div class="n">+63% YoY</div><div class="l">Google Cloud (Q1 FY26) · 云增速</div></div>
+    <div class="stat"><div class="n">$180-190B</div><div class="l">FY2026E Capex Guidance · 资本开支指引</div></div>
+    <div class="stat"><div class="n">$431.72 avg</div><div class="l">Street Consensus PT (Strong Buy) · 卖方一致目标价</div></div>
+    <div class="stat"><div class="n">10.77%</div><div class="l">WACC (refreshed)</div></div>
+  </div>
+
+  <div class="cols">
+    <!-- ENGLISH COLUMN -->
+    <div class="col">
+      <h2>Investment Summary</h2>
+      <p>Alphabet delivered FY2025A revenue of <b>$402.8B (+15% YoY)</b> and Q1 FY2026 revenue of <b>$109.9B (+22% YoY)</b>, its 11th straight quarter of double-digit growth, led by <b>Google Cloud's 63% YoY acceleration</b>. Gemini 3.1 Pro reportedly leads 12 of 18 industry benchmarks, and Waymo has scaled past 500,000 paid rides/week. Fundamentals are genuinely strong and still improving.</p>
+      <p>The problem is valuation math, not business quality. Our <b>DCF</b> (unlevered FCF from Task 2, refreshed WACC 10.77%) spans <b>$65–$245/share</b> across three terminal-value methods, driven by how quickly ~37%-of-revenue AI capex normalizes. Our <b>6-peer comps</b> (MSFT, AMZN, META, AAPL, ORCL, TTD) imply <b>$222–$294/share</b> at peer-<i>median</i> multiples — even though Alphabet already trades at a ~53% premium to that median (21.0x vs 13.75x EV/EBITDA NTM). Weighted (DCF 45% / Comps 55%): <b>$208 base, $210 rounded target</b>.</p>
+      <p><b>Why HOLD, not SELL:</b> the ~$220/share gap to Street consensus ($431.72 avg, 53–68 analysts Strong Buy) is explainable, not irrational — it hinges on (1) whether AI capex normalizes toward 15% of revenue (our assumption) or faster, and (2) whether Alphabet's current multiple premium over peers is durable. We don't think our numbers are "wrong" — we think the market may be underwriting a more optimistic resolution to both questions than we're willing to assume. A reader who shares the bullish view on either should reasonably underwrite something closer to $430.</p>
+
+      <h2>Valuation Bridge</h2>
+      <table class="mini">
+        <tr><th>Method</th><th>Low</th><th>Base</th><th>High</th><th>Wt.</th></tr>
+        <tr><td>DCF (3 terminal methods)</td><td>$65</td><td>$165</td><td>$245</td><td>45%</td></tr>
+        <tr><td>Trading Comps (6 peers)</td><td>$222</td><td>$244</td><td>$294</td><td>55%</td></tr>
+        <tr><td>Precedent Transactions</td><td>n/a</td><td>n/a</td><td>n/a</td><td>0%</td></tr>
+        <tr class="total"><td>Weighted Target</td><td>$151</td><td>$208</td><td>$272</td><td>100%</td></tr>
+      </table>
+
+      <div class="ff">
+        <div class="ff-row"><div class="ff-label">DCF</div><div class="ff-track"><div class="ff-bar" style="left:0%;width:51%"></div></div></div>
+        <div class="ff-row"><div class="ff-label">Comps</div><div class="ff-track"><div class="ff-bar comps" style="left:44%;width:16%"></div></div></div>
+        <div class="ff-row"><div class="ff-label">Weighted / Street</div><div class="ff-track"><div class="ff-bar target" style="left:30%;width:24%"></div><div class="ff-cur" style="left:70%"></div></div></div>
+      </div>
+      <p style="font-size:9.5px;color:var(--muted);font-family:system-ui,sans-serif;">Track scaled $0–$350/share. Red line = current price $352.51 (off right edge).</p>
+
+      <h2>Key Catalysts (6–12mo)</h2>
+      <ul>
+        <li><b>Q2 FY2026 earnings — Jul 22, 2026</b> (1 week out): Cloud growth durability + first FY2027 capex color</li>
+        <li>Ad-tech antitrust remedies ruling (EDVA) — possible forced AdX/DFP divestiture</li>
+        <li>EU DMA fine — reportedly imminent, likely Alphabet's largest-ever EU penalty</li>
+        <li>FY2027 capex guidance — tests capex-normalization assumption directly</li>
+      </ul>
+
+      <h2>Key Risks</h2>
+      <ul>
+        <li><b>Upside to $210:</b> AI monetization inflects faster; capex normalizes below 15% of rev; Waymo/Cloud re-rated as separable assets; market keeps paying non-mean-reverting AI-leader multiples</li>
+        <li><b>Downside to $210:</b> ad-tech forced divestiture; EU DMA remedies bite harder than modeled; ChatGPT-style query disintermediation compresses Search faster than Gemini offsets; capex proves overbuild; hyperscaler-wide multiple compression (MSFT/AMZN/META share the same ~$725B 2026 capex exposure)</li>
+      </ul>
+    </div>
+
+    <!-- CHINESE COLUMN -->
+    <div class="col zh">
+      <h2>投资摘要</h2>
+      <p>Alphabet FY2025A 营收 <b>$402.8B（+15% YoY）</b>，Q1 FY2026 营收 <b>$109.9B（+22% YoY）</b>，已连续11个季度实现两位数增长，主要驱动力是 <b>Google Cloud 同比+63%的加速增长</b>。据报道 Gemini 3.1 Pro 在18项行业基准测试中12项排名第一，Waymo 周付费订单已突破50万单。基本面确实强劲且仍在改善。</p>
+      <p>问题不在于公司质地，而在于估值测算。我们的 <b>DCF</b>（unlevered FCF 沿用 Task 2 模型，WACC 更新为10.77%）在三种 terminal value 方法下测算区间为 <b>每股$65–$245</b>，核心变量是占营收约37%的 AI 资本开支多快回归常态。我们基于6家同业（MSFT、AMZN、META、AAPL、ORCL、TTD）的 <b>comps</b> 分析，以同业组<i>中位数</i>倍数测算隐含 <b>每股$222–$294</b>——尽管 Alphabet 当前实际交易倍数已较该中位数溢价约53%（EV/EBITDA NTM 21.0x vs. 13.75x）。加权（DCF 45% / Comps 55%）：<b>基准值$208，四舍五入目标价$210</b>。</p>
+      <p><b>为何是 HOLD 而非 SELL：</b>与卖方一致预期（均值$431.72，53-68位分析师 Strong Buy）约$220/股的差距是可以解释的，而非不合理——核心取决于（1）AI资本开支能否回归至占营收15%（我们的假设）或更快回归，（2）Alphabet 相较同业的当前估值溢价是否具备持久性。我们不认为自己的测算“错了”——我们认为市场对这两个问题可能给出了比我们愿意假设的更乐观的答案。若读者对上述任一问题持更乐观看法，合理地锚定接近$430的估值也是可以理解的。</p>
+
+      <h2>估值桥接</h2>
+      <table class="mini">
+        <tr><th>方法</th><th>低值</th><th>基准</th><th>高值</th><th>权重</th></tr>
+        <tr><td>DCF（3种terminal方法）</td><td>$65</td><td>$165</td><td>$245</td><td>45%</td></tr>
+        <tr><td>Trading Comps（6家同业）</td><td>$222</td><td>$244</td><td>$294</td><td>55%</td></tr>
+        <tr><td>并购先例法</td><td>n/a</td><td>n/a</td><td>n/a</td><td>0%</td></tr>
+        <tr class="total"><td>加权目标价</td><td>$151</td><td>$208</td><td>$272</td><td>100%</td></tr>
+      </table>
+
+      <p style="font-size:11px;">（Football field 图示见左栏；坐标轴范围$0-$350/股，红线为当前股价$352.51，已超出右边界。）</p>
+
+      <h2>关键催化剂（未来6-12个月）</h2>
+      <ul>
+        <li><b>Q2 FY2026 财报 — 2026年7月22日</b>（一周后）：云业务增速可持续性 + 首次 FY2027 资本开支指引信号</li>
+        <li>广告技术反垄断补救措施裁决（EDVA）——AdX/DFP 可能被强制剥离</li>
+        <li>欧盟 DMA 罚款——据报道即将落地，可能是 Alphabet 史上最大欧盟反垄断罚单</li>
+        <li>FY2027资本开支指引——直接检验我们的资本开支常态化假设</li>
+      </ul>
+
+      <h2>关键风险</h2>
+      <ul>
+        <li><b>支撑股价高于$210的因素：</b>AI变现拐点快于预期；资本开支回归速度快于占营收15%的假设；Waymo/Cloud 被市场重新定价为可分拆的独立资产；市场持续为AI基础设施龙头支付非均值回归的估值溢价</li>
+        <li><b>支撑股价低于$210的因素：</b>广告技术被强制剥离；欧盟DMA补救措施对营收冲击超出建模预期；类ChatGPT查询替代效应压缩搜索变现速度快于 Gemini 能够对冲；资本开支被证明是过度建设而非真实算力稀缺驱动；云计算巨头板块性估值收缩（MSFT/AMZN/META 同样面临约$725B的2026年合计资本开支敞口）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="verify">
+    <b>待核对 / To-verify:</b> Current price &amp; diluted share count · 10-yr UST yield (used 4.60%) · GOOGL beta (used 1.25, range 1.05–1.38 across sources) · all 6 peer comps figures · Street consensus PT/rating count · FY2025A cash &amp; debt balances. None of this analysis used a paid data terminal (Bloomberg/FactSet/CapIQ) — verify before external use. 本分析未接入付费数据终端，对外使用前请与官方 filing 及实时数据终端核实。
+  </div>
+
+  <div class="footnote">
+    Source: Task 1 Company Research &amp; Task 3 Valuation Analysis, Alphabet_Initiation_Report_2026-07-15 (EN/中文 full DOCX reports in this folder). TL;DR condensed 2026-07-17. Not investment advice.
+  </div>
+
+</div>
+</body>
+</html>

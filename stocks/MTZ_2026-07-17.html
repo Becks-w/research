@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MasTec 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; height:320px; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>MasTec 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：MTZ</div>
+      <div>🏛️ 交易所：NYSE</div>
+      <div>🏷️ 行业：工业 / 基建工程建设（E&C）</div>
+      <div>📅 分析日期：2026-07-17</div>
+    </div>
+    <div class="one-liner">💡 MasTec通过为电信运营商、电力公司、能源公司和数据中心业主【设计+施工+维护关键基础设施】，向【AT&T、公用事业公司、可再生能源开发商、管道运营商】收取【项目合同款+长期MSA框架服务费】</div>
+  </div>
+
+  <div class="tabs">
+    
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  
+
+  <!-- 模块一 -->
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：项目承包 + MSA框架服务（资产偏重、劳动力密集）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">北美基建工程承包商，四大业务板块：①Communications（通信）——5G基站、光纤入户、数据中心互联施工，核心客户AT&T等电信巨头；②Power Delivery（输配电）——电网现代化、输电线路、变电站建设，直接受益AI数据中心用电需求爆发；③Clean Energy & Infrastructure（清洁能源与基建，CE&I）——风电、光伏、储能EPC及重型土建，Q1收入同比+45%，backlog同比+65%至$7.3B创纪录；④Pipeline Infrastructure（管道）——油气管道建设，Q1收入同比+91%，受益美国天然气产能扩张与LNG出口周期。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">纯B2B。客户包括：AT&T（通信板块最大客户）、各州公用事业公司（Duke、NextEra等电力客户）、大型可再生能源开发商、油气管道运营商（如能源中游公司）、以及间接服务超大规模数据中心业主（hyperscaler的电力与光纤配套）。历史上DIRECTV曾是重要客户，现已降至收入<1%（Q1已计提退出费用），客户集中度风险较五年前显著改善。收入结构中约一半来自可重复的MSA主服务协议（维护性、经常性），另一半为大型离散项目（波动大但单体金额高）。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">收入几乎100%来自北美（美国为主，少量加拿大）。无海外汇率风险，但也意味着完全绑定美国基建资本开支周期——IRA补贴、电网投资、LNG审批政策的任何变化都直接传导至订单。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">FY2026指引收入$17.5B（+22% YoY）。Q1'26实际$3.83B（+34%），四大板块全部双位数增长：Pipeline +91%、CE&I +45%领跑。Adjusted EBITDA指引$1.5B（margin 8.6%，同比+~100bps）；Q1 EBITDA margin 7.4%（同比+170bps）。18个月backlog $20.3B（+28% YoY，环比+$1.4B），book-to-bill 1.4x，为2026全年和2027提供高能见度。</div></div>
+    </div>
+  </div>
+
+  <!-- 模块二 -->
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级：窄护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">规模化的自有设备车队（管道铺设机、钻机、高空作业车）+ 全美3万+熟练技工劳动力池，是中小承包商无法比拟的成本与交付能力优势。大型项目（如跨州管道、GW级光伏电站）全美只有MTZ、PWR等少数几家有能力投标。但建筑业本质是成本加成生意，无法像软件那样拉开毛利差距——毛利率仅~12%，EBITDA margin 8.6%，成本优势是'能活下来并接大单'而非'赚超额利润'。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">有各州施工执照、安全记录（EMR评级）、工会关系等准入资质，构成对新进入者的门槛，但对PWR、EME等现有巨头无差异化。无品牌溢价——业主招标看的是报价、履约记录和产能档期，不会为'MasTec'这个名字多付钱。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">MSA框架协议（约占收入一半）具备粘性：电信和公用事业客户与承包商合作动辄10-20年（AT&T与MTZ的关系可追溯至公司创立），更换承包商涉及重新认证、安全审核、区域劳动力重建，客户轻易不换。但离散大项目部分（另一半收入）每单重新竞标，无转换成本可言。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">0/3</span>
+    </div>
+    <p class="dim-text">无网络效应。多一个客户不会让服务对其他客户更有价值。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">劳动力与设备规模是当前周期最稀缺的资源——AI数据中心、电网、管道同时开工，熟练电工和管道工全美短缺，MTZ手握产能本身就是议价筹码（这也是本轮margin扩张的核心原因）。但规模效应有天花板：人力密集型业务，收入翻倍成本几乎同步翻倍，经营杠杆远弱于软件或半导体。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">①产能即护城河（当下）：在电力/数据中心/管道三线同时爆发的周期里，能承接超大项目的承包商全美屈指可数，MTZ的backlog溢价和margin扩张证明了这一点；②MSA经常性收入约占一半+客户关系数十年，收入底盘比典型建筑股稳。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">①护城河本质是周期性的：产能稀缺带来的议价权会随行业扩产和资本开支放缓而消失，2015-2020年MTZ的EBITDA margin长期在7-8%徘徊就是证明；②项目执行风险：同行Primoris（PRIM）2026年因可再生能源项目成本超支股价腰斩-40%，固定总价合同下一个大项目搞砸就能吞掉一年利润——这是全行业的达摩克利斯之剑；③ROIC仅10.3%，勉强覆盖资本成本，长期看这不是一门高回报生意。</div>
+    </div>
+  </div>
+
+  <!-- 模块三：估值研究 -->
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：工业 / 制造</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：基建工程建设（E&C承包商）</span>
+      <span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">估值结论：偏高估</span>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：Forward PE + EV/EBITDA + ROIC + 周期位置判断</div>
+      <div class="text">E&C承包商是典型周期性行业：利润率薄（EBITDA margin 6-10%）、订单驱动、劳动力密集。估值必须用Forward PE和EV/EBITDA双锚，并叠加周期位置判断——在周期顶部用'低PE'或在盈利爆发期用'高增长'为高倍数辩护，都是经典陷阱。ROIC用于检验超额回报的真实性。注意：本轮周期因AI数据中心电力需求出现结构性成分，市场正在辩论'这次是否不一样'，这正是估值分歧的核心。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标（现价$357，市值$28.2B，EV $31.1B）</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">Forward PE（FY26 EPS $8.79）</td>
+    <td class="num">~41x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">历史区间15-25x；周期顶部20-25x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/EBITDA（FY26指引$1.5B）</td>
+    <td class="num">~20.7x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">行业周期中位10-14x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">PEG（基于+34% EPS增速）</td>
+    <td class="num">1.20</td>
+    <td class="num" style="color:#64748b;font-size:13px;"><1低估，1-1.5合理</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">ROIC</td>
+    <td class="num">10.3%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>15%优秀（资本密集行业）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">EBITDA Margin（FY26指引）</td>
+    <td class="num">8.6%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">同业6-12%；自身历史7-8%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">净杠杆（Net Debt/EBITDA）</td>
+    <td class="num">1.8x</td>
+    <td class="num" style="color:#64748b;font-size:13px;"><2x健康</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">Book-to-Bill（Q1'26）</td>
+    <td class="num">1.4x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>1.0订单充足</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">Beta / 52周波动</td>
+    <td class="num">1.79 / $160-441</td>
+    <td class="num" style="color:#64748b;font-size:13px;">高波动，回撤风险大</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr></tbody>
+    </table>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>Forward PE</th><th>EV/EBITDA</th><th>ROIC</th><th>52周涨幅</th><th>备注</th></tr></thead>
+      <tbody><tr><td class="label" style="background:transparent;;font-weight:700;">PWR (Quanta)</td><td class="num" style="background:transparent;;">~40x</td><td class="num" style="background:transparent;;">32x (TTM)</td><td class="num" style="background:transparent;;">~13%</td><td class="num" style="background:transparent;;">+60%+</td><td class="num" style="background:transparent;;">行业龙头，$99B市值，电力纯度最高</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">EME (EMCOR)</td><td class="num" style="background:transparent;;">29x</td><td class="num" style="background:transparent;;">20.3x</td><td class="num" style="background:transparent;;">37.6%</td><td class="num" style="background:transparent;;">+74%</td><td class="num" style="background:transparent;;">机电承包，ROIC碾压全行业</td></tr><tr><td class="label" style="background:#fef3c7;;font-weight:700;">MTZ (MasTec)</td><td class="num" style="background:#fef3c7;;">~41x</td><td class="num" style="background:#fef3c7;;">20.7x (Fwd)</td><td class="num" style="background:#fef3c7;;">10.3%</td><td class="num" style="background:#fef3c7;;">+119%</td><td class="num" style="background:#fef3c7;;">增速最快，但ROIC垫底</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">DY (Dycom)</td><td class="num" style="background:transparent;;">26x</td><td class="num" style="background:transparent;;">~20x</td><td class="num" style="background:transparent;;">9.3%</td><td class="num" style="background:transparent;;">+79%</td><td class="num" style="background:transparent;;">光纤/数据中心互联，Q1'27收入+56%</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">STRL (Sterling)</td><td class="num" style="background:transparent;;">~35x</td><td class="num" style="background:transparent;;">33x</td><td class="num" style="background:transparent;;">28.5%</td><td class="num" style="background:transparent;;">+380%</td><td class="num" style="background:transparent;;">数据中心土建纯正标的，涨幅最疯</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">PRIM (Primoris)</td><td class="num" style="background:transparent;;">27x</td><td class="num" style="background:transparent;;">16.6x</td><td class="num" style="background:transparent;;">13.9%</td><td class="num" style="background:transparent;;">腰斩后+97%→-40%</td><td class="num" style="background:transparent;;">⚠️ 可再生项目成本超支反面教材</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司；数据截至2026-07-16，Forward PE基于各公司当年adjusted EPS指引/一致预期</p>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（基于2027E adj EPS ~$10.5-11.0）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear">
+        <div class="label">悲观情景 Bear（22x × $9.7，增速失速+margin回归）</div>
+        <div class="value">$215</div>
+      </div>
+      <div class="fv-card base">
+        <div class="label">基准情景 Base（28x × $11，增长延续但估值消化）</div>
+        <div class="value">$310</div>
+      </div>
+      <div class="fv-card bull">
+        <div class="label">乐观情景 Bull（37x × $11.5，AI电力超级周期延续）</div>
+        <div class="value">$420</div>
+      </div>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">MTZ当前$357，处于52周区间（$160-441）的81%分位，距5月高点$437回撤约18%。Forward PE ~41x不仅高于EME（29x）、DY（26x）、PRIM（27x），也高于自身5年PE中位数约19%（GuruFocus口径），仅与同样被AI叙事推高的PWR相当。乐观者的辩护：backlog +28%、EPS +34%增速、AI电力需求的多年期能见度，使PEG仍在1.2的'合理'区间；悲观者的反驳：这是把周期性盈利爆发当成长股定价——若2027年增速回落至15%以下，41x的PE将面临戴维斯双杀。GF Value模型给出$168.6（隐含'高估113%'），虽然该模型对周期拐点公司偏保守，但方向值得警惕。近3个月内部人净卖出$3.7M、无买入。</div>
+    </div>
+
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>把周期性盈利爆发当成长股定价——E&C的margin扩张来自产能稀缺，行业扩产后会均值回归，2015-2020年MTZ margin长期7-8%
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>backlog≠利润——backlog只锁定收入不锁定margin，固定总价合同下成本超支风险由承包商承担，PRIM 2026年腰斩就是最新案例
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>忽略ROIC——MTZ的ROIC仅10.3%，靠不断投入资本（CapEx $220M/年+并购）驱动增长，长期股东回报质量远逊于EME（ROIC 37.6%）
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>IRA政策风险——CE&I板块backlog $7.3B高度依赖可再生能源补贴框架，政策变动会直接冲击最大增长引擎
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱5：</strong>Beta 1.79——市场风偏收缩时（如泡沫预警指标恶化），高Beta基建股回撤幅度会远超指数
+  </div>
+  </div>
+
+  <!-- 模块四 -->
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;font-size:16px;padding:8px 18px">综合评级：B级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">Mas家族企业（1990年创立，Jorge Mas任董事长，Jose Mas任CEO），资本配置以并购驱动扩张为主线——过去15年通过数十起收购从电信承包商扩张为四板块平台（IEA、Henkels & McCoy等大型收购拼出了CE&I和Power Delivery板块）。并购整合能力经过验证，但代价是资产负债表商誉沉重、ROIC被稀释至10%出头。FY26 CapEx指引$220M（支持收入增长），杠杆1.8x管理稳健。分红为零，回购温和（近一年股本-0.67%，属真实缩股但规模很小）。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">指引可信度近期表现优异：Q1'26收入超指引10%、EBITDA超16%、EPS超$0.39，连续超预期并上调全年指引，管理层沟通风格偏保守后超越（beat-and-raise）。家族控制架构下关联交易需持续关注（Jorge Mas同时是Inter Miami足球俱乐部老板），历史上无重大信披丑闻。审计为大所。需注意：近3个月内部人卖出$3.7M无买入——在股价历史高位区间，家族/高管的减持行为本身是信号。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">执行力是MTZ本轮最大亮点：在全行业劳动力短缺背景下，Q1四大板块全部双位数增长、margin同比+170bps、DIRECTV业务体面退出、backlog环比连创新高。对比PRIM在可再生项目上的执行灾难，MTZ的项目风控（至少目前）经受住了考验。战略卡位精准——五年前押注电力+清洁能源转型，如今恰好站在AI电力需求的风口中央。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">近12个月股本净减少0.67%（约$180M等值）vs 工业企业SBC占比低（<2%收入）→ 属真实但温和的缩股，非'假回购'；但相对$28B市值，回购力度对EPS贡献微弱，资本主要流向CapEx与并购</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">①连续beat-and-raise的指引纪律与项目执行力，在同行爆雷（PRIM）的对照下尤显珍贵；②创始家族深度绑定（Mas家族为大股东），利益一致性强；③战略前瞻性——从电信承包商成功转型为'AI电力+能源基建'平台。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">①并购驱动模式下ROIC长期偏低，增长的资本代价高；②高位密集的内部人卖出与零买入；③家族企业治理折价——外部股东对资本配置话语权有限；④CEO个人声誉与公司高度绑定，关键人风险。</div>
+    </div>
+  </div>
+
+  <!-- 整体结论 -->
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★☆☆</div>
+      <div style="color:#475569; font-size:14px">3/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>MasTec是一家【处于最强周期中的中等质量生意】——这是本报告的核心矛盾。
+
+生意质量层面：窄护城河、ROIC仅10.3%、EBITDA margin 8.6%、劳动力密集无经营杠杆，商业模式本身只值3星。它不是EME那种ROIC 37%的印钞机，更不是拥有定价权的平台型公司。
+
+但周期位置层面：MTZ恰好站在AI数据中心电力需求、电网现代化、LNG管道扩建三大资本开支浪潮的交汇点，backlog $20.3B（+28%）、book-to-bill 1.4x、四板块全线双位数增长，基本面动能是公司36年历史上最强的，且能见度延伸至2027年。
+
+估值层面：市场已经充分定价了这一切。Forward PE ~41x处于自身历史区间（15-25x）之上约70%，一年涨幅+119%，内部人在减持。当前$357介于Base（$310）与Bull（$420）之间，风险收益比不佳。类比你熟悉的框架：这类似2024年中的半导体设备股——基本面无懈可击，但估值透支了'超级周期永续'的假设。
+
+操作含义（供参考，非建议）：①现价追高的赔率不佳，若持有可继续持有但需设纪律；②更好的入场区在$280-310（对应Base情景、~32-35x forward PE），若市场风偏收缩（你的bubble-alert指标已在15-17/18高位）高Beta基建股回调幅度通常为25-35%；③若偏好该赛道且重视质量，EME（29x PE、37.6% ROIC）的风险调整后性价比优于MTZ；④做空同样危险——backlog能见度意味着未来2-3个季度大概率继续beat-and-raise。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">Backlog环比增速与book-to-bill：跌破1.0x是周期见顶的最早信号</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">EBITDA margin能否守住8.5%+：margin回落至历史7-8%区间意味着产能稀缺红利消退</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">CE&I板块项目执行：任何成本超支苗头（对照PRIM案例）都是重大红旗</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">IRA/可再生能源政策动向：直接影响$7.3B CE&I backlog的转化质量</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">内部人交易：Mas家族若出现大额减持（>$20M级别），应显著提高警惕</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">6.</span>
+    <span style="font-size:14px;">2027年EPS一致预期修正方向：若增速预期从25%+下修至15%以下，41x PE不可持续</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for MasTec (MTZ) · 2026-07-17<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [2,1,2,0,2],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>
