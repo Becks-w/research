@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GE Vernova (GEV) 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; background:#f1f5f9; color:#1e293b; line-height:1.6; }
+.wrap { max-width:960px; margin:0 auto; padding:24px 20px; }
+.hero { background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%); color:#fff; padding:32px 28px; border-radius:16px; margin-bottom:20px; }
+.hero h1 { font-size:26px; margin-bottom:16px; }
+.hero .meta { display:flex; flex-wrap:wrap; gap:16px; font-size:14px; opacity:0.85; margin-bottom:16px; }
+.hero .one-liner { background:rgba(255,255,255,0.1); padding:16px 20px; border-radius:10px; font-size:15px; line-height:1.7; }
+.tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+.tab { padding:10px 18px; background:#fff; border:1px solid #e2e8f0; border-radius:10px; cursor:pointer; font-size:14px; font-weight:600; color:#64748b; transition:all 0.2s; }
+.tab:hover { border-color:#94a3b8; }
+.tab.active { background:#0f172a; color:#fff; border-color:#0f172a; }
+.section { display:none; background:#fff; padding:28px; border-radius:16px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.section.active { display:block; }
+.section h2 { font-size:22px; margin-bottom:6px; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:20px; }
+.badge { display:inline-block; padding:5px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px; }
+.kv-grid { display:grid; grid-template-columns:1fr; gap:14px; }
+.kv-card { background:#f8fafc; padding:18px 20px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:13px; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#334155; line-height:1.8; }
+.chart-wrap { max-width:480px; margin:20px auto; }
+.dim-card { background:#f8fafc; padding:16px 18px; border-radius:10px; border:1px solid #e2e8f0; margin-bottom:12px; }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+.dim-name { font-weight:700; font-size:15px; min-width:70px; }
+.dim-bar-wrap { flex:1; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#f59e0b); border-radius:99px; }
+.dim-text { font-size:13px; color:#475569; line-height:1.7; }
+.summary-box { padding:16px 20px; border-radius:10px; margin:12px 0; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.8; }
+.summary-box.success { background:#ecfdf5; border:1px solid #a7f3d0; }
+.summary-box.success .title { color:#059669; }
+.summary-box.danger { background:#fef2f2; border:1px solid #fecaca; }
+.summary-box.danger .title { color:#dc2626; }
+.summary-box.info { background:#eff6ff; border:1px solid #bfdbfe; }
+.summary-box.info .title { color:#2563eb; }
+.star-rating { font-size:32px; color:#f59e0b; letter-spacing:4px; }
+.conclusion { background:#f8fafc; padding:24px; border-radius:12px; border-left:4px solid #0f172a; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.9; opacity:0.92; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fffbeb; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono',monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:22px; font-weight:800; font-family:'JetBrains Mono',monospace; }
+.fv-card.bear { border-color:#dc2626; } .fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; } .fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; } .fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; } .hero { padding:24px 20px; } .hero h1 { font-size:22px; }
+  .section { padding:20px; } .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>GE Vernova 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：GEV</div>
+      <div>🏛️ 交易所：NYSE</div>
+      <div>🏷️ 行业：工业 / 电力设备（Electrical Equipment）</div>
+      <div>📅 分析日期：2026-07-21</div>
+    </div>
+    <div class="one-liner">💡 GE Vernova 通过向电力公司与数据中心运营商销售发电与输配电装备（燃气轮机、核电、电网设备），并收取长达 20-30 年的服务合同费用，构筑「燃气轮机三寡头 + 庞大装机后市场」宽护城河，正处 AI 电力需求驱动的能源装备超级周期上行期——但股价已充分定价完美执行。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" data-tab="m0">💡 小白版</button>
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  
+  <div class="section" id="m0">
+    <h2>💡 模块零：金融小白友好版商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言把这家技术公司"翻译"清楚——后续分析的基础</p>
+    <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:24px 28px;border-radius:12px;margin-bottom:20px;border-left:4px solid #d97706;">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:15px;">🎯 核心比喻</div>
+      <div style="font-size:15px;color:#0f172a;line-height:1.8;">GE Vernova 像「发电界的航空发动机公司」——你可以把它想成电力世界的 GE Aerospace / 罗罗（Rolls-Royce）。它卖的是发电站里那台最贵、最核心的大机器（燃气轮机、蒸汽轮机、核反应堆、电网变压器），一台动辄上亿美元；卖出去只是开始，真正赚钱的是接下来 20-30 年源源不断的「保养费」——就像卖出飞机引擎后靠几十年备件和维修合同赚钱一样。razor-and-blade（剃刀+刀片）模式的工业重装版。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📦 商业模式三问</h3>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #2563eb;">
+        <div class="label" style="color:#2563eb;">① 卖什么？</div>
+        <div class="value">卖三样东西：① Power（电力）——燃气轮机、蒸汽轮机、核电（与日立合资的 BWRX-300 小型模块化反应堆 SMR），这是最大、最赚钱的板块；② Electrification（电气化）——电网变压器、开关站、电力转换和储能设备，是增长最快的板块（数据中心抢电抢变压器）；③ Wind（风电）——陆上/海上风机，目前是亏钱的拖累项。核心记住一句：Power 是现金牛，Electrification 是增长引擎，Wind 是包袱。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #059669;">
+        <div class="label" style="color:#059669;">② 怎么收费？</div>
+        <div class="value">两段式收费。第一段「卖设备」：一台 H 级燃气轮机报价上亿美元，一个电网项目几千万到几亿；第二段「收服务费」——这才是护城河所在。设备卖出后签订长期服务协议（LTSA），电力公司每年为维护、升级、备件付费，一签就是 20-30 年，锁定高毛利经常性收入。全球有超过 7,000 台 GEV 燃气轮机在运行，这是一个巨大的「收租」后市场。2025 年总营收 $38.1B，其中很大一块是这种黏性极高的服务收入。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;">
+        <div class="label" style="color:#dc2626;">③ 客户为什么必须买？</div>
+        <div class="value">运营必需 + 供给稀缺 + 切换成本极高。电力是现代社会的命脉，尤其 AI 数据中心是「吃电巨兽」——一个大型 AI 园区的用电相当于一座中型城市，而电从哪来？全球能造重型燃气轮机的公司只有三家（GEV、西门子能源、三菱重工），产能有限、交货排到数年后（backlog $163B 就是明证）。数据中心和电力公司为了抢到发电产能，甚至提前几年付定金预留生产槽位（slot reservation）。买家不是「想买」，是「不买就没电、没算力」。</div>
+      </div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">💼 客户结构 + 护城河金融比喻</h3>
+    <div class="summary-box info">
+      <div class="title">具体客户名单 + 客户分层</div>
+      <div class="text">客户是典型的橄榄型/机构型：① 电力公用事业与独立发电商（IPP）——如 Vistra、Constellation、NextEra、美国各大电力公司，购买燃气/核电/蒸汽发电设备；② 超大规模数据中心运营商与配套方——AI 电力需求是当前订单爆发的核心驱动，Q1'26 电气化板块单季拿下 $2.4B 数据中心设备订单，超过 2024 全年；③ 电网运营商与输配电项目（Prolec GE 并购强化了北美变压器业务，贡献 $5B backlog）；④ 各国政府与国家电网（如英国 National Grid 相关合作）。客户高度分散在全球公用事业和 AI 基建两大板块，单一客户依赖度低，但需求高度绑定「电力资本开支周期」。</div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">护城河本质（金融场景比喻）</div>
+      <div class="text">GEV 的护城河像「GE Aerospace 的航发售后网络 + 一张全球发电设备的『特许经营牌照』」。三层结构：第一层是航发式的装机后市场——7,000+ 台燃气轮机 = 一个几十年收租的服务年金，客户换供应商等于把整个电厂核心停摆重装，切换成本堪比「换掉合作了 30 年、掌握你全部账目的核数师」；第二层是寡头牌照——重型燃气轮机全球只有三家能造，类似 Visa/Mastercard 那种「新玩家十年砸几十亿也进不来」的结构性壁垒，技术+认证+资本三重门槛；第三层是核电与电网的监管护城河，SMR 和高压电网设备涉及国家安全级审批，天然排他。唯一软肋：Wind 板块没有这层护城河，是价格战红海。</div>
+    </div>
+    <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:14px 18px;border-radius:8px;margin-top:20px;font-size:13px;color:#64748b;line-height:1.6;">
+      📌 <strong>使用提示</strong>：本模块为后续模块一至四的"翻译层"。读完后再进入「商业模式」「护城河」「估值研究」「管理层」等专业分析模块，能事半功倍。
+    </div>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：资产重型 + 装机后市场服务年金（设备销售 + 长期服务合同 LTSA）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">三大板块：<br><b>Power（电力，最大板块）</b>——重型/航改燃气轮机、蒸汽轮机、水电，以及核电（GE Vernova Hitachi 合资，BWRX-300 小型模块化反应堆 SMR），配套长期服务协议；这是最大且最赚钱的现金牛。<br><b>Electrification（电气化，增长最快）</b>——电网解决方案、变压器（Prolec GE）、开关站、电力转换、储能与软件，直接受益于 AI 数据中心和电网升级的资本开支潮。<br><b>Wind（风电，拖累项）</b>——陆上与海上风机及叶片，因海上风电项目延期、成本超支持续亏损，Q2'26 预计 EBITDA 亏损 $200-300M，收入同比下滑中双位数。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">B2B / G2B 为主：全球电力公用事业与独立发电商（IPP）、超大规模数据中心运营商及配套方、电网/输配电运营商、各国政府与国家电网。客户高度机构化、项目周期长（long-cycle），采购决策以年为单位，一旦下单即绑定多年服务。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">全球化：美国、欧洲、亚洲、中东、非洲均有收入。美国是核心市场（AI 数据中心电力需求爆发的主战场），中东在燃气发电、欧洲在电网与海上风电有布局。装机遍及全球，服务合同随之全球化。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">FY2025 营收 $38.1B（+9% 有机）。结构上 Power 贡献最大且盈利最强，Electrification 增速最快（数据中心订单驱动），Wind 拖累整体利润率。<br>关键先行指标是<b>订单与积压订单</b>：FY2025 订单 $59.3B（+34% 有机），总 backlog $150B；到 Q1'26 backlog 已达 <b>$163B</b>，燃气轮机 backlog+槽位预留从 83GW 升至 100GW（目标年底 110GW）。管理层已上调 FY2026 指引至营收 $44.5-45.5B、自由现金流 $6.5-7.5B，2028 目标营收约 $56B，$200B backlog 目标提前达成。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#05966922;color:#059669;border:1px solid #05966944">综合评级：宽护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">规模制造 + 装机后市场带来结构性成本优势。7,000+ 台燃气轮机的全球装机基础，使 GEV 的备件与服务网络具备无法快速复制的规模经济；服务毛利显著高于新设备销售。但作为资本密集的重装制造，原材料与产能扩张成本受周期影响，Wind 板块甚至是负毛利，因此评「中」而非「强」。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">极强。数十年积累的 H/HA 级燃气轮机技术、核电（BWRX-300 SMR）与高压电网知识产权，配合严格的行业认证与监管准入，构成技术+牌照双壁垒。核电与关键电网设备涉及国家安全级审批，天然排他。品牌层面继承了 GE 百年电力工业的信誉与全球服务口碑。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">极强。电厂核心设备一旦选定 GEV，即绑定长达 20-30 年的长期服务协议（LTSA）。更换供应商意味着核心发电资产停摆重装，风险、成本与时间代价巨大——类比「换掉合作 30 年、掌握你全部核心系统的供应商」。这是 GEV 最硬的一条护城河，把一次性设备销售转化为几十年的经常性收入年金。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">0/3</span>
+    </div>
+    <p class="dim-text">基本无网络效应。发电设备不存在「用户越多产品越有价值」的双边网络机制，客户之间不互相增值。这是重装工业与平台型科技公司的本质区别。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">极强。重型燃气轮机全球仅三家能造（GE Vernova、西门子能源、三菱重工），是典型的全球寡头格局。高固定成本 + 高技术门槛 + 长交货周期，使规模领先者享有定价权和产能稀缺溢价——当前 $163B backlog 和数据中心提前付定金预留槽位，正是稀缺性的直接体现。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">① <b>转换成本 + 装机后市场服务年金</b>：7,000+ 台燃气轮机绑定 20-30 年 LTSA，把一次性设备销售变成几十年高毛利经常性收入，客户几乎无法切换。② <b>燃气轮机全球三寡头的规模与技术壁垒</b>：重装制造 + 严格认证 + 长交货周期，新进入者十年内无法复制，稀缺产能在 AI 电力需求下形成卖方市场。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">① <b>Wind 板块是护城河缺口</b>：海上风电项目延期、成本超支、持续亏损，是价格竞争红海，拖累整体利润率。② <b>强周期属性</b>：电力设备资本开支具有周期性，当前处上行期顶部区域，一旦 AI 资本开支或燃气发电需求见顶（如 Barclays 对西门子能源的「peak cycle」判断），订单与估值均面临下修风险。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：工业 / 制造 → 电力设备（Electrical Equipment）</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：长周期能源装备 + 装机后市场服务（强周期 + backlog 年金）</span>
+      <span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">估值结论：偏高估</span>
+    </div>
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：Forward PE + EV/EBITDA + ROIC，叠加「backlog 覆盖率 / 订单周期位置」判断</div>
+      <div class="text">GEV 属工业重装制造，标准框架用 PE + EV/EBITDA + ROIC（对标 CAT/HON/ITW）。但两个关键调整：<br>① <b>周期位置必须叠加判断</b>——电力设备是强周期行业，当前 AI 数据中心电力需求把行业推到上行周期高位，单看倍数会失真；<br>② <b>GAAP 利润被一次性项目严重扭曲</b>——FY2025 净利含 $2.9B 税收返还、Q1'26 净利 $4.7B 中含 $4.5B 的 Prolec GE 并购收益，导致 TTM GAAP PE（~30x）看着「便宜」，但<b>干净口径远期 PE 高达 ~58-70x、NTM EV/EBITDA ~43x</b>，这才是真实估值。市场是把它当「AI 电力长期复利成长股」而非「周期性工业股」定价。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">远期 PE（干净口径 NTM）</td>
+    <td class="num">~58-70x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">工业中位 ~20x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">TTM GAAP PE</td>
+    <td class="num">~30x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">被一次性项目美化，失真</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">NTM EV/EBITDA</td>
+    <td class="num">~43x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">工业龙头 14-20x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">营收增速（FY26E 指引）</td>
+    <td class="num">~19%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">工业双位数已属优秀</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">Backlog（Q1'26）</td>
+    <td class="num">$163B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">≈4x 年营收，收入可见度极高</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">调整后 EBITDA 利润率</td>
+    <td class="num">~9.6%→中双位数(目标)</td>
+    <td class="num" style="color:#64748b;font-size:13px;">向 mid-teens 爬升中</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">自由现金流（FY26E 指引）</td>
+    <td class="num">$6.5-7.5B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">现金转化强劲</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr></tbody>
+    </table>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>远期PE</th><th>EV/EBITDA</th><th>营收增速</th><th>定位/备注</th></tr></thead>
+      <tbody><tr><td class="label" style="background:#fef3c7;;font-weight:700;">GEV (本标的)</td><td class="num" style="background:#fef3c7;;">~58-70x</td><td class="num" style="background:#fef3c7;;">~43x</td><td class="num" style="background:#fef3c7;;">~19%</td><td class="num" style="background:#fef3c7;;">AI电力纯玩家/估值最贵</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">Siemens Energy</td><td class="num" style="background:transparent;;">~28-32x</td><td class="num" style="background:transparent;;">~16-18x</td><td class="num" style="background:transparent;;">~12%</td><td class="num" style="background:transparent;;">燃气轮机同业/被指周期见顶</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">Vertiv (VRT)</td><td class="num" style="background:transparent;;">~33-38x</td><td class="num" style="background:transparent;;">~24-26x</td><td class="num" style="background:transparent;;">~25%</td><td class="num" style="background:transparent;;">数据中心电力/热管理</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">Eaton (ETN)</td><td class="num" style="background:transparent;;">~26-30x</td><td class="num" style="background:transparent;;">~19-21x</td><td class="num" style="background:transparent;;">~10%</td><td class="num" style="background:transparent;;">电气化/电网设备</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">ABB</td><td class="num" style="background:transparent;;">~20-24x</td><td class="num" style="background:transparent;;">~14-16x</td><td class="num" style="background:transparent;;">~8%</td><td class="num" style="background:transparent;;">电气化/自动化</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">三菱重工 (7011.T)</td><td class="num" style="background:transparent;;">~22-26x</td><td class="num" style="background:transparent;;">~13-15x</td><td class="num" style="background:transparent;;">~10%</td><td class="num" style="background:transparent;;">燃气轮机第三极</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司。同业倍数为近似指示值，用于定位而非精确定价。</p>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（基于行业框架）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear"><div class="label">悲观 Bear</div><div class="value">$650-750</div></div>
+      <div class="fv-card base"><div class="label">基准 Base</div><div class="value">$1,050-1,150</div></div>
+      <div class="fv-card bull"><div class="label">乐观 Bull</div><div class="value">$1,350-1,500</div></div>
+    </div>
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">GEV 在电力设备同业中估值<b>显著最贵</b>——远期 PE 和 EV/EBITDA 均是西门子能源、三菱重工的 2-3 倍，也高于增速更快的 Vertiv。市场给的溢价理由是：唯一能通吃 AI 电力全栈（发电+核电+电网）的美股纯玩家、$163B backlog 提供多年收入年金、利润率向中双位数爬升。<b>但这也意味着股价已定价「多年零失误执行」——在 ~$1,079（距 7/6 历史高点 $1,196 不远）的位置，几乎没有容错空间。</b>分析师平均目标价约 $1,221（约 +11%），部分买方给到 $1,300-1,328（Goldman/Argus/RBC/BMO）。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    <div class="summary-box danger" style="margin:8px 0;"><div class="text">⚠️ 陷阱1：被 TTM GAAP PE（~30x）误导以为便宜——实际含 $2.9B 税收返还 + $4.5B Prolec 并购收益，干净远期 PE 高达 ~58-70x</div></div><div class="summary-box danger" style="margin:8px 0;"><div class="text">⚠️ 陷阱2：忽视周期位置——电力设备是强周期，当前处 AI 需求驱动的上行高位，Barclays 已对同业西门子能源发出「peak cycle」警告</div></div><div class="summary-box danger" style="margin:8px 0;"><div class="text">⚠️ 陷阱3：把 backlog 当成「已到手利润」——$163B 是多年收入可见度，但执行、成本、Wind 亏损仍可能侵蚀利润率</div></div><div class="summary-box danger" style="margin:8px 0;"><div class="text">⚠️ 陷阱4：把「AI 概念」等同于无限上涨——AI 电力是真需求，但 ~43x EV/EBITDA 已把未来数年的完美增长提前兑现</div></div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;font-size:16px;padding:8px 18px">综合评级：B级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">分拆独立（2024年4月）以来资本配置纪律良好：主动收缩价值毁灭的海上风电敞口，聚焦高回报的 Power 与 Electrification；完成 Prolec GE 变压器并购（bolt-on 强化北美电网，贡献 $5B backlog）；FY2025 向股东返还 $3.6B（分红+回购），Q1'26 再返还 $1.4B。$10B+ 现金余额提供充足灵活度。评级 B、正向 A 迁移。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">透明度与可信度较高。多次上调指引且兑现（FY2026 营收/利润率/FCF 指引连续上修）；CEO Strazik 近期的「减持」实为期权行权的税务代扣，而非公开市场抛售，其直接持股实际增加——管理层已主动澄清市场误读。审计与披露规范（承袭 GE 上市公司体系）。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">执行力强。从 GE 问题缠身的电力业务中完成周转：backlog 从 $150B 增至 $163B，调整后 EBITDA 利润率同比大幅扩张（Q1'26 +390bps 至 9.6%），并锁定燃气轮机 100GW 产能。唯一未解难题是 Wind——仍在亏损，但管理层策略是「控制可控项」逐步收窄亏损。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">工业公司 SBC（股权激励）占比远低于科技/SaaS 公司。FY2025 向股东返还 $3.6B（分红+回购）远超同期 SBC，属实实在在的股东回报，非「假回购抵消稀释」——通过真回购测试。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">① 分拆后迅速证明独立运营能力，把周期性重装业务经营成「backlog 年金 + 利润率爬升」的成长故事；② 指引可信、言出必行，多次上修并兑现；③ 抓住 AI 电力需求窗口，电气化数据中心订单单季超过上年全年。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">① Wind 板块扭亏时间表仍不确定，持续拖累合并利润率；② 作为独立公司仅约两年历史，尚未经历完整的电力资本开支下行周期考验，周期顶部的资本配置纪律有待验证；③ 高估值下任何执行瑕疵都会被市场放大（7/7 同情杀 -6.5% 即为例证）。</div>
+    </div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★★☆</div>
+      <div style="color:#475569; font-size:14px">4/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>GE Vernova 是一门<b>卓越的生意，估值却已定价完美</b>——两者需要分开看。
+
+<b>商业质量维度（接近满分）：</b>它坐拥重型燃气轮机全球三寡头地位、7,000+ 台装机构成的几十年服务年金、以及核电与电网的监管护城河，转换成本、无形资产、规模效应三项均评「强」，是教科书级的宽护城河工业标的。更难得的是它正好站在 AI 数据中心电力需求爆发的风口上——它是唯一能通吃「发电+核电+电网」全栈的美股纯玩家，$163B backlog 提供了多年收入可见度，利润率正从个位数向中双位数爬升。管理层分拆后执行力强、指引可信。
+
+<b>投资性价比维度（明显拉低评分）：</b>问题全在价格。当前 ~$1,079（距历史高点 $1,196 不远），干净口径远期 PE ~58-70x、NTM EV/EBITDA ~43x，是同业西门子能源、三菱重工的 2-3 倍。别被 TTM GAAP PE ~30x 骗了——那是 $2.9B 税收返还和 $4.5B Prolec 并购收益「美颜」出来的。市场把一家强周期工业股，当作 AI 电力长期复利成长股来定价，意味着未来数年的完美执行已被提前兑现，几乎没有容错空间。7/7 因同业西门子能源被 Barclays 贴上「peak cycle」标签就同情杀 -6.5%，说明这个多空分歧点已相当敏感。
+
+<b>对你的相关性：</b>GEV 与你正在跟踪的 VRT（数据中心电力/热管理）是同一 AI 电力主题的上下游，且相关性高——两者常同涨同跌。如果你在组合里已有 VRT 敞口，加 GEV 会放大对「AI 电力资本开支持续性」这一单一宏观变量的暴露。
+
+<b>关键提醒：明天（7/22）盘前发 Q2 财报</b>，共识 EPS $3.17、营收 $10.77B（+18% YoY）——在近历史高位 + 极高估值下，这是一个典型的二元催化剂：Polymarket 给 Q2 订单超 $18B 约 85% 概率。市场关注两条线：EBITDA 利润率能否继续环比扩张、燃气与电气化订单能否持续超预期。好的结果 = 利润率上台阶 + backlog 继续增；坏的结果 = 任一停滞而股价仍在高位。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      <div style="padding:8px 0;border-bottom:1px solid #fde68a;font-size:14px;color:#78350f;">1. Q2'26 财报（7/22 盘前）：EBITDA 利润率是否环比扩张 + 订单是否超 $18-20B</div><div style="padding:8px 0;border-bottom:1px solid #fde68a;font-size:14px;color:#78350f;">2. 燃气轮机 backlog + 槽位预留能否如期迈向年底 110GW 目标（AI 电力需求的直接温度计）</div><div style="padding:8px 0;border-bottom:1px solid #fde68a;font-size:14px;color:#78350f;">3. Wind 板块 EBITDA 亏损收窄节奏——扭亏时间表是护城河缺口能否补上的关键</div><div style="padding:8px 0;border-bottom:1px solid #fde68a;font-size:14px;color:#78350f;">4. 同业信号：西门子能源/三菱重工订单与管理层对「周期是否见顶」的表态（peak cycle 风险）</div><div style="padding:8px 0;border-bottom:1px solid #fde68a;font-size:14px;color:#78350f;">5. 干净口径 EV/EBITDA 与远期 PE 的估值消化——利润率爬升能否消化 ~43x 的高倍数</div><div style="padding:8px 0;border-bottom:none;font-size:14px;color:#78350f;">6. 数据中心客户结构与订单集中度——AI 资本开支若放缓，电气化板块首当其冲</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for GE Vernova (GEV) · 2026-07-21<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度', data: [2,3,3,0,3],
+      backgroundColor: 'rgba(217,119,6,0.2)', borderColor: '#d97706',
+      borderWidth: 2, pointBackgroundColor: '#d97706', pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>

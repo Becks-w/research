@@ -1,0 +1,605 @@
+<title>GOOGL — Q2 2026 Earnings Preview</title>
+<meta name="description" content="Pre-earnings note on Alphabet's Q2 2026 print: consensus, key metrics to watch, bull/base/bear scenarios, and trading setup." />
+<style>
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10141f;
+      --surface: #171c2a;
+      --surface-2: #1c2233;
+      --ink: #e7e9f0;
+      --ink-soft: #a7adc2;
+      --ink-faint: #6b7180;
+      --accent: #7c9dff;
+      --accent-soft: #1e2a4d;
+      --bull: #4cc99a;
+      --bull-soft: #123227;
+      --bear: #e8837b;
+      --bear-soft: #3a1f1e;
+      --base-c: #d9b06b;
+      --base-soft: #362a15;
+      --rule: #2a3040;
+      --shadow: rgba(0,0,0,0.35);
+    }
+  }
+  :root {
+    --bg: #f4f5f1;
+    --surface: #ffffff;
+    --surface-2: #eceee7;
+    --ink: #1c2333;
+    --ink-soft: #4a5268;
+    --ink-faint: #838a9c;
+    --accent: #1e4fd6;
+    --accent-soft: #e8edfc;
+    --bull: #12805c;
+    --bull-soft: #e5f3ee;
+    --bear: #b23a3a;
+    --bear-soft: #f8ebea;
+    --base-c: #92660f;
+    --base-soft: #f6efdf;
+    --rule: #dcdad0;
+    --shadow: rgba(28,35,51,0.08);
+  }
+  :root[data-theme="dark"] {
+    --bg: #10141f;
+    --surface: #171c2a;
+    --surface-2: #1c2233;
+    --ink: #e7e9f0;
+    --ink-soft: #a7adc2;
+    --ink-faint: #6b7180;
+    --accent: #7c9dff;
+    --accent-soft: #1e2a4d;
+    --bull: #4cc99a;
+    --bull-soft: #123227;
+    --bear: #e8837b;
+    --bear-soft: #3a1f1e;
+    --base-c: #d9b06b;
+    --base-soft: #362a15;
+    --rule: #2a3040;
+    --shadow: rgba(0,0,0,0.35);
+  }
+  :root[data-theme="light"] {
+    --bg: #f4f5f1;
+    --surface: #ffffff;
+    --surface-2: #eceee7;
+    --ink: #1c2333;
+    --ink-soft: #4a5268;
+    --ink-faint: #838a9c;
+    --accent: #1e4fd6;
+    --accent-soft: #e8edfc;
+    --bull: #12805c;
+    --bull-soft: #e5f3ee;
+    --bear: #b23a3a;
+    --bear-soft: #f8ebea;
+    --base-c: #92660f;
+    --base-soft: #f6efdf;
+    --rule: #dcdad0;
+    --shadow: rgba(28,35,51,0.08);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+  }
+  body {
+    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+    margin: 0;
+    padding: 0 20px 80px;
+  }
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  h1, h2, h3 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", serif;
+    text-wrap: balance;
+    color: var(--ink);
+    margin: 0;
+  }
+  .num, td.num, .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+  .mono {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+
+  /* header */
+  header.masthead {
+    padding: 44px 0 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .subhead {
+    color: var(--ink-soft);
+    font-size: 16px;
+    margin-top: 8px;
+  }
+
+  .snapshot {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 24px;
+  }
+  .snap-cell {
+    background: var(--surface);
+    padding: 14px 16px;
+  }
+  .snap-label {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+  .snap-value {
+    font-size: 19px;
+    font-weight: 600;
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+  .snap-sub {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 3px;
+  }
+  .up { color: var(--bull); }
+  .down { color: var(--bear); }
+
+  /* sections */
+  section { margin-top: 46px; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 8px;
+    margin-bottom: 18px;
+  }
+  h2 {
+    font-size: 21px;
+    font-weight: 600;
+  }
+  .section-note {
+    font-size: 12px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+  p { color: var(--ink-soft); margin: 0 0 14px; }
+  p:last-child { margin-bottom: 0; }
+  strong { color: var(--ink); }
+
+  /* tables */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 560px; }
+  thead th {
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+    background: var(--surface-2);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rule);
+  }
+  tbody td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-soft);
+    background: var(--surface);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.label, th.label { color: var(--ink); font-weight: 500; }
+  td.num, th.num { text-align: right; }
+
+  /* callout */
+  .callout {
+    border-left: 3px solid var(--base-c);
+    background: var(--base-soft);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 18px 0;
+  }
+  .callout .callout-title {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--base-c);
+    margin-bottom: 6px;
+  }
+  .callout p { color: var(--ink); font-size: 14px; margin: 0; }
+
+  /* ranked metrics */
+  .metric-list { display: flex; flex-direction: column; gap: 14px; }
+  .metric {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 14px;
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+  }
+  .metric-rank {
+    font-family: "Iowan Old Style", Georgia, serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .metric-title { font-weight: 600; color: var(--ink); margin-bottom: 4px; font-size: 14.5px; }
+  .metric-body { font-size: 13.5px; color: var(--ink-soft); }
+
+  /* scenarios */
+  .scenarios { display: flex; flex-direction: column; gap: 12px; }
+  .scenario {
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--ink-faint);
+    border-radius: 0 10px 10px 0;
+    padding: 16px 20px;
+    background: var(--surface);
+  }
+  .scenario.bull { border-left-color: var(--bull); }
+  .scenario.base { border-left-color: var(--base-c); }
+  .scenario.bear { border-left-color: var(--bear); }
+  .scenario-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+  .scenario-tag {
+    font-size: 11px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+  }
+  .bull .scenario-tag { color: var(--bull); background: var(--bull-soft); }
+  .base .scenario-tag { color: var(--base-c); background: var(--base-soft); }
+  .bear .scenario-tag { color: var(--bear); background: var(--bear-soft); }
+  .scenario-stats { font-size: 13px; color: var(--ink-faint); font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  .scenario p { font-size: 14px; margin: 4px 0 0; color: var(--ink-soft); }
+  .scenario .reaction { margin-top: 8px; font-size: 13px; }
+  .scenario .reaction b { color: var(--ink); }
+
+  /* checklist */
+  ol.catalysts { margin: 0; padding: 0; list-style: none; counter-reset: cat; display: flex; flex-direction: column; gap: 12px; }
+  ol.catalysts li {
+    counter-increment: cat;
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+  }
+  ol.catalysts li::before {
+    content: counter(cat);
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  ol.catalysts li b { color: var(--ink); }
+
+  /* verify list */
+  ul.verify { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  ul.verify li {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    padding-left: 24px;
+    position: relative;
+  }
+  ul.verify li::before {
+    content: "☐";
+    position: absolute; left: 0; top: 0;
+    color: var(--ink-faint);
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+  a { color: var(--accent); }
+
+  @media (max-width: 560px) {
+    .snapshot { grid-template-columns: repeat(2, 1fr); }
+    h1 { font-size: 27px; }
+  }
+</style>
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Earnings Preview · Pre-print note</p>
+    <h1>Alphabet Inc. — Q2 2026</h1>
+    <p class="subhead">NASDAQ: GOOGL (Class A) / GOOG (Class C) &nbsp;·&nbsp; Reports <strong>Wednesday, July 22, 2026</strong>, after market close &nbsp;·&nbsp; Call at 4:30pm ET / 1:30pm PT</p>
+
+    <div class="snapshot">
+      <div class="snap-cell">
+        <div class="snap-label">Last price (Jul 21)</div>
+        <div class="snap-value num">$351.99</div>
+        <div class="snap-sub num up">+1.51% vs. prior close $346.77</div>
+      </div>
+      <div class="snap-cell">
+        <div class="snap-label">52-week range</div>
+        <div class="snap-value num">$187 – $409</div>
+        <div class="snap-sub">~14% below 52-wk high ($408.61)</div>
+      </div>
+      <div class="snap-cell">
+        <div class="snap-label">Options-implied move</div>
+        <div class="snap-value num">≈5.0–5.3%</div>
+        <div class="snap-sub">week-of-print straddle pricing</div>
+      </div>
+      <div class="snap-cell">
+        <div class="snap-label">Street rating</div>
+        <div class="snap-value">Strong Buy</div>
+        <div class="snap-sub num">avg. PT ≈ $433</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="summary">
+    <div class="section-head">
+      <h2>Setup</h2>
+    </div>
+    <p>Alphabet reports Q2 2026 results tomorrow after the close, off the back of a blowout Q1 in which <strong>Google Cloud grew 63% YoY</strong> and cloud backlog nearly doubled sequentially to <strong>$462.3B</strong>. The stock jumped ~10% the session after that print despite a same-night after-hours dip on the capex raise — the market ultimately paid for cloud durability and shrugged off the spend. The setup into Q2 is similar: the print is less about whether Search and Cloud grow (both are expected to, comfortably into double/high-double digits) and more about <strong>whether cloud margin durability, backlog conversion, and AI-Mode monetization commentary justify the ~$180–190B 2026 capex bill</strong> — and what management says about 2027 spend, which was flagged on the Q1 call to rise "significantly."</p>
+    <p>A second, distinct issue this quarter: <strong>headline GAAP EPS is likely to be distorted by a large non-operating mark-to-market gain</strong> tied to Alphabet's Anthropic equity stake (see callout below). Investors should look through the headline beat/miss on EPS to core operating income and segment trends.</p>
+  </section>
+
+  <section id="consensus">
+    <div class="section-head">
+      <h2>Consensus estimates</h2>
+      <span class="section-note">Street aggregates, sourced mid/late-July 2026</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="label">Metric</th>
+            <th class="num">Q2'25A</th>
+            <th class="num">Q2'26E (consensus)</th>
+            <th class="num">YoY</th>
+            <th class="num">Range</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="label">Total revenue</td>
+            <td class="num">$96.43B</td>
+            <td class="num">$116.84B</td>
+            <td class="num up">+21.2%</td>
+            <td class="num">$113.62B–$120.13B</td>
+          </tr>
+          <tr>
+            <td class="label">GAAP diluted EPS</td>
+            <td class="num">$2.31</td>
+            <td class="num">$2.89</td>
+            <td class="num up">+25.1%</td>
+            <td class="num">$2.59–$3.60</td>
+          </tr>
+          <tr>
+            <td class="label">Google advertising (Search+Network+YouTube)</td>
+            <td class="num">—</td>
+            <td class="num">~$81.68B</td>
+            <td class="num up">+14.5%</td>
+            <td class="num">Zacks consensus</td>
+          </tr>
+          <tr>
+            <td class="label">YouTube ads</td>
+            <td class="num">$9.80B</td>
+            <td class="num">$10.76B</td>
+            <td class="num up">+9.8%</td>
+            <td class="num">—</td>
+          </tr>
+          <tr>
+            <td class="label">Google Cloud revenue</td>
+            <td class="num">$13.62B</td>
+            <td class="num">$22.79B</td>
+            <td class="num up">+67.3%</td>
+            <td class="num">Street range ~60–70% YoY</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:12px; font-size:12.5px;">Sources: aggregated sell-side consensus via Alphastreet, Zacks/Yahoo Finance and IG International, week of Jul 14–21, 2026. EPS consensus has moved up ~4.7% over the trailing 90 days — upward revision momentum into the print. Treat as directional; confirm against FactSet/Visible Alpha before publishing.</p>
+  </section>
+
+  <div class="callout">
+    <div class="callout-title">Flag — GAAP EPS likely to look distorted</div>
+    <p>BofA Securities' pre-print note estimates an <strong>~$80B non-operating boost to Q2 operating income</strong> from the mark-to-market gain on Alphabet's Anthropic stake, pushing its own EPS estimate to <strong>~$8.38</strong> — far above the $2.89 Street consensus, which likely excludes or under-weights this. This mirrors Q1 2026, when GAAP EPS of $5.11 (net income +81% YoY) was inflated by similar non-operating investment gains. <strong>Do not read a large headline EPS "beat" as an operating story</strong> — reconcile to core operating income, segment margins, and TAC before drawing conclusions. This needs confirming against the 10-Q once filed.</p>
+  </div>
+
+  <section id="prior-quarter">
+    <div class="section-head">
+      <h2>Q1 2026 recap (reported Apr 29, 2026)</h2>
+      <span class="section-note">context for the Q2 bar</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th class="label">Line item</th><th class="num">Q1 2026A</th><th class="num">YoY</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="label">Total revenue</td><td class="num">$109.9B</td><td class="num up">+21.8%</td></tr>
+          <tr><td class="label">Net income</td><td class="num">$62.6B</td><td class="num up">+81% (incl. investment gains)</td></tr>
+          <tr><td class="label">Operating margin</td><td class="num">36.1%</td><td class="num up">+2.0 pts</td></tr>
+          <tr><td class="label">Google Search & other</td><td class="num">$60.4B</td><td class="num up">+19% (clicks +13%, CPC +5%)</td></tr>
+          <tr><td class="label">YouTube ads</td><td class="num">$9.88B</td><td class="num">+10.7% (slightly below Street)</td></tr>
+          <tr><td class="label">Traffic acquisition costs</td><td class="num">$15.23B</td><td class="num">roughly in line (vs. $15.3B est.)</td></tr>
+          <tr><td class="label">Google Cloud revenue</td><td class="num">$20.0B</td><td class="num up">+63%</td></tr>
+          <tr><td class="label">Cloud operating margin</td><td class="num">32.9%</td><td class="num up">from 17.8%</td></tr>
+          <tr><td class="label">Cloud backlog (RPO)</td><td class="num">$462.3B</td><td class="num up">~2x QoQ (from ~$240B)</td></tr>
+          <tr><td class="label">FY26 capex guide</td><td class="num">$180–190B</td><td class="num">raised from $175–185B (Intersect deal)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:12px; font-size:12.5px;">Sources: Alphabet Q1 2026 earnings release (SEC EDGAR / abc.xyz IR), CNBC, Yahoo Finance, Variety/Tubefilter, Apr 29–30, 2026.</p>
+  </section>
+
+  <section id="metrics">
+    <div class="section-head">
+      <h2>Key metrics to watch</h2>
+      <span class="section-note">ranked by expected impact on the print's reaction</span>
+    </div>
+    <div class="metric-list">
+      <div class="metric">
+        <div class="metric-rank">1</div>
+        <div>
+          <div class="metric-title">Cloud growth durability + margin trend</div>
+          <div class="metric-body">Consensus looks for ~$22.8B (+67%). The real question is whether the 32.9% operating margin from Q1 (up from 17.8% a year ago) holds or was helped by one-time efficiency/mix — a pullback here would undercut the "AI capex is paying off" narrative the stock has been re-rating on.</div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-rank">2</div>
+        <div>
+          <div class="metric-title">Backlog (RPO) growth and conversion pace</div>
+          <div class="metric-body">Backlog nearly doubled QoQ to $462.3B in Q1. Sell-side wants confirmation this keeps growing (not just consolidating) and color on capacity constraints — a deceleration here reads as a demand or supply signal, not just quarter-to-quarter noise.</div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-rank">3</div>
+        <div>
+          <div class="metric-title">AI Mode / Gemini 3 monetization commentary</div>
+          <div class="metric-body">Google has not disclosed AI Mode revenue, revenue-per-query, or CTR uplift. With AI Mode past 1B users and Gemini 3 having cut core AI response cost >30%, this is described by multiple desks as "the single biggest swing factor" for the stock over the next several quarters — any incremental disclosure here matters more than the ad revenue beat/miss itself.</div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-rank">4</div>
+        <div>
+          <div class="metric-title">FY26 capex guidance and early 2027 framing</div>
+          <div class="metric-body">Guide currently $180–190B. Management flagged 2027 capex to rise "significantly" on the Q1 call — the after-hours dip following that comment (before the next-day 10% rally) shows the market will punish an un-anchored capex number even inside a beat quarter.</div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-rank">5</div>
+        <div>
+          <div class="metric-title">YouTube ads reacceleration</div>
+          <div class="metric-body">Came in at $9.88B in Q1, +10.7% YoY but below Street. Consensus for Q2 is $10.76B (+9.8%) — watch for continued deceleration vs. Search, and any read-through on short-form video competitive pressure.</div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-rank">6</div>
+        <div>
+          <div class="metric-title">Free cash flow trajectory</div>
+          <div class="metric-body">Some sell-side coverage has flagged FCF compression alongside the capex ramp even as cloud revenue scales. Reconcile FCF against the 10-Q; this is a bigger swing factor for the multiple than the income-statement beat given how GAAP EPS is being distorted this quarter (see flag above).</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="scenarios">
+    <div class="section-head">
+      <h2>Bull / base / bear scenarios</h2>
+    </div>
+    <div class="scenarios">
+      <div class="scenario bull">
+        <div class="scenario-head">
+          <span class="scenario-tag">Bull</span>
+          <span class="scenario-stats num">Rev &gt;$120B · Cloud growth &gt;70% · margin holds ~30%+</span>
+        </div>
+        <p>Cloud growth accelerates or holds above 65–70% with margin near Q1's 32.9%, backlog keeps growing, Search holds mid-to-high-teens growth with no visible AI Mode cannibalization, and management gives concrete (even directional) AI Mode monetization color. Capex guide is reaffirmed rather than raised.</p>
+        <div class="reaction"><b>Stock reaction:</b> +6% to +10%+ next session, re-rating toward the $430–450 analyst target cluster — echoes the Q1 print pattern.</div>
+      </div>
+      <div class="scenario base">
+        <div class="scenario-head">
+          <span class="scenario-tag">Base</span>
+          <span class="scenario-stats num">Rev ≈$115–118B · Cloud growth ~60–65% · margin roughly flat</span>
+        </div>
+        <p>Revenue and EPS land near consensus, Cloud growth is strong but decelerates modestly from 63% (still a beat on absolute dollars given the backlog), TAC and Services margin roughly in line, capex guide maintained at $180–190B, no material new regulatory headline on the call.</p>
+        <div class="reaction"><b>Stock reaction:</b> Roughly flat to +3%, consolidates in the $340–380 range pending more AI-Mode disclosure.</div>
+      </div>
+      <div class="scenario bear">
+        <div class="scenario-head">
+          <span class="scenario-tag">Bear</span>
+          <span class="scenario-stats num">Cloud growth &lt;55% or margin gives back gains · capex guide raised again</span>
+        </div>
+        <p>Cloud decelerates meaningfully below 60% or margin retreats from 32.9%, YouTube ads miss again, Search growth shows early signs of AI Mode cannibalization without offsetting monetization, and/or management pulls forward a 2027 capex raise without a clear ROI framing. An adverse ad-tech remedy or EU headline compounds the reaction.</p>
+        <div class="reaction"><b>Stock reaction:</b> -5% to -10%, back toward $310–330, echoing the after-hours capex-driven dip seen after Q1 before it reversed.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="catalysts">
+    <div class="section-head">
+      <h2>Catalyst checklist</h2>
+      <span class="section-note">what actually moves the stock on the call</span>
+    </div>
+    <ol class="catalysts">
+      <li><span><b>Cloud margin print vs. 32.9%.</b> A hold or expansion validates the AI-capex-pays-off thesis; a retreat reopens the "is this durable" debate.</span></li>
+      <li><span><b>Backlog trajectory past $462.3B.</b> Continued near-doubling would be extraordinary and hard to sustain — even a large absolute increase with a decelerating growth <i>rate</i> should be read as healthy, not a miss.</span></li>
+      <li><span><b>Any AI Mode / agentic-search monetization disclosure.</b> The market has been trading Alphabet largely on faith here; a concrete data point (ad load, RPM, or even qualitative framing) is the highest-value line on the call.</span></li>
+      <li><span><b>Capex language for 2027.</b> "Significant increase" was flagged last quarter — the market wants a number or a range, not just the adjective.</span></li>
+      <li><span><b>Ad-tech remedies / EU litigation commentary.</b> DOJ remedies phase (reportedly seeking AdX divestiture) and the EU appeal loss on the Android/AdTech fine are overhangs management may address unprompted.</span></li>
+    </ol>
+  </section>
+
+  <section id="trading-setup">
+    <div class="section-head">
+      <h2>Trading setup</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th class="label">Item</th><th class="num">Value</th><th class="label">Source / date</th></tr></thead>
+        <tbody>
+          <tr><td class="label">Last price</td><td class="num">$351.99 (prior close $346.77)</td><td>Market data aggregators, Jul 21, 2026</td></tr>
+          <tr><td class="label">52-week range</td><td class="num">$187.46 – $408.61</td><td>Jul 21, 2026 quote page</td></tr>
+          <tr><td class="label">Trailing 12-month return</td><td class="num up">≈ +99.8%</td><td>Stockanalysis.com, mid-Jul 2026</td></tr>
+          <tr><td class="label">YTD return</td><td class="num up">≈ +12–18% (sources vary)</td><td>Cross-checked two aggregators — confirm precisely before publishing</td></tr>
+          <tr><td class="label">Consensus price target</td><td class="num">≈ $433 (64 analysts, Strong Buy)</td><td>S&P Global consensus via MarketBeat/24-7 Wall St, Jul 2026</td></tr>
+          <tr><td class="label">BofA Securities</td><td class="num">Buy, PT $430</td><td>Reiterated ahead of print, Jul 17, 2026</td></tr>
+          <tr><td class="label">Options-implied move</td><td class="num">≈ 5.0%–5.3%</td><td>TheFly/TipRanks, Investing.com, week of Jul 21, 2026</td></tr>
+          <tr><td class="label">Q1'26 print reaction (precedent)</td><td class="num up">+9.96% next session</td><td>After an initial 0.61% after-hours dip on the capex raise — TIKR, Apr 30, 2026</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="risks">
+    <div class="section-head">
+      <h2>Regulatory overhang (not this-quarter catalysts, but live)</h2>
+    </div>
+    <p><strong>Ad-tech antitrust (US):</strong> Following Judge Brinkema's April 2025 liability ruling that Google monopolized open-web ad tech markets, the remedies phase is active in 2026 with the DOJ reportedly seeking divestiture of Google's AdX exchange — a structural-separation outcome would be a multi-year overhang on the Network/ad-tech business, though it's a small and shrinking piece of total ads revenue.</p>
+    <p><strong>Search antitrust choice-screen risk:</strong> Morgan Stanley's Feb 2026 note estimated mandatory choice screens could cost Google 5–8% of search traffic over three years, translating to an estimated $15–25B of annual ad revenue at risk — a slow-burn, not a Q2 catalyst, but worth a line in the note.</p>
+    <p><strong>EU:</strong> Google lost its appeal (reported Jul 2, 2026) against a €4.1B/$4.7B EU antitrust fine — cash-immaterial for a company this size, but a reminder the multi-jurisdictional overhang isn't resolved.</p>
+  </section>
+
+  <footer>
+    <p style="margin-bottom:14px; color: var(--ink);"><strong>Items to verify before circulating:</strong></p>
+    <ul class="verify">
+      <li>Confirm consensus revenue/EPS and segment estimates (Cloud, Search, YouTube) against FactSet/Visible Alpha/IBKR — figures here are triangulated from public aggregator news coverage (Alphastreet, Zacks, IG International), not a paid consensus feed.</li>
+      <li>Verify the BofA ~$80B Anthropic stake mark-to-market estimate and confirm how it will/won't be reflected in reported GAAP EPS vs. non-GAAP adjustments once the release drops.</li>
+      <li>Reconcile Q1 2026 $5.11 GAAP EPS to core/operating EPS ex-investment gains against the actual 10-Q, and apply the same adjustment methodology to Q2.</li>
+      <li>Confirm exact YTD/12-month total return figures — two sources disagreed (12.7% vs. 18.1% YTD); use IBKR or a single consistent data source.</li>
+      <li>Reconfirm options-implied move and current consensus PT the morning of Jul 22 — both move quickly into a print.</li>
+      <li>Verify cloud backlog $462.3B and the $240B prior-quarter comparator directly against the Q1 2026 10-Q, not secondary press coverage.</li>
+    </ul>
+    <p style="margin-top:18px;">Prepared Jul 21, 2026, ahead of Alphabet's Jul 22, 2026 Q2 print. Estimates and figures sourced via web search from public news and data-aggregator coverage — no paid consensus/data terminal was used. Treat all point estimates as directional pending desk-level data confirmation.</p>
+  </footer>
+
+</div>

@@ -1,0 +1,602 @@
+<title>GOOGL — 2026财年Q2 财报前瞻</title>
+<meta name="description" content="Alphabet 2026财年Q2财报前瞻：市场一致预期、核心观察指标、Bull/Base/Bear 情景分析与交易层面设置。" />
+<style>
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10141f;
+      --surface: #171c2a;
+      --surface-2: #1c2233;
+      --ink: #e7e9f0;
+      --ink-soft: #a7adc2;
+      --ink-faint: #6b7180;
+      --accent: #7c9dff;
+      --accent-soft: #1e2a4d;
+      --bull: #4cc99a;
+      --bull-soft: #123227;
+      --bear: #e8837b;
+      --bear-soft: #3a1f1e;
+      --base-c: #d9b06b;
+      --base-soft: #362a15;
+      --rule: #2a3040;
+      --shadow: rgba(0,0,0,0.35);
+    }
+  }
+  :root {
+    --bg: #f4f5f1;
+    --surface: #ffffff;
+    --surface-2: #eceee7;
+    --ink: #1c2333;
+    --ink-soft: #4a5268;
+    --ink-faint: #838a9c;
+    --accent: #1e4fd6;
+    --accent-soft: #e8edfc;
+    --bull: #12805c;
+    --bull-soft: #e5f3ee;
+    --bear: #b23a3a;
+    --bear-soft: #f8ebea;
+    --base-c: #92660f;
+    --base-soft: #f6efdf;
+    --rule: #dcdad0;
+    --shadow: rgba(28,35,51,0.08);
+  }
+  :root[data-theme="dark"] {
+    --bg: #10141f;
+    --surface: #171c2a;
+    --surface-2: #1c2233;
+    --ink: #e7e9f0;
+    --ink-soft: #a7adc2;
+    --ink-faint: #6b7180;
+    --accent: #7c9dff;
+    --accent-soft: #1e2a4d;
+    --bull: #4cc99a;
+    --bull-soft: #123227;
+    --bear: #e8837b;
+    --bear-soft: #3a1f1e;
+    --base-c: #d9b06b;
+    --base-soft: #362a15;
+    --rule: #2a3040;
+    --shadow: rgba(0,0,0,0.35);
+  }
+  :root[data-theme="light"] {
+    --bg: #f4f5f1;
+    --surface: #ffffff;
+    --surface-2: #eceee7;
+    --ink: #1c2333;
+    --ink-soft: #4a5268;
+    --ink-faint: #838a9c;
+    --accent: #1e4fd6;
+    --accent-soft: #e8edfc;
+    --bull: #12805c;
+    --bull-soft: #e5f3ee;
+    --bear: #b23a3a;
+    --bear-soft: #f8ebea;
+    --base-c: #92660f;
+    --base-soft: #f6efdf;
+    --rule: #dcdad0;
+    --shadow: rgba(28,35,51,0.08);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+  }
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.7;
+    margin: 0;
+    padding: 0 20px 80px;
+  }
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  h1, h2, h3 {
+    font-family: "Songti SC", "STSong", "Iowan Old Style", Georgia, serif;
+    text-wrap: balance;
+    color: var(--ink);
+    margin: 0;
+  }
+  .num, td.num, .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+  .mono {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+
+  /* header */
+  header.masthead {
+    padding: 44px 0 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .subhead {
+    color: var(--ink-soft);
+    font-size: 15.5px;
+    margin-top: 8px;
+  }
+
+  .snapshot {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 24px;
+  }
+  .snap-cell {
+    background: var(--surface);
+    padding: 14px 16px;
+  }
+  .snap-label {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+  .snap-value {
+    font-size: 19px;
+    font-weight: 600;
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+  .snap-sub {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 3px;
+  }
+  .up { color: var(--bull); }
+  .down { color: var(--bear); }
+
+  /* sections */
+  section { margin-top: 46px; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 8px;
+    margin-bottom: 18px;
+  }
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .section-note {
+    font-size: 12px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+  p { color: var(--ink-soft); margin: 0 0 14px; }
+  p:last-child { margin-bottom: 0; }
+  strong { color: var(--ink); }
+
+  /* tables */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 560px; }
+  thead th {
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    color: var(--ink-faint);
+    font-weight: 600;
+    background: var(--surface-2);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rule);
+  }
+  tbody td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-soft);
+    background: var(--surface);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.label, th.label { color: var(--ink); font-weight: 500; }
+  td.num, th.num { text-align: right; }
+
+  /* callout */
+  .callout {
+    border-left: 3px solid var(--base-c);
+    background: var(--base-soft);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 18px 0;
+  }
+  .callout .callout-title {
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+    color: var(--base-c);
+    margin-bottom: 6px;
+  }
+  .callout p { color: var(--ink); font-size: 14px; margin: 0; }
+
+  /* ranked metrics */
+  .metric-list { display: flex; flex-direction: column; gap: 14px; }
+  .metric {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 14px;
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+  }
+  .metric-rank {
+    font-family: "Songti SC", Georgia, serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .metric-title { font-weight: 600; color: var(--ink); margin-bottom: 4px; font-size: 14.5px; }
+  .metric-body { font-size: 13.5px; color: var(--ink-soft); }
+
+  /* scenarios */
+  .scenarios { display: flex; flex-direction: column; gap: 12px; }
+  .scenario {
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--ink-faint);
+    border-radius: 0 10px 10px 0;
+    padding: 16px 20px;
+    background: var(--surface);
+  }
+  .scenario.bull { border-left-color: var(--bull); }
+  .scenario.base { border-left-color: var(--base-c); }
+  .scenario.bear { border-left-color: var(--bear); }
+  .scenario-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+  .scenario-tag {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+  }
+  .bull .scenario-tag { color: var(--bull); background: var(--bull-soft); }
+  .base .scenario-tag { color: var(--base-c); background: var(--base-soft); }
+  .bear .scenario-tag { color: var(--bear); background: var(--bear-soft); }
+  .scenario-stats { font-size: 13px; color: var(--ink-faint); font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  .scenario p { font-size: 14px; margin: 4px 0 0; color: var(--ink-soft); }
+  .scenario .reaction { margin-top: 8px; font-size: 13px; }
+  .scenario .reaction b { color: var(--ink); }
+
+  /* checklist */
+  ol.catalysts { margin: 0; padding: 0; list-style: none; counter-reset: cat; display: flex; flex-direction: column; gap: 12px; }
+  ol.catalysts li {
+    counter-increment: cat;
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+  }
+  ol.catalysts li::before {
+    content: counter(cat);
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  ol.catalysts li b { color: var(--ink); }
+
+  /* verify list */
+  ul.verify { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  ul.verify li {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    padding-left: 24px;
+    position: relative;
+  }
+  ul.verify li::before {
+    content: "☐";
+    position: absolute; left: 0; top: 0;
+    color: var(--ink-faint);
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+  a { color: var(--accent); }
+
+  @media (max-width: 560px) {
+    .snapshot { grid-template-columns: repeat(2, 1fr); }
+    h1 { font-size: 25px; }
+  }
+</style>
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">财报前瞻 · Pre-print Note</p>
+    <h1>Alphabet Inc. — 2026财年 Q2</h1>
+    <p class="subhead">NASDAQ: GOOGL (A类股) / GOOG (C类股) &nbsp;·&nbsp; 财报公布日 <strong>2026年7月22日（周三）美股盘后</strong> &nbsp;·&nbsp; 电话会 美东时间16:30 / 太平洋时间13:30</p>
+
+    <div class="snapshot">
+      <div class="snap-cell">
+        <div class="snap-label">最新股价（7/21）</div>
+        <div class="snap-value num">$351.99</div>
+        <div class="snap-sub num up">较前收盘 $346.77 +1.51%</div>
+      </div>
+      <div class="snap-cell">
+        <div class="snap-label">52周区间</div>
+        <div class="snap-value num">$187 – $409</div>
+        <div class="snap-sub">距52周高点（$408.61）约低14%</div>
+      </div>
+      <div class="snap-cell">
+        <div class="snap-label">期权隐含波动幅度</div>
+        <div class="snap-value num">≈5.0–5.3%</div>
+        <div class="snap-sub">财报周 straddle 定价</div>
+      </div>
+      <div class="snap-cell">
+        <div class="snap-label">卖方评级</div>
+        <div class="snap-value">Strong Buy</div>
+        <div class="snap-sub num">平均目标价 ≈ $433</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="summary">
+    <div class="section-head">
+      <h2>本次财报的看点</h2>
+    </div>
+    <p>Alphabet 将于明日盘后公布2026财年Q2业绩，此前Q1交出了亮眼答卷——<strong>Google Cloud 收入同比增长63%</strong>，cloud backlog 环比接近翻倍至 <strong>$462.3B</strong>。财报后次日股价上涨近10%，尽管当晚盘后一度因资本开支（capex）指引上调而下跌——市场最终为云业务的持续性买单，对支出规模选择了容忍。本季度的看点结构相似：Search 与 Cloud 双双保持两位数/高两位数增长基本已在预期之内，市场更关心的是 <strong>云业务利润率的可持续性、backlog 转化节奏，以及 AI Mode 变现相关表态，能否支撑约 $180–190B 的2026年资本开支</strong>——以及管理层对2027年支出的最新措辞（Q1电话会已提示将"显著增加"）。</p>
+    <p>本季度还有一个独立但同样重要的问题：<strong>GAAP EPS 很可能被一笔非经营性的公允价值变动收益大幅扭曲</strong>，源于 Alphabet 所持有的 Anthropic 股权（详见下方标注）。建议投资者透过 EPS 的表面 beat/miss，回归核心营业利润和分部趋势判断。</p>
+  </section>
+
+  <section id="consensus">
+    <div class="section-head">
+      <h2>市场一致预期（Consensus）</h2>
+      <span class="section-note">卖方汇总数据，采集于2026年7月中下旬</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="label">指标</th>
+            <th class="num">Q2'25A</th>
+            <th class="num">Q2'26E（一致预期）</th>
+            <th class="num">同比</th>
+            <th class="num">区间</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="label">总收入</td>
+            <td class="num">$96.43B</td>
+            <td class="num">$116.84B</td>
+            <td class="num up">+21.2%</td>
+            <td class="num">$113.62B–$120.13B</td>
+          </tr>
+          <tr>
+            <td class="label">GAAP 摊薄EPS</td>
+            <td class="num">$2.31</td>
+            <td class="num">$2.89</td>
+            <td class="num up">+25.1%</td>
+            <td class="num">$2.59–$3.60</td>
+          </tr>
+          <tr>
+            <td class="label">Google 广告收入（Search+Network+YouTube）</td>
+            <td class="num">—</td>
+            <td class="num">~$81.68B</td>
+            <td class="num up">+14.5%</td>
+            <td class="num">Zacks consensus</td>
+          </tr>
+          <tr>
+            <td class="label">YouTube 广告</td>
+            <td class="num">$9.80B</td>
+            <td class="num">$10.76B</td>
+            <td class="num up">+9.8%</td>
+            <td class="num">—</td>
+          </tr>
+          <tr>
+            <td class="label">Google Cloud 收入</td>
+            <td class="num">$13.62B</td>
+            <td class="num">$22.79B</td>
+            <td class="num up">+67.3%</td>
+            <td class="num">卖方区间约 +60–70%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:12px; font-size:12.5px;">数据来源：Alphastreet、Zacks/Yahoo Finance、IG International 等媒体汇总的卖方一致预期，采集于2026年7月14–21日期间。过去90天EPS一致预期上修约4.7%，反映财报前的正向修正动能。以上为方向性参考，正式使用前请与 FactSet/Visible Alpha 等数据源交叉核实。</p>
+  </section>
+
+  <div class="callout">
+    <div class="callout-title">重要标注 — GAAP EPS 本季度可能明显失真</div>
+    <p>BofA Securities 财报前研报预计，Alphabet 所持 Anthropic 股权的公允价值重估，将为Q2营业利润带来<strong>约 $80B 的非经营性增厚</strong>，其自身EPS预测因此高达 <strong>约 $8.38</strong>，远超市场一致预期的 $2.89——这部分收益大概率未被Street consensus充分计入。这与 2026财年Q1 的情形高度类似：当季GAAP EPS达到 $5.11（净利润同比+81%），同样主要由非经营性投资收益推高。<strong>不建议将大幅超预期的 EPS 头条数字直接解读为经营层面的强劲</strong>，应回归核心营业利润、分部利润率与 TAC 等指标判断。该项需在10-Q披露后进一步核实确认。</p>
+  </div>
+
+  <section id="prior-quarter">
+    <div class="section-head">
+      <h2>Q1 2026 回顾（公布于2026年4月29日）</h2>
+      <span class="section-note">作为本次Q2业绩对比基准的背景信息</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th class="label">项目</th><th class="num">Q1 2026A</th><th class="num">同比</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="label">总收入</td><td class="num">$109.9B</td><td class="num up">+21.8%</td></tr>
+          <tr><td class="label">净利润</td><td class="num">$62.6B</td><td class="num up">+81%（含投资收益）</td></tr>
+          <tr><td class="label">营业利润率</td><td class="num">36.1%</td><td class="num up">+2.0 个百分点</td></tr>
+          <tr><td class="label">Google Search & other</td><td class="num">$60.4B</td><td class="num up">+19%（点击量+13%，CPC +5%）</td></tr>
+          <tr><td class="label">YouTube 广告</td><td class="num">$9.88B</td><td class="num">+10.7%（略低于Street预期）</td></tr>
+          <tr><td class="label">流量获取成本（TAC）</td><td class="num">$15.23B</td><td class="num">基本符合预期（预期为$15.3B）</td></tr>
+          <tr><td class="label">Google Cloud 收入</td><td class="num">$20.0B</td><td class="num up">+63%</td></tr>
+          <tr><td class="label">云业务营业利润率</td><td class="num">32.9%</td><td class="num up">较去年同期17.8%大幅提升</td></tr>
+          <tr><td class="label">云业务 backlog（RPO）</td><td class="num">$462.3B</td><td class="num up">环比接近翻倍（前值约$240B）</td></tr>
+          <tr><td class="label">2026财年资本开支指引</td><td class="num">$180–190B</td><td class="num">较此前$175–185B上调（因Intersect并购）</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:12px; font-size:12.5px;">数据来源：Alphabet 2026财年Q1财报（SEC EDGAR / abc.xyz IR）、CNBC、Yahoo Finance、Variety/Tubefilter，2026年4月29–30日。</p>
+  </section>
+
+  <section id="metrics">
+    <div class="section-head">
+      <h2>核心观察指标</h2>
+      <span class="section-note">按对股价反应的预期影响程度排序</span>
+    </div>
+    <div class="metric-list">
+      <div class="metric">
+        <div class="metric-rank">1</div>
+        <div>
+          <div class="metric-title">云业务增速的持续性 + 利润率走势</div>
+          <div class="metric-body">市场预期收入约 $22.8B（+67%）。真正的关键在于Q1创下的32.9%营业利润率（去年同期为17.8%）能否维持，还是主要来自一次性效率提升或业务结构变化——若此处回落，将动摇市场对"AI资本开支正在兑现回报"这一叙事的信心。</div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-rank">2</div>
+        <div>
+          <div class="metric-title">Backlog（RPO）增速与转化节奏</div>
+          <div class="metric-body">Q1 backlog 环比接近翻倍至 $462.3B。卖方希望确认这一增长趋势能否延续（而非仅仅是环比整固），并关注管理层对产能约束的表态——若增速放缓，需要判断是需求端还是供给端信号，而非简单归为季度间波动。</div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-rank">3</div>
+        <div>
+          <div class="metric-title">AI Mode / Gemini 3 变现相关表态</div>
+          <div class="metric-body">Google 尚未披露 AI Mode 的收入、单次查询收入或点击率提升数据。在 AI Mode 用户数突破10亿、Gemini 3 已将核心AI响应成本降低超30%的背景下，多家卖方将此列为"未来几个季度股价最大的摆动因子"——任何增量披露的重要性可能超过广告收入本身的beat/miss。</div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-rank">4</div>
+        <div>
+          <div class="metric-title">2026财年资本开支指引及2027年初步表态</div>
+          <div class="metric-body">当前指引为 $180–190B。管理层在Q1电话会已提示2027年资本开支将"显著增加"——Q1财报后盘后一度因这一表态下跌，随后次日反弹近10%，说明即便在超预期的季度里，市场仍会对缺乏锚定的资本开支数字作出负面反应。</div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-rank">5</div>
+        <div>
+          <div class="metric-title">YouTube 广告能否重新提速</div>
+          <div class="metric-body">Q1为 $9.88B，同比+10.7%，低于Street预期。Q2市场预期为 $10.76B（+9.8%）——关注其相对Search的增速是否持续放缓，以及短视频竞争带来的影响。</div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-rank">6</div>
+        <div>
+          <div class="metric-title">自由现金流（FCF）走势</div>
+          <div class="metric-body">部分卖方研报提示，即便云业务收入快速扩张，资本开支的持续攀升可能挤压FCF。建议结合10-Q数据核实——鉴于本季度GAAP EPS可能被大幅扭曲（见上方标注），FCF趋势对估值倍数的影响可能大于利润表层面的beat/miss。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="scenarios">
+    <div class="section-head">
+      <h2>Bull / Base / Bear 情景分析</h2>
+    </div>
+    <div class="scenarios">
+      <div class="scenario bull">
+        <div class="scenario-head">
+          <span class="scenario-tag">Bull</span>
+          <span class="scenario-stats num">收入 &gt;$120B · 云增速 &gt;70% · 利润率维持~30%+</span>
+        </div>
+        <p>云业务增速加速或维持在65–70%以上，利润率接近Q1的32.9%，backlog持续增长，Search维持高十位数增长且未见AI Mode明显的蚕食效应，管理层就AI Mode变现给出具体（哪怕是方向性的）表态。资本开支指引维持不变而非上调。</p>
+        <div class="reaction"><b>股价反应：</b>次日+6%至10%以上，向 $430–450 的分析师目标价区间靠拢——与Q1财报后的走势相似。</div>
+      </div>
+      <div class="scenario base">
+        <div class="scenario-head">
+          <span class="scenario-tag">Base</span>
+          <span class="scenario-stats num">收入 ≈$115–118B · 云增速 ~60–65% · 利润率基本持平</span>
+        </div>
+        <p>收入与EPS基本符合一致预期，云业务增速较63%小幅放缓但仍保持强劲（考虑到backlog规模，绝对金额仍是beat），TAC及Services利润率大致符合预期，资本开支指引维持 $180–190B 不变，电话会未出现重大新增监管相关表态。</p>
+        <div class="reaction"><b>股价反应：</b>基本持平至+3%，在 $340–380 区间震荡整固，等待更多AI Mode相关披露。</div>
+      </div>
+      <div class="scenario bear">
+        <div class="scenario-head">
+          <span class="scenario-tag">Bear</span>
+          <span class="scenario-stats num">云增速 &lt;55% 或利润率回吐 · 资本开支指引再度上调</span>
+        </div>
+        <p>云业务增速明显放缓至60%以下，或利润率从32.9%回落，YouTube广告再度不及预期，Search增速出现AI Mode蚕食迹象且未见对冲性变现，和/或管理层提前释放2027年资本开支上调信号但未给出清晰的ROI逻辑。若叠加不利的广告技术（ad-tech）监管裁决或欧盟相关头条新闻，将放大负面反应。</p>
+        <div class="reaction"><b>股价反应：</b>-5%至-10%，回落至 $310–330 附近，重演Q1财报后因资本开支担忧引发的盘后下跌（尽管当时随后反转）。</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="catalysts">
+    <div class="section-head">
+      <h2>催化剂核对清单</h2>
+      <span class="section-note">电话会上真正决定股价走向的关键点</span>
+    </div>
+    <ol class="catalysts">
+      <li><span><b>云业务利润率能否维持在32.9%附近。</b>持平或进一步提升将验证"AI资本开支正在兑现回报"的逻辑；回落则会重新引发对其可持续性的质疑。</span></li>
+      <li><span><b>Backlog能否延续$462.3B之上的增长轨迹。</b>持续接近翻倍的增速难以长期维持——即便增长<i>速率</i>放缓，只要绝对金额仍大幅增长，也应视为健康信号而非miss。</span></li>
+      <li><span><b>是否有关于AI Mode / agentic search 变现的实质性披露。</b>目前市场在很大程度上是基于"信念"在交易Alphabet——任何具体数据点（广告加载率、RPM，或哪怕是定性表态）都可能是本次电话会中信息含量最高的一句话。</span></li>
+      <li><span><b>关于2027年资本开支的措辞。</b>上季度仅提示"显著增加"，市场这次希望听到具体数字或区间，而不只是形容词。</span></li>
+      <li><span><b>广告技术监管（ad-tech remedies）与欧盟诉讼相关表态。</b>DOJ的remedies阶段（据报道正寻求剥离AdX）以及欧盟就Android/AdTech罚款上诉败诉，都是管理层可能主动提及的悬而未决事项。</span></li>
+    </ol>
+  </section>
+
+  <section id="trading-setup">
+    <div class="section-head">
+      <h2>交易层面设置（Trading Setup）</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th class="label">项目</th><th class="num">数值</th><th class="label">来源 / 日期</th></tr></thead>
+        <tbody>
+          <tr><td class="label">最新股价</td><td class="num">$351.99（前收盘 $346.77）</td><td>市场数据平台汇总，2026年7月21日</td></tr>
+          <tr><td class="label">52周区间</td><td class="num">$187.46 – $408.61</td><td>2026年7月21日行情页面</td></tr>
+          <tr><td class="label">近12个月涨幅</td><td class="num up">≈ +99.8%</td><td>Stockanalysis.com，2026年7月中旬</td></tr>
+          <tr><td class="label">年初至今（YTD）涨幅</td><td class="num up">≈ +12–18%（不同来源存在差异）</td><td>两个数据源存在出入，正式使用前请以IBKR等单一口径核实</td></tr>
+          <tr><td class="label">一致目标价</td><td class="num">≈ $433（64位分析师，Strong Buy）</td><td>S&P Global consensus，经MarketBeat/24-7 Wall St汇总，2026年7月</td></tr>
+          <tr><td class="label">BofA Securities</td><td class="num">Buy，目标价 $430</td><td>财报前重申，2026年7月17日</td></tr>
+          <tr><td class="label">期权隐含波动幅度</td><td class="num">≈ 5.0%–5.3%</td><td>TheFly/TipRanks、Investing.com，2026年7月21日当周</td></tr>
+          <tr><td class="label">Q1'26 财报反应（历史参照）</td><td class="num up">次日 +9.96%</td><td>此前盘后一度因资本开支上调下跌0.61% — TIKR，2026年4月30日</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="risks">
+    <div class="section-head">
+      <h2>监管悬而未决事项（非本季度直接催化剂，但持续存在）</h2>
+    </div>
+    <p><strong>广告技术反垄断（美国）：</strong>继 Brinkema 法官于2025年4月作出Google在开放式网络广告技术市场构成垄断的责任认定后，remedies（补救措施）阶段已于2026年进入实质阶段，据报道DOJ正寻求剥离Google的AdX交易所——若最终形成结构性拆分，将对Network/广告技术业务构成多年期悬而未决的压制因素，尽管该业务在广告总收入中的占比较小且持续收缩。</p>
+    <p><strong>Search 反垄断中的"选择屏幕"风险：</strong>Morgan Stanley于2026年2月的研报估计，强制性选择屏幕（choice screen）可能在三年内导致Google流失5–8%的搜索流量，对应约 $15–25B 的年化广告收入风险敞口——这是一个缓慢演变的长期因素，而非Q2的直接催化剂，但值得在报告中留痕。</p>
+    <p><strong>欧盟：</strong>Google 就一项 €4.1B/$4.7B 的欧盟反垄断罚款上诉败诉（据报道于2026年7月2日公布）——以公司体量而言现金层面影响有限，但提醒多司法辖区监管压力尚未完全化解。</p>
+  </section>
+
+  <footer>
+    <p style="margin-bottom:14px; color: var(--ink);"><strong>正式使用前需核实的事项：</strong></p>
+    <ul class="verify">
+      <li>请以 FactSet/Visible Alpha/IBKR 核实收入、EPS及分部（Cloud、Search、YouTube）一致预期——本报告中的数字系基于公开新闻及数据聚合平台（Alphastreet、Zacks、IG International）交叉验证得出，并非来自付费一致预期数据接口。</li>
+      <li>核实 BofA 关于约 $80B Anthropic 股权公允价值重估的估算，并确认财报公布后该部分收益在GAAP与Non-GAAP口径下的具体列报方式。</li>
+      <li>将 2026财年Q1 的 $5.11 GAAP EPS 与扣除投资收益后的核心/营业EPS进行对照，并在10-Q披露后对Q2数据采用同一调整口径复核。</li>
+      <li>核实精确的YTD/近12个月总回报数字——两个数据源存在差异（12.7% vs. 18.1% YTD），建议统一使用IBKR等单一数据源。</li>
+      <li>财报公布当日（7月22日）上午重新核实期权隐含波动幅度及最新一致目标价——两者在财报前变动较快。</li>
+      <li>直接以 2026财年Q1 10-Q 核实云业务 backlog $462.3B 及前值约$240B的数字，而非仅依赖二手新闻报道。</li>
+    </ul>
+    <p style="margin-top:18px;">本报告完成于2026年7月21日，早于 Alphabet 2026年7月22日公布的Q2财报。文中数据与预测通过公开网络搜索、新闻报道及数据聚合平台采集，未接入付费一致预期/数据终端。所有具体数值均为方向性参考，正式对外使用前请经桌面数据核实确认。</p>
+  </footer>
+
+</div>
