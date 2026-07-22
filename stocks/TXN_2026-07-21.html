@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Texas Instruments (TXN) 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:100px; padding:12px 14px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section h3 { font-size:17px; font-weight:700; margin:24px 0 12px; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.score-tag { display:inline-block; padding:2px 10px; border-radius:99px; font-size:12px; font-weight:600; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; height:320px; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.mon-item { display:flex; gap:12px; padding:10px 0; border-bottom:1px dashed #e2e8f0; }
+.mon-item .num { font-family:monospace; font-weight:700; color:#d97706; min-width:24px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono',monospace; font-weight:500; }
+.hl td { background:#fef3c7; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono',monospace; }
+.fv-card.bear { border-color:#dc2626; } .fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; } .fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; } .fv-card.bull .value { color:#059669; }
+.pitfall { background:#fef2f2; border-left:4px solid #dc2626; padding:12px 16px; margin:8px 0; font-size:14px; border-radius:0 8px 8px 0; }
+.think-card { background:#fff; border:1px solid #e2e8f0; border-left:4px solid #7c3aed; border-radius:10px; padding:20px 24px; margin-bottom:16px; }
+.think-card .t { font-weight:700; color:#7c3aed; margin-bottom:8px; font-size:15px; }
+.think-card .b { font-size:14px; color:#334155; line-height:1.75; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; } .hero { padding:24px 20px; } .hero h1 { font-size:22px; }
+  .section { padding:20px; } .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Texas Instruments (TI) 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：TXN</div>
+      <div>🏛️ 交易所：NASDAQ</div>
+      <div>🏷️ 行业：半导体 - 模拟芯片 IDM</div>
+      <div>📅 分析日期：2026-07-21（Q2财报前一天）</div>
+      <div>💵 现价：$291.30 | 市值 ~$266B | YTD +68%</div>
+    </div>
+    <div class="one-liner">💡 TI 通过【用自有12英寸晶圆厂低成本量产8万种"电子世界的水电管件"（模拟与嵌入式芯片）】向【全球10万+工业与汽车客户】收取【单价多在$5以下、但设计进产品后一用十几年的芯片货款】——一台把制造成本优势转化为长期现金流的"复利机器"。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="m0">💡 小白版</button>
+    <button class="tab" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="think">🧠 延伸思考</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  <!-- 模块零 -->
+  <div class="section active" id="m0">
+    <h2>💡 模块零：金融小白友好版商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言把这家公司"翻译"清楚</p>
+
+    <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:24px 28px;border-radius:12px;margin-bottom:20px;border-left:4px solid #d97706;">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:15px;">🎯 核心比喻</div>
+      <div style="font-size:15px;color:#0f172a;line-height:1.8;">TI 像全球最大的<strong>"电子世界五金城 + 自有超级工厂"</strong>——Nvidia做的是大楼的"大脑"（处理器），TI做的是大楼里所有的<strong>水管、电闸、开关、温度计</strong>（电源管理、信号感知芯片）。任何通电的东西——汽车、工厂机器人、心脏起搏器、AI服务器机柜——都离不开这些不起眼的小零件。TI的独门功夫是：别人的五金件在外面的代工厂生产（要交加工费），TI用自建的12英寸大晶圆厂自产，<strong>同样的零件成本低约40%</strong>——像一家自己拥有面粉厂和面包工厂的连锁面包店，打价格战永远打不死。</div>
+    </div>
+
+    <h3>📦 商业模式三问</h3>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #2563eb;">
+        <div class="label" style="color:#2563eb;">① 卖什么？</div>
+        <div class="value">约8万种目录化标准芯片，两大类：<strong>模拟芯片</strong>（管电——把电压转换稳定、给电池充放电；管感知——把温度/压力/声音这些物理信号翻译成数字信号，FY2025收入$14.0B，占79%）；<strong>嵌入式处理器</strong>（小型控制芯片MCU，相当于设备里的"小脑"，$2.7B，占15%）。不做手机CPU、不做存储、不追先进制程——专做"永远不会过时的基础件"。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #059669;">
+        <div class="label" style="color:#059669;">② 怎么收费？</div>
+        <div class="value">一次性产品销售，单价从几美分到几十美元，绝大多数SKU在$5以下——但积少成多：一辆电动车里有<strong>数百美元</strong>的TI芯片（电池管理、电机驱动、车载充电）。80%+收入通过直销（含TI.com电商）而非分销商，定价与需求可见度好于同行。FY2025收入$17.68B（+13%），毛利率57%，营业利润率34%。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;">
+        <div class="label" style="color:#dc2626;">③ 客户为什么必须买？</div>
+        <div class="value"><strong>运营必需 + 切换不划算</strong>。一颗$0.5的电源芯片如果失效，整台$5万的工业设备就瘫痪——客户对这种"占成本0.1%但决定成败"的零件极不敏感价格、极敏感可靠性。且芯片设计进产品后要做整机认证（汽车/医疗尤其严格），为省几美分换供应商需要重新认证半年——没人干这种事。这就是TI能对老产品持续提价的底气。</div>
+      </div>
+    </div>
+
+    <h3>💼 客户结构 + 护城河金融比喻</h3>
+    <div class="summary-box info">
+      <div class="title">客户名单 + 分层</div>
+      <div class="text">全球<strong>10万+客户</strong>，无任何单一客户占收入重大比例——半导体行业里最分散的客户结构（对比：QCOM/AVGO/SWKS都对苹果有重大依赖）。按终端市场分：<strong>工业约40%+汽车约35%</strong>（合计~75%，从2013年的43%一路提升），个人电子、通信设备/企业系统（含增长90%的数据中心电源业务）构成其余。典型客户：从博世、大陆这样的汽车Tier 1，到西门子、罗克韦尔这样的工厂自动化巨头，再到数以万计叫不出名字的中小设备厂——<strong>橄榄型结构，长尾即护城河</strong>。约20%收入来自中国总部客户，~50%产品最终流经中国供应链（最大地缘风险）。</div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">护城河本质（金融场景比喻）</div>
+      <div class="text">TI的护城河像<strong>"沃尔玛的采购成本优势 + 合作20年的核数会计师"</strong>：300mm自有工厂让它像沃尔玛一样永远比对手便宜一截（结构性成本优势，打价格战是它先活下来）；而"设计进产品+认证锁定"让每个客户都像换核数会计师一样怕麻烦——重新认证的隐性成本远超芯片差价。再加一层：8万个SKU的目录像<strong>彭博终端的数据库</strong>——单个数据点不值钱，但完整目录+30年应用工程积累，新进入者砸钱也要十年才能复制。</div>
+    </div>
+  </div>
+
+  <!-- 模块一 -->
+  <div class="section" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">产品销售（目录型）</span>
+      <span class="badge" style="background:#dbeafe;color:#1e40af">研发驱动</span>
+      <span class="badge" style="background:#dbeafe;color:#1e40af">资产重型（IDM自有工厂）</span>
+    </div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心业务与收入结构（FY2025）</div><div class="value">总收入$17.68B（+13%，走出2023-24下行周期）：模拟Analog $14.0B（79%，电源管理+信号链）｜嵌入式Embedded $2.7B（15%，MSP430/C2000/Sitara等MCU）｜其他$0.98B（6%，DLP投影芯片、计算器、专利授权）。营业利润$6.0B（34.1%），净利润$5.0B，EPS $5.45。</div></div>
+      <div class="kv-card"><div class="label">制造即产品（核心命题）</div><div class="value">模拟芯片不需要先进制程，比拼的是成本与工艺积累。TI斥资$60B+在美国自建7座300mm晶圆厂（Sherman/Richardson/Lehi三大基地），并拿到最高$1.6B CHIPS法案补贴。300mm晶圆面积是200mm的2.25倍而单片加工成本接近，带来管理层宣称的<strong>~40%单位成本优势</strong>——这是全部投资逻辑的地基。</div></div>
+      <div class="kv-card"><div class="label">最新动能（Q1 FY2026）</div><div class="value">收入+19%，工业+30%（但仍低于2022峰值~15%），<strong>数据中心电源+90%</strong>。Q2指引收入$5.0-5.4B、EPS $1.77-2.05（共识$1.91-1.92，7/22盘后公布）。关键拐点：capex指引从~$5B/年降至<strong>$2.0-3.0B</strong>，管理层目标FY2026 FCF/share超$8——收获期开始。</div></div>
+      <div class="kv-card"><div class="label">重大事件</div><div class="value">2026年2月宣布以$7.5B EV收购Silicon Labs（无线连接芯片，~9.5x EV/收入），15年来最大并购，预计2027年上半年交割，3年内$450M协同——核心逻辑是把SLAB的代工订单搬回自家工厂。同期CFO换任：Lizardi退休，25年老将Julie Knecht 8月1日接任。</div></div>
+    </div>
+    <div class="summary-box">
+      <div class="title">一句话总结</div>
+      <div class="text">TI 通过自有300mm产能低成本制造海量标准模拟/嵌入式芯片，向极度分散的工业与汽车客户销售"设计进去就换不掉"的基础件，并承诺把全部自由现金流通过分红+回购还给股东——商业模式的本质是"制造成本优势 × 切换成本 × 资本纪律"的三重复利。</div>
+    </div>
+  </div>
+
+  <!-- 模块二 -->
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#05966922;color:#059669;border:1px solid #05966944">综合评级：宽护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart"></canvas></div>
+
+    <div class="dim-card">
+      <div class="dim-header"><span class="dim-name">成本优势</span><div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div><span class="score-tag" style="background:#05966922;color:#059669;border:1px solid #05966944">3/3</span></div>
+      <p class="dim-text">全行业唯一在300mm晶圆上大规模自产模拟芯片的公司：ADI偏fab-lite依赖代工、多数同行还在用200mm产线，~40%的单位成本差距靠砸$60B+才可能追平——而没有第二家模拟公司有这个资本实力。叠加自有封测（不外包OSAT），成本护城河是同业中最深的。唯一的反例警示：MPWR用fabless模式在AI数据中心电源这一最高增长子市场照样拿份额，说明成本优势在"拼性能"的市场不如在"拼价格"的市场好使。</p>
+    </div>
+    <div class="dim-card">
+      <div class="dim-header"><span class="dim-name">无形资产</span><div class="dim-bar-wrap"><div class="dim-bar" style="width:67%"></div></div><span class="score-tag" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span></div>
+      <p class="dim-text">8万+SKU的行业最大目录、数十年模拟工艺与设计IP（模拟设计是"老师傅手艺"，AI难以替代、人才极稀缺）、1958年Kilby发明集成电路以来的技术声誉。但无消费者品牌溢价，单颗芯片层面多数产品可被同行设计替代——无形资产是"目录+工艺积累"的集合优势而非专利垄断。</p>
+    </div>
+    <div class="dim-card">
+      <div class="dim-header"><span class="dim-name">转换成本</span><div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div><span class="score-tag" style="background:#05966922;color:#059669;border:1px solid #05966944">3/3</span></div>
+      <p class="dim-text">设计进产品（design-in）后，汽车/工业客户更换供应商需重新认证整机（汽车安全件认证可长达6-12个月），而芯片本身只占系统成本的零头——省钱动机极弱、换供应商风险极大。产品生命周期10-20年+意味着一次设计赢单锁定十几年的年金式收入。这是模拟行业整体的结构优势，TI凭最大目录享受得最充分。</p>
+    </div>
+    <div class="dim-card">
+      <div class="dim-header"><span class="dim-name">网络效应</span><div class="dim-bar-wrap"><div class="dim-bar" style="width:33%"></div></div><span class="score-tag" style="background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span></div>
+      <p class="dim-text">无真正的网络效应——芯片不因用户多而更好用。仅有的弱形态：几代工程师用TI.com的参考设计和开发工具训练出来，"默认先查TI目录"的工程师习惯类似弱版开发者生态，但远不构成锁定。</p>
+    </div>
+    <div class="dim-card">
+      <div class="dim-header"><span class="dim-name">规模效应</span><div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div><span class="score-tag" style="background:#05966922;color:#059669;border:1px solid #05966944">3/3</span></div>
+      <p class="dim-text">~19%的模拟市场份额为全球第一（碎片化行业里的相对巨头）；行业最大的直销+应用工程团队摊在10万客户上；同一颗芯片卖进几千种终端设计摊薄研发；晶圆厂折旧摊在最大产量上。规模在制造、渠道、研发三个层面同时起作用。</p>
+    </div>
+
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">①300mm自有制造的结构性成本优势——竞争的终局武器（价格战里它是最后活着的）；②"设计进+认证锁定+超长产品周期"带来的年金式收入与温和提价权。两者叠加使TI成为模拟行业里最接近"消费必需品公司"的存在。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">①中国低端替代：模拟恰恰是中国最容易追赶的芯片品类（不需要EUV光刻机，需要的是时间和补贴），TI约20%收入的中国敞口首当其冲；②最高增长的AI数据中心电源市场是"拼性能密度"而非"拼成本"，MPWR等fabless对手证明TI的制造护城河在此失灵；③75%收入押注工业+汽车两个周期性行业——分散的是客户，不分散的是周期。</div>
+    </div>
+  </div>
+
+  <!-- 模块三 -->
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">半导体框架：Forward PE + EV/EBITDA + 周期位置判断（本地估值模型 + 本报告独立判断）</p>
+
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：半导体</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：模拟 IDM（自有工厂）</span>
+      <span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">估值结论：偏高估</span>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：Forward PE + EV/EBITDA + 周期位置 + FCF Yield</div>
+      <div class="text">半导体估值的第一原则是<strong>倍数必须叠加周期位置</strong>：TI当前处于典型的"复苏中段"——工业收入仍低于2022峰值~15%，但股价已YTD +68%创历史新高。框架基准：模拟设计公司周期顶部Forward PE 20-25x、底部15-20x；TI当前~41x FY2026E EPS，远超框架上限。为TI辩护的两个修正：①FY2026盈利仍在从周期底回升（PE分母偏低）；②capex从$5B降至$2-3B带来的FCF拐点使FCF Yield比PE更适合作锚——但即便按管理层目标FCF $8+/share计算，现价FCF Yield仅~2.8%，仍低于TI自身历史常态的3.5-4.5%。</div>
+    </div>
+
+    <h3>📊 公司核心估值指标（2026-07-21收盘）</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>基准/参照</th><th>评级</th></tr></thead>
+      <tbody>
+        <tr><td class="label">股价 / 市值</td><td class="num">$291.30 / ~$266B</td><td class="num">YTD +68%，历史新高附近</td><td><span class="score-tag" style="background:#d9770622;color:#d97706">情绪高位</span></td></tr>
+        <tr><td class="label">Forward P/E（FY26E EPS ~$7）</td><td class="num">~41x</td><td class="num">框架：顶部20-25x / 底部15-20x</td><td><span class="score-tag" style="background:#dc262622;color:#dc2626">远超框架</span></td></tr>
+        <tr><td class="label">EV/EBITDA（FY26E）</td><td class="num">~28x</td><td class="num">Peer中位 ~22x（本身已是历史高位）</td><td><span class="score-tag" style="background:#d9770622;color:#d97706">溢价25%</span></td></tr>
+        <tr><td class="label">FCF Yield（管理层目标$8+/share）</td><td class="num">~2.8%</td><td class="num">TI历史常态 3.5-4.5%</td><td><span class="score-tag" style="background:#d9770622;color:#d97706">偏低</span></td></tr>
+        <tr><td class="label">毛利率 / 营业利润率</td><td class="num">57% / 34%</td><td class="num">模拟龙头 55-70% / 30-45%</td><td><span class="score-tag" style="background:#05966922;color:#059669">健康回升</span></td></tr>
+        <tr><td class="label">周期位置</td><td class="num">复苏中段</td><td class="num">工业仍低于峰值15%，去库存已结束</td><td><span class="score-tag" style="background:#05966922;color:#059669">尚有空间</span></td></tr>
+        <tr><td class="label">股息 + 回购（FY2025）</td><td class="num">$6.48B（股息$5.0B+回购$1.48B）</td><td class="num">股息连增20+年</td><td><span class="score-tag" style="background:#05966922;color:#059669">承诺兑现</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3>🔍 行业龙头横向对比（本地模型7/21数据）</h3>
+    <table>
+      <thead><tr><th>公司</th><th>市值($B)</th><th>EV/EBITDA</th><th>Fwd P/E</th><th>备注</th></tr></thead>
+      <tbody>
+        <tr><td class="label">ADI</td><td class="num">202</td><td class="num">31.4x</td><td class="num">29.6x</td><td>最接近的直接对手，fab-lite</td></tr>
+        <tr><td class="label">NXPI</td><td class="num">75</td><td class="num">15.6x</td><td class="num">18.9x</td><td>汽车MCU重镇，估值最克制</td></tr>
+        <tr><td class="label">IFX（€→$）</td><td class="num">120</td><td class="num">21.0x</td><td class="num">n/a</td><td>欧洲汽车/功率龙头</td></tr>
+        <tr><td class="label">ON</td><td class="num">36</td><td class="num">20.4x</td><td class="num">35.1x</td><td>SiC/EV功率</td></tr>
+        <tr><td class="label">MPWR</td><td class="num">70</td><td class="num">68.8x</td><td class="num">52.0x</td><td>fabless电源+AI叙事，全组最贵</td></tr>
+        <tr><td class="label">MCHP</td><td class="num">34</td><td class="num">38.5x</td><td class="num">27.5x</td><td>盈利仍在周期底（倍数虚高）</td></tr>
+        <tr class="hl"><td class="label">TXN（本标的）</td><td class="num">~266</td><td class="num">~28x</td><td class="num">~41x</td><td>对中位数溢价25-40%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:#64748b;">📌 注意：整个peer组的倍数都处于历史高位（中位EV/EBITDA ~22x vs 历史常态10-15x）——AI电源叙事抬高了全板块水位。用"贵的同行"验证"贵的标的"存在循环论证风险。</p>
+
+    <h3>⚖️ 本地估值模型 vs 华尔街 vs 本报告独立判断</h3>
+    <table>
+      <thead><tr><th>来源</th><th>目标价</th><th>核心假设</th></tr></thead>
+      <tbody>
+        <tr><td class="label">本地模型（7/21，DCF 50%+Comps 50%）</td><td class="num">$170（SELL）</td><td>WACC 9.5%、终端g 2.5%，DCF基准仅$126；本质是"全板块都贵"的判断</td></tr>
+        <tr><td class="label">华尔街共识</td><td class="num">~$303（区间$200-400）</td><td>FCF拐点+AI数据中心+龙头溢价延续</td></tr>
+        <tr class="hl"><td class="label">本报告独立判断</td><td class="num">$185-245合理区间</td><td>按正常化FCF $9-10/share×22-25x FCF（≈4-4.5% yield）+质量溢价</td></tr>
+      </tbody>
+    </table>
+
+    <h3>🎯 合理估值区间（本报告综合判断）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear"><div class="label">悲观 BEAR</div><div class="value">$185</div><div style="font-size:12px;color:#64748b;margin-top:6px">周期复苏夭折/中国替代加速，回归历史FCF yield 4.5%，板块倍数均值回归</div></div>
+      <div class="fv-card base"><div class="label">基准 BASE</div><div class="value">$240</div><div style="font-size:12px;color:#64748b;margin-top:6px">FCF $8-9/share兑现+工业周期继续修复，享受质量溢价（~3.5% yield）</div></div>
+      <div class="fv-card bull"><div class="label">乐观 BULL</div><div class="value">$310</div><div style="font-size:12px;color:#64748b;margin-top:6px">数据中心电源持续90%增长+capex维持低位+板块高倍数不回归（≈街道情景）</div></div>
+    </div>
+
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">现价$291已<strong>高于本报告Base（$240）约21%，逼近Bull（$310）</strong>——市场不仅定价了FCF拐点和周期复苏，还预支了AI数据中心叙事的大部分。本地模型$170过于严苛（其DCF把周期中段的盈利用9.5% WACC折成永续，且$170意味着连"贵的同行"都要暴跌40%才成立）；但反方向看，41x Forward PE买一家收入两位数低段增长的周期性公司，在半导体估值史上极少有好下场。<strong>本报告与本地SELL结论的分歧在于幅度而非方向：这是一家值得拥有的公司，但当前不是值得建仓的价格。</strong></div>
+    </div>
+
+    <h3>⚠️ 本行业估值常见陷阱</h3>
+    <div class="pitfall"><strong>陷阱1：在周期复苏中段为"盈利尚未恢复"付出顶部倍数</strong>——41x PE的分母确实被低估了，但即便按正常化EPS $9-10算也有29-32x，仍在框架上限之外。</div>
+    <div class="pitfall"><strong>陷阱2：用同样被AI叙事抬高的peer组做锚</strong>——中位22x EV/EBITDA本身处于历史顶部区域，comps给出的"合理"其实是"和大家一样贵"。</div>
+    <div class="pitfall"><strong>陷阱3：把capex下调当永久状态</strong>——$2-3B的低capex是SM1/SM2投产后的间歇期，$60B总规划意味着SM3/SM4还会重启支出，"收获期"可能只是2-3年的窗口而非永续状态。</div>
+    <div class="pitfall"><strong>陷阱4：忽视中国营收的"灰犀牛"属性</strong>——20%中国收入面对国产替代+潜在"买国货"政策，这不是尾部风险而是正在发生的慢变量，DCF终端价值对此极敏感。</div>
+  </div>
+
+  <!-- 模块四 -->
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#05966922;color:#059669;border:1px solid #05966944;font-size:16px;padding:8px 18px">综合评级：A级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">TI是美股资本纪律的教科书案例：十几年如一日执行"全部FCF还给股东"框架，股息连增20+年；逆周期投资300mm产能（2023-24下行期照样建厂），如今在再工业化政策红利中占尽先机并拿到$1.6B CHIPS补贴。并购克制：15年只做两单大的（National Semi 2011、Silicon Labs 2026），都是能搬进自家工厂的资产。争议点：$60B总盘子的回报要到2028年后才能完整验证。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">披露质量行业标杆：每季度公开capex长期规划场景、FCF/share目标（2026年>$8）、甚至把资本管理框架做成年度专题演示给投资者。指引历史审慎，Q1'26等多个季度beat后保守指引。无信披红旗，Big 4审计。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">2013年提出的"工业+汽车聚焦"目标（当时43%）如今做到75%——十年战略说到做到。Ilan为25年内部老兵（2020-23任COO直管制造与销售），继承并加码Templeton路线。风险信号：CEO兼任Chairman（2026年1月起）+ 新CFO（8月1日上任）+ 史上最大capex与并购同时进行——权力集中度和执行复杂度同时到达峰值。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">FY2025回购$1.48B vs 年SBC约$0.4B ≈ <strong>3.7倍 → 真回购</strong>，叠加$5.0B股息（股息才是TI回报主力）。长期看TI流通股本从2004年的~17.5亿股缩到9.1亿股——近乎腰斩，是"真回购"的黄金标准。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">资本配置纪律是同业中最可信的（框架公开、历史兑现、逆周期胆识），且管理层激励与FCF/share直接挂钩——股东利益绑定靠制度而非持股比例（内部人持股仅~0.1%，大盘股常态）。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">2026年是治理压力测试年：新Chairman+CEO一肩挑、新CFO首季亮相、$7.5B并购推进、capex重启决策——四件事叠加在同一个18个月窗口。任何一环的沟通失误（尤其FY2027 capex指引）都可能在41x的估值上被放大惩罚。</div>
+    </div>
+  </div>
+
+  <!-- 延伸思考 -->
+  <div class="section" id="think">
+    <h2>🧠 延伸思考</h2>
+    <p class="subtitle">超出本地研究文档之外的独立思考——七个值得辩论的命题</p>
+
+    <div class="think-card">
+      <div class="t">① 本地SELL $170的方法论审视：这其实是一个"做空整个模拟板块"的判断</div>
+      <div class="b">本地DCF基准$126的隐含终端倍数只有9.6x EBITDA，而全板块中位数是22x——意味着这个SELL成立的前提是<strong>整个模拟半导体板块估值腰斩</strong>。这可能对（板块确实处于历史倍数顶部），但它是一个板块beta判断而非TXN的alpha判断：如果你据此卖出TXN，逻辑上你应该同时看空ADI（31x）、MPWR（69x）和整个SOX指数。对个股决策更有用的问题是：<strong>在板块内部，TXN相对ADI/NXPI贵得是否合理？</strong>答案：TXN对NXPI溢价100%+（41x vs 19x PE），这个相对溢价比绝对估值更难辩护——NXPI同样有汽车敞口和更便宜的入场券。</div>
+    </div>
+
+    <div class="think-card">
+      <div class="t">② "收获期"叙事的隐藏时钟：capex低谷是间歇，不是终点</div>
+      <div class="b">市场今年最兴奋的是capex从$5B降到$2-3B、FCF/share冲$8+——但$60B总规划里SM3/SM4还没开建。这轮"收获期"的本质是<strong>SM1/SM2产能爬坡与下一轮建设之间的资本支出间歇</strong>，大概率是2-3年窗口而非永续状态。给$8+的FCF按永续25x+资本化，等于假设TI永远不再大规模建厂——与它自己公布的七厂规划矛盾。更合理的建模：把FCF看作在$6-10/share之间随建设周期摆动的均值回归序列，取中枢~$8定价，而不是取峰值外推。</div>
+    </div>
+
+    <div class="think-card">
+      <div class="t">③ 数据中心电源+90%：TI最好的新故事，恰恰长在护城河最浅的地方</div>
+      <div class="b">AI机柜功率从10kW冲向100kW+，电源管理含量暴增，TXN数据中心收入+90%——这是41x估值的最大合理化理由。但注意结构性矛盾：这个市场拼的是<strong>功率密度和性能</strong>（把更多安培塞进更小体积），不是TI最擅长的成本。MPWR（fabless、69x EV/EBITDA）在此长期占优，Infineon/ADI也在重兵投入。TI的300mm成本优势在$0.5的工业芯片上是屠刀，在$50的AI电源模块上只是入场券。<strong>判别信号：跟踪TI数据中心收入增速与MPWR企业级收入增速的相对变化</strong>——若TI持续快于MPWR，说明它真的在高端拿份额；反之则说明90%只是低基数效应。</div>
+    </div>
+
+    <div class="think-card">
+      <div class="t">④ 中国：模拟芯片是国产替代最容易攻破的城墙</div>
+      <div class="b">先进逻辑芯片中国被EUV卡脖子，但模拟芯片不需要先进制程——需要的只是成熟产线、时间和耐心，而这三样中国都有（还有补贴）。圣邦、思瑞浦、纳芯微等已在消费和低端工业蚕食份额，下一步是汽车。TI的20%中国收入中，低端目录件最脆弱。TI的反制武器恰是300mm成本优势——它是唯一能和中国厂商打价格战还保住毛利的西方模拟公司。<strong>推演：未来五年模拟行业可能出现"中国内卷价格、TI以价保量、二线西方厂商(被)出清"的格局——对TI是份额机会但毛利率承压，对ADI等更是双重挤压。</strong>这个慢变量在41x的估值里完全没有折价。</div>
+    </div>
+
+    <div class="think-card">
+      <div class="t">⑤ Silicon Labs收购的真正棋眼：TI把自己变成"模拟行业的整合平台"</div>
+      <div class="b">$7.5B买SLAB表面看是补无线连接短板，深层逻辑是<strong>"买下fabless公司→把代工订单搬回自家空置产能"的套利模型</strong>：SLAB现在把制造外包给台积电等代工厂，搬进TI的300mm厂后同样收入直接多赚一层制造毛利——$450M协同的主体正来自此。如果这个模型跑通，TI手握七座厂+低负债，就拥有了一台可复制的并购机器：每一家中型fabless模拟/MCU公司都是潜在标的。这是市场尚未充分定价的长期期权，也是$60B产能规划超出自身有机需求的另一种解释。</div>
+    </div>
+
+    <div class="think-card">
+      <div class="t">⑥ 与组合内AVGO/半导体持仓的相关性提醒</div>
+      <div class="b">你的研究库里已有AVGO、AMD、TSM、ASML、KLAC、MRVL、CRDO等大量半导体标的。TXN与它们的日常相关性看似低（模拟vs数字、工业vs AI），但在两种情景下会同涨同跌：<strong>板块倍数均值回归</strong>（当前全板块历史高位，杀估值时无差别）和<strong>AI capex叙事逆转</strong>（TXN的数据中心故事+板块情绪都会受伤）。若把TXN当作半导体组合里的"防御配置"，要意识到它在真正的板块风暴中防御性有限——它的低beta是历史数据，41x的估值是当下事实。真正的分散来自它的工业/汽车周期与AI周期错位——这一点目前是TXN在组合里最大的配置价值。</div>
+    </div>
+
+    <div class="think-card">
+      <div class="t">⑦ 明天（7/22）财报的正确打开方式：与GOOGL同日，注意仓位联动</div>
+      <div class="b">TXN与GOOGL同在7/22盘后发布。TXN看三个数字：<strong>(1) Q3指引</strong>——共识已定价"beat-and-raise"，指引中值低于~$5.6B可能触发获利了结（Q1财报+19%曾单日暴涨19%，这次期望值高得多）；<strong>(2) 数据中心电源增速</strong>——90%能否维持（见命题③）；<strong>(3) FY2026 capex落点</strong>——$2.0B vs $3.0B之间每$500M影响FCF/share约$0.55，直接检验$8+目标。YTD +68%后，这是一个"利好难涨、利空重挫"的不对称位置：即便长期看多，财报前追高的赔率也不佳。</div>
+    </div>
+  </div>
+
+  <!-- 结论 -->
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资判断</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★★☆</div>
+      <div style="color:#475569; font-size:14px">4/5 星（护城河宽、资本纪律顶级；扣分项为周期性本质、中国替代慢变量、以及最高增长市场恰是护城河最浅处）</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p><strong>业务判断：</strong>TI是模拟半导体行业的"沃尔玛+核数会计师"——300mm自有制造的结构性成本优势 + 设计进锁定的年金式收入 + 教科书级资本纪律（股息连增20+年、真回购、全FCF返还承诺），商业质量在整个半导体板块中属于最高一档。管理层评级A，2013年定下的战略十年兑现。</p>
+      <p><strong>估值判断：</strong>但价格已经跑到了故事前面：YTD +68%、41x Forward PE（半导体框架上限为周期顶部25x）、FCF yield ~2.8%（自身历史常态3.5-4.5%）。本地模型的SELL $170实质是对整个模拟板块高倍数的否定（方向有理、幅度过狠）；华尔街$303则假设板块高倍数与AI电源叙事双双延续。本报告合理区间$185-245，现价$291<strong>偏高估约20%</strong>——市场为"收获期FCF"付了永续价，却没为"capex会回来、中国在逼近"打折扣。</p>
+      <p><strong>操作含义（非投资建议）：</strong>已持有者：优质资产不必因估值一次性清仓，但当前价位适合再平衡减仓/卖出备兑；观望者：这是典型的"好公司、坏价格"，$240以下（Base情景）赔率才转正，$200以下具备安全边际；短线视角：财报前的不对称风险偏向下行（+68% YTD后期望值极高）。本报告基于公开信息，不构成投资建议。</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      <div class="mon-item"><span class="num">1.</span><span>Q2财报（7/22盘后）：Q3指引中值 vs ~$5.6B隐含预期；数据中心电源增速能否守住高双位数</span></div>
+      <div class="mon-item"><span class="num">2.</span><span>FY2026 capex最终落点（$2.0B vs $3.0B）与任何SM3/SM4重启信号——检验"收获期是窗口还是常态"（命题②）</span></div>
+      <div class="mon-item"><span class="num">3.</span><span>TI数据中心收入增速 vs MPWR企业级收入增速的相对变化——检验AI电源市场真实份额走向（命题③）</span></div>
+      <div class="mon-item"><span class="num">4.</span><span>中国区收入增速与毛利率走向——国产替代侵蚀速度的直接读数（命题④）</span></div>
+      <div class="mon-item"><span class="num">5.</span><span>Silicon Labs交割进展（预计2027 H1）与新CFO Knecht首几个季度的指引质量——治理压力测试年的两大观察点</span></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for Texas Instruments (TXN) · 2026-07-21 · 基于本地初覆盖研究（fs-research，2026-07-21）+ 截至7/21实时数据<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [3,2,3,1,3],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>
