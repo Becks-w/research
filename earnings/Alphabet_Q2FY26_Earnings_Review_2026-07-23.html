@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Alphabet Inc. — Q2 FY2026 Earnings Review</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    color-scheme: light dark;
+    --surface: #fcfcfb;
+    --page: #f2f2ef;
+    --ink: #0b0b0b;
+    --ink2: #52514e;
+    --muted: #898781;
+    --border: #e1e0d9;
+    --navy: #1F4E78;
+    --navy-tint: #D9E1F2;
+    --red: #C00000;
+    --green: #0ca30c;
+    --orange: #C05A00;
+    --card: #ffffff;
+    --bull: #e7f5ea;
+    --base: #eef1f7;
+    --bear: #fbeaea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface: #1a1a19;
+      --page: #0d0d0d;
+      --ink: #ffffff;
+      --ink2: #c3c2b7;
+      --muted: #948f86;
+      --border: #33322f;
+      --navy: #6fa8dc;
+      --navy-tint: #1c2b3a;
+      --red: #e66767;
+      --green: #3ecf3e;
+      --orange: #e0954f;
+      --card: #202020;
+      --bull: #12261a;
+      --base: #171b24;
+      --bear: #2a1616;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.5;
+  }
+  .sheet {
+    max-width: 980px;
+    margin: 24px auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 30px 36px 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  header.title-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 3px solid var(--navy);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  h1 { font-size: 25px; margin: 2px 0 4px; color: var(--navy); font-family: Georgia, "Times New Roman", serif; }
+  .subtitle { font-size: 13px; color: var(--ink2); }
+  .meta-box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    min-width: 300px;
+  }
+  .meta-box .cell { background: var(--card); padding: 8px 12px; text-align: center; }
+  .meta-box .cell .lbl { font-size: 9px; text-transform: uppercase; letter-spacing: .03em; color: var(--ink2); }
+  .meta-box .cell .val { font-size: 15px; font-weight: 700; margin-top: 2px; }
+
+  h2 {
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: var(--navy);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 4px;
+    margin: 26px 0 10px;
+  }
+  h2 .num { color: var(--muted); font-weight: 400; margin-right: 6px; }
+  p { font-size: 13px; margin: 6px 0; }
+  .lede { font-size: 13.5px; color: var(--ink2); }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 10px 0;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 8px 10px;
+    text-align: center;
+  }
+  .stat .n { font-size: 16px; font-weight: 700; color: var(--navy); }
+  .stat .l { font-size: 9px; color: var(--muted); margin-top: 2px; }
+  .stat.miss .n { color: var(--red); }
+  .stat.beat .n { color: var(--green); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 8px 0; }
+  th, td { border: 1px solid var(--border); padding: 6px 8px; text-align: right; }
+  th { background: var(--navy-tint); color: var(--ink); font-weight: 600; text-align: center; }
+  td:first-child, th:first-child { text-align: left; }
+  tr.total td { font-weight: 700; background: var(--navy-tint); }
+  .src { font-size: 10px; color: var(--muted); margin: 2px 0 4px; }
+
+  .rank-list { list-style: none; padding: 0; margin: 8px 0; counter-reset: rank; }
+  .rank-list li {
+    counter-increment: rank;
+    position: relative;
+    padding: 8px 10px 8px 40px;
+    margin-bottom: 6px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--navy);
+    border-radius: 4px;
+    font-size: 12.5px;
+  }
+  .rank-list li::before {
+    content: counter(rank);
+    position: absolute;
+    left: 10px; top: 8px;
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 14px;
+  }
+  .rank-list li b { display: block; margin-bottom: 2px; }
+
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 10px 0;
+  }
+  .scenario-card {
+    border-radius: 6px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+  }
+  .scenario-card.bull { background: var(--bull); border-top: 4px solid var(--green); }
+  .scenario-card.bear { background: var(--bear); border-top: 4px solid var(--red); }
+  .scenario-card h3 { margin: 0 0 6px; font-size: 13.5px; }
+  .scenario-card dl { margin: 0; font-size: 11.5px; }
+  .scenario-card dt { font-weight: 700; margin-top: 6px; }
+  .scenario-card dd { margin: 1px 0 0; color: var(--ink2); }
+
+  .checklist { margin: 8px 0; padding: 0; list-style: none; }
+  .checklist li {
+    display: flex; gap: 10px; padding: 8px 0;
+    border-bottom: 1px solid var(--border); font-size: 12.5px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist .box {
+    width: 15px; height: 15px; border: 2px solid var(--navy); border-radius: 3px;
+    flex-shrink: 0; margin-top: 1px;
+  }
+
+  .bridge { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 10px 0; font-size: 12px; }
+  .bridge .box { background: var(--card); border: 1px solid var(--border); border-radius: 5px; padding: 8px 10px; text-align: center; min-width: 90px; }
+  .bridge .box .n { font-weight: 700; font-size: 14px; color: var(--navy); }
+  .bridge .box.neg .n { color: var(--red); }
+  .bridge .arrow { color: var(--muted); font-size: 14px; }
+
+  .badge { display:inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+  .badge.beat { background: var(--bull); color: var(--green); }
+  .badge.miss { background: var(--bear); color: var(--red); }
+  .badge.mixed { background: var(--navy-tint); color: var(--navy); }
+
+  .footnote {
+    font-size: 10.5px; color: var(--muted); margin-top: 24px;
+    border-top: 1px solid var(--border); padding-top: 10px;
+  }
+  .footnote a { color: var(--navy); }
+  .verify { background: var(--navy-tint); border-radius: 5px; padding: 10px 12px; font-size: 11px; margin-top: 10px; }
+  @media print {
+    body { background: white; }
+    .sheet { box-shadow: none; margin: 0; border: none; max-width: 100%; }
+  }
+  @media (max-width: 800px) {
+    .scenario-grid { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: repeat(2,1fr); }
+    header.title-block { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="title-block">
+    <div>
+      <div class="tag">Earnings Review — Q2 FY2026 Actuals</div>
+      <h1>Alphabet Inc. <span style="font-weight:400;font-size:16px;">(NASDAQ: GOOGL / GOOG)</span></h1>
+      <div class="subtitle">Reported after market close <b>Wednesday, July 22, 2026</b> — quarter ended June 30, 2026</div>
+    </div>
+    <div class="meta-box">
+      <div class="cell"><div class="lbl">Price (Jul 23 close)</div><div class="val">~$351.99</div></div>
+      <div class="cell"><div class="lbl">Our Rating / PT</div><div class="val">HOLD / $210</div></div>
+      <div class="cell"><div class="lbl">Reaction vs. Jul 17</div><div class="val" style="color:var(--red);">≈ -4.3%</div></div>
+    </div>
+  </header>
+
+  <p class="lede"><b>Headline: a clean top-line and Cloud beat, but a deceptive EPS "beat" and a much larger capex bill sent the stock down.</b> Revenue of $119.8B beat consensus (~$116.9B) by ~2.5%, powered by Google Cloud's 82% growth — blowing past even the bull-case 70-72% flagged in our July 17 preview. But GAAP EPS of $9.11 vs. ~$2.89 consensus is not a real operating beat: it is inflated by a $99.0B non-cash mark-to-market gain (primarily Alphabet's stake in Anthropic), which by the company's own disclosure added $6.26 to diluted EPS. Strip that out and core EPS was ~$2.85 — a modest <b>miss</b> vs. consensus. The bigger story for the stock: management raised FY2026 capex guidance to <b>$195-205B</b> (from $180-190B set just in April) and quarterly free cash flow turned <b>negative</b> for the first time in this cycle. Shares fell ~4-5% in the reaction window and have settled ~4.3% below the July 17 pre-print level. This review does not change our house <b>HOLD, $210 PT</b> (Jul 15 initiation) — it reinforces the capex/FCF risk we flagged as the key bear-case trigger.</p>
+
+  <div class="stat-grid">
+    <div class="stat beat"><div class="n">$119.8B</div><div class="l">Revenue, +24% YoY — beat cons. ~$116.9B</div></div>
+    <div class="stat miss"><div class="n">$2.85</div><div class="l">Core/adj. EPS (ex one-time gain) vs. $2.89E</div></div>
+    <div class="stat beat"><div class="n">+82%</div><div class="l">Google Cloud growth vs. ~63-65% cons.</div></div>
+    <div class="stat miss"><div class="n">$195-205B</div><div class="l">FY26 capex guide, raised from $180-190B</div></div>
+  </div>
+
+  <h2><span class="num">1</span>Results Snapshot — Beat/Miss vs. Consensus</h2>
+  <table>
+    <tr><th>Metric</th><th>Q2 FY26 Actual</th><th>Consensus</th><th>Beat/Miss</th><th>Q2 FY25</th></tr>
+    <tr><td>Total Revenue</td><td>$119.80B</td><td>~$116.9B (range $116.8-117.2B)</td><td><span class="badge beat">BEAT</span> +2.5%</td><td>$96.43B (+24% YoY)</td></tr>
+    <tr><td>Revenue ex-TAC</td><td>~$103.6B</td><td>~$101.1B</td><td><span class="badge beat">BEAT</span> +2.5%</td><td>n/a</td></tr>
+    <tr><td>Operating Income</td><td>$40.77B</td><td>~$40.55B</td><td><span class="badge beat">BEAT</span> (slight)</td><td>$31.27B</td></tr>
+    <tr><td>Operating Margin</td><td>34%</td><td>~33-34%</td><td><span class="badge mixed">IN-LINE</span></td><td>32%</td></tr>
+    <tr><td>GAAP Diluted EPS</td><td>$9.11</td><td>~$2.89</td><td><span class="badge beat">"BEAT"</span> — distorted, see §3</td><td>$2.31</td></tr>
+    <tr><td>Core/Adjusted EPS (ex equity-gain)</td><td>~$2.85</td><td>~$2.89</td><td><span class="badge miss">MISS</span> -1.4%</td><td>n/a (Q2 FY25 had smaller gains)</td></tr>
+    <tr><td>Google Cloud Revenue</td><td>$24.77B</td><td>~$22.5B (63-65% growth est.)</td><td><span class="badge beat">BEAT</span> — 82% actual vs. ~64% cons.</td><td>$13.62B</td></tr>
+    <tr><td>Free Cash Flow (quarterly)</td><td>-$5.86B</td><td>Positive expected</td><td><span class="badge miss">MISS</span> — first negative quarter</td><td>+$5.30B (implied)</td></tr>
+    <tr><td>FY2026 Capex Guidance</td><td>$195-205B</td><td>Reaffirm $180-190B</td><td><span class="badge miss">Guidance raised — read as negative</span></td><td>$175-185B (initial FY26 guide)</td></tr>
+  </table>
+  <p class="src">Source: Alphabet Q2 2026 earnings release (Jul 22, 2026); consensus compiled from LSEG/Visible Alpha/Wall Street estimates via web search (Yahoo Finance, TipRanks, Alphastreet) — verify against a live Bloomberg/FactSet consensus feed before trading.</p>
+
+  <h2><span class="num">2</span>Segment-by-Segment Detail</h2>
+  <table>
+    <tr><th>Segment</th><th>Q2 FY26 Rev.</th><th>YoY Growth</th><th>Q2 FY26 Op. Income</th><th>YoY Op. Income Growth</th></tr>
+    <tr><td>Google Search &amp; other</td><td>$63.27B</td><td>+16.8%</td><td colspan="2" rowspan="4" style="vertical-align:middle;background:var(--card);">Reported at Google Services level only: $39.54B op. income (+19.6% YoY); implied margin ~41.8% vs. 40.1% YoY</td></tr>
+    <tr><td>YouTube ads</td><td>$11.06B</td><td>+12.9%</td></tr>
+    <tr><td>Google Network</td><td>$7.30B</td><td>-0.7%</td></tr>
+    <tr><td>Google subscriptions, platforms &amp; devices</td><td>$12.91B</td><td>+15.2%</td></tr>
+    <tr><td><b>Google Services total</b></td><td><b>$94.54B</b></td><td><b>+14.5%</b></td><td><b>$39.54B</b></td><td><b>+19.6%</b></td></tr>
+    <tr><td><b>Google Cloud</b></td><td><b>$24.77B</b></td><td><b>+81.8%</b></td><td><b>$8.81B</b></td><td><b>+212% (margin 35.6% vs. 20.7% YoY)</b></td></tr>
+    <tr><td>Other Bets</td><td>$0.38B</td><td>+2.4%</td><td>-$1.80B</td><td>Loss widened vs. -$1.25B YoY</td></tr>
+    <tr><td>Alphabet-level activities (unallocated)</td><td>—</td><td>—</td><td>-$5.79B</td><td>Widened vs. -$3.37B YoY, mainly shared AI R&amp;D</td></tr>
+    <tr class="total"><td>Total</td><td>$119.80B</td><td>+24.2%</td><td>$40.77B</td><td>+30.4%</td></tr>
+  </table>
+  <p class="src">Source: Alphabet Q2 2026 earnings release, Supplemental Information &amp; Segment Results tables (Jul 22, 2026).</p>
+  <p><b>Read-through:</b> Search &amp; other accelerated to +17% YoY (vs. Q1's pace) with no visible sign yet of AI Mode/AI Overviews cannibalizing monetization — a clean answer to the disintermediation risk flagged in our preview. YouTube ads growth held at a solid low-teens rate. Google Network's -0.7% decline is the smallest in several quarters (a mild positive). Google Cloud is the standout: 82% growth and a step-change in profitability (margin nearly doubled YoY to 35.6%) confirm the AI-infrastructure investment cycle is now converting to profit, not just revenue — the single most important positive data point this quarter.</p>
+
+  <h2><span class="num">3</span>Why the Headline EPS "Beat" Is Misleading</h2>
+  <p>Alphabet's $9.11 GAAP EPS print looks like a spectacular beat vs. the ~$2.89 Street consensus, but the company's own footnote disaggregates the driver: a $99.0B gross gain (net $99.03B) on equity securities — chiefly the appreciation of Alphabet's ~14% stake in Anthropic, whose implied valuation roughly tripled during the quarter (from ~$380B to ~$965B, per third-party reporting) — flowed through "Other income (expense), net." Alphabet discloses this added $21.9B to the tax provision, $77.1B to net income, and <b>$6.26 to diluted EPS</b>.</p>
+  <div class="bridge">
+    <div class="box"><div class="n">$9.11</div><div class="l">GAAP diluted EPS</div></div>
+    <div class="arrow">−</div>
+    <div class="box neg"><div class="n">$6.26</div><div class="l">Anthropic-driven equity gain, net of tax</div></div>
+    <div class="arrow">=</div>
+    <div class="box"><div class="n">≈$2.85</div><div class="l">Core/operating EPS</div></div>
+    <div class="arrow">vs.</div>
+    <div class="box"><div class="n">$2.89</div><div class="l">Consensus (core basis)</div></div>
+  </div>
+  <p>On this core basis, Alphabet <b>missed</b> by roughly $0.04 (~1.4%) — a small, arguably immaterial miss, but a meaningfully different narrative than the eye-catching $9.11 headline. This is a mark-to-market accounting gain on a minority equity stake, not operating cash flow; it is also highly volatile (the same line was a much smaller $2.66B gain a year ago) and should not be extrapolated. Investors and screeners relying on the unadjusted EPS figure will overstate both the beat and the quarter's underlying earnings quality.</p>
+
+  <h2><span class="num">4</span>Guidance: The Real Market-Mover Was Capex, Not the P&amp;L</h2>
+  <div class="scenario-grid">
+    <div class="scenario-card bear">
+      <h3>📈 Capex guidance raised sharply</h3>
+      <dl>
+        <dt>FY2026 capex</dt><dd>Raised to <b>$195-205B</b>, up from the $180-190B range set only in April 2026 (which itself had already been raised from an initial $175-185B)</dd>
+        <dt>Q2 actual capex</dt><dd>$44.92B — up 100% YoY and +26% QoQ vs. Q1's $35.67B; H1 2026 capex now $80.6B YTD</dd>
+        <dt>FY2027</dt><dd>CFO Anat Ashkenazi reiterated 2027 capex will "significantly increase" further from 2026 levels — still no specific number attached</dd>
+        <dt>Management rationale</dt><dd>"We're still in a supply-constrained environment" — Google Cloud demand continues to outstrip capacity; plans to lean on third-party/leased compute as a bridge in Q3 while internal capacity scales</dd>
+      </dl>
+    </div>
+    <div class="scenario-card bull">
+      <h3>☁️ Demand signal still strong</h3>
+      <dl>
+        <dt>Cloud backlog</dt><dd>Grew to <b>$514B</b> (from &gt;$460B at Q1) — the clearest evidence the capex is being deployed against contracted, not speculative, demand</dd>
+        <dt>Cloud growth</dt><dd>82% actual vs. ~63-65% Street consensus and even above the 70-72% bull case in our preview</dd>
+        <dt>Gemini adoption</dt><dd>~90% of the Fortune 100 using Gemini Enterprise; Gemini App at 950M MAU; models processing 22B API tokens/minute</dd>
+        <dt>Funding the capex</dt><dd>$49.6B raised via common + mandatory convertible preferred stock (Jun 2026) and $20.3B via senior notes — capex is being financed with fresh capital, not solely internally generated cash</dd>
+      </dl>
+    </div>
+  </div>
+  <p><b>Net read:</b> the backlog and Cloud-margin data support the bull argument that this capex is demand-backed rather than speculative — but the market's reaction shows the Street is currently more focused on <i>magnitude and cash-flow impact</i> (quarterly FCF went negative) than on backlog quality. This is exactly the "beat-but-sell-off on capex" pattern our July 17 preview flagged as the key bear-case trigger (which previously occurred after Q4 FY2025's print), and it repeated this quarter despite Cloud actually outperforming even the bull scenario.</p>
+
+  <h2><span class="num">5</span>Capital Allocation Shift</h2>
+  <ul class="checklist">
+    <li><span class="box"></span><div><b>Free cash flow turned negative: -$5.86B for the quarter</b> (operating cash flow $39.07B less capex $44.92B), the first negative quarterly FCF print in this AI-capex cycle. TTM FCF is still positive at $53.27B but the cushion is shrinking fast as capex accelerates faster than operating cash flow.</div></li>
+    <li><span class="box"></span><div><b>Buybacks paused entirely: $0 repurchased in Q2</b>, down from $13.24B in Q2 FY25 — a clear signal capital is being redirected to infrastructure.</div></li>
+    <li><span class="box"></span><div><b>Fresh capital raised to fund the buildout:</b> $49.6B net proceeds from a June 2026 issuance of common stock + new mandatory convertible preferred stock, plus $20.3B from senior unsecured notes. Cash &amp; marketable securities rose to $242.5B (from $126.8B at YE2025); long-term debt roughly doubled to $98.2B.</div></li>
+    <li><span class="box"></span><div><b>New preferred dividend obligation:</b> the Board declared a $12.15/share ($0.60/depositary share) quarterly dividend on the newly issued mandatory convertible preferred stock, alongside the existing $0.22/share common dividend — a new, structurally senior claim on cash flow that didn't exist a quarter ago.</div></li>
+  </ul>
+
+  <h2><span class="num">6</span>Read-Through to House Thesis</h2>
+  <p>This print does not change our <b>HOLD, $210 PT</b> from the July 15 initiation report — if anything it sharpens the specific tension we flagged there. The valuation gap vs. Street consensus (~$432 average PT, "Strong Buy") is unresolved, and this quarter adds a concrete data point on both sides:</p>
+  <ul class="checklist">
+    <li><span class="box"></span><div><b>Supports the bear/HOLD case:</b> capex guidance jumped ~$15-20B in three months with no matching upgrade to revenue guidance (Alphabet does not give formal revenue guidance); FCF is now negative quarterly and being backstopped by external capital raises (equity + debt) rather than fully self-funded — exactly the terminal-value/capex-supercycle risk our DCF sensitivity flagged.</div></li>
+    <li><span class="box"></span><div><b>Supports the bull/Street case:</b> Cloud's 82% growth and $514B backlog are hard evidence the spend is demand-backed; Cloud segment margin nearly doubled YoY, showing the capex is beginning to convert to profit rather than sitting as pure cost.</div></li>
+  </ul>
+  <p>We would want to see at least one more quarter of capex vs. backlog-growth data, and a clearer signal on whether FCF stabilizes or continues to deteriorate, before revisiting the rating.</p>
+
+  <div class="verify">
+    <b>待核对清单 / Items to verify against official filings before circulating:</b> exact consensus revenue/EPS figures from a live Bloomberg/FactSet/Visible Alpha feed (web-search-derived consensus used here may reflect a single provider or lag the final print); Q2 FY2026 10-Q (not yet filed as of this report) for any restatements vs. the earnings release; the precise Anthropic stake percentage and valuation basis behind the $99.0B equity gain; confirmation of the $195-205B FY2026 capex figure directly from the earnings call transcript (currently sourced via secondary reporting, not the press release itself, which did not update the capex range in its own text); current GOOGL share price and market cap at time of use.
+  </div>
+
+  <div class="footnote">
+    Companion to <i>Alphabet_Initiation_Report_2026-07-15</i> (HOLD, $210 PT) and <i>Alphabet_Q2FY26_Earnings_Preview_2026-07-17</i> in this folder. Primary source: <a href="https://s206.q4cdn.com/479360582/files/doc_financials/2026/q2/2026q2-alphabet-earnings-release.pdf">Alphabet Q2 2026 Earnings Release (abc.xyz/investor, Jul 22, 2026)</a>. Secondary sources: <a href="https://9to5google.com/2026/07/22/alphabet-q2-2026-earnings/">9to5Google</a>, <a href="https://www.cnbc.com/2026/07/22/google-earnings-q2-goog-live-updates.html">CNBC live coverage</a>, <a href="https://finance.yahoo.com/markets/stocks/articles/googl-drops-nearly-5-hours-212540090.html">Yahoo Finance (capex/stock reaction)</a>, <a href="https://www.fxleaders.com/news/2026/07/22/googl-stock-dives-as-99-billion-investment-gain-inflates-profit-despite-alphabet-inc-beating-q2-earnings-and-revenue/">FX Leaders (equity-gain/EPS distortion)</a>, <a href="https://www.techtimes.com/articles/321312/20260722/alphabet-q2-earnings-cloud-revenue-not-80-billion-paper-eps-tells-story.htm">Tech Times</a>, <a href="https://blog.google/company-news/inside-google/message-ceo/alphabet-earnings-q2-2026/">Google Keyword blog (Pichai remarks)</a>. No paid data terminal was used; web-search-derived consensus figures should be reconciled against Bloomberg/FactSet before external distribution. Not investment advice.
+  </div>
+
+</div>
+</body>
+</html>

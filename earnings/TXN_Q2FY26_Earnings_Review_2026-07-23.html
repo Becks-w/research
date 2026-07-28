@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Texas Instruments — Q2 FY2026 Earnings Review 财报点评</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    color-scheme: light dark;
+    --surface: #fcfcfb;
+    --page: #f2f2ef;
+    --ink: #0b0b0b;
+    --ink2: #52514e;
+    --muted: #898781;
+    --border: #e1e0d9;
+    --navy: #1F4E78;
+    --navy-tint: #D9E1F2;
+    --red: #C00000;
+    --green: #0ca30c;
+    --orange: #C05A00;
+    --card: #ffffff;
+    --bull: #e7f5ea;
+    --base: #eef1f7;
+    --bear: #fbeaea;
+    --zh-bg: #f7f5ef;
+    --zh-border: #cdbf9a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface: #1a1a19;
+      --page: #0d0d0d;
+      --ink: #ffffff;
+      --ink2: #c3c2b7;
+      --muted: #948f86;
+      --border: #33322f;
+      --navy: #6fa8dc;
+      --navy-tint: #1c2b3a;
+      --red: #e66767;
+      --green: #3ecf3e;
+      --orange: #e0954f;
+      --card: #202020;
+      --bull: #12261a;
+      --base: #171b24;
+      --bear: #2a1616;
+      --zh-bg: #201d16;
+      --zh-border: #6b5c3a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.5;
+  }
+  .zh, .zh * { font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif; }
+  .sheet {
+    max-width: 980px;
+    margin: 24px auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 30px 36px 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  header.title-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 3px solid var(--navy);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  h1 { font-size: 25px; margin: 2px 0 4px; color: var(--navy); font-family: Georgia, "Times New Roman", serif; }
+  .subtitle { font-size: 13px; color: var(--ink2); }
+  .subtitle .zh { display: block; font-size: 12px; margin-top: 2px; color: var(--muted); }
+  .meta-box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    min-width: 320px;
+  }
+  .meta-box .cell { background: var(--card); padding: 8px 12px; text-align: center; }
+  .meta-box .cell .lbl { font-size: 9px; text-transform: uppercase; letter-spacing: .03em; color: var(--ink2); }
+  .meta-box .cell .lbl .zh { display: block; font-size: 9px; text-transform: none; letter-spacing: 0; }
+  .meta-box .cell .val { font-size: 15px; font-weight: 700; margin-top: 2px; }
+
+  h2 {
+    font-size: 14.5px;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    color: var(--navy);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 4px;
+    margin: 26px 0 10px;
+  }
+  h2 .num { color: var(--muted); font-weight: 400; margin-right: 6px; }
+  h2 .zh { text-transform: none; font-weight: 500; font-size: 13px; color: var(--ink2); margin-left: 8px; letter-spacing: 0; }
+  p { font-size: 13px; margin: 6px 0; }
+  .lede { font-size: 13.5px; color: var(--ink2); }
+
+  p.zh, div.zh.para {
+    font-size: 12.8px;
+    color: var(--ink2);
+    background: var(--zh-bg);
+    border-left: 3px solid var(--zh-border);
+    padding: 7px 10px;
+    border-radius: 0 4px 4px 0;
+    margin: 4px 0 10px;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 10px 0;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 8px 10px;
+    text-align: center;
+  }
+  .stat .n { font-size: 16px; font-weight: 700; color: var(--navy); }
+  .stat .l { font-size: 9px; color: var(--muted); margin-top: 2px; }
+  .stat .l .zh { display: block; font-size: 9px; margin-top: 1px; }
+  .stat.miss .n { color: var(--red); }
+  .stat.beat .n { color: var(--green); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 8px 0; }
+  th, td { border: 1px solid var(--border); padding: 6px 8px; text-align: right; }
+  th { background: var(--navy-tint); color: var(--ink); font-weight: 600; text-align: center; }
+  th .zh { display: block; font-weight: 400; font-size: 10.5px; color: var(--ink2); }
+  td:first-child, th:first-child { text-align: left; }
+  tr.total td { font-weight: 700; background: var(--navy-tint); }
+  .src { font-size: 10px; color: var(--muted); margin: 2px 0 4px; }
+
+  .checklist { margin: 8px 0; padding: 0; list-style: none; }
+  .checklist li {
+    display: flex; gap: 10px; padding: 8px 0;
+    border-bottom: 1px solid var(--border); font-size: 12.5px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist .box {
+    width: 15px; height: 15px; border: 2px solid var(--navy); border-radius: 3px;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .checklist .zh { display: block; margin-top: 3px; }
+
+  .scenario-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 10px 0; }
+  .scenario-card { border-radius: 6px; padding: 12px 14px; border: 1px solid var(--border); }
+  .scenario-card.bull { background: var(--bull); border-top: 4px solid var(--green); }
+  .scenario-card.bear { background: var(--bear); border-top: 4px solid var(--red); }
+  .scenario-card h3 { margin: 0 0 6px; font-size: 13.5px; }
+  .scenario-card h3 .zh { display: block; font-size: 11.5px; font-weight: 500; color: var(--ink2); }
+  .scenario-card dl { margin: 0; font-size: 11.5px; }
+  .scenario-card dt { font-weight: 700; margin-top: 6px; }
+  .scenario-card dd { margin: 1px 0 0; color: var(--ink2); }
+  .scenario-card dd .zh { display: block; margin-top: 1px; color: var(--muted); }
+
+  .bridge { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 10px 0; font-size: 12px; }
+  .bridge .box { background: var(--card); border: 1px solid var(--border); border-radius: 5px; padding: 8px 10px; text-align: center; min-width: 90px; }
+  .bridge .box .n { font-weight: 700; font-size: 14px; color: var(--navy); }
+  .bridge .box.neg .n { color: var(--red); }
+  .bridge .arrow { color: var(--muted); font-size: 14px; }
+
+  .badge { display:inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+  .badge.beat { background: var(--bull); color: var(--green); }
+  .badge.miss { background: var(--bear); color: var(--red); }
+  .badge.mixed { background: var(--navy-tint); color: var(--navy); }
+
+  .footnote { font-size: 10.5px; color: var(--muted); margin-top: 24px; border-top: 1px solid var(--border); padding-top: 10px; }
+  .footnote a { color: var(--navy); }
+  .verify { background: var(--navy-tint); border-radius: 5px; padding: 10px 12px; font-size: 11px; margin-top: 10px; }
+  .verify .zh { display: block; margin-top: 4px; background: none; border: none; padding: 0; color: var(--ink2); }
+  @media print { body { background: white; } .sheet { box-shadow: none; margin: 0; border: none; max-width: 100%; } }
+  @media (max-width: 800px) {
+    .scenario-grid { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: repeat(2,1fr); }
+    header.title-block { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="title-block">
+    <div>
+      <div class="tag">Earnings Review · 财报点评 — Q2 FY2026 Actuals</div>
+      <h1>Texas Instruments Inc. <span style="font-weight:400;font-size:16px;">(NASDAQ: TXN)</span></h1>
+      <div class="subtitle">Reported after market close <b>Wednesday, July 22, 2026</b> — quarter ended June 30, 2026
+        <span class="zh">财报于美东时间 2026年7月22日盘后发布，对应季度截至 2026年6月30日</span>
+      </div>
+    </div>
+    <div class="meta-box">
+      <div class="cell"><div class="lbl">Price (~Jul 23)<span class="zh">股价（约7/23）</span></div><div class="val">~$274</div></div>
+      <div class="cell"><div class="lbl">Our Rating / PT<span class="zh">我方评级/目标价</span></div><div class="val">SELL / $170</div></div>
+      <div class="cell"><div class="lbl">Reaction<span class="zh">财报后股价反应</span></div><div class="val" style="color:var(--red);">≈ -4%</div></div>
+    </div>
+  </header>
+
+  <p class="lede"><b>Headline: a clean double beat and a guide-up, yet the stock still fell — because it had already priced in near-perfection.</b> Revenue of $5.46B beat consensus (~$5.25B) by ~4%, and came in above the high end of TI's own $5.0-5.4B guide. EPS of $2.14 beat consensus (~$1.93) by ~11%, though management flagged a 5-cent one-time benefit not in the original guidance — the second consecutive quarter with such an item. Q3 guidance of $5.65-6.15B / $2.23-2.57 also beat Street expectations. Yet TXN shares fell roughly 3-4% in the reaction window. The reason isn't the print — it's valuation: TXN entered earnings up ~65-69% year-to-date and trading at ~39x NTM P/E, a rich multiple for a company with a ~3% 10-year revenue CAGR. This review does not change our house <b>SELL, $170 PT</b> (Jul 21 initiation) — the post-earnings pullback is a small, early data point in the direction of our valuation-discipline thesis, though the gap to spot remains very large.</p>
+  <p class="zh"><b>核心结论：业绩和指引"双超"，但股价仍然下跌——因为股价在财报前已经price in了近乎完美的预期。</b>本季度营收 $5.46B，超一致预期（约 $5.25B）约4%，也高于公司自身给出的 $5.0-5.4B 指引区间上限。EPS $2.14，超一致预期（约$1.93）约11%，但管理层披露其中含5美分的一次性利好（未包含在原始指引中）——这已是连续第二个季度出现该类项目。Q3指引 $5.65-6.15B / $2.23-2.57 同样超出街上预期。然而TXN股价在财报后反应窗口内仍下跌约3-4%。原因不在业绩本身，而在估值：TXN财报前年初至今已上涨约65-69%，NTM P/E约39倍，相对其近10年营收CAGR仅约3%的公司而言，估值明显偏贵。本次财报不改变我们此前（7月21日首次覆盖报告）给出的 <b>SELL，目标价$170</b> 评级——财报后的回调是朝我们"估值纪律"逻辑方向迈出的一小步信号，但与现价的差距仍然非常大。</p>
+
+  <div class="stat-grid">
+    <div class="stat beat"><div class="n">$5.46B</div><div class="l">Revenue +23% YoY — beat cons. ~$5.25B<span class="zh">营收，同比+23%，超预期约$5.25B</span></div></div>
+    <div class="stat beat"><div class="n">$2.14</div><div class="l">EPS +52% YoY — beat cons. ~$1.93<span class="zh">EPS，同比+52%，超预期约$1.93</span></div></div>
+    <div class="stat beat"><div class="n">$5.65-6.15B</div><div class="l">Q3 guide, above cons. ~$5.57-5.61B<span class="zh">Q3指引，高于一致预期约$5.57-5.61B</span></div></div>
+    <div class="stat miss"><div class="n">≈ -4%</div><div class="l">Stock reaction despite the beat-and-raise<span class="zh">尽管"双超+上调指引"，股价仍下跌</span></div></div>
+  </div>
+
+  <h2><span class="num">1</span>Results Snapshot — Beat/Miss vs. Consensus<span class="zh">业绩速览：超预期/不及预期对比</span></h2>
+  <table>
+    <tr><th>Metric<span class="zh">指标</span></th><th>Q2 FY26 Actual<span class="zh">实际值</span></th><th>Consensus<span class="zh">一致预期</span></th><th>Beat/Miss<span class="zh">超/不及预期</span></th><th>Q2 FY25<span class="zh">去年同期</span></th></tr>
+    <tr><td>Total Revenue</td><td>$5.463B</td><td>~$5.25B</td><td><span class="badge beat">BEAT</span> +4.1%</td><td>~$4.44B (+23% YoY)</td></tr>
+    <tr><td>Gross Margin</td><td>61.4%</td><td>~59-60% (est.)</td><td><span class="badge beat">BEAT</span></td><td>~58.0% (implied)</td></tr>
+    <tr><td>Operating Margin</td><td>42.3%</td><td>~39-40% (est.)</td><td><span class="badge beat">BEAT</span> +~710bps YoY</td><td>~35.2% (implied)</td></tr>
+    <tr><td>Diluted EPS (as reported)</td><td>$2.14</td><td>~$1.92-1.95</td><td><span class="badge beat">BEAT</span> +~11%</td><td>~$1.41 (+52% YoY)</td></tr>
+    <tr><td>EPS ex one-time 5¢ benefit</td><td>~$2.09</td><td>~$1.92-1.95</td><td><span class="badge beat">BEAT</span> (smaller, +~8%)</td><td>n/a</td></tr>
+    <tr><td>Own Prior Guidance (Q1 call)</td><td>Rev $5.0-5.4B / EPS $1.77-2.05</td><td>—</td><td>Actual above high end of both ranges</td><td>—</td></tr>
+    <tr><td>Q3 FY26 Guidance</td><td>Rev $5.65-6.15B / EPS $2.23-2.57</td><td>Rev ~$5.57-5.61B / EPS ~$2.15</td><td><span class="badge beat">GUIDE-UP</span> — but read as negative, see §4</td><td>—</td></tr>
+    <tr><td>FY2026 Capex Guidance</td><td>Maintained $2.0-3.0B</td><td>Maintained</td><td><span class="badge mixed">IN-LINE</span> — could trend to high end</td><td>~$4.6-4.7B (FY25 level)</td></tr>
+  </table>
+  <p class="src">Source: TI Q2 2026 earnings release (prnewswire.com, Jul 22, 2026); consensus compiled from Wall Street estimates via web search (Zacks, Alphastreet, Wall St Engine) — verify against a live Bloomberg/FactSet consensus feed.</p>
+  <p class="zh">资料来源：德州仪器 2026年二季度财报新闻稿（prnewswire.com，2026年7月22日）；一致预期数据通过网络检索汇总（Zacks、Alphastreet、Wall St Engine等），使用前请以彭博/FactSet实时一致预期数据核实。</p>
+
+  <h2><span class="num">2</span>Segment-by-Segment Detail<span class="zh">分部业绩明细</span></h2>
+  <table>
+    <tr><th>Segment<span class="zh">业务分部</span></th><th>Q2 FY26 Rev.<span class="zh">营收</span></th><th>YoY Growth<span class="zh">同比增速</span></th><th>Op. Income<span class="zh">营业利润</span></th><th>Op. Margin<span class="zh">营业利润率</span></th><th>Op. Income YoY<span class="zh">营业利润同比</span></th></tr>
+    <tr><td>Analog</td><td>$4.365B</td><td>+26%</td><td>$1.992B</td><td>45.6%</td><td>+50%</td></tr>
+    <tr><td>Embedded Processing</td><td>$0.788B</td><td>+16%</td><td>$0.168B</td><td>21.3%</td><td>+98%</td></tr>
+    <tr><td>Other</td><td>$0.310B</td><td>-2%</td><td>$0.150B</td><td>48.4%</td><td>-2%</td></tr>
+    <tr class="total"><td>Total</td><td>$5.463B</td><td>+23%</td><td>$2.310B</td><td>42.3%</td><td>+48%</td></tr>
+  </table>
+  <p class="src">Source: TI Q2 2026 earnings release, segment tables (Jul 22, 2026). End markets: industrial +30% YoY, data center revenue roughly doubled YoY, automotive up mid-teens YoY — the three end markets management cited as broad growth drivers.</p>
+  <p class="zh">资料来源：德州仪器 2026年二季度财报新闻稿分部数据表（2026年7月22日）。终端市场方面：工业同比+30%，数据中心营收同比约翻倍，汽车同比中双位数增长——管理层将这三个终端市场列为本季度"广泛增长"的主要驱动力。</p>
+  <p><b>Read-through:</b> Embedded Processing's operating profit nearly doubled (+98%) YoY on only +16% revenue growth — a strong sign of operating leverage returning to TI's smaller, historically lower-margin segment as utilization improves. Analog, still ~80% of revenue, grew +26% with margin expansion to 45.6%, consistent with the 300mm internal-manufacturing cost advantage highlighted in our Task 1 research. Data center demand (revenue roughly doubling YoY) is the standout end-market, though it remains a smaller piece of TI's mix than industrial and automotive.</p>
+  <p class="zh"><b>解读：</b>嵌入式处理（Embedded Processing）分部营业利润同比几乎翻倍（+98%），而营收仅增长16%，显示该分部（规模较小、历史上利润率偏低）在产能利用率提升下经营杠杆正在显著释放。模拟（Analog）业务仍占营收约80%，同比增长26%，利润率扩张至45.6%，与我们Task 1研究中强调的300mm自有产能成本优势相符。数据中心需求（营收同比约翻倍）是本季度最亮眼的终端市场，但在TI整体业务结构中占比仍小于工业和汽车。</p>
+
+  <h2><span class="num">3</span>Guidance: A Genuine Raise — And Still Not Enough<span class="zh">指引：确实上调——但市场仍不买账</span></h2>
+  <ul class="checklist">
+    <li><span class="box"></span><div><b>Q3 revenue guide $5.65-6.15B (midpoint $5.9B)</b> is ~5% above the ~$5.57-5.61B Street consensus, and implies further sequential growth after Q2's already-strong +13% QoQ print.<span class="zh">Q3营收指引$5.65-6.15B（中值$5.9B），较街上一致预期（约$5.57-5.61B）高出约5%，意味着在Q2已实现+13%环比高增长的基础上进一步环比增长。</span></div></li>
+    <li><span class="box"></span><div><b>Q3 EPS guide $2.23-2.57 (midpoint $2.40)</b> is well above the ~$2.15 consensus — one of TI's stronger guide-ups in recent quarters.<span class="zh">Q3 EPS指引$2.23-2.57（中值$2.40），显著高于约$2.15的一致预期——是TI近几个季度中较强的一次上调指引。</span></div></li>
+    <li><span class="box"></span><div><b>FY2026 capex guidance maintained at $2.0-3.0B</b> (down 34-56% from FY2025's ~$4.6-4.7B level) — the free-cash-flow inflection our Task 2/3 model is built on remains intact. Management noted capex "could be on the higher end of that range" given demand, a modest offsetting risk to the FCF thesis.<span class="zh">2026财年资本开支指引维持在$2.0-3.0B（较2025财年约$4.6-4.7B下降34%-56%）——我们Task 2/3模型所依赖的自由现金流拐点逻辑保持不变。管理层同时提示，鉴于需求情况，资本开支"可能落在区间higher end"，这对FCF逻辑构成一个温和的对冲风险。</span></div></li>
+    <li><span class="box"></span><div><b>Quality caveat:</b> both Q1 and Q2 FY2026 EPS included an unguided 5-cent benefit — a repeating pattern worth flagging to management on the next call, as it modestly overstates the "clean" beat magnitude two quarters running.<span class="zh"><b>质量提示：</b>2026财年Q1和Q2的EPS均包含一项未纳入原始指引的5美分利好——这一现象连续两个季度出现，值得在下次电话会议上向管理层追问，因为它会在两个季度中都小幅夸大"干净"口径下的超预期幅度。</span></div></li>
+  </ul>
+
+  <h2><span class="num">4</span>Why the Stock Fell Anyway<span class="zh">为何业绩"双超+上调指引"股价仍下跌</span></h2>
+  <div class="scenario-grid">
+    <div class="scenario-card bull">
+      <h3>✅ What went right<span class="zh">利好因素</span></h3>
+      <dl>
+        <dt>Revenue &amp; EPS</dt><dd>Beat consensus and TI's own guide on both lines<span class="zh">营收和EPS均超一致预期及公司自身指引</span></dd>
+        <dt>Margins</dt><dd>Operating margin +~710bps YoY to 42.3%, gross margin +~340bps to 61.4%<span class="zh">营业利润率同比+约710个基点至42.3%，毛利率同比+约340个基点至61.4%</span></dd>
+        <dt>Guidance</dt><dd>Q3 revenue and EPS guides both above Street<span class="zh">Q3营收和EPS指引均高于街上预期</span></dd>
+        <dt>Cash flow</dt><dd>TTM FCF +271% YoY to $6.5B (33.6% margin), the capex-cut thesis playing out<span class="zh">TTM自由现金流同比+271%至$6.5B（利润率33.6%），资本开支下降的逻辑正在兑现</span></dd>
+      </dl>
+    </div>
+    <div class="scenario-card bear">
+      <h3>⚠️ Why it still fell<span class="zh">为何股价仍然下跌</span></h3>
+      <dl>
+        <dt>Valuation entering the print</dt><dd>Stock was up ~65-69% YTD, trading at ~39x NTM P/E — well above Broadcom (~26x), Qualcomm (~23x), TSMC (~23x)<span class="zh">财报前股价年初至今已涨约65-69%，NTM P/E约39倍——明显高于博通(~26x)、高通(~23x)、台积电(~23x)</span></dd>
+        <dt>Growth vs. multiple mismatch</dt><dd>~39x forward P/E for a company with a ~3% 10-year revenue CAGR is a demanding combination to sustain<span class="zh">近10年营收CAGR仅约3%的公司享有约39倍远期市盈率，这一组合本身较难长期维持</span></dd>
+        <dt>EPS quality</dt><dd>The recurring unguided 5-cent benefit slightly clouds the "clean beat" narrative<span class="zh">连续出现的未纳入指引的5美分利好，使"干净超预期"的叙事略打折扣</span></dd>
+        <dt>Classic "sell the news"</dt><dd>Consistent with a stock priced for near-perfect execution — even a genuine beat-and-raise wasn't enough to add further upside<span class="zh">符合"利好兑现即卖出"的典型模式——股价已price in近乎完美的执行预期，即便是真实的"双超+上调指引"也不足以推动股价进一步上行</span></dd>
+      </dl>
+    </div>
+  </div>
+
+  <h2><span class="num">5</span>Capital Allocation &amp; Cash Flow<span class="zh">资本配置与现金流</span></h2>
+  <ul class="checklist">
+    <li><span class="box"></span><div><b>TTM free cash flow: $6.53B (+271% YoY), FCF margin 33.6%</b> — the sharpest evidence yet that the FY2026 capex cut (to $2-3B from the ~$4.6-4.7B 300mm-buildout run-rate) is driving the cash-flow inflection embedded in our model.<span class="zh"><b>TTM自由现金流$6.53B（同比+271%），FCF利润率33.6%</b>——这是迄今为止最有力的证据，表明2026财年资本开支下调（从300mm产能扩建期约$4.6-4.7B降至$2-3B）正在驱动我们模型中所设定的现金流拐点。</span></div></li>
+    <li><span class="box"></span><div><b>TTM shareholder returns: $5.82B</b> — $5.11B dividends + $0.71B buybacks. Buyback pace remains modest relative to dividend commitment, consistent with TI's multi-decade dividend-growth priority.<span class="zh"><b>TTM股东回报合计$5.82B</b>——其中股息$5.11B，回购$0.71B。回购力度相对股息承诺仍偏温和，符合TI数十年来优先保障股息增长的传统。</span></div></li>
+    <li><span class="box"></span><div><b>Balance sheet:</b> Cash &amp; short-term investments $7.00B; inventory $4.61B; long-term debt $12.90B.<span class="zh"><b>资产负债表：</b>现金及短期投资$7.00B；存货$4.61B；长期债务$12.90B。</span></div></li>
+  </ul>
+
+  <h2><span class="num">6</span>Read-Through to House Thesis<span class="zh">对我方核心观点的印证</span></h2>
+  <p>This print does not change our <b>SELL, $170 PT</b> from the July 21 initiation report — the underlying franchise-quality and FCF-inflection thesis is intact and, if anything, strengthened (margin expansion, capex discipline, cash generation all executing as modeled). But the SELL call was never a franchise-quality call — it is a <b>valuation</b> call. This quarter is a live illustration of exactly that tension: a genuine beat-and-raise still produced a negative stock reaction, because ~65-69% of pre-print YTD appreciation had already priced in outcomes at least this good. The ~4% pullback moves the stock modestly toward our target but leaves the vast majority of the ~40% valuation gap vs. our $170 PT unresolved.</p>
+  <p class="zh">本次财报不改变我们7月21日首次覆盖报告中给出的 <b>SELL，目标价$170</b> 评级——公司基本面质量与自由现金流拐点逻辑保持完好，甚至进一步得到强化（利润率扩张、资本开支纪律、现金生成均按模型预期兑现）。但SELL评级从来不是对公司基本面质量的否定，而是一个<b>估值</b>层面的判断。本季度恰好是这一矛盾的鲜活例证：即便是真实的"双超+上调指引"，股价仍出现负面反应，原因在于财报前约65-69%的年内涨幅已经price in了不逊于本次业绩的结果。财报后约4%的回调，使股价小幅向我们目标价方向靠拢，但与$170目标价之间约40%的估值差距，绝大部分仍未消化。</p>
+
+  <div class="verify">
+    <b>待核对清单 / Items to verify against official filings before circulating:</b> exact consensus revenue/EPS figures from a live Bloomberg/FactSet/Visible Alpha feed; Q2 FY2026 10-Q (not yet filed as of this report) for any restatements vs. the earnings release; the precise nature/source of the recurring 5-cent unguided EPS benefit (Q1 and Q2 FY2026); confirmed TXN closing price for Jul 23, 2026 (this report uses an approximate ~$274 derived from a reported ~-3.45% after-hours move off the $285.35 Jul 22 close, plus a reported ~-4.02% next-session move and ~$11.21B market-cap decline — reconcile these before external use as the sources were not fully consistent); Q2 FY2025 gross/operating margin figures (implied here from YoY growth rates disclosed in the release, not directly sourced).
+    <span class="zh">请在对外分发前，依据官方文件核实以下条目：通过彭博/FactSet/Visible Alpha实时数据核实准确的一致预期营收/EPS数字；2026财年二季度10-Q（截至本报告撰写时尚未提交）是否对财报新闻稿数据有任何调整；连续两个季度出现的、未纳入指引的5美分EPS利好项目的具体来源与性质；2026年7月23日TXN收盘价的准确数值（本报告基于"7月22日收盘价$285.35 + 报道中约-3.45%的盘后跌幅"，以及另一来源报道的约-4.02%次日跌幅和约$11.21B市值蒸发估算出约$274的近似值，但各信息源数据并不完全一致，使用前请核实）；2025财年二季度毛利率/营业利润率数据（本报告基于财报披露的同比增速反推得出，并非直接引用官方数字）。</span>
+  </div>
+
+  <div class="footnote">
+    Companion to <i>TXN_Initiation_Report_2026-07-21</i> (SELL, $170 PT) in this folder. Primary source: <a href="https://www.prnewswire.com/news-releases/ti-reports-second-quarter-2026-financial-results-and-shareholder-returns-302832506.html">TI Q2 2026 Earnings Release &amp; Shareholder Returns (PR Newswire, Jul 22, 2026)</a>. Secondary sources: <a href="https://www.stocktitan.net/news/TXN/ti-reports-second-quarter-2026-financial-results-and-shareholder-fjwrl0t8xj0f.html">StockTitan</a>, <a href="https://www.benzinga.com/markets/earnings/26/07/60625462/texas-instruments-stock-slips-despite-q2-double-beat-strong-outlook">Benzinga (stock reaction)</a>, <a href="https://www.benzinga.com/news/26/07/60626539/texas-instruments-q2-2026-earnings-call-transcript">Benzinga (Q2 earnings call transcript)</a>, <a href="https://simplywall.st/stocks/us/semiconductors/nasdaq-txn/texas-instruments/news/texas-instruments-txn-valuation-check-as-ai-infrastructure-o">Simply Wall St (valuation context)</a>. No paid data terminal was used; web-search-derived consensus and stock-price figures should be reconciled against Bloomberg/FactSet before external distribution. Not investment advice.
+    <span class="zh">本报告为本文件夹内 <i>TXN_Initiation_Report_2026-07-21</i>（SELL，目标价$170）的配套更新。主要资料来源：<a href="https://www.prnewswire.com/news-releases/ti-reports-second-quarter-2026-financial-results-and-shareholder-returns-302832506.html">德州仪器2026年二季度财报及股东回报新闻稿（PR Newswire，2026年7月22日）</a>；辅助资料来源：StockTitan、Benzinga（股价反应及财报电话会议纪要）、Simply Wall St（估值背景）。本报告未使用付费数据终端；网络检索得出的一致预期及股价数据在对外分发前应以彭博/FactSet核实。本报告不构成投资建议。</span>
+  </div>
+
+</div>
+</body>
+</html>
