@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纳指急跌后修复基准 · 2011–2026</title>
+<style>
+  :root{
+    --ink:#0b0f16;
+    --panel:#121926;
+    --panel-2:#0e1420;
+    --line:#222e40;
+    --line-soft:#1a2434;
+    --text:#e7edf5;
+    --muted:#8a99ad;
+    --faint:#5f6f84;
+    --red:#ef6a63;
+    --red-dim:#c04a45;
+    --green:#4ac97e;
+    --green-dim:#2f8f5b;
+    --amber:#d6a24e;
+    --accent:#cf9b4a;
+    --accent-2:#6ea8d8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    padding:34px 22px 64px;
+  }
+  .wrap{max-width:1120px;margin:0 auto;}
+
+  /* ---- masthead ---- */
+  .eyebrow{
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:14px;
+  }
+  h1{
+    font-family:Georgia,"Songti SC","Noto Serif SC",serif;
+    font-weight:600;font-size:30px;line-height:1.15;margin:0 0 8px;
+    letter-spacing:.01em;
+  }
+  h1 .sub{color:var(--muted);font-weight:400;font-size:18px;}
+  .dek{color:var(--muted);font-size:14px;max-width:760px;margin:6px 0 0;}
+  .rule{height:1px;background:linear-gradient(90deg,var(--accent),transparent);margin:22px 0 26px;opacity:.55;}
+
+  /* ---- legend ---- */
+  .legend{
+    display:flex;flex-wrap:wrap;gap:18px 30px;align-items:center;
+    font-size:12.5px;color:var(--muted);margin-bottom:22px;
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  .legend .item{display:flex;align-items:center;gap:8px;}
+  .glyph{display:inline-block;width:38px;height:20px;vertical-align:middle;}
+  .swatch{width:11px;height:11px;border-radius:2px;display:inline-block;}
+
+  /* ---- group headers ---- */
+  .grp{
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--text);margin:30px 0 10px;display:flex;align-items:center;gap:12px;
+  }
+  .grp::after{content:"";flex:1;height:1px;background:var(--line-soft);}
+  .grp .tag{color:var(--faint);letter-spacing:.05em;text-transform:none;font-size:11px;}
+  .grp.a{color:#e7c98a;}
+  .grp.b{color:#8fb7dd;}
+  .grp.now{color:#e7edf5;}
+
+  /* ---- table ---- */
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel-2);}
+  table{width:100%;border-collapse:collapse;min-width:940px;}
+  thead th{
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);
+    text-align:right;padding:13px 14px;border-bottom:1px solid var(--line);
+    white-space:nowrap;font-weight:600;
+  }
+  thead th.l{text-align:left;}
+  thead .rets{color:var(--green-dim);}
+  tbody td{padding:14px 14px;border-bottom:1px solid var(--line-soft);font-size:13.5px;vertical-align:middle;text-align:right;white-space:nowrap;}
+  tbody td.l{text-align:left;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:rgba(255,255,255,.018);}
+
+  .ev{font-weight:600;font-size:14px;color:var(--text);}
+  .ev .date{display:block;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:11px;color:var(--faint);font-weight:400;margin-top:2px;letter-spacing:.02em;}
+  .trig{color:var(--muted);font-size:12.5px;white-space:normal;max-width:210px;line-height:1.4;}
+  .num{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:13px;letter-spacing:-.01em;}
+  .draw{color:var(--red);font-weight:600;}
+  .pos{color:var(--green);}
+  .neg{color:var(--red);}
+  .zero{color:var(--faint);}
+  .recov{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:12.5px;color:var(--text);}
+  .recov .from-peak{display:block;color:var(--faint);font-size:10.5px;margin-top:2px;}
+  .fail{color:var(--amber);font-size:12px;font-family:system-ui,sans-serif;white-space:normal;max-width:150px;line-height:1.35;}
+  .shape{display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
+  .shape .lab{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.06em;color:var(--faint);}
+
+  tr.live td{background:rgba(207,155,74,.05);}
+  tr.live .ev{color:#e7c98a;}
+  .pill{display:inline-block;font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:20px;border:1px solid var(--accent);color:var(--accent);}
+
+  /* ---- takeaway ---- */
+  .take{margin-top:34px;border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:22px 24px;}
+  .take h2{font-family:Georgia,"Songti SC",serif;font-size:17px;margin:0 0 12px;color:var(--text);font-weight:600;}
+  .take p{margin:0 0 12px;font-size:13.5px;color:#c7d2e0;}
+  .take p:last-child{margin-bottom:0;}
+  .take b.v{color:var(--green);}
+  .take b.w{color:var(--amber);}
+  .take .switch{color:var(--accent-2);font-weight:600;}
+
+  .foot{margin-top:22px;font-size:11.5px;color:var(--faint);line-height:1.6;font-family:ui-monospace,monospace;}
+  .foot b{color:var(--muted);font-weight:600;}
+
+  @media(max-width:640px){
+    body{padding:24px 12px 48px;}
+    h1{font-size:23px;} h1 .sub{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Nasdaq · Drawdown &amp; Recovery Benchmark</div>
+  <h1>纳指急跌后修复基准 <span class="sub">2011 – 2026</span></h1>
+  <p class="dek">聚焦"非一次性外生冲击型"回调(靠估值/宏观情绪打出来的)与"一次性冲击型"的对照。核心变量不是跌幅深浅,而是<strong style="color:#e7c98a">底部形态</strong>——干净单底(V)约一个季度修复;二次探底(W)能拖到一年。</p>
+  <div class="rule"></div>
+
+  <div class="legend">
+    <span class="item"><svg class="glyph" viewBox="0 0 40 20"><path d="M3 3 L20 17 L37 4" fill="none" stroke="#4ac97e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>V 型 · 干净单底</span>
+    <span class="item"><svg class="glyph" viewBox="0 0 40 20"><path d="M3 3 L11 15 L20 8 L29 16 L37 4" fill="none" stroke="#d6a24e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>W 型 · 二次探底</span>
+    <span class="item"><svg class="glyph" viewBox="0 0 40 20"><path d="M3 3 L18 13" fill="none" stroke="#8a99ad" stroke-width="2" stroke-linecap="round"/><path d="M18 13 L34 8" fill="none" stroke="#8a99ad" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 3"/></svg>在途 · 待定</span>
+    <span class="item"><span class="swatch" style="background:#ef6a63"></span>跌幅</span>
+    <span class="item"><span class="swatch" style="background:#4ac97e"></span>见底后回报</span>
+  </div>
+
+  <!-- ============ GROUP A ============ -->
+  <div class="grp a">情绪 / 宏观忧虑型 <span class="tag">无一次性外生冲击 · 你关注的三次在此</span></div>
+  <div class="tablewrap">
+  <table>
+    <thead>
+      <tr>
+        <th class="l">事件</th>
+        <th class="l">触发因素</th>
+        <th>跌幅<br>(高→低)</th>
+        <th>底部形态</th>
+        <th>收复前高<br>耗时</th>
+        <th class="rets">+3月</th>
+        <th class="rets">+6月</th>
+        <th class="rets">+12月</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="l"><span class="ev">2011 年 8 月<span class="date">高 15/07/26 → 低 15/10/03</span></span></td>
+        <td class="l trig">美债 AAA 降级 + 欧债危机</td>
+        <td class="num draw">≈ −19%</td>
+        <td>
+          <div class="shape">
+            <svg class="glyph" viewBox="0 0 40 20"><path d="M3 3 L20 17 L37 4" fill="none" stroke="#4ac97e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="lab">V · 双探底后</span>
+          </div>
+        </td>
+        <td><span class="recov">≈ 4 个月<span class="from-peak">距高点 ≈ 7 个月</span></span></td>
+        <td class="num pos">≈ +13%</td>
+        <td class="num pos">≈ +31%</td>
+        <td class="num pos">≈ +33%</td>
+      </tr>
+
+      <tr>
+        <td class="l"><span class="ev">2015 年 8 月 <span style="color:#d6a24e;font-weight:600">(W 左肩)</span><span class="date">高 15/07/20 → 低 15/08/25</span></span></td>
+        <td class="l trig">中国 811 汇改 + 8/24 黑色星期一</td>
+        <td class="num draw">≈ −14%<span style="color:var(--faint);font-weight:400;font-size:11px"> (此腿)</span></td>
+        <td>
+          <div class="shape">
+            <svg class="glyph" viewBox="0 0 40 20"><path d="M3 3 L18 16 L28 9" fill="none" stroke="#d6a24e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 9 L34 13" fill="none" stroke="#d6a24e" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 3"/></svg>
+            <span class="lab">反弹失败</span>
+          </div>
+        </td>
+        <td><span class="fail">反弹未收复前高,被二次探底打断</span></td>
+        <td class="num pos">≈ +14%</td>
+        <td class="num neg">≈ −6% ⚠</td>
+        <td class="num pos">≈ +16%</td>
+      </tr>
+
+      <tr>
+        <td class="l"><span class="ev">2016 年 2 月 <span style="color:#d6a24e;font-weight:600">(W 右肩 · 最终底)</span><span class="date">前高 15/07/20 → 低 16/02/11</span></span></td>
+        <td class="l trig">A 股熔断 + 油价 26 美元 + 首次加息落地</td>
+        <td class="num draw">≈ −19%<span style="color:var(--faint);font-weight:400;font-size:11px"> (自 15/07 高)</span></td>
+        <td>
+          <div class="shape">
+            <svg class="glyph" viewBox="0 0 40 20"><path d="M3 3 L11 15 L20 8 L29 16 L37 4" fill="none" stroke="#d6a24e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="lab">W · 右肩转 V</span>
+          </div>
+        </td>
+        <td><span class="recov">≈ 5.5 个月<span class="from-peak">距 15/07 高 ≈ 12 个月</span></span></td>
+        <td class="num pos">≈ +13%</td>
+        <td class="num pos">≈ +22%</td>
+        <td class="num pos">≈ +35%</td>
+      </tr>
+
+      <tr>
+        <td class="l"><span class="ev">2018 年 Q4<span class="date">高 18/08/29 → 低 18/12/24</span></span></td>
+        <td class="l trig">美联储加息 + 缩表 + 中美贸易战</td>
+        <td class="num draw">≈ −24%</td>
+        <td>
+          <div class="shape">
+            <svg class="glyph" viewBox="0 0 40 20"><path d="M3 3 L21 17 L37 4" fill="none" stroke="#4ac97e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="lab">V · 圣诞夜底</span>
+          </div>
+        </td>
+        <td><span class="recov">≈ 4 个月<span class="from-peak">距高点 ≈ 8 个月</span></span></td>
+        <td class="num pos">≈ +20%</td>
+        <td class="num pos">≈ +22%</td>
+        <td class="num pos">≈ +40%</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- ============ GROUP B ============ -->
+  <div class="grp b">一次性外生冲击型 <span class="tag">对照组 · 修复通常更快更猛</span></div>
+  <div class="tablewrap">
+  <table>
+    <thead>
+      <tr>
+        <th class="l">事件</th>
+        <th class="l">触发因素</th>
+        <th>跌幅<br>(高→低)</th>
+        <th>底部形态</th>
+        <th>收复前高<br>耗时</th>
+        <th class="rets">+3月</th>
+        <th class="rets">+6月</th>
+        <th class="rets">+12月</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="l"><span class="ev">2020 年 2–3 月<span class="date">高 20/02/19 → 低 20/03/23</span></span></td>
+        <td class="l trig">新冠疫情 + 流动性踩踏</td>
+        <td class="num draw">≈ −30%</td>
+        <td>
+          <div class="shape">
+            <svg class="glyph" viewBox="0 0 40 20"><path d="M4 2 L20 18 L36 3" fill="none" stroke="#4ac97e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="lab">深 V</span>
+          </div>
+        </td>
+        <td><span class="recov">≈ 2 个月<span class="from-peak">史上最快之一</span></span></td>
+        <td class="num pos">≈ +45%</td>
+        <td class="num pos">≈ +60%</td>
+        <td class="num pos">≈ +95%</td>
+      </tr>
+
+      <tr>
+        <td class="l"><span class="ev">2025 年 4 月<span class="date">高 25/02/19 → 低 25/04/08</span></span></td>
+        <td class="l trig">"解放日"对等关税(4/9 暂停 90 天)</td>
+        <td class="num draw">≈ −20%</td>
+        <td>
+          <div class="shape">
+            <svg class="glyph" viewBox="0 0 40 20"><path d="M4 2 L20 18 L36 3" fill="none" stroke="#4ac97e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="lab">深 V</span>
+          </div>
+        </td>
+        <td><span class="recov">≈ 2–3 个月<span class="from-peak">政策转向即反弹</span></span></td>
+        <td class="num pos" colspan="3" style="text-align:right;color:var(--green)">强 V 反弹 · 关税暂停后快速修复<span style="color:var(--faint);font-size:11px"> (逐月数值待你数据源核对)</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- ============ NOW ============ -->
+  <div class="grp now">当前 · 在途 <span class="tag">尚未见底,归类待定</span></div>
+  <div class="tablewrap">
+  <table>
+    <thead>
+      <tr>
+        <th class="l">事件</th>
+        <th class="l">触发因素</th>
+        <th>当前跌幅</th>
+        <th>底部形态</th>
+        <th>类型</th>
+        <th class="rets" colspan="3">修复路径</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="live">
+        <td class="l"><span class="ev">2026 年 6–7 月<span class="date">高 26/06/03 → 现 26/07/29</span></span></td>
+        <td class="l trig">AI/半导体估值杀 + Fed(Warsh 按兵·鹰派异议) + 伊朗</td>
+        <td class="num draw">≈ −11%</td>
+        <td>
+          <div class="shape">
+            <svg class="glyph" viewBox="0 0 40 20"><path d="M3 3 L18 13" fill="none" stroke="#cf9b4a" stroke-width="2" stroke-linecap="round"/><path d="M18 13 L34 9" fill="none" stroke="#cf9b4a" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 3"/></svg>
+            <span class="lab">在途</span>
+          </div>
+        </td>
+        <td style="text-align:right"><span class="pill">估值消化型</span></td>
+        <td class="l" colspan="3" style="text-align:left;color:#c7d2e0;font-size:12.5px;white-space:normal;line-height:1.45">
+          若为干净单底 → <b style="color:var(--green)">2011 剧本</b>(≈ 一季度修复);<br>若二次探底(CDS 外溢 / 融资余额去化)→ <b style="color:var(--amber)">2015–16 剧本</b>(≈ 一年 W 底)
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- ============ TAKEAWAY ============ -->
+  <div class="take">
+    <h2>一句话读表</h2>
+    <p>自 2008 以来,纳指每一次"一个月左右砸到 ≈20%"的急跌,背后都站着一个宏观/系统性催化剂——主权信用(2011)、政策紧缩(2018)、疫情(2020)、关税(2025)。<b>没有一次是单纯由估值/AI 叙事松动打出来的</b>。当前这波 ≈11% 属于估值消化,暂时缺第二记重锤。</p>
+    <p>决定修复速度的是<span class="switch">底部形态</span>,不是跌幅深浅:<b class="v">V 型干净单底</b>(2011 / 2018 / 2020 / 2025)从见底起约 2–4 个月修复;<b class="w">W 型二次探底</b>(2015–16)因第一次反弹被新的宏观重锤打断、创出更低低点,距前高整整拖了约 12 个月。注意 2015-08 见底后 +6 个月回报是<b class="w">负的(≈ −6%)</b>——那正是"抄在左肩"的代价。</p>
+    <p>映射到当下:<span class="switch">会不会二次探底,就是那个开关</span>。盯三样——科技巨头 CDS 是否走阔、融资余额(Margin Debt)是否被动去化、抛售是否外溢到软件/信用。没有 → 2011 式 V;有 → 2015–16 式 W。你的 SOXS / SQQQ 对冲本质就是在赌后者。</p>
+  </div>
+
+  <p class="foot">
+    <b>说明.</b> 指数为纳斯达克综合指数(收盘价·价格回报,未含股息);"见底后回报"为量级近似估算,四舍五入,仅作基准参考,精确数值请以你的数据源为准。<br>
+    <b>W 底.</b> 2015-08 与 2016-02 是同一轮调整的两条腿:8 月为左肩,2016-02 创更低低点为最终底,故单独看 2015 的 +6 月回报为负。<br>
+    <b>2025-04.</b> 4/2 关税冲击后 NDX 极速进入熊市回撤区,4/9 宣布 90 天暂停后 V 型反弹;逐月回报暂以定性标注。<br>
+    <b>数据截至</b> 2026-07-29 · 生成于 2026-07-30
+  </p>
+
+</div>
+</body>
+</html>

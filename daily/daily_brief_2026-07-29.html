@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宏观日报 2026-07-29</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
+<style>
+  :root{--bg:#fff;--bg2:#f5f5f3;--bg3:#eeecea;--text:#1a1a1a;--text2:#555552;--text3:#888784;--border:#dddbd8;--accent:#3266ad;--danger:#E24B4A;--warning:#BA7517;--success:#1D9E75;--font:-apple-system,"Helvetica Neue",Arial,sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;line-height:1.7;max-width:900px;margin:0 auto;padding:32px 24px 64px;}
+  h1{font-size:22px;font-weight:600;margin-bottom:4px;}
+  h2{font-size:16px;font-weight:600;margin:32px 0 12px;padding-bottom:6px;border-bottom:1.5px solid var(--border);}
+  h3{font-size:12px;font-weight:600;margin:18px 0 8px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;}
+  p{margin-bottom:10px;}ul,ol{padding-left:20px;margin-bottom:10px;}li{margin-bottom:4px;}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
+  th{background:var(--bg2);padding:7px 10px;text-align:left;border:1px solid var(--border);font-weight:600;font-size:12px;}
+  td{padding:7px 10px;border:1px solid var(--border);vertical-align:top;}
+  tr:nth-child(even) td{background:var(--bg2);}
+  .header{border-bottom:2px solid var(--accent);padding-bottom:16px;margin-bottom:4px;}
+  .meta{font-size:12px;color:var(--text3);margin-top:4px;}
+  .badge{display:inline-block;font-size:11px;padding:2px 7px;border-radius:4px;font-weight:600;margin-right:4px;}
+  .badge-fed{background:#e8f0fb;color:#185FA5;}.badge-geo{background:#faeeda;color:#854F0B;}.badge-macro{background:#EEEDFE;color:#534AB7;}.badge-earn{background:#eaf3de;color:#3B6D11;}
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin:12px 0 16px;}
+  .kpi{background:var(--bg2);border-radius:8px;padding:12px 14px;}
+  .kpi-label{font-size:11px;color:var(--text3);margin-bottom:3px;}.kpi-value{font-size:20px;font-weight:600;}.kpi-sub{font-size:11px;color:var(--text3);margin-top:3px;}
+  .up{color:var(--success);}.down{color:var(--danger);}.warn{color:var(--warning);}
+  .callout{background:var(--bg2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0 16px;font-size:13px;color:var(--text2);}
+  .callout.warn-box{border-color:var(--warning);}.callout.danger-box{border-color:var(--danger);}
+  .chart-wrap{position:relative;width:100%;margin:10px 0 6px;}
+  .legend{display:flex;gap:14px;margin-bottom:8px;font-size:11px;color:var(--text3);flex-wrap:wrap;}
+  .legend span{display:flex;align-items:center;gap:4px;}
+  .dot{width:10px;height:10px;border-radius:2px;display:inline-block;}.lsw{width:20px;height:2px;display:inline-block;}
+  .sources{margin-top:48px;padding-top:20px;border-top:1.5px solid var(--border);}
+  .sources-title{font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;}
+  .sources ul{font-size:12px;color:var(--text3);columns:2;column-gap:32px;}
+  .disclaimer{margin-top:16px;font-size:11px;color:var(--text3);padding:10px 14px;background:var(--bg2);border-radius:6px;}
+  hr.div{border:none;border-top:1px solid var(--border);margin:8px 0 4px;}
+  @media(prefers-color-scheme:dark){
+    :root{--bg:#1a1a18;--bg2:#242422;--bg3:#2e2e2c;--text:#e8e6e0;--text2:#b0aea8;--text3:#777572;--border:#3a3a38;}
+    .badge-fed{background:#0c2240;color:#85B7EB;}.badge-geo{background:#2a1f08;color:#FAC775;}.badge-macro{background:#1a1840;color:#AFA9EC;}.badge-earn{background:#0d1f08;color:#97C459;}
+    th{background:var(--bg3);}tr:nth-child(even) td{background:var(--bg2);}
+  }
+  @media print{body{max-width:100%;padding:20px;}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="meta">📰 宏观新闻日报</div>
+  <h1>2026年7月29日，星期三</h1>
+  <div class="meta">生成时间：SGT 2026-07-30 &nbsp;·&nbsp; 数据截止：美东收盘（SGT 2026-07-30 04:00）&nbsp;·&nbsp; 盘后含 Meta、Microsoft 财报</div>
+</div>
+
+<!-- A -->
+<h2>🏦 A. 宏观动态 &amp; 美联储</h2>
+<h3>联储动向时间线</h3>
+<ul>
+  <li><strong>SGT 7月30日 02:00（美东 7/29 14:00）</strong>：FOMC 发布利率决议——以 <strong>9比3票</strong>维持联邦基金利率目标区间 <strong>3.50–3.75%</strong>（第五次连续维持不变）</li>
+  <li><strong>SGT 7月30日 02:30</strong>：Warsh 举行新闻发布会（第二次作为主席）。声明几乎与6月17日完全相同，无前瞻指引，措辞极"简短"</li>
+  <li><strong>异议记录</strong>：Cleveland Fed 主席 Beth Hammack、Minneapolis Fed 主席 Neel Kashkari、Dallas Fed 主席 Lorie Logan 三人均投票支持加息 25bp——这是自1992年10月以来 FOMC 首次出现三票或更多异议</li>
+  <li><strong>SGT 7月29日 全天</strong>：伊朗向驻约旦美军及约旦境内军事目标发射弹道导弹（"突袭"），美军成功拦截；美沙联军随后空袭伊拉克境内伊朗支持的武装力量（至少20人死亡）——停火彻底破裂</li>
+</ul>
+<p style="font-size:13px;color:var(--text2);">Warsh 关键表态：重申"无软性通胀目标，只有2%"；批评前任五年通胀超标留下"错误印象"；高调提及 AI 高科技资本支出四季度同比增速接近 <strong>20%</strong>，认为这是最引人注目的经济现象。下一次 FOMC：<strong>9月15-16日</strong>；Jackson Hole：<strong>8月27-29日</strong>（Warsh 演讲是最受关注的信号）。整体倾向：<strong>鹰派维持</strong>——3票异议使鹰派信号比预期更强，叠加当日停火破裂 → 油价飙升，市场解读为"Fed 距离加息只有一次数据之遥"。</p>
+
+<h3>降息/加息概率（事后更新，美东 7/29 收盘）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">9月15-16日 FOMC 维持不变</div><div class="kpi-value warn">41.9%</div><div class="kpi-sub warn">前一日 24%，大幅跳升；加息概率接近 58%</div></div>
+  <div class="kpi"><div class="kpi-label">年内加息概率（Polymarket）</div><div class="kpi-value warn">64–76%</div><div class="kpi-sub">三票异议 + 伊朗停火破裂 + 油价重回 $85</div></div>
+  <div class="kpi"><div class="kpi-label">当前基准利率</div><div class="kpi-value">3.50–3.75%</div><div class="kpi-sub">第五次连续维持</div></div>
+  <div class="kpi"><div class="kpi-label">Jackson Hole 倒计时</div><div class="kpi-value warn">28天</div><div class="kpi-sub">8月27-29日；Warsh 演讲是下一重大信号</div></div>
+</div>
+
+<h3>利率市场（截至美东收盘，SGT 7月30日 04:00）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">2Y 国债收益率</div><div class="kpi-value">4.236%</div><div class="kpi-sub">日跌 -4 bp | 月 +14 bp | 年 +56 bp<br><small>短端下行（加息定价部分消化）</small></div></div>
+  <div class="kpi"><div class="kpi-label">10Y 国债收益率</div><div class="kpi-value down">4.657%</div><div class="kpi-sub">日涨 +5 bp | 月 +16 bp | 年 +21 bp<br><small>长端继续上行，通胀预期主导</small></div></div>
+  <div class="kpi"><div class="kpi-label">30Y 国债收益率</div><div class="kpi-value down">5.193%</div><div class="kpi-sub">日涨 +9 bp | 2008年金融危机前以来最高<br><small>曲线陡化，滞涨定价特征</small></div></div>
+  <div class="kpi"><div class="kpi-label">期限利差（10Y-2Y）</div><div class="kpi-value down">+42 bp</div><div class="kpi-sub">曲线陡化（短端降、长端升）</div></div>
+</div>
+<div class="callout danger-box">⚠️ 30Y 国债收益率 5.193%，突破2008年前水平——这是今日最重要的利率信号。2Y 下行（短期加息担忧被 Hold 消化）同时 30Y 大涨（长期通胀预期因停火破裂 / 油价飙升而重新抬头），这是典型的"滞涨曲线陡化"，不是经济健康的信号。曲线陡化 + 股票暴跌 + 油价飙升 = 市场在说"Fed 不是不想加息，是在赌是否需要"。</div>
+
+<h3>📉 对美股盘面的即时影响</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">Dow Jones</div><div class="kpi-value">51,594.14</div><div class="kpi-sub down">昨日 <strong>-2.19%（-1,153 点）</strong><br>2025年4月关税崩盘以来最差单日</div></div>
+  <div class="kpi"><div class="kpi-label">S&amp;P 500</div><div class="kpi-value">7,316.15</div><div class="kpi-sub down">昨日 -1.52%</div></div>
+  <div class="kpi"><div class="kpi-label">Nasdaq</div><div class="kpi-value">24,442.94</div><div class="kpi-sub down">昨日 -1.74%<br>距历史高点 >10%，技术回调区</div></div>
+  <div class="kpi"><div class="kpi-label">盘后（今日凌晨）</div><div class="kpi-value up">反弹信号</div><div class="kpi-sub up">Dow 期货 +0.3%，S&P +0.4%，Nasdaq +0.7%<br>Microsoft 盘后 +2.4% 提振</div></div>
+</div>
+<p>FOMC 维持不变本应偏中性，但三票异议 + 停火同日破裂让市场瞬间重新定价。油价单日 +7.2%（WTI $84.9）、30Y 利率跳升 9bp、Dow 暴跌 1,153 点——这三个信号同时出现，市场读出的是"能源通胀卷土重来 + Fed 鹰派化 + 大科技 AI 支出可持续性存疑"的三重压力。唯一亮点是 Microsoft 盘后 +2.4%（Azure 超预期）为次日提供反弹基础。</p>
+
+<h3>📅 未来3个交易日重要事件</h3>
+<table>
+  <tr><th>日期（SGT）</th><th>事件</th><th>类型</th><th>市场预期/备注</th></tr>
+  <tr><td>7月30日（今日）20:30 SGT</td><td><strong>Q2 2026 GDP 初值 + 6月PCE + 核心PCE</strong></td><td><span class="badge badge-macro">宏观数据</span></td><td>核心PCE 是 Fed 首选通胀指标；若超预期，9月加息概率将进一步上升；GDP 初值对判断滞涨是否已实质化关键</td></tr>
+  <tr><td>7月30日 盘后</td><td><strong>Apple (AAPL) + Amazon (AMZN) 财报</strong></td><td><span class="badge badge-earn">财报</span></td><td>两大科技巨头；AI 服务营收（Apple Intelligence）、AWS 利润率与 CapEx 是核心；Alphabet AI CapEx 负现金流已成前车之鉴</td></tr>
+  <tr><td>7月30日 盘后</td><td><strong>Arm Holdings (ARM) 财报</strong></td><td><span class="badge badge-earn">财报</span></td><td>对 SoftBank 至关重要（90% 持股）；AI 推理芯片授权需求是核心；TSMC 产能瓶颈是否改善</td></tr>
+  <tr><td>8月27-29日</td><td>Jackson Hole 经济政策研讨会（Warsh 演讲）</td><td><span class="badge badge-fed">联储</span></td><td>Warsh 拒绝前瞻指引，Jackson Hole 是他最可能释放通胀/利率路径信号的场合；9月 FOMC 前最后一次重要发声</td></tr>
+</table>
+
+<hr class="div">
+
+<!-- B -->
+<h2>🎯 B. Polymarket 最热预测市场 TOP 3</h2>
+<table>
+  <tr><th>#</th><th>预测主题</th><th>概率</th><th>成交量</th><th>核心关注</th></tr>
+  <tr><td>1</td><td>🏦 2026年 Fed 加息（年内任意时间）</td><td class="warn"><strong>64–76% Yes</strong></td><td>$100.83M（全站最热）</td><td>3票异议 + 停火破裂 + 油价 $85，9月加息概率骤升至约 58%</td></tr>
+  <tr><td>2</td><td>🛢️ 霍尔木兹海峡恢复正常通行（7月31日前）</td><td class="down"><strong>6% Yes</strong></td><td>活跃交易</td><td>几乎不可能——伊朗今日再度发射导弹，停火彻底破裂</td></tr>
+  <tr><td>3</td><td>🕊️ 美伊有效停火（2周暂停条件）</td><td class="down"><strong>接近崩溃</strong></td><td>当日最活跃伊朗合约</td><td>伊朗对约旦/美军发动突袭，2周停火条件基本失效；Yes 概率急跌</td></tr>
+</table>
+<ul>
+  <li>Fed 加息合约（$100.83M）：今日 3票鹰派异议 + 伊朗停火破裂（能源通胀预期抬头）双重推动，年内加息概率突破 64%。CME FedWatch 更显示9月 Hold 概率从 24% 升至 41.9%（反向看即加息概率约 58%）。这是自2023年加息周期以来最强的加息定价重建。Jackson Hole（8月27日）前是关键窗口期，任何 Warsh 表态或 CPI/PCE 数据超预期都可能推动概率继续攀升。</li>
+  <li>霍尔木兹正常化（7月31日前，6% Yes）：今日伊朗弹道导弹攻击约旦/美军，和平窗口关闭。Brent 重回 $84–87，较6月停火协议前价格已大幅反弹。Polymarket 最热伊朗合约之一，因为 Hormuz 是通胀路径的核心变量。</li>
+  <li>美伊停火合约：停火自6月中旬签署以来经历多次反复——今日美沙联军空袭伊拉克 + 伊朗导弹还击是迄今最严重升级，"有效停火"合约 Yes 概率骤降。全球资金正在重新押注"长期冲突"情景。</li>
+</ul>
+
+<hr class="div">
+
+<!-- C -->
+<h2>🥇 C. 贵金属库存追踪</h2>
+<h3>黄金（Gold）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">7月29日现货收盘价</div><div class="kpi-value">~$4,044/oz</div><div class="kpi-sub up">日涨 +0.12% | 月 约 -1% | 年 约 +21%</div></div>
+  <div class="kpi"><div class="kpi-label">日内区间</div><div class="kpi-value">$3,995–$4,049</div><div class="kpi-sub">守住 $4,000 关键支撑</div></div>
+  <div class="kpi"><div class="kpi-label">年内高点</div><div class="kpi-value">$5,602/oz</div><div class="kpi-sub">2026年1月28日</div></div>
+  <div class="kpi"><div class="kpi-label">COMEX 库存（估算）</div><div class="kpi-value warn">~21–22M oz</div><div class="kpi-sub">低于均值，实物需求主导</div></div>
+</div>
+<div class="callout">📊 金价在极端动荡日（股跌、油涨、利率上行）中仅微涨 +0.12%，守住 $4,000——这恰恰体现了黄金的"滞涨避险"特性：利率上行压制，但地缘/通胀风险托底。Kitco 分析师指出，若霍尔木兹风险持续，黄金下一个大涨 $1,000 可能在联储鹰派见顶时发生（State Street 目标年底 $5,000 未变）。中央银行购金（Q1 2026 估计 244 吨，超历史均值）提供强力结构性底部。</div>
+
+<div class="legend">
+  <span><span class="lsw" style="background:#3266ad;height:2px;display:inline-block;"></span>总库存</span>
+  <span><span class="lsw" style="background:#888780;border-top:2px dashed #888780;height:0;display:inline-block;"></span>长期均值 24.1M</span>
+  <span><span class="lsw" style="background:#E24B4A;border-top:2px dashed #E24B4A;height:0;display:inline-block;"></span>关税前基线 17.1M</span>
+</div>
+<div class="chart-wrap" style="height:230px;">
+  <canvas id="goldChart" role="img" aria-label="COMEX黄金库存走势图，从2025年3月43.3M盎司峰值持续回落至2026年7月约21-22M盎司，远低于均值"></canvas>
+</div>
+
+<h3>白银（Silver）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">7月29日现货价</div><div class="kpi-value">~$57.26/oz</div><div class="kpi-sub up">日涨 +0.23% | 年约 -1%（较1月高点大幅回落）</div></div>
+  <div class="kpi"><div class="kpi-label">金银比</div><div class="kpi-value warn">约 70.7:1</div><div class="kpi-sub">银持续跑输金；工业需求疲软</div></div>
+  <div class="kpi"><div class="kpi-label">COMEX 注册库存</div><div class="kpi-value down">~20–22M oz</div><div class="kpi-sub down">覆盖率约 10–11%；极度压力区</div></div>
+  <div class="kpi"><div class="kpi-label">2026年结构性缺口</div><div class="kpi-value warn">-46.3M oz</div><div class="kpi-sub">Silver Institute：第六年连续赤字</div></div>
+</div>
+<div class="callout danger-box">📊 白银价格较4月高点 $82 已下跌约 30%，金银比扩大至 70.7——停火后工业需求预期修复、AI 资本支出可持续性存疑（减少工业银需求预期）双重压制。但 Silver Institute 预测第六年连续供给赤字 46.3M oz，实物提取继续，注册库存覆盖率约 10–11% 处于历史极度压力区。一旦 AI/能源需求叙事回归，白银反弹空间极大。</div>
+
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">当前总库存（7/29）</div><div class="kpi-value down">~230M oz</div><div class="kpi-sub down">较峰值 -57%</div></div>
+  <div class="kpi"><div class="kpi-label">历史峰值（2025/10）</div><div class="kpi-value">532M oz</div></div>
+  <div class="kpi"><div class="kpi-label">长期均值</div><div class="kpi-value">321M oz</div></div>
+  <div class="kpi"><div class="kpi-label">注册库存</div><div class="kpi-value down">~20–22M oz</div><div class="kpi-sub down">较峰值 -87%</div></div>
+</div>
+<div class="legend">
+  <span><span class="lsw" style="background:#73726c;height:2px;display:inline-block;"></span>总库存（R+E）</span>
+  <span><span class="lsw" style="background:#E24B4A;height:2px;display:inline-block;"></span>注册库存</span>
+  <span><span class="lsw" style="background:#888780;border-top:2px dashed #888780;height:0;display:inline-block;"></span>长期均值 321M</span>
+</div>
+<div class="chart-wrap" style="height:230px;">
+  <canvas id="silverTotalChart" role="img" aria-label="白银库存双线图，总库存从532M降至230M，注册库存从168M跌至约22M"></canvas>
+</div>
+<div class="kpi-grid" style="margin-top:14px;">
+  <div class="kpi"><div class="kpi-label">覆盖率（7/29）</div><div class="kpi-value down">~10–11%</div><div class="kpi-sub down">极度压力区（&lt;15%）</div></div>
+  <div class="kpi"><div class="kpi-label">纸白银杠杆</div><div class="kpi-value">9–10×</div></div>
+  <div class="kpi"><div class="kpi-label">8月 FND</div><div class="kpi-value warn">临近</div><div class="kpi-sub">关注实物交割量</div></div>
+  <div class="kpi"><div class="kpi-label">年度供给赤字</div><div class="kpi-value warn">-46.3M oz</div><div class="kpi-sub">结构性底部支撑</div></div>
+</div>
+<div class="legend" style="margin-top:10px;">
+  <span><span class="dot" style="background:#E24B4A;"></span>压力区（&lt;15%）</span>
+  <span><span class="dot" style="background:#BA7517;"></span>警戒区（15–25%）</span>
+  <span><span class="dot" style="background:#3266ad;"></span>正常区（&gt;25%）</span>
+</div>
+<div class="chart-wrap" style="height:175px;">
+  <canvas id="silverCovChart" role="img" aria-label="白银覆盖率柱状图，7月约10-11%为极度压力区"></canvas>
+</div>
+<p style="font-size:11px;color:var(--text3);margin-top:4px;">来源：CME仓库报告（MetalCharts）、USAGOLD、Silver Institute。7/29库存为估算值。</p>
+
+<hr class="div">
+
+<!-- D -->
+<h2>📊 D. 财报后大波动个股</h2>
+<p style="font-size:12px;color:var(--text3);margin-bottom:8px;">✅ 大科技财报峰值周（7/29日）——Meta、Microsoft 盘后发布；SK Hynix 亚洲今晨崩跌</p>
+<table>
+  <tr><th>公司/Ticker</th><th>EPS（实际 vs 预期）</th><th>营收（实际 vs 预期）</th><th>股价反应</th><th>核心看点</th></tr>
+  <tr>
+    <td><strong>Meta (META)</strong><br><small>Q2 2026，盘后</small></td>
+    <td>$6.18 vs $7.22<br><small class="down">EPS 大幅不及 -14%，净利润 -13%</small></td>
+    <td>$60.80B vs $60.23B<br><small class="up">营收小幅超 +1%</small></td>
+    <td class="down"><strong>盘后 -6.2%</strong></td>
+    <td>费用 +55% YoY 至 $42B，远超营收增速 +28%；全年 CapEx 指引上调至 $130–145B（银行曾预期下修至 $124B）；净利润从 $18.3B 降至 $15.8B。"AI 支出挤压利润"的最清晰案例。</td>
+  </tr>
+  <tr>
+    <td><strong>Microsoft (MSFT)</strong><br><small>FY Q4 2026，盘后</small></td>
+    <td>超预期（具体数字报告后）</td>
+    <td>约 $87B+；Azure 增长约 39–40%</td>
+    <td class="up"><strong>盘后 +2.4%</strong></td>
+    <td>Azure 交出 39–40% 增长，AI 年收入运行率 $370亿，RPO 积压 $6,270亿（两倍于年收入）；Microsoft 365 Copilot 超3000万付费席位；CapEx 全年 $1,159亿（+80% YoY）但 Azure 增速证明花钱值得——这是今晚 Meta 与 MSFT 的关键分野。</td>
+  </tr>
+  <tr>
+    <td><strong>SK Hynix（亚洲）</strong><br><small>Q2 2026，7/29亚市反应</small></td>
+    <td>记录季度利润，但<br><small class="down">低于华尔街最高预期</small></td>
+    <td>记录营收<br><small class="down">但增速低于最激进预测</small></td>
+    <td class="down"><strong>-9.61%（早盘曾 -15%）</strong><br>SKHY ADR -9%</td>
+    <td>技术上"记录利润"，但市场按"预期 vs 实际"的极高门槛定价。全球芯片股连锁暴跌（AMD -7.4%、Micron -9.5%、Lam Research -7.8%、Arm -8.2%），触发 Michael Burry SOXX $330 看跌期权正面效应。</td>
+  </tr>
+</table>
+<div class="callout danger-box">本周大科技财报揭示了 AI CapEx 叙事的裂缝：Meta 证明"无节制烧钱而利润下降"会被市场惩罚；Alphabet 上周负现金流被暴跌；只有 Microsoft Azure 以实际营收增速验证了投入。市场正在进行"AI 资本开支效率"的精细定价——同样是大规模 CapEx，微软涨、Meta 跌。明天苹果和亚马逊将是下一个考场。</div>
+
+<hr class="div">
+
+<!-- E -->
+<h2>🔄 E. 板块轮动分析</h2>
+<table>
+  <tr><th>方向</th><th>板块</th><th>ETF</th><th>涨跌（估算）</th><th>驱动因素</th></tr>
+  <tr><td>相对抗跌</td><td>能源</td><td>XLE</td><td class="up">约 +2%</td><td>WTI +7.2% 至 $84.9，停火破裂直接推高油价，能源股逆势领涨</td></tr>
+  <tr><td>相对抗跌</td><td>贵金属/材料</td><td>XLB</td><td class="warn">轻微下跌</td><td>金价守住 $4,000，防御属性提供部分支撑</td></tr>
+  <tr><td>领跌</td><td>信息技术</td><td>XLK</td><td class="down">约 -2.5%</td><td>AI CapEx 可持续性存疑 + SK Hynix 全球芯片链崩跌 + FOMC 三票鹰派异议</td></tr>
+  <tr><td>领跌</td><td>工业</td><td>XLI</td><td class="down">约 -2%</td><td>油价飙升 + 利率上行 + 经济放缓担忧三重压力</td></tr>
+</table>
+<p>今日轮动模式极为少见：能源（XLE）逆势上涨 vs 科技大幅下跌——这是教科书级"中东冲突驱动通胀 + AI 叙事修正"的双重叙事。JP Morgan 当日将"超卖买入机会"信号发给客户（五项短期利好：收益率下行、美元走弱、企业盈利强劲、中东紧张缓和的不确定性、技术超卖）。FOMC 三票异议是历史性的：1992年10月以来首次，直接将9月加息概率推向 58%，从根本上改变了市场对下半年利率路径的定价。</p>
+
+<h3>💾 半导体 ETF 追踪：SMH vs SOXX</h3>
+<table>
+  <tr><th>指标</th><th>SMH（VanEck）</th><th>SOXX（iShares）</th></tr>
+  <tr><td>7月29日收盘（估算）</td><td class="down">~$513（-3.4%，从 $530 跌）</td><td class="down">~$445（-4.75%）</td></tr>
+  <tr><td>较6月22日高峰</td><td class="down">约 -7%</td><td class="down">约 -25%（从峰值）</td></tr>
+  <tr><td>YTD（截至7/27）</td><td class="up">+52.22%</td><td class="up">H1 +96%（后已大幅回落）</td></tr>
+  <tr><td>今日关键下跌原因</td><td colspan="2">SK Hynix 记录利润但不及最高预期 → AMD -7.4%、Micron -9.5%、Lam -7.8%、ARM -8.2%</td></tr>
+  <tr><td>Michael Burry 持仓</td><td colspan="2">SOXX 2027年1月 $330 看跌期权——押注超级 CapEx 退潮后回调</td></tr>
+  <tr><td>关键支撑位</td><td>$518 附近</td><td>$535 / $590（25%回调后的关键位）</td></tr>
+</table>
+<div class="callout warn-box">芯片板块的压力逻辑已从"单季度不及预期"转变为"结构性质疑"：Alphabet 负现金流、Meta 利润下滑、SK Hynix 增速不及、Broadcom 上月 AI 指引未上调——这一系列信号在累积，市场开始问"超过 $1 万亿的全球数据中心支出是否过度"。但 Microsoft Azure 今晚的表现是反驳：实际 AI 收入的运行率证明需求真实存在，只是赢家集中而已。明天 Apple / Amazon / Arm 将进一步澄清这个叙事。</div>
+
+<div class="legend"><span><span class="dot" style="background:#1D9E75;"></span>SMH</span><span><span class="dot" style="background:#3266ad;"></span>SOXX</span></div>
+<div class="chart-wrap" style="height:200px;">
+  <canvas id="semivolChart" role="img" aria-label="SMH和SOXX过去5日日成交额，7月29日因FOMC+芯片崩跌成交额创近期新高"></canvas>
+</div>
+
+<hr class="div">
+
+<!-- F -->
+<h2>🔭 F. SoftBank 专项追踪</h2>
+<h3>股价与市值（7月29日）</h3>
+<div class="kpi-grid">
+  <div class="kpi"><div class="kpi-label">SFTBY / 9984.T（7/29亚市）</div><div class="kpi-value down">-6.95%</div><div class="kpi-sub">领跌亚洲科技；SKHynix 崩跌直接冲击 ARM → SoftBank 双传导</div></div>
+  <div class="kpi"><div class="kpi-label">ARM 较高点</div><div class="kpi-value down">-46%</div><div class="kpi-sub">ARM 今日盘后财报是关键催化剂</div></div>
+  <div class="kpi"><div class="kpi-label">LTV 压力（估算）</div><div class="kpi-value warn">~23–24%</div><div class="kpi-sub warn">ARM 下跌推高 LTV，逼近 25% 红线</div></div>
+  <div class="kpi"><div class="kpi-label">OpenAI 持仓价值</div><div class="kpi-value warn">~$70–80B（估算）</div><div class="kpi-sub">IPO 不确定性 + AI CapEx 质疑压制估值</div></div>
+</div>
+
+<h3>核心风险仪表盘</h3>
+<table>
+  <tr><th>指标</th><th>当前值</th><th>警戒线</th><th>状态</th></tr>
+  <tr><td>LTV 比率</td><td>~23–24%（ARM 下跌后上升）</td><td>25%</td><td class="down">🔴 接近临界——ARM 再跌 5% 将触发</td></tr>
+  <tr><td>2026年底再融资墙</td><td>~$500亿</td><td>2026年底</td><td class="warn">🟡 倒计时约 5个月</td></tr>
+  <tr><td>ARM 持仓（~90%）</td><td>ARM 从高点跌约 46%；今晚财报后走势关键</td><td>$800B（LTV临界）</td><td class="down">🔴 压力区，今晚财报决定方向</td></tr>
+  <tr><td>OpenAI $10B 贷款</td><td>Goldman+JPMorgan+Mizuho 谈判中；追索权担保条款已加入</td><td>完成融资</td><td class="warn">🟡 仍在谈判</td></tr>
+  <tr><td>OpenAI IPO</td><td>不确定性上升（AI CapEx 质疑浪潮中）；Goldman+MS 仍为承销商</td><td>Q3/Q4 2026</td><td class="warn">🟡 时间窗口收窄</td></tr>
+  <tr><td>信用评级</td><td>S&P 展望负面；财务强度 3/10</td><td>BBB-</td><td class="warn">🟡</td></tr>
+</table>
+
+<div class="callout danger-box">🚨 监控升级提示：ARM 今晚财报（美东 7/29 盘后）是 SoftBank 近期最关键的单点风险。若 ARM 财报令市场失望（顺应 SK Hynix 和芯片板块整体悲观情绪），ARM 股价进一步下跌将把 SoftBank LTV 推过 25% 警戒线，触发 Skill 升级条件。本次日报将 SoftBank 置于高度关注状态。</div>
+
+<h3>最新动态（7月29日）</h3>
+<ul>
+  <li><strong>直接冲击：ARM 今晚盘后财报</strong>——AMD -7.4%、Micron -9.5%、Arm 日内已跌 -8.2%，芯片板块全球抛售背景下 ARM 财报成为今晚最重要事件之一。ARM 今年 YTD 曾涨逾 140%，但从高点已回落超 46%。若财报反映 AI 推理需求放缓或 TSMC 产能瓶颈制约授权收入，SoftBank NAV 将再度承压。</li>
+  <li><strong>全球芯片崩跌传导链</strong>：SK Hynix（高带宽内存主要供应商）记录利润但不及最激进预期 → Seoul KOSPI 一度跌 13%（触发熔断）→ Tokyo Electron -10.6%、SoftBank -6.95%、Kioxia -13.85%。这是"AI 内存/算力叙事"首次遭遇真正意义上的基本面质疑——不是单季度不及，而是"增速是否还能持续超预期"的系统性再定价。</li>
+  <li><strong>$10B OpenAI 保证金贷款</strong>（7月1日重启谈判，仍进行中）：Goldman、JPMorgan、Mizuho 组成贷款财团；本周 AI CapEx 可持续性的全球质疑浪潮使 OpenAI 私募估值的可信度再次受到关注，贷款进程面临外部压力。</li>
+  <li><strong>AI CapEx 宏观背景</strong>：Meta 今晚 CapEx 指引 $130–145B（上调），微软全年 $1,159亿——孙正义"2040年 AI 年投资额 $5万亿"的预测虽然极端，但超级 CapEx 本身已成共识。关键问题已从"会不会花"变成"花钱的 ROI 是否兑现"，这对 SoftBank/ARM/OpenAI 是直接考验。</li>
+</ul>
+
+<h3>ARM 连锁影响评估（今晚财报后更新）</h3>
+<ul>
+  <li>ARM 日内已 -8.2%；若盘后财报不及预期，明日亚市 SoftBank 可能面临再度暴跌</li>
+  <li>ARM 股价与 SoftBank LTV 的机械联系：ARM 再跌 5–10% → LTV 突破 25%（触发日报升级警报条件）</li>
+  <li>对 SMH/SOXX 的影响：ARM 在 SMH 权重约 8%，任何大幅上涨或下跌都将影响明日半导体 ETF 开盘方向</li>
+</ul>
+
+<h3>OpenAI 生态信号</h3>
+<ul>
+  <li>IPO 时间窗口：目标 Q3/Q4 2026，但 Meta 净利润下滑 + AI CapEx 可持续性质疑正在给私募 AI 资产估值降温，IPO 窗口存在被推迟的风险</li>
+  <li>竞争格局：微软 AI 年收入运行率 $370亿且在加速 → ChatGPT 企业端商业化仍有空间，与 Anthropic（Google 支持）在企业 AI 市场的竞争格局未定</li>
+  <li>Stargate 项目：第三批 $100亿 计划10月1日部署，OpenAI 财务健康直接决定项目进展</li>
+</ul>
+
+<!-- Sources -->
+<div class="sources">
+  <div class="sources-title">Data Sources</div>
+  <ul>
+    <li>Federal Reserve (federalreserve.gov) — FOMC 7/29决议全文、Warsh 新闻发布会记录</li>
+    <li>CNBC — FOMC 决议反应、市场收盘、SK Hynix/芯片崩跌、Warsh 听证综述</li>
+    <li>Fox Business — FOMC 7月决议详情（三票异议、9月 FOMC 日期）</li>
+    <li>TheStreet — 市场每日综述（7月29日）、Dow -1,153点</li>
+    <li>Yahoo Finance / CNBC — 盘后期货数据（S&P +0.4%，Nasdaq +0.7%）</li>
+    <li>Axios / Bloomberg — Meta vs Microsoft 财报 AI CapEx 对比</li>
+    <li>247WallSt — Meta 财报实况、Microsoft Azure 详情</li>
+    <li>Kitco News — 黄金 $4,043.60（PM Report 7/29）、银 $57.26、金银 Kitco AM/PM 报告</li>
+    <li>GoldSilver.com / AllegianceGold — 金银 FOMC 前后定价分析</li>
+    <li>Silver Institute / CME — 白银年度赤字 -46.3M oz；COMEX 库存估算</li>
+    <li>CME FedWatch — 9月 FOMC 维持不变概率 41.9%（从 24% 上升）</li>
+    <li>Polymarket — 年内加息概率 64–76%；伊朗停火市场；霍尔木兹正常化 6%</li>
+    <li>CBS News / Kiplinger — FOMC 7月背景分析</li>
+    <li>TechStock² — SMH -3.36% 至 $530 详情；SOXX -4.75%</li>
+    <li>Yahoo Finance (Semiconductor ETF) — SOXX 从6/22高峰跌 25%；Michael Burry $330 看跌</li>
+    <li>CNBC — 芯片崩跌：SK Hynix、SoftBank -6.95%、Kioxia -13.85%</li>
+    <li>Invezz / TradingKey — SoftBank 风险分析（ARM -46%）</li>
+    <li>Schwab Market Update — 7/30 重要数据日历（GDP、PCE、Apple、Amazon、ARM）</li>
+  </ul>
+  <div class="disclaimer">本报告由 AI 自动生成，仅供参考，不构成投资建议。Meta/MSFT 财报为盘后初步数据，SMH/SOXX/SoftBank/金银价格部分含估算值，ARM 盘后财报尚未完全消化。实际数据以交易所和公司官方公告为准。投资有风险，决策需谨慎。</div>
+</div>
+
+<script>
+const isDark=matchMedia('(prefers-color-scheme:dark)').matches;
+const gC=isDark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.07)';
+const lC=isDark?'#777':'#888';
+
+// 图1：黄金库存（更新至7月底）
+new Chart(document.getElementById('goldChart'),{type:'line',data:{
+  labels:['25/3','25/4','25/5','25/6','25/7','25/8','25/9','25/10','25/11','25/12','26/1','26/2','26/3','26/4','26/5','26/6','26/7'],
+  datasets:[{label:'总库存',data:[43.3,42.0,41.0,40.2,39.5,38.6,38.9,38.5,40.0,39.0,36.5,34.4,30.0,24.5,23.5,23.0,21.5],
+    borderColor:'#3266ad',backgroundColor:isDark?'rgba(50,102,173,0.12)':'rgba(50,102,173,0.08)',
+    fill:true,tension:0.3,borderWidth:2,
+    pointRadius:[...Array(16).fill(3),6],
+    pointBackgroundColor:[...Array(16).fill('#3266ad'),'#E24B4A'],
+    pointBorderColor:[...Array(16).fill('#3266ad'),'#E24B4A']}]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+  tooltip:{callbacks:{label:ctx=>ctx.parsed.y.toFixed(1)+'M oz'}},
+  annotation:{annotations:{
+    avg:{type:'line',yMin:24.1,yMax:24.1,borderColor:'#888780',borderWidth:1.5,borderDash:[6,4],
+      label:{content:'均值 24.1M（已深度跌破）',display:true,position:'start',font:{size:10},color:'#E24B4A',backgroundColor:'transparent',yAdjust:-10}},
+    base:{type:'line',yMin:17.1,yMax:17.1,borderColor:'#E24B4A',borderWidth:1.5,borderDash:[6,4],
+      label:{content:'关税前 17.1M',display:true,position:'start',font:{size:10},color:'#E24B4A',backgroundColor:'transparent',yAdjust:12}}}}},
+  scales:{x:{ticks:{color:lC,font:{size:10},maxRotation:30,autoSkip:false},grid:{color:gC}},
+    y:{min:14,max:46,ticks:{color:lC,font:{size:10},callback:v=>v+'M'},grid:{color:gC},
+      title:{display:true,text:'百万盎司',color:lC,font:{size:10}}}}}});
+
+// 图2：白银双线
+const slb=['25/4','25/7','25/8','25/9','25/10','25/11','25/12','26/1','26/2','26/3','26/4','26/5','26/6','26/7'];
+const stt=[445,498,507,525,532,490,430,380,366,285,255,248,245,230];
+const srg=[null,null,null,168,167.7,145,120,103,98,52,30,27,25,21];
+new Chart(document.getElementById('silverTotalChart'),{data:{labels:slb,datasets:[
+  {type:'line',label:'总库存（R+E）',data:stt,borderColor:'#73726c',backgroundColor:isDark?'rgba(115,114,108,0.10)':'rgba(115,114,108,0.07)',fill:true,tension:0.3,borderWidth:2,
+    pointRadius:stt.map((_,i)=>i===stt.length-1?6:3),pointBackgroundColor:stt.map((_,i)=>i===stt.length-1?'#73726c':'#888'),pointBorderColor:'#73726c',yAxisID:'y'},
+  {type:'line',label:'注册库存',data:srg,borderColor:'#E24B4A',backgroundColor:'transparent',fill:false,tension:0.3,borderWidth:2,
+    pointRadius:srg.map((v,i)=>v!=null?(i===srg.length-1?6:3):0),pointBackgroundColor:'#E24B4A',pointBorderColor:'#E24B4A',yAxisID:'y'}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:ctx=>ctx.parsed.y!=null?ctx.dataset.label+': '+ctx.parsed.y.toFixed(0)+'M oz':''}},
+    annotation:{annotations:{avg:{type:'line',yMin:321,yMax:321,borderColor:'#888780',borderWidth:1.5,borderDash:[6,4],
+      label:{content:'均值 321M',display:true,position:'start',font:{size:10},color:'#888780',backgroundColor:'transparent',yAdjust:-10}}}}},
+  scales:{x:{ticks:{color:lC,font:{size:10},maxRotation:30,autoSkip:false},grid:{color:gC}},
+    y:{min:0,max:580,ticks:{color:lC,font:{size:10},callback:v=>v+'M'},grid:{color:gC},
+      title:{display:true,text:'百万盎司',color:lC,font:{size:10}}}}}});
+
+// 图3：覆盖率
+const cvl=['25/5','25/7','25/9','25/10','25/12','26/2','26/4','26/6','26/7'];
+const cvd=[34,30,26,22,18,14.5,13,12,10.5];
+new Chart(document.getElementById('silverCovChart'),{type:'bar',data:{labels:cvl,
+  datasets:[{label:'覆盖率',data:cvd,backgroundColor:cvd.map(v=>v<15?'#E24B4A':v<25?'#BA7517':'#3266ad'),borderRadius:3,borderSkipped:false}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:ctx=>ctx.parsed.y.toFixed(1)+'%'}},
+    annotation:{annotations:{sl:{type:'line',yMin:15,yMax:15,borderColor:'#E24B4A',borderWidth:1.5,borderDash:[5,4],
+      label:{content:'压力阈值 15%',display:true,position:'end',font:{size:10},color:'#E24B4A',backgroundColor:'transparent',yAdjust:-10}}}}},
+  scales:{x:{ticks:{color:lC,font:{size:10}},grid:{display:false}},
+    y:{min:0,max:40,ticks:{color:lC,font:{size:10},callback:v=>v+'%'},grid:{color:gC}}}}});
+
+// 图4：SMH/SOXX（本周，7/25-7/29）
+new Chart(document.getElementById('semivolChart'),{type:'bar',data:{
+  labels:['7/25(周一)','7/28(周二)','7/29(周三 FOMC日)'],
+  datasets:[
+    {label:'SMH',data:[22,35,48],backgroundColor:'#1D9E75',borderRadius:3,borderSkipped:false},
+    {label:'SOXX',data:[18,28,62],backgroundColor:'#3266ad',borderRadius:3,borderSkipped:false}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'top',labels:{color:lC,font:{size:11},boxWidth:10}},
+      tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': ~$'+ctx.parsed.y+'亿'}}},
+    scales:{x:{ticks:{color:lC,font:{size:10}},grid:{display:false}},
+      y:{ticks:{color:lC,font:{size:10},callback:v=>'$'+v+'亿'},grid:{color:gC},
+        title:{display:true,text:'日成交额（亿美元，估算）',color:lC,font:{size:10}}}}}});
+</script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMD (NASDAQ: AMD) — 投资摘要 One-Pager</title>
+<style>
+  :root{
+    --ink:#1a1f2b; --sub:#5b6472; --line:#e2e5ea; --bg:#ffffff; --panel:#f7f8fa;
+    --accent:#7a3b12; --accent-bg:#fbeee1;
+    --hold:#8a6d00; --hold-bg:#fdf3d0;
+    --good:#166534; --good-bg:#e8f5ec;
+    --bad:#9f1d1d; --bad-bg:#fdeaea;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+    color:var(--ink); background:var(--bg); margin:0 auto; max-width:920px; padding:28px 32px 60px;
+    line-height:1.55; font-size:14px;
+  }
+  h1{font-size:22px; margin:0 0 2px;}
+  h2{font-size:15px; margin:22px 0 8px; padding-bottom:5px; border-bottom:2px solid var(--ink); letter-spacing:.3px;}
+  h3{font-size:13px; margin:14px 0 6px; color:var(--sub); text-transform:uppercase; letter-spacing:.4px;}
+  p{margin:6px 0;}
+  .muted{color:var(--sub);}
+  small{color:var(--sub); font-size:11.5px;}
+  table{width:100%; border-collapse:collapse; font-size:13px; margin:6px 0 4px;}
+  th,td{padding:5px 8px; border-bottom:1px solid var(--line); text-align:right;}
+  th:first-child, td:first-child{text-align:left;}
+  thead th{color:var(--sub); font-weight:600; font-size:11.5px; text-transform:uppercase; letter-spacing:.3px;}
+  tr.total td{font-weight:700; border-top:1.5px solid var(--ink);}
+  .banner{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:20px;
+    background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px 20px; margin-top:14px;
+  }
+  .ticker{color:var(--sub); font-weight:600; font-size:13px;}
+  .badge{
+    display:inline-block; padding:3px 12px; border-radius:20px; font-weight:700; font-size:13px;
+    background:var(--hold-bg); color:var(--hold); border:1px solid #e8d27a;
+  }
+  .kpis{display:flex; gap:26px; flex-wrap:wrap;}
+  .kpi{text-align:right;}
+  .kpi .v{font-size:19px; font-weight:700;}
+  .kpi .l{font-size:11px; color:var(--sub); text-transform:uppercase; letter-spacing:.3px;}
+  .kpi .v.neg{color:var(--bad);}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  .grid2 > div{min-width:0;}
+  ul{margin:6px 0; padding-left:20px;}
+  li{margin-bottom:5px;}
+  .thesis-item{margin-bottom:9px; padding-left:2px;}
+  .thesis-item b{color:var(--ink);}
+  .charts{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:10px 0 4px;}
+  .chart-card{border:1px solid var(--line); border-radius:8px; padding:8px; background:var(--panel);}
+  .chart-card img{width:100%; display:block; border-radius:4px;}
+  .chart-card .cap{font-size:11px; color:var(--sub); text-align:center; margin-top:5px;}
+  .risk-cat{font-weight:700; font-size:12.5px; margin:12px 0 4px; color:var(--accent);}
+  .risk-list li{margin-bottom:6px;}
+  .risk-list b{color:var(--ink);}
+  .callout{
+    border-left:4px solid var(--bad); background:var(--bad-bg); padding:10px 14px; border-radius:0 6px 6px 0;
+    font-size:13px; margin:10px 0;
+  }
+  .callout.warn{border-left-color:#b5850a; background:#fdf3d0;}
+  .checklist li{margin-bottom:5px;}
+  footer{margin-top:26px; padding-top:12px; border-top:1px solid var(--line); font-size:11px; color:var(--sub);}
+  .tag{display:inline-block; font-size:10.5px; padding:1px 6px; border-radius:4px; background:#eef0f3; color:var(--sub); margin-left:4px;}
+  @media print{
+    body{max-width:100%; padding:10mm;}
+    .chart-card{break-inside:avoid;}
+    h2{break-after:avoid;}
+  }
+  @media (max-width:700px){
+    .grid2, .charts{grid-template-columns:1fr;}
+    .banner{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<div style="display:flex; justify-content:space-between; align-items:baseline;">
+  <div>
+    <h1>Advanced Micro Devices, Inc. <span class="ticker">NASDAQ: AMD</span></h1>
+    <p class="muted">投资摘要 One-Pager ｜ 半导体 / AI 加速器 &amp; 数据中心计算</p>
+  </div>
+  <div style="text-align:right;">
+    <small>报告日期：2026-07-27</small><br>
+    <small class="muted">基于 Initiating Coverage（Task1–3，数据截至 2026-07-08）整理</small>
+  </div>
+</div>
+
+<div class="banner">
+  <div class="kpis">
+    <div class="kpi"><div class="v">$508.00</div><div class="l">Current Price (7/8)</div></div>
+    <div class="kpi"><div class="v">$330</div><div class="l">12M Price Target</div></div>
+    <div class="kpi"><div class="v neg">−35.0%</div><div class="l">Implied Return</div></div>
+    <div class="kpi"><div class="v">~$831B</div><div class="l">Market Cap</div></div>
+  </div>
+  <div style="text-align:right; flex-shrink:0;">
+    <span class="badge">HOLD（中性）</span><br>
+    <small class="muted">DCF 40% / Comps 60% 加权，含定性溢价</small>
+  </div>
+</div>
+
+<div class="callout warn">
+  <b>核心结论：</b>AMD 是当前基本面执行最强的半导体公司之一（x86 服务器 CPU 收入份额创纪录 46.2%；OpenAI + Meta 两笔合计 12GW 的 AI 加速器部署协议），但 DCF（基准 $284）与可比公司分析（基准 $214）均显著低于当前 $508 的市价，估值已 price-in 近乎完美的执行假设。建议在 $330–370 区间附近重新评估评级。
+</div>
+
+<h2>一、核心投资论点 (Investment Thesis)</h2>
+<div class="grid2">
+  <div>
+    <div class="thesis-item">1. <b>执行力全面领先，多引擎增长。</b>FY2025 总收入 $34.64B（record），Data Center +32%、Client +51%、Gaming +51% YoY；Q1 FY2026 收入 $10.3B（+38% YoY），Data Center 单季 +57% YoY，Q2 FY2026 指引约 $11.2B（±$300M），将创历史新高。<small class="tag">10-K / earnings release</small></div>
+    <div class="thesis-item">2. <b>OpenAI + Meta 两大标志性合作是核心叙事。</b>合计 12GW AI 加速器部署承诺，潜在累计硬件收入最高约 $190B；首批 1GW 于 2026H2 开始交付，是判断股价能否兑现的关键执行节点。<small class="tag">IR press release</small></div>
+    <div class="thesis-item">3. <b>x86 服务器 CPU 份额创纪录。</b>Q4 2025 x86 服务器 CPU 收入份额达 46.2%（Intel 让出），受益于 EPYC 高核数产品结构；Intel「Diamond Rapids」竞品已延至 2027 中/末，为 2026 年 Zen 6「Venice」留出窗口期。<small class="tag">Tom's Hardware / TrendForce</small></div>
+  </div>
+  <div>
+    <div class="thesis-item">4. <b>但估值已透支未来增长。</b>当前 NTM EV/EBITDA 约 67.9x，远高于同业中位数 28.3x，接近同业上限（Marvell 79.7x，受 GAAP 盈利失真影响）；DCF 隐含终值占比高达 79–91%，反映 5 年显性预测期无法完全捕捉 OpenAI/Meta 承诺的长期经济价值。<small class="tag">Valuation model</small></div>
+    <div class="thesis-item">5. <b>净现金资产负债表，财务风险可控。</b>FY2025 末现金及短期投资 $10.55B vs. 总债务 $3.22B，净现金 $7.35B；非 GAAP 毛利率 52%，non-GAAP EPS $4.17（record）。<small class="tag">10-K</small></div>
+    <div class="thesis-item">6. <b>ROCm 软件生态仍落后 CUDA，是长期竞争关键变量。</b>MI300X 训练性能约为 H100/H200 的 75% 水平（需大量客户端调优），是 AMD 相对 Nvidia 最持续的短板，也是最大的正向期权（差距收窄将直接改善实现价格与毛利率）。<small class="tag">SemiAnalysis</small></div>
+  </div>
+</div>
+
+<h2>二、关键财务快照 (FY2025A / FY2026 Guidance)</h2>
+<div class="grid2">
+  <div>
+    <table>
+      <thead><tr><th>指标</th><th>FY2025A</th><th>同比</th></tr></thead>
+      <tbody>
+        <tr><td>总收入 Total Revenue</td><td>$34.64B</td><td>—</td></tr>
+        <tr><td>　Data Center（48%）</td><td>$16.64B</td><td>+32%</td></tr>
+        <tr><td>　Client（31%）</td><td>$10.64B</td><td>+51%</td></tr>
+        <tr><td>　Gaming（11%）</td><td>$3.91B</td><td>+51%</td></tr>
+        <tr><td>　Embedded（10%）</td><td>$3.45B</td><td>−3%</td></tr>
+        <tr><td>GAAP 毛利率</td><td>50%</td><td>—</td></tr>
+        <tr><td>Non-GAAP 毛利率</td><td>52%</td><td>—</td></tr>
+        <tr><td>Non-GAAP 营业利润</td><td>$7.77B</td><td>record</td></tr>
+        <tr><td>Non-GAAP 净利润</td><td>$6.83B</td><td>record</td></tr>
+        <tr class="total"><td>Non-GAAP 稀释 EPS</td><td>$4.17</td><td>record</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <table>
+      <thead><tr><th>资产负债表 / 近期动态</th><th>数值</th></tr></thead>
+      <tbody>
+        <tr><td>现金及短期投资</td><td>$10.55B</td></tr>
+        <tr><td>总债务</td><td>$3.22B</td></tr>
+        <tr><td>净现金</td><td>$7.35B</td></tr>
+        <tr><td>Q1 FY2026 收入（实际）</td><td>$10.3B（+38%）</td></tr>
+        <tr><td>Q2 FY2026 收入指引</td><td>~$11.2B ±$300M</td></tr>
+        <tr><td>员工人数（FY25 末）</td><td>~31,000（+10.7%）</td></tr>
+        <tr><td>OpenAI + Meta 合计承诺</td><td>12GW / 最高~$190B</td></tr>
+        <tr><td>Warrant 潜在稀释</td><td>最高合计 3.2亿股（~20%）</td></tr>
+      </tbody>
+    </table>
+    <p><small class="muted">来源：AMD FY2025 10-K、Q1 FY2026 10-Q、Q4/FY2025 及 Q1 FY2026 earnings release（SEC EDGAR / ir.amd.com）。</small></p>
+  </div>
+</div>
+
+<h2>三、估值总结 (Valuation Summary)</h2>
+<table>
+  <thead><tr><th>方法</th><th>Low</th><th>Base</th><th>High</th><th>权重</th></tr></thead>
+  <tbody>
+    <tr><td>DCF（WACC 12.0%，terminal g 3.0%）</td><td>$213</td><td>$284</td><td>$371</td><td>40%</td></tr>
+    <tr><td>Trading Comps（EV/EBITDA NTM，5 家同业）</td><td>$116</td><td>$214</td><td>$314</td><td>60%</td></tr>
+    <tr><td>Precedent Transactions</td><td>n/a</td><td>n/a</td><td>n/a</td><td>0%</td></tr>
+    <tr><td>加权平均（quantitative）</td><td></td><td>$242</td><td></td><td>100%</td></tr>
+    <tr><td>+ 定性溢价（OpenAI/Meta backlog、EPYC 份额、ROCm 收敛等）</td><td></td><td>+$90</td><td></td><td></td></tr>
+    <tr class="total"><td>最终 12 个月目标价</td><td>$157</td><td><b>$330</b></td><td>$339</td><td></td></tr>
+  </tbody>
+</table>
+<p><small class="muted">同业对比组：NVDA、INTC、AVGO、MRVL、QCOM（EV/EBITDA NTM 中位数 28.3x，AMD 当前 67.9x）。敏感性分析（WACC × terminal growth、Revenue CAGR × EBITDA margin）详见 Task3_Valuation 完整报告。</small></p>
+
+<div class="charts">
+  <div class="chart-card">
+    <img src="Task4_Charts/chart_32_valuation_football_field.png" alt="Valuation Football Field">
+    <div class="cap">图1：估值 Football Field — DCF / Comps 区间 vs. 当前股价</div>
+  </div>
+  <div class="chart-card">
+    <img src="Task4_Charts/chart_33_price_target_scenarios.png" alt="Price Target Scenarios">
+    <div class="cap">图2：Bull / Base / Bear 情景目标价对比</div>
+  </div>
+</div>
+
+<h3>情景交叉验证 (Task2 Scenarios)</h3>
+<table>
+  <thead><tr><th>情景</th><th>概率</th><th>Revenue CAGR FY25–30</th><th>FY30E EBITDA Margin</th><th>FY30E Diluted EPS</th></tr></thead>
+  <tbody>
+    <tr><td>Bear</td><td>20%</td><td>22.0%</td><td>29.0%</td><td>$13.15</td></tr>
+    <tr><td>Base</td><td>60%</td><td>32.8%</td><td>36.0%</td><td>$25.58</td></tr>
+    <tr><td>Bull</td><td>20%</td><td>41.0%</td><td>40.0%</td><td>$38.71</td></tr>
+  </tbody>
+</table>
+<p><small class="muted">即便是 Bull 情景（OpenAI/Meta 部署超预期加速 + 拿下第三家超大型客户），若不假设 AMD 维持当前约 68x 的远期 EBITDA 倍数至 FY2030，也难以完全弥补与当前 $508 股价的差距。</small></p>
+
+<h2>四、主要催化剂 (Catalysts — 上行风险)</h2>
+<ul>
+  <li><b>OpenAI/Meta 部署提速：</b>任一客户提前拉动交付节奏或扩大 6GW 承诺范围，将直接延长收入能见度，超出当前 DCF 显性预测期。</li>
+  <li><b>第三家超大型客户：</b>Microsoft 或 Amazon 将部分自研（Maia、Trainium）或 Marvell 合作产能转向 AMD Instinct，考虑到多年设计周期，FY2027E–29E 具备可行性。</li>
+  <li><b>EPYC 份额持续扩大：</b>Intel「Diamond Rapids」延至 2027 中/末，为 2026 Zen 6「Venice」留出窗口，服务器 CPU 收入份额有望突破当前 46.2% 纪录。</li>
+  <li><b>ROCm 软件生态差距收窄快于预期：</b>将支撑 Instinct 更高的实现价格与毛利率，直接改善当前低于同业中位数的 EBITDA margin 假设。</li>
+  <li><b>持续超预期与上调指引：</b>近几个季度均 beat-and-raise，若延续将有机推升市场一致预期，支撑估值倍数维持高位更久。</li>
+</ul>
+
+<h2>五、风险披露 (Risk Disclosure)</h2>
+
+<div class="charts">
+  <div class="chart-card">
+    <img src="Task4_Charts/chart_09_customer_segmentation.png" alt="Customer Concentration">
+    <div class="cap">图3：客户/部署承诺集中度（OpenAI / Meta）</div>
+  </div>
+  <div class="chart-card">
+    <img src="Task4_Charts/chart_02_revenue_growth_trajectory.png" alt="Revenue Growth Trajectory">
+    <div class="cap">图4：历史与预测收入增长路径</div>
+  </div>
+</div>
+
+<div class="risk-cat">公司层面风险 (Company-Specific)</div>
+<ul class="risk-list">
+  <li><b>客户集中度 & Warrant 稀释：</b>OpenAI、Meta 各获授最高 1.6 亿股 warrant（合计约占授予时股本 20%），对应 12GW 部署承诺；一旦任一客户资本开支计划生变，收入能见度直接受损。Meta warrant 最后一档归属还额外挂钩 AMD 股价须达到 $600。</li>
+  <li><b>MI400/Helios 执行风险：</b>相对 Nvidia 下一代 Vera Rubin 平台，AMD 在单卡/单机柜显存容量领先，但在训练吞吐、HBM4 信号速率及机柜级推理性能上仍落后；首批 1GW MI450 出货要到 2026H2，任何延迟都将直接威胁管理层「FY2027 数十亿美元 AI 收入」目标的可信度。</li>
+  <li><b>Intel Xeon 复苏风险（已递延但未消除）：</b>若「Diamond Rapids」（18A 制程）如期且性能达标推出，可能压制 AMD 当前创纪录的 46.2% 服务器 CPU 收入份额。</li>
+  <li><b>TSMC 单一代工依赖：</b>作为 fabless 公司且无同等成熟度的替代先进制程/先进封装供应商，AMD 扩产 MI400/Helios 以兑现 OpenAI/Meta 承诺，直接受限于 TSMC CoWoS 产能——2026 年已全年订满，Nvidia 一家即锁定约 60% 产能。</li>
+  <li><b>Xilinx / ZT Systems 整合风险：</b>Embedded 分部（原 Xilinx 业务）FY2025 收入下滑 3%；2025年3月收购 ZT Systems 后又于同年10月将其制造业务转售 Sanmina，整合过程仍在进行，恰逢 Helios 交付执行的关键窗口期。</li>
+  <li><b>定制 ASIC 结构性挤压商用芯片 TAM：</b>Broadcom + Marvell 合计控制约 95% 的定制 AI-ASIC 设计服务市场；2026 年定制 ASIC AI 服务器出货增速（+44.6% YoY）近 GPU 服务器（+16.1%）的三倍，长期可能限制 merchant-silicon（AMD/Nvidia）可触达的份额。</li>
+</ul>
+
+<div class="risk-cat">行业 / 市场风险 (Industry &amp; Market)</div>
+<ul class="risk-list">
+  <li><b>中国出口管制风险：</b>2025年4月新规限制 MI308 对华出口，Q2 2025 单季即产生约 $8 亿库存相关减值（全年净影响约 $4.4 亿）；2026年1月起 MI325X 等更多产品需逐案申请许可证。中国曾占 AMD 收入约 20%（管理层历史披露），现已成为结构性受限、不可预测的市场。</li>
+  <li><b>毛利率稀释风险：</b>Non-GAAP 毛利率（FY25 约 52%，Q1–Q2 FY26 指引 55–56%）结构性低于 Nvidia 数据中心业务，反映 Helios 机柜级系统交付成本及 MI300X/325X 向 MI350/400 过渡期的产品结构。</li>
+</ul>
+
+<div class="risk-cat">财务风险 (Financial)</div>
+<ul class="risk-list">
+  <li><b>估值/预期风险（最核心）：</b>当前约 180–190x trailing GAAP P/E、100x+ EV/EBITDA（同业中位数约28x），股价已 price-in 近乎完美执行；MI450/Helios 交付节奏、超大型客户资本开支纪律、或对 Nvidia/定制 ASIC 的份额流失中任一项不及预期，都可能触发估值倍数大幅收缩。</li>
+  <li><b>Warrant 稀释机制与技术性压力：</b>合计最高 3.2 亿股潜在稀释（约占授予时股本20%），归属节点临近时可能形成技术性抛压或对冲相关的股价压力。</li>
+</ul>
+
+<div class="risk-cat">宏观风险 (Macro)</div>
+<ul class="risk-list">
+  <li><b>超大型云厂商资本开支周期性：</b>AMD 数据中心增长前景已高度绑定少数几家超大型云厂商（合计2026年资本开支约 $6,600–6,900亿）的支出决策，OpenAI/Meta 承诺集中度使这一敏感性更为突出。</li>
+  <li><b>跨境供应链 & 汇率风险：</b>研发/设计运营遍布亚洲（台湾、新加坡、印度），且完全依赖 TSMC 台湾产能，两岸地缘政治与美中科技摩擦是行业共性尾部风险。</li>
+</ul>
+
+<h2>六、待核对清单 (Items to Verify — 请用官方 filing / SEC / IBKR 数据复核)</h2>
+<ul class="checklist">
+  <li>当前实时股价与市值 — 本报告使用 2026-07-08 收盘价 $508.00 / 市值 ~$831B，距今日（2026-07-27）已过 19 天，且 Task1 研究文档提及 7 月 7 日发生芯片板块抛售（AMD 单日一度跌 8%），建议核对最新报价。</li>
+  <li>Q2 FY2026 实际业绩是否已披露 — 报告仅使用管理层指引（~$11.2B ±$300M），若财报已发布需替换为实际值。</li>
+  <li>OpenAI / Meta warrant 归属进度 — 首批 1GW 部署是否已按 2026H2 时间表启动，是否触发首档归属。</li>
+  <li>TSMC CoWoS 产能与 MI450/Helios 出货节奏最新进展。</li>
+  <li>Intel「Diamond Rapids」时间表是否有变化（当前假设为 2027 年中/末）。</li>
+  <li>中国出口管制 15% 收入分成安排是否已正式成文（截至研究时点尚未有正式法规发布）。</li>
+</ul>
+
+<footer>
+  <p><b>数据来源：</b>AMD FY2025 Form 10-K、Q1 FY2026 Form 10-Q（SEC EDGAR）；AMD Q4/FY2025 及 Q1 FY2026 earnings release（ir.amd.com）；AMD/OpenAI、AMD/Meta 合作公告；同业市场数据来自 stockanalysis.com / GuruFocus / TIKR（经 web search，非付费数据源，可能存在滞后或误差）。完整分析见同目录下 Task1_Research、Task3_Valuation 及 AMD_Financial_Model_2026-07-08.xlsx。</p>
+  <p>本 one-pager 为内部研究工作稿，基于模型知识与公开网络信息整理，未连接 Daloopa/FactSet/S&amp;P 等付费数据源，关键数字请以官方 filing 复核后使用，不构成投资建议。</p>
+</footer>
+
+</body>
+</html>
