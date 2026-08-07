@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AAOI 2026 Q2 财报电话会点评 · 2026-08-07</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#ffffff; --ink:#1a2233; --sub:#5b6577; --line:#e4e8ee;
+    --accent:#0f5fd7; --accent2:#0ea5a4; --warn:#c2410c; --good:#15803d;
+    --quote-bg:#f0f5ff; --quote-line:#0f5fd7; --mono:'SFMono-Regular',Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.75;font-size:15.5px;}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 20px 80px;}
+  header.hero{background:linear-gradient(135deg,#0b2a5b 0%,#0f5fd7 70%,#0ea5a4 100%);
+    color:#fff;border-radius:16px;padding:36px 36px 30px;margin-bottom:28px;}
+  header.hero h1{margin:0 0 10px;font-size:26px;line-height:1.4;}
+  header.hero .meta{font-size:13.5px;opacity:.92;line-height:1.9;}
+  header.hero .meta b{opacity:1;}
+  .badge{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);
+    border-radius:999px;padding:2px 12px;font-size:12.5px;margin-right:8px;margin-bottom:8px;}
+  section.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:28px 32px;margin-bottom:22px;box-shadow:0 1px 3px rgba(16,24,40,.05);}
+  h2{font-size:20px;margin:0 0 16px;padding-bottom:10px;border-bottom:2px solid var(--line);color:#0b2a5b;}
+  h3{font-size:16.5px;margin:24px 0 10px;color:#0f3d8c;}
+  p{margin:10px 0;}
+  strong{color:#0b2a5b;}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;}
+  th{background:#eef2f8;color:#0b2a5b;text-align:left;padding:9px 12px;border:1px solid var(--line);white-space:nowrap;}
+  td{padding:9px 12px;border:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#fafbfd;}
+  blockquote{margin:14px 0;padding:12px 18px;background:var(--quote-bg);
+    border-left:4px solid var(--quote-line);border-radius:0 10px 10px 0;font-size:14.5px;color:#233;}
+  blockquote .who{display:block;margin-top:6px;font-size:13px;color:var(--sub);font-style:normal;}
+  ul{margin:8px 0;padding-left:22px;}
+  li{margin:6px 0;}
+  .chart-box{background:#fbfcfe;border:1px dashed #c9d4e4;border-radius:12px;padding:18px 18px 8px;margin:18px 0;}
+  .chart-box h4{margin:0 0 4px;font-size:14.5px;color:#0b2a5b;}
+  .chart-box .note{font-size:12px;color:var(--sub);margin:0 0 8px;}
+  .chart-wrap{position:relative;height:300px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}}
+  .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:6px 0 14px;}
+  @media(max-width:760px){.kpi-row{grid-template-columns:repeat(2,1fr);}}
+  .kpi{background:#f2f6fd;border:1px solid #dbe6f6;border-radius:12px;padding:12px 14px;}
+  .kpi .v{font-size:20px;font-weight:700;color:var(--accent);}
+  .kpi .l{font-size:12.5px;color:var(--sub);line-height:1.4;}
+  .kpi.good .v{color:var(--good);}
+  .kpi.warn .v{color:var(--warn);}
+  .tag{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:999px;margin-left:6px;vertical-align:middle;}
+  .tag.beat{background:#dcfce7;color:#166534;}
+  .tag.inline{background:#e0eaff;color:#1d4ed8;}
+  .checklist li{list-style:none;position:relative;padding-left:26px;}
+  .checklist li::before{content:"☐";position:absolute;left:0;color:var(--accent);font-size:15px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  footer{font-size:13px;color:var(--sub);padding:0 8px;}
+  .src-note{font-size:12.5px;color:var(--sub);font-style:italic;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div>
+    <span class="badge">NASDAQ: AAOI</span>
+    <span class="badge">FY2026 Q2</span>
+    <span class="badge">基于电话会一手材料</span>
+  </div>
+  <h1>AAOI（Applied Optoelectronics）2026 Q2 财报电话会点评</h1>
+  <div class="meta">
+    <b>报告日期：</b>2026-08-07 ｜ <b>财报发布：</b>2026-08-06 16:10 ET（盘后）｜ <b>电话会：</b>16:30 ET<br>
+    <b>主要出处：</b>官方 earnings release（GlobeNewswire）+ Q2 2026 earnings call 完整 transcript（Quartr 记录）。除股价部分外，本文所有数字与引语均出自这两份一手材料。
+  </div>
+</header>
+
+<!-- ================= 〇 股价反应 ================= -->
+<section class="card">
+<h2>〇、财报后股价反应时间线</h2>
+<p>注意区分：8/6 常规时段 -3.38%（收 $124.22）发生在财报发布（16:10 ET）之前，不是财报反应——此前 8/4 因"美国拟禁中国光模块"传闻单日大涨 13%-17%，8/6 属于事件前的高波动回吐（日内振幅 $118.88–$134.29）。</p>
+<p>财报后的实际走势：</p>
+<table>
+<thead><tr><th>时点（ET）</th><th>价格/变动</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>8/6 16:00 收盘</td><td>$124.22（-3.38%）</td><td><strong>财报发布前</strong>，非财报反应</td></tr>
+<tr><td>8/6 盘后初段</td><td>一度约 -7.5%</td><td>对 Q3 EPS 指引区间（中值低于 consensus $0.28）的第一反应</td></tr>
+<tr><td>8/6 盘后随电话会进行</td><td>收复全部跌幅</td><td>电话会披露 Q4 收入 &gt;$500M、mid-2027 月收入 $471M 等增量信息后</td></tr>
+<tr><td>8/6 19:59 盘后收盘</td><td>$124.00（-0.18%）</td><td>官方盘后时段最后成交</td></tr>
+<tr><td>8/6 夜间–8/7</td><td>隔夜时段延续上行</td><td>电话会增量信息被进一步消化（隔夜时段数据以券商端行情为准）</td></tr>
+</tbody>
+</table>
+<p><strong>解读：</strong>这不是"beat 后被指引砸下来"，而是"表面 EPS 指引偏保守 → 电话会给出远超预期的量与产能细节 → 修复并转涨"。市场对本次财报的最终定价锚定在电话会内容，而非新闻稿的 headline 指引。</p>
+</section>
+
+<!-- ================= 一 核心结论 ================= -->
+<section class="card">
+<h2>一、核心结论</h2>
+<p>Q2 本身波澜不惊——收入、毛利率均落在公司自身指引区间内，EPS 超自身指引上限。真正的信息量全部在电话会：<strong>Q4 单季收入 &gt;$500M（隐含 Q3→Q4 环比 +60%）、mid-2027 数据中心月收入 $471M、1.6T 在手订单 &gt;$200M 且 Q1'27 有望翻倍、CPO 激光器 2028 年 40万只/月</strong>。管理层反复强调的核心逻辑只有一句话：</p>
+<blockquote>"Our near-term revenue is bounded almost entirely by production capacity and key component availability."
+<span class="who">—— Thompson Lin / Stefan Murry（两人在 prepared remarks 中原话相同）</span></blockquote>
+<p>即：<strong>收入上限由产能和关键元器件（DSP/TIA）决定，不由需求决定</strong>。Q3 EPS 指引区间宽（$0.11–$0.26）是爬产期利润率与 opex 的不确定性，不是需求问题。</p>
+
+<div class="chart-box">
+  <h4>季度收入轨迹与管理层指引（$M）</h4>
+  <p class="note">Q3E 为正式指引区间中值（区间 $255–290M）；Q4E 为 CEO 电话会口头目标（"more than $500 million"，未进正式指引）。数据：官方 release + transcript。</p>
+  <div class="chart-wrap"><canvas id="chRevenue"></canvas></div>
+</div>
+</section>
+
+<!-- ================= 二 Q2业绩 ================= -->
+<section class="card">
+<h2>二、Q2 业绩：对照的应是公司自身指引，而非街头 consensus</h2>
+<p>管理层的表述是 "in line with or better than our expectations"，逐项核对属实：</p>
+
+<div class="kpi-row">
+  <div class="kpi"><div class="v">$191.9M</div><div class="l">收入 +86% YoY / +27% QoQ<br>连续第5季新高</div></div>
+  <div class="kpi"><div class="v">29.8%</div><div class="l">Non-GAAP 毛利率<br>（指引 29%–30%）</div></div>
+  <div class="kpi good"><div class="v">$0.06</div><div class="l">Non-GAAP EPS<br>超自身指引上限</div></div>
+  <div class="kpi warn"><div class="v">-$22.8M</div><div class="l">GAAP 净亏损<br>-$0.28/基本股</div></div>
+</div>
+
+<table>
+<thead><tr><th>指标</th><th>Q2 实际</th><th>公司自身指引</th><th>结果</th></tr></thead>
+<tbody>
+<tr><td>收入</td><td>$191.9M（+86% YoY, +27% QoQ，连续第5季新高）</td><td>$180M–$198M</td><td><span class="tag inline">区间内</span></td></tr>
+<tr><td>Non-GAAP 毛利率</td><td>29.8%</td><td>29%–30%</td><td><span class="tag inline">区间内</span></td></tr>
+<tr><td>Non-GAAP EPS</td><td>$0.06（净利 $5.5M）</td><td>-$0.03 ~ +$0.03</td><td><span class="tag beat">超上限</span></td></tr>
+<tr><td>GAAP 净亏损</td><td>-$22.8M / -$0.28（基本股 81.6M）</td><td>—</td><td>—</td></tr>
+</tbody>
+</table>
+
+<p><strong>分部（官方 release 精确数）：</strong>Datacenter $107.66M（+140.4% YoY，占56%）；CATV $80.58M 创纪录（+43.8% YoY，占42%，高于自身预期的 $75–80M）；Telecom $3.4M；Other $0.3M。</p>
+<p><strong>数据中心速率结构（transcript）：</strong>100G 占 38.3%（$38.3M 左右，YoY +31.3%）；200G/400G 占 45%（$48.4M，YoY 4倍+，QoQ +27.4%）；800G 占 11.9%（$12.8M，YoY 10倍+，QoQ 翻倍以上）；10G/40G 占 4.4%。</p>
+
+<div class="grid2">
+  <div class="chart-box">
+    <h4>Q2 分部收入构成（$M）</h4>
+    <p class="note">数据：官方 release 分部表。</p>
+    <div class="chart-wrap"><canvas id="chSegment"></canvas></div>
+  </div>
+  <div class="chart-box">
+    <h4>数据中心收入速率结构（占 DC 收入 %）</h4>
+    <p class="note">数据：Stefan Murry prepared remarks。</p>
+    <div class="chart-wrap"><canvas id="chSpeed"></canvas></div>
+  </div>
+</div>
+
+<p><strong>客户集中度（transcript）：</strong>前十大客户占收入 99%；三个 &gt;10% 客户：CATV 客户 42% + 两个数据中心客户 26%、24%。极高的客户集中度是本股的结构性风险。</p>
+</section>
+
+<!-- ================= 三 盈利质量 ================= -->
+<section class="card">
+<h2>三、盈利质量：EPS beat 的"成色"需要拆开看</h2>
+<p>Stefan Murry 在电话会中明确说明了超预期的来源：</p>
+<blockquote>"This was largely due to <strong>foreign tax benefits and modest government subsidy income</strong>, which we expect to continue in subsequent quarters."
+<span class="who">—— Stefan Murry, CFO</span></blockquote>
+<p>配合两组 transcript 数字：</p>
+<ul>
+<li><strong>Non-GAAP 经营亏损 $10.3M</strong>（上年同期 -$10.8M）——即经营层面仍未盈利，转正靠的是税收优惠、补贴和利息收入（Q2 利息净收入 $2.3M，来自增发后的巨额现金）。</li>
+<li>Non-GAAP opex $67.6M（收入的35%），高于公司预期，原因是 CATV 放量带来的运费（一次性，Q3 起不再发生）+ 客户要求的 800G/1.6T 新品认证研发（将持续处于高位）。<strong>未来季度 opex 指引 $70M–$80M。</strong></li>
+<li>客户 warrants 形成 contra-revenue：约占相关客户收入的 2.5%，Q2 为 $1.2M——收入端有少量"为绑定客户付出的对价"。</li>
+</ul>
+<p><strong>判断：</strong>本季 "转正" 更多是里程碑意义（管理层自己也如此定性），经营杠杆的真正体现要等 Q3/Q4 收入放量摊薄 opex。Q3 指引中值隐含 non-GAAP 净利 $10.1–24M——若兑现，则是经营性转正。</p>
+</section>
+
+<!-- ================= 四 Q3指引 ================= -->
+<section class="card">
+<h2>四、Q3 指引与"宽区间"的电话会解释</h2>
+<table>
+<thead><tr><th>项目</th><th>指引</th></tr></thead>
+<tbody>
+<tr><td>收入</td><td>$255M–$290M（中值 YoY +130%）</td></tr>
+<tr><td>Non-GAAP 毛利率</td><td>29%–30.5%</td></tr>
+<tr><td>Non-GAAP 净利 / EPS</td><td>$10.1M–$24M / $0.11–$0.26（摊薄股本约 92.8M）</td></tr>
+<tr><td>CATV</td><td>$100M–$110M</td></tr>
+<tr><td>800G</td><td>环比接近 <strong>5 倍</strong>（"grow by nearly 5 times sequentially"）</td></tr>
+<tr><td>FY2026</td><td>约 $1.1B（重申）</td></tr>
+</tbody>
+</table>
+<p>电话会中 Thompson Lin 对增速做了重要的"还原"：</p>
+<blockquote>"Because of memory issue for the switch, actually, 100G will decrease by $20 million-$25 million. <strong>Otherwise, our Q3 revenue, the growth should be more than 50%.</strong>"
+<span class="who">—— Thompson Lin, CEO</span></blockquote>
+<p>即：某客户因<strong>内存短缺→买不到 100G 交换机</strong>而砍单 $20–25M（Stefan 补充：预计持续到内存供给恢复，"either by end of this year or next year"），把 Q3 环比增速从 50%+ 压到 35–45%。这是外部供应链联动问题，与 AOI 产品需求无关。</p>
+</section>
+
+<!-- ================= 五 电话会增量信息 ================= -->
+<section class="card">
+<h2>五、电话会增量信息（市场盘后转涨的原因，按重要性排序）</h2>
+
+<h3>1. Q4 收入 &gt;$500M（未写入正式指引，但 CEO 在 Q&amp;A 中给出）</h3>
+<blockquote>"In Q4, I think based on our capacity, we should be able to deliver, I would say, <strong>more than $500 million revenue</strong>... It's like 60% of growth from Q3 to Q4."
+<span class="who">—— Thompson Lin, CEO</span></blockquote>
+<p>分析师 Simon Leopold 现场推算 Q4 800G+1.6T 合计约 $330M，Stefan 确认 "Yeah, that's about right, directionally."。若 Q4 &gt;$500M，则全年收入 = 343（H1）+ ~272（Q3中值）+ 500+ ≈ <strong>$1.12B</strong>，与 $1.1B 全年目标自洽，且隐含 Q4 才是真正的斜率拐点。</p>
+
+<h3>2. Mid-2027 月度收入路线图（数据中心）</h3>
+<blockquote>"By mid-2027, 100G and 400G revenue will be approximately $90 million, 800G revenue will be approximately $217 million, and 1.6T revenue will be approximately $164 million <strong>monthly</strong>. In total, this is about <strong>$471 million per month</strong> of data center transceiver revenue."
+<span class="who">—— Stefan Murry, CFO</span></blockquote>
+<p>月收入 $471M = 年化约 $5.6B（仅数据中心），对照当前 TTM 收入 $596M——这是本次电话会最激进的一句话，也是长线多头的核心锚点。它的置信度取决于产能与 DSP/TIA 供给，不取决于订单（订单已排满至 2027 Q2，见下）。</p>
+
+<div class="chart-box">
+  <h4>Mid-2027 数据中心月收入目标构成（$M/月）</h4>
+  <p class="note">对比项为 Q2 2026 数据中心月均收入（$107.7M ÷ 3 ≈ $35.9M）。数据：Stefan Murry prepared remarks。</p>
+  <div class="chart-wrap"><canvas id="chMid27"></canvas></div>
+</div>
+
+<h3>3. 1.6T：认证、订单、节奏</h3>
+<ul>
+<li>认证：将成为某大型 hyperscaler 的<strong>第四家</strong> 1.6T 供应商，"we will finish most of the qualification... within maybe two, three weeks"，本季度末开始发货；该客户 Q3 重回 10%+ 客户。</li>
+<li>在手订单 &gt;$200M：交付"很晚的Q3开始→Q4为主→尾部到Q1"，且 Stefan 强调 "<strong>That's just the first, the beginning</strong> of what we expect to be significant orders from this customer for 1.6T for the foreseeable future."</li>
+<li>Q4 1.6T 收入 $70–80M，瓶颈是材料（DSP/TIA）而非产能；Q1'27 "If it double, I will not be surprised"（1.6T 收入环比翻倍或更多）。</li>
+<li>2027 年末客户反馈的需求量级："&gt;500,000 transceivers per month... $300 million-$350 million"（每月）。</li>
+</ul>
+
+<h3>4. 产能路线图（800G+1.6T 合计）</h3>
+<table>
+<thead><tr><th>时点</th><th>月产能</th><th>出处</th></tr></thead>
+<tbody>
+<tr><td>Q1'26 末</td><td>~10万只</td><td>Stefan</td></tr>
+<tr><td>当前（Q2'26末）</td><td>接近 20万只</td><td>Stefan</td></tr>
+<tr><td>2026 年末</td><td><strong>&gt;65万只</strong></td><td>Stefan（重申）</td></tr>
+<tr><td>2027 年末</td><td><strong>&gt;93万只</strong>，过半来自德州</td><td>Stefan（重申）</td></tr>
+</tbody>
+</table>
+<p>德州厂房面积一年内从 6.5万 → <strong>160万平方英尺</strong>；210k sq ft 新厂 Q3 末投产（专产 800G/1.6T）；Pearland/Houston 2027 年初投产。800G 与 1.6T 共线生产、仅终测不同——产线切换弹性是毛利率期权。</p>
+
+<div class="chart-box">
+  <h4>800G + 1.6T 月产能爬坡路线（万只/月）</h4>
+  <p class="note">数据：Stefan Murry prepared remarks 及 Q&amp;A。</p>
+  <div class="chart-wrap"><canvas id="chCapacity"></canvas></div>
+</div>
+
+<h3>5. 毛利率路径（Q&amp;A 中的口径，比正式指引更细）</h3>
+<blockquote>Thompson Lin：年末退出毛利率 "<strong>32%-33%</strong>"（注：低于此前市场预期的 mid-30s，因需向关键供应商支付 expedite fee）；1.6T 是最高毛利产品，放量是改善主变量；CPO 激光器毛利 "<strong>55%-65%</strong>"、EOSAP 模块 "&gt;50%"，2027 H2 起贡献；长期目标 40%（Stefan 重申）。</blockquote>
+
+<div class="chart-box">
+  <h4>毛利率：现状与管理层给出的路径（Non-GAAP, %）</h4>
+  <p class="note">2026年末为 Q&amp;A 口径（32–33%取中值）；长期 40% 为管理层重申目标；虚线段为管理层展望而非正式指引。</p>
+  <div class="chart-wrap"><canvas id="chMargin"></canvas></div>
+</div>
+
+<h3>6. CPO / 自研激光器（市场认知差最大的一块）</h3>
+<ul>
+<li>"AOI is a laser company since day one, since 1997"；高功率窄线宽激光器 "the best in the industry, the best in the world right now"（Stefan）。</li>
+<li>ELSFP（CPO 外置光源）现小批量，2026 下半年起爬产，<strong>2028 年目标 40万只/月</strong>；已有约 5 家客户提出未来 3-4 年的激进需求。</li>
+<li>当前不参与第一代 CPO 部署的原因不是技术或客户，而是激光器产能必须优先保自家 transceiver："We just can't make enough of them."</li>
+<li>激光器 fab：至 2027 Q3 产能 +300%，另建面积约 4 倍于现厂的第二 fab；正推进 4 英寸衬底量产，衬底供给已锁定至 2027 年末，并在谈 2-3 家供应商的深度合作/潜在合资（着眼 2028-29 需求）。</li>
+</ul>
+
+<h3>7. 中国光模块禁令与竞争（Q&amp;A 首问）</h3>
+<ul>
+<li>Stefan："It's a little early to say... 那份报道本身仍是推测性的"，但 "AOI's U.S. manufacturing presence has been... probably the most important element of our appeal to our customers, and clearly that announcement heightens that appeal."</li>
+<li>Thompson：产能"从现在到明年 Q2 已全部订满"，禁令的实际弹性只能体现在 2027 Q3 之后的扩产上；早期客户反馈是"会给美国制造更多份额"。</li>
+<li>中国厂商追赶 CPO 激光器（300mW DWDM）："easily at least two, three years or even longer"；设备交期 21–24 个月是硬约束；且全球激光器产能（AOI+Lumentum+Coherent+Broadcom 加总）仍难以满足未来几年需求。</li>
+</ul>
+</section>
+
+<!-- ================= 六 资本开支 ================= -->
+<section class="card">
+<h2>六、资本开支、融资与稀释（风险面）</h2>
+<ul>
+<li>Q2 资本开支 <strong>$565.5M</strong>（含 $280M 设备预付款），H2 强度更高；ATM 增发至今净筹 <strong>$538.8M</strong>；期末现金 $508.8M、存货 $278.8M（环比 +$72.6M，为爬产备料）、非可转债债务 $92.8M。</li>
+<li>资金来源表述："cash on hand, cash generated from operations, and <strong>some equity sales, along with additional debt</strong>"——<strong>管理层明示后续仍会增发+举债</strong>。GAAP 基本股本已从上年同期 56.8M 增至 81.6M（+44%），Q3 摊薄股本指引 92.8M。稀释是本股最确定的持续成本。</li>
+<li>关税：Q2 直接影响 $1.9M；IEEPA 关税被推翻获退税 $5.7M；新关税"暂不预期有实质影响"。</li>
+</ul>
+
+<div class="chart-box">
+  <h4>股本稀释轨迹（百万股）</h4>
+  <p class="note">Q2'25 / Q2'26 为 GAAP 基本加权股本；Q3'26E 为指引所用摊薄股本。数据：官方 release + transcript。</p>
+  <div class="chart-wrap"><canvas id="chShares"></canvas></div>
+</div>
+</section>
+
+<!-- ================= 七 跟踪清单 ================= -->
+<section class="card">
+<h2>七、跟踪清单（均来自管理层承诺，可逐季核对）</h2>
+<ul class="checklist">
+<li>1.6T 认证在 8 月下旬前完成、Q3 末开始发货；该客户 Q3 回到 10%+ 客户</li>
+<li>Q4 1.6T 收入 $70–80M；Q1'27 翻倍</li>
+<li>Q4 总收入 &gt;$500M（CEO 口头目标，注意未进正式指引）</li>
+<li>2026 年末产能 &gt;65万只/月；210k sq ft 厂 Q3 末投产</li>
+<li>100G 交换机（内存短缺）缺口 $20–25M 何时恢复</li>
+<li>年末退出毛利率 32–33%；opex 落在 $70–80M 区间</li>
+<li>ATM 后续增发规模与新增债务（Q3 摊薄股本是否超 92.8M）</li>
+<li>ELSFP/CPO 激光器 2026 H2 爬产进度、5 家客户订单落地</li>
+</ul>
+</section>
+
+<!-- ================= 来源 ================= -->
+<footer>
+<p><strong>一手来源：</strong></p>
+<ul>
+<li><a href="https://www.globenewswire.com/news-release/2026/08/06/3340777/9986/en/applied-optoelectronics-reports-second-quarter-2026-results.html">Applied Optoelectronics Reports Second Quarter 2026 Results（官方 press release, GlobeNewswire, 2026-08-06）</a></li>
+<li><a href="https://stockanalysis.com/stocks/aaoi/transcripts/662748-q2-2026/">AAOI Q2 2026 Earnings Call 完整 Transcript（Quartr 记录, via StockAnalysis）</a></li>
+<li>股价数据：<a href="https://stockanalysis.com/stocks/aaoi/">StockAnalysis AAOI 行情页</a>（8/6 收盘及官方盘后时段）；盘后 V 型走势见 <a href="https://www.tipranks.com/news/will-applied-optoelectronics-aaoi-stock-rise-or-fall-after-earnings">TipRanks/媒体综合报道</a>；8/4 中国光模块禁令传闻行情见 <a href="https://www.benzinga.com/trading-ideas/movers/26/08/60911598/applied-optoelectronics-shares-jump-following-proposed-ban-on-chinese-ai-hardware">Benzinga</a></li>
+</ul>
+<p class="src-note">所有财务数字已与官方 release 的 GAAP/non-GAAP reconciliation 表核对；电话会引语为 transcript 原文。10-Q 发布后建议复核存货、预付款与 warrants contra-revenue 明细。</p>
+</footer>
+
+</div>
+
+<script>
+const C = {blue:'#0f5fd7', teal:'#0ea5a4', navy:'#0b2a5b', orange:'#f59e0b', red:'#c2410c', green:'#15803d', gray:'#94a3b8', lightblue:'#7fb3f5'};
+Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#5b6577';
+
+// 1) 季度收入
+new Chart(document.getElementById('chRevenue'), {
+  type:'bar',
+  data:{
+    labels:['Q2 2025','Q1 2026','Q2 2026','Q3 2026E\n(指引中值)','Q4 2026E\n(CEO口头目标)'],
+    datasets:[{
+      label:'收入 ($M)',
+      data:[103.0,151.1,191.9,272.5,500],
+      backgroundColor:[C.gray,C.lightblue,C.blue,C.teal,C.orange],
+      borderRadius:6
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:(ctx)=>{
+        const notes=['','','+86% YoY, +27% QoQ','区间 $255–290M，中值YoY +130%','"more than $500M"，隐含QoQ +60%'];
+        return '$'+ctx.parsed.y+'M '+(notes[ctx.dataIndex]||'');}}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:'$M'}},x:{grid:{display:false}}}
+  }
+});
+
+// 2) 分部收入
+new Chart(document.getElementById('chSegment'), {
+  type:'doughnut',
+  data:{
+    labels:['Datacenter $107.7M (56%)','CATV $80.6M (42%)','Telecom $3.4M','Other $0.3M'],
+    datasets:[{data:[107.66,80.58,3.41,0.27],
+      backgroundColor:[C.blue,C.teal,C.orange,C.gray],borderWidth:2,borderColor:'#fff'}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,cutout:'55%',
+    plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:10}}}}
+});
+
+// 3) DC 速率结构
+new Chart(document.getElementById('chSpeed'), {
+  type:'bar',
+  data:{
+    labels:['100G','200G/400G','800G','10G/40G'],
+    datasets:[{label:'占 DC 收入 %',data:[38.3,45.0,11.9,4.4],
+      backgroundColor:[C.gray,C.blue,C.teal,'#cbd5e1'],borderRadius:6}]
+  },
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:(ctx)=>{
+        const n=['$38.3M · YoY +31.3%','$48.4M · YoY 4倍+ · QoQ +27.4%','$12.8M · YoY 10倍+ · QoQ 翻倍以上','—'];
+        return ctx.parsed.x+'% ('+n[ctx.dataIndex]+')';}}}},
+    scales:{x:{beginAtZero:true,max:50,title:{display:true,text:'%'}},y:{grid:{display:false}}}
+  }
+});
+
+// 4) Mid-2027 月收入目标
+new Chart(document.getElementById('chMid27'), {
+  type:'bar',
+  data:{
+    labels:['Q2 2026 月均（实际）','Mid-2027 目标'],
+    datasets:[
+      {label:'100G+400G',data:[null,90],backgroundColor:C.gray,stack:'s',borderRadius:4},
+      {label:'800G',data:[null,217],backgroundColor:C.blue,stack:'s',borderRadius:4},
+      {label:'1.6T',data:[null,164],backgroundColor:C.teal,stack:'s',borderRadius:4},
+      {label:'DC 合计（当前月均）',data:[35.9,null],backgroundColor:C.lightblue,stack:'s',borderRadius:4}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{boxWidth:12}},
+      tooltip:{callbacks:{footer:(items)=>{
+        if(items[0].dataIndex===1){return '合计 ≈ $471M/月（年化约 $5.6B）';}return '';}}}},
+    scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,title:{display:true,text:'$M / 月'}}}
+  }
+});
+
+// 5) 产能爬坡
+new Chart(document.getElementById('chCapacity'), {
+  type:'line',
+  data:{
+    labels:['Q1 2026 末','Q2 2026 末（当前）','2026 年末','2027 年末'],
+    datasets:[{
+      label:'800G+1.6T 月产能（万只）',
+      data:[10,20,65,93],
+      borderColor:C.blue,backgroundColor:'rgba(15,95,215,.12)',
+      fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.blue
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:(ctx)=>{
+        const n=['~10万只/月','接近20万只/月','>65万只/月（大部分为800G）','>93万只/月，过半来自德州'];
+        return n[ctx.dataIndex];}}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:'万只 / 月'}},x:{grid:{display:false}}}
+  }
+});
+
+// 6) 毛利率路径
+new Chart(document.getElementById('chMargin'), {
+  type:'line',
+  data:{
+    labels:['Q2 2025','Q1 2026','Q2 2026','Q3 2026E','2026 年末E','长期目标'],
+    datasets:[{
+      label:'Non-GAAP 毛利率 %',
+      data:[30.4,29.2,29.8,29.75,32.5,40],
+      borderColor:C.teal,backgroundColor:'rgba(14,165,164,.10)',
+      segment:{borderDash:(ctx)=> ctx.p0DataIndex>=2 ? [6,5] : undefined},
+      fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.teal
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:(ctx)=>{
+        const n=['30.4%','29.2%','29.8%（指引29–30%内）','指引 29–30.5%（取中值展示）','Q&A口径 32–33%（付expedite fee后）','管理层重申 40%（1.6T/CPO激光放量后）'];
+        return n[ctx.dataIndex];}}}},
+    scales:{y:{min:25,max:45,title:{display:true,text:'%'}},x:{grid:{display:false}}}
+  }
+});
+
+// 7) 股本稀释
+new Chart(document.getElementById('chShares'), {
+  type:'bar',
+  data:{
+    labels:['Q2 2025\n(基本)','Q2 2026\n(基本)','Q2 2026\n(摊薄·EPS用)','Q3 2026E\n(指引摊薄)'],
+    datasets:[{label:'加权股本（百万股）',data:[56.8,81.6,88.1,92.8],
+      backgroundColor:[C.gray,C.blue,C.lightblue,C.orange],borderRadius:6}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:(ctx)=>{
+        const n=['','较上年同期 +44%','非GAAP EPS $0.06 所用','指引 EPS $0.11–0.26 所用'];
+        return ctx.parsed.y+'M '+(n[ctx.dataIndex]||'');}}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:'百万股'}},x:{grid:{display:false}}}
+  }
+});
+</script>
+</body>
+</html>
