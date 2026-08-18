@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《Pressure》观影对号入座指南</title>
+<style>
+  :root{
+    --chart:#DCE1DA;        /* aged meteorological chart paper */
+    --chart-dk:#C7CEC4;
+    --ink:#16232F;          /* deep chart ink */
+    --ink-soft:#3B4C57;
+    --isobar:#5B7A8C;       /* pressure-contour steel blue */
+    --allied:#2E5C7A;       /* allied navy-blue */
+    --brass:#A2812F;        /* rank braid / brass */
+    --storm:#A5382C;        /* low-pressure / storm-warning red */
+    --paper:#EDEADD;        /* card paper */
+    --line:#B7BEB2;
+    --mono:"Courier New",ui-monospace,monospace;
+    --cjk:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+    --sans:"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--chart);color:var(--ink);
+    font-family:var(--cjk);line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:relative;overflow:hidden;
+    background:var(--ink);color:var(--chart);
+    padding:64px 0 56px;border-bottom:3px solid var(--brass);
+  }
+  header .iso{position:absolute;inset:0;opacity:.28}
+  header .wrap{position:relative;z-index:2}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:.32em;
+    text-transform:uppercase;color:var(--brass);margin:0 0 18px;
+  }
+  h1{
+    font-family:var(--sans);font-weight:800;
+    letter-spacing:.14em;text-transform:uppercase;
+    font-size:clamp(38px,8vw,76px);line-height:.98;margin:0;
+  }
+  h1 .sub{display:block;font-family:var(--cjk);font-weight:600;
+    letter-spacing:.05em;font-size:clamp(15px,3.4vw,22px);
+    color:var(--chart);margin-top:16px;text-transform:none;opacity:.92}
+  .meta-row{
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;
+    margin-top:26px;color:#9fb0b8;display:flex;flex-wrap:wrap;gap:18px;
+  }
+  .meta-row b{color:var(--chart);font-weight:400}
+
+  /* ---------- HOW TO USE ---------- */
+  .howto{background:var(--chart-dk);border-bottom:1px solid var(--line)}
+  .howto .wrap{padding:22px 22px}
+  .howto p{margin:0;font-size:15px;color:var(--ink-soft)}
+  .howto .tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--storm);display:block;margin-bottom:6px}
+
+  section{padding:52px 0}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;flex-wrap:wrap}
+  .sec-num{font-family:var(--mono);color:var(--isobar);font-size:13px;letter-spacing:.2em}
+  h2{font-family:var(--sans);font-weight:800;letter-spacing:.06em;
+    text-transform:uppercase;font-size:clamp(22px,4vw,30px);margin:0}
+  .sec-desc{color:var(--ink-soft);font-size:15px;max-width:72ch;margin:14px 0 34px}
+
+  /* ---------- CENTRE TRIANGLE ---------- */
+  .triangle-block{position:relative;background:var(--paper);
+    border:1px solid var(--line);border-radius:2px;padding:30px 26px 34px;overflow:hidden}
+  .triangle-block .iso{position:absolute;inset:0;opacity:.16;z-index:0}
+  .triangle-block .inner{position:relative;z-index:1}
+  .tri-lead{font-size:15px;color:var(--ink-soft);max-width:70ch;margin:0 auto 26px;text-align:center}
+  .tri{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:stretch}
+  .tri-node{background:var(--chart);border:1px solid var(--line);border-radius:2px;
+    padding:16px 14px;text-align:center}
+  .tri-node .role{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;margin-bottom:8px}
+  .tri-node.stagg .role{color:var(--allied)}
+  .tri-node.ike .role{color:var(--brass)}
+  .tri-node.krick .role{color:var(--storm)}
+  .tri-node h4{margin:0;font-size:17px;font-weight:700}
+  .tri-node .who{font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-top:4px}
+  .tri-node p{font-size:13px;margin:10px 0 0;color:var(--ink-soft);line-height:1.6}
+  .tri-vs{text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.15em;
+    color:var(--storm);margin-top:18px}
+
+  /* ---------- CHARACTER CARDS ---------- */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:2px;
+    overflow:hidden;display:flex;flex-direction:column}
+  .card-top{display:flex;gap:0;border-bottom:1px solid var(--line)}
+  .portrait{width:132px;min-width:132px;height:150px;display:block}
+  .card-id{padding:14px 16px;flex:1;display:flex;flex-direction:column;justify-content:center}
+  .actor{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--isobar);margin-bottom:7px}
+  .actor b{color:var(--ink);font-weight:700;font-size:13.5px;letter-spacing:.06em}
+  .charname{font-family:var(--sans);font-weight:800;font-size:19px;letter-spacing:.02em;line-height:1.15}
+  .charname .en{display:block;font-family:var(--mono);font-weight:400;font-size:11.5px;
+    letter-spacing:.05em;color:var(--ink-soft);margin-top:5px;text-transform:none}
+  .rankchip{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;
+    text-transform:uppercase;padding:3px 8px;border-radius:2px;margin-top:9px;align-self:flex-start}
+  .chip-usa{background:#6b5a2a;color:#f2ead2}
+  .chip-raf{background:#2E5C7A;color:#e6eef4}
+  .chip-rn{background:#16232F;color:#cfd8dd}
+  .chip-civ{background:#8a5a3c;color:#f4e7dc}
+  .chip-wom{background:#5a6b3c;color:#eef3e2}
+  .card-body{padding:16px 18px 18px}
+  .field{margin:0 0 13px}
+  .field:last-child{margin-bottom:0}
+  .field .lab{font-family:var(--mono);font-size:10px;letter-spacing:.15em;
+    text-transform:uppercase;color:var(--storm);display:block;margin-bottom:3px}
+  .field p{margin:0;font-size:13.5px;line-height:1.62;color:var(--ink-soft)}
+  .field p b{color:var(--ink)}
+
+  /* ---------- HISTORY vs FILM ---------- */
+  .note{background:var(--ink);color:var(--chart);border-radius:2px;padding:30px 28px;position:relative;overflow:hidden}
+  .note .iso{position:absolute;inset:0;opacity:.18}
+  .note .inner{position:relative;z-index:1}
+  .note h3{font-family:var(--sans);text-transform:uppercase;letter-spacing:.08em;
+    font-size:18px;margin:0 0 14px;color:var(--brass)}
+  .note p{font-size:14.5px;color:#d4dbd6;margin:0 0 12px;max-width:78ch}
+  .note p:last-child{margin-bottom:0}
+  .note b{color:var(--chart)}
+
+  /* ---------- METEO PRIMER ---------- */
+  .primer{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .method{background:var(--paper);border:1px solid var(--line);border-top:4px solid;border-radius:2px;padding:22px 22px}
+  .method.brit{border-top-color:var(--allied)}
+  .method.amer{border-top-color:var(--storm)}
+  .method .who{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+  .method.brit .who{color:var(--allied)}
+  .method.amer .who{color:var(--storm)}
+  .method h4{margin:0 0 12px;font-size:18px;font-weight:800}
+  .method p{font-size:13.5px;color:var(--ink-soft);margin:0 0 10px;line-height:1.62}
+  .method .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.04em;
+    padding-top:12px;border-top:1px dashed var(--line);color:var(--ink)}
+  .listen{margin-top:24px;background:var(--chart-dk);border:1px solid var(--line);border-radius:2px;padding:20px 22px}
+  .listen h4{margin:0 0 12px;font-family:var(--sans);text-transform:uppercase;letter-spacing:.06em;font-size:15px}
+  .listen ul{margin:0;padding-left:0;list-style:none}
+  .listen li{font-size:13.5px;color:var(--ink-soft);padding:7px 0 7px 26px;position:relative;border-bottom:1px dotted var(--line)}
+  .listen li:last-child{border-bottom:none}
+  .listen li::before{content:"◟";position:absolute;left:4px;top:6px;color:var(--isobar);font-size:14px}
+  .listen li b{color:var(--ink)}
+
+  footer{background:var(--ink);color:#8ea0a8;padding:30px 0;border-top:3px solid var(--brass)}
+  footer .wrap{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;line-height:1.9}
+  footer b{color:var(--chart);font-weight:400}
+  a{color:inherit}
+
+  @media(max-width:760px){
+    .grid{grid-template-columns:1fr}
+    .primer{grid-template-columns:1fr}
+    .tri{grid-template-columns:1fr}
+    .portrait{width:120px;min-width:120px;height:138px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header>
+  <svg class="iso" viewBox="0 0 1080 340" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#5B7A8C" stroke-width="1.4">
+      <ellipse cx="820" cy="150" rx="70" ry="52"/>
+      <ellipse cx="820" cy="150" rx="130" ry="98"/>
+      <ellipse cx="820" cy="150" rx="195" ry="150"/>
+      <ellipse cx="820" cy="150" rx="265" ry="205"/>
+      <ellipse cx="820" cy="150" rx="340" ry="262"/>
+      <ellipse cx="240" cy="250" rx="60" ry="44"/>
+      <ellipse cx="240" cy="250" rx="120" ry="92"/>
+      <ellipse cx="240" cy="250" rx="185" ry="145"/>
+    </g>
+    <text x="792" y="156" fill="#A5382C" font-family="Courier New" font-size="22" font-weight="bold">L</text>
+    <text x="212" y="256" fill="#A2812F" font-family="Courier New" font-size="22" font-weight="bold">H</text>
+  </svg>
+  <div class="wrap">
+    <p class="eyebrow">D-Day Weather Room · 观影伴读</p>
+    <h1>PRESSURE
+      <span class="sub">《Pressure》人物对号入座指南 · 演员 × 角色 × 历史原型</span>
+    </h1>
+    <div class="meta-row">
+      <span><b>2026</b> · Anthony Maras 执导</span>
+      <span>改编自 David Haig 舞台剧</span>
+      <span><b>片长</b> ≈100 min</span>
+      <span>新加坡译名《极限高压》</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== HOW TO USE ===================== -->
+<div class="howto">
+  <div class="wrap">
+    <span class="tag">怎么用这份指南</span>
+    <p>电影几乎全程发生在盟军指挥部的会议室里，人物众多、军衔相近，很容易看混。你可以边看边对照下面的卡片：<b>先记军帽和军种颜色</b>（美军橄榄绿、英国皇家空军蓝灰、皇家海军深藏青），再记"这个人在争什么"。头像是风格化插画（非真人照片），主要用来帮你区分角色。</p>
+  </div>
+</div>
+
+<!-- ===================== 1. CORE TRIANGLE ===================== -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>核心三角 · 全片的戏剧引擎</h2></div>
+    <p class="sec-desc">整部电影的张力，本质上是<b>一场关于"要不要相信坏天气预报"的争吵</b>。三个人构成核心三角：一个谨慎的气象学家、一个必须拍板的最高统帅、一个唱反调的乐观派。看懂这三个人，就看懂了这部片子。</p>
+
+    <div class="triangle-block">
+      <svg class="iso" viewBox="0 0 1000 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="#5B7A8C" stroke-width="1.2">
+          <ellipse cx="500" cy="150" rx="80" ry="60"/><ellipse cx="500" cy="150" rx="150" ry="112"/>
+          <ellipse cx="500" cy="150" rx="230" ry="170"/><ellipse cx="500" cy="150" rx="320" ry="235"/>
+        </g>
+      </svg>
+      <div class="inner">
+        <p class="tri-lead">原定登陆日是 <b>6月5日</b>。一份预报说那天会有风暴——信，还是不信？错过窗口，下一次合适的潮汐要等两周。</p>
+        <div class="tri">
+          <div class="tri-node stagg">
+            <div class="role">谨慎的预报者</div>
+            <h4>James Stagg</h4>
+            <div class="who">Andrew Scott 饰</div>
+            <p>盟军首席气象官。判断风暴将至，力主推迟。全片压力集中在他一人身上。</p>
+          </div>
+          <div class="tri-node ike">
+            <div class="role">拍板的统帅</div>
+            <h4>Eisenhower</h4>
+            <div class="who">Brendan Fraser 饰</div>
+            <p>盟军最高司令。几十万人的性命系于他一句"Go / No-Go"，必须在分歧中做取舍。</p>
+          </div>
+          <div class="tri-node krick">
+            <div class="role">乐观的反对者</div>
+            <h4>Irving Krick</h4>
+            <div class="who">Chris Messina 饰</div>
+            <p>美方气象学家。坚信天气会转好、行动可照常，是 Stagg 最主要的对手。</p>
+          </div>
+        </div>
+        <p class="tri-vs">STAGG（谨慎）⟷ KRICK（乐观）　·　EISENHOWER 居中裁决</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 2. CHARACTER CARDS ===================== -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2>人物卡片 · 银幕上怎么认</h2></div>
+    <p class="sec-desc">按重要性排列。每张卡片给你：<b>演员</b>（认脸）、<b>角色与历史身份</b>、<b>在电影里怎么认</b>、以及一条<b>冷知识</b>。</p>
+
+    <div class="grid">
+
+      <!-- STAGG -->
+      <div class="card">
+        <div class="card-top">
+          <svg class="portrait" viewBox="0 0 132 150" xmlns="http://www.w3.org/2000/svg">
+            <rect width="132" height="150" fill="#243642"/>
+            <path d="M66 92 C40 92 30 112 28 150 L104 150 C102 112 92 92 66 92Z" fill="#4a6472"/>
+            <path d="M52 96 L66 108 L80 96 L80 118 L52 118Z" fill="#d9dee2"/>
+            <ellipse cx="66" cy="66" rx="24" ry="27" fill="#e8c9a8"/>
+            <path d="M50 70 Q66 78 82 70 L82 74 Q66 82 50 74Z" fill="#3a2a1e"/>
+            <path d="M44 58 Q66 40 88 58 L88 50 Q66 34 44 50Z" fill="#2f2721"/>
+            <path d="M40 52 Q66 30 92 52 L92 44 L40 44Z" fill="#2E5C7A"/>
+            <rect x="40" y="40" width="52" height="10" rx="2" fill="#24485f"/>
+            <ellipse cx="66" cy="45" rx="7" ry="5" fill="#A2812F"/>
+            <circle cx="58" cy="64" r="2.4" fill="#2b2b2b"/><circle cx="74" cy="64" r="2.4" fill="#2b2b2b"/>
+          </svg>
+          <div class="card-id">
+            <div class="actor">主演 · <b>Andrew Scott</b></div>
+            <div class="charname">詹姆斯·斯塔格<span class="en">Grp Capt James Stagg · 皇家空军</span></div>
+            <span class="rankchip chip-raf">RAF · 首席气象官</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="lab">历史身份</span><p>SHAEF 最高统帅部<b>首席气象顾问</b>，苏格兰人。真实历史里，他不亲自做预报，而是负责把三支互相吵架的预报团队的意见"捏成一个"交给艾森豪威尔。</p></div>
+          <div class="field"><span class="lab">在电影里怎么认</b></span><p>蓝灰色空军制服、表情紧绷、说话直接的那个"扫兴的人"。全片的<b>压力主角</b>，几乎每场会议都在被质疑。</p></div>
+          <div class="field"><span class="lab">冷知识</span><p>Andrew Scott 就是《神探夏洛克》里的莫里亚蒂、《伦敦生活》里的"性感神父"。真实的 Stagg 战后受封爵士，写了回忆录《Forecast for Overlord》。</p></div>
+        </div>
+      </div>
+
+      <!-- EISENHOWER -->
+      <div class="card">
+        <div class="card-top">
+          <svg class="portrait" viewBox="0 0 132 150" xmlns="http://www.w3.org/2000/svg">
+            <rect width="132" height="150" fill="#3a3524"/>
+            <path d="M66 92 C40 92 30 112 28 150 L104 150 C102 112 92 92 66 92Z" fill="#6b6238"/>
+            <path d="M52 96 L66 106 L80 96 L80 118 L52 118Z" fill="#8a7f4a"/>
+            <rect x="60" y="96" width="12" height="20" fill="#4a4428"/>
+            <ellipse cx="66" cy="66" rx="25" ry="27" fill="#e8c4a0"/>
+            <path d="M46 56 Q66 46 86 56 L86 50 Q66 44 46 50Z" fill="#c9b48f"/>
+            <path d="M40 50 Q66 30 92 50 L92 42 L40 42Z" fill="#6b6238"/>
+            <rect x="40" y="40" width="52" height="9" rx="2" fill="#4a4428"/>
+            <ellipse cx="66" cy="45" rx="8" ry="5" fill="#d8c56a"/>
+            <circle cx="58" cy="64" r="2.4" fill="#2b2b2b"/><circle cx="74" cy="64" r="2.4" fill="#2b2b2b"/>
+            <path d="M56 78 Q66 82 76 78" stroke="#b98d6a" stroke-width="2" fill="none"/>
+          </svg>
+          <div class="card-id">
+            <div class="actor">主演 · <b>Brendan Fraser</b></div>
+            <div class="charname">艾森豪威尔<span class="en">Gen. Dwight "Ike" Eisenhower · 美国陆军</span></div>
+            <span class="rankchip chip-usa">US ARMY · 盟军最高司令</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="lab">历史身份</span><p><b>盟军最高司令</b>，"霸王行动"总指挥，后来的美国总统。整场登陆的"Go / No-Go"最终由他一人拍板。</p></div>
+          <div class="field"><span class="lab">在电影里怎么认</span><p>军衔最高、最多人围着请示的美国将军，宽厚、疲惫、常抽烟。他在电影里被<b>六周前"猛虎演习"惨败</b>的阴影困扰（那次登陆预演伤亡惨重）。</p></div>
+          <div class="field"><span class="lab">冷知识</span><p>Brendan Fraser 是《木乃伊》男主、凭《鲸》拿了奥斯卡影帝。演过艾森豪威尔的还有汤姆·塞莱克、罗伯特·杜瓦尔等。</p></div>
+        </div>
+      </div>
+
+      <!-- KRICK -->
+      <div class="card">
+        <div class="card-top">
+          <svg class="portrait" viewBox="0 0 132 150" xmlns="http://www.w3.org/2000/svg">
+            <rect width="132" height="150" fill="#402a26"/>
+            <path d="M66 92 C40 92 30 112 28 150 L104 150 C102 112 92 92 66 92Z" fill="#6b6238"/>
+            <path d="M52 96 L66 106 L80 96 L80 118 L52 118Z" fill="#3d3a24"/>
+            <path d="M58 96 L66 104 L74 96 L74 116 L58 116Z" fill="#8a7f4a"/>
+            <ellipse cx="66" cy="66" rx="24" ry="26" fill="#e8c4a0"/>
+            <path d="M44 54 Q52 40 66 42 Q80 40 88 54 Q80 48 66 50 Q52 48 44 54Z" fill="#2a1f18"/>
+            <path d="M46 52 Q66 44 86 52 L84 46 Q66 40 48 46Z" fill="#33261c"/>
+            <circle cx="58" cy="65" r="2.4" fill="#2b2b2b"/><circle cx="74" cy="65" r="2.4" fill="#2b2b2b"/>
+            <path d="M56 79 Q66 84 76 79" stroke="#a06b4a" stroke-width="2" fill="none"/>
+          </svg>
+          <div class="card-id">
+            <div class="actor">主演 · <b>Chris Messina</b></div>
+            <div class="charname">欧文·克里克<span class="en">Col. Irving P. Krick · 美国陆军航空队</span></div>
+            <span class="rankchip chip-usa">USAAF · 美方气象学家</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="lab">历史身份</span><p>加州理工出身的气象学家，"<b>类比法</b>"（查历史天气图找相似样本）的推手，高调、自信。真实历史里他与英方谨慎派冲突最激烈。</p></div>
+          <div class="field"><span class="lab">在电影里怎么认</span><p>那个<b>坚持"天气会转好、别推迟"的美国人</b>，Stagg 的头号对手。军服偏橄榄绿、态度笃定甚至有点咄咄逼人。</p></div>
+          <div class="field"><span class="lab">冷知识</span><p>战后 Krick 转行做商业气象预报和人工降雨生意，还一度到处宣称是他救了 D-Day——但史料显示，主张6月5日强行登陆（正撞风暴）的恰恰是他这一派。</p></div>
+        </div>
+      </div>
+
+      <!-- SUMMERSBY -->
+      <div class="card">
+        <div class="card-top">
+          <svg class="portrait" viewBox="0 0 132 150" xmlns="http://www.w3.org/2000/svg">
+            <rect width="132" height="150" fill="#38402a"/>
+            <path d="M66 94 C42 94 32 114 30 150 L102 150 C100 114 90 94 66 94Z" fill="#6b6f42"/>
+            <path d="M54 98 L66 108 L78 98 L78 120 L54 120Z" fill="#8b8f5a"/>
+            <path d="M42 66 Q40 90 50 104 L50 60Z" fill="#7a5a3a"/>
+            <path d="M90 66 Q92 90 82 104 L82 60Z" fill="#7a5a3a"/>
+            <ellipse cx="66" cy="66" rx="23" ry="26" fill="#ecc9a6"/>
+            <path d="M44 60 Q44 40 66 40 Q88 40 88 60 Q80 48 66 48 Q52 48 44 60Z" fill="#8a6640"/>
+            <path d="M44 52 Q66 38 88 52 L86 46 L46 46Z" fill="#6b6f42"/>
+            <ellipse cx="66" cy="46" rx="6" ry="4" fill="#c9a94a"/>
+            <circle cx="59" cy="65" r="2.3" fill="#2b2b2b"/><circle cx="73" cy="65" r="2.3" fill="#2b2b2b"/>
+            <path d="M60 79 Q66 82 72 79" stroke="#b5566a" stroke-width="2.2" fill="none"/>
+          </svg>
+          <div class="card-id">
+            <div class="actor">主演 · <b>Kerry Condon</b></div>
+            <div class="charname">凯·萨默斯比<span class="en">Kay Summersby · 艾森豪威尔私人秘书</span></div>
+            <span class="rankchip chip-wom">MTC · 司机 / 秘书 / 知己</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="lab">历史身份</span><p>爱尔兰出身，艾森豪威尔的<b>专职司机兼私人秘书</b>。战后回忆录里暗示两人关系亲密，是历史上争议话题。</p></div>
+          <div class="field"><span class="lab">在电影里怎么认</span><p>指挥部里几乎<b>唯一的主要女性角色</b>，穿女子服务队制服。她是艾森豪威尔倾诉、权衡决策的对象，给全片添了一份人情味。</p></div>
+          <div class="field"><span class="lab">冷知识</span><p>Kerry Condon 凭《伊尼舍林的报丧女妖》拿过奥斯卡最佳女配提名，也是《西部世界》里的声音演员。</p></div>
+        </div>
+      </div>
+
+      <!-- MONTGOMERY -->
+      <div class="card">
+        <div class="card-top">
+          <svg class="portrait" viewBox="0 0 132 150" xmlns="http://www.w3.org/2000/svg">
+            <rect width="132" height="150" fill="#22302a"/>
+            <path d="M66 92 C40 92 30 112 28 150 L104 150 C102 112 92 92 66 92Z" fill="#4a5540"/>
+            <path d="M52 96 L66 106 L80 96 L80 118 L52 118Z" fill="#6a7358"/>
+            <ellipse cx="66" cy="67" rx="23" ry="25" fill="#e6c5a0"/>
+            <!-- black beret -->
+            <path d="M42 52 Q44 34 68 34 Q92 34 90 50 Q92 56 84 56 L46 56 Q40 56 42 52Z" fill="#1a1a1a"/>
+            <ellipse cx="55" cy="45" rx="6" ry="4.5" fill="#b5322b"/>
+            <ellipse cx="72" cy="44" rx="5" ry="4" fill="#c9a94a"/>
+            <path d="M46 58 Q66 50 86 58 L86 54 Q66 48 46 54Z" fill="#c9b48f"/>
+            <circle cx="58" cy="66" r="2.4" fill="#2b2b2b"/><circle cx="74" cy="66" r="2.4" fill="#2b2b2b"/>
+            <path d="M54 76 L78 76" stroke="#9a7a5a" stroke-width="2.4"/>
+            <path d="M58 82 Q66 85 74 82" stroke="#a06b4a" stroke-width="1.8" fill="none"/>
+          </svg>
+          <div class="card-id">
+            <div class="actor">主演 · <b>Damian Lewis</b></div>
+            <div class="charname">蒙哥马利<span class="en">FM Bernard "Monty" Montgomery · 英国陆军</span></div>
+            <span class="rankchip chip-raf">21st Army Group · 地面部队总指挥</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="lab">历史身份</span><p>盟军<b>地面部队总指挥</b>，二战最著名的英国将领之一。担心一旦推迟就会失去突袭的保密性，倾向"照打"。</p></div>
+          <div class="field"><span class="lab">在电影里怎么认</span><p>认帽子最快——<b>标志性的黑色贝雷帽，上面两枚徽章</b>，全片独一份。态度强硬、不太瞧得起气象学家的那位英国元帅。</p></div>
+          <div class="field"><span class="lab">冷知识</span><p>Damian Lewis 是《兄弟连》的温特斯少校、《亿万》的对冲基金大佬 Bobby Axelrod——金融剧迷会很眼熟。</p></div>
+        </div>
+      </div>
+
+      <!-- LEIGH-MALLORY -->
+      <div class="card">
+        <div class="card-top">
+          <svg class="portrait" viewBox="0 0 132 150" xmlns="http://www.w3.org/2000/svg">
+            <rect width="132" height="150" fill="#20303a"/>
+            <path d="M66 92 C40 92 30 112 28 150 L104 150 C102 112 92 92 66 92Z" fill="#3f5560"/>
+            <path d="M52 96 L66 106 L80 96 L80 118 L52 118Z" fill="#586e78"/>
+            <ellipse cx="66" cy="67" rx="23" ry="25" fill="#e6c5a0"/>
+            <path d="M44 54 Q66 42 88 54 L88 48 Q66 40 44 48Z" fill="#243d48"/>
+            <path d="M40 50 Q66 32 92 50 L92 43 L40 43Z" fill="#2E5C7A"/>
+            <rect x="40" y="42" width="52" height="9" rx="2" fill="#1c3644"/>
+            <path d="M50 47 Q66 38 82 47" stroke="#c9a94a" stroke-width="2.2" fill="none"/>
+            <circle cx="58" cy="66" r="2.4" fill="#2b2b2b"/><circle cx="74" cy="66" r="2.4" fill="#2b2b2b"/>
+            <path d="M50 74 Q58 78 66 76 Q74 78 82 74" stroke="#8a8a8a" stroke-width="2.4" fill="none"/>
+          </svg>
+          <div class="card-id">
+            <div class="actor"><b>Con O'Neill</b></div>
+            <div class="charname">利-马洛里<span class="en">ACM Trafford Leigh-Mallory · 皇家空军</span></div>
+            <span class="rankchip chip-raf">RAF · 盟军航空兵总指挥</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="lab">历史身份</span><p>盟军远征空军总司令。历史上以<b>对空降作战伤亡的悲观</b>著称，一度预测空降部队会损失惨重。</p></div>
+          <div class="field"><span class="lab">在电影里怎么认</span><p>会议桌旁的英国皇家空军高级将领（蓝灰制服、袖口金杠多）。属于"谨慎/唱衰"一方的声音。</p></div>
+          <div class="field"><span class="lab">冷知识</span><p>Con O'Neill 是《小丑回魂》《切尔诺贝利》的熟脸英国性格演员。</p></div>
+        </div>
+      </div>
+
+      <!-- BRADLEY -->
+      <div class="card">
+        <div class="card-top">
+          <svg class="portrait" viewBox="0 0 132 150" xmlns="http://www.w3.org/2000/svg">
+            <rect width="132" height="150" fill="#3a3524"/>
+            <path d="M66 92 C40 92 30 112 28 150 L104 150 C102 112 92 92 66 92Z" fill="#6b6238"/>
+            <path d="M52 96 L66 106 L80 96 L80 118 L52 118Z" fill="#8a7f4a"/>
+            <ellipse cx="66" cy="67" rx="24" ry="26" fill="#e8c4a0"/>
+            <path d="M42 52 Q66 40 90 52 L90 46 Q66 38 42 46Z" fill="#4a4428"/>
+            <path d="M40 48 Q66 32 92 48 L92 42 L40 42Z" fill="#6b6238"/>
+            <ellipse cx="66" cy="45" rx="7" ry="5" fill="#d8c56a"/>
+            <!-- glasses -->
+            <circle cx="58" cy="66" r="7" fill="none" stroke="#2b2b2b" stroke-width="1.6"/>
+            <circle cx="74" cy="66" r="7" fill="none" stroke="#2b2b2b" stroke-width="1.6"/>
+            <path d="M65 66 L67 66" stroke="#2b2b2b" stroke-width="1.6"/>
+            <circle cx="58" cy="66" r="2" fill="#2b2b2b"/><circle cx="74" cy="66" r="2" fill="#2b2b2b"/>
+            <path d="M58 80 Q66 83 74 80" stroke="#a06b4a" stroke-width="1.8" fill="none"/>
+          </svg>
+          <div class="card-id">
+            <div class="actor"><b>Alexander Hanson</b></div>
+            <div class="charname">奥马尔·布拉德利<span class="en">Gen. Omar Bradley · 美国陆军</span></div>
+            <span class="rankchip chip-usa">US First Army · 美军第一集团军司令</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="lab">历史身份</span><p>美军<b>第一集团军司令</b>，直接指挥奥马哈和犹他两处美军登陆海滩，人称"士兵的将军"。</p></div>
+          <div class="field"><span class="lab">在电影里怎么认</span><p>戴<b>圆框眼镜</b>的美国将军（布拉德利的标志），相对温和务实的那位。</p></div>
+          <div class="field"><span class="lab">冷知识</span><p>他是二战唯一晋升五星上将的美国集团军级指挥官之一，战后成为首任参谋长联席会议主席。</p></div>
+        </div>
+      </div>
+
+      <!-- RAMSAY -->
+      <div class="card">
+        <div class="card-top">
+          <svg class="portrait" viewBox="0 0 132 150" xmlns="http://www.w3.org/2000/svg">
+            <rect width="132" height="150" fill="#141e28"/>
+            <path d="M66 92 C40 92 30 112 28 150 L104 150 C102 112 92 92 66 92Z" fill="#26323e"/>
+            <path d="M52 96 L66 106 L80 96 L80 118 L52 118Z" fill="#3a4854"/>
+            <ellipse cx="66" cy="67" rx="23" ry="25" fill="#e6c5a0"/>
+            <path d="M44 54 Q66 44 88 54 L88 48 Q66 40 44 48Z" fill="#0f1820"/>
+            <path d="M40 50 Q66 34 92 50 L92 43 L40 43Z" fill="#16232F"/>
+            <rect x="40" y="42" width="52" height="9" rx="2" fill="#0c141b"/>
+            <ellipse cx="66" cy="46" rx="8" ry="4.5" fill="#c9a94a"/>
+            <path d="M48 47 L84 47" stroke="#c9a94a" stroke-width="2.4"/>
+            <circle cx="58" cy="66" r="2.4" fill="#2b2b2b"/><circle cx="74" cy="66" r="2.4" fill="#2b2b2b"/>
+            <path d="M58 80 Q66 83 74 80" stroke="#a06b4a" stroke-width="1.8" fill="none"/>
+          </svg>
+          <div class="card-id">
+            <div class="actor"><b>Robert Portal</b></div>
+            <div class="charname">伯特伦·拉姆齐<span class="en">Adm. Bertram Ramsay · 皇家海军</span></div>
+            <span class="rankchip chip-rn">Royal Navy · 盟军海军总指挥</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="lab">历史身份</span><p>盟军<b>海军总指挥</b>，"海王星行动"（登陆的海上运送部分）的操盘手。海况好坏直接关系他的舰队和登陆艇能否成行。</p></div>
+          <div class="field"><span class="lab">在电影里怎么认</span><p>穿<b>深藏青皇家海军制服</b>、金杠的军官。凡是讨论海浪、潮汐、登陆艇的场合他最上心。</p></div>
+          <div class="field"><span class="lab">冷知识</span><p>拉姆齐早年还策划了敦刻尔克大撤退的海上行动，是盟军最顶尖的两栖登陆专家。</p></div>
+        </div>
+      </div>
+
+      <!-- LIZ STAGG -->
+      <div class="card">
+        <div class="card-top">
+          <svg class="portrait" viewBox="0 0 132 150" xmlns="http://www.w3.org/2000/svg">
+            <rect width="132" height="150" fill="#3a2c26"/>
+            <path d="M66 94 C42 94 32 114 30 150 L102 150 C100 114 90 94 66 94Z" fill="#7a4f3a"/>
+            <path d="M52 98 L66 108 L80 98 L80 122 L52 122Z" fill="#9a6a4a"/>
+            <path d="M40 64 Q36 92 48 108 L50 58Z" fill="#5a3a26"/>
+            <path d="M92 64 Q96 92 84 108 L82 58Z" fill="#5a3a26"/>
+            <ellipse cx="66" cy="66" rx="23" ry="26" fill="#ecc9a6"/>
+            <path d="M42 58 Q42 36 66 36 Q90 36 90 58 Q88 44 66 44 Q44 44 42 58Z" fill="#5a3a26"/>
+            <circle cx="59" cy="65" r="2.3" fill="#2b2b2b"/><circle cx="73" cy="65" r="2.3" fill="#2b2b2b"/>
+            <path d="M60 79 Q66 82 72 79" stroke="#b5566a" stroke-width="2.2" fill="none"/>
+          </svg>
+          <div class="card-id">
+            <div class="actor"><b>Tamsin Topolski</b></div>
+            <div class="charname">莉兹·斯塔格<span class="en">Liz Stagg · 斯塔格的妻子</span></div>
+            <span class="rankchip chip-civ">平民 · 情感副线</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="lab">历史身份 / 说明</span><p>Stagg 的妻子，代表战争大背景下<b>个人的、家庭的压力</b>。这条线是舞台剧与电影为强化"高压"主题做的<b>戏剧化处理</b>，不必当严格史实。</p></div>
+          <div class="field"><span class="lab">在电影里怎么认</span><p>Stagg 家庭/私人场景里的女性角色（便装、1940年代发型），与紧张的指挥部形成对照。</p></div>
+          <div class="field"><span class="lab">观影提示</span><p>片名 <b>Pressure 一语双关</b>：既是"气压"，也是人物承受的"心理高压"。这条家庭线就是"高压"人性化的一面。</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 3. HISTORY vs FILM ===================== -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2>史实 vs 电影 · 一个重要提醒</h2></div>
+    <div class="note">
+      <svg class="iso" viewBox="0 0 1080 260" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="#5B7A8C" stroke-width="1.2">
+          <ellipse cx="880" cy="130" rx="70" ry="52"/><ellipse cx="880" cy="130" rx="140" ry="104"/>
+          <ellipse cx="880" cy="130" rx="220" ry="164"/><ellipse cx="880" cy="130" rx="310" ry="230"/>
+        </g>
+      </svg>
+      <div class="inner">
+        <h3>电影把"三队混战"简化成了"两人对决"</h3>
+        <p>真实的 D-Day 预报，是<b>三支团队</b>隔着加密电话线吵架：英国气象局的 Dunstable（谨慎派，代表人物 Petterssen 和 Douglas）、皇家海军的 Admiralty（管海浪海况），以及美方的 Widewing（乐观派，Krick）。Stagg 夹在中间做仲裁。</p>
+        <p>电影为了让小白观众看得清楚，把这团乱麻<b>浓缩成 Stagg（谨慎）对 Krick（乐观）的一对一对决</b>，把"谨慎的英方"基本都合并进了 Stagg 一个人身上。所以你在片中看到的 <b>Bryant、Hamilton、Murray、Carter</b> 等气象室配角，很多是把真实团队"打包"后的艺术化处理。</p>
+        <p>另外，Stagg 妻子病危这条家庭副线，主要是<b>戏剧张力需要</b>，历史真实性不必较真。但主线——预报分歧、推迟24小时、抓住6月6日的短暂窗口、艾森豪威尔选择相信谨慎判断——<b>是符合史实的</b>。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4. METEO PRIMER ===================== -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2>60秒气象扫盲 · 他们到底在吵什么</h2></div>
+    <p class="sec-desc">不用懂气象也能看懂这部片。你只需要知道：他们争的是<b>"能不能提前好几天预测天气"这件事本身</b>。两派方法完全不同。</p>
+
+    <div class="primer">
+      <div class="method brit">
+        <div class="who">英方 · Stagg / Dunstable</div>
+        <h4>读物理（谨慎派）</h4>
+        <p>基于气团、锋面、高空环流的<b>物理分析</b>（"卑尔根学派"）。承认天气本质难测，<b>不相信预报能准过一两天</b>。</p>
+        <p>在片中：这一派看到一个低压/风暴正逼近海峡，坚持6月5日不能打。</p>
+        <div class="verdict">✓ 结果证明：谨慎判断救了行动</div>
+      </div>
+      <div class="method amer">
+        <div class="who">美方 · Krick / Widewing</div>
+        <h4>查历史（乐观派）</h4>
+        <p>"<b>类比法</b>"：从历史天气图里找一张和今天最像的，假设接下来会照着历史重演。号称能准到5天甚至几周。</p>
+        <p>在片中：这一派乐观地认为高压会挡住风暴、天气会转好，行动可照常。</p>
+        <div class="verdict">✗ 若照此打，会正撞6月5日的风暴</div>
+      </div>
+    </div>
+
+    <div class="listen">
+      <h4>看片时可以留意这几个"钩子"</h4>
+      <ul>
+        <li><b>那个"上天赐予的窗口"</b>：Stagg 从气压反常变化里，推测风暴中会有一段短暂好天气（6月6日）——这是全片高潮，也是历史真实的转折。</li>
+        <li><b>德军为什么没防备</b>：德军气象数据不如盟军，判断"这种坏天气盟军不可能登陆"，于是防线松懈、指挥官离岗（隆美尔甚至回国给妻子过生日）。盟军正是打了这个时间差。</li>
+        <li><b>"推迟"的代价有多大</b>：若错过这个窗口、拖到6月中旬——历史上 <b>6月19–22日海峡真的爆发几十年一遇大风暴</b>，摧毁了人工港。那个窗口几乎是唯一的机会。</li>
+        <li><b>片名的双关</b>：Pressure = 气压 + 高压。每次镜头扫过气压计，都是在提醒你这层双关。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b>《Pressure》(2026) 观影对号入座指南</b> · 演员/角色对应据 IMDb、Wikipedia 等公开资料整理<br>
+    人物头像为风格化插画（非真人照片），仅用于辅助辨认角色 · 军种配色：<b>US 橄榄绿 / RAF 蓝灰 / RN 藏青 / 女子服务队 卡其</b><br>
+    祝观影愉快 —— 记住：这不是一部枪林弹雨的战争片，而是一部<b>"会议室里决定千万人命运"</b>的高压惊悚剧。
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aeva Technologies 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; }
+.fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; }
+.fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; }
+.fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Aeva Technologies 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：AEVA</div>
+      <div>🏛️ 交易所：NASDAQ</div>
+      <div>🏷️ 行业：半导体/光子学 - LiDAR传感 + AI数据中心光互联</div>
+      <div>📅 分析日期：2026-08-06</div>
+    </div>
+    <div class="one-liner">💡 Aeva 通过卖「会测速度的4D激光雷达 + 自研高功率光源/硅光子芯片」，向车厂、工业自动化商、以及（新业务）AI数据中心客户，收取硬件销售 + 联合开发 + 未来量产授权的钱。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" data-tab="m0">💡 小白版</button>
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  
+  <div class="section" id="m0">
+    <h2>💡 模块零：金融小白友好版商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言把这家技术公司"翻译"清楚——后续分析的基础</p>
+    <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:24px 28px;border-radius:12px;margin-bottom:20px;border-left:4px solid #d97706;">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:15px;">🎯 核心比喻</div>
+      <div style="font-size:15px;color:#0f172a;line-height:1.8;">Aeva 像一家「特种雷达设计院 + 激光元件厂」的结合体——别人的激光雷达只能拍出一张「黑白照片」（知道物体在哪、有多远），Aeva 的 FMCW 4D 雷达能同时拍出「带速度标签的彩色视频」（每一个像素点还告诉你它正朝哪个方向、以多快速度在动）。而支撑这套雷达的核心零件是自研的「高功率激光光源」——这块底层功夫，如今被 Aeva 拿去卖给 AI 数据中心当「光纤高速公路的发动机」，等于把造雷达的地基技术，改建成 AI 算力的收费站。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📦 商业模式三问</h3>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #2563eb;">
+        <div class="label" style="color:#2563eb;">① 卖什么？</div>
+        <div class="value">卖两样东西。①主业：4D 激光雷达（Atlas 车规级、Atlas Ultra 用于 L3/L4 自动驾驶、Eve 工业精密传感），用 FMCW 技术，一次扫描同时得到「距离 + 速度 + 反射率 + 运动」，抗强光/抗其他雷达干扰，尤其适合高速卡车和工业检测。②2026年8月新开的副业：Optical Connectivity（光互联）——把造雷达用的高功率激光光源，拆出来卖给 AI 数据中心，用于 NPO/CPO（近封装/共封装光学）光模块，相当于给英伟达机柜之间的数据传输当「激光发动机」。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #059669;">
+        <div class="label" style="color:#059669;">② 怎么收费？</div>
+        <div class="value">目前几乎全是「早期硬件销售 + 联合开发合同（NRE）」，还没到规模量产抽钱的阶段。整个公司 2026 上半年营收只有约 1240 万美元（Q1 630 万 + Q2 610 万），毛利率约 5%——意思是每卖 100 元货，成本就吃掉 95 元，基本不赚钱，靠的是「研发合作费 + 少量样件」。真正的商业模式要等 2027–2028：汽车项目量产上车、光互联给 hyperscaler 供货后，才可能变成「单价 × 百万级出货量」的规模生意。现在本质上是「拿订单证明技术、烧钱买未来」。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;">
+        <div class="label" style="color:#dc2626;">③ 客户为什么必须买？</div>
+        <div class="value">速度驱动 + 技术代差驱动，而非「非买不可」。车厂/卡车厂买 Aeva，是赌 FMCW 是激光雷达的「终局技术」——因为自动驾驶卡车在高速上最怕「误判前车速度」，而只有 FMCW 能瞬时测速。AI 数据中心客户找 Aeva，是因为算力爆炸把光模块的功率和带宽逼到极限，需要更强的激光光源。但注意：客户「愿意合作研发」不等于「已经锁定量产大单」，这层区别正是 Aeva 投资逻辑里最关键的分水岭。</div>
+      </div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">💼 客户结构 + 护城河金融比喻</h3>
+    <div class="summary-box info">
+      <div class="title">具体客户名单 + 客户分层</div>
+      <div class="text">客户目前是「灯塔型」——数量少但个个是行业标杆，用来给技术背书。核心名单：Daimler Truck AG（戴姆勒卡车，2024年1月 Atlas 首个车厂客户，压舱石）、Torc Robotics（戴姆勒自动驾驶子公司）、Bendix（2026年新签，为 Class 8 重卡开发下一代 ADAS）、SICK AG（德国工业传感龙头，用 Eve 技术并授予 Aeva「2026年度供应商」）、City of Fargo（CityOS 交通智能平台）、以及一家未具名的 AI 数据中心光引擎厂商 + 未具名 hyperscaler（光互联首个 JDA）。历史战略投资人含 Porsche SE、Lockheed Martin，以及一家「财富500强」投资最高 5000 万美元。结构上高度依赖「几个大 logo」，尚无分散化的付费客户群——这是早期硬科技公司的典型画像。</div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">护城河本质（金融场景比喻）</div>
+      <div class="text">Aeva 的护城河像「一个拿了顶尖专利、但还没建成收费站的高速公路特许权」——技术资产是真的（十年硅光子 + FMCW 积累，两位创始人出自 Apple 特别项目组），类似一家握有独门配方的 Biotech；但护城河的「兑现」还没发生。它不像 Visa 那样已有网络效应，也不像台积电那样已有规模壁垒。最贴切的金融类比是「一家临床后期的创新药企」：药（FMCW/光源技术）被验证有效（Daimler、SICK 背书），但能不能上市放量、能不能扛过量产爬坡和现金消耗，仍是未知数。买 Aeva，本质是买一张「技术领先能否转化为商业垄断」的期权，而不是买一门已经赚钱的成熟生意。</div>
+    </div>
+    <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:14px 18px;border-radius:8px;margin-top:20px;font-size:13px;color:#64748b;line-height:1.6;">
+      📌 <strong>使用提示</strong>：本模块为后续模块一至四的"翻译层"。读完后再进入专业分析模块，能事半功倍。
+    </div>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：研发驱动型硬件（早期商业化）+ 未来量产销售/授权</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">① 4D FMCW LiDAR 产品线：Atlas（车规量产级）、Atlas Ultra（面向 SAE L3/L4）、Omni（宽视角短距）、Eve（工业精密位移传感）。② CityOS：城市交通智能 AI 操作系统（软件层，早期）。③ Optical Connectivity（2026/08 新设）：高功率光源 + 硅光子，切入 AI 数据中心 NPO/CPO 光互联。技术共同底座是「自研高功率激光光源 + 硅光子集成」，这是 Aeva 相对纯 LiDAR 同行的差异化根基。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">B2B / G2B 为主。汽车（戴姆勒卡车、Torc、Bendix）、工业自动化（SICK）、基础设施/政府（City of Fargo CityOS）、国防、以及新拓的 AI 数据中心（hyperscaler，通过光引擎厂商间接供货）。客户数量少、集中度极高，处于「用标杆客户验证技术」的阶段。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">北美、欧洲（德国客户占比高：Daimler、SICK）、以及亚洲、大洋洲。总部美国加州 Mountain View。收入规模仍小，地域拆分意义有限。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">2026年上半年营收约 1240 万美元（Q1 630万 +90% YoY，Q2 610万 +11% YoY——增速已明显放缓，且 Q2 环比 Q1 微降）。FY2026 全年指引 3000–3600 万美元（同比 +70%~100%）。TTM 营收约 2100 万美元，毛利率约 5%。收入几乎全来自硬件样件 + 联合开发，尚无规模化量产收入。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级：窄护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">成本优势：弱。当前毛利率仅约 5%，出货量极小、无规模效应，FMCW 系统比主流 ToF（飞行时间）方案更复杂、BOM 更贵。在「单位成本」上 Aeva 目前是劣势方——中国同行 Hesai/RoboSense 靠海量出货把 ToF 雷达成本压到极低。Aeva 的成本故事要成立，必须等硅光子集成把光学元件「做进一块芯片」，实现类半导体的规模降本，但这尚未兑现。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">无形资产：强。这是 Aeva 最硬的护城河。十年积累的 FMCW + 高功率激光光源 + 硅光子集成专利组合；两位创始人 Soroush Salehian（CEO，前 Apple 产品开发经理）与 Mina Rezk（CTO/董事长，前 Apple 特别项目组 + Nikon Metrology）带来稀缺的光子学工程能力。正是这套底层 IP，让 Aeva 能在 2026 年顺势把技术外溢到 AI 光互联——单一技术平台撬动多个大市场，是典型的深科技无形资产杠杆。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">转换成本：中（潜在，未完全兑现）。一旦被设计进汽车平台（如 Daimler 项目）或 hyperscaler 的光模块，切换成本极高——汽车设计周期 5–7 年，中途换供应商代价巨大；这正是「design win」在硬科技里含金量高的原因。但目前 Aeva 真正锁定量产的项目仍少，多数还停在联合开发/样件阶段，转换成本的「护城河效应」尚未大规模生效。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">0/3</span>
+    </div>
+    <p class="dim-text">网络效应：几乎无。激光雷达/光源是硬件零部件，本身不具备「用户越多价值越高」的网络效应。CityOS 软件平台理论上可积累交通数据形成飞轮，但体量极小、尚不构成实质壁垒。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text">规模效应：弱（潜在）。光子学/半导体模式天然具备「规模上量后毛利跳升」的杠杆，但 Aeva 目前处于严重的次规模状态（年营收 <2500万美元、季度非GAAP经营亏损约 2600万美元）。规模效应是未来的期权，不是当下的护城河。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">核心优势是「无形资产（FMCW + 高功率光源 + 硅光子 IP）+ 潜在的汽车 design-win 转换成本」。Aeva 是全球 FMCW 4D 激光雷达的领跑者，且拥有可跨界到 AI 光互联的稀缺光子学平台——技术代差是真实的，Daimler、SICK 的背书也是真实的。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">最大弱点：技术领先 ≠ 商业垄断。历史上「更好的技术输掉商业战」的案例极多（LiDAR 行业本身就是尸横遍野：Luminar 股价近乎归零、Velodyne 被并、Quanergy 破产）。Aeva 面临的真实风险是——在它把 FMCW 的成本打下来之前，Hesai 等中国厂商已用「够用的 ToF + 极致低价」占领了车规量产市场。护城河能否兑现，取决于「量产放量速度 vs 现金消耗速度」的赛跑。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：半导体/光子学 - 早期商业化硬科技</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：LiDAR 传感 + AI 数据中心光互联（叙事驱动期权型标的）</span>
+      <span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">估值结论：偏高估</span>
+    </div>
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：EV/Sales + TAM 期权/情景分析 + 现金跑道（Cash Runway）——不适用 PE/EV-EBITDA</div>
+      <div class="text">Aeva 无盈利、无正 EBITDA、毛利率仅约 5%，任何 PE/EV-EBITDA 都是负数或无意义。半导体框架里的 Forward PE 完全失效。对这类「烧钱换未来、靠叙事定价」的早期硬科技，唯一可用的锚是：①EV/Sales（衡量市场为每元收入付多少溢价）；②TAM 期权价值（FMCW 汽车 + AI 光互联的想象空间）；③现金跑道（还能烧多久、要稀释多少）。本质上这是给一张「技术能否转化为垄断」的看涨期权定价，而非给一门成熟生意做 DCF。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">股价（2026/08/05收盘）</td>
+    <td class="num">$19.61</td>
+    <td class="num" style="color:#64748b;font-size:13px;">52周区间 $8.83–$31.30</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">市值 / EV</td>
+    <td class="num">约$13亿 / 约$11.5亿</td>
+    <td class="num" style="color:#64748b;font-size:13px;">小盘（300M–2B）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/Sales (TTM)</td>
+    <td class="num">约 55x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">同业 1–6x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/Sales (FY26指引)</td>
+    <td class="num">约 35x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">同业 1–6x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">毛利率 (TTM)</td>
+    <td class="num">约 5%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">健康硬件 30–50%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#dc262622;color:#dc2626;">差</span></td>
+  </tr>
+  <tr>
+    <td class="label">季度非GAAP经营亏损</td>
+    <td class="num">约 $26M</td>
+    <td class="num" style="color:#64748b;font-size:13px;">年烧约$100M+</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr>
+  <tr>
+    <td class="label">总流动性</td>
+    <td class="num">$302.9M</td>
+    <td class="num" style="color:#64748b;font-size:13px;">现金$177.9M+$125M额度</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">现金跑道（估算）</td>
+    <td class="num">约 1.5–2年</td>
+    <td class="num" style="color:#64748b;font-size:13px;">需持续再融资/稀释</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr></tbody>
+    </table>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <table>
+      <thead><tr><th>公司</th><th>TTM营收(近似)</th><th>增速</th><th>毛利率</th><th>EV/Sales(近似)</th></tr></thead>
+      <tbody><tr><td class="label" style="background:#fef3c7;;font-weight:700;">AEVA (本标的)</td><td class="num" style="background:#fef3c7;;">约$21M</td><td class="num" style="background:#fef3c7;;">70-100%(指引)</td><td class="num" style="background:#fef3c7;;">约5%</td><td class="num" style="background:#fef3c7;;">约35-55x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">HSAI 禾赛</td><td class="num" style="background:transparent;;">约$700M+</td><td class="num" style="background:transparent;;">40-50%</td><td class="num" style="background:transparent;;">约40%</td><td class="num" style="background:transparent;;">约4-6x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">OUST Ouster</td><td class="num" style="background:transparent;;">约$110M+</td><td class="num" style="background:transparent;;">25-30%</td><td class="num" style="background:transparent;;">约40%</td><td class="num" style="background:transparent;;">约3-4x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">INVZ Innoviz</td><td class="num" style="background:transparent;;">约$25-30M</td><td class="num" style="background:transparent;;">波动</td><td class="num" style="background:transparent;;">负-低</td><td class="num" style="background:transparent;;">约1-2x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">LAZR Luminar</td><td class="num" style="background:transparent;;">约$70M</td><td class="num" style="background:transparent;;">下滑/困境</td><td class="num" style="background:transparent;;">负</td><td class="num" style="background:transparent;;"><1x</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司；同业数据为近似值，仅用于量级对比</p>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（情景分析）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear"><div class="label">悲观情景 Bear</div><div class="value">$6-9</div></div>
+      <div class="fv-card base"><div class="label">基准情景 Base</div><div class="value">$15-20</div></div>
+      <div class="fv-card bull"><div class="label">乐观情景 Bull</div><div class="value">$35-50+</div></div>
+    </div>
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">Aeva 在 LiDAR 同业中估值倍数是「离群值」——EV/Sales 约 35x（前瞻）到 55x（TTM），是 Hesai、Ouster 的 8–15 倍。这个溢价无法用当前基本面（5% 毛利、2000万营收、持续巨亏）解释，完全建立在两个「叙事期权」上：①FMCW 是激光雷达终局技术；②光互联能吃到 AI 数据中心红利。换句话说，市场现在给 Aeva 的定价，是「假设 2028 年这两个故事都兑现」的贴现值。股价从 52 周低点 $8.83 到高点 $31.30 的剧烈波动（Beta 2.56），也说明它是纯粹的高波动叙事标的，而非价值锚定标的。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>用「叙事 TAM」代替「已签量产订单」——光互联 JDA 目标 2027 下半年才初步部署、2028 才量产，中间任何一环脱钩，估值支撑就塌。联合开发协议 ≠ 量产大单。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>忽略稀释成本——Aeva 靠连续股权融资续命（刚完成 1.15 亿美元增发）。按年烧 1 亿+、毛利微薄，未来 2 年大概率继续增发，现有股东持续被稀释，EV/Sales 的「分母」和「股数」都在动。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>把 GAAP 净亏损 $79.6M 误读为运营恶化——这季净亏远大于经营亏损($34.6M)，主因是股价上涨导致权证/衍生品公允价值重估（非现金），不是烧钱加速；但也别因此忽视真实的经营现金消耗。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>技术最优 = 赢家？LiDAR 历史反复证明「够用 + 便宜 + 上量快」常打败「最优但贵」。Aeva 需在被中国 ToF 阵营锁死车规量产市场前，完成 FMCW 的成本曲线下移。
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644;font-size:16px;padding:8px 18px">综合评级：C级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">资本配置：技术投入方向清晰（把 LiDAR 光源技术外溢到 AI 光互联，是聪明的平台化打法），但财务纪律偏弱——公司自 SPAC 上市以来长期高烧现金、多次股权增发稀释股东，至今未展示出「把研发投入转化为规模盈利」的完整闭环。对一家 pre-profit 公司，这是常态但需警惕。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">诚信与透明度：信息披露规范（季报、电话会齐全）。但两个黄旗值得注意：①2025 年 CEO Salehian 与 CTO Rezk 均有较大额度的内部人减持（CEO 在 $30.53、$15.70、$13.45 多次卖出，持股降约 8.57%）；②CFO Saurabh Sinha 将于 2026/09/05 离职「转投传感行业外机会」，恰逢公司启动光互联战略转型，由 2025年12月才入职的 Rupesh Maheshwari 代理 CFO——转型关键期换 CFO，是治理层面的不确定因素。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">战略执行力：技术执行强、商业化执行待验证。强项——真做出了车规级 FMCW（Daimler 背书）、SICK「年度供应商」、光互联首个 JDA 落地，技术兑现能力在 LiDAR 同业中属第一梯队。弱项——营收增速 Q2 骤降至 +11%（Q1 还是 +90%）、环比微降，且 SPAC 上市时的早期收入预测从未兑现，商业化时间线一再后移。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">不适用（反向）：Aeva 非但没有回购，反而持续增发（刚完成 $1.15亿 follow-on）。对早期硬科技这是必要的，但意味着股东回报完全依赖「未来股价再上涨」，而非现金分配。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">两位创始人的 Apple 特别项目组 + Nikon 光学背景，赋予 Aeva 稀缺的深光子学工程能力；把单一技术平台（高功率光源/硅光子）从车用扩展到 AI 数据中心，展现了难得的战略想象力与技术自信。这是「技术型创始人」的典型高分项。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">财务纪律与治理是主要风险：长期烧钱 + 连续稀释 + 创始人减持 + 转型期 CFO 出走。技术评分可给 A，但资本管家评分只能给 C——投资者买的是技术期权，却要承担管理层「烧钱兑现叙事」过程中的执行与稀释风险。</div>
+    </div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级（含期权价值调整）</div>
+      <div class="star-rating">★★★☆☆</div>
+      <div style="color:#475569; font-size:14px">3/5 星（纯当前基本面约 2/5，加上技术期权上修至 3/5）</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>Aeva 是一只「高波动、高光学技术含量、高叙事溢价」的期权型硬科技标的，而非可安心长持的复利机器。把它拆开看：
+
+【技术面】强。全球 FMCW 4D 激光雷达领跑者，自研高功率光源 + 硅光子平台是真实的稀缺资产，创始团队出自 Apple 特别项目组。2026/08 顺势切入 AI 数据中心光互联，把「造雷达的地基」改造成「AI 算力的收费站」，是一步漂亮的平台化棋。
+
+【基本面】弱。TTM 营收约 2100 万美元、毛利率约 5%、年烧现金 1 亿+，Q2 营收增速从 Q1 的 +90% 骤降至 +11% 且环比微降。当前 EV/Sales 约 35–55x，是 Hesai/Ouster 的 8–15 倍——这个溢价 100% 建立在「FMCW 终局 + AI 光互联」两个尚未兑现的叙事上。
+
+【投资定性】这是一张看涨期权，不是一门生意。它的合理价值高度双峰化：若光互联 JDA 顺利转量产（2028）+ 汽车 design-win 放量，$35–50+ 不难想象（Oppenheimer $33、Roth $30 的看多目标即基于此）；若叙事脱钩、继续稀释，回落至 $6–9 的「近现金价值」也完全可能（Morgan Stanley $19 equal-weight、多家给 sell 即是这层担忧）。
+
+【对你的框架】适合作为「卫星仓 / 高赔率期权配置」，用严格的仓位上限和止损纪律管理，绝不适合作为核心底仓。关键催化剂是光互联从「JDA」升级为「量产订单」——在那之前，任何仓位都应视为对一个尚未被证明的故事的下注。
+
+（本报告基于公开信息，仅供研究参考，不构成投资建议。）</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来12个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">光互联（Optical Connectivity）：那家未具名 hyperscaler 的 JDA 能否在 2027 下半年如期初步部署、并升级为量产订单——这是当前估值的核心支撑，也是最大变数。</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">汽车量产兑现：Daimler Truck / Bendix 项目是否从「联合开发」推进到「确定的 SOP（量产)时间表」；是否新增车厂 design-win。</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">营收增速与毛利率拐点：Q2 增速已降至 +11%，需观察下半年能否重回 FY 指引的 +70~100% 区间；毛利率能否从 5% 向 20%+ 爬升（规模效应/硅光子降本的信号）。</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">现金消耗与稀释节奏：$302.9M 流动性够烧约 1.5–2 年；关注下一次增发的时点与规模——稀释速度直接决定每股期权价值。</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">治理信号：新任永久 CFO 人选质量（转型期财务掌舵人至关重要）；创始人是否继续减持。</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for Aeva Technologies (AEVA) · 2026-08-06<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度',
+      data: [1,3,2,0,1],
+      backgroundColor: 'rgba(217,119,6,0.2)',
+      borderColor: '#d97706',
+      borderWidth: 2,
+      pointBackgroundColor: '#d97706',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>

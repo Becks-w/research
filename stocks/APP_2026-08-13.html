@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AppLovin 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.warning-top { background:rgba(220,38,38,0.15); border:1px solid rgba(248,113,113,0.4); padding:12px 18px; border-radius:10px; margin-top:16px; font-size:13px; color:#fecaca; line-height:1.6; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:110px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.75; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.9; opacity:0.92; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; } .fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; } .fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; } .fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; } .hero { padding:24px 20px; } .hero h1 { font-size:22px; }
+  .section { padding:20px; } .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>AppLovin 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：APP</div>
+      <div>🏛️ 交易所：NASDAQ</div>
+      <div>🏷️ 行业：广告科技 / 效果广告平台 (AdTech)</div>
+      <div>📅 分析日期：2026-08-13</div>
+    </div>
+    <div class="one-liner">💡 AppLovin 通过 AXON AI 引擎运营一个实时竞价广告交易台，向广告主（游戏、电商、DTC 商家）撮合流量并从广告成交额中抽取价差——是一台高毛利、强现金流的「广告印钞机」，但笼罩在做空指控与 SEC 调查的信任阴云之下。</div>
+    <div class="warning-top">⚠️ <strong>核心提示</strong>：本标的存在做空机构重叠指控与一桩未了结的 SEC 数据合规调查，构成结构性尾部风险。请务必结合「估值」与「管理层」两个 Tab 一并阅读，勿只看财务数字。所有同业基准为近似值。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" data-tab="m0">💡 小白版</button>
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  
+  <div class="section" id="m0">
+    <h2>💡 模块零：金融小白友好版商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言把这家 AdTech 公司「翻译」清楚——后续分析的基础</p>
+    <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:24px 28px;border-radius:12px;margin-bottom:20px;border-left:4px solid #d97706;">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:15px;">🎯 核心比喻</div>
+      <div style="font-size:15px;color:#0f172a;line-height:1.8;">AppLovin 像一家「自带最强算牌 AI 的广告赌场 + 高频交易撮合台」。它自己不做游戏、不卖商品（2025 年 6 月已把全部游戏工作室卖给 Tripledot），而是站在中间开赌桌：一边是想买用户的广告主，一边是有广告位的 App。它的 AXON AI 大脑在几十毫秒内判断「这个广告该给哪个用户看、出多少钱」，每撮合成一笔就抽一道价差。牌桌流水越大、AI 越准，它抽的水越多——本质是一台按广告成交量抽佣的收费机器。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📦 商业模式三问</h3>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #2563eb;">
+        <div class="label" style="color:#2563eb;">① 卖什么？</div>
+        <div class="value">卖的是「把广告精准塞给最可能付费的人」这一件事。广告主（一款手游、一个 Shopify 卖家、一个 DTC 品牌）把预算交给 AppLovin，AXON 引擎决定在海量 App 广告位里，此时此刻该给哪个用户展示哪条广告。广告主看重的不是花哨功能，而是一个硬指标——ROAS（广告投入产出比）：花 1 块钱能带回多少销售额。AppLovin 卖的就是「更高的 ROAS」。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #059669;">
+        <div class="label" style="color:#059669;">② 怎么收费？</div>
+        <div class="value">抽佣 / 价差模式，类似交易所或拍卖行的 take rate。广告主付 $1,000 投广告，AppLovin 撮合后把大部分给到提供广告位的 App 开发者，自己留下一道价差（几十个百分点量级）。收入 = 广告成交总额 × 抽成率。这决定了它的收入随广告流水线性放大，而边际成本极低——因为 AI 模型是一次训练、无限次调用。2026 年二季度单季广告收入约 $19.2 亿（同比 +53%），调整后 EBITDA 利润率高达约 84%。</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;">
+        <div class="label" style="color:#dc2626;">③ 客户为什么必须买？</div>
+        <div class="value">纯效果驱动 + ROI 驱动，这是全世界最硬的购买动机——不是恐惧、不是合规，而是「它能帮我赚更多钱」。广告主是极其现实的群体：哪个渠道 ROAS 高，预算就流向哪里，可以随时切换、按天调整。这既是 AppLovin 的护城河来源（AI 真有效就留得住钱），也是它的软肋（一旦效果下滑或对手追平，预算会毫不留情地流走）。这一点是理解整份分析的灵魂。</div>
+      </div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">💼 客户结构 + 护城河金融比喻</h3>
+    <div class="summary-box info">
+      <div class="title">具体客户结构 + 客户分层</div>
+      <div class="text">历史客户金字塔顶端是重度手游厂商（高 ARPU 的博彩类、SLG、消除类等），这是它的现金牛与数据训练场。2025 年起正把同一套打法复制到非游戏领域：电商 / DTC 品牌（对标 Shopify、Amazon 卖家）、以及新兴的 CTV（联网电视）广告。据卖方渠道调研，2026 年一季度已有约 32% 的代理商预算来自通过 AXON Ad Manager 投放的电商广告主。结构上仍偏「金字塔型」——大广告主贡献主要流水，但正主动向「更分散的橄榄型」迁移（自助平台 2026 上半年开放，目标是把海量中小商家纳入）。管理层估计非游戏市场规模是游戏的 5–10 倍。</div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">护城河本质（金融场景比喻）</div>
+      <div class="text">AppLovin 的护城河像「Visa 的双边支付网络 + 征信局的数据飞轮」的结合体。一方面它是一个双边撮合网络：广告主越多 → 竞价越充分、单个广告位卖得越贵 → 越多 App 愿意接入供给 → 广告主触达面越广（类似 Visa「持卡人越多、商户越愿意装 POS」）。另一方面 AXON 是一台数据飞轮：撮合的广告越多，AI 看到的「谁点了、谁付费了」的回传信号越多，预测越准，ROAS 越高，广告主越离不开（像征信局数据越多、评分越准）。但要警惕：做空方 Muddy Waters 的核心质疑正是「这里技术含量没那么高，一旦被验证，竞争对手会照抄」——飞轮到底有多深、多难复制，是整个多空博弈的焦点。</div>
+    </div>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：平台生态（双边撮合）+ 交易抽佣 + 研发驱动</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value">核心是 AXON AI 广告引擎（现为 AXON 2）驱动的效果广告平台，一端连广告主（需求侧 AppDiscovery / Axon Ads），一端连 App 发行商（供给侧 MAX 竞价聚合）。2025 年 6 月完成对 10 家游戏工作室的剥离（作价 $4 亿现金 + Tripledot 约 20% 股权），此后是纯粹的营销平台公司。当前三条增长线：①游戏广告（现金牛）；②电商 / DTC 广告（新增长引擎，自助平台 2026 上半年放开）；③CTV 联网电视广告（新萌芽）。配套推出 GenAI 创意工具（互动页生成器、视频广告生成器）以攻克「素材制作」这一转化瓶颈。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">B2B 为主。历史核心是重度手游厂商；2025 起快速扩张到电商 / DTC 商家（Shopify、Amazon 卖家）。自助化之前以「转介绍」制获客，合格线索的上线转化率约 57%（受创意素材制作能力制约，是当前扩张的关键瓶颈）。管理层反复强调非游戏 TAM 是游戏的 5–10 倍。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">全球化收入，广告主与流量遍及北美、欧洲、亚太等；作为一个算法撮合平台，地域并非其核心叙事变量，AI 模型迭代与垂直行业拓展才是。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">剥离游戏后，收入几乎全部来自广告平台。近四个季度轨迹：Q4'25 约 $17 亿（+66%）→ Q1'26 约 $18.4 亿（+59%）→ Q2'26 约 $19.2 亿（+53%）。TTM 营收约 $65 亿。毛利率约 88%，调整后 EBITDA 利润率约 84%，GAAP 净利率约 60–65%——在整个软件 / 互联网行业属顶级水平。Q3'26 指引 $20.55–20.85 亿（中值略低于市场预期，是本次财报后大跌的导火索之一）。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级：窄护城河</span></div>
+    <div class="chart-wrap"><canvas id="moatChart" height="240"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">极致的规模 + 轻资产结构带来强成本优势：AI 模型一次训练、无限次调用，边际成本趋近于零，支撑 84% 的 EBITDA 利润率。但「成本」本身不是它的护城河来源——真正的壁垒在数据与网络，而非单纯的低成本。给 2/3。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">AXON 算法与多年积累的广告回传数据是核心无形资产。但存在两个折扣项：①它是一个「黑箱」，外部无法独立验证其性能声称，这既是溢价来源也是做空攻击的靶心；②几乎没有专利式的法律保护，护城河靠的是数据与迭代速度，而非可执行的排他性权利。给 2/3。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text">转换成本中等偏上：广告主可以「多平台并投」，随时按 ROAS 调预算，切换的法律 / 技术成本低。但一旦 AXON 效果确实更好，预算的「效果锁定」很真实——没人会主动把钱从赚钱的渠道挪走。锁定来自持续的效果领先，而非合同绑定，因此需要不断用业绩维持。给 2/3。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">最强的一维。经典双边网络 + 数据飞轮：广告主越多→竞价越充分→广告位卖价越高→越多 App 接入供给→广告主触达越广；同时成交越多→AI 看到的转化信号越多→预测越准→ROAS 越高。这个自我强化的闭环是它区别于普通 adtech 的核心。争议在于其「深度」——飞轮到底有多难被 Meta / Google 这类同样坐拥海量数据的巨头复制。给 3/3。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text">极强的规模效应：巨额研发 / 模型固定成本被摊薄到庞大的广告流水上，规模越大利润率越高，形成「强者恒强」。84% 的 EBITDA 利润率与 100%+ 的 ROIC 是规模效应的直接体现。给 3/3。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">✓ 主要优势</div>
+      <div class="text">① 数据飞轮 + 双边网络效应（成交越多→AI 越准→ROAS 越高→广告主越离不开）；② 极致规模效应带来的顶级利润率与现金流（84% EBITDA 利润率、TTM FCF 数十亿美元），使其能一边高速增长一边大手笔回购。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠ 主要弱点</div>
+      <div class="text">① 「黑箱」不可验证性——外部无法独立证实 AXON 的效果与合规性，这是四家做空机构与 SEC 调查共同盯住的软肋，也是其信任折价的根源；② 平台依赖——高度嵌套在 Apple / Google / Meta 的生态与隐私政策之下，规则一变（如 ATT、ID 提取被封）可能伤及根基；③ 效果驱动的双刃剑——广告预算极其现实，一旦 ROAS 领先被追平，护城河会比看上去更快地被侵蚀。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：广告科技 / 互联网平台</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：效果广告平台（盈利型，高利润率）</span>
+      <span class="badge" style="background:#10b98122;color:#10b981;border:1px solid #10b98144">估值结论：偏低估</span>
+    </div>
+    <div class="summary-box info">
+      <div class="title">🛠️ 适用估值框架：Forward PE + PEG + EV/EBITDA + EV/Sales（对标 Meta / Trade Desk / Google）</div>
+      <div class="text">与「烧钱换增长」的亏损型 SaaS 不同，AppLovin 是高盈利、高现金流的成熟平台，因此 PE / PEG / EV/EBITDA 这类基于利润的指标最合适，而非单纯的 EV/Sales。同时用 EV/Sales 辅助横向对比。关键是要把它放到「盈利型效果广告龙头」的坐标系里（Meta、Trade Desk、Google），而不是和亏损成长股比。注意：所有同业基准为近似值，实际投资决策前应以最新季报核对。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">营收增速 (Q2'26 YoY)</td>
+    <td class="num">~53%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">效果广告龙头 15–25%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">调整后 EBITDA 利润率</td>
+    <td class="num">~84%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">软件业顶级 <50%</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">GAAP 净利率</td>
+    <td class="num">~60–65%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">Meta ~40% 已属优秀</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">Forward PE (FY26 GAAP)</td>
+    <td class="num">~24x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">50%+增速本应享溢价</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">PEG</td>
+    <td class="num">~0.6</td>
+    <td class="num" style="color:#64748b;font-size:13px;"><1 偏低估</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV/EBITDA</td>
+    <td class="num">~20x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">高成长平台 15–28x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">自由现金流利润率</td>
+    <td class="num">~45%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>20% 已属健康</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">Beta（波动性）</td>
+    <td class="num">~2.5</td>
+    <td class="num" style="color:#64748b;font-size:13px;">1.0 = 市场平均</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr></tbody>
+    </table>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比（近似值）</h3>
+    <table>
+      <thead><tr><th>公司</th><th>营收增速</th><th>营业利润率</th><th>Forward PE</th><th>EV/EBITDA</th></tr></thead>
+      <tbody><tr><td class="label" style="background:#fef3c7;;font-weight:700;">APP (本次)</td><td class="num" style="background:#fef3c7;;">~53%</td><td class="num" style="background:#fef3c7;;">~75%</td><td class="num" style="background:#fef3c7;;">~24x</td><td class="num" style="background:#fef3c7;;">~20x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">META</td><td class="num" style="background:transparent;;">~20%</td><td class="num" style="background:transparent;;">~42%</td><td class="num" style="background:transparent;;">~26x</td><td class="num" style="background:transparent;;">~15x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">TTD</td><td class="num" style="background:transparent;;">~17%</td><td class="num" style="background:transparent;;">~20%</td><td class="num" style="background:transparent;;">~40x</td><td class="num" style="background:transparent;;">~28x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">GOOGL</td><td class="num" style="background:transparent;;">~13%</td><td class="num" style="background:transparent;;">~32%</td><td class="num" style="background:transparent;;">~20x</td><td class="num" style="background:transparent;;">~14x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">RDDT</td><td class="num" style="background:transparent;;">~50%</td><td class="num" style="background:transparent;;">~20%</td><td class="num" style="background:transparent;;">~40x</td><td class="num" style="background:transparent;;">~30x</td></tr><tr><td class="label" style="background:transparent;;font-weight:700;">U (Unity)</td><td class="num" style="background:transparent;;">~5%</td><td class="num" style="background:transparent;;">微利</td><td class="num" style="background:transparent;;">~35x</td><td class="num" style="background:transparent;;">~22x</td></tr></tbody>
+    </table>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司；同业数据为近似基准，请以最新季报核对</p>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（现价约 $319）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear"><div class="label">悲观情景 Bear</div><div class="value">$260</div></div>
+      <div class="fv-card base"><div class="label">基准情景 Base</div><div class="value">$400</div></div>
+      <div class="fv-card bull"><div class="label">乐观情景 Bull</div><div class="value">$600</div></div>
+    </div>
+    <div class="summary-box info">
+      <div class="title">📍 当前估值位置</div>
+      <div class="text">当前股价约 $319（2026-08-11 收盘），较 2025 年 12 月历史高点 $733 已回撤约 57%，年初至今下跌约 38%。以 FY2026 GAAP EPS 约 $13.3 计，前瞻 PE 约 24x、PEG 约 0.6——对一家营收增速 50%+、EBITDA 利润率 84% 的公司而言，这个倍数在纯财务层面明显低于其增长与盈利本应支撑的溢价（Trade Desk 增速仅 17% 却给 ~40x PE）。**但必须理解：这个「便宜」本身就是市场对尾部风险的定价。** SEC 数据合规调查、四家做空机构的重叠指控、以及电商转型的执行不确定性，共同压制了估值。结论是双向的：若财报数据真实且无监管重大打击，当前价格偏低估、赔率不错；若任一尾部风险兑现，估值中枢可能进一步大幅下移。卖方共识目标价仍高达 $650+（隐含大幅上行），但这些目标未必已充分消化本次财报后的降速信号。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>把「便宜」当无条件利好——APP 的低倍数是尾部风险（SEC 调查 + 做空指控 + 黑箱）的对价，不是市场犯错。估值折价与信任折价是一体两面。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>轻信 AXON 的黑箱业绩——外部无法独立验证 AI 的真实效果与合规性；「数据太好」既可能是真本事，也是做空方质疑的起点，需交叉验证第三方广告主/measurement 反馈。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>忽视平台依赖风险——收入高度嵌套在 Apple/Google/Meta 生态与隐私规则中，一次政策变动（ATT、ID 提取被封）可能重伤根基。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>用历史超高增速线性外推——Q1/Q2'26 已连续两季营收略低于自家指引（管理层归因于「模型迭代时点」），50%+ 的增速能否持续是估值锚的核心变量。
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;font-size:16px;padding:8px 18px">综合评级：B 级</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value">资本配置理性且股东友好：①战略性剥离非核心游戏业务（2025.6，$4 亿现金 + Tripledot 20% 股权），聚焦高毛利广告主业，逻辑清晰；②大手笔真回购——Q1'26 约 $10 亿、Q2'26 约 $5.5 亿，流通股同比减少约 1.85%，是「真金白银」的股东回报而非仅对冲稀释；③ROIC 长期 100%+，资本效率极高。整体属加分项。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value">这是最大的问号，也是把评级压在 B 而非 A 的原因。2025 年 Fuzzy Panda、Culper、The Bear Cave、Muddy Waters 四家做空机构接连质疑其广告欺诈、「指纹」式违规提取用户 ID、违反合作平台 ToS；2025.10 彭博报道 SEC 就数据采集实践展开调查（回应一份举报与做空报告，公司与高管尚未被指控）；2026.1 CapitalWatch 指其为「数字洗钱机」（后就针对某股东的部分指控撤回）。CEO Foroughi 回应强硬（称做空方「造谣牟利」、聘请 Alex Spiro 独立调查、喊话用 Grok「几分钟就能证伪」）。多空双方各执一词，关键是：指控迄今未被证实，但如此密集、来自多个独立信源的重叠质疑 + 一桩未结的 SEC 调查，不应被简单当作「做空噪音」一笔带过。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value">执行力强：AXON 引擎持续迭代驱动多季高增长；剥离游戏、押注电商/CTV/自助平台的战略路线清晰且在推进（电商早期 ROAS 据称可比 Meta Audience Network）。瑕疵：Q1/Q2'26 连续两季营收略低于自家指引，暴露「模型迭代节奏」带来的短期不确定性；57% 的线索上线转化率显示电商放量仍受创意制作瓶颈制约。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">Q2'26 回购约 $5.5 亿 vs 季度 SBC（估计约 $1–1.5 亿）≈ 3.5–5x → 明显 >1.5x，属真回购；叠加流通股同比 -1.85%，回购确实在降低股本、而非仅抵消稀释。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✨ 主要亮点</div>
+      <div class="text">创始人 CEO 主导、持股显著、利益与股东绑定；果断剥离非核心资产聚焦主业；持续大额真回购彰显对自身价值的信心。</div>
+    </div>
+    <div class="summary-box danger">
+      <div class="title">⚠️ 主要风险点</div>
+      <div class="text">面对密集做空指控与 SEC 调查，管理层选择强硬对抗而非提高透明度；期间存在内部人（含 CEO）减持记录；AXON 的「黑箱」策略在商业上合理，却让公司在信任危机中难以自证清白。</div>
+    </div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级（仅针对经济学质量，风险另计）</div>
+      <div class="star-rating">★★★★☆</div>
+      <div style="color:#475569; font-size:14px">4/5 星</div>
+    </div>
+    <div class="conclusion">
+      <h3>📝 综合评述</h3>
+      <p>AppLovin 是一家「财务极其优秀、信任极其可疑」的公司，这两者必须放在一起看，缺一不可。
+
+先说好的一面：在纯商业经济学层面，它是公开市场里最稀缺的物种之一——营收同比 50%+、调整后 EBITDA 利润率约 84%、GAAP 净利率 60%+、ROIC 破百，还能一边高速增长一边每季拿真金白银回购数亿美元股票。2025 年剥离游戏工作室后，它变成了一台纯粹、干净、轻资产的「广告撮合印钞机」，核心壁垒是 AXON 的数据飞轮 + 双边网络效应。非游戏（电商/DTC/CTV）市场是游戏的 5–10 倍，一旦自助平台放量跑通，增长故事还能续写第二章。当前 $319 的股价对应约 24x 前瞻 PE、0.6 的 PEG，从倍数看对这样的增长与盈利是「便宜」的。
+
+但「便宜」的背后是真实的、无法被证伪也无法被证实的尾部风险。2025 年以来，四家独立做空机构 + 一份举报人投诉 + 一桩仍未了结的 SEC 数据合规调查，共同指向同一组问题：AXON 的惊人业绩是否部分建立在违规提取用户数据、绕过 Apple/Meta 等平台隐私规则之上？公司坚决否认、指控至今未被证实，但这不是可以用「做空噪音」轻轻带过的事——它构成了一个「黑箱不可验证性」的结构性折价。市场给它低于 Trade Desk 的估值，不是市场犯傻，而是在为这份不确定性定价。
+
+因此我的判断是：★★★★（4 星）针对的是它的商业质量与财务质量——这部分确实是顶级的；但从风险调整后的持有视角，这是一只高方差、高 Beta（~2.5）、由情绪与监管头条驱动的股票，而不是可以「买入后安睡」的核心复利仓。对它的正确姿势是「小仓位、控风险、盯催化剂」：把它当成一个赔率不错但存在归零式尾部风险的期权型头寸来管理，而非重仓压注。真正能让估值中枢重估（向上或向下）的，不是下一季度的营收增速，而是 SEC 调查的最终走向与 AXON 合规性的可验证程度。
+
+（本报告基于公开信息，不构成投资建议；同业基准为近似值，决策前请以最新季报与一手数据核对。）</p>
+    </div>
+    <div class="next-step">
+      <div class="title">🔍 关键观察指标（未来 12 个月）</div>
+      
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">SEC 数据合规调查的进展与任何和解/指控结果——这是决定估值中枢的最大单一变量，权重高于任何财务指标</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">电商/非游戏收入占比 + 自助平台 GA 后的商家净增；线索上线转化率能否从 ~57% 提升（创意瓶颈是否被 GenAI 工具打破）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">游戏广告核心增速能否守住 20–30%（现金牛，关注 Apple Link-out 带来的 iOS 增量）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">季度营收 vs 自家指引的达成度——Q1/Q2'26 已连续两季略低于指引高端，第三次将严重打击信任</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">回购力度与流通股变化（管理层信心的真金白银信号）；以及内部人是否继续减持</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">6.</span>
+    <span style="font-size:14px;">竞争与格局：Trade Desk / Meta / Unity 的追赶，以及 CTV 渗透与代理商（Stagwell 等）渠道进展</span>
+  </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for AppLovin (APP) · 2026-08-13<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: {
+    labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"],
+    datasets: [{
+      label: '护城河强度', data: [2,2,2,3,3],
+      backgroundColor: 'rgba(217,119,6,0.2)', borderColor: '#d97706',
+      borderWidth: 2, pointBackgroundColor: '#d97706', pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } }
+  }
+});
+</script>
+</body>
+</html>
