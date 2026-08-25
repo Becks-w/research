@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SMH 单日大波动归因报告 · 2026年6–8月</title>
+<style>
+:root{
+  color-scheme: light;
+  --surface-1:#fcfcfb; --page:#f9f9f7;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --baseline:#c3c2b7; --border:rgba(11,11,11,0.10);
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
+  --up:#2a78d6; --down:#e34948; --mid:#f0efec;
+  --good:#0ca30c; --warning:#fab219; --serious:#ec835a; --critical:#d03b3b;
+}
+@media (prefers-color-scheme: dark){
+  :root:where(:not([data-theme="light"])){
+    color-scheme: dark;
+    --surface-1:#1a1a19; --page:#0d0d0d;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --baseline:#383835; --border:rgba(255,255,255,0.10);
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+    --up:#3987e5; --down:#e66767; --mid:#383835;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --surface-1:#1a1a19; --page:#0d0d0d;
+  --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+  --grid:#2c2c2a; --baseline:#383835; --border:rgba(255,255,255,0.10);
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+  --up:#3987e5; --down:#e66767; --mid:#383835;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--page); color:var(--text-primary);
+  font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  line-height:1.65; font-size:15px;
+}
+.wrap{max-width:1140px;margin:0 auto;padding:32px 24px 80px}
+header.top{border-bottom:1px solid var(--border);padding-bottom:24px;margin-bottom:32px;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+h1{font-size:30px;line-height:1.25;margin:0 0 8px;letter-spacing:-.02em}
+.sub{color:var(--text-secondary);font-size:14px;margin:0}
+h2{font-size:21px;margin:52px 0 6px;letter-spacing:-.01em;padding-top:8px}
+h2 .num{color:var(--muted);font-variant-numeric:tabular-nums;margin-right:10px;font-weight:400}
+h3{font-size:16px;margin:30px 0 8px}
+p{margin:10px 0}
+.lede{color:var(--text-secondary);font-size:14.5px;margin:0 0 20px;max-width:78ch}
+.card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin:20px 0}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin:22px 0}
+.tile{background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+.tile .k{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.tile .v{font-size:27px;font-weight:600;letter-spacing:-.02em;line-height:1.15}
+.tile .n{font-size:12.5px;color:var(--text-secondary);margin-top:5px;line-height:1.45}
+.verdict{background:var(--surface-1);border:1px solid var(--border);border-left:4px solid var(--s1);
+  border-radius:10px;padding:22px 26px;margin:24px 0}
+.verdict .lbl{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.verdict .big{font-size:19px;font-weight:600;line-height:1.5;letter-spacing:-.01em}
+figure{margin:26px 0;background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:20px 22px 16px}
+figcaption{font-size:13px;color:var(--text-secondary);margin-top:12px;line-height:1.55}
+.figtitle{font-size:15.5px;font-weight:600;margin:0 0 2px}
+.figsub{font-size:12.5px;color:var(--muted);margin:0 0 14px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--text-secondary);margin:10px 0 4px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:11px;height:11px;border-radius:3px;display:inline-block}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin:16px 0}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--grid)}
+th{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;
+  border-bottom:1px solid var(--baseline);white-space:nowrap}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:none}
+.pos{color:var(--up);font-weight:600}
+.neg{color:var(--down);font-weight:600}
+.pill{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:99px;
+  border:1px solid var(--border);color:var(--text-secondary);white-space:nowrap}
+.pill.macro{background:color-mix(in srgb,var(--s1) 13%,transparent);color:var(--s1);border-color:transparent}
+.pill.news{background:color-mix(in srgb,var(--s2) 15%,transparent);color:var(--s2);border-color:transparent}
+.pill.flow{background:color-mix(in srgb,var(--s3) 15%,transparent);color:var(--s3);border-color:transparent}
+.daycard{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin:16px 0}
+.dayhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+.daydate{font-size:18px;font-weight:600;letter-spacing:-.01em}
+.daymove{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.angles{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.angle{border-top:2px solid var(--grid);padding-top:10px}
+.angle.a1{border-top-color:var(--s1)} .angle.a2{border-top-color:var(--s2)} .angle.a3{border-top-color:var(--s3)}
+.angle .t{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.angle .b{font-size:13.3px;color:var(--text-secondary);line-height:1.6}
+.tag{display:inline-block;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:6px;letter-spacing:.02em}
+.tag.noise{background:color-mix(in srgb,var(--good) 15%,transparent);color:var(--good)}
+.tag.mixed{background:color-mix(in srgb,var(--warning) 22%,transparent);color:#8a6000}
+.tag.real{background:color-mix(in srgb,var(--critical) 14%,transparent);color:var(--critical)}
+:root[data-theme="dark"] .tag.mixed, @media (prefers-color-scheme:dark){.tag.mixed{color:var(--warning)}}
+ul{margin:10px 0;padding-left:20px} li{margin:6px 0}
+.warn{border-left:4px solid var(--warning);background:var(--surface-1);border-radius:10px;
+  border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:16px 20px;margin:20px 0;font-size:13.8px}
+.warn .h{font-weight:600;margin-bottom:6px;font-size:14px}
+a{color:var(--s1);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--s1) 35%,transparent)}
+a:hover{border-bottom-color:var(--s1)}
+.srcs{font-size:12.5px;color:var(--text-secondary);columns:2;column-gap:32px}
+.srcs a{display:block;margin:5px 0;break-inside:avoid}
+.toggle{background:var(--surface-1);border:1px solid var(--border);border-radius:8px;padding:7px 14px;
+  cursor:pointer;font-size:13px;color:var(--text-secondary);font-family:inherit;white-space:nowrap}
+.toggle:hover{color:var(--text-primary)}
+.tt{position:fixed;pointer-events:none;background:var(--surface-1);border:1px solid var(--border);
+  border-radius:8px;padding:9px 12px;font-size:12.5px;box-shadow:0 6px 20px rgba(0,0,0,.14);
+  opacity:0;transition:opacity .12s;z-index:99;max-width:260px;line-height:1.5}
+.tt .d{font-weight:600;margin-bottom:3px}
+.tt .r{font-variant-numeric:tabular-nums}
+.hl{background:color-mix(in srgb,var(--warning) 25%,transparent);padding:0 3px;border-radius:3px}
+.disc{font-size:12.5px;color:var(--muted);border-top:1px solid var(--border);padding-top:18px;margin-top:44px;line-height:1.6}
+@media(max-width:760px){.srcs{columns:1}h1{font-size:24px}.wrap{padding:20px 16px 60px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div>
+    <h1>SMH 单日大波动归因：噪音还是实质？</h1>
+    <p class="sub">VanEck 半导体 ETF · 2026年6月1日–8月17日 · 8个 |涨跌幅| ≥ 5% 的交易日 · 宏观 / 新闻 / 资金面三线交叉验证</p>
+  </div>
+  <button class="toggle" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">切换深色 / 浅色</button>
+</header>
+
+<!-- ============ 结论 ============ -->
+<div class="verdict">
+  <div class="lbl">总裁决</div>
+  <div class="big">8天里只有<strong>1天</strong>是由半导体公司实际公布的硬事实驱动的。其余7天的主因分别是利率预期、地缘政治、政策口头承诺、外国股市传染、券商观点和风险偏好——<strong>没有一件是半导体公司自己说出来的坏消息。</strong></div>
+  <p style="margin-top:14px;color:var(--text-secondary);font-size:14px">
+  因此这轮回撤的性质是<strong style="color:var(--text-primary)">杀估值，不是杀逻辑</strong>：远期盈利预期没有被下调（台积电反向把营收指引从30%上修到40%+），实体订单簿还在扩张（台积电7月营收同比+44.7%创纪录），4家超大厂零家削减资本开支。
+  但有<strong style="color:var(--text-primary)">一个真实的警告信号</strong>——8月第一周出现了本轮首次多品种、方向一致的资金流出，而且它发生在7/30和8/4两根大阳线<em>之后</em>。在反弹中卖出，比在暴跌中卖出更能说明持有意愿的衰减。</p>
+</div>
+
+<div class="tiles">
+  <div class="tile"><div class="k">≥5% 的天数</div><div class="v">8</div><div class="n">5涨3跌。全年 &gt;4% 的天数至少34天，为有记录以来最多</div></div>
+  <div class="tile"><div class="k">最大单日跌幅</div><div class="v neg">−9.22%</div><div class="n">6月5日 · 2020年3月以来最大单日跌幅</div></div>
+  <div class="tile"><div class="k">7月费半指数</div><div class="v neg">−21%</div><div class="n">2008年10月以来最差单月，市值蒸发约2.2万亿美元</div></div>
+  <div class="tile"><div class="k">台积电7月营收</div><div class="v pos">+44.7%</div><div class="n">同比，创单月纪录——与股价彻底脱钩</div></div>
+  <div class="tile"><div class="k">超大厂砍资本开支</div><div class="v">0 / 4</div><div class="n">2家上调、1家上调下限、1家不给指引</div></div>
+</div>
+
+<!-- ============ 1 ============ -->
+<h2><span class="num">01</span>八个大波动日在哪里</h2>
+<p class="lede">先看全景。6月1日至8月17日共54个交易日，8根柱子越过了±5%的线。注意分布：<strong>6月占了5个，7月2个，8月1个</strong>——波动的密度本身在衰减，这是判断"是否已经过去"的第一条线索。</p>
+
+<figure>
+  <p class="figtitle">SMH 日涨跌幅与收盘价</p>
+  <p class="figsub">2026-06-01 至 2026-08-17 · 高亮柱为 |涨跌幅| ≥ 5%</p>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--up)"></i>上涨</span>
+    <span><i class="sw" style="background:var(--down)"></i>下跌</span>
+    <span><i class="sw" style="background:var(--muted);opacity:.45"></i>&lt;5%（淡色）</span>
+    <span style="color:var(--muted)">（西方配色惯例：红跌蓝涨）</span>
+  </div>
+  <div id="c1"></div>
+  <figcaption>下方细线为收盘价轨迹。价格从6/22的历史高点 668.91 一路跌到7/29的 504.22（−24.6%），随后修复至 594.07。<strong>费城半导体指数的历史最高点出现在6月22日</strong>——6月23日的 −7.01% 就是顶部转折的那一天。</figcaption>
+</figure>
+
+<table>
+  <thead><tr><th>日期</th><th class="n">涨跌幅</th><th class="n">收盘</th><th>当日主因（三线交叉后）</th><th>裁决</th></tr></thead>
+  <tbody id="t1"></tbody>
+</table>
+
+<!-- ============ 2 ============ -->
+<h2><span class="num">02</span>宏观线：有多少能被"大盘在动"解释掉</h2>
+<p class="lede">最干净的判据是 beta 归因：如果 SMH 跌 5% 而纳指跌 3%，那这根本不是半导体的事。但这里藏着一个陷阱，必须先说清楚。</p>
+
+<div class="warn">
+  <div class="h">方法论警告：用 QQQ 做基准是循环论证</div>
+  QQQ 里英伟达、博通、AMD、美光等半导体权重合计超过两成。<strong>SMH 暴跌的日子，QQQ 本身就是被半导体拖下去的。</strong>所以"91% 由 QQQ 解释"的准确含义是"SMH 和大盘同向同步"，而不是"半导体没有自己的故事"。下图同时给出 SPY 口径（半导体权重低得多，是更干净的宏观代理）——<strong>两个口径的差异本身就是信息</strong>。
+</div>
+
+<figure>
+  <p class="figtitle">超额收益：实际涨跌幅 − beta × 基准</p>
+  <p class="figsub">超额越接近0 = 越纯粹是大盘beta；超额越大 = 半导体自身的独立事件</p>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--s1)"></i>QQQ 口径（β=1.91，实测回归）</span>
+    <span><i class="sw" style="background:var(--s2)"></i>SPY 口径（β=3.00，实测回归）</span>
+  </div>
+  <div id="c2"></div>
+  <figcaption><strong>6/8 和 7/1 是唯二在两种口径下都保持 &gt;2pp 超额的日子</strong>，这个结论对 beta 假设是稳健的。而 6/5 在 QQQ 口径下超额几乎为零（−0.05pp），换成 SPY 口径立刻变成 −1.48pp——那天 SPY 只跌 2.58%，SMH 跌 9.22%，<strong>半导体确实被单独重锤了，只是被 QQQ 自己的半导体权重"吸收"掉了。</strong></figcaption>
+</figure>
+
+<div class="card">
+  <h3 style="margin-top:0">关于 beta 的一处修正</h3>
+  <p style="margin-bottom:0;font-size:14px;color:var(--text-secondary)">常用的 <strong>1.74</strong> 在这段窗口偏低。用 6/5–8/17 共50个交易日回归：<strong>SMH 对 QQQ 的实际 beta = 1.91，R² = 0.876</strong>（对 SPY 是 3.00，R² = 0.608）。SMH 日波动率 3.62% vs QQQ 1.77%。本报告全部采用实测值。</p>
+</div>
+
+<h3>2026年的宏观底色：是加息风险，不是降息周期</h3>
+<p>驱动力是<strong>中东战争引发的能源冲击</strong>。5月PPI同比 +6.5%（2022年11月以来最大），其中近80%的涨幅来自最终需求商品，能源环比暴涨 +10.7%。鲍威尔已卸任，Kevin Warsh 于6月17日首次主持 FOMC，<strong>点阵图转鹰——近半数官员预计2026年还会加息</strong>。这个背景一直压到8月7日：7月非农意外负增长，9月加息概率骤降，同时霍尔木兹协议浮现，主线才告终结。</p>
+
+<!-- ============ 3 ============ -->
+<h2><span class="num">03</span>新闻线：波动的引擎根本不是英伟达</h2>
+<p class="lede">这是三线中最反直觉的发现。SMH 里英伟达权重高达 <strong>22.01%</strong>，但在8个最大波动日里，它<strong>一次都没跑赢过 SMH</strong>——它是减震器，不是引擎。</p>
+
+<figure>
+  <p class="figtitle">大波动日：英伟达 vs SMH vs 半导体设备四强</p>
+  <p class="figsub">设备四强 = ASML + AMAT + LRCX + KLAC，合计权重 18.89%，几乎追平英伟达一家</p>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--muted);opacity:.5"></i>SMH（ETF 本身）</span>
+    <span><i class="sw" style="background:var(--s1)"></i>英伟达（权重 22.01%）</span>
+    <span><i class="sw" style="background:var(--s2)"></i>设备股（区间中值）</span>
+  </div>
+  <div id="c3"></div>
+  <figcaption><strong>设备股是 SMH 波动的真正放大器</strong>：7/30 单日 LRCX +18%（1999年以来最大单日）、AMAT +15%，而英伟达只有 +3%。原因很干净——设备股是资本开支的一阶导数，市场对"AI资本开支持续性"的每一次重新定价，都直接打在设备股上。<br><br><strong>直接的投资含义：</strong>如果你用 SMH 来表达"看多英伟达 / 看多AI算力"，你这三个月里实际买到的是"半导体设备 + 英特尔 + 存储"的高beta组合。SMH 的大波动日与英伟达的基本面基本无关。</figcaption>
+</figure>
+
+<div class="card">
+  <h3 style="margin-top:0">"开源模型冲击AI资本开支"这个叙事，是什么时候引爆的？</h3>
+  <p><strong>2026年7月16–17日。引爆事件：中国月之暗面发布 Kimi K3。</strong></p>
+  <ul style="font-size:14px;color:var(--text-secondary)">
+    <li><strong>7月16日</strong>——Kimi K3 上线。2.8万亿参数 MoE（896个专家中每token只激活16个，实际算力占用远小于标称）、100万token上下文，声称在编程和长程任务上匹敌前沿模型。<span class="hl">同一天，台积电Q2财报把全年营收指引从30%上修到40%以上、资本开支上调15%至600–640亿美元。</span></li>
+    <li><strong>7月17日</strong>——市场爆发。日经 −4%、韩国KOSPI 跌超6%、台积电 −5.3~7%、费半 −4.29%。但美股当日 SOXX 只跌 1.6%，<strong>反应远小于亚洲</strong>。</li>
+    <li><strong>7月26日晚</strong>——Moonshot 提前正式开源全部权重。这才是真正的冲击：任何人都可以自托管一个接近前沿的模型，而不必付费给 OpenAI/Anthropic。</li>
+  </ul>
+  <p style="font-size:14px;margin-bottom:0"><strong>讽刺之处：</strong>市场用"开源模型会减少算力需求"这个当天才出现的叙事，压过了台积电同一天亲口上调40%+营收指引的硬事实。</p>
+</div>
+
+<!-- ============ 4 ============ -->
+<h2><span class="num">04</span>资金线：钱根本没走</h2>
+<p class="lede">这是信息量最大的一条线。价格在暴跌，钱却在往里涌——而且是历史级别的涌入。这个背离是判定"洗盘 vs 撤离"的核心证据。</p>
+
+<figure>
+  <p class="figtitle">7月 vs 8月第一周：资金流向的完全反转</p>
+  <p class="figsub">单位：亿美元。7月半导体虹吸 QQQ；8月第一周方向彻底掉头</p>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--s1)"></i>2026年7月（整月）</span>
+    <span><i class="sw" style="background:var(--s2)"></i>8月第一周（8/1–8/7）</span>
+  </div>
+  <div id="c4"></div>
+  <figcaption><strong>这纠正了一个流传很广的说法。</strong>"资金从半导体流向 QQQ"只在8月第一周成立，持续约一周；<strong>在此之前的整个7月方向是完全相反的</strong>——QQQ 流出50亿（全市场流出榜第一），三只半导体 ETF 合计流入183亿。SOXL 的69亿是它2010年成立以来最大单月流入。</figcaption>
+</figure>
+
+<div class="tiles">
+  <div class="tile"><div class="k">SOXX 单日流入</div><div class="v pos">$54.3亿</div><div class="n">7月8日，单日 AUM 跳升 11.73%。<strong>非纪录</strong>——纪录是月度的：7月 $69.2亿，成立以来最大单月</div></div>
+  <div class="tile"><div class="k">SOXL 一个月</div><div class="v pos">+$45.3亿</div><div class="n">但 AUM 反而降9.06亿——差额全是价格吃掉的</div></div>
+  <div class="tile"><div class="k">韩国散户强平账户</div><div class="v neg">32–36万</div><div class="n">超120万账户触发 margin call</div></div>
+  <div class="tile"><div class="k">SMH–SPX 波动率利差</div><div class="v">44%</div><div class="n">创纪录，高于历史均值5个标准差以上</div></div>
+</div>
+
+<h3>唯一一次真实的机构级恐慌，发生在 6月22日</h3>
+<div class="card">
+  <p style="margin-top:0"><strong>6月22日：SMH 单日净流出 71.9亿美元，SOXL 流出17.2亿，SOXX 流出8.31亿，而做空的 SOXS 净流入 4.37亿。</strong></p>
+  <p style="font-size:14px;color:var(--text-secondary)">这是可查区间内<strong>唯一一次"多空双向确认"</strong>：多头产品大幅赎回 + 空头产品大幅申购，方向一致。次日（6/23）SMH −7.01%、SOXL −23%。<strong>钱在暴跌前一天就跑了，价格是跟在资金后面走的。</strong></p>
+  <p style="font-size:14px;color:var(--text-secondary);margin-bottom:0">对比之下，7月的所有暴跌日周边，资金流是压倒性的抄底方向：7/29 费半见底当天，SOXL 拿下11.3亿，是当日<strong>全市场所有 ETF 中最大的吸金王</strong>，同时 SOXS 被赎回1.57亿。整个 6/22–7/17，四只主要半导体 ETF 逆势流入约 <strong>247亿美元</strong>，全程发生在价格下跌途中。</p>
+</div>
+
+<h3>崩塌是机械性的，不是资金性的</h3>
+<p>三倍杠杆基金的每日再平衡有闭式解：<code>Δ = L(L−1)·E·r = 6Er</code>。代入6月23日，SOXL 期初 AUM 318.3亿、标的约 −7.7%，<strong>仅这一只基金在尾盘就需机械性卖出约147亿美元的半导体名义敞口</strong>（本报告推算，非引用）。这个量级足以解释为什么半导体的大跌总是"越跌越急、尾盘加速"。</p>
+<ul>
+  <li><strong>它是纯粹顺周期的</strong>——跌时卖、涨时买，与基本面无关，与申赎无关。即使一分钱都没赎回，SOXL 照样必须卖。</li>
+  <li><strong>规模与 AUM 成正比</strong>。2026年半导体杠杆 AUM 翻了三倍，意味着同样一个 −5% 的日子，机械卖压比年初大三倍。这与"全年 &gt;4% 的天数创纪录"<strong>互为因果</strong>。全市场杠杆 ETF 日均再平衡量在7月3日创下500亿美元的历史纪录，较年初增长四倍。</li>
+  <li><strong>6/5 那天有明确的 gamma 强制对冲成分</strong>：SMH 开盘位于610大额正gamma行权价下方，收盘约570，接近峰值负gamma；HIRO 指标显示累计 delta −80亿美元，为30天内最大读数。做市商在负gamma区被迫"下跌中卖出"。</li>
+</ul>
+
+<h3>机构没有卖股票，机构在买保护</h3>
+<p>Q2 的13F显示半导体板块<strong>48%的申报机构净买入、34.5%净卖出</strong>——谈不上撤退。机构真正的表达方式在期权市场：SMH 与 SPX 的波动率利差扩大到创纪录的44%（&gt;5σ）、标普偏斜度从第14百分位飙到第82百分位、离散度指数升至六年新高47%，<strong>而同期 VIX 只有18、等权重标普还创了历史新高</strong>。</p>
+<p><strong>这是一场被精确隔离在半导体板块内部的崩塌。</strong>风险在板块内部被重新分配，而不是从股市中撤出。被洗掉的是杠杆散户（韩国120万账户 margin call、投入SOXL 40亿而持仓仅增4.6亿），不是资本。<strong>这是杠杆的死亡，不是信念的死亡。</strong></p>
+
+<!-- ============ 5 ============ -->
+<h2><span class="num">05</span>四条判定标准：噪音还是实质</h2>
+<p class="lede">不用"感觉像"来回答。四条可证伪的标准，逐条对照。</p>
+
+<table>
+  <thead><tr><th style="width:24%">判定标准</th><th style="width:12%">结果</th><th>证据</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>① 远期EPS一致预期动了吗</strong></td>
+      <td><span class="tag noise">没动</span></td>
+      <td>未找到任何下调证据。台积电营收指引 30%→<strong>40%+</strong>、资本开支 +15%；美光Q4指引 500亿美元、毛利率约86%；应用材料把设备增长上修到30%+。美光46位覆盖分析师中<strong>0人给卖出</strong>，平均目标价隐含48%上行。<em style="color:var(--muted)">（局限：板块聚合的远期EPS修正数据未查到，此结论为自下而上推导）</em></td>
+    </tr>
+    <tr>
+      <td><strong>② 实体订单簿动了吗</strong></td>
+      <td><span class="tag noise">没动</span></td>
+      <td>台积电7月营收144.9亿美元、<strong>同比+44.7%创单月纪录</strong>；3Q26 常规DRAM合约价<strong>仍环比涨13–18%</strong>；三星称存储短缺2027年恶化、<strong>持续到2028年</strong>，AI数据中心客户直接共享中长期需求预测锁定供应；HBM4已量产出货。<strong>4家超大厂零家削减资本开支</strong>（Alphabet、微软上调，Meta上调下限，亚马逊不给指引）。</td>
+    </tr>
+    <tr>
+      <td><strong>③ 3–5日内收复了吗</strong></td>
+      <td><span class="tag mixed">大部分收复</span></td>
+      <td>SMH 从7/29的低点 504.22 修复至 594.07（+17.8%），但仍低于6/22高点 668.91 约11%。<strong>形成了更低的高点</strong>——这是唯一一条不能给"纯噪音"的标准。</td>
+    </tr>
+    <tr>
+      <td><strong>④ 杠杆强平的机械放大占多少</strong></td>
+      <td><span class="tag real">占比巨大</span></td>
+      <td>SOXL 单只在6/23需机械抛售约147亿名义敞口；全市场杠杆ETF日均再平衡创500亿纪录、年内翻四倍；韩国32–36万账户被强制平仓；6/5 处于峰值负gamma、HIRO delta 创30天极值。<strong>波动的供给方是产品结构，不是撤资。</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>叙事 vs 事实的裂口</h3>
+<table>
+  <thead><tr><th style="width:26%">叙事说</th><th style="width:34%">依据</th><th>事实是</th></tr></thead>
+  <tbody>
+    <tr><td>AI资本开支要见顶</td><td>Kimi K3 开源、CXMT上市、Meta要对外卖算力</td><td><strong>4家超大厂零下调</strong>，2家上调、1家上调下限、1家不指引</td></tr>
+    <tr><td>芯片需求要放缓</td><td>费半单月 −21%</td><td><strong>台积电7月营收同比+44.7%创纪录</strong>，全年指引从30%上修到40%+</td></tr>
+    <tr><td>存储要崩</td><td>美光单月 −29%、闪迪 −47%</td><td>美光毛利率84.6%、Q4指引500亿；<strong>三星称短缺持续到2028年</strong>；3Q26 DRAM合约价仍涨13–18%</td></tr>
+    <tr><td>中国存储威胁</td><td>CXMT上市首日 +466%，一度成中国市值最高A股</td><td><strong>其IPO募资说明书里根本没有HBM项目</strong>——在AI真正的瓶颈环节上无实证支撑</td></tr>
+    <tr><td>盈利预期在下调</td><td>—</td><td><strong>未找到任何下调证据</strong></td></tr>
+  </tbody>
+</table>
+
+<div class="warn">
+  <div class="h">唯一真实的负面信号，来自公司自己</div>
+  <strong>Meta 的CFO在7月29日财报会上拒绝对2027年资本开支给出任何承诺</strong>："我们目前不提供2027年资本开支的具体展望。"同时 Alphabet 出现自由现金流为负、Meta 自由现金流降至2022年以来最低，超大厂已开始动用外部融资支撑AI资本开支。<br><br>
+  <strong>但请注意这是"融资约束"问题，不是"需求"问题。</strong>这是一句拒绝表态，不是一句下调——市场把它当成了下调。而它在7月30日被微软（Azure四年最快增速 + 资本开支上调至1750亿）和三星（短缺至2028年）部分对冲掉了。
+</div>
+
+<p><strong>当前状态（8月中旬）：叙事已经从"基本面变坏"退化为"股价太贵"。</strong>8月14日应用材料给出乐观指引、股价却领跌板块，媒体的解释是投资者"在科技股大涨后对高估值保持谨慎"——而同期标普500公司二季度盈利总额飙升52%。<strong>前者是杀逻辑，后者是杀估值。这是叙事性质的根本改变。</strong></p>
+
+<!-- ============ 6 ============ -->
+<h2><span class="num">06</span>逐日裁决</h2>
+<p class="lede">每一天，三条线各自的证据，以及交叉后的结论。</p>
+<div id="days"></div>
+
+<!-- ============ 7 ============ -->
+<h2><span class="num">07</span>数据冲突与局限</h2>
+<p class="lede">三条线独立取证，必然出现打架的地方。不做调和，如实列出——这些是你在使用本报告时需要自己判断的部分。</p>
+
+<div class="card">
+  <h3 style="margin-top:0">来源之间的冲突</h3>
+  <ul style="font-size:14px">
+    <li><strong>SOXX 一个月净流向符号相反</strong>：截至8/13，Benzinga 报 <strong>+15.3亿</strong>，ETFdb 报 <strong>−17.3亿</strong>，差额33亿美元。两个都列出，不做加减。</li>
+    <li><strong>SOXX 54.3亿流入的日期与"是否纪录"</strong>：etf.com（7/9发布，数据截至当日6am ET）与 ETF Action 均指向 <strong>7月8日</strong>，且<strong>都没有称其为纪录</strong>——etf.com 的原话只是"这种单日变动对一只成熟基金而言很罕见"。Benzinga（7/10发布）则称"周二"（=7/7），引用的是彭博数据经 Kobeissi Letter 转述，AUM 也差3亿（43.22亿 vs 46.28亿）。<strong>真正的纪录是月度的</strong>：7月净流入69.2亿，为成立以来最大单月（TradingView 口径）。</li>
+    <li><strong>ETF 流入不等于看多资金</strong>：份额创设也可能由做空者的借券需求、AP 溢价套利、组合调仓触发。CNBC 在6月9日的标题正是《半导体空头在这笔赢家交易反转时加码》——同期的大额创设中有多少是为了供给借券池，<strong>公开数据无法拆分</strong>。</li>
+    <li><strong>6月17日点阵图</strong>："9位官员" vs "近半数官员"，两个媒体口径不一致，未获美联储SEP原文核实。</li>
+    <li><strong>6月23日的归因</strong>：媒体统一归因于"鹰派联储"，但<strong>当天2年期收益率反而跌了8bp</strong>——债市数据不支持利率驱动这个叙事。这是本报告中叙事与数据分歧最大的一天。</li>
+    <li><strong>6月11日的因果链存疑</strong>：当天PPI是2022年以来最烫的数据，理论上应压垮股市，实际却是收益率大跌8–10bp、SMH暴涨6.75%。真实催化剂未查明。</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0">明确未查到的项目（绝未编造填充）</h3>
+  <ul style="font-size:14px;color:var(--text-secondary)">
+    <li>6/5、6/23、7/1、8/4 四个关键日的<strong>当日 ETF 申赎数据</strong>（6/8、6/11 亦未查到）</li>
+    <li>8天中<strong>任何一天的 CME FedWatch 官方加息概率读数</strong>——该工具的历史日度序列需付费访问</li>
+    <li>SOXL 在6月与7月的<strong>份额数（shares outstanding）</strong>，Direxion、Morningstar 均未公开该历史字段</li>
+    <li>2026年半导体板块的 <strong>short interest 美元金额</strong>——S3 Partners 公开数据停留在2022年</li>
+    <li><strong>半导体板块聚合的远期EPS修正数据</strong>——这是判定标准①的直接观测值，只能靠间接推导</li>
+    <li>台积电<strong>稼动率、行业交期(lead time)</strong>的时间序列</li>
+    <li>约<strong>26%的SMH权重</strong>（德州仪器、亚德诺、高通、科磊等传统模拟/成熟制程）的逐日涨跌幅——所有公开的"每日行情"栏目只跟踪AI概念股，系统性忽略这一块。因此"传统半导体是否与AI板块分化"只有7/30高通−4.3%这一个硬数据点，<strong>不足以下结论</strong>。</li>
+  </ul>
+</div>
+
+<div class="warn">
+  <div class="h">关于一个二手数据源的警告</div>
+  逐日成分股涨跌幅的主要来源之一（startuphub.ai 的"AI Stocks Daily"栏目）是 AI 生成内容。其<strong>指数级数据经交叉验证是准确的</strong>，但<strong>归因文字已被证实至少有一处确凿错误</strong>——它把6月8日和6月11日应用材料的上涨都归因于"Q2财报"，而该财报实际发布日是5月14日。凡未能用一手来源独立验证的归因，正文中均已标注。
+</div>
+
+<!-- ============ 8 ============ -->
+<h2><span class="num">08</span>下一步该盯什么</h2>
+<p class="lede">这份报告能给出的是当前状态，不是预测。真正的裁决点在下面这几个可观测的开关上。</p>
+<ul>
+  <li><strong>8月下旬至9月的 ETF 流向能否守住。</strong>如果 SOXX / SMH 出现连续第二、第三周净流出，<strong>且 SOXS 开始重新吸金</strong>，则"洗盘"的定性需要立即推翻。SOXS 在整个7月的每一个可查日期都在被赎回，AUM 从18.1亿降至14.0亿——真正的资金撤离不会伴随做空工具缩水。</li>
+  <li><strong>下一轮超大厂资本开支指引，尤其是2027年的数字。</strong>Meta CFO 那句拒绝表态是目前唯一真实的公司层面负面信号；它是被兑现还是被推翻，是整个多空之争的裁决点。</li>
+  <li><strong>HBM 合约价与常规DRAM的分叉。</strong>3Q26 涨幅减速集中在消费端（NAND晶圆、客户端SSD），AI/服务器端依然坚挺。如果分叉合拢、AI端也开始减速，那才是实体需求的第一个真信号。</li>
+  <li><strong>富达 Timmer 的40个月周期警告。</strong>若成立，真正的资金撤离尚未开始定价。</li>
+  <li><strong>SMH 能否收复 668.91。</strong>目前 594.07，形成了更低的高点。这是四条判定标准里唯一没给出"噪音"的一条。</li>
+</ul>
+
+<!-- ============ 来源 ============ -->
+<h2><span class="num">09</span>主要来源</h2>
+<div class="srcs">
+<a href="https://stockanalysis.com/etf/smh/history/">stockanalysis.com — SMH 日线历史</a>
+<a href="https://www.vaneck.com/us/en/investments/semiconductor-etf-smh/">VanEck 官方 — SMH 持仓与AUM</a>
+<a href="https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve&field_tdr_date_value_month=202606">美国财政部 — 每日国债收益率曲线</a>
+<a href="https://www.bls.gov/news.release/archives/ppi_06112026.htm">BLS — 5月PPI 官方发布</a>
+<a href="https://fortune.com/2026/08/02/wall-street-ai-trade-chip-stocks-volatility-sox-selloff/">Fortune — 华尔街最爱的押注瓦解（SOX月度数据）</a>
+<a href="https://www.cnbc.com/2026/07/29/chip-selloff-sk-hynix-samsung-softbank.html">CNBC — 芯片股蒸发超1万亿美元</a>
+<a href="https://www.cnbc.com/2026/06/03/broadcom-avgo-earnings-report-q2-2026.html">CNBC — 博通Q2财报</a>
+<a href="https://www.cnbc.com/2026/06/05/odds-of-a-fed-hike-this-year-jump-on-prediction-markets-.html">CNBC — 预测市场加息概率跳升（6/5）</a>
+<a href="https://www.cnbc.com/2026/08/07/odds-the-fed-hikes-in-september-tumble-following-big-july-jobs-miss.html">CNBC — 9月加息概率骤降（8/7）</a>
+<a href="https://www.trendforce.com/news/2026/07/16/news-tsmc-lifts-2026-capex-15-to-60-64b-hikes-sales-outlook-to-over-40-despite-q3-margin-dip/">TrendForce — 台积电上调资本开支与营收指引</a>
+<a href="https://www.trendforce.com/presscenter/news/20260703-13134.html">TrendForce — 3Q26 存储合约价展望</a>
+<a href="https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/a2026q3ex991-pressrelease.htm">SEC — 美光 FY26 Q3 财报原文</a>
+<a href="https://techcrunch.com/2026/07/31/samsung-expects-memory-shortage-to-worsen-through-2027-and-last-until-2028/">TechCrunch — 三星：存储短缺持续到2028</a>
+<a href="https://www.digitimes.com/news/a20260810VL209/tsmc-revenue-growth-2026-forecast.html">DigiTimes — 台积电7月营收创纪录 +44.7%</a>
+<a href="https://www.digitalapplied.com/blog/ai-capex-scorecard-earnings-week-july-2026">digitalapplied — AI资本开支记分卡（四大厂逐一）</a>
+<a href="https://www.etfaction.com/semiconductor-etfs-shed-billions-amid-broad-tech-and-equity-outflows/">ETF Action — 6/22 半导体大逃亡</a>
+<a href="https://www.etfaction.com/ishares-semiconductor-etf-sees-massive-5-4-billion-inflow/">ETF Action — SOXX 54.3亿纪录流入</a>
+<a href="https://www.tradingview.com/news/etfcom:14d5037e2094b:0-etf-inflows-hit-191b-in-july-as-2026-total-nears-1-3-trillion/">etf.com — 7月月度流向（半导体虹吸QQQ）</a>
+<a href="https://www.tradingview.com/news/etfcom:2714c11ff094b:0-semiconductor-etfs-see-profit-taking-as-investors-pile-into-qqq/">etf.com — 8月第一周资金反转</a>
+<a href="https://www.benzinga.com/etfs/sector-etfs/26/08/61167724/semiconductor-flows-stay-sticky-in-leveraged-chip-etfs-like-soxl-despite-fidelitys-cycle-peak-warning">Benzinga — 富达Timmer 周期顶部警告</a>
+<a href="https://spotgamma.com/ai-trade-unwind-smh-gamma-flush/">SpotGamma — 6/5 SMH gamma 复盘</a>
+<a href="https://www.koreatimes.co.kr/economy/20260804/korean-investors-flock-to-leveraged-us-etfs-take-another-hit">Korea Times — 韩国散户杠杆ETF持仓</a>
+<a href="https://www.investing.com/analysis/koreas-leveraged-chip-trade-hits-the-margin-call-wall-200684082">Investing.com — 韩国120万账户 margin call</a>
+<a href="https://www.benzinga.com/etfs/broad-u-s-equity-etfs/26/07/60264868/leveraged-etf-rebalancing-hits-50-billion-as-traders-warn-of-a-powerful-force-now-driving-us-market-volatility">Benzinga — 杠杆ETF日再平衡创500亿纪录</a>
+<a href="https://businessfinance.news/semiconductor-selloff-calm-index-what-the-july-2026-chip-rout-reveals-about-the-market-beneath-the-sp-500/">Business Finance News — 波动率利差与离散度极值</a>
+<a href="https://thenextweb.com/news/kimi-k3-china-ai-tech-rout-selloff">The Next Web — Kimi K3 与芯片抛售</a>
+<a href="https://www.tomshardware.com/tech-industry/cxmt-closes-up-466-percent-in-shanghai-debut-with-no-hbm-project-in-its-ipo-prospectus">Tom's Hardware — CXMT招股书中无HBM项目</a>
+<a href="https://www.foreignpolicyjournal.com/2026/08/15/institutional-investors-trim-tech-giants-and-semiconductors-in-q2-13f-filings-signaling-cautious-market-mood-nasdaq-msft-nasdaq-meta/">Q2 13F — 机构持仓变化</a>
+<a href="https://www.techtimes.com/articles/322048/20260729/soxl-slid-63-while-chip-stocks-lost-25-why-recovering-index-wont-fix-it.htm">TechTimes — SOXL 波动损耗与杠杆机制</a>
+<a href="https://invezz.com/news/2026/08/14/dow-closes-lower-as-applied-materials-leads-semiconductor-selloff/">Invezz — 8/14 应用材料乐观指引却领跌</a>
+</div>
+
+<p class="disc">本报告由三个并行研究任务（宏观 / 新闻事件 / 资金面）独立取证后交叉验证生成，数据截至 2026年8月18日。所有"未查到"的项目均已明确标注，未做任何数字填充；标注为"推算"的部分给出了完整公式与输入值，可自行复核。<br><br>
+本报告为信息整理与分析，不构成投资建议。我不是投资顾问，报告中的任何判断都不应被当作买卖决策的依据。数据存在上文列出的冲突与缺口，请在使用前自行核验关键数字。</p>
+
+</div>
+
+<div class="tt" id="tt"></div>
+
+<script>
+const DAILY=[["06-01",1.48,607.81],["06-02",4.01,632.21],["06-03",0.90,637.90],["06-04",-1.63,627.53],["06-05",-9.22,569.69],["06-08",5.00,598.16],["06-09",-1.20,591.01],["06-10",-3.40,570.91],["06-11",6.75,609.45],["06-12",1.72,619.96],["06-15",4.38,647.10],["06-16",-4.81,616.00],["06-17",1.29,623.97],["06-18",5.76,659.88],["06-22",1.37,668.91],["06-23",-7.01,622.05],["06-24",-0.50,618.92],["06-25",2.90,636.88],["06-26",-3.97,611.61],["06-29",3.33,631.98],["06-30",3.78,655.89],["07-01",-5.40,620.46],["07-02",-4.54,592.29],["07-06",2.03,604.30],["07-07",-3.78,581.45],["07-08",1.99,593.00],["07-09",2.48,607.73],["07-10",0.54,611.03],["07-13",-4.16,585.62],["07-14",2.51,600.31],["07-15",-1.59,590.77],["07-16",-3.70,568.92],["07-17",-2.18,556.53],["07-20",0.41,558.83],["07-21",4.52,584.08],["07-22",0.48,586.91],["07-23",-1.15,580.17],["07-24",-3.27,561.19],["07-27",-2.25,548.55],["07-28",-3.45,529.60],["07-29",-4.79,504.22],["07-30",6.88,538.90],["07-31",0.30,540.53],["08-03",0.91,545.46],["08-04",5.55,575.71],["08-05",-1.04,569.70],["08-06",0.31,571.48],["08-07",1.96,582.70],["08-10",-2.28,569.41],["08-11",0.62,572.93],["08-12",2.08,584.83],["08-13",0.73,589.12],["08-14",-0.22,587.82],["08-17",1.06,594.07]];
+
+const BIG=[
+ {d:"2026-06-05",r:-9.22,qqq:-4.80,spy:-2.58,exQ:-0.05,exS:-1.48,nvda:-6.2,equip:-9.8,
+  cause:"强非农 + 加息预期跳升 + 博通指引未上修",verdict:"mixed",vtxt:"宏观与行业共振",
+  macro:"5月非农大幅超预期，2年期 +12bp、10年期 +8bp，媒体引述经济学家称12月前加息概率约70%。纳指 −4.18%，为年内最差单日。",
+  news:"博通6/3盘后财报：AI营收同比+143%，但AI芯片指引160亿低于预期172亿，陈福阳拒绝上调2027年展望。AVGO 6/4 单日 −12.59%，成交量为一年多来最大。",
+  flow:"SpotGamma：SMH 收在接近峰值负gamma处，HIRO 累计 delta −80亿美元为30天最大读数，做市商被迫在下跌中卖出。65%的下行对冲压力来自较长期限期权。",
+  cross:"三线全部命中，是8天中唯一的三重确认。但注意：英伟达只跌6.2%，是全场跌幅最小之一——如果是AI需求证伪，NVDA/AVGO 该跌最多。实际是估值最贵、beta最高的名字跌最多（ARM −12.8%），这是利率驱动的估值压缩。"},
+ {d:"2026-06-08",r:5.00,qqq:1.56,spy:0.23,exQ:2.02,exS:4.31,nvda:1.7,equip:7.7,
+  cause:"谷歌向英特尔下单300万颗自研TPU",verdict:"noise",vtxt:"单点事件，非行业信号",
+  macro:"宏观三件套全部静默：无重大数据、无联储事件、2年期 −2bp、10年期 +1bp。SPY 只涨0.23%。",
+  news:"谷歌委托英特尔代工超300万颗TPU，2028年交付，原因是台积电产能吃紧。INTC +8.5%，而 NVDA 只有 +1.7%——差距5倍。",
+  flow:"当日流向未查到。",
+  cross:"离散度极高，是份额的再分配（英特尔从台积电抢单），零和的，不是行业总量扩张。台积电只涨2.8%——既受益于'需求强到产能不够'，又受损于'客户被抢走'。<strong>不能当作AI需求向好的证据。</strong>"},
+ {d:"2026-06-11",r:6.75,qqq:3.38,spy:1.70,exQ:0.29,exS:1.65,nvda:null,equip:11.1,
+  cause:"伊朗局势缓和 + 美银双级上调英特尔",verdict:"noise",vtxt:"纯宏观风险偏好反弹",
+  macro:"特朗普宣布取消打击行动，VIX −12%，油价回落。但当天5月PPI是2022年以来最烫（同比+6.5%），理论上该压垮股市，实际却是收益率大跌8–10bp、股市暴涨——<strong>这个矛盾未查明真实催化剂</strong>。",
+  news:"美银对英特尔双级上调评级。前一日6/10 刚因CPI创三年新高+美伊冲突重挫。设备四强全线涨9–12.7%，是最大贡献源。",
+  flow:"当日流向未查到。",
+  cross:"矛盾信号：同一天甲骨文因'资本开支太高'暴跌11.9%，而设备股因'资本开支会很高'暴涨12.65%。<strong>市场在同一天对同一件事给出了相反定价</strong>——这是叙事混乱期的典型特征，不是基本面重估。"},
+ {d:"2026-06-18",r:5.76,qqq:2.51,spy:1.04,exQ:0.97,exS:2.64,nvda:3.0,equip:3.9,
+  cause:"特朗普宣布苹果将与英特尔在美合作制造芯片",verdict:"noise",vtxt:"单点政策事件",
+  macro:"6/17 FOMC 点阵图转鹰（近半数官员预计2026年再加息）已于前一日消化，6/18 是消化完毕后的反弹，收益率小幅回落。",
+  news:"INTC +10.64%，NVDA 只有 +3.0%。当天所有AI软件股（CRM/PLTR/DDOG/NET）全线下跌，钱从软件流向硬件。",
+  flow:"<strong>SMH 单日净流入69.3亿美元，相当于其资产的8.78%</strong>，占当周全部流入美国科技板块基金的约32%。单日8.78%的份额创设极不寻常。",
+  cross:"关键坐标：<strong>费城半导体指数的历史最高点是6月22日</strong>，所以6/18是这轮牛市顶部前最后一根大阳线。而那笔69.3亿的流入，仅仅两个交易日后（6/22）就变成 −71.9亿，金额几乎完全对冲——更像大额机构一次性调仓或AP套利往返，<em>此为推测，无来源明确指认为同一主体</em>。"},
+ {d:"2026-06-23",r:-7.01,qqq:-3.29,spy:-1.45,exQ:-0.73,exS:-2.66,nvda:-4.13,equip:-8.6,
+  cause:"韩国市场崩盘 + 加息担忧（但债市数据不支持）",verdict:"noise",vtxt:"次日被财报直接证伪",
+  macro:"媒体统一归因于'鹰派联储'，<strong>但当天2年期收益率反而跌了8bp</strong>。如果真是加息预期驱动，短端应该上行。<strong>债市数据不支持这个叙事</strong>——这是全篇分歧最大的一天。",
+  news:"KOSPI 当日暴跌约10%。方向极明确：设备 −7.8~9.3% &gt; 代工 &gt; AI算力（NVDA −4.13%、AVGO −3.06%，只有设备股的三分之一到一半），软件股逆势上涨。",
+  flow:"<strong>前一日6/22是唯一一次多空双向确认的真实恐慌</strong>：SMH −71.9亿、SOXL −17.2亿、SOXX −8.31亿，而做空的 SOXS +4.37亿。钱在暴跌前一天就跑了。SOXL 当日 −23%，按公式推算需机械抛售约147亿名义敞口。",
+  cross:"<strong>决定性证据：第二天（6/24）美光公布了历史上最强的一份财报</strong>——营收414.6亿同比+346%、GAAP毛利率84.6%、Q4指引500亿、HBM4已量产，股价 +15.74%。这一天的 −7.01% 在24小时内就被基本面直接证伪。卖出的人卖的是韩国情绪和利率预期，不是半导体需求。"},
+ {d:"2026-07-01",r:-5.40,qqq:-1.52,spy:-0.14,exQ:-2.50,exS:-4.98,nvda:null,equip:-9.8,
+  cause:"Meta宣布对外出售AI算力 + 美银泡沫警告",verdict:"mixed",vtxt:"资本开支周期定价，但基于传闻",
+  macro:"<strong>8天中宏观解释力最弱的一天</strong>。SPY 只跌0.14%（几乎持平），SMH 跌5.40%，收益率仅动3–4bp。宏观基本无关。",
+  news:"Meta 计划建立云基础设施业务、向外部客户出售AI算力，被解读为'超大厂手上有闲置GPU'。<em>该消息未能用一手来源独立验证。</em>次日亚洲剧烈传导：三星、SK海力士暴跌超9%。",
+  flow:"当日流向未查到。但7/6起资金开始大举涌入：7/6 SMH +17.8亿，7/8 SOXX +54.3亿（单日AUM跳升11.73%）。",
+  cross:"<strong>离散度最极端的一天</strong>：设备股 −9.7~10%，同时 META +8.81%、CRWD +10.22%、PLTR +7.77%、MSFT +3.0%。逻辑很干净——如果市场信 Meta 有闲置算力，下一轮设备订单就会推迟。<strong>这是'AI资本开支周期见顶'交易，不是'AI需求消失'交易。两者投资含义完全不同。</strong>英伟达和博通当天都没进跌幅榜。"},
+ {d:"2026-07-30",r:6.88,qqq:3.30,spy:1.68,exQ:0.58,exS:1.84,nvda:3.0,equip:16.5,
+  cause:"微软Azure四年最快 + 泛林财报 + 三星称短缺到2028",verdict:"real",vtxt:"唯一由硬事实驱动的一天",
+  macro:"7/29 FOMC 维持利率，靴子落地。收益率几乎没动（+1bp），说明利率路径没变，涨的是风险溢价压缩。",
+  news:"<strong>三条全部是一手事实：</strong>微软Azure增速四年最快、2026日历年资本开支约1750亿、股价+16%（单日市值增约4500亿，创历史纪录）；泛林强劲财报与乐观指引；三星称存储短缺2027年恶化、<strong>持续到2028年</strong>，AI数据中心客户直接共享中长期需求预测锁定供应。",
+  flow:"资金先到、价格后涨：前一日7/29（费半见底当天）SMH +7.67亿、SOXX +19.4亿、<strong>SOXL +11.3亿为当日全市场吸金冠军</strong>，同时 SOXS 被赎回1.57亿。7/30 当日继续流入。",
+  cross:"<strong>三大子板块首次出现可测量的分化，跨度22.3个百分点：</strong>LRCX +18%（1999年以来最大单日）、AMAT +15%、AMD/MRVL +13%、存储ETF +11%、<strong>NVDA 只有 +3%</strong>、<strong>QCOM −4.3%（逆势下跌）</strong>。市场买的是'AI资本开支周期还没结束'这一个交易，不是'半导体行业好转'。高通做手机基带，跟AI资本开支无关，所以在全行业+7%的日子里它跌了4.3%。"},
+ {d:"2026-08-04",r:5.55,qqq:3.40,spy:1.80,exQ:-0.94,exS:0.15,nvda:2.56,equip:6.7,
+  cause:"全面 risk-on，标普道指双双创历史新高",verdict:"noise",vtxt:"纯beta，含金量最低",
+  macro:"标普500与道指双双创收盘历史新高，纳指 +2.6%，VIX 一周内跌11.59%至16.11，油价下跌（通胀压力缓解），2年期 −5bp、10年期 −7bp。",
+  news:"<strong>当天没有任何半导体行业层面的新信息。</strong>Palantir 财报暴涨约30%点燃AI情绪。涨幅排序几乎完全等于'前期跌幅排序'：INTC（前月−24%）+10%涨最多，NVDA +2.56%、TSM +2.72% 涨最少。媒体明确指出英特尔的反弹'主要是技术性的'——空头回补和抄底，而非新的基本面支撑。",
+  flow:"当日流向未查到。但紧接着的8/1–8/7 那一周出现本轮首次真实流出：SOXX −37.0亿、SMH −18.0亿，同时 QQQ +101.8亿。",
+  cross:"<strong>SMH 甚至跑输了自己的beta</strong>（QQQ口径超额 −0.94pp）。NVDA 与 TSM 合计占31.4%权重却几乎没贡献，全靠剩下68.6%的高beta名字。这是估值修复，不是基本面重估。<strong>更重要的是它之后发生的事——资金在这根大阳线之后开始撤，在反弹中卖出比在暴跌中卖出更能说明持有意愿的衰减。</strong>"}
+];
+
+const css=k=>getComputedStyle(document.documentElement).getPropertyValue(k).trim();
+const tt=document.getElementById('tt');
+function showTT(e,html){tt.innerHTML=html;tt.style.opacity=1;
+  let x=e.clientX+14,y=e.clientY+14;
+  if(x+270>innerWidth)x=e.clientX-270; if(y+90>innerHeight)y=e.clientY-90;
+  tt.style.left=x+'px';tt.style.top=y+'px';}
+function hideTT(){tt.style.opacity=0}
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const sg=v=>(v>0?'+':'')+v.toFixed(2);
+
+/* ---------- C1: daily returns + price ---------- */
+function c1(){
+  const W=1080,H=340,P={t:16,r:52,b:34,l:44},n=DAILY.length;
+  const iw=W-P.l-P.r,ih=H-P.t-P.b, bw=iw/n, bar=Math.min(bw-3,15);
+  const mx=10, y=v=>P.t+ih/2-(v/mx)*(ih/2);
+  const ps=DAILY.map(d=>d[2]), pmin=Math.min(...ps)*0.985, pmax=Math.max(...ps)*1.015;
+  const py=v=>P.t+ih-((v-pmin)/(pmax-pmin))*ih;
+  let s=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;overflow:visible" role="img" aria-label="SMH 日涨跌幅柱状图">`;
+  for(let g=-10;g<=10;g+=5){s+=`<line x1="${P.l}" x2="${W-P.r}" y1="${y(g)}" y2="${y(g)}" stroke="${g===0?css('--baseline'):css('--grid')}" stroke-width="1"/>`;
+    s+=`<text x="${P.l-8}" y="${y(g)+4}" text-anchor="end" font-size="10.5" fill="${css('--muted')}" style="font-variant-numeric:tabular-nums">${g>0?'+':''}${g}%</text>`;}
+  // price line
+  let pd=DAILY.map((d,i)=>`${i===0?'M':'L'}${(P.l+i*bw+bw/2).toFixed(1)},${py(d[2]).toFixed(1)}`).join(' ');
+  s+=`<path d="${pd}" fill="none" stroke="${css('--muted')}" stroke-width="1.5" opacity=".5"/>`;
+  DAILY.forEach((d,i)=>{
+    const[dt,r]=d, big=Math.abs(r)>=5, x=P.l+i*bw+(bw-bar)/2;
+    const col=r>=0?css('--up'):css('--down'), h=Math.abs(y(r)-y(0));
+    s+=`<rect class="b1" data-i="${i}" x="${x.toFixed(1)}" y="${(r>=0?y(r):y(0)).toFixed(1)}" width="${bar.toFixed(1)}" height="${Math.max(h,1).toFixed(1)}" rx="3" fill="${col}" opacity="${big?1:.32}"/>`;
+    if(big) s+=`<text x="${(x+bar/2).toFixed(1)}" y="${(r>=0?y(r)-7:y(r)+15).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="600" fill="${col}" style="font-variant-numeric:tabular-nums">${sg(r)}</text>`;
+    if(i%6===0||big) s+=`<text x="${(x+bar/2).toFixed(1)}" y="${H-12}" text-anchor="middle" font-size="9.5" fill="${css('--muted')}" opacity="${big?1:.7}">${dt}</text>`;
+  });
+  s+=`<text x="${W-P.r+8}" y="${py(ps[ps.length-1])+4}" font-size="10" fill="${css('--muted')}">收盘价</text></svg>`;
+  document.getElementById('c1').innerHTML=s;
+  document.querySelectorAll('.b1').forEach(el=>{
+    el.addEventListener('mousemove',e=>{const d=DAILY[+el.dataset.i];
+      showTT(e,`<div class="d">2026-${d[0]}</div><div class="r">涨跌幅 <strong style="color:${d[1]>=0?css('--up'):css('--down')}">${sg(d[1])}%</strong></div><div class="r">收盘 $${d[2].toFixed(2)}</div>`)});
+    el.addEventListener('mouseleave',hideTT);});
+}
+
+/* ---------- C2: excess return, grouped ---------- */
+function c2(){
+  const W=1080,H=300,P={t:18,r:20,b:44,l:52},n=BIG.length;
+  const iw=W-P.l-P.r,ih=H-P.t-P.b, gw=iw/n, bw=Math.min(gw/2-8,40);
+  const mx=5.5, y=v=>P.t+ih/2-(v/mx)*(ih/2);
+  let s=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;overflow:visible" role="img" aria-label="超额收益分组柱状图">`;
+  for(let g=-5;g<=5;g+=2.5){s+=`<line x1="${P.l}" x2="${W-P.r}" y1="${y(g)}" y2="${y(g)}" stroke="${g===0?css('--baseline'):css('--grid')}" stroke-width="1"/>`;
+    s+=`<text x="${P.l-8}" y="${y(g)+4}" text-anchor="end" font-size="10.5" fill="${css('--muted')}" style="font-variant-numeric:tabular-nums">${g>0?'+':''}${g}pp</text>`;}
+  BIG.forEach((b,i)=>{
+    const cx=P.l+i*gw+gw/2;
+    [[b.exQ,css('--s1'),-1],[b.exS,css('--s2'),1]].forEach(([v,col,side])=>{
+      const x=cx+(side<0?-bw-2:2), h=Math.abs(y(v)-y(0));
+      s+=`<rect x="${x.toFixed(1)}" y="${(v>=0?y(v):y(0)).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(h,1.5).toFixed(1)}" rx="3" fill="${col}"/>`;
+      s+=`<text x="${(x+bw/2).toFixed(1)}" y="${(v>=0?y(v)-6:y(v)+14).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="600" fill="${col}" style="font-variant-numeric:tabular-nums">${sg(v)}</text>`;
+    });
+    const strong=Math.abs(b.exQ)>2;
+    s+=`<text x="${cx}" y="${H-24}" text-anchor="middle" font-size="11" font-weight="${strong?700:400}" fill="${strong?css('--text-primary'):css('--muted')}">${b.d.slice(5)}</text>`;
+    s+=`<text x="${cx}" y="${H-10}" text-anchor="middle" font-size="9.5" fill="${css('--muted')}" style="font-variant-numeric:tabular-nums">SMH ${sg(b.r)}%</text>`;
+  });
+  s+=`</svg>`; document.getElementById('c2').innerHTML=s;
+}
+
+/* ---------- C3: NVDA vs SMH vs equipment ---------- */
+function c3(){
+  const rows=BIG.filter(b=>b.nvda!==null);
+  const W=1080,H=300,P={t:18,r:20,b:44,l:52},n=rows.length;
+  const iw=W-P.l-P.r,ih=H-P.t-P.b, gw=iw/n, bw=Math.min(gw/3.4,34);
+  const mx=19, y=v=>P.t+ih/2-(v/mx)*(ih/2);
+  let s=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;overflow:visible" role="img" aria-label="英伟达与设备股对比">`;
+  for(let g=-15;g<=15;g+=7.5){s+=`<line x1="${P.l}" x2="${W-P.r}" y1="${y(g)}" y2="${y(g)}" stroke="${g===0?css('--baseline'):css('--grid')}" stroke-width="1"/>`;
+    s+=`<text x="${P.l-8}" y="${y(g)+4}" text-anchor="end" font-size="10.5" fill="${css('--muted')}" style="font-variant-numeric:tabular-nums">${g>0?'+':''}${g}%</text>`;}
+  rows.forEach((b,i)=>{
+    const cx=P.l+i*gw+gw/2;
+    [[b.r,css('--muted'),.45,-1.5],[b.nvda,css('--s1'),1,-0.25],[b.equip,css('--s2'),1,1]].forEach(([v,col,op,slot])=>{
+      const x=cx+slot*(bw+2)-bw/2, h=Math.abs(y(v)-y(0));
+      s+=`<rect x="${x.toFixed(1)}" y="${(v>=0?y(v):y(0)).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(h,1.5).toFixed(1)}" rx="3" fill="${col}" opacity="${op}"/>`;
+      if(op===1)s+=`<text x="${(x+bw/2).toFixed(1)}" y="${(v>=0?y(v)-6:y(v)+14).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="600" fill="${col}" style="font-variant-numeric:tabular-nums">${sg(v)}</text>`;
+    });
+    s+=`<text x="${cx}" y="${H-24}" text-anchor="middle" font-size="11" fill="${css('--muted')}">${b.d.slice(5)}</text>`;
+  });
+  s+=`</svg>`; document.getElementById('c3').innerHTML=s;
+}
+
+/* ---------- C4: flows ---------- */
+function c4(){
+  const F=[{k:"SOXX",jul:69,aug:-37.0},{k:"SOXL (3x)",jul:69,aug:null},{k:"SMH",jul:45,aug:-18.0},{k:"QQQ",jul:-50,aug:101.8}];
+  const W=1080,H=280,P={t:18,r:20,b:44,l:64},n=F.length;
+  const iw=W-P.l-P.r,ih=H-P.t-P.b, gw=iw/n, bw=Math.min(gw/2-14,56);
+  const mx=110, y=v=>P.t+ih*0.62-(v/mx)*(ih*0.62);
+  let s=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;overflow:visible" role="img" aria-label="资金流向对比">`;
+  [-50,0,50,100].forEach(g=>{s+=`<line x1="${P.l}" x2="${W-P.r}" y1="${y(g)}" y2="${y(g)}" stroke="${g===0?css('--baseline'):css('--grid')}" stroke-width="1"/>`;
+    s+=`<text x="${P.l-8}" y="${y(g)+4}" text-anchor="end" font-size="10.5" fill="${css('--muted')}" style="font-variant-numeric:tabular-nums">${g>0?'+':''}${g}亿</text>`;});
+  F.forEach((f,i)=>{
+    const cx=P.l+i*gw+gw/2;
+    [[f.jul,css('--s1'),-1],[f.aug,css('--s2'),1]].forEach(([v,col,side])=>{
+      const x=cx+(side<0?-bw-3:3);
+      if(v===null){s+=`<text x="${(x+bw/2).toFixed(1)}" y="${(y(0)+18).toFixed(1)}" text-anchor="middle" font-size="9.5" fill="${css('--muted')}">未查到</text>`;return;}
+      const h=Math.abs(y(v)-y(0));
+      s+=`<rect x="${x.toFixed(1)}" y="${(v>=0?y(v):y(0)).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(h,1.5).toFixed(1)}" rx="4" fill="${col}"/>`;
+      s+=`<text x="${(x+bw/2).toFixed(1)}" y="${(v>=0?y(v)-7:y(v)+15).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="600" fill="${col}" style="font-variant-numeric:tabular-nums">${v>0?'+':''}${v}</text>`;
+    });
+    s+=`<text x="${cx}" y="${H-18}" text-anchor="middle" font-size="12" font-weight="600" fill="${css('--text-secondary')}">${f.k}</text>`;
+  });
+  s+=`</svg>`; document.getElementById('c4').innerHTML=s;
+}
+
+/* ---------- table + day cards ---------- */
+function build(){
+  document.getElementById('t1').innerHTML=BIG.map(b=>{
+    const cls=b.r>=0?'pos':'neg', px=DAILY.find(d=>'2026-'+d[0]===b.d);
+    return `<tr><td><strong>${b.d}</strong></td><td class="n ${cls}">${sg(b.r)}%</td><td class="n">$${px[2].toFixed(2)}</td><td>${b.cause}</td><td><span class="tag ${b.verdict}">${b.vtxt}</span></td></tr>`;}).join('');
+  document.getElementById('days').innerHTML=BIG.map(b=>{
+    const cls=b.r>=0?'pos':'neg';
+    return `<div class="daycard">
+      <div class="dayhead"><span class="daydate">${b.d}</span><span class="daymove ${cls}">${sg(b.r)}%</span>
+        <span class="tag ${b.verdict}">${b.vtxt}</span>
+        <span class="pill">超额 QQQ口径 ${sg(b.exQ)}pp · SPY口径 ${sg(b.exS)}pp</span></div>
+      <div class="angles">
+        <div class="angle a1"><div class="t">宏观线</div><div class="b">${b.macro}</div></div>
+        <div class="angle a2"><div class="t">新闻线</div><div class="b">${b.news}</div></div>
+        <div class="angle a3"><div class="t">资金线</div><div class="b">${b.flow}</div></div>
+      </div>
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--grid);font-size:14px">
+        <span class="pill" style="margin-right:8px">交叉验证</span>${b.cross}</div>
+    </div>`;}).join('');
+}
+function render(){c1();c2();c3();c4();}
+build();render();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+</script>
+</body>
+</html>

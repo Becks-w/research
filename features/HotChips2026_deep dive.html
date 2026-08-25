@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hot Chips 2026 深度行业研究报告（可视化版）</title>
+<style>
+:root{--bg:#0d1220;--panel:#141b2e;--panel2:#1a2338;--ink:#dbe4f5;--muted:#8b98b8;--acc:#5b9dff;--acc2:#7ee0c0;--warn:#ffb454;--line:#26324e;--code:#0a0f1c}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.85;font-size:15.5px}
+a{color:var(--acc);text-decoration:none} a:hover{text-decoration:underline}
+/* top bar */
+.topbar{position:fixed;top:0;left:0;right:0;height:58px;background:rgba(13,18,32,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 20px;z-index:50}
+.topbar .logo{font-weight:800;font-size:16px;color:#fff;white-space:nowrap}
+.topbar .logo em{color:var(--warn);font-style:normal}
+.searchbox{flex:0 0 300px;position:relative}
+.searchbox input{width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-size:13px;outline:none}
+.searchbox input:focus{border-color:var(--acc)}
+.hint{color:var(--muted);font-size:12px;margin-left:auto;white-space:nowrap}
+/* layout */
+.wrap{display:flex;padding-top:58px;min-height:100vh}
+aside{width:300px;flex:0 0 300px;position:fixed;top:58px;bottom:0;left:0;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:18px 0 60px}
+aside::-webkit-scrollbar{width:6px} aside::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+.toc-h1{display:block;padding:7px 18px 7px 14px;border-left:3px solid transparent;font-weight:700;font-size:13.5px;color:var(--ink)}
+.toc-h2{display:block;padding:4px 18px 4px 30px;border-left:3px solid transparent;font-size:12.5px;color:var(--muted)}
+aside a:hover{background:var(--panel2);text-decoration:none;color:var(--acc)}
+main{margin-left:300px;flex:1;padding:36px 48px 120px;max-width:1060px}
+/* hero */
+.hero{background:linear-gradient(135deg,#16213c 0%,#0f1830 60%);border:1px solid var(--line);border-radius:16px;padding:34px 38px;margin-bottom:30px}
+.hero h1{margin:0 0 10px;font-size:26px;color:#fff}
+.hero .sub{color:var(--acc2);font-size:15px;margin-bottom:14px}
+.hero .meta{color:var(--muted);font-size:12.5px}
+.badges{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+.badge{background:rgba(91,157,255,.14);border:1px solid rgba(91,157,255,.4);color:var(--acc);padding:3px 12px;border-radius:999px;font-size:12px}
+.badge.g{background:rgba(126,224,192,.12);border-color:rgba(126,224,192,.4);color:var(--acc2)}
+.badge.w{background:rgba(255,180,84,.12);border-color:rgba(255,180,84,.4);color:var(--warn)}
+/* charts */
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin:6px 0 34px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.card h3{margin:0 0 4px;font-size:14.5px;color:#fff}
+.card .src{font-size:11px;color:var(--muted)}
+.bar{display:flex;align-items:center;gap:10px;margin:9px 0}
+.bar .lbl{width:120px;font-size:12.5px;color:var(--ink);text-align:right;flex:0 0 120px}
+.bar .track{flex:1;background:#0a0f1c;border-radius:6px;height:22px;position:relative;overflow:hidden}
+.bar .fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#3f7dd6,#5b9dff);display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:11.5px;color:#fff;font-weight:600;min-width:40px}
+.bar .fill.g{background:linear-gradient(90deg,#2f9e7e,#7ee0c0)}
+.bar .fill.w{background:linear-gradient(90deg,#c9822e,#ffb454)}
+.bar .fill.r{background:linear-gradient(90deg,#c95a5a,#ff8484)}
+/* content */
+h1{font-size:23px;color:#fff;border-bottom:2px solid var(--acc);padding-bottom:10px;margin:56px 0 22px}
+h2{font-size:19px;color:#cfe0ff;margin-top:38px;border-left:4px solid var(--acc);padding-left:12px}
+h3{font-size:16.5px;color:var(--acc2);margin-top:28px}
+h4,h5,h6{font-size:15px;color:var(--warn);margin-top:22px}
+p{margin:12px 0}
+blockquote{border-left:4px solid var(--warn);background:rgba(255,180,84,.07);margin:16px 0;padding:12px 18px;border-radius:0 10px 10px 0;color:#f4e3c8}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:14px 0}
+.tblwrap{overflow-x:auto}
+th{background:var(--panel2);color:#fff;text-align:left}
+th,td{border:1px solid var(--line);padding:8px 12px;vertical-align:top}
+tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+code{background:var(--code);border:1px solid var(--line);padding:1px 6px;border-radius:5px;font-size:13px;color:var(--acc2)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:16px;overflow-x:auto;font-size:13px;line-height:1.6;color:#bfe3d2}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+ul,ol{padding-left:26px}
+li{margin:6px 0}
+strong{color:#fff}
+em{color:var(--acc2)}
+mark{background:rgba(91,157,255,.25);color:#fff;padding:0 2px;border-radius:3px}
+@media(max-width:1000px){aside{display:none}main{margin-left:0;padding:24px}}
+footer{color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);margin-top:60px;padding-top:20px}
+
+.hit{background:rgba(255,180,84,.14);outline:1px dashed rgba(255,180,84,.5)}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo">🔥 Hot Chips 2026 <em>深度行业研究</em></div>
+  <div class="searchbox"><input id="q" type="text" placeholder="🔍 输入关键词定位（如 HBM / RISC-V / 混合键合）"></div>
+  <div class="hint">静态单文件 · 无需服务器 · 148 条来源引用</div>
+</div>
+<div class="wrap">
+<aside>
+<nav>
+<a class="toc-h1" href="#s1"><span class="toc-num"></span>算力的&quot;第二战场&quot;：Hot Chips 2026 深度小白研究报告</a>
+<a class="toc-h2" href="#s2"><span class="toc-num"></span>——当瓶颈从晶体管转向&quot;搬数据&quot;：HBM 3D化、近存计算与 RISC-V 的产业重构</a>
+<a class="toc-h1" href="#s3"><span class="toc-num"></span>第一章 导读：为什么一场芯片会议值得你花三万字阅读</a>
+<a class="toc-h2" href="#s4"><span class="toc-num"></span>1.1 一句话总结 Hot Chips 2026</a>
+<a class="toc-h2" href="#s5"><span class="toc-num"></span>1.2 本报告的结构（阅读地图）</a>
+<a class="toc-h2" href="#s6"><span class="toc-num"></span>1.3 三分钟版本（TL;DR）</a>
+<a class="toc-h1" href="#s7"><span class="toc-num"></span>第二章 基础课：读懂本报告需要的全部概念</a>
+<a class="toc-h2" href="#s8"><span class="toc-num"></span>2.1 芯片、晶体管与制程：为什么&quot;造得更小&quot;曾经是万能药</a>
+<a class="toc-h2" href="#s9"><span class="toc-num"></span>2.2 内存（DRAM）：AI 时代的&quot;真主角&quot;</a>
+<a class="toc-h2" href="#s10"><span class="toc-num"></span>2.3 带宽、延迟与功耗：衡量内存的三个尺子</a>
+<a class="toc-h2" href="#s11"><span class="toc-num"></span>2.4 内存族谱：DDR、LPDDR、GDDR、HBM 一张图看懂</a>
+<a class="toc-h2" href="#s12"><span class="toc-num"></span>2.5 封装：从&quot;DIP 小黑块&quot;到&quot;3D 摩天楼&quot;</a>
+<a class="toc-h2" href="#s13"><span class="toc-num"></span>2.6 RISC-V：开源的指令集</a>
+<a class="toc-h2" href="#s14"><span class="toc-num"></span>2.7 存储的&quot;食物链&quot;：从 HBM 到硬盘</a>
+<a class="toc-h2" href="#s15"><span class="toc-num"></span>2.8 产业链地图：一个 HBM 到 AI 数据中心的旅程</a>
+<a class="toc-h1" href="#s16"><span class="toc-num"></span>第三章 内存墙：AI 时代最贵的不是&quot;算&quot;，是&quot;搬&quot;</a>
+<a class="toc-h2" href="#s17"><span class="toc-num"></span>3.1 什么是&quot;内存墙&quot;（Memory Wall）</a>
+<a class="toc-h2" href="#s18"><span class="toc-num"></span>3.2 第二道内存墙：从&quot;带宽墙&quot;到&quot;成本墙&quot;（文档趋势一）</a>
+<a class="toc-h2" href="#s19"><span class="toc-num"></span>3.3 效率悖论：为什么模型变聪明不会减少芯片需求（文档核心洞察）</a>
+<a class="toc-h2" href="#s20"><span class="toc-num"></span>3.4 需求端全景：谁在为 HBM 付钱</a>
+<a class="toc-h2" href="#s21"><span class="toc-num"></span>3.5 突破内存墙的产业路径图（本报告主线）</a>
+<a class="toc-h1" href="#s22"><span class="toc-num"></span>第四章 HBM 深度拆解：AI 时代最贵的&quot;面粉&quot;</a>
+<a class="toc-h2" href="#s23"><span class="toc-num"></span>4.1 从零开始：HBM 到底是什么</a>
+<a class="toc-h2" href="#s24"><span class="toc-num"></span>4.2 代际演进全景表</a>
+<a class="toc-h2" href="#s25"><span class="toc-num"></span>4.3 需求端与供给端：超级周期是如何形成的</a>
+<a class="toc-h2" href="#s26"><span class="toc-num"></span>4.4 HBM 的物理极限：文档四大挑战的技术解剖</a>
+<a class="toc-h2" href="#s27"><span class="toc-num"></span>4.5 三星三阶段路线图：本次大会最具颠覆性的内容</a>
+<a class="toc-h2" href="#s28"><span class="toc-num"></span>4.6 SK 海力士的答卷：工程现实主义者</a>
+<a class="toc-h2" href="#s29"><span class="toc-num"></span>4.7 A股 HBM 产业链标的图谱（信息汇总，非投资建议）</a>
+<a class="toc-h1" href="#s30"><span class="toc-num"></span>第五章 先进封装：从&quot;穿衣服&quot;到&quot;盖摩天楼&quot;的卖铲人环节</a>
+<a class="toc-h2" href="#s31"><span class="toc-num"></span>5.1 为什么封装突然成了核心技术</a>
+<a class="toc-h2" href="#s32"><span class="toc-num"></span>5.2 技术全景：一张&quot;封装族谱&quot;看懂所有名词</a>
+<a class="toc-h2" href="#s33"><span class="toc-num"></span>5.3 产业格局：谁在挣封装的钱</a>
+<a class="toc-h2" href="#s34"><span class="toc-num"></span>5.4 技术瓶颈：决定下一轮红利归属的四大难题</a>
+<a class="toc-h2" href="#s35"><span class="toc-num"></span>5.5 本章投资结论</a>
+<a class="toc-h1" href="#s36"><span class="toc-num"></span>第六章 近存计算与 d-Matrix：让内存自己算</a>
+<a class="toc-h2" href="#s37"><span class="toc-num"></span>6.1 概念澄清：近存计算（PNM）与存内计算（PIM）</a>
+<a class="toc-h2" href="#s38"><span class="toc-num"></span>6.2 前车之鉴：为什么 HBM-PIM、AiM、UPMEM 都没普及</a>
+<a class="toc-h2" href="#s39"><span class="toc-num"></span>6.3 d-Matrix Raptor：把&quot;近存&quot;推到物理极限</a>
+<a class="toc-h2" href="#s40"><span class="toc-num"></span>6.4 投资视角：近存计算的&quot;配置&quot;而非&quot;超配&quot;</a>
+<a class="toc-h1" href="#s41"><span class="toc-num"></span>第七章 存储层级重构：HBF 高带宽闪存与 QLC SSD</a>
+<a class="toc-h2" href="#s42"><span class="toc-num"></span>7.1 核心思想：不是所有数据都配得上 HBM</a>
+<a class="toc-h2" href="#s43"><span class="toc-num"></span>7.2 HBF：用 HBM 的接口装闪存的容量</a>
+<a class="toc-h2" href="#s44"><span class="toc-num"></span>7.3 QLC SSD：温数据层的&quot;降维打击&quot;</a>
+<a class="toc-h2" href="#s45"><span class="toc-num"></span>7.4 更远的层级：CXL 池化、LPDDR 分层与光学 I/O</a>
+<a class="toc-h2" href="#s46"><span class="toc-num"></span>7.5 本章小结与标的</a>
+<a class="toc-h1" href="#s47"><span class="toc-num"></span>第八章 RISC-V：从&quot;嵌入式玩具&quot;到数据中心选项的历史性跨越</a>
+<a class="toc-h2" href="#s48"><span class="toc-num"></span>8.1 从零开始：什么是指令集，为什么它值一个生态</a>
+<a class="toc-h2" href="#s49"><span class="toc-num"></span>8.2 标准化突破：RVA23 如何解决&quot;鸡生蛋&quot;问题（文档议题）</a>
+<a class="toc-h2" href="#s50"><span class="toc-num"></span>8.3 软件生态成熟：Ubuntu 与 CUDA 的两大里程碑</a>
+<a class="toc-h2" href="#s51"><span class="toc-num"></span>8.4 市场规模：从 0 到 1 之后的量有多大</a>
+<a class="toc-h2" href="#s52"><span class="toc-num"></span>8.5 中国力量：RISC-V 是中国半导体自主可控的关键抓手</a>
+<a class="toc-h2" href="#s53"><span class="toc-num"></span>8.6 RISC-V 主线的投资小结</a>
+<a class="toc-h1" href="#s54"><span class="toc-num"></span>第九章 汽车电子：RISC-V 的第二增长曲线</a>
+<a class="toc-h2" href="#s55"><span class="toc-num"></span>9.1 什么是&quot;区域架构&quot;：汽车电子的&quot;郡县制改革&quot;</a>
+<a class="toc-h2" href="#s56"><span class="toc-num"></span>9.2 异构计算需求：区域控制器是&quot;超级集成器&quot;</a>
+<a class="toc-h2" href="#s57"><span class="toc-num"></span>9.3 为什么 RISC-V 适配汽车：RVM 标准缺口与三大瓶颈</a>
+<a class="toc-h2" href="#s58"><span class="toc-num"></span>9.4 汽车电子小结</a>
+<a class="toc-h1" href="#s59"><span class="toc-num"></span>第十章 产业格局与投资框架：从赛道评级到四大论点</a>
+<a class="toc-h2" href="#s60"><span class="toc-num"></span>10.1 产业链机会图谱（文档原文的结构化展开）</a>
+<a class="toc-h2" href="#s61"><span class="toc-num"></span>10.2 赛道评级：文档的六档评级体系逐一论证</a>
+<a class="toc-h2" href="#s62"><span class="toc-num"></span>10.3 四大投资论点（文档原文 + 逐条证据链）</a>
+<a class="toc-h2" href="#s63"><span class="toc-num"></span>10.4 需求端全景：7,000 亿美元军备竞赛（联网调研）</a>
+<a class="toc-h2" href="#s64"><span class="toc-num"></span>10.5 存储超级周期的数据全景</a>
+<a class="toc-h2" href="#s65"><span class="toc-num"></span>10.6 效率悖论的实证：DeepSeek 冲击与 Jevons 效应</a>
+<a class="toc-h2" href="#s66"><span class="toc-num"></span>10.7 估值框架：给周期成长股定价的正确姿势</a>
+<a class="toc-h1" href="#s67"><span class="toc-num"></span>第十一章 风险提示与投资策略</a>
+<a class="toc-h2" href="#s68"><span class="toc-num"></span>11.1 文档六大风险的展开与增补</a>
+<a class="toc-h2" href="#s69"><span class="toc-num"></span>11.2 投资策略：短/中/长期路线图（文档策略的执行细化）</a>
+<a class="toc-h1" href="#s70"><span class="toc-num"></span>第十二章之前的加餐章 · 举一反三：从 Hot Chips 2026 延伸出的八个新领域</a>
+<a class="toc-h2" href="#s71"><span class="toc-num"></span>9+1. 晶圆级芯片与超大封装：当&quot;拆开造&quot;走到另一个极端</a>
+<a class="toc-h2" href="#s72"><span class="toc-num"></span>9+2. 共封装光学（CPO）与光学 I/O：把&quot;高速公路&quot;换成&quot;光纤&quot;</a>
+<a class="toc-h2" href="#s73"><span class="toc-num"></span>9+3. 散热革命：从&quot;风冷&quot;到&quot;微流道&quot;的隐秘主线</a>
+<a class="toc-h2" href="#s74"><span class="toc-num"></span>9+4. CXL 与内存解耦：把内存变成&quot;局域网共享资源&quot;</a>
+<a class="toc-h2" href="#s75"><span class="toc-num"></span>9+5. 存算一体的&quot;另一半&quot;：模拟存内计算与 MRAM/RRAM</a>
+<a class="toc-h2" href="#s76"><span class="toc-num"></span>9+6. 电源与供电：千瓦级 GPU 的&quot;血管手术&quot;</a>
+<a class="toc-h2" href="#s77"><span class="toc-num"></span>9+7. 国产存储的&quot;第三极&quot;：长鑫与长江存储</a>
+<a class="toc-h2" href="#s78"><span class="toc-num"></span>9+8. AI For Lithography 与&quot;设备智能化&quot;</a>
+<a class="toc-h1" href="#s79"><span class="toc-num"></span>第十二章 总结：一页看懂 Hot Chips 2026</a>
+<a class="toc-h2" href="#s80"><span class="toc-num"></span>12.1 六大趋势的收束（文档&quot;深刻总结&quot;章节的完整回顾）</a>
+<a class="toc-h2" href="#s81"><span class="toc-num"></span>12.2 全产业链标的一览表（汇总前文，信息汇总、非投资建议）</a>
+<a class="toc-h2" href="#s82"><span class="toc-num"></span>12.3 小白术语表（按拼音/字母序）</a>
+<a class="toc-h2" href="#s83"><span class="toc-num"></span>12.4 结语</a>
+<a class="toc-h1" href="#s84"><span class="toc-num"></span>附录 A：调研方法与资料来源说明</a>
+<a class="toc-h2" href="#s85"><span class="toc-num"></span>A.1 本报告的素材结构</a>
+<a class="toc-h2" href="#s86"><span class="toc-num"></span>A.2 调研中的事实核查与口径说明（严谨性声明）</a>
+<a class="toc-h2" href="#s87"><span class="toc-num"></span>A.3 免责声明</a>
+</nav>
+</aside>
+<main>
+<div class="hero">
+  <h1>算力的"第二战场"：当瓶颈从晶体管转向"搬数据"</h1>
+  <div class="sub">HBM 3D 化 · 智能内存（zHBM/AHBM）· 近存计算 · RISC-V 的产业重构 —— 深度小白研究报告（可视化版）</div>
+  <div class="meta">核心素材：《Hot Chips 2026 大会核心要点》 ｜ 五路并行联网调研 ｜ 全部关键事实附来源链接 ｜ 仅供研究参考，不构成投资建议</div>
+  <div class="badges">
+    <span class="badge">HBM 占封装硅片 ~90%</span>
+    <span class="badge">HBM 晶圆消耗 ≈ DDR 3 倍</span>
+    <span class="badge g">d-Matrix 0.37 pJ/bit vs HBM4 2.4</span>
+    <span class="badge g">RVA23 + CUDA + Ubuntu = RISC-V 拐点</span>
+    <span class="badge w">2026 四大厂 Capex ~7,150 亿美元</span>
+    <span class="badge w">HBM4E 16-Hi 混合键合窗口</span>
+  </div>
+</div>
+
+<div class="charts">
+  <div class="card">
+    <h3>📡 2026E 超大规模云厂商资本开支（亿美元）</h3>
+    <div class="src">来源见正文第十章（Yahoo Finance / 公司指引）</div>
+    <div class="bar"><div class="lbl">亚马逊</div><div class="track"><div class="fill" style="width:100%">~2,000</div></div></div>
+    <div class="bar"><div class="lbl">微软</div><div class="track"><div class="fill" style="width:95%">~1,900</div></div></div>
+    <div class="bar"><div class="lbl">谷歌</div><div class="track"><div class="fill" style="width:90%">1,750-1,850</div></div></div>
+    <div class="bar"><div class="lbl">Meta</div><div class="track"><div class="fill" style="width:65%">1,150-1,350</div></div></div>
+    <div class="bar"><div class="lbl">甲骨文</div><div class="track"><div class="fill w" style="width:25%">~500</div></div></div>
+  </div>
+  <div class="card">
+    <h3>🧠 2026Q2 HBM 市占率（%）</h3>
+    <div class="src">来源：Astute Group（正文第四章）</div>
+    <div class="bar"><div class="lbl">SK 海力士</div><div class="track"><div class="fill g" style="width:100%">62%</div></div></div>
+    <div class="bar"><div class="lbl">美光</div><div class="track"><div class="fill" style="width:34%">21%</div></div></div>
+    <div class="bar"><div class="lbl">三星</div><div class="track"><div class="fill w" style="width:27%">17%</div></div></div>
+  </div>
+  <div class="card">
+    <h3>⚡ 数据搬运能效（pJ/bit，越低越好）</h3>
+    <div class="src">来源：d-Matrix 官方博客 / Wevolver / 文档（正文第三、六章）</div>
+    <div class="bar"><div class="lbl">GDDR6X</div><div class="track"><div class="fill r" style="width:100%">4.2</div></div></div>
+    <div class="bar"><div class="lbl">HBM3</div><div class="track"><div class="fill" style="width:60%">2.5</div></div></div>
+    <div class="bar"><div class="lbl">HBM4</div><div class="track"><div class="fill" style="width:57%">2.4</div></div></div>
+    <div class="bar"><div class="lbl">zHBM 目标</div><div class="track"><div class="fill g" style="width:12%">~0.5</div></div></div>
+    <div class="bar"><div class="lbl">d-Matrix</div><div class="track"><div class="fill g" style="width:9%">0.37</div></div></div>
+  </div>
+  <div class="card">
+    <h3>🏗️ 关键数字速览</h3>
+    <div class="src">综合文档与联网调研（各章附来源）</div>
+    <div class="bar"><div class="lbl">2026 HBM 市场</div><div class="track"><div class="fill" style="width:100%">546 亿美元 (+58%)</div></div></div>
+    <div class="bar"><div class="lbl">Rubin HBM4/模块</div><div class="track"><div class="fill w" style="width:100%">576GB / 22TB/s</div></div></div>
+    <div class="bar"><div class="lbl">DRAM 2025 涨幅</div><div class="track"><div class="fill r" style="width:100%">合约价累计 +170%+</div></div></div>
+    <div class="bar"><div class="lbl">CoWoS 2026 产能</div><div class="track"><div class="fill g" style="width:100%">12-14 万片/月</div></div></div>
+  </div>
+</div>
+
+<h1 id="s1">算力的"第二战场"：Hot Chips 2026 深度小白研究报告</h1>
+<h2 id="s2">——当瓶颈从晶体管转向"搬数据"：HBM 3D化、近存计算与 RISC-V 的产业重构</h2>
+<blockquote><strong>报告性质</strong>：行业深度研究（小白友好版）｜<strong>核心素材</strong>：《Hot Chips 2026 大会核心要点》｜<strong>报告定位</strong>：从零到一讲透文档涉及领域的每个环节——原理、发展现状、技术瓶颈、龙头标的<br><strong>声明</strong>：本报告仅供研究参考，不构成投资建议。文中涉及上市公司仅作产业链梳理。所有联网调研事实均标注来源链接；标注"文档"的内容来自《Hot Chips 2026 大会核心要点》原文。</blockquote>
+<hr>
+<h1 id="s3">第一章 导读：为什么一场芯片会议值得你花三万字阅读</h1>
+<h2 id="s4">1.1 一句话总结 Hot Chips 2026</h2>
+<p>Hot Chips 是全球芯片架构领域最顶级的学术-产业会议，每年夏天在斯坦福大学举行，芯片厂商会把下一代架构的"家底"拿出来讲。而 Hot Chips 2026 的全部内容，可以用一句话概括：</p>
+<blockquote><strong>AI 算力的瓶颈，已经从"晶体管不够多"（造不出更快的芯片），变成了"数据搬不动"（内存喂不饱芯片）。整个行业的一切动作——HBM 三维堆叠、内存智能化（zHBM/AHBM）、近存计算、RISC-V 定制化——都是在回答这一个问题。</strong></blockquote>
+<p>这个判断对投资者意味着什么？文档原文给出了极其精炼的答案："<strong>离数据越近的价值越大</strong>"——无论是物理上（3D 堆叠、近存计算）还是逻辑上（RISC-V 定制、内存控制器集成），内存与计算的融合正在创造新一代半导体巨头的诞生土壤。</p>
+<h2 id="s5">1.2 本报告的结构（阅读地图）</h2>
+<p>本报告面向"小白"——你不需要任何半导体背景，我们会从"芯片是什么、内存是什么"讲起，层层递进：</p>
+<div class="tblwrap"><table><thead><tr><th>章节</th><th>内容</th><th>对应文档议题</th></tr></thead><tbody><tr><td>第二章</td><td>基础课：芯片、内存、带宽、功耗——读懂后续一切的 8 个概念</td><td>全文基础</td></tr><tr><td>第三章</td><td>内存墙：AI 时代最贵的不是计算，是搬数据</td><td>需求端、效率悖论</td></tr><tr><td>第四章</td><td>HBM 深度拆解：原理、代际演进、三巨头竞争、zHBM 革命</td><td>议题一（1-4节）</td></tr><tr><td>第五章</td><td>先进封装：被低估的"卖铲人"环节</td><td>三星 zHBM、SK 海力士封装</td></tr><tr><td>第六章</td><td>近存计算与 d-Matrix：让内存自己算</td><td>议题一（5节）</td></tr><tr><td>第七章</td><td>存储层级重构：HBF 高带宽闪存与 QLC SSD</td><td>议题一（6节）</td></tr><tr><td>第八章</td><td>RISC-V：从"嵌入式玩具"到数据中心选项</td><td>议题二全部</td></tr><tr><td>第九章</td><td>汽车电子：RISC-V 的第二增长曲线</td><td>英飞凌区域架构</td></tr><tr><td>第十章</td><td>产业格局与投资框架：赛道评级、标的图谱、四大论点</td><td>投资分析章节</td></tr><tr><td>第十一章</td><td>风险提示与投资策略（短/中/长期）</td><td>风险提示章节</td></tr><tr><td>第十二章</td><td>总结与术语表</td><td>全文</td></tr></tbody></table></div>
+<h2 id="s6">1.3 三分钟版本（TL;DR）</h2>
+<p>给赶时间的读者，本报告全部结论浓缩如下：</p>
+<ol><li><strong>AI 芯片的钱正在流向内存</strong>。一块 AI 加速器封装里，内存硅片面积约占 90%，HBM 是 AI 算力最贵、最紧缺的部件（文档：4 个 12 层 HBM 堆叠的总面积约为主芯片的 8 倍）。</li><li><strong>HBM 供不应求至少持续到 2027 年</strong>。HBM 晶圆消耗是普通 DDR 的约 3 倍，DRAM 厂商十余年未大幅扩产，新建晶圆厂需要约 2 年，涨价约 7 倍（文档引美光、Objective Analysis 数据）。三星、SK 海力士、美光三巨头掌握定价权。</li><li><strong>封装从"后道工序"变成了"核心技术"</strong>。混合键合、WoW 晶圆级键合、硅散热块等封装技术直接决定 HBM 能堆多高、散热多好、带宽多大。设备（BESI、ASMPT、拓荆科技）和材料（联瑞新材、华海诚科、雅克科技）是弹性最大的增量环节。</li><li><strong>内存正在"进化成计算机"</strong>。三星三阶段路线图（cHBM4 → AHBM → zHBM）显示，内存厂正在把内存控制器、甚至计算单元塞进内存的基础裸片，直接侵入 CPU/GPU 厂商的价值链。</li><li><strong>RISC-V 的"Android 时刻"到了</strong>。RVA23 标准化 + Ubuntu 26.04 LTS 原生支持 + NVIDIA CUDA 移植演示 + NVLink Fusion 开放，四大里程碑打通了 RISC-V 进数据中心的"最后一公里"。</li><li><strong>"通用芯片"时代终结，定制化时代开启</strong>。训练用大容量高带宽 HBM，推理可能走向"小 HBM + LPDDR 分层"甚至近存计算；万亿参数模型催生 HBF 闪存和 QLC SSD 新的存储层级。</li><li><strong>投资主线索</strong>：短期看 HBM 涨价与存储原厂业绩（三星、海力士、美光）；中期布局封装设备/材料与 RISC-V 生态；长期跟踪近存计算与光学互连的颠覆可能。</li></ol>
+<hr>
+<h1 id="s7">第二章 基础课：读懂本报告需要的全部概念</h1>
+<blockquote>本章假设你零基础。每个概念都用生活类比解释，读完你就能看懂后面所有章节。</blockquote>
+<h2 id="s8">2.1 芯片、晶体管与制程：为什么"造得更小"曾经是万能药</h2>
+<p><strong>芯片（集成电路）</strong> 本质上是把几十亿到上千亿个"电子开关"（晶体管）雕刻在一小块硅片上，通过开关的组合实现计算和存储。<strong>制程（工艺节点）</strong> 指的是雕刻的精细程度——我们常听说的 7nm、4nm、3nm，数字越小，同样面积里塞的晶体管越多，开关速度越快、单位计算耗电越少。</p>
+<p>过去 60 年，半导体行业靠"摩尔定律"狂奔：大约每 18-24 个月，同样价格的芯片性能翻倍。<strong>但物理极限正在逼近</strong>：晶体管尺寸已接近几个原子的量级，漏电、散热、制造成本（一台 EUV 光刻机超过 3 亿美元）让"造得更小"越来越贵、越来越慢。</p>
+<p><strong>Hot Chips 2026 的核心判断正是建立在这个背景上</strong>：单靠制程进步已经喂不饱 AI，行业的创新重心从"平面缩小（X/Y 轴）"转向了"垂直堆叠（Z 轴）"和"系统架构重构"。这也是为什么封装、内存这些"配角"突然成了大会主角。</p>
+<h2 id="s9">2.2 内存（DRAM）：AI 时代的"真主角"</h2>
+<p><strong>内存（主存，DRAM）</strong> 是 CPU/GPU 的工作台。计算芯片本身只有极少量高速缓存（SRAM，贵但快），程序和数据必须先放到内存里，芯片才能处理。</p>
+<p><strong>DRAM 的存储原理（小白版）</strong>：每个 DRAM 存储单元由"一个电容 + 一个晶体管"构成——电容充电代表 1，放电代表 0。因为电容会漏电，必须每隔几毫秒"刷新"一次，所以叫"动态"随机存取存储器。这个"电容+晶体管"的结构极简，因此 DRAM 可以做到极高密度、极低成本，但也因此决定了它的三个天生特点：</p>
+<ol><li><strong>破坏性读出</strong>：读取会扰动电荷，读完后必须重写，拖慢速度；</li><li><strong>需要刷新</strong>：芯片定期"暂停"服务去刷新，进一步损失性能——而且温度越高漏电越快，刷新越频繁（这一点在第六章 d-Matrix 的 105°C 高温 DRAM 里会成为关键问题）；</li><li><strong>行列式访问</strong>：数据按"存储体（Bank）—行—列"组织，访问新行前要先"关闭"旧行（预充电），随机访问延迟高。</li></ol>
+<p><strong>存储体（Bank）</strong> 可以理解为一个个独立的小仓库，仓库越多，可以同时打开的"行"越多，并行度越高。文档提到 HBM3E 每颗 DRAM 芯片有 128 个 Bank，HBM4 翻倍到 256 个——这正是通过并行度换带宽的典型手法。</p>
+<h2 id="s10">2.3 带宽、延迟与功耗：衡量内存的三个尺子</h2>
+<ul><li><strong>带宽（Bandwidth，单位 TB/s）</strong>：每秒能搬多少数据。类比高速公路的车道数×车速。AI 大模型推理是"带宽饥饿型"负载——模型参数和中间结果（KV 缓存）必须源源不断从内存搬进计算单元，带宽直接决定吞吐量。</li><li><strong>延迟（Latency，单位 ns）</strong>：数据从发出请求到到达的时间。类比每辆车的出发到到达时间。</li><li><strong>能效（单位 pJ/bit，皮焦耳每比特）</strong>：搬 1 比特数据花多少能量。这是本章最重要的概念——<strong>在先进工艺里，把数据在芯片之间搬 1 比特的能量，是在芯片内部搬的几十倍；数据搬运的能耗已超过计算本身</strong>。文档给的关键数字：HBM4 约 2.4 pJ/bit，d-Matrix 的 3D 堆叠做到 0.37 pJ/bit（约 6-7 倍提升），三星 zHBM 目标约 0.5 pJ/bit——<strong>这些数字就是"离数据越近越值钱"的定量表达</strong>。</li></ul>
+<h2 id="s11">2.4 内存族谱：DDR、LPDDR、GDDR、HBM 一张图看懂</h2>
+<div class="tblwrap"><table><thead><tr><th>类型</th><th>全称</th><th>桌面形象类比</th><th>带宽量级</th><th>单颗容量</th><th>典型用途</th></tr></thead><tbody><tr><td>DDR5</td><td>双倍速率 DRAM</td><td>服务器/PC 内存条</td><td>约 0.005-0.009 TB/s/颗</td><td>8-64GB</td><td>服务器、PC</td></tr><tr><td>LPDDR5X</td><td>低功耗 DDR</td><td>手机内存</td><td>约 0.01-0.02 TB/s</td><td>8-24GB</td><td>手机、笔记本、自动驾驶</td></tr><tr><td>GDDR6/7</td><td>图形 DDR</td><td>显卡显存</td><td>约 0.1-0.2 TB/s</td><td>16-32GB</td><td>游戏显卡</td></tr><tr><td><strong>HBM3E/HBM4</strong></td><td><strong>高带宽内存</strong></td><td><strong>芯片旁边盖的"内存高楼"</strong></td><td><strong>1.2-2+ TB/s/堆叠</strong></td><td><strong>24-36GB+/堆叠</strong></td><td><strong>AI 加速器（GPU/TPU/ASIC）</strong></td></tr></tbody></table></div>
+<p>HBM 为什么快？一句话：<strong>别再把内存做成"平房"铺在电路板上用电线远远连接，而是把内存做成"高楼"直接盖在 GPU 旁边，用上千根超短导线连接</strong>。具体原理在第四章展开。</p>
+<h2 id="s12">2.5 封装：从"DIP 小黑块"到"3D 摩天楼"</h2>
+<p><strong>封装</strong> 原本只是给裸芯片"穿衣服、引引脚"的后道工序。但今天，封装已经变成决定芯片性能的核心技术。三个关键词：</p>
+<ol><li><strong>2.5D 封装（中介层，Interposer）</strong>：把 GPU 芯片和几座 HBM"高楼"并排放在一块带内部连线的硅"转接板"（中介层）上，短距离高速互连。台积电的 <strong>CoWoS</strong> 是最著名实现，是英伟达 GPU 的"地基"。</li><li><strong>3D 封装</strong>：芯片上下直接叠芯片，用 <strong>TSV（硅通孔，Through-Silicon Via）</strong>——在硅片里打的垂直"电梯井"——连通各层。</li><li><strong>键合（Bonding）</strong>：把芯片层与层连起来的手法。微凸点（microbump，微小的焊球）是传统手法；<strong>混合键合（Hybrid Bonding）</strong> 是下一代——铜面直接对铜面"冷焊"在一起，没有焊球、没有间隙，间距可以做到 6 微米以下，更密、更薄、更导热。文档反复出现的"小于 6 微米间距混合铜键合""20 层堆叠终将过渡到混合键合"都指它。</li></ol>
+<h2 id="s13">2.6 RISC-V：开源的指令集</h2>
+<p><strong>指令集架构（ISA）</strong> 是软件与硬件之间的"合同"——规定了芯片能听懂哪些基本指令（加、取数、跳转……）。x86（英特尔/AMD，封闭）统治 PC 服务器，ARM（授权制）统治手机。<strong>RISC-V 是 2010 年伯克利发明的开源 ISA</strong>：任何人都可以免费使用、自行扩展指令。它像芯片界的 Linux。潜力是定制自由，风险是"人人自定义"导致碎片化——软件无法在一家芯片上跑通就换一家。第八章详述文档中 RVA23 如何解决这一问题。</p>
+<h2 id="s14">2.7 存储的"食物链"：从 HBM 到硬盘</h2>
+<p>AI 数据中心的存储是一个金字塔，越往上越快越贵，越往下越慢越便宜：</p>
+<pre>        ┌─────────┐
+        │ SRAM    │ 芯片内缓存，最快最贵（GB级）
+        ├─────────┤
+        │ HBM     │ AI 加速器主存（数十GB，TB/s级带宽）   ← 当前瓶颈
+        ├─────────┤
+        │ DDR5/LPDDR │ 服务器主机内存（数百GB）
+        ├─────────┤
+        │ HBF（新）│ 高带宽闪存，容量为HBM 8-16倍，带宽约1/25  ← 第七章
+        ├─────────┤
+        │ QLC SSD │ 大容量固态盘（数十TB）                  ← 第七章
+        ├─────────┤
+        │ HDD     │ 机械硬盘（数十TB，最便宜）              ← 第七章
+        └─────────┘</pre>
+<h2 id="s15">2.8 产业链地图：一个 HBM 到 AI 数据中心的旅程</h2>
+<pre>上游设备/材料          中游制造                下游系统/应用
+├─ 光刻/刻蚀/薄膜设备   ├─ DRAM晶圆制造          ├─ AI加速器(GPU/ASIC)
+├─ TSV刻蚀/电镀设备     │  (三星/海力士/美光)     ├─ AI服务器整机
+├─ 键合设备             ├─ HBM堆叠封装           ├─ 超大规模数据中心
+│  (BESI/ASMPT/拓荆)   ├─ 2.5D先进封装          │  (微软/谷歌/Meta/亚马逊)
+├─ 散热材料(TIM/HPB)    │  (台积电CoWoS/安靠/日月光) ├─ RISC-V服务器
+├─ 塑封料/球形粉料      ├─ NAND/SSD              ├─ 智能汽车电子
+├─ ABF载板             └─ RISC-V IP/芯片设计     └─ 云服务与AI应用
+└─ 测试设备(爱德万/泰瑞达)</pre>
+<p>接下来，我们正式进入产业的深水区。</p>
+<hr>
+<h1 id="s16">第三章 内存墙：AI 时代最贵的不是"算"，是"搬"</h1>
+<h2 id="s17">3.1 什么是"内存墙"（Memory Wall）</h2>
+<p>"内存墙"是计算机体系结构三十年的老问题：<strong>CPU/GPU 的计算速度每两年翻一番，而内存的带宽和延迟改善缓慢得多，导致计算单元大量时间在"等数据"</strong>。打个比方：工厂（计算单元）的加工能力翻了 100 倍，但仓库（内存）到车间的传送带（总线/接口）只宽了 3 倍——工厂再先进也只能空转。</p>
+<p>生成式 AI 把这个问题推到了极致。原因在于大模型的工作方式：</p>
+<ol><li><strong>参数量巨大</strong>：一个万亿参数模型，仅权重就占数 TB 存储（文档：Kimi K3 近 3 万亿参数，权重约 3TB）。</li><li><strong>推理是"访存密集型"负载</strong>：生成每个 token（词元），都要把相关权重和上下文（KV 缓存）从内存搬到计算单元。模型越大、上下文越长，搬运量越大。文档给出量化：长上下文推理还需额外约 1TB KV 缓存；按当前 HBM 能效，<strong>100TB/s 带宽仅"移动数据"就要消耗约 2 千瓦功率</strong>——这 2 千瓦一分钱的"计算"都没做，全花在搬运上。</li><li><strong>"推理经济性"直接由内存决定</strong>：每生成一个 token 的成本，几乎等于"搬这些比特的能耗 × 电价 + 内存折旧"。这就是为什么内存带宽、容量、能效会成为 AI 芯片竞争的主战场。</li></ol>
+<h2 id="s18">3.2 第二道内存墙：从"带宽墙"到"成本墙"（文档趋势一）</h2>
+<p>Hot Chips 2026 上，Objective Analysis 的 Jim Handy 提出了一个比传统内存墙更犀利的观点：<strong>第二道内存墙已经出现——内存本身变得极其昂贵</strong>。</p>
+<p>文档给出的三组关键数据：</p>
+<div class="tblwrap"><table><thead><tr><th>维度</th><th>数据（文档）</th><th>含义</th></tr></thead><tbody><tr><td>硅片面积</td><td>典型 GPU 封装中，内存占封装硅片面积约 <strong>90%</strong>（4 座 12 层 HBM 堆叠总面积约为 GPU 芯片的 8 倍）</td><td>从硅片视角看，"AI 芯片"其实是"AI 内存"，附赠一块 GPU</td></tr><tr><td>晶圆消耗</td><td>HBM 晶圆消耗量约为标准 DDR 的 <strong>3 倍</strong>（美光量化数据）</td><td>同样 1GB 容量，HBM 吃掉 3 倍产能；AI 需求直接抽干整个 DRAM 产能池</td></tr><tr><td>价格</td><td>DRAM/NAND 现货价格较此前水平上涨约 <strong>7 倍</strong></td><td>供给刚性 + 需求冲击 = 存储超级周期</td></tr></tbody></table></div>
+<p><strong>为什么供给端反应这么慢？</strong> Handy 解释：DRAM 供应商过去十余年没有大幅扩产（上一轮周期亏损的教训），而新建一座晶圆厂从动工到投产约需 2 年。也就是说，即使今天立刻动工，2027 年之前供给都难以大幅释放。这是"结构性短缺"而非"季节性紧张"。</p>
+<h2 id="s19">3.3 效率悖论：为什么模型变聪明不会减少芯片需求（文档核心洞察）</h2>
+<p>很多人（包括不少投资者）的直觉是：模型算法效率提升（比如以前要 8 张 GPU，现在 1 张就够），会减少对硬件的需求，利空芯片股。Handy 在大会上正面反驳了这个观点：</p>
+<blockquote><strong>如果算法效率提高 6 倍，超大规模厂商不会选择把资本开支砍掉 5/6，而会更可能选择把产出（token 生成量）扩大 6 倍。</strong></blockquote>
+<p>这在经济学上叫 <strong>杰文斯悖论（Jevons Paradox）</strong>：效率提升降低的是"单位产出的成本"，反而刺激总消费扩张。历史反复上演：蒸汽机效率提升后煤消耗量大增；宽带提速后互联网流量爆炸；GPU 单位算力成本十年降了千倍，英伟达营收反而涨了几十倍。AI 时代同理——推理成本每降低一个数量级，AI 应用的经济边界就外扩一圈（更长上下文、更多 Agent、更便宜的推理定价），总算力需求不降反升。</p>
+<p><strong>投资含义</strong>：不要因为"DeepSeek 们让训练/推理变便宜了"而看空 AI 算力链。恰恰相反，单位成本下降是需求爆炸的前奏。真正需要担心的不是效率，而是需求端本身的周期（见第十一章风险部分）。</p>
+<h2 id="s20">3.4 需求端全景：谁在为 HBM 付钱</h2>
+<p>文档指出，超大规模数据中心的 AI 资本支出是内存领域最大的驱动力，几乎所有主流 AI 加速器（NVIDIA GPU、Google TPU 及各种定制 ASIC）都使用 HBM，甚至部分网络组件（交换机、DPU）也开始采用 HBM——"几年前几乎不存在的需求类别"。</p>
+<p>按金额拆解 AI 加速器（以旗舰 GPU 为例）的成本结构（定性示意）：</p>
+<ul><li><strong>HBM</strong>：占比最高且持续上升的单一部件成本之一，一座旗舰 GPU 通常配 8 座 HBM 堆叠；</li><li><strong>逻辑大芯片（GPU die）</strong>：台积电先进制程代工；</li><li><strong>CoWoS 封装 + 中介层</strong>：台积电最紧缺的产能之一；</li><li><strong>基板、组装测试</strong>等。</li></ul>
+<p>其中 HBM 和 CoWoS 是两个公认的"产能瓶颈"，也是价值量向"非逻辑芯片"环节转移的直接证据。具体的资本开支数字、三巨头产能与扩产计划、DRAM 涨价数据，见第十章联网调研部分（附来源）。</p>
+<h2 id="s21">3.5 突破内存墙的产业路径图（本报告主线）</h2>
+<p>面对"带宽 + 成本"双重墙，Hot Chips 2026 展示了四条突围路径，构成后续章节的骨架：</p>
+<div class="tblwrap"><table><thead><tr><th>路径</th><th>核心思想</th><th>代表玩家</th><th>章节</th></tr></thead><tbody><tr><td><strong>路径一：把内存堆得更高更快</strong>（3D 化）</td><td>更多层、更多 I/O、更低功耗接口</td><td>三星 cHBM4、SK 海力士 16-20 层</td><td>第四章</td></tr><tr><td><strong>路径二：把计算搬进内存</strong>（智能化）</td><td>内存基础裸片上集成控制器甚至计算单元</td><td>三星 AHBM/zHBM、d-Matrix Raptor</td><td>第四、六章</td></tr><tr><td><strong>路径三：重构存储层级</strong>（分层化）</td><td>用便宜的介质承载"不那么热"的数据</td><td>HBF 高带宽闪存、QLC SSD、LPDDR 分层</td><td>第七章</td></tr><tr><td><strong>路径四：定制化互连与计算</strong>（专用化）</td><td>让芯片和软件围绕负载定制</td><td>RISC-V + NVLink Fusion、区域控制器</td><td>第八、九章</td></tr></tbody></table></div>
+<p>一句话串联：<strong>物理上靠近数据（3D 堆叠）、逻辑上靠近数据（近存计算）、成本上分层数据（存储金字塔）、架构上贴合数据（定制芯片）</strong>——这就是"离数据越近的价值越大"的完整展开。</p>
+<hr>
+<h1 id="s22">第四章 HBM 深度拆解：AI 时代最贵的"面粉"</h1>
+<blockquote>本章对应文档议题一（1–4 节）：需求端、物理极限、三星三阶段路线图、SK 海力士封装工程。联网调研事实均附来源。</blockquote>
+<h2 id="s23">4.1 从零开始：HBM 到底是什么</h2>
+<h3 id="s23-72">4.1.1 一个思想实验：为什么 GPU 不能直接用普通内存</h3>
+<p>想象你开一家超大型工厂（GPU），流水线每微秒都要原料（数据）。如果把仓库（内存）建在 10 公里外，只有一条 4 车道公路（DDR 接口，64 位宽），工厂必然饿死。两个改进方向：</p>
+<ol><li><strong>把路修宽</strong>：GDDR 显存把路修到 32/64 条车道，但公路仍在数厘米外的电路板上，信号在长导线上高频翻转，功耗巨大（约 4.2 pJ/bit 量级 <a href="https://www.wevolver.com/article/what-is-high-bandwidth-memory-3-hbm3-complete-engineering-guide-2025" target="_blank" rel="noopener">来源</a>）；</li><li><strong>把仓库搬到厂门口、并且盖成高楼</strong>：这就是 HBM。</li></ol>
+<h3 id="s23-75">4.1.2 HBM 的三大发明</h3>
+<p><strong>发明一：TSV 硅通孔——垂直电梯</strong>。在每层 DRAM 芯片里蚀刻出数千个垂直通孔、镀铜填充，芯片之间"面对面"贴合，数据垂直上下通行，距离从厘米级缩短到微米级 <a href="https://www.appliedmaterials.com/cn/zh_cn/semiconductor/markets-and-inflections/memory/hbm.html" target="_blank" rel="noopener">来源</a>。</p>
+<p><strong>发明二：堆叠——8 到 16 层的"内存高楼"</strong>。底层是一颗<strong>基础裸片（Base Die，也叫逻辑裸片）</strong>，负责接口和控制；其上堆叠 4–16 层 DRAM 芯粒；顶部再加盖控制裸片。一座 HBM3E 12 层堆叠就是 36GB 的"高楼"。</p>
+<p><strong>发明三：超宽总线——1024 条车道起步</strong>。HBM 接口位宽 1024bit（HBM4 翻倍到 2048bit），是 DDR 的 16 倍、GDDR 的 32 倍。车道极多，因此每条车道（每个引脚）反而可以用较低的速率（省电）就能凑出巨大总带宽 <a href="https://ele-solution.com/solutions/advanced-package/cowos-hbm/" target="_blank" rel="noopener">来源</a>。</p>
+<p>三者叠加的结果（数量级对比）：</p>
+<div class="tblwrap"><table><thead><tr><th>指标</th><th>DDR5</th><th>GDDR6X</th><th>HBM3</th><th>HBM3E</th><th>HBM4</th></tr></thead><tbody><tr><td>单栈带宽</td><td>~0.01 TB/s</td><td>~0.1-0.2 TB/s</td><td>819 GB/s</td><td>约 1.33-1.5 TB/s</td><td>约 2 TB/s（先进配置 3.3TB/s+）</td></tr><tr><td>能效</td><td>—</td><td>~4.2 pJ/bit</td><td>~2.5 pJ/bit</td><td>更优</td><td>更优+接口翻倍</td></tr><tr><td>容量/栈</td><td>8-64GB</td><td>16-32GB</td><td>16-24GB</td><td>12-Hi 36GB</td><td>12-Hi 36GB / 16-Hi 48GB</td></tr></tbody></table></div>
+<p>（HBM3 约 2.5 pJ/bit vs GDDR6X 约 4.2 pJ/bit，能效改善约 68% <a href="https://www.wevolver.com/article/what-is-high-bandwidth-memory-3-hbm3-complete-engineering-guide-2025" target="_blank" rel="noopener">来源</a>；HBM 代际参数综合自 <a href="https://www.rambus.com/blogs/hbm3-everything-you-need-to-know/" target="_blank" rel="noopener">Rambus</a>、<a href="https://blogs.sw.siemens.com/semiconductor-packaging/2026/04/24/hbm3e-hbm4-ic-design-guide/" target="_blank" rel="noopener">Siemens 博客</a>、<a href="https://www.spheron.network/blog/hbm3e-vs-hbm4-vs-hbm4e-llm-inference-guide/" target="_blank" rel="noopener">JEDEC JESD238D</a>。）</p>
+<p><strong>代价</strong>：HBM 必须与 GPU 一起放在 2.5D 中介层（CoWoS）上，封装成本高、产能稀缺——"面粉"（HBM）和"磨坊"（CoWoS）一起构成了 AI 算力的两大供给瓶颈。</p>
+<h3 id="s23-83">4.1.3 HBM4 的革命性变化：基础裸片"逻辑化"</h3>
+<p>文档反复强调的 D2D 接口、内存控制器下移、SRAM 修复、PE 集成，全部发生在<strong>基础裸片</strong>上——这解释了 HBM4 最大的产业变化：<strong>Base Die 从 DRAM 工艺转向逻辑工艺</strong>。</p>
+<p>为什么？DRAM 工艺为存储密度优化，晶体管慢但密集；逻辑工艺（如 4nm）为速度优化，能塞进 PHY、控制器、SRAM 甚至计算单元。一旦基础裸片用逻辑工艺制造，<strong>内存厂商就能在 GPU 的"家门口"接管越来越多的系统功能</strong>——这正是文档"趋势二：HBM 从被动存储介质进化为智能计算平台"的技术前提。</p>
+<p>由此引发了"代工之争"：<strong>SK 海力士把 HBM4 基础裸片交台积电代工（HBM4E 评估 3nm），三星坚持自研 4nm 自制</strong> <a href="https://semiwiki.com/forum/threads/samsung-to-mass-produce-hbm4-on-4-nm-foundry-process.20623/" target="_blank" rel="noopener">来源</a>、<a href="https://www.trendforce.com/news/2026/03/20/news-sk-hynix-reportedly-weighs-tsmc-3nm-for-hbm4e-logic-dies-to-gain-edge-over-samsung/" target="_blank" rel="noopener">来源</a>。这一选择意义深远：三星是唯一拥有先进逻辑代工厂的存储原厂——如果"智能 HBM"（趋势二）成为主流，三星的垂直整合优势将被放大；反之 SK 海力士与台积电的联盟会更稳固。</p>
+<h2 id="s24">4.2 代际演进全景表</h2>
+<div class="tblwrap"><table><thead><tr><th>代际</th><th>年份</th><th>关键参数</th><th>意义</th></tr></thead><tbody><tr><td>HBM1</td><td>2015</td><td>128 GB/s，4 层</td><td>AMD Fury 首发验证概念 <a href="https://en.wikipedia.org/wiki/High_Bandwidth_Memory" target="_blank" rel="noopener">来源</a></td></tr><tr><td>HBM2/2E</td><td>2016-20</td><td>460 GB/s、16GB</td><td>数据中心 GPU 标配</td></tr><tr><td>HBM3</td><td>2022</td><td>6.4 Gbps、819 GB/s</td><td>英伟达 H100 时代 <a href="https://www.rambus.com/blogs/hbm3-everything-you-need-to-know/" target="_blank" rel="noopener">来源</a></td></tr><tr><td>HBM3E</td><td>2024-25</td><td>9.6-10 Gbps、约 1.33TB/s、12-Hi 36GB</td><td>H200/B200/GB200 时代主流</td></tr><tr><td><strong>HBM4</strong></td><td>2025.4 定稿（JESD238D）</td><td><strong>2048bit 接口翻倍</strong>、约 2TB/s、12-Hi 36GB 首发、16-Hi 48GB 在列</td><td>基础裸片逻辑化、定制化元年 <a href="https://news.samsung.com/global/samsung-ships-industry-first-commercial-hbm4-with-ultimate-performance-for-ai-computing" target="_blank" rel="noopener">来源</a></td></tr><tr><td>HBM4E/HBM5</td><td>2027+</td><td>20 层堆叠、定制化 HBM（面向 ASIC 客户）、混合键合导入</td><td>向 zHBM 3D 集成过渡</td></tr></tbody></table></div>
+<p>注意一个反直觉的设计哲学：<strong>从 HBM3E 到 HBM4，HBM 的进步主要不是"跑得更快"（引脚速率仅小幅提升），而是"路更宽"（接口翻倍）+ "楼下多了个管家"（逻辑化基础裸片）</strong>。跑得更快意味着功耗和信号完整性恶化，而加宽总线+缩短距离才是 HBM 的立身之本。</p>
+<h2 id="s25">4.3 需求端与供给端：超级周期是如何形成的</h2>
+<h3 id="s25-91">4.3.1 需求：AI 资本开支的"面粉税"</h3>
+<p>文档指出几乎所有 AI 加速器（NVIDIA GPU、Google TPU、定制 ASIC）都用 HBM，甚至网络组件也开始用。量化：<strong>2026 年 HBM 消耗量增速超 70%</strong>，AI（HBM+GDDR7）预计吞噬 2026 年全球约 20% 的 DRAM 晶圆产能，其中 HBM 一项占 DRAM 晶圆产出约 23%（上年约 19%）<a href="https://www.trendforce.com/news/2025/12/26/news-ai-reportedly-to-consume-20-of-global-dram-wafer-capacity-in-2026-hbm-gddr7-lead-demand/" target="_blank" rel="noopener">来源</a>、<a href="https://tech-insider.org/memory-chip-shortage-2026-ai-consumer-electronics/" target="_blank" rel="noopener">来源</a>。BofA 估计 2026 年 HBM 市场约 <strong>546 亿美元、同比 +58%</strong> <a href="https://news.skhynix.com/en/2026-market-outlook-focus-on-the-hbm-led-memory-supercycle/" target="_blank" rel="noopener">来源</a>；2027 年 HBM 位元出货预计再增 50–60% 仍供不应求 <a href="https://www.trendforce.com/news/2026/08/10/news-samsungs-hbm4-yield-reportedly-hits-80-as-race-to-supply-vera-rubin-heats-up-sk-hynix-labor-talks-add-a-twist/" target="_blank" rel="noopener">来源</a>。</p>
+<h3 id="s25-93">4.3.2 供给：晶圆消耗陷阱 + 两年建厂周期</h3>
+<p>文档"论点 1"（晶圆消耗陷阱）得到数据验证：<strong>HBM 晶圆消耗约为同容量 DDR 的 3 倍</strong>（大裸片+堆叠冗余+低良率），叠加 DRAM 原厂十余年未大幅扩产、新厂建设约 2 年——供给弹性极低。价格端：2026 年单季 DRAM 合约价最高涨约 89%，有分析预计 2025–2027 年累计涨幅 275–300% <a href="https://shattered.io/ram-prices-ai-memory-shortage-2026/" target="_blank" rel="noopener">来源</a>、<a href="https://www.thediligencestack.com/p/memorys-200b-inflection" target="_blank" rel="noopener">来源</a>。文档所引"现货价上涨约 7 倍"属于现货市场的极端口径，合约价涨幅虽小得多，但方向一致：<strong>这是教科书级的"供给侧无弹性+需求侧爆发"组合</strong>。</p>
+<h3 id="s25-95">4.3.3 竞争格局：62 / 21 / 17 的背后</h3>
+<p>2026 年 Q2 HBM 份额：<strong>SK 海力士 62%、美光 21%、三星 17%</strong>——美光在 HBM 上反超三星升至第二 <a href="https://www.astutegroup.com/news/general/sk-hynix-holds-62-of-hbm-micron-overtakes-samsung-2026-battle-pivots-to-hbm4/" target="_blank" rel="noopener">来源</a>。三家打法截然不同：</p>
+<div class="tblwrap"><table><thead><tr><th>公司</th><th>打法</th><th>最新进展（附来源）</th></tr></thead><tbody><tr><td><strong>SK 海力士</strong></td><td>先发+深度绑定英伟达</td><td>全球首家 HBM4 量产就绪（2025.3），12 层 HBM4 主供英伟达 Rubin；2026.9 起大规模出货；Advanced MR-MUF 封装延续至 HBM4 16-Hi <a href="https://www.koreaherald.com/article/10574552" target="_blank" rel="noopener">来源</a>、<a href="https://news.skhynix.com/en/rulebreaker-revolutions-mr-muf-unlocks-hbm-heat-control/" target="_blank" rel="noopener">来源</a></td></tr><tr><td><strong>三星</strong></td><td>垂直整合+定制化翻盘</td><td>2025.9 全球首发商用 HBM4（自制 4nm 逻辑裸片）；HBM4 良率升至 80%；瞄准博通定制 HBM、AMD MI450（OpenAI 订单）；2026 年 HBM 销售额目标翻两倍以上 <a href="https://news.samsung.com/global/samsung-ships-industry-first-commercial-hbm4-with-ultimate-performance-for-ai-computing" target="_blank" rel="noopener">来源</a>、<a href="https://www.trendforce.com/news/2026/08/10/news-samsungs-hbm4-yield-reportedly-hits-80-as-race-to-supply-vera-rubin-heats-up-sk-hynix-labor-talks-add-a-twist/" target="_blank" rel="noopener">来源</a></td></tr><tr><td><strong>美光</strong></td><td>稳健跟随+能效差异化</td><td>HBM4 36GB 12-Hi 量产（&gt;2.8TB/s、面向 Vera Rubin）；FY2025 营收 373.8 亿美元（+49%）<a href="https://investors.micron.com/news/press-release/2026/Micron-in-High-Volume-Production-of-HBM4-Designed-for-NVIDIA-Vera-Rubin-PCIe-Gen6-SSD-and-SOCAMM2-03-16-2026/default.aspx" target="_blank" rel="noopener">来源</a></td></tr></tbody></table></div>
+<p>值得注意的客户信号：AMD MI450 单卡搭载 <strong>432GB HBM4</strong> <a href="https://biz.chosun.com/en/en-it/2026/07/21/LYSNGZS5X5AYRC4T5WLFAWIKWE/" target="_blank" rel="noopener">来源</a>——单卡容量一年内翻倍级提升，说明"面粉税"还在加重。另一条重要暗线：<strong>HBM 的需求主力正从英伟达扩散到 ASIC 阵营</strong>（博通、谷歌 TPU、AMD、OpenAI 自研芯片），2026 年来自 ASIC 的 HBM 需求据报道激增 80% <a href="https://www.trendforce.com/news/2025/07/21/news-hbm-demand-from-asics-reportedly-to-surge-80-in-2026-fueling-samsung-sk-hynix-micron-rivalry/" target="_blank" rel="noopener">来源</a>——客户多元化让三巨头的议价能力更强（不依赖单一大客户）。</p>
+<h2 id="s26">4.4 HBM 的物理极限：文档四大挑战的技术解剖</h2>
+<p>文档（美光 Ragu 演讲）给出的四维挑战，是理解 HBM 投资逻辑的"技术红线"：</p>
+<h3 id="s26-101">4.4.1 硅片面积：内存占封装硅片约 90%</h3>
+<p>4 座 12 层 HBM 堆叠的总面积约为主芯片的 8 倍。<strong>含义</strong>：HBM 的产能约束本质上是晶圆产能约束；HBM 良率每提升 1%，等效释放 3% 的 DDR 晶圆产能。这也是"晶圆消耗陷阱"的物理根源。</p>
+<h3 id="s26-103">4.4.2 散热：热量在"最底层"、冷却在"最顶部"</h3>
+<p>HBM 的结构悖论：发热量最大的基础裸片（PHY 高速翻转）位于堆叠<strong>底部</strong>，紧贴中介层；而散热器在 GPU 顶部——热量必须穿过 12-16 层 DRAM + 间隙材料才能到达散热器。<strong>每加一层 DRAM，热阻增加一截</strong>。研究证实内部热阻在超过 12 层后急剧上升，成为 HBM4E/HBM5 的核心约束 <a href="https://www.mdpi.com/2079-9296/14/13/2682" target="_blank" rel="noopener">来源</a>。对策：SK 海力士用高导热 EMC 的 MR-MUF <a href="https://news.skhynix.com/en/rulebreaker-revolutions-mr-muf-unlocks-hbm-heat-control/" target="_blank" rel="noopener">来源</a>；三星 HPB 热路径模块（文档：峰值降温 35%+、覆盖 50% PHY 区域）；SK 海力士 IHBM 硅散热块（文档）。</p>
+<h3 id="s26-105">4.4.3 可靠性：17% 的训练中断归因于 HBM</h3>
+<p>文档引 Meta Llama 3 研究：约 17% 的非预期训练中断归因于 HBM，单颗 DRAM 故可致整个封装报废。HBM3/3E 已引入 CRC、系统级 ECC；HBM4 的 Bank 数翻倍（128→256）与 I/O 翻倍（约 1000→2000 条）让故障模式更复杂，可靠性机制（片上修复、实时遥测、ATIP 自测试）成为差异化战场——这也是三星把"Near-MC SRAM 细粒度修复"列入第一阶段路线图的原因（文档）。</p>
+<h3 id="s26-107">4.4.4 堆叠极限：775 微米的"天花板"</h3>
+<p>文档：16 层前景良好，20 层以上面临减薄、应力、TSV 密度挑战；HBM4 总厚度 775 微米接近封装极限。<strong>减薄的物理极限</strong>：每层 DRAM 必须磨到约 30 微米厚（头发丝一半），再薄则 TSV 露出、晶碎裂；层间还需要间隙材料。<strong>这是混合键合登场的根本原因</strong>：它消除微凸点和间隙，让 20 层在同样厚度内成为可能（文档：混合键合使芯片厚度增加 20-24%、导热提升约 35%）。业界判断 HBM4E 16-Hi 是混合键合最早导入窗口 <a href="https://www.trendforce.com/news/2026/07/07/news-samsung-sk-hynix-reportedly-reconsider-hybrid-bonding-timeline-16-high-hbm4e-may-be-earliest-adoption/" target="_blank" rel="noopener">来源</a>。</p>
+<h2 id="s27">4.5 三星三阶段路线图：本次大会最具颠覆性的内容</h2>
+<p>文档披露的三星路线图值得逐字解读——它不只是产品计划，而是<strong>存储厂商向计算厂商宣战的宣言</strong>（趋势二）。</p>
+<p><strong>第一阶段 cHBM4（面积优化与能效）</strong>：</p>
+<ul><li>D1c DRAM + <strong>4nm 逻辑工艺基础裸片</strong>（联网核实：三星已全球首发商用 HBM4，坚持自制 4nm <a href="https://news.samsung.com/global/samsung-ships-industry-first-commercial-hbm4-with-ultimate-performance-for-ai-computing" target="_blank" rel="noopener">来源</a>）；</li><li>用 D2D 接口替换传统 HBM PHY，<strong>把内存控制器从 XPU 卸载到基础裸片</strong>——为 XPU 释放 5-10% 硅面积、换 10-20% 性能。<strong>解读</strong>：GPU 芯片上最占面积的模块之一（内存控制器）被搬进内存，GPU 省下的面积全给计算核心。这是"内存厂抢计算厂饭碗"的第一步；</li><li>SRAM 细粒度修复（对抗可靠性危机）、HPB 热路径（对抗散热危机）。</li></ul>
+<p><strong>第二阶段 AHBM（功能扩展）</strong>：</p>
+<ul><li>在基础裸片闲置面积上集成<strong>内存扩展控制器+PHY，外接 LPDDR/HBM 作第二层内存</strong>——HBM 从"终点"变成"可扩展内存系统的起点"（分层内存趋势）；</li><li><strong>近存计算：在基础裸片集成处理单元（PE），把注意力机制等内存密集型计算卸载到内存侧</strong>——直接对标 d-Matrix（第六章）；</li><li>RAS 传感器、实时遥测、片上自测试。</li></ul>
+<p><strong>第三阶段 zHBM（消灭中介层）</strong>：</p>
+<ul><li><strong>把 DRAM 堆叠直接垂直压在 XPU 之上</strong>，摒弃 2.5D 中介层。联网核实：三星已在 FMS 2026 公布业界首个 zHBM 概念模型 <a href="https://news.samsung.com/global/samsung-unveils-next-gen-3d-memory-vision-at-fms-2026-charting-the-future-of-ai-infrastructure" target="_blank" rel="noopener">来源</a>、<a href="https://wallstreetcn.com/articles/3778689" target="_blank" rel="noopener">来源</a>；</li><li>量化目标（文档+核实）：I/O 功耗约 0.5 pJ/bit，较 HBM4E 总 DRAM 功耗降约 70%、带宽提升 230%、每模组省 100W、为 GPU 释放 8.3% 功率预算 <a href="https://finance.sina.com.cn/stock/bxjj/2026-08-24/doc-inipkriv0147207.shtml" target="_blank" rel="noopener">来源</a>；</li><li>关键工艺：WoW（晶圆对晶圆）+ HCB（混合立方键合），需 <strong>&lt;6μm 间距混合铜键合</strong>；</li><li><strong>代价（文档点睛）</strong>："DRAM 与 SoC 设计必须从初始阶段就围绕布线、散热、功率密度协同设计"——这意味着 zHBM 时代，买内存=买一半 GPU 设计权，存储原厂的系统级话语权将质变。</li></ul>
+<p><strong>投资视角解读三阶段</strong>：第一阶段已经开始兑现（HBM4 量产）；第二阶段 AHBM 是 2027-2028 年故事（对应文档"中期布局"）；第三阶段 zHBM 是 5 年维度的"格局重塑器"——若落地，台积电 CoWoS 的部分价值将被存储原厂的 3D 集成吃掉，这是文档风险提示"技术路线风险"的正反面。</p>
+<h2 id="s28">4.6 SK 海力士的答卷：工程现实主义者</h2>
+<p>与三星的激进路线图相比，文档中 SK 海力士（Jasik Lee 演讲）呈现的是"工程现实主义"：</p>
+<ol><li><strong>16 层的现实困境</strong>：16 层 HBM3E 测试芯片单层厚度比 12 层薄约 10%、芯片间隙减少约 50%——翘曲和间隙填充难度剧增；</li><li><strong>MR-MUF 的效率哲学</strong>：一次回流焊连接整个堆叠再模塑填充，效率高于逐片键合（TC-NCF），但翘曲风险更高。两家路线分野的背后是产能效率 vs 翘曲控制的取舍，目前海力士凭 MR-MUF+英伟达绑定拿了 62% 份额；</li><li><strong>混合键合的节奏</strong>：文档明确"HBM4E 不会采用，20 层终将过渡"——联网核实其 HBM4 16-Hi 仍沿用 MR-MUF <a href="https://www.trendforce.com/news/2026/01/13/news-sk-hynix-may-stick-with-mr-muf-for-hbm4-16-high-despite-asmpt-tc-bonder-orders/" target="_blank" rel="noopener">来源</a>。<strong>投资含义</strong>：混合键合设备的订单高峰在 2027 年 HBM4E/HBM5 窗口，不宜抢跑；</li><li><strong>IHBM 硅散热块</strong>：热点区域上方加硅散热块（类似盖"微型天窗"），需从设计之初协同优化——再次印证"封装即架构"；</li><li><strong>客户协同设计</strong>：先进 HBM 在客户封装流程中经历更多环节，需在工艺、材料、机械应力上深度合作——存储原厂与芯片设计商的关系正从"供货"走向"联合开发"，这抬高了行业壁垒、利好龙头。</li></ol>
+<h2 id="s29">4.7 A股 HBM 产业链标的图谱（信息汇总，非投资建议）</h2>
+<p>A股没有 HBM 原厂（HBM 生产在韩美三巨头手中），投资的是"卖水人"链条——材料、设备、封测、分销四条线：</p>
+<div class="tblwrap"><table><thead><tr><th>标的</th><th>环节</th><th>与 HBM 的关联点（附来源）</th></tr></thead><tbody><tr><td>香农芯创 300475</td><td>分销</td><td>SK 海力士中国大陆企业级存储最大授权分销商之一，2024 年海力士产品分销占营收 60%+ <a href="https://xueqiu.com/7185631441/369104792" target="_blank" rel="noopener">来源</a></td></tr><tr><td>雅克科技 002409</td><td>前驱体材料</td><td>韩国子公司 UP Chemical 供 SK 海力士，据报道为 HBM4 介电层前驱体供应商，亦供三星/美光 <a href="https://xueqiu.com/7536531060/396264937" target="_blank" rel="noopener">来源</a></td></tr><tr><td>联瑞新材 688300</td><td>填料</td><td>硅微粉/Low-α 球形氧化铝是 HBM 封装 EMC 关键填料（防软错误+散热）<a href="https://www.fxbaogao.com/detail/5154980" target="_blank" rel="noopener">来源</a></td></tr><tr><td>华海诚科 688535</td><td>塑封料</td><td>HBM 用颗粒塑封料 GMC 通过客户验证、送样推进；并购衡所华威跃居全球 EMC 第二 <a href="https://www.stcn.com/article/detail/1012264.html" target="_blank" rel="noopener">来源</a></td></tr><tr><td>壹石通 688733</td><td>填料</td><td>Low-α 球形氧化铝 2025 年多批次客户验证、部分样品级销售 <a href="https://www.cls.cn/detail/1521794" target="_blank" rel="noopener">来源</a></td></tr><tr><td>赛腾股份 603283</td><td>检测设备</td><td>并购 Optima 直供三星 HBM 制程缺陷检测，2025 年三星确认收入 5.1-6.8 亿元 <a href="https://finance.sina.com.cn/stock/relnews/cn/2025-04-10/doc-inesspws3083139.shtml" target="_blank" rel="noopener">来源</a></td></tr><tr><td>太极实业 600667</td><td>封测</td><td>子公司海太半导体为 SK 海力士提供后工序封测/模组服务，布局 HBM 封测 <a href="https://caifuhao.eastmoney.com/news/20260625193044409551040" target="_blank" rel="noopener">来源</a></td></tr><tr><td>深科技 000021</td><td>封测</td><td>存储先进封装/模组配套 <a href="https://x.com/aiwangupiao/status/2071173805700153580" target="_blank" rel="noopener">来源</a></td></tr><tr><td>拓荆科技 688072</td><td>键合设备</td><td>D2W 混合键合设备面向 HBM/3D 集成，2025 年新接订单 +30% 以上 <a href="https://piotech.cn/index.php?Pro/detail?id=691" target="_blank" rel="noopener">来源</a></td></tr></tbody></table></div>
+<p><strong>必须强调的风险</strong>（联网核实）：多家 A 股公司的 HBM 相关产品仍处<strong>验证/送样阶段</strong>，实际订单与业绩贡献存在不确定性 <a href="https://finance.ifeng.com/c/8UlXz8atXqR" target="_blank" rel="noopener">来源</a>；板块股价随 HBM 涨价预期波动剧烈，估值已部分透支。甄别"真订单"（如赛腾对三星的实际收入确认）与"讲故事"（纯概念映射）是 A 股 HBM 投资的第一功课。</p>
+<hr>
+<h1 id="s30">第五章 先进封装：从"穿衣服"到"盖摩天楼"的卖铲人环节</h1>
+<blockquote>本章对应文档趋势三（"封装技术成为内存架构的核心竞争力"）与论点2（"封装技术公司成为AI硬件的卖铲人"）。先进封装调研纪要由联网调研提供，事实均附来源。</blockquote>
+<h2 id="s31">5.1 为什么封装突然成了核心技术</h2>
+<p>在第二章我们埋了一个伏笔：光刻掩模版有面积极限（约 858mm²，reticle limit），单颗芯片不能无限做大；而 AI 需要的算力和带宽远超一颗芯片所能承载。解决方案是<strong>"拆开造、拼起来用"</strong>——把大芯片拆成多颗裸片（die），把内存堆叠成高楼，再把它们用极高的密度连接起来。<strong>这个"拼"的动作，就是先进封装</strong>。</p>
+<p>文档趋势三的原话值得反复品味："SK 海力士和三星均强调，<strong>封装已不再是后端工艺，而是与 DRAM 设计同等核心的架构组成部分</strong>。客户与内存供应商的协同设计成为必需。"翻译成投资语言：封装环节的技術壁垒和附加价值正在指数级上升，封装产能（而不仅是晶圆产能）正在成为 AI 算力供给的物理瓶颈。</p>
+<h2 id="s32">5.2 技术全景：一张"封装族谱"看懂所有名词</h2>
+<h3 id="s32-132">5.2.1 2.5D：并排放在"硅转接板"上</h3>
+<p><strong>中介层（Interposer）</strong>：一块内部布满细密连线的硅片（可理解为一块"专用小电路板"），GPU 裸片和 HBM 堆叠并排放上去，通过中介层的微米级连线高速通信。解决"多裸片高密度互连"问题；缺点是硅中介层贵、面积越大良率越低、翘曲越难控制 <a href="https://3dfabric.tsmc.com/english/dedicatedFoundry/technology/SoIC.htm" target="_blank" rel="noopener">台积电 3DFabric</a>。</p>
+<p><strong>CoWoS</strong>：台积电 2.5D 旗舰平台（Chip-on-Wafer-on-Substrate），是英伟达 GPU 的"地基"。三个变种：CoWoS-S（全硅中介层）、CoWoS-R（RDL 再布线层代替硅，降本）、CoWoS-L（局部硅桥+塑封中介层，支持更大封装尺寸，服务 Rubin 世代）<a href="https://3dfabric.tsmc.com/english/dedicatedFoundry/technology/SoIC.htm" target="_blank" rel="noopener">台积电 3DFabric</a>。</p>
+<h3 id="s32-135">5.2.2 键合技术：把芯片"焊"在一起的四种手法</h3>
+<div class="tblwrap"><table><thead><tr><th>手法</th><th>原理（小白版）</th><th>间距</th><th>优缺点</th></tr></thead><tbody><tr><td><strong>C4 凸点</strong>（传统）</td><td>芯片上植锡球，回流焊连接</td><td>~130μm</td><td>成熟便宜，密度低</td></tr><tr><td><strong>微凸点 microbump</strong></td><td>更细的锡球</td><td>20–40μm</td><td>密度提升一个量级；再往下缩锡球易桥连</td></tr><tr><td><strong>TC-NCF 热压键合</strong></td><td>加热加压逐层"熨烫"，非导电膜 NCF 预固定</td><td>10μm 级</td><td>三星/美光 HBM 现行路线；高温高压带来翘曲与应力累积 <a href="https://www.mdpi.com/2079-9296/14/13/2682" target="_blank" rel="noopener">MDPI</a></td></tr><tr><td><strong>混合键合 Hybrid Bonding</strong></td><td>铜面与铜面直接"冷焊"（介质层键合+铜焊盘键合合一），无焊料无凸点</td><td><strong>&lt;10μm，路线图指向亚微米</strong></td><td>最密、最薄、最导热；对颗粒/平坦度/翘曲极度敏感，良率是瓶颈 <a href="https://www.brewerscience.com/what-is-hybrid-bonding/" target="_blank" rel="noopener">Brewer Science</a>、<a href="https://www.appliedmaterials.com/us/en/semiconductor/markets-and-inflections/heterogeneous-integration/hybrid-bonding.html" target="_blank" rel="noopener">Applied Materials</a></td></tr></tbody></table></div>
+<p><strong>SK 海力士的特殊路线 MR-MUF</strong>：批量回流焊+塑封填充，一次连接整个堆叠，生产效率高（文档提到"一次性回流焊连接整个 DRAM 堆叠"）。文档披露 SK 海力士的判断：<strong>HBM4E 尚不采用混合键合，但 20 层堆叠终将过渡</strong>——届时芯片间隙消失，导热系数提升约 35%。这与键合设备产业的订单节奏直接相关。</p>
+<h3 id="s32-138">5.2.3 TSV 与 WoW</h3>
+<ul><li><strong>TSV（硅通孔）</strong>：3D 集成的"电梯井"。用博世刻蚀（DRIE）在硅片上打深孔，沉积绝缘层后电镀铜填满，实现芯片垂直互连。设备端涉及深硅刻蚀（Lam、TEL、中微公司）与电镀（AMAT、Lam、北方华创）<a href="https://www.sciencedirect.com/science/article/pii/S2709472325000322" target="_blank" rel="noopener">ScienceDirect 综述</a>、<a href="https://www.lamresearch.com/products/our-solutions/packaging-solutions/" target="_blank" rel="noopener">Lam Packaging</a>。</li><li><strong>WoW/W2W（晶圆对晶圆）键合</strong>：整片晶圆对整片晶圆键合后再切割，对准精度高、产能好；但要求上下裸片尺寸一致，且必须先解决 KGD（已知良好裸片）问题——否则一颗坏裸片报废整个晶圆 [文档中的三星 zHBM 即采用 WoW+HCB 混合键合]。</li></ul>
+<h2 id="s33">5.3 产业格局：谁在挣封装的钱</h2>
+<h3 id="s33-141">5.3.1 代工/OSAT：产能为王</h3>
+<ul><li><strong>台积电</strong>：CoWoS 产能 2024 年底约 3.5–4 万片/月，2025 年底约 7–7.5 万片/月（贡献营收超 10%），<strong>2026 年预计达 12–14 万片/月</strong>，供需缺口从约 20% 收窄到年底约 10%——连续三年翻倍扩产仍是供不应求，并外溢给 Amkor、日月光甚至英特尔 <a href="https://www.trendforce.com/news/2024/12/13/news-tsmc-ramps-up-cowos-capacity-across-taiwan-projected-to-nearly-triple-by-2026/" target="_blank" rel="noopener">TrendForce 2024.12</a>、<a href="https://www.trendforce.com/news/2026/06/15/news-tsmc-cowos-supply-demand-gap-reportedly-seen-narrowing-from-20-to-10-by-end-2026-as-capacity-expands/" target="_blank" rel="noopener">TrendForce 2026.6</a>；</li><li><strong>Amkor</strong>：亚利桑那先进封装厂总投资扩至 70 亿美元，并与台积电签 10 年协议承接其外包的先进封装 <a href="https://ir.amkor.com/news-releases/news-release-details/amkor-technology-breaks-ground-new-semiconductor-advanced" target="_blank" rel="noopener">Amkor IR</a>；</li><li><strong>日月光 ASE</strong>：VIPack 平台+约 105 亿美元融资扩张 AI 封装产能 <a href="https://www.aseglobal.com/press-room/vipack/" target="_blank" rel="noopener">ASE</a>；</li><li><strong>英特尔</strong>：EMIB（嵌入基板的硅桥）+ Foveros（3D 堆叠）+ Foveros Direct（铜-铜混合键合），2027 年 production ready <a href="https://www.intel.com/content/www/us/en/foundry/packaging.html" target="_blank" rel="noopener">Intel Foundry</a>；</li><li><strong>三星</strong>：SAINT 体系（S：3D 堆叠 SRAM；L：逻辑；D：存储-逻辑协同封装），正对应文档披露的 zHBM 方向 <a href="https://finance.sina.cn/hkstock/ggyw/2025-08-16/detail-infmenqc1782989.d.html" target="_blank" rel="noopener">新浪财经</a>。</li></ul>
+<h3 id="s33-143">5.3.2 设备：增量最确定的一环（文档评级"超配"）</h3>
+<ul><li><strong>BESI</strong>：混合键合设备龙头。2025 上半年混合键合收入同比翻倍以上，H2 HBM 键合机订单继续上行 <a href="https://www.trendforce.com/news/2025/07/28/news-hbm-hybrid-bonder-demand-reportedly-rising-in-2h25-as-besi-and-asmpt-eye-growth/" target="_blank" rel="noopener">TrendForce</a>；</li><li><strong>ASMPT</strong>：TC bonder 主供（三星、美光路线），并推出 LITHOBOLT 激光辅助 D2W 混合键合——HBM4 键合设备双雄之一 <a href="https://www.thelec.net/news/articleView.html?idxno" target="_blank" rel="noopener">The Elec</a>、<a href="https://www.asmpt.com/en/innovation/hybrid-bonding/" target="_blank" rel="noopener">ASMPT</a>；</li><li><strong>测试设备（容易被忽略的巨大增量）</strong>：HBM 必须做堆叠前 KGD 筛选+堆叠后 KGSD 测试，HBM4 的逻辑基础裸片让测试复杂度激增。泰瑞达 2025 年 8 月发布 Magnum 7H 专攻 HBM 堆叠测试 <a href="https://investors.teradyne.com/news-events/press-releases/detail/419/" target="_blank" rel="noopener">Teradyne</a>；HBM 相关测试已约占爱德万存储测试收入 50% <a href="https://tspasemiconductor.substack.com/p/advantest-leading-the-ai-testing" target="_blank" rel="noopener">Semivision</a>；KGD 筛选测试市场预计从 2026 年 16 亿美元增至 2036 年 78 亿美元 <a href="https://www.factmr.com/report/hbm-known-good-die-kgd-screening-and-test-market" target="_blank" rel="noopener">Fact.MR</a>。</li></ul>
+<h3 id="s33-145">5.3.3 材料：小材料、大格局</h3>
+<ul><li><strong>ABF 载板</strong>（欣兴、Ibiden、南电、景硕）：AI 带动载板紧缺，订单可见度到 2025 年之后 <a href="https://www.cls.cn/detail/866724" target="_blank" rel="noopener">财联社</a>；</li><li><strong>塑封料 EMC/颗粒塑封料 GMC</strong>（住友电木、Resonac 双寡头；国产华海诚科并购衡所华威）：HBM 用 GMC 已通过客户验证 <a href="https://www.stcn.com/article/detail/1012264.html" target="_blank" rel="noopener">证券时报</a>；</li><li><strong>Low-α 球形氧化铝/硅微粉</strong>（联瑞新材、雅克科技、壹石通；海外电化、龙森）：HBM 堆叠中 α 射线会导致 DRAM 软错误，低 α 射线球形粉是必选项 <a href="https://www.fxbaogao.com/detail/4987991" target="_blank" rel="noopener">上海证券</a>——这是"外行看不懂、内行离不开"的典型隐形冠军环节；</li><li><strong>TIM 导热材料与微流道冷却</strong>：3D 堆叠热点密度暴增，散热从"后处理"变成"设计约束"（文档 HPB、IHBM 均属此类）<a href="https://semiengineering.com/examination-of-thermal-issues-related-to-hybrid-bonding-of-3d-stacked-hbm/" target="_blank" rel="noopener">SemiEngineering</a>。</li></ul>
+<h3 id="s33-147">5.3.4 A股标的卡位表（信息汇总，非投资建议）</h3>
+<div class="tblwrap"><table><thead><tr><th>公司</th><th>环节</th><th>关键事实（附来源）</th></tr></thead><tbody><tr><td>拓荆科技</td><td>键合设备</td><td>Pleione 300 D2W 混合键合设备面向 HBM/3D 集成；2025 年新接订单同比 +30% 以上 <a href="https://piotech.cn/index.php?Pro/detail&amp;id=691" target="_blank" rel="noopener">官网</a></td></tr><tr><td>华卓精科</td><td>HBM 全系列装备</td><td>2025 年 12 月推出混合键合/熔融键合/芯粒键合等 HBM 装备，科创板 IPO 拟募 35 亿 <a href="https://www.cls.cn/detail/2416811" target="_blank" rel="noopener">财联社</a></td></tr><tr><td>赛腾股份</td><td>HBM 缺陷检测</td><td>并购 Optima 直供三星 HBM 制程检测设备，2025 年三星确认收入 5.1–6.8 亿元、占半导体收入近 70% <a href="https://finance.sina.com.cn/stock/relnews/cn/2025-04-10/doc-inesspws3083139.shtml" target="_blank" rel="noopener">新浪</a></td></tr><tr><td>精智达</td><td>HBM/AI 芯片测试</td><td>高速 FT 测试机交付，CP/老化/FT 端到端布局 <a href="https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688627&amp;id=12081335" target="_blank" rel="noopener">公告</a></td></tr><tr><td>长川科技</td><td>测试机/分选机</td><td>AI+存储驱动订单，2026 年营收有望超 75 亿元 <a href="https://www.cls.cn/detail/2254488" target="_blank" rel="noopener">财联社</a></td></tr><tr><td>中微公司/北方华创</td><td>TSV 刻蚀/电镀</td><td>TSV 深硅刻蚀国产主力，北方华创平台化覆盖</td></tr><tr><td>联瑞新材</td><td>Low-α 球铝/球硅</td><td>HBM 关键填料+高速基板低损耗填料 <a href="https://www.fxbaogao.com/detail/4987991" target="_blank" rel="noopener">上海证券</a></td></tr><tr><td>华海诚科</td><td>GMC/EMC/底填</td><td>国内 EMC 龙头，HBM 用 GMC 过验证送样，并购衡所华威跃居全球第二 <a href="https://xueqiu.com/1903915974/373366392" target="_blank" rel="noopener">雪球</a></td></tr><tr><td>雅克科技</td><td>前驱体+Low-α 填料</td><td>双卡位 <a href="https://www.wiseguyreports.com/reports/low-alpha-spherical-alumina-market" target="_blank" rel="noopener">WiseGuy</a></td></tr><tr><td>兴森科技/深南电路</td><td>FCBGA 载板</td><td>内资仅有的 FCBGA 量产两强（兴森项目尚在爬坡拖累利润）<a href="https://wap.eastmoney.com/a/202511213571556135.html" target="_blank" rel="noopener">东方财富</a></td></tr></tbody></table></div>
+<h2 id="s34">5.4 技术瓶颈：决定下一轮红利归属的四大难题</h2>
+<ol><li><strong>混合键合量产良率</strong>：表面颗粒、CMP 纳米级平坦度、铜凹陷直接决定键合空洞与失效率；HBM4 混合键合良率仍在爬坡 <a href="https://newsletter.semianalysis.com/p/hybrid-bonding-process-flow-advanced" target="_blank" rel="noopener">SemiAnalysis</a>；</li><li><strong>翘曲（Warpage）</strong>：文档中 SK 海力士提到 16 层堆叠芯片间隙减少约 50%，"翘曲和间隙填充难度剧增"——大尺寸 2.5D 与多层堆叠共同的难题 <a href="https://www.mdpi.com/2079-9296/14/13/2682" target="_blank" rel="noopener">MDPI</a>；</li><li><strong>散热与热点</strong>：垂直热阻叠加、热点密度暴增，微流道冷却被列为下一代方案；文档中三星 HPB（峰值降温 35%+）、SK 海力士 IHBM（硅散热块）都是针对性发明；</li><li><strong>检测与计量</strong>：键合间距进入亚 6μm 后，键合前裸片检测、界面空洞检测、对准精度计量的要求指数级上升——<strong>检测是先进封装的"隐藏瓶颈"</strong>，也是检测设备公司的高弹性来源 <a href="https://www.baslerweb.com/en/learning/semiconductor-hybrid-bonding/" target="_blank" rel="noopener">Basler</a>。</li></ol>
+<h2 id="s35">5.5 本章投资结论</h2>
+<p>文档"论点2"的判断（封装是 AI 硬件的"卖铲人"）在调研中得到充分验证：CoWoS 三年扩产三倍仍供不应求、BESI/ASMPT 订单随 HBM 代际迁移持续上行、KGD 测试市场十年近 5 倍。<strong>封装环节的独特投资属性在于"技术迁移确定性"</strong>：无论三星、海力士、美光谁在 HBM 竞争中胜出，无论 zHBM 还是 20 层混合键合哪条路线胜出，键合、测试、散热、填料的需求都在增长——这是典型的"赛道β大于个股α"环节。</p>
+<hr>
+<h1 id="s36">第六章 近存计算与 d-Matrix：让内存自己算</h1>
+<blockquote>本章对应文档议题一（5 节）"新兴架构：d-Matrix Raptor 与 3D-DRAM"及风险提示"软件生态壁垒"。</blockquote>
+<h2 id="s37">6.1 概念澄清：近存计算（PNM）与存内计算（PIM）</h2>
+<p>两条让"计算靠近数据"的路线，常被混为一谈：</p>
+<ul><li><strong>存内计算（PIM，Processing-In-Memory）</strong>：把计算单元直接嵌进 DRAM/NAND 颗粒内部（如在每个 Bank 旁加 SIMD 阵列），数据不出芯片即完成计算。极限的带宽，但计算单元受 DRAM 工艺限制（慢、无先进逻辑），且<strong>软件必须重写</strong>才能调用这些单元；</li><li><strong>近存计算（PNM/Near-Memory）</strong>：不改颗粒内部，把计算逻辑放在紧邻 DRAM 的地方——基础裸片、CXL 扩展器或 3D 面对面堆叠的逻辑裸片。用极短互连换取高带宽低能耗，编程模型更接近传统硬件。</li></ul>
+<h2 id="s38">6.2 前车之鉴：为什么 HBM-PIM、AiM、UPMEM 都没普及</h2>
+<p>这是本章最重要的知识点，也是文档风险提示"软件是替代内存架构的最大障碍"的历史注脚：</p>
+<ul><li><strong>三星 HBM-PIM/Aquabolt-XL（2021）</strong>：首款商用化 HBM-PIM，每个 Bank 旁嵌 16 通道 FP16 SIMD 阵列；与赛灵思加速卡集成实测系统性能提升 2.5 倍，第三方复测平均延迟改善约 67%（ResNet 最高 96%）<a href="https://news.samsung.com/global/samsung-brings-in-memory-processing-power-to-wider-range-of-applications" target="_blank" rel="noopener">来源</a>、<a href="https://www.theagi.company/blog/processing-near-memory" target="_blank" rel="noopener">来源</a>——<strong>硬件性能是成立的</strong>；</li><li><strong>SK 海力士 AiM（2022）</strong>：GDDR6-AiM 存内计算，实测平均加速约 19%、最高 87% <a href="https://www.theagi.company/blog/processing-near-memory" target="_blank" rel="noopener">来源</a>；</li><li><strong>UPMEM</strong>：把简单 DPU 嵌进 DDR DIMM，停留在学术演示阶段 <a href="https://fast.ece.illinois.edu/projects/5_project/" target="_blank" rel="noopener">来源</a>。</li></ul>
+<p><strong>失败原因（Jim Handy 分析）</strong>：症结不在硬件而在<strong>软件必须为 PIM 重新改写</strong>——SIMD 单元只支持有限算子，CUDA/PyTorch 生态无法透明受益，客户不愿为一类专用硬件重写软件栈 <a href="https://thememoryguy.com/samsungs-aquabolt-xl-processor-in-memory-part-2/" target="_blank" rel="noopener">来源</a>。<strong>这个教训直接塑造了 d-Matrix"只做推理、全栈交付"的策略</strong>——也提醒投资者：评估一切新计算架构，先问"软件谁写"。</p>
+<h2 id="s39">6.3 d-Matrix Raptor：把"近存"推到物理极限</h2>
+<h3 id="s39-164">6.3.1 问题定义（文档）</h3>
+<p>以 Kimi K3（近 3 万亿参数）为例：权重约 3TB + 长上下文 KV 缓存约 1TB；按 HBM 能效，100TB/s 带宽仅数据搬运就烧掉约 <strong>2 千瓦</strong>——不解决搬运能耗，推理经济性无解。</p>
+<h3 id="s39-166">6.3.2 架构创新（文档 + 官方数据）</h3>
+<ul><li><strong>面对面（face-to-face）3D 堆叠</strong>：台积电 4nm 计算芯片与定制 DRAM 以约 <strong>36μm 间距</strong>直接贴合（注意：比三星 zHBM 要求的 &lt;6μm 混合键合宽松得多，工艺更成熟），DRAM Bank 与计算引擎物理对齐；</li><li><strong>性能（官方博客）</strong>：单栈 <strong>20 TB/s 带宽（约 HBM4 的 10 倍）</strong>、能耗 <strong>0.3–0.4 pJ/bit</strong>（对照 HBM 传统方案 3–4 pJ/bit）<a href="https://www.d-matrix.ai/going-vertical-why-we-created-a-3d-dram-solution-to-advance-low-latency-ai-inference/" target="_blank" rel="noopener">来源</a>；第三方汇总：0.37 pJ/bit、系统聚合 100TB/s 级、功耗约为 HBM 方案 1/10 <a href="https://wccftech.com/d-matrix-raptor-3d-dram-achieves-sram-class-bandwidth-at-1-10th-the-hbm-power/" target="_blank" rel="noopener">来源</a>。文档的对照（0.37 vs HBM4 的 2.4 pJ/bit，提升 6-7 倍）与此吻合；</li><li><strong>逻辑与存储的距离演进</strong>：DDR 厘米级 → HBM 毫米级 → 3D 面对面微米级——这就是第二章"离数据越近越值钱"的物理刻度。</li></ul>
+<h3 id="s39-168">6.3.3 工程代价：高温 DRAM 与机架级扩展</h3>
+<p>文档披露的两个现实约束，是理解近存计算商业化节奏的关键：</p>
+<ol><li><strong>热管理倒置</strong>：逻辑芯片置于顶部（紧贴散热板），DRAM 在下方以约 <strong>105°C</strong> 高温工作，刷新频率为标准 DRAM 的 8 倍（温度越高漏电越快——第二章 DRAM 原理在此兑现）。模拟显示若 GPU 上方叠四层 DRAM 且 GPU 热流密度超 1.3 W/mm²，DRAM 可能超 140°C——这正是文档风险提示"Z 轴堆叠热阻问题"的定量表达；</li><li><strong>单设备容量低，需机架级聚合</strong>：约 72 张卡承载一个 Kimi K3 级模型。联网核实：其机架产品 SquadRack <strong>风冷即可部署</strong>于标准数据中心（无需液冷），Corsair 推理平台已进入全面量产 <a href="https://www.d-matrix.ai/announcements/d-matrix-corsair-ai-inference-platform-enters-full-production-to-meet-customer-demand/" target="_blank" rel="noopener">来源</a>。</li></ol>
+<h3 id="s39-171">6.3.4 公司与融资</h3>
+<p>2025 年末融资 2.75 亿美元、投后估值 20 亿美元，投资方含淡马锡、微软 M12、卡塔尔投资局 <a href="https://www.linkedin.com/posts/dina-bass_ai-chipmaker-d-matrix-valued-at-2-billion-activity-7394470350270468096-fpUV" target="_blank" rel="noopener">来源</a>。<strong>事实核查</strong>：文档称"d-Matrix 前Meta工程师参与"，公开资料显示创始人/CEO Sid Sheth 的履历以 Cisco/NetLogic 系网络芯片为主（2019 年创立公司），"Meta 背景"说法未获公开资料核实——公司团队中或有前 Meta 工程师，但表述需谨慎 <a href="https://www.linkedin.com/in/sheth" target="_blank" rel="noopener">来源</a>。</p>
+<h2 id="s40">6.4 投资视角：近存计算的"配置"而非"超配"</h2>
+<p>文档对近存计算/3D-DRAM 给的是"关注配置"评级，逻辑严谨，值得展开：</p>
+<ol><li><strong>架构可行性已被验证</strong>（0.37 pJ/bit 实测），但<strong>单设备容量受限、需机架级扩展</strong>——适用特定推理场景（延迟敏感的短上下文 token 生成、GPU 后处理），短期不撼动训练市场；</li><li><strong>软件生态壁垒依旧</strong>（风险提示）：d-Matrix 吸取 PIM 教训走全栈交付（数字孪生+编译器），但规模化速度可能慢于预期；</li><li><strong>长期颠覆性真实存在</strong>：若 token 成本因此再降一个数量级，"内存即计算"（文档论点 4）将重新划分 CPU/GPU 公司与内存公司的价值链——三星在 AHBM 基础裸片上集成 PE，本质上就是把 d-Matrix 的思路内化进标准 HBM 产品线（两章互为印证）。</li></ol>
+<p><strong>可投标的稀缺</strong>是这一方向的现实：d-Matrix 未上市（一级市场关注淡马锡/M12/卡塔尔投资局的后续轮），A股的"近存计算"标的多为概念映射。<strong>更可靠的间接暴露方式是持有存储原厂</strong>（三星 = AHBM/zHBM 的最大潜在赢家）与<strong>键合设备</strong>（3D 堆叠的必须工具）。</p>
+<hr>
+<h1 id="s41">第七章 存储层级重构：HBF 高带宽闪存与 QLC SSD</h1>
+<blockquote>本章对应文档议题一（6 节）"存储层级重构：HBF 与 QLC SSD"及 NAND/HDD 溢出效应。</blockquote>
+<h2 id="s42">7.1 核心思想：不是所有数据都配得上 HBM</h2>
+<p>第三章说过，HBM 又快又贵。但推理负载中并非所有数据都在"发烧"：万亿参数模型的权重中，MoE（混合专家）架构下每个 token 只激活一小部分专家；长对话的 KV 缓存里，越早的上下文访问频率越低。<strong>按"数据温度"分层存放</strong>——热数据（当前计算的权重/激活）放 HBM，温数据（未激活专家、冷 KV 缓存）放便宜的介质——这就是存储层级重构的经济逻辑（文档趋势六"工作负载驱动的协同优化"的存储版）。</p>
+<h2 id="s43">7.2 HBF：用 HBM 的接口装闪存的容量</h2>
+<h3 id="s43-183">7.2.1 是什么</h3>
+<p><strong>HBF（High Bandwidth Flash，高带宽闪存）</strong>：把 NAND 闪存用 HBM 式的宽接口 TSV 堆叠起来——"HBM 的外壳、闪存的芯"。由 Sandisk 主导提出：单堆栈 16 层 NAND、容量最高 512GB、读取带宽 1.6 TB/s <a href="https://spectrum.ieee.org/high-bandwidth-flash" target="_blank" rel="noopener">来源</a>。文档与 Sandisk 口径一致：<strong>容量为 HBM 的 8–16 倍，每 GB 带宽约 HBM 的 1/25</strong>；Sandisk 称模拟显示用 HBF 作显存扩展时模型性能在"无限容量 HBM"的 2.2% 以内 <a href="https://www.sandisk.com/company/newsroom/blogs/2025/scaling-beyond-the-wall-inside-sandisks-high-bandwidth-flash-for-ai-inferencing/" target="_blank" rel="noopener">来源</a>，并与 SK 海力士推动 HBF 标准化 <a href="https://overclock3d.net/news/memory/sandisk-and-sk-hynix-standardize-high-bandwidth-flash-hbf-memory/" target="_blank" rel="noopener">来源</a>。</p>
+<h3 id="s43-185">7.2.2 经济账（文档）</h3>
+<p>机架规模（72 加速器）下，HBM 的每百万解码 token 成本仍比 HBF 低 6–8 倍——<strong>即 HBM 在"热路径"上仍是最优解，HBF 的定位是容量层</strong>。适用场景（文档+调研）：</p>
+<ol><li>单机承载万亿参数短上下文模型（权重流式读取，对带宽要求相对低）；</li><li>低 batch size 推理的 KV 缓存卸载；</li><li>稀疏注意力模型/MoE 的专家权重卸载（天然容忍低带宽）。</li></ol>
+<h3 id="s43-188">7.2.3 软件挑战（文档+学术佐证）</h3>
+<p>HBF 不是 DRAM 的直接替代品：读粒度约 64KB 页、写入约束在 MB 级大块（继承 NAND 页/块物理特性），而主流推理框架 vLLM 的 PagedAttention 以 token 级小块管理 KV 缓存——直接适配会产生严重碎片。需要新的分配器与传输调度机制、闪存感知的内核 <a href="https://arxiv.org/html/2608.11668" target="_blank" rel="noopener">来源</a>、<a href="https://arxiv.org/html/2405.04437v2" target="_blank" rel="noopener">来源</a>。<strong>又是"软件谁写"的问题</strong>——与 PIM 的教训一脉相承。这也解释了文档风险提示"若 vLLM 等软件层快速成熟，HBF 可能分流中低端推理市场的 HBM 需求"的条件句结构：<strong>HBF 对 HBM 的替代程度=软件适配速度的函数</strong>。</p>
+<h2 id="s44">7.3 QLC SSD：温数据层的"降维打击"</h2>
+<h3 id="s44-191">7.3.1 QLC 原理</h3>
+<p>QLC（四比特单元）每个 NAND 单元存 4 比特——需要精确区分 <strong>16 档阈值电压</strong>（SLC 2 档、MLC 4 档、TLC 8 档、QLC 16 档）。电压态越多密度越高、单 GB 成本越低，但写入越慢、耐久越低——<strong>天然适合"读多写少"的温数据/数据湖层</strong>（AI 数据湖正是这种负载）<a href="https://www.viksnewsletter.com/p/role-of-storage-in-ai-primer-on-nand" target="_blank" rel="noopener">来源</a>。</p>
+<h3 id="s44-193">7.3.2 Meta 实测背书与代差数据（文档+核实）</h3>
+<p>文档"Meta 测试证实 QLC SSD 性能优于 HDD"有公开背书：Meta 工程博客《A case for QLC SSDs in the data center》给出生产级结论——QLC 提供比 TLC 更高的密度、能效与更低成本，并对 HDD 形成代差优势 <a href="https://engineering.fb.com/2025/03/04/data-center-engineering/a-case-for-qlc-ssds-in-the-data-center/" target="_blank" rel="noopener">来源</a>。铠侠的量化对比：大容量 QLC SSD 对 HDD <strong>顺序读最高快 445%、随机读快 1861 倍以上、随机写快 71 倍以上</strong> <a href="http://blog-us.kioxia.com/post/2026/02/25/high-capacity-qlc-ssds-a-compelling-hdd-alternative" target="_blank" rel="noopener">来源</a>。产品标杆：Solidigm（SK 海力士旗下）D5-P5336 单盘 <strong>122.88TB</strong> 量产，定位 AI 数据湖 <a href="https://www.solidigm.com/products/data-center/d5/p5336.html" target="_blank" rel="noopener">来源</a>。</p>
+<h3 id="s44-195">7.3.3 涨价周期：NAND 与 HDD 双紧（文档"溢出效应"的验证）</h3>
+<ul><li><strong>NAND</strong>：群联 CEO 称原厂售价已上调"接近 50–75%"，AI 需求遇供给紧张推动 SSD 价格上行 <a href="https://www.pcmag.com/news/ssd-storage-prices-to-climb-as-ai-demand-meets-tight-nand-supply" target="_blank" rel="noopener">来源</a>；</li><li><strong>HDD</strong>：2025Q4 合约价环比涨约 4%，为<strong>八个季度以来最大涨幅</strong>——AI 数据湖与近线存储需求是主因 <a href="https://www.tomshardware.com/pc-components/hdds/hdd-prices-spike-as-ai-infrastructure-and-chinas-pc-push-collide-hard-drives-record-biggest-price-increase-in-eight-quarters-suppliers-warn-pressure-will-continue" target="_blank" rel="noopener">来源</a>。</li></ul>
+<p>文档的传导链条在此完整兑现：AI 基建 → HDD 需求暴涨+供应短缺 → QLC SSD 填补 TLC 与 HDD 之间的新层级 → 某些场景直接取代 HDD → 铠侠、西部数据/SanDisk 受益。文档给 NAND/QLC"标配"评级的理由也成立：属周期性大宗商品，涨价弹性弱于 HBM（HBM 有结构性短缺，NAND 供给弹性更大）。</p>
+<h2 id="s45">7.4 更远的层级：CXL 池化、LPDDR 分层与光学 I/O</h2>
+<ul><li><strong>CXL 内存池化</strong>：CXL 3.x 让多机共享解耦内存池，"近 DRAM 性能+可扩展容量"的新层级；三星与 CXL 联盟均已发布 AI 推理池化方案白皮书 <a href="https://computeexpresslink.org/blog/overcoming-the-ai-memory-wall-how-cxl-memory-pooling-powers-the-next-leap-in-scalable-ai-computing-4267/" target="_blank" rel="noopener">来源</a>、<a href="https://semiconductor.samsung.com/news-events/tech-blog/breaking-ai-memory-limits-with-cxl-memory-pooling/" target="_blank" rel="noopener">来源</a>；</li><li><strong>LPDDR 分层推理</strong>：在 HBM 之下、DDR 之上插入 LPDDR 层放 KV 缓存与冷权重（文档趋势六提到的"小 HBM+LPDDR 分层"路径）<a href="https://semiwiki.com/forum/threads/sk-hynix-proposes-hbm-and-hbf-hybrid-for-llm-inference.24754/" target="_blank" rel="noopener">来源</a>；</li><li><strong>光学 I/O</strong>：当电互连逼近极限，用光替代铜。Ayar Labs 的 TeraPHY 光 chiplet <a href="https://ayarlabs.com/teraphy/" target="_blank" rel="noopener">来源</a>；<strong>Lightmatter 已加入 NVIDIA NVLink Fusion 生态</strong>，其 Passage 3D 光子中介层被视为 NVIDIA 未来 CPO 路线候选 <a href="https://lightmatter.co/press-release/lightmatter-joins-nvidia-nvlink-fusion/" target="_blank" rel="noopener">来源</a>；文档风险提示中"行业可能退回 2.5D+光学 I/O 方案"的备选路径正在被产业预演。AI 光互连市场 2025 年约 86 亿美元、2034 年预计 384 亿美元 <a href="https://dataintelo.com/report/optical-interconnect-for-ai-market" target="_blank" rel="noopener">来源</a>。</li></ul>
+<h2 id="s46">7.5 本章小结与标的</h2>
+<p>存储层级的投资图谱（信息汇总，非投资建议）：</p>
+<div class="tblwrap"><table><thead><tr><th>环节</th><th>海外</th><th>A股</th></tr></thead><tbody><tr><td>NAND/QLC 原厂</td><td>铠侠 285A.T（2025 年日本最佳半导体股，年涨约 435% <a href="https://www.dividendjapan.com/p/kioxia-best-semiconductor-stock-japan-2025" target="_blank" rel="noopener">来源</a>）、SanDisk/SNDK、三星、美光、Solidigm（海力士旗下）</td><td>—</td></tr><tr><td>模组/企业级 SSD</td><td>—</td><td>江波龙、佰维存储（2025 净利 +429% <a href="https://www.cls.cn/detail/2339696" target="_blank" rel="noopener">来源</a>）、德明利、同有科技</td></tr><tr><td>主控/设计</td><td>—</td><td>兆易创新、东芯股份</td></tr><tr><td>分销</td><td>—</td><td>香农芯创（海力士分销）</td></tr><tr><td>光学 I/O</td><td>Ayar Labs、Lightmatter（未上市）、Coherent、住友电工</td><td>—</td></tr></tbody></table></div>
+<p>核心判断：HBF 与 QLC 共同重构"容量侧"——HBF 以 1/25 带宽换 8-16 倍容量（胜负手在软件适配），QLC 在温数据层对 HDD 形成千倍级随机读代差（Meta 已实测背书）。周期与成长叠加，但需警惕 2026-2027 年 NAND 供给释放后的周期反转。</p>
+<hr>
+<h1 id="s47">第八章 RISC-V：从"嵌入式玩具"到数据中心选项的历史性跨越</h1>
+<blockquote>本章对应文档第二大主线。核心素材：文档（二）"RISC-V：从边缘到数据中心的历史性跨越"，叠加联网调研（均标注来源）。</blockquote>
+<h2 id="s48">8.1 从零开始：什么是指令集，为什么它值一个生态</h2>
+<h3 id="s48-208">8.1.1 指令集：硬件与软件的"合同"</h3>
+<p>计算机分两层：<strong>硬件</strong>（晶体管电路）和<strong>软件</strong>（指令序列）。中间靠<strong>指令集架构（ISA）</strong>衔接——它规定了一款处理器"认识"哪些基本指令：加法怎么写、从内存取数怎么写、条件跳转怎么写。操作系统、编译器、所有应用软件，最终都翻译成这些指令交给硬件执行。</p>
+<p><strong>为什么 ISA 是权力的来源？</strong> 一旦全世界的软件都针对某个 ISA 编译，这个 ISA 就拥有了"生态护城河"——任何新硬件必须兼容它，否则没有软件可用。x86（英特尔/AMD，封闭授权）因此统治 PC 与服务器四十余年；ARM（授权收费模式）统治手机三十年。<strong>英伟达的 CUDA 本质上是把同样的逻辑搬到了 AI 计算领域</strong>——这就是文档风险提示里"NVIDIA 的护城河不仅在于硬件，更在于 CUDA 生态"的含义。</p>
+<h3 id="s48-211">8.1.2 RISC-V：芯片界的 Linux</h3>
+<p>RISC-V 是 2010 年加州大学伯克利分校发起的开源指令集，后由非营利组织 RISC-V International 维护（现并入 Linux 基金会体系）。两大特征：</p>
+<ol><li><strong>开源免版税</strong>：任何公司可免费基于它设计处理器，不需要像 ARM 那样支付 IP 授权费和每颗芯片的版税 <a href="https://riscv.org/reference/rva23/v1.0/rva23-profiles.html" target="_blank" rel="noopener">来源</a>；</li><li><strong>模块化</strong>：基础指令集（RV64I）极简，再按需叠加可选扩展（向量 V、虚拟化 H、加密、压缩 C……），从几十美分的单片机到服务器 CPU 都能用同一套 ISA。</li></ol>
+<p><strong>但模块化是把双刃剑</strong>：早期"每家公司自己选一套扩展组合"，导致 A 家芯片跑不了 B 家软件——二进制碎片化。这是 RISC-V 多年困在嵌入式/物联网（对生态要求低）领域、无法进入通用计算的根本原因 <a href="https://ubuntu.com/blog/risc-v-profiles-why-is-rva23-significant" target="_blank" rel="noopener">来源</a>。</p>
+<h2 id="s49">8.2 标准化突破：RVA23 如何解决"鸡生蛋"问题（文档议题）</h2>
+<h3 id="s49-216">8.2.1 RVA23 配置文件：把"自选动作"变成"规定动作"</h3>
+<p><strong>Profile（配置文件）</strong> 机制是解决碎片化的钥匙：RISC-V International 直接规定一组扩展集合为<strong>强制项</strong>，所有厂商的芯片必须全数支持，软件只需面向这一个基线编译。</p>
+<p>文档写道：RISC-V International 联合创始人 Krste Asanović 在 Hot Chips 2026 上阐述了从"可配置 ISA"到"二进制兼容生态"的跨越——RVA23 定义了丰富的强制性功能集（向量、虚拟化、加密等）。联网核实的细节：</p>
+<ul><li><strong>RVA23 于 2024 年 10 月批准、2025 年 1 月正式发布</strong>，强制项包括：RVV 1.0 向量扩展（AI/科学计算必需）、Hypervisor 虚拟化扩展（云数据中心必需）、标量与向量加密扩展、位操作（Zba/Zbb/Zbs）、条件操作（Zicond）、指针掩码等，被业界普遍视为 RISC-V 首次具备与 ARMv9/x86 同台竞技资格的里程碑 <a href="https://riscv.org/blog/risc-v-announces-ratification-of-the-rva23-profile-standard/" target="_blank" rel="noopener">来源</a>、<a href="https://github.com/riscv/riscv-profiles/releases" target="_blank" rel="noopener">来源</a>。</li><li><strong>文档原文的"鸡生蛋"洞察</strong>是理解这件事的钥匙：软件厂商等硬件普及才肯适配，硬件厂商等软件成熟才敢加功能，双方僵持。RVA23 的作用是"多家厂商将于 2026 年推出 RVA23 服务器级芯片"这一<strong>集体承诺</strong>——硬件方承诺提供功能，软件方即可假定功能存在，僵局打破。</li></ul>
+<h3 id="s49-220">8.2.2 服务器平台规范：超越 CPU 的完整"开机套装"</h3>
+<p>文档指出，RISC-V 的标准化不止于指令集：<strong>服务器平台规范</strong> 涵盖 UEFI（固件启动）、ACPI（电源与设备枚举）、I/O MMU（设备地址翻译）、中断（APLIC/AIA）等系统级规范，目标是"在兼容 RISC-V 服务器上启动标准 Linux 发行版，无需任何厂商变通方案" <a href="https://github.com/riscv-non-isa/riscv-server-platform/blob/main/server_platform_requirements.adoc" target="_blank" rel="noopener">来源</a>。类比：RVA23 解决"说同一种语言"，服务器平台规范解决"住在同一个城市里"——启动、电源管理、设备发现全部标准化，数据中心运维人员才敢采购。</p>
+<h2 id="s50">8.3 软件生态成熟：Ubuntu 与 CUDA 的两大里程碑</h2>
+<h3 id="s50-223">8.3.1 Canonical：Ubuntu 26.04 LTS 把 RVA23 定为官方基线</h3>
+<p>文档披露：Ubuntu 26.04 LTS 已将 RVA23 作为官方 RISC-V 基线，约 95% 常用 Debian 软件包已可用；Canonical 正部署原生 RISC-V 构建基础设施替代模拟环境，并计划支持 Kubernetes、MicroCloud 及 OpenStack。联网核实：</p>
+<ul><li>Canonical 自 Ubuntu 25.10 起以 RVA23 为最低支持基线；<strong>Ubuntu 26.04 LTS（2026 年 4 月发布）提供 5 年标准支持、最长 15 年扩展支持</strong>——LTS 是企业采购服务器的硬门槛，这一步意味着 RISC-V 服务器从"爱好者玩具"变成"可进生产环境的选项" <a href="https://canonical.com/blog/canonical-and-ubuntu-risc-v-a-2025-retro-and-looking-forward-to-2026" target="_blank" rel="noopener">来源</a>。</li><li>国产芯片厂商进迭时空（SpacemiT）的 K1/K3 芯片也已宣布支持 Ubuntu 26.04 LTS 与 RVA23 <a href="https://www.reddit.com/r/RISCV/comments/1qwlfdc/spacemit_announces_the_availability_of_ubuntu_on/" target="_blank" rel="noopener">来源</a>。</li></ul>
+<h3 id="s50-226">8.3.2 NVIDIA：CUDA 移植 + NVLink Fusion，RISC-V 的"临门一脚"</h3>
+<p>这是本次大会 RISC-V 主线最重磅的内容。文档披露两点：</p>
+<ol><li><strong>CUDA on RISC-V 首次公开演示</strong>：NVIDIA 的 Franz 透露其实验室已拥有多颗 RVA23 处理器，并在 Hot Chips 上完成 CUDA 在 RISC-V 上的首次公开演示。联网佐证：NVIDIA 于 2025 年 7 月 RISC-V Summit China 宣布 RISC-V CPU 成为 CUDA 宿主 CPU 之一，形成 x86/ARM/RISC-V 三足鼎立的 CUDA 平台格局 <a href="https://riscv.or.jp/en/2025/09/nvidia-cuda/" target="_blank" rel="noopener">来源</a>、<a href="https://www.tomshardware.com/pc-components/gpus/nvidias-cuda-platform-now-supports-risc-v-support-brings-open-source-instruction-set-to-ai-platforms-joining-x86-and-arm" target="_blank" rel="noopener">来源</a>。NVIDIA 对 RISC-V 的要求仅是在标准 RVA23 和服务器平台规范之上"增加少量要求"（PCIe 缓存一致性、点对点通信）——这恰恰证明标准化的成功：<strong>不需要私有分支就能接入 CUDA 生态</strong>。</li></ol>
+<ol><li><strong>NVLink Fusion 开放</strong>：允许 RISC-V CPU 取代 NVIDIA 自研 ARM 主机处理器（Grace），通过 C2C 网络获得<strong>高达 PCIe 五倍的带宽和缓存一致性</strong>。SiFive 已宣布采用 NVLink Fusion 用于下一代数据中心 RISC-V CPU <a href="https://www.sifive.com/press/sifive-nvidia-nvlinkfusion-datacenter" target="_blank" rel="noopener">来源</a>、<a href="https://www.servethehome.com/sifive-to-adopt-nvlink-fusion-for-future-data-center-risc-v-cpu-designs/" target="_blank" rel="noopener">来源</a>。</li></ol>
+<p><strong>为什么说这是"临门一脚"？</strong> 过去 RISC-V 进数据中心有死结：没有 CUDA 就没人买 AI 服务器 CPU，没有装机量就没人移植 CUDA。NVIDIA 主动开放，等于亲手把 RISC-V 拉进了全球最强的 AI 生态。其动机也不难理解——文档点出 NVIDIA 的战略定位："RISC-V 优势不在于替代 x86/ARM，而在于针对细分市场的专业化能力"。对 NVIDIA 而言，把主机 CPU 的位置开放给第三方定制芯片，既做大 NVLink 生态（对冲自研 CPU 的产能和设计负担），又强化"GPU 是宇宙中心"的格局；对 RISC-V 阵营而言，AI Agent 时代的主机 CPU 需求高度定制化（文档趋势五），开放 ISA 恰好是做定制的最佳底座——双赢。</p>
+<h3 id="s50-231">8.3.3 高通收购 Ventana：巨头用真金白银投票（联网调研新发现）</h3>
+<p>调研核实到文档之外的重大产业事件：<strong>2025 年 12 月 10 日，高通正式宣布收购 Ventana Micro Systems</strong>，获得其 Veyron 系列数据中心 RISC-V CPU（最高 192 核、UCIe chiplet 互连）的 IP 与团队 <a href="https://www.qualcomm.com/news/releases/2025/12/qualcomm-acquires-ventana-micro-systems--deepening-risc-v-cpu-ip-ex" target="_blank" rel="noopener">来源</a>。此前 SemiAnalysis 评测曾认为 Ventana Veyron V2 的内核性能可对标下一代 Intel 内核 <a href="https://newsletter.semianalysis.com/p/ventana-risc-v-cpus-beating-next" target="_blank" rel="noopener">来源</a>。这一收购与文档"多家厂商将于 2026 年推出 RVA23 服务器级芯片"的判断相互印证：RISC-V 数据中心 CPU 的商业化已经从"讲故事"进入"抢资产"阶段。另一面，RISC-V AI 推理初创 Esperanto 在 2025 年明显退潮 <a href="https://www.reddit.com/r/RISCV/comments/1mrvlhs/ai_startup_esperanto_faded_away/" target="_blank" rel="noopener">来源</a>——说明赛道确定性上升的同时，个体公司风险依然高企。</p>
+<h2 id="s51">8.4 市场规模：从 0 到 1 之后的量有多大</h2>
+<ul><li>Omdia 预测 2024–2030 年 RISC-V 芯片出货量<strong>年均增长约 50%，2030 年达约 170 亿颗/年</strong>；RISC-V International 引用的口径为 2030 年占全球半导体市场约 25% 份额 <a href="https://www.tomshardware.com/pc-components/cpus/risc-v-adoption-predicted-to-get-ai-boost-forecast-shows-50-growth-every-year-until-2030-for-the-open-standard-isa" target="_blank" rel="noopener">来源</a>；</li><li>SHD Group 预测 2030 年 RISC-V SoC 年出货约 690 亿颗、营收 4160 亿美元；Semico 预测 2027 年 RISC-V AI SoC 出货 250 亿颗、营收 2910 亿美元 <a href="https://theshdgroup.com/wp-content/uploads/2024/01/RISC-V-Market-Analysis-2024-Abridged-Report-2.pdf" target="_blank" rel="noopener">来源</a>、<a href="https://riscv.org/blog/semico-researchs-new-report-predicts-there-will-be-25-billion-risc-v-based-ai-socs-by-2027/" target="_blank" rel="noopener">来源</a>。</li></ul>
+<p>（各家口径差异较大——出货量统计是否含深嵌入式内核、营收是否含搭载 RISC-V 小核的 SoC 整机价值，都会导致数量级差异。投资者应把预测当方向参考，而非精确指引。但"年增 50%"的斜率与"嵌入式→数据中心/汽车升级"的结构判断是一致的。）</p>
+<h2 id="s52">8.5 中国力量：RISC-V 是中国半导体自主可控的关键抓手</h2>
+<p>对中国而言，RISC-V 的开源属性使其成为绕开 x86/ARM 授权限制、实现处理器自主的主要路径之一（这既是机遇，也引来美方出口管制的政治讨论——CSET 与 CSIS 均有分析，若将开源 ISA 纳入管制将损害美国自身生态影响力 <a href="https://cset.georgetown.edu/article/risc-v-what-it-is-and-why-it-matters/" target="_blank" rel="noopener">来源</a>、<a href="https://www.csis.org/analysis/limits-chip-export-controls-meeting-china-challenge" target="_blank" rel="noopener">来源</a>）。产业进展：</p>
+<ul><li><strong>平头哥/达摩院玄铁（T-Head）</strong>：2025 年 2 月底发布首款服务器级 CPU <strong>C930（64 核，面向 RVA23 方向）并于 3 月起交付</strong>，被视为中国 RISC-V 冲击高端的标志性事件 <a href="https://www.scmp.com/tech/big-tech/article/3301620/how-alibabas-new-risc-v-chip-hits-mark-chinas-tech-self-sufficiency-drive" target="_blank" rel="noopener">来源</a>；</li><li><strong>芯来科技（Nuclei）</strong>：本土 RISC-V IP 龙头，NA900/NA300 车规 IP 获 <strong>ASIL-D 功能安全认证</strong>（车规最高等级）<a href="https://www.nucleisys.com/newsdetail.php?id=364" target="_blank" rel="noopener">来源</a>；</li><li><strong>A股高暴露标的</strong>：乐鑫科技、恒玄科技、中科蓝讯三大无线连接芯片厂的主力产品线均基于 RISC-V 核（2025Q3 营收分别约 19.12 亿、29.33 亿、13.02 亿元）<a href="https://www.eet-china.com/news/202511079244.html" target="_blank" rel="noopener">来源</a>；兆易创新（GD32VF MCU 先行者）、全志科技（RISC-V SoC）亦有布局。</li></ul>
+<h2 id="s53">8.6 RISC-V 主线的投资小结</h2>
+<p>文档把 RISC-V 生态列为"超配"评级，核心逻辑是"从 0 到 1 的拐点已现（RVA23 + CUDA + Ubuntu）；AI Agent 趋势强化主机 CPU 定制化需求；汽车区域架构提供第二增长曲线"。结合调研，我们把逻辑链完整展开：</p>
+<ol><li><strong>标准化（RVA23 + 服务器平台规范）解决"能不能用"</strong> →</li><li><strong>生态（Ubuntu 26.04 LTS + CUDA/NVLink Fusion）解决"好不好用"</strong> →</li><li><strong>需求（AI Agent 主机 CPU 定制化 + 汽车区域控制器 + 主权 AI）解决"为什么要用"</strong> →</li><li><strong>商业化验证（2026 年 RVA23 服务器芯片出货、高通收购 Ventana）解决"什么时候兑现"</strong>。</li></ol>
+<p>类比文档"论点3"的表述：RISC-V 的"Android 时刻"已至——当年 Android 靠开源 + 统一软件基线 + 运营商/厂商联盟击败功能机生态；今天 RISC-V 的"杀手级三角"（RVA23 标准化 + Ubuntu 原生支持 + NVIDIA CUDA 移植）正在服务器与汽车复制这条路径。<strong>但必须强调</strong>：这是 5-10 年维度的慢变量，2026 年才是批量出货的验证元年，兑现节奏大概率慢于市场情绪。</p>
+<hr>
+<h1 id="s54">第九章 汽车电子：RISC-V 的第二增长曲线</h1>
+<blockquote>本章对应文档"（二）3. 汽车与区域架构"（英飞凌 Thomas Rucker 演讲）。</blockquote>
+<h2 id="s55">9.1 什么是"区域架构"：汽车电子的"郡县制改革"</h2>
+<p>传统汽车电子是"分布式 ECU"架构：每个功能（车窗、灯光、座椅、雷达……）配一个独立的电子控制单元（ECU），全车动辄上百个 ECU、几公里长的铜线线束。这带来三大痛点：布线成本高（线束是整车第三重的部件）、集成复杂、OTA 升级困难。</p>
+<p><strong>区域架构（Zonal Architecture）</strong> 是文档所述的 OEM 共识方向：按<strong>物理位置</strong>把车划分为若干区域（如前舱、左门、右门、尾部），每个区域设一个<strong>区域控制器（ZCU）</strong>，就近汇聚本区域传感器的信号与执行器控制，再通过高速骨干网（以太网）连到中央计算机。文档指出其驱动力是"减少布线成本和集成复杂度"——这是软件定义汽车（SDV）的硬件前提。英飞凌、恩智浦、瑞萨三大车规 MCU 巨头均已布局：英飞凌下一代 AURIX 将引入 RISC-V 核面向区域控制器 <a href="https://www.infineon.com/application/automotive-zonal-controller" target="_blank" rel="noopener">来源</a>；恩智浦推出 CoreRide Z248 区域参考系统（面向 zonal/48V 架构）<a href="https://www.nxp.com/applications/AUTOMOTIVE-ZONE-CONTROLLER" target="_blank" rel="noopener">来源</a>。</p>
+<h2 id="s56">9.2 异构计算需求：区域控制器是"超级集成器"</h2>
+<p>文档强调，区域控制器不是简单的信号中继器，而要同时处理：</p>
+<ul><li><strong>实时车辆控制</strong>（转向、制动等硬实时任务，要求确定性时延）；</li><li><strong>网关功能</strong>（CAN/LIN/以太网协议转换、防火墙）；</li><li><strong>电源管理</strong>（整车用电调度、休眠唤醒）；</li><li><strong>小型 AI 工作负载</strong>（语音唤醒、传感器预处理）。</li></ul>
+<p>这要求从 8 位 MCU 到高性能"超级集成器"的<strong>完整产品谱系</strong>，且往往一颗芯片内混合多种核（实时核 + 应用核 + AI 加速器）。异构多核 + 混合关键性（安全等级不同的任务共存）是车规芯片的技术制高点。</p>
+<h2 id="s57">9.3 为什么 RISC-V 适配汽车：RVM 标准缺口与三大瓶颈</h2>
+<p>文档给出判断：<strong>RVA23 适用于中央车载计算机，但区域控制器需要 RVM（MCU 配置文件），目前尚未最终确定</strong>。联网核实：Linux 基金会 RISC-V 技术委员会对 RVM Profile 任务组新章程的投票排在 <strong>2026 年 7–8 月</strong>——车规基线标准落地尚需时日 <a href="https://lf-riscv.atlassian.net/wiki/display/TECH/RISC-V+Vote+Status" target="_blank" rel="noopener">来源</a>。RISC-V International 已于 2025 年 9 月在慕尼黑举办首届 RISC-V 汽车会议，车规成为独立主线 <a href="https://riscv.org/blog/critical-components-car-tomorrow/" target="_blank" rel="noopener">来源</a>。</p>
+<p>文档列出的三大关键瓶颈，是理解车规芯片门槛的最好教材：</p>
+<ol><li><strong>安全合格工具链</strong>： compilers、时序分析工具本身要通过 ISO 26262（功能安全）认证——编译器如果优化出错，生成的代码可能违背功能安全假设。工具链认证的成本和周期，比多数人想象的要高得多。</li><li><strong>最坏情况执行时间（WCET）分析</strong>：安全功能（如碰撞后断高压电）必须在<strong>保证的最坏时间</strong>内完成，而不是"平均很快"。RISC-V 的开放性允许自定义扩展，但任何自定义都会让 WCET 分析变难——开放性与确定性在这里形成张力。</li><li><strong>现有软件迁移路径</strong>：三十年的汽车软件资产基于 Autosar（汽车开放系统架构）和传统 MCU 核，迁移成本巨大。</li></ol>
+<p><strong>中国的机会</strong>：芯来科技 NA900/NA300 车规 IP 已获 ASIL-D 认证并参与中国车规芯片标准编制 <a href="https://www.nucleisys.com/newsdetail.php?id=439" target="_blank" rel="noopener">来源</a>——在 RVM 国际标准未定的窗口期，中国阵营有望建立自己的车规 RISC-V 基线，叠加国产替代需求，形成独立于欧美的第二套生态。</p>
+<h2 id="s58">9.4 汽车电子小结</h2>
+<p>区域架构 + 软件定义汽车是 5-10 年维度的确定性架构演进，单车半导体价值量持续提升（电动化+智能化双轮驱动）。RISC-V 在其中的角色是"定制化 + 免版税 + 供应安全"。对投资者：英飞凌（IFX.DE）、恩智浦（NXPI）、瑞萨（6723.T）是传统车规三强，受益于区域控制器量价齐升；国内关注芯来科技（未上市，A股相关：它与多家上市公司合作）、兆易创新（车规 MCU）、全志科技、芯原股份（IP）等。风险在于车规认证周期长、RVM 标准迟到导致碎片化、以及汽车行业自身价格战对芯片降价的传导。</p>
+<hr>
+<h1 id="s59">第十章 产业格局与投资框架：从赛道评级到四大论点</h1>
+<blockquote>本章对应文档"三、投资分析与总结"，叠加联网调研（资本开支、涨价周期、估值框架等数据附来源）。</blockquote>
+<h2 id="s60">10.1 产业链机会图谱（文档原文的结构化展开）</h2>
+<p>文档给出的产业链图谱，加上本报告前九章的论证，可以扩展为这张全景图：</p>
+<pre>上游设备/材料              中游制造                  下游系统/应用
+├─ 键合设备(混合键合/TCB)   ├─ HBM原厂(三星/海力士/美光)  ├─ AI加速器(GPU/ASIC)
+│  BESI/ASMPT/拓荆/华卓    ├─ 2.5D/3D先进封装           │  英伟达/AMD/博通/谷歌
+├─ TSV刻蚀/电镀            │  台积电CoWoS/安靠/日月光    ├─ RISC-V服务器(2026放量)
+│  中微/北方华创            ├─ 3D-DRAM/近存计算          │  Ventana(高通)/SiFive
+├─ 测试设备(爱德万/泰瑞达/  │  d-Matrix等初创            ├─ 智能汽车电子(区域控制器)
+│  精智达/长川/赛腾)        ├─ NAND/SSD(铠侠/SNDK/Solidigm)│  英飞凌/NXP/瑞萨/芯来
+├─ 散热材料(HPB/IHBM/TIM)  └─ RISC-V IP/芯片设计        ├─ 超大规模数据中心
+├─ 中介层/桥接/ABF载板        (SiFive/玄铁/芯来/乐鑫等)   │  微软/谷歌/Meta/亚马逊
+├─ 塑封料GMC/前驱体/球形粉                                └─ 云服务与AI应用
+└─ 光刻胶/靶材等</pre>
+<h2 id="s61">10.2 赛道评级：文档的六档评级体系逐一论证</h2>
+<p>文档给出六大赛道评级，本报告结合调研逐一检验：</p>
+<h3 id="s61-268">10.2.1 HBM 原厂 + 先进封装（超配）</h3>
+<p><strong>文档逻辑</strong>：结构性供需紧张持续 2 年以上；zHBM 等 3D 技术抬高壁垒；HBM 占 AI 系统价值量持续提升。</p>
+<p><strong>调研验证</strong>：</p>
+<ul><li>供给端：HBM 晶圆消耗为 DDR 约 3 倍、占 2026 年 DRAM 晶圆产出约 23%；2027 年位元出货增 50-60% 仍供不应求 <a href="https://www.trendforce.com/news/2026/08/10/news-samsungs-hbm4-yield-reportedly-hits-80-as-race-to-supply-vera-rubin-heats-up-sk-hynix-labor-talks-add-a-twist/" target="_blank" rel="noopener">来源</a>；</li><li>需求端：2026 年 HBM 市场约 546 亿美元（+58%）；ASIC 阵营 HBM 需求 2026 年激增 80%，客户从英伟达一家扩散为多极 <a href="https://www.trendforce.com/news/2025/07/21/news-hbm-demand-from-asics-reportedly-to-surge-80-in-2026-fueling-samsung-sk-hynix-micron-rivalry/" target="_blank" rel="noopener">来源</a>；</li><li>格局：三巨头寡头（62/21/17），定价权强。</li></ul>
+<p><strong>风险修正</strong>：DRAM 合约价单季最高涨约 89% 的环境下，需警惕下游整机厂成本反噬与 2027 年后新产能释放；周期股在"超配"时点上的估值往往已包含乐观预期。</p>
+<h3 id="s61-273">10.2.2 HBM 设备与材料（超配）</h3>
+<p><strong>文档逻辑</strong>：TSV、混合键合、WoW/HCB、散热材料是增量最大环节；客户定制化提升设备粘性。</p>
+<p><strong>调研验证</strong>：混合键合导入窗口明确（HBM4E 16-Hi 起）、KGD 测试市场 2026→2036 年从 16 亿到 78 亿美元、BESI 上半年混合键合收入翻倍 <a href="https://www.trendforce.com/news/2025/07/28/news-hbm-hybrid-bonder-demand-reportedly-rising-in-2h25-as-besi-and-asmpt-eye-growth/" target="_blank" rel="noopener">来源</a>。<strong>这一赛道的独特优点</strong>：不赌哪家原厂胜出、不赌哪条技术路线胜出——只要 HBM 代际继续演进，设备与材料就必须升级（"卖铲人"属性最纯粹）。A股标的中注意区分"订单已兑现"（赛腾对三星收入 5.1-6.8 亿元）与"验证送样中"（壹石通、华海诚科部分产品）。</p>
+<h3 id="s61-276">10.2.3 RISC-V 生态（超配，但兑现周期长）</h3>
+<p><strong>文档逻辑</strong>：从 0 到 1 拐点已现（RVA23+CUDA+Ubuntu）；AI Agent 强化主机 CPU 定制需求；汽车区域架构第二曲线。</p>
+<p><strong>调研验证</strong>：拐点四事件齐备（RVA23 发布、Ubuntu 26.04 LTS、CUDA/NVLink Fusion、高通收购 Ventana）；出货量预测年增 50% 至 2030 年 170 亿颗 <a href="https://www.tomshardware.com/pc-components/cpus/risc-v-adoption-predicted-to-get-ai-boost-forecast-shows-50-growth-every-year-until-2030-for-the-open-standard-isa" target="_blank" rel="noopener">来源</a>。<strong>修正</strong>：RISC-V 服务器收入贡献 2026 年才开始验证，A股标的（乐鑫/恒玄/中科蓝讯）当前业绩支撑是 IoT/可穿戴而非服务器——"超配"是对产业趋势的评级，不是对当期业绩的评级。</p>
+<h3 id="s61-279">10.2.4 近存计算/3D-DRAM（关注配置）</h3>
+<p>d-Matrix 验证架构可行（0.37 pJ/bit）但单设备容量受限、需机架级聚合；适合特定推理场景；长期可能颠覆 HBM+GPU 架构。可投标的稀缺（d-Matrix 未上市），间接暴露=存储原厂+键合设备。详见第六章。</p>
+<h3 id="s61-281">10.2.5 NAND/QLC SSD（标配）</h3>
+<p>AI 拉动 HDD 需求→QLC 替代加速；但属周期性大宗商品，涨价弹性弱于 HBM。2025 年 NAND 涨价 50-75% 已部分兑现 <a href="https://www.pcmag.com/news/ssd-storage-prices-to-climb-as-ai-demand-meets-tight-nand-supply" target="_blank" rel="noopener">来源</a>，警惕 2026-2027 年供给释放后的周期反转。铠侠 2025 年 +435% 的涨幅说明"标配"评级也可能有大弹性，但那是周期底部反转的弹性，不可线性外推。</p>
+<h3 id="s61-283">10.2.6 传统 DDR/机械硬盘（低配/回避）</h3>
+<p>HBM 挤压 DRAM 产能反而推高 DDR 价格（短期涨价受益），但文档的"低配"针对的是长期份额趋势：QLC 长期侵蚀 HDD 在 AI 存储的份额。<strong>辩证补充</strong>：HDD 短期因 AI 数据湖需求供应紧张、八季最大涨幅 <a href="https://www.tomshardware.com/pc-components/hdds/hdd-prices-spike-as-ai-infrastructure-and-chinas-pc-push-collide-hard-drives-record-biggest-price-increase-in-eight-quarters-suppliers-warn-pressure-will-continue" target="_blank" rel="noopener">来源</a>——"回避"更多是"没有长期成长故事"，而非"短期不涨价"。</p>
+<h2 id="s62">10.3 四大投资论点（文档原文 + 逐条证据链）</h2>
+<p><strong>论点 1：HBM 的"晶圆消耗陷阱"创造超级周期。</strong> 证据链：晶圆消耗 3 倍（美光）→占 DRAM 晶圆产出 23% →新厂 2 年周期→2026 年单季合约价最高涨约 89%→2027 年仍供不应求。三巨头营收/利润已验证（美光 FY2025 营收 +49%）。</p>
+<p><strong>论点 2：封装技术公司成为 AI 硬件的"卖铲人"。</strong> 证据链：CoWoS 三年扩产 3 倍仍短缺→外溢 Amkor/ASE/英特尔；混合键合窗口明确（HBM4E 16-Hi）；HPB/IHBM 等散热技术首次成为产品卖点；KGD 测试市场十年 5 倍。封装产能与键合设备是比晶圆产能更稀缺的资源。</p>
+<p><strong>论点 3：RISC-V 的"Android 时刻"已至。</strong> 证据链：RVA23 统一基线→Ubuntu 26.04 LTS 原生支持（95% Debian 包可用）→CUDA 首次公开演示+NVLink Fusion（PCIe 5 倍带宽）→高通收购 Ventana 用真金白银背书。类比 ARM 在智能手机时代的崛起路径。</p>
+<p><strong>论点 4：内存-计算边界模糊化催生新巨头。</strong> 证据链：三星 B-die 集成 PE（AHBM 第二阶段）→d-Matrix 3D 堆叠量产→zHBM 把 DRAM 压到 XPU 之上。具备先进逻辑工艺（三星 4nm B-die）+封装能力的存储厂商有望攫取系统级价值——三星是全球唯一同时拥有顶级存储、逻辑代工、封装三能力的玩家，这是文档"论点 4"隐含的最大受益者。</p>
+<hr>
+<h2 id="s63">10.4 需求端全景：7,000 亿美元军备竞赛（联网调研）</h2>
+<p>前文多章引用了"AI 资本开支撑起一切"的判断，这里用最新数据把这个地基夯实。</p>
+<h3 id="s63-293">10.4.1 超大规模云厂商资本开支：加速而非见顶</h3>
+<ul><li><strong>总量</strong>：亚马逊、微软、Meta 三家 2026 年合计资本开支计划约 <strong>7,250 亿美元，同比 +77%</strong> <a href="https://finance.yahoo.com/sectors/technology/article/meta-microsoft-amazon-and-alphabet-are-about-to-spend-a-shocking-amount-of-money-to-dominate-the-ai-era-115359575.html" target="_blank" rel="noopener">来源</a>；含谷歌四大厂约 7,150 亿美元、<strong>同比 +98%，接近 2023 年的 3 倍</strong> <a href="https://www.facebook.com/yahoofinance/posts/hyperscaler-forecasts-for-2026-capex-spendingamazon-200-billionmicrosoft-190-bil/1331570208837754/" target="_blank" rel="noopener">来源</a>；</li><li><strong>分家</strong>：亚马逊约 2,000 亿、谷歌 1,750–1,850 亿、微软约 1,900 亿、Meta 1,150–1,350 亿美元 <a href="https://finance.yahoo.com/sectors/technology/article/meta-microsoft-amazon-and-alphabet-are-about-to-spend-a-shocking-amount-of-money-to-dominate-the-ai-era-115359575.html" target="_blank" rel="noopener">来源</a>；</li><li><strong>甲骨文</strong>：FY2026 资本开支上调至约 500 亿美元，云积压订单（RPO）超 5,000 亿美元，但自由现金流转负 <a href="https://www.investing.com/analysis/oracle-selloff-tests-confidence-in-523-billion-cloud-backlog-200674345" target="_blank" rel="noopener">来源</a>；</li><li><strong>中国</strong>：阿里三年至少 3,800 亿元（约 530 亿美元）云与 AI 投入 <a href="https://www.reuters.com/technology/artificial-intelligence/alibaba-invest-more-than-52-billion-ai-over-next-3-years-2025-02-24/" target="_blank" rel="noopener">来源</a>，单季资本开支 676 亿元、同比 +75%，管理层暗示可能超额完成 <a href="https://www.alibabagroup.com/document-1930116148192346112" target="_blank" rel="noopener">来源</a>。</li></ul>
+<h3 id="s63-295">10.4.2 AI 加速器：英伟达独大、ASIC 裂变</h3>
+<ul><li><strong>英伟达</strong>：FY2025 数据中心收入 1,152 亿美元（翻倍以上）；FY26 Q4 数据中心约 752 亿美元（+92%）；2026 年 2 月 Vera Rubin 上市，下季指引约 780 亿美元（+77%）——增速不降反升 <a href="https://www.cnbc.com/2026/02/25/nvidia-forecast-points-to-accelerating-growth-vera-rubin-hits-market.html" target="_blank" rel="noopener">来源</a>；</li><li><strong>博通（ASIC 阵营）</strong>：FY26 Q1 AI 收入 84 亿美元（+106%），AI 积压订单约 730 亿美元；花旗预计其 AI 收入 2027 年达约 1,000 亿美元 <a href="https://www.tomshardware.com/tech-industry/semiconductors/custom-ai-asics-examined-from-broadcom-to-mtia" target="_blank" rel="noopener">来源</a>。定制 ASIC（谷歌 TPU、Meta MTIA、亚马逊 Trainium）2026 年出货预计 +44.6% <a href="https://www.tomshardware.com/tech-industry/semiconductors/custom-ai-asics-examined-from-broadcom-to-mtia" target="_blank" rel="noopener">来源</a>；</li><li><strong>AMD</strong>：获 OpenAI 与 Meta 各 6GW 大单（MI450 于 2026 下半年部署）<a href="https://ir.amd.com/news-events/press-releases/detail/1260/amd-and-openai-announce-strategic-partnership-to-deploy-6-gigawatts-of-amd-gpus" target="_blank" rel="noopener">来源</a>；</li><li><strong>Stargate</strong>：OpenAI+软银+甲骨文规划总容量近 7GW、三年投资超 4,000 亿美元 <a href="https://ca.finance.yahoo.com/news/openai-oracle-softbank-plan-five-210405931.html" target="_blank" rel="noopener">来源</a>。</li></ul>
+<h3 id="s63-297">10.4.3 对 HBM 产业的关键传导：单卡 HBM 用量翻倍</h3>
+<p>Vera Rubin 模块将搭载 <strong>16 颗 HBM4 堆叠、合计 576GB、带宽 22TB/s</strong>，对比 GB300 的 HBM3E 288GB——<strong>单算力单元的 HBM 价值量接近翻倍</strong> <a href="https://www.blocksandfiles.com/hci/2026/01/28/high-bandwidth-memory-v4-supply-takes-shape/4090314" target="_blank" rel="noopener">来源</a>、<a href="https://x.com/jukan05/status/2030582686876844472" target="_blank" rel="noopener">来源</a>；英伟达已与 SK 海力士锁定 2030 年前长期供应 <a href="https://medium.com/@noahbean3396/nvidia-locked-in-its-memory-supply-through-2030-with-sk-hynix-heres-what-that-means-for-ai-37ec7bed421e" target="_blank" rel="noopener">来源</a>。竞争维度已从"GPU FLOPS"转向"HBM 容量×带宽"——第四章"面粉税还在加重"的最硬证据。</p>
+<h2 id="s64">10.5 存储超级周期的数据全景</h2>
+<ul><li><strong>DRAM</strong>：DDR5 颗粒现货价 2025 年 9–12 月从 6.84 美元升至 27.20 美元（三个月约 4 倍）<a href="https://sourceability.com/post/tracking-memory-price-increases-across-the-last-several-quarters" target="_blank" rel="noopener">来源</a>；2025 年合约价累计 +170% 以上；供应链厂商提示客户为 2026 年底前每月 10–20% 的涨价做准备 <a href="https://www.versalogic.com/blog/supply-chain-brief-memory-market-conditions-in-2026/" target="_blank" rel="noopener">来源</a>；</li><li><strong>NAND/SSD</strong>：2025Q4 企业级 SSD 合约价环比 +40–50%，2026Q1 预计再涨 33–38% <a href="https://storageswiss.com/2026/05/06/memory-and-flash-prices-not-coming-down/" target="_blank" rel="noopener">来源</a>；</li><li><strong>HDD</strong>：西部数据 2026 年产能"基本售罄"；希捷 FY26Q4 收入 36 亿美元（+48%）、毛利率 52.7% <a href="https://investors.seagate.com/news/news-details/2026/Seagate-Technology-Reports-Fiscal-Fourth-Quarter-and-Fiscal-Year-2026-Financial-Results/default.aspx" target="_blank" rel="noopener">来源</a>；</li><li><strong>券商判断</strong>：摩根士丹利称本轮"AI 存储超级周期强度远超以往任何周期" <a href="https://www.linkedin.com/posts/charles-henry-monchau-cfa-cmt-caia-4003096_morgan-stanley-the-ai-memory-super-cycle-activity-7394381105094684672-WD-Z" target="_blank" rel="noopener">来源</a>；高盛将 2027 年 DRAM 供给缺口预测从 2.5% 上调至 5.9%，称"15 年来最严重短缺" <a href="https://finance.biggo.com/news/853cb658-c593-48a9-a743-ffaa215f23e9" target="_blank" rel="noopener">来源</a>；</li><li><strong>盈利验证</strong>：SK 海力士 2025 年营收 97.1 万亿韩元（约 +50%）、营业利润 47.2 万亿韩元创纪录 <a href="https://news.skhynix.com/en/sk-hynix-announces-fy25-financial-results/" target="_blank" rel="noopener">来源</a>；美光 FY2025 营收 +49%；佰维存储 2025 年净利 +427%–520% <a href="https://www.9fzt.com/9fztgw_sctt/research_7f6a55eb73721392d22d58b0f025a6f5.html" target="_blank" rel="noopener">来源</a>；</li><li><strong>供给刚性</strong>：SK 海力士 M15X 新厂（超 20 万亿韩元，主产 HBM4）完全达产要到 2027 年；美光追加约 150 亿美元纽约/博伊西建厂 <a href="https://news.skhynix.com/en/sk-hynix-to-produce-dram-from-m15x-in-cheongju/" target="_blank" rel="noopener">来源</a>——印证文档"新厂 2 年"的判断。</li></ul>
+<h2 id="s65">10.6 效率悖论的实证：DeepSeek 冲击与 Jevons 效应</h2>
+<p>2025 年 1 月 DeepSeek R1 引发恐慌、英伟达单日蒸发约 6,000 亿美元市值时，多空争论核心正是杰文斯悖论 <a href="https://markmancapitalinsight.substack.com/p/the-jevons-paradox-flawed-consensus" target="_blank" rel="noopener">来源</a>。事后验证了第三章的逻辑：效率提升→单位成本下降→推理需求（reasoning 模型、Agent、长上下文）爆发→2025-26 年资本开支不降反升 <a href="https://cyber.fsi.stanford.edu/publication/taking-stock-deepseek-shock" target="_blank" rel="noopener">来源</a>。<strong>但不能把 Jevons 当信仰</strong>：它成立的前提是需求弹性持续大于 1——若 AI 应用端商业化收入跟不上算力投入，链条会反向断裂（见第十一章风险）。</p>
+<h2 id="s66">10.7 估值框架：给周期成长股定价的正确姿势</h2>
+<p>存储股是"周期为体、成长为魂"，估值要点：</p>
+<ol><li><strong>PB + 周期位置，而非静态 PE</strong>：周期股低 PE 往往是顶部信号（盈利峰值），高 PB+低 PE 组合反而最危险；A股存储同业 PB 约 2–6 倍，长鑫科技发行对应约 3 倍、处于区间下沿，市场隐含"半周期半成长"定价 <a href="https://www.cls.cn/detail/2435567" target="_blank" rel="noopener">来源</a>；</li><li><strong>领先指标跟踪</strong>：合约价环比动能、库存天数、资本开支/折旧比、原厂资本开支公告——比市盈率更早指示周期拐点；</li><li><strong>"类成长股"重估的边界</strong>：三巨头市值集体飙升后市场讨论给龙头成长溢价，但行业天生的资本开支冲动与供给修复风险决定其应保留估值折扣 <a href="https://www.21jingji.com/article/20260527/herald/8331cb9c441dea0a789a5e36a29c4f9a.html" target="_blank" rel="noopener">来源</a>。</li></ol>
+<hr>
+<h1 id="s67">第十一章 风险提示与投资策略</h1>
+<h2 id="s68">11.1 文档六大风险的展开与增补</h2>
+<p><strong>风险 1：技术路线风险（zHBM/3D-DRAM 散热）。</strong> 文档指出若 Z 轴堆叠热阻无法解决（d-Matrix 模拟中四层 DRAM+GPU 超 1.3W/mm² 热流密度时 DRAM 或超 140°C），行业可能退回 2.5D+光学 I/O。增补：Lightmatter 已加入 NVLink Fusion 生态 <a href="https://lightmatter.co/press-release/lightmatter-joins-nvidia-nvlink-fusion/" target="_blank" rel="noopener">来源</a>，光学互连作为备选路径正在产业化——技术路线的"输家"（重仓单一路线的设备/材料公司）风险真实存在。</p>
+<p><strong>风险 2：软件生态壁垒。</strong> PIM 三次失败史（第六章）证明"硬件可行≠商业可行"；近存计算、HBF、RISC-V 服务器全都依赖软件栈重建，规模化速度可能系统性慢于预期。这也是英伟达护城河的本质：CUDA 生态仍领先 ROCm 10–30% <a href="https://www.thundercompute.com/blog/rocm-vs-cuda-gpu-computing" target="_blank" rel="noopener">来源</a>。</p>
+<p><strong>风险 3：HBF 替代风险。</strong> 若 vLLM 等软件层快速适配 HBF（64KB 读/MB 级写粒度），中低端推理市场的 HBM 需求可能被分流。跟踪指标：Sandisk/海力士 HBF 标准化进度、主流推理框架的闪存感知内核合入。</p>
+<p><strong>风险 4：RISC-V 碎片化。</strong> RVA23 之前的存量芯片无法运行 RVA23 软件；RVM 车规 profile 投票要到 2026 年 7–8 月 <a href="https://lf-riscv.atlassian.net/wiki/display/TECH/RISC-V+Vote+Status" target="_blank" rel="noopener">来源</a>。RISC-V"可配置性"本质与"二进制兼容"目标存在永恒张力。</p>
+<p><strong>风险 5：资本支出周期性（最核心风险）。</strong> 文档警告 AI 资本开支不可能无限增长。增补数据：2026 年四大厂约 7,150 亿美元开支已在透支未来（甲骨文 FCF 转负）；需警惕"循环融资"式订单（OpenAI-Oracle-芯片商互相入股/采购）放大真实需求 <a href="https://www.youtube.com/watch?v=Ov3X8cR1Vzg" target="_blank" rel="noopener">来源</a>。历史上存储周期从不缺席暴跌——本轮涨价越猛，2027-2028 年供给释放后的下行越剧烈。</p>
+<p><strong>风险 6（增补）：地缘政治与出口管制。</strong> 2024 年 12 月美国首次将 HBM 纳入对华管制 <a href="https://ai-frontiers.org/articles/high-bandwidth-memory-critical-gaps-us-export-controls" target="_blank" rel="noopener">来源</a>；2025 年 9 月三星/海力士中国厂被移出 VEU 白名单后改发年度许可证 <a href="https://www.congress.gov/crs-product/cRS-product/R48642" target="_blank" rel="noopener">来源</a>、<a href="https://siliconangle.com/2025/12/30/report-samsung-sk-hynix-receive-us-approval-ship-american-chipmaking-gear-china/" target="_blank" rel="noopener">来源</a>；韩国厂已测试中国国产设备对冲 <a href="https://www.reuters.com/world/china/samsung-sk-hynix-test-chinese-chip-tools-hedge-against-us-risks-2026-08-05/" target="_blank" rel="noopener">来源</a>。管制一方面扭曲全球分配，另一方面加速国产替代（长鑫 CXMT 已占全球 DRAM 约 8% <a href="https://counterpointresearch.com/en/insights/global-dram-and-hbm-market-share" target="_blank" rel="noopener">来源</a>）——这对 A 股设备/材料链是结构性利多，对全球供应链是效率损耗。</p>
+<h2 id="s69">11.2 投资策略：短/中/长期路线图（文档策略的执行细化）</h2>
+<p><strong>短期（6–12 个月）：吃周期</strong></p>
+<ul><li>存储原商业绩释放：SK 海力士、美光、三星（HBM 涨价+合约价环比动能仍在高位）；</li><li>先进封装产能紧缺：台积电（CoWoS）、Amkor、日月光；</li><li>NAND 涨价中的铠侠、西部数据/SanDisk 盈利修复；</li><li>A 股：已兑现订单的设备/材料（赛腾、拓荆、香农芯创等），甄别验证进度；</li><li>跟踪信号：季度合约价环比、三巨头资本开支公告、英伟达 Rubin 出货。</li></ul>
+<p><strong>中期（1–3 年）：布局卡位</strong></p>
+<ul><li>RISC-V 服务器生态：高通（Ventana）、SiFive（未上市）、A股乐鑫/恒玄/中科蓝讯/芯原；</li><li>HBM 技术迭代：混合键合设备（BESI、ASMPT、拓荆）、散热材料、测试（爱德万、泰瑞达、精智达、长川）；</li><li>三星 zHBM 若进入工程验证，将重塑封装链格局——关注三星 SAINT 体系节点性公告。</li></ul>
+<p><strong>长期（3–5 年）：押注范式</strong></p>
+<ul><li>近存计算从特定推理向通用计算渗透（d-Matrix 模式、三星 AHBM 的 PE 集成）；</li><li>光学 I/O 与电互连的替代节奏（Ayar Labs、Lightmatter、Coherent、住友电工）；</li><li>HBF 软件成熟后是否打开第二成长曲线（Sandisk/海力士标准化进度）；</li><li>存内计算/3D-DRAM 初创的一二级市场机会。</li></ul>
+<p><strong>仓位与纪律</strong>：存储股当前处于"超级周期中后段早期"——价格由真实需求+供给刚性驱动（非囤货），但估值已部分透支。以"PB+周期位置+合约价环比动能"为锚，避免在低 PE 高 PB 的顶部区域追高；用 2027 年资本开支指引、新厂投产节奏、AI 应用商业化数据三大信号做再平衡。</p>
+<hr>
+<h1 id="s70">第十二章之前的加餐章 · 举一反三：从 Hot Chips 2026 延伸出的八个新领域</h1>
+<blockquote>用户的任务书要求"自主设计子任务，发现新领域，举一反三"。本章是本报告的自主延伸：沿着"数据搬运经济学"这条主线，把文档涉及但未展开、以及文档之外但逻辑同源的八个领域做前瞻扫描。每个领域给出"是什么—为什么现在—卡位者—与主线的耦合"。</blockquote>
+<h2 id="s71">9+1. 晶圆级芯片与超大封装：当"拆开造"走到另一个极端</h2>
+<p>Hot Chips 的主角们（三星 zHBM、d-Matrix）选择 Z 轴垂直集成，但行业内还有一条相反的路线：<strong>把晶圆本身就做成一颗芯片</strong>。Cerebras 的晶圆级引擎（WSE，一颗芯片约 46,225mm²，是普通旗舰 GPU 的 50 倍以上）用超大平面面积换取片上 SRAM 海量带宽——本质上是"用面积消灭搬运"。而台积电 CoWoS-L、英伟达 Rubin 的多裸片超大封装，则是在 reticle 极限下"拼出晶圆级"。两条路线殊途同归：<strong>单位空间内的互连密度决定一切</strong>。投资者视角：超大封装提高了对<strong>光掩模、量测、大尺寸基板（ABF）、翘曲控制</strong>的要求——这些"尺寸税"环节的受益顺序先于 3D 堆叠。</p>
+<h2 id="s72">9+2. 共封装光学（CPO）与光学 I/O：把"高速公路"换成"光纤"</h2>
+<p>文档风险提示里"行业可能退回 2.5D+光学 I/O 方案"一句话背后，是一个正在爆发的产业。电互连在 224Gbps/通道之后逼近香农极限，机架内 GPU 间互连（NVLink 扩展、Scale-up）与机架间（Scale-out）的功耗中，<strong>电收发器的能耗（约 15-30 pJ/bit）比 HBM 高一个数量级</strong>。解法：把光引擎与交换芯片/_GPU 共封装（CPO），或直接做光 I/O chiplet（Ayar Labs TeraPHY <a href="https://ayarlabs.com/teraphy/" target="_blank" rel="noopener">来源</a>）。Lightmatter 加入 NVIDIA NVLink Fusion 生态 <a href="https://lightmatter.co/press-release/lightmatter-joins-nvidia-nvlink-fusion/" target="_blank" rel="noopener">来源</a>，Coherent 在 OFC 2025 展示 1.6T 模块。AI 光互连市场 2025 年约 86 亿美元、2034 年预计 384 亿美元 <a href="https://dataintelo.com/report/optical-interconnect-for-ai-market" target="_blank" rel="noopener">来源</a>。<strong>与主线的耦合</strong>：zHBM 若因散热受挫，"2.5D+光互连"是 Plan B——光学 I/O 与 HBM 3D 化并非零和，而是"带宽成本曲线"上的两个竞争点。A股映射：中际旭创、新易盛、天孚通信、太辰光、光迅科技等光模块/光器件公司（本报告联网调研未逐一核实其最新财务，请以公司公告为准）。</p>
+<h2 id="s73">9+3. 散热革命：从"风冷"到"微流道"的隐秘主线</h2>
+<p>本报告已在第四、五章反复遇到散热：HBM 基础裸片 35% 降温（HPB）、硅散热块（IHBM）、d-Matrix 的 105°C DRAM、140°C 红线、3D 堆叠热阻陡增。<strong>散热已经从"组装工序"变成"架构设计约束"</strong>。下一代方案：浸没式液冷、冷板式液冷已大规模进入 AI 数据中心（GB200/GB300 NVL72 标配液冷）；再下一代是<strong>芯片内微流道冷却</strong>（在硅片里刻出微米级水道直接穿过热点）与<strong>Two-phase 冷却</strong>。研究文献已把微流道列为 3D 堆叠散热的必要选项 <a href="https://semiengineering.com/examination-of-thermal-issues-related-to-hybrid-bonding-of-3d-stacked-hbm/" target="_blank" rel="noopener">来源</a>。<strong>投资映射</strong>：液冷整机与快插头（英维克、高澜股份、川环科技等 A 股液冷链）、TIM 材料（信越、汉高，国内德邦科技等）、散热模组（奇鋐、双鸿、健策等台系）。散热是"所有算力路线的公约数"——无论 GPU、ASIC、近存计算谁赢，热都要散。</p>
+<h2 id="s74">9+4. CXL 与内存解耦：把内存变成"局域网共享资源"</h2>
+<p>第四章讲的是"单机内"的内存革命，CXL（Compute Express Link）则是"跨机"的：用 PCIe 物理层+缓存一致性协议，让多台服务器共享一个内存池——内存从"每台服务器的私产"变成"机房共享资源"，利用率从约 50% 提升到 90%+。三星与 CXL 联盟均已发布 AI 推理内存池化白皮书 <a href="https://computeexpresslink.org/blog/overcoming-the-ai-memory-wall-how-cxl-memory-pooling-powers-the-next-leap-in-scalable-ai-computing-4267/" target="_blank" rel="noopener">来源</a>、<a href="https://semiconductor.samsung.com/news-events/tech-blog/breaking-ai-memory-limits-with-cxl-memory-pooling/" target="_blank" rel="noopener">来源</a>。<strong>与主线耦合</strong>：文档趋势六"分层化"的机架级版本——HBM（热）→LPDDR/CXL 池（温）→QLC/HBF（冷）的三层结构正在成形。<strong>卡位者</strong>：三星/海力士/美光的 CXL 内存模组、Montage（澜起科技，CXL/内存接口芯片全球龙头）、Rambus、Astera Labs。A股直接标的：<strong>澜起科技</strong>（MRCD/MDB 与 CXL 控制器）、聚辰股份（SPD EEPROM 配套澜起）。</p>
+<h2 id="s75">9+5. 存算一体的"另一半"：模拟存内计算与 MRAM/RRAM</h2>
+<p>第六章讲的 PIM 是"数字逻辑搬进 DRAM"；另一条更激进的学术-产业路线是<strong>模拟存内计算</strong>：利用 ReRAM/闪存的欧姆定律与基尔霍夫定律，在存储阵列内直接完成矩阵乘法（存电导=权重，读电流=乘加）。对 AI 推理的矩阵运算，理论上能效再提升 1-2 个数量级。代表玩家：IBM（模拟 AI 芯片 Hermes）、Mythic（Flash 模拟计算，几度濒死后转型）、知存科技/后摩智能（中国初创）。<strong>为什么它还没有姓名</strong>：模拟精度（8bit 以下）、ADC 开销、权重量化误差、无法复用数字生态——<strong>又是"软件+精度"两道坎</strong>。把它列为 5-10 年观察项而非投资项：一旦 ADC 与校准技术突破，边缘端推理（耳机、手机、汽车）可能率先落地。</p>
+<h2 id="s76">9+6. 电源与供电：千瓦级 GPU 的"血管手术"</h2>
+<p>一块 Rubin 级 GPU 模组功率 2kW+，机架功率密度从 20kW 跳向 100-200kW。供电链正在发生三场变革：<strong>48V/800V 直流化</strong>（减少转换损耗）、<strong>垂直供电</strong>（把供电网络从基板侧面搬到芯片背面，背面供电网络 BSPDN，台积电 A16/英特尔 PowerVia 已导入路线图）、<strong>氮化镓/碳化硅器件</strong>渗透服务器电源。文档 zHBM 的"每模组节省 100W、为 GPU 释放 8.3% 功率预算"本质就是供电-散热的联合优化。<strong>卡位者</strong>：英飞凌/纳微/台达/光宝（电源）、MPS/ADI（电源管理芯片）、A股的<strong>英维克</strong>（电源+液冷）、<strong>欧陆通</strong>（服务器电源）、<strong>杰华特</strong>等。规律与散热相同：<strong>功耗预算是 AI 芯片最硬的硬通货，谁帮芯片省瓦特，谁收租</strong>。</p>
+<h2 id="s77">9+7. 国产存储的"第三极"：长鑫与长江存储</h2>
+<p>出口管制章节提到 CXMT（长鑫存储）已占全球 DRAM 约 8% <a href="https://counterpointresearch.com/en/insights/global-dram-and-hbm-market-share" target="_blank" rel="noopener">来源</a>。这是被文档忽略但对中国投资者最重要的变量之一：长鑫 DDR5/LPDDR5 进入主流市场并启动科创板上市（发行对应 PB 约 3 倍 <a href="https://www.cls.cn/detail/2435567" target="_blank" rel="noopener">来源</a>），长江存储 NAND 份额稳步提升，HBM 国产攻关亦有报道。<strong>传导路径</strong>：国产原厂扩产→国产设备/材料验证导入加速（中微、北方华创、拓荆、精智达、联瑞、华海诚科等的第二成长曲线）→"存储自主可控"主题的估值溢价。<strong>冷静提示</strong>：HBM 的门槛在基础裸片逻辑工艺+堆叠良率+客户协同设计三点，国产 HBM 与国际前沿仍有代际差；国产链的弹性来自"从 0 到 1"而非"技术领先"。</p>
+<h2 id="s78">9+8. AI For Lithography 与"设备智能化"</h2>
+<p>最后一加餐来自第一性原理的反身性观察：AI 需要内存，内存制造也需要 AI。先进工艺的overlay（套刻）补偿、刻蚀终点检测、键合对准、良率根因分析正在全面引入机器学习；ASML/应用材料/东京电子的 eBeam 检测+计算式量测（computational metrology）依赖 GPU 集群。这意味着 <strong>HBM 革命反过来加码了对算力的需求，算力又加码对 HBM 的需求</strong>——一个自我强化的飞轮。同时也意味着检测/量测设备商（KLA、国产的中科飞测、精测电子、赛腾股份）的技术壁垒在提高而非降低：<strong>越先进的过程控制越依赖数据与模型</strong>。</p>
+<hr>
+<p><strong>加餐章小结</strong>：这八个新领域与本报告主线的公约数只有一个词——<strong>搬运</strong>。光互连搬的是比特、液冷搬的是热量、电源搬的是电荷、CXL 搬的是内存、晶圆级搬的是互连距离、国产替代搬的是供应链。Hot Chips 2026 说"离数据越近的价值越大"，本章补充下半句：<strong>在数据必须被搬运的每一段路上，都站着一位收租人</strong>。</p>
+<hr>
+<h1 id="s79">第十二章 总结：一页看懂 Hot Chips 2026</h1>
+<h2 id="s80">12.1 六大趋势的收束（文档"深刻总结"章节的完整回顾）</h2>
+<div class="tblwrap"><table><thead><tr><th>#</th><th>趋势（文档）</th><th>一句话本质</th><th>对应章节</th></tr></thead><tbody><tr><td>1</td><td>内存墙从"带宽瓶颈"升级为"成本+带宽"双重瓶颈</td><td>HBM 占封装硅片约 90%、晶圆消耗 3 倍、涨价 7 倍——内存既是性能瓶颈也是成本瓶颈</td><td>第三、四章</td></tr><tr><td>2</td><td>HBM 从"被动存储介质"进化为"智能计算平台"</td><td>三星三阶段路线图：B-die 集成控制器→PE→zHBM，内存厂侵入计算厂价值链</td><td>第四、六章</td></tr><tr><td>3</td><td>封装技术成为内存架构的核心竞争力</td><td>TSV→微凸点→TCB→混合键合→WoW/HCB，封装决定堆叠高度/散热/带宽上限</td><td>第五章</td></tr><tr><td>4</td><td>Z 轴垂直集成是突破 2.5D 物理极限的终极方向</td><td>zHBM、3D-DRAM、20 层混合键合殊途同归；代价是散热与协同设计</td><td>第四、五、六章</td></tr><tr><td>5</td><td>RISC-V 完成从"嵌入式玩具"到"服务器/AI 基础设施选项"的跨越</td><td>RVA23+Ubuntu+CUDA/NVLink Fusion 三大里程碑，定制化是核心价值</td><td>第八、九章</td></tr><tr><td>6</td><td>"一刀切"通用 AI 硬件时代终结</td><td>训练/推理/MoE/长上下文各取所需：分层内存、近存计算、定制芯片并存</td><td>第六、七章</td></tr></tbody></table></div>
+<p><strong>六大趋势其实是一个趋势</strong>：晶体管红利耗尽后，行业把创新主战场从"X/Y 轴的平面缩小"搬到三个新维度——<strong>Z 轴（3D 堆叠）、内存-计算边界（近存/存内）、架构自由度（RISC-V 定制）</strong>。投资者的罗盘因此从"追制程"转向"追数据流"：数据从哪来、到哪去、每一次搬运花多少皮焦耳、谁在搬运路径上收租。</p>
+<h2 id="s81">12.2 全产业链标的一览表（汇总前文，信息汇总、非投资建议）</h2>
+<p><strong>海外核心：</strong></p>
+<div class="tblwrap"><table><thead><tr><th>标的</th><th>赛道</th><th>逻辑锚点</th></tr></thead><tbody><tr><td>SK 海力士 000660.KS</td><td>HBM 原厂</td><td>份额 62%、首发 HBM4、绑定英伟达 Rubin</td></tr><tr><td>三星电子 005930.KS</td><td>HBM+代工+SAINT 封装</td><td>唯一垂直整合存储原厂，zHBM/AHBM 路线图最大赢家候选</td></tr><tr><td>美光 MU</td><td>HBM+NAND</td><td>HBM4 量产、份额升至第二</td></tr><tr><td>台积电 TSM</td><td>CoWoS+逻辑裸片代工</td><td>AI 封装"地基"，三年扩产三倍仍供不应求</td></tr><tr><td>BESI / ASMPT</td><td>键合设备</td><td>混合键合/TCB 双雄，HBM4E/HBM5 混合键合窗口</td></tr><tr><td>爱德万 6857.T / 泰瑞达 TER</td><td>测试</td><td>HBM 测试占爱德万存储测试收入约 50%，KGD 市场 10 年 5 倍</td></tr><tr><td>Amkor AMKR / 日月光 ASX</td><td>OSAT</td><td>承接台积电外溢先进封装</td></tr><tr><td>铠侠 285A.T / SanDisk SNDK</td><td>NAND/QLC/HBF</td><td>涨价周期+HBF 首倡者（铠侠 2025 年涨约 435%）</td></tr><tr><td>高通 QCOM</td><td>RISC-V（收购 Ventana）</td><td>数据中心 RISC-V CPU IP 入场券</td></tr><tr><td>英伟达 NVDA</td><td>生态中枢</td><td>CUDA on RISC-V + NVLink Fusion 开放，坐收生态税</td></tr></tbody></table></div>
+<p><strong>A股映射（高弹性、高波动、需甄别验证进度）：</strong></p>
+<ul><li><strong>材料</strong>：雅克科技（前驱体）、联瑞新材（Low-α 球形粉）、华海诚科（GMC 塑封料）、壹石通（球形氧化铝）、兴森科技/深南电路（载板）；</li><li><strong>设备</strong>：拓荆科技（混合键合）、华卓精科（HBM 装备）、中微公司/北方华创（TSV 刻蚀/电镀）、赛腾股份（HBM 检测，三星订单已兑现）、精智达/长川科技（测试）；</li><li><strong>封测/分销</strong>：太极实业（海太封测）、深科技、香农芯创（海力士分销）；</li><li><strong>存储</strong>：江波龙、佰维存储、德明利（模组）、兆易创新、东芯股份（设计）；</li><li><strong>RISC-V</strong>：乐鑫科技、恒玄科技、中科蓝讯（高暴露）、全志科技、芯原股份（IP）、兆易创新（MCU）。</li></ul>
+<h2 id="s82">12.3 小白术语表（按拼音/字母序）</h2>
+<div class="tblwrap"><table><thead><tr><th>术语</th><th>一句话解释</th></tr></thead><tbody><tr><td>ABF 载板</td><td>高密度芯片封装用的基层电路板，AI 芯片的"地基层"</td></tr><tr><td>AHBM</td><td>三星路线图第二阶段"增强型 HBM"，基础裸片集成扩展控制器与处理单元</td></tr><tr><td>ASIC</td><td>专用芯片（如谷歌 TPU、博通定制加速器），与 GPU 通用芯片相对</td></tr><tr><td>Base Die（基础裸片）</td><td>HBM 堆叠最底层的芯片，负责接口/控制，HBM4 起转向逻辑工艺</td></tr><tr><td>CoWoS</td><td>台积电 2.5D 封装平台，GPU+HBM 并排放上硅中介层</td></tr><tr><td>CXL</td><td>PCIe 之上的缓存一致性互连协议，用于内存池化/扩展</td></tr><tr><td>DRAM</td><td>动态随机存储器（电容+晶体管），需定期刷新</td></tr><tr><td>D2D / D2W / W2W</td><td>裸片对裸片 / 裸片对晶圆 / 晶圆对晶圆键合方式</td></tr><tr><td>HBM</td><td>高带宽内存：TSV 垂直堆叠 DRAM+超宽接口+2.5D 贴近 GPU</td></tr><tr><td>HBF</td><td>高带宽闪存：HBM 式堆叠 NAND，容量 8-16 倍、带宽约 1/25</td></tr><tr><td>HPB / IHBM</td><td>三星热路径模块 / SK 海力士硅散热块——HBM 局部散热技术</td></tr><tr><td>Hybrid Bonding（混合键合）</td><td>铜铜直接键合，无凸点无间隙，间距 &lt;10μm 乃至亚微米</td></tr><tr><td>KGD / KGSD</td><td>已知良好裸片/堆叠——堆叠前测试筛选，良率经济性的关键</td></tr><tr><td>KV 缓存</td><td>推理时缓存的上下文键值对，长上下文的内存大头</td></tr><tr><td>LPDDR</td><td>低功耗 DRAM，手机/汽车/分层推理用</td></tr><tr><td>MCU</td><td>微控制器，汽车 ECU/区域控制器的心脏</td></tr><tr><td>MoE</td><td>混合专家模型：每 token 只激活部分专家参数，天然适配分层存储</td></tr><tr><td>MR-MUF</td><td>SK 海力士的批量回流焊+模塑底填封装工艺</td></tr><tr><td>pJ/bit</td><td>每比特搬运能耗，AI 芯片的"油耗表"</td></tr><tr><td>PIM / PNM</td><td>存内计算 / 近存计算</td></tr><tr><td>QLC</td><td>四比特/单元 NAND，16 档电压，容量大写入慢</td></tr><tr><td>RAS</td><td>可靠性/可用性/可维护性机制（ECC、修复、遥测等）</td></tr><tr><td>RVA23</td><td>RISC-V 应用处理器配置文件，强制向量/虚拟化/加密，生态统一基线</td></tr><tr><td>TCB（TC-NCF）</td><td>热压键合，逐层"熨烫"芯片，三星/美光路线</td></tr><tr><td>TIM</td><td>热界面材料，芯片与散热器之间的"导热胶"</td></tr><tr><td>TSV</td><td>硅通孔，3D 集成的垂直"电梯井"</td></tr><tr><td>WCET</td><td>最坏情况执行时间，车规安全的核心指标</td></tr><tr><td>WoW / HCB</td><td>晶圆对晶圆键合 / 混合立方键合（三星 zHBM 关键工艺）</td></tr><tr><td>zHBM</td><td>三星第三阶段：DRAM 直接垂直堆叠在 XPU 之上，消灭中介层</td></tr></tbody></table></div>
+<h2 id="s83">12.4 结语</h2>
+<p>Hot Chips 2026 的全部内容，本质上是一张"数据搬运经济学"的账本：HBM 的每比特 2.4 pJ/bit、d-Matrix 的 0.37 pJ/bit、zHBM 的 0.5 pJ/bit 目标——这些小数点后的数字，正在重新分配每年数千亿美元的半导体价值。当内存占掉封装里 90% 的硅片、当"搬数据"的功耗超过"算数据"、当存储原厂开始替 GPU 设计内存控制器，"谁是芯片公司"这个问题的答案已经改变。</p>
+<p>对投资者，记住三句话：</p>
+<ol><li><strong>短期看周期</strong>（HBM/DRAM 涨价的业绩兑现）；</li><li><strong>中期看卡位</strong>（封装设备/材料、RISC-V 生态的"卖铲人"）；</li><li><strong>长期看范式</strong>（近存计算与内存-计算边界重划的期权）。</li></ol>
+<p>以及一句风险提示：所有技术路线（zHBM、3D-DRAM、HBF、RISC-V 服务器）都有"软件谁写、热量谁散、产能谁给"三道坎——<strong>范式转移从来不是直线</strong>，仓位管理比观点正确更重要。</p>
+<hr>
+<h1 id="s84">附录 A：调研方法与资料来源说明</h1>
+<h2 id="s85">A.1 本报告的素材结构</h2>
+<div class="tblwrap"><table><thead><tr><th>层</th><th>素材</th><th>说明</th></tr></thead><tbody><tr><td>原始文档</td><td>《Hot Chips 2026 大会核心要点.docx》</td><td>本报告的骨架：两大主线、八大议题、六大趋势、四大论点、六大风险均出自该文档，正文标注"文档"</td></tr><tr><td>联网调研纪要一</td><td><code>HBM研究纪要_2025-2026.md</code></td><td>HBM 原理/代际/三巨头/瓶颈/路线图/标的（约 4500 字）</td></tr><tr><td>联网调研纪要二</td><td>先进封装与设备材料产业链调研（子代理提交）</td><td>封装原理/产能格局/设备材料/A股卡位（约 4500 字）</td></tr><tr><td>联网调研纪要三</td><td><code>riscv_research_memo_2025.md</code></td><td>RISC-V 生态/标准/市场/汽车/中国力量（约 3500 字）</td></tr><tr><td>联网调研纪要四</td><td><code>近存计算与AI存储层级研究纪要_2025-2026.md</code></td><td>PIM 历史/d-Matrix/HBF/QLC/CXL/光学（约 3200 字）</td></tr><tr><td>联网调研纪要五</td><td><code>AI算力存储市场研究纪要.md</code></td><td>资本开支/涨价周期/Jevons/竞争格局/估值（约 3800 字）</td></tr></tbody></table></div>
+<p>五份纪要由五个独立调研子任务并行完成，合计约 2 万字，覆盖 90+ 个来源链接；正文中所有联网事实均在句末以 [来源](URL) 形式标注。五份纪要全文随报告一并保存在工作目录，可作为延伸阅读与原始出处索引。</p>
+<h2 id="s86">A.2 调研中的事实核查与口径说明（严谨性声明）</h2>
+<ol><li><strong>d-Matrix 创始人背景</strong>：文档称"前 Meta 工程师参与"，公开资料未能核实（创始人 Sid Sheth 履历为 Cisco/NetLogic 系），正文已如实标注存疑；</li><li><strong>"现货价上涨约 7 倍"（文档）</strong>：属现货市场极端口径；合约价涨幅（2025 年累计约 +170%）显著低于现货，两口径在正文分别呈现；</li><li><strong>HBF"带宽约 HBM 1/25"</strong>：来自文档与评估机构口径，学术佐证为预印本，量产验证需跟踪；</li><li><strong>RISC-V 出货量预测</strong>：各机构口径差异大（170 亿-690 亿颗/年），正文已提示按方向而非精度使用；</li><li><strong>HBM4 供应链数字</strong>（如 Rubin 576GB）：部分来自单一信源的供应链报道，仅供参考；</li><li><strong>高通收购 Ventana</strong>（2025.12.10）：已用高通官方新闻稿交叉核实。</li></ol>
+<h2 id="s87">A.3 免责声明</h2>
+<p>本报告为行业研究性质的信息整理与分析，基于公开资料与用户提供文档撰写，其中涉及的未来预测均来自所标注机构的公开观点。报告中的全部公司名称、代码仅为产业链梳理用途，<strong>不构成任何证券的买卖建议或价值判断</strong>。半导体行业技术迭代快、周期波动大、地缘政策多变，读者据此决策风险自担。</p>
+<hr>
+<p><em>（全文完。报告正文共十二章 + 加餐章（第九章半：举一反三的八个新领域）+ 附录，约 4.4 万可见字符（约 2.3 万汉字 + 表格/数字/术语），148 条来源引用。）</em></p>
+
+<footer>
+  <p><strong>报告说明</strong>：本页面由《Hot Chips 2026 深度行业研究报告》自动生成，为静态单文件 HTML，无需服务器，可离线浏览。蓝色链接为外部来源（需联网打开）。本报告仅供研究参考，不构成投资建议。</p>
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  var input=document.getElementById('q');
+  input.addEventListener('input',function(){
+    var kw=this.value.trim().toLowerCase();
+    document.querySelectorAll('main h1, main h2, main h3, main p, main li, main td').forEach(function(el){
+      el.classList.remove('hit');
+      if(kw.length>1){
+        var txt=el.textContent.toLowerCase();
+        if(txt.indexOf(kw)>-1){el.classList.add('hit');}
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
