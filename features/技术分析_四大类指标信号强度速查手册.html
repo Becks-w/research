@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技术分析·四大类指标信号强度速查手册</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  background:#f8fafc; color:#0f172a; line-height:1.7; padding:32px 16px;
+}
+.wrap { max-width:1000px; margin:0 auto; }
+
+/* Hero */
+.hero {
+  background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff;
+  padding:36px 32px; border-radius:16px; margin-bottom:24px;
+}
+.hero h1 { font-size:26px; margin-bottom:8px; font-weight:800; }
+.hero .subtitle { opacity:0.85; font-size:14px; margin-bottom:16px; }
+.hero .badge {
+  display:inline-block; background:rgba(255,255,255,0.12); padding:6px 14px;
+  border-radius:99px; font-size:12px; margin-right:8px;
+}
+
+/* TOC */
+.toc {
+  background:#fff; border-radius:12px; padding:20px 24px; margin-bottom:24px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.05);
+}
+.toc h3 { font-size:14px; color:#64748b; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px; }
+.toc a { display:inline-block; margin:4px 12px 4px 0; color:#0f172a; font-weight:600;
+         text-decoration:none; font-size:14px; padding:4px 12px; background:#f1f5f9;
+         border-radius:6px; }
+.toc a:hover { background:#e2e8f0; }
+
+/* Section */
+.section {
+  background:#fff; border-radius:16px; padding:32px; margin-bottom:20px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.05);
+}
+.section h2 { font-size:22px; margin-bottom:6px; font-weight:800; }
+.section .lead { color:#64748b; font-size:14px; margin-bottom:20px; }
+
+/* 指标章节头部 */
+.indicator-head {
+  display:flex; align-items:center; gap:12px; padding-bottom:16px; border-bottom:2px solid #f1f5f9;
+  margin-bottom:20px;
+}
+.indicator-icon {
+  width:48px; height:48px; border-radius:12px; display:flex; align-items:center;
+  justify-content:center; font-size:24px;
+}
+.icon-macd { background:linear-gradient(135deg,#dbeafe,#93c5fd); }
+.icon-rsi  { background:linear-gradient(135deg,#fef3c7,#fde68a); }
+.icon-bb   { background:linear-gradient(135deg,#e0e7ff,#c7d2fe); }
+.icon-vol  { background:linear-gradient(135deg,#dcfce7,#bbf7d0); }
+.indicator-head h2 { font-size:22px; margin:0; }
+.indicator-head .zhname { font-size:13px; color:#64748b; margin-top:2px; }
+
+/* 原理框 */
+.principle {
+  background:linear-gradient(135deg,#f0f9ff,#e0f2fe); border-left:4px solid #0ea5e9;
+  padding:18px 22px; border-radius:10px; margin-bottom:20px;
+}
+.principle .title { font-weight:800; color:#0c4a6e; margin-bottom:8px; font-size:14px; }
+.principle .content { font-size:14px; color:#0f172a; line-height:1.8; }
+.formula {
+  font-family:'JetBrains Mono', 'Consolas', monospace; background:rgba(0,0,0,0.05);
+  padding:10px 14px; border-radius:6px; font-size:13px; margin:10px 0; display:block;
+  white-space:pre-line;
+}
+
+/* 信号强度表 */
+.signal-table {
+  width:100%; border-collapse:collapse; margin:16px 0; font-size:14px;
+}
+.signal-table th {
+  background:#0f172a; color:#fff; padding:12px 14px; text-align:left;
+  font-weight:700; font-size:13px;
+}
+.signal-table td { padding:12px 14px; border-bottom:1px solid #e5e7eb; vertical-align:top; }
+.signal-table tr:last-child td { border-bottom:none; }
+.signal-table tr:hover { background:#f8fafc; }
+.stars-cell { white-space:nowrap; font-size:14px; }
+.filled { color:#f59e0b; letter-spacing:1px; }
+.empty  { color:#e5e7eb; letter-spacing:1px; }
+.direction-cell { font-family:'JetBrains Mono', monospace; font-weight:700; font-size:13px; }
+.direction-cell.strong-buy  { color:#059669; }
+.direction-cell.buy         { color:#10b981; }
+.direction-cell.neutral     { color:#64748b; }
+.direction-cell.sell        { color:#ea580c; }
+.direction-cell.strong-sell { color:#dc2626; }
+
+/* 子标题 */
+.subheading {
+  font-weight:700; font-size:15px; margin:20px 0 10px; color:#334155;
+  padding-left:10px; border-left:3px solid #f59e0b;
+}
+
+/* 关键陷阱 */
+.pitfall {
+  background:linear-gradient(135deg,#fef2f2,#fecaca); border-left:4px solid #dc2626;
+  padding:16px 20px; border-radius:10px; margin:16px 0;
+}
+.pitfall .title { font-weight:800; color:#7f1d1d; margin-bottom:8px; font-size:14px; }
+.pitfall .content { font-size:13px; color:#450a0a; line-height:1.75; }
+.pitfall ul { margin-left:18px; margin-top:4px; }
+.pitfall li { margin-bottom:4px; }
+
+/* 4象限表 */
+.quadrant {
+  display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:16px 0;
+}
+.quad-cell {
+  padding:16px; border-radius:10px; border:2px solid #e2e8f0;
+}
+.quad-cell.pos { border-color:#059669; background:#f0fdf4; }
+.quad-cell.neg { border-color:#dc2626; background:#fef2f2; }
+.quad-cell.warn { border-color:#d97706; background:#fffbeb; }
+.quad-cell .label { font-size:12px; font-weight:700; margin-bottom:4px; }
+.quad-cell .interpret { font-size:13px; line-height:1.6; }
+
+/* 共振规则 */
+.resonance-box {
+  background:linear-gradient(135deg,#fef3c7,#fde68a); border:2px solid #f59e0b;
+  padding:22px 26px; border-radius:12px; margin:20px 0;
+}
+.resonance-box h3 { font-size:16px; margin-bottom:12px; color:#78350f; }
+.resonance-box table { width:100%; font-size:13px; }
+.resonance-box td { padding:6px 8px; }
+.resonance-box .action { font-weight:700; color:#78350f; }
+
+/* 铁律框 */
+.iron-rule {
+  background:#0f172a; color:#fff; padding:20px 24px; border-radius:12px;
+  margin:20px 0; text-align:center;
+}
+.iron-rule .label { font-size:12px; letter-spacing:2px; opacity:0.6; margin-bottom:8px; }
+.iron-rule .text { font-size:16px; font-weight:700; line-height:1.6; }
+
+.foot {
+  text-align:center; padding:24px; color:#94a3b8; font-size:12px; margin-top:20px;
+}
+
+@media (max-width:640px) {
+  body { padding:16px 8px; }
+  .section { padding:20px; }
+  .signal-table { font-size:12px; }
+  .signal-table td, .signal-table th { padding:8px 10px; }
+  .quadrant { grid-template-columns:1fr; }
+  .indicator-head { flex-wrap:wrap; }
+}
+
+@media print {
+  body { background:#fff; }
+  .section { break-inside:avoid; box-shadow:none; border:1px solid #e5e7eb; }
+  .hero { break-after:page; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>📊 技术分析·四大类指标信号强度速查手册</h1>
+    <div class="subtitle">按 SKILL.md 框架整理 · 每类指标独立评 1-5 星 · 共振后决定操作</div>
+    <span class="badge">⚡ MACD</span>
+    <span class="badge">📈 RSI</span>
+    <span class="badge">🌊 布林带</span>
+    <span class="badge">💧 量能</span>
+  </div>
+
+  <div class="toc">
+    <h3>📑 目录</h3>
+    <a href="#macd">1. MACD</a>
+    <a href="#rsi">2. RSI</a>
+    <a href="#bb">3. 布林带</a>
+    <a href="#vol">4. 量能 · OBV</a>
+    <a href="#resonance">5. 共振使用规则</a>
+    <a href="#cheatsheet">6. 一页速查</a>
+  </div>
+
+  <!-- ═══════════ MACD ═══════════ -->
+  <div class="section" id="macd">
+    <div class="indicator-head">
+      <div class="indicator-icon icon-macd">📉</div>
+      <div>
+        <h2>MACD · 趋势类</h2>
+        <div class="zhname">Moving Average Convergence Divergence · 平滑异同移动平均线</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="title">💡 原理</div>
+      <div class="content">
+        MACD 本质是<b>"两条均线的差值 + 差值的均线"</b>——用快慢均线的收敛/发散来测量趋势的<b>加速度</b>。
+        因为 EMA 对近期价格加权更高，当短期均线加速偏离长期均线时说明趋势加速。它是<b>趋势的二阶导数</b>，比单看均线更早发出信号。
+        <span class="formula">DIF（快线）  = 12日EMA − 26日EMA
+DEA（慢线）  = DIF 的 9日EMA
+柱状图 Hist  = (DIF − DEA) × 2</span>
+      </div>
+    </div>
+
+    <div class="subheading">🎯 明确信号强度速查</div>
+    <table class="signal-table">
+      <thead>
+        <tr><th style="width:52%">情形</th><th style="width:22%">星级</th><th style="width:26%">方向 / 操作</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>零轴下方金叉</b> + 价格在 200MA 之上 + 柱状转正</td>
+          <td class="stars-cell"><span class="filled">★★★★★</span></td>
+          <td class="direction-cell strong-buy">+2 强多 · 建仓</td>
+        </tr>
+        <tr>
+          <td><b>底背离</b>（价格创新低但 DIF/柱状图未新低，至少 2 个低点）</td>
+          <td class="stars-cell"><span class="filled">★★★★★</span></td>
+          <td class="direction-cell strong-buy">+2 反转前兆</td>
+        </tr>
+        <tr>
+          <td><b>顶背离</b>（价格创新高但 DIF/柱状图未新高）</td>
+          <td class="stars-cell"><span class="filled">★★★★★</span></td>
+          <td class="direction-cell strong-sell">−2 减仓</td>
+        </tr>
+        <tr>
+          <td>零轴上方金叉（趋势中加仓点）</td>
+          <td class="stars-cell"><span class="filled">★★★★</span><span class="empty">☆</span></td>
+          <td class="direction-cell buy">+1 顺势加仓</td>
+        </tr>
+        <tr>
+          <td>DIF 上穿零轴 = 长期多头确认</td>
+          <td class="stars-cell"><span class="filled">★★★★</span><span class="empty">☆</span></td>
+          <td class="direction-cell buy">+1 中期转多</td>
+        </tr>
+        <tr>
+          <td>高位死叉 + 柱状转负</td>
+          <td class="stars-cell"><span class="filled">★★★</span><span class="empty">☆☆</span></td>
+          <td class="direction-cell sell">−1 减仓警讯</td>
+        </tr>
+        <tr>
+          <td>柱状缩减（动能变化早期信号）</td>
+          <td class="stars-cell"><span class="filled">★★</span><span class="empty">☆☆☆</span></td>
+          <td class="direction-cell neutral">0 预警</td>
+        </tr>
+        <tr>
+          <td>没有背离/位置配合的单纯交叉</td>
+          <td class="stars-cell"><span class="filled">★</span><span class="empty">☆☆☆☆</span></td>
+          <td class="direction-cell neutral">0 噪音</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pitfall">
+      <div class="title">⚠️ 关键陷阱</div>
+      <div class="content">
+        <ul>
+          <li><b>震荡市中 MACD 频繁交叉</b> → 假信号密集，此时应完全忽略 MACD 转用布林带</li>
+          <li><b>零轴上方死叉 ≠ 卖出</b>：强趋势中 MACD 可以在零轴上方多次金叉死叉，只要柱状图不深度转负</li>
+          <li><b>MACD 独立使用永远无效</b>：必须配合位置（均线/关键支撑）+ 量能</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ RSI ═══════════ -->
+  <div class="section" id="rsi">
+    <div class="indicator-head">
+      <div class="indicator-icon icon-rsi">⚡</div>
+      <div>
+        <h2>RSI · 动量类</h2>
+        <div class="zhname">Relative Strength Index · 相对强弱指数</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="title">💡 原理</div>
+      <div class="content">
+        RSI 测量"最近 N 日上涨力量 vs 下跌力量"的相对强度，标准周期 14 日。
+        <b>股价本身没有边界，但买卖力量的比值有边界（0-100）</b>——当某方过度延伸时，反弹/回落是概率上的必然。
+        <span class="formula">RS  = N 日内平均上涨幅度 / N 日内平均下跌幅度
+RSI = 100 − (100 / (1 + RS))</span>
+        <b>教科书信号胜率低：</b> 单纯 RSI&gt;70 卖出、&lt;30 买入的信号胜率只有 50-55%，因为强趋势中 RSI 可以在超买区停留数月。
+        <b>真正高胜率的用法必须区分趋势状态</b>——上升趋势中看回踩、下降趋势中看反弹受阻、任何趋势中看背离。
+      </div>
+    </div>
+
+    <div class="subheading">🎯 上升趋势中（价格 &gt; 200MA）</div>
+    <table class="signal-table">
+      <thead>
+        <tr><th style="width:52%">情形</th><th style="width:22%">星级</th><th style="width:26%">方向 / 操作</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>RSI 40-50 回踩企稳</b>（上升趋势中的最高质量买点）</td>
+          <td class="stars-cell"><span class="filled">★★★★★</span></td>
+          <td class="direction-cell strong-buy">+2 加仓/建仓</td>
+        </tr>
+        <tr>
+          <td><b>底背离</b>（价格新低，RSI 未新低）</td>
+          <td class="stars-cell"><span class="filled">★★★★★</span></td>
+          <td class="direction-cell strong-buy">+2 反转信号</td>
+        </tr>
+        <tr>
+          <td>RSI 20-30 极端超卖（上升趋势中罕见）</td>
+          <td class="stars-cell"><span class="filled">★★★★</span><span class="empty">☆</span></td>
+          <td class="direction-cell buy">+1 抄底机会</td>
+        </tr>
+        <tr>
+          <td>RSI 50-70 运行</td>
+          <td class="stars-cell"><span class="filled">★★</span><span class="empty">☆☆☆</span></td>
+          <td class="direction-cell neutral">0 持有</td>
+        </tr>
+        <tr>
+          <td>RSI &gt; 85 极端超买</td>
+          <td class="stars-cell"><span class="filled">★★★</span><span class="empty">☆☆</span></td>
+          <td class="direction-cell sell">−1 部分止盈</td>
+        </tr>
+        <tr>
+          <td>RSI 跌破 40</td>
+          <td class="stars-cell"><span class="filled">★★★</span><span class="empty">☆☆</span></td>
+          <td class="direction-cell sell">−1 趋势警讯</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="subheading">🎯 下降趋势中（价格 &lt; 200MA）</div>
+    <table class="signal-table">
+      <thead>
+        <tr><th style="width:52%">情形</th><th style="width:22%">星级</th><th style="width:26%">方向 / 操作</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>RSI 反弹 50-60 受阻</b>（下降趋势中的最高质量卖点）</td>
+          <td class="stars-cell"><span class="filled">★★★★★</span></td>
+          <td class="direction-cell strong-sell">−2 逢反弹减仓</td>
+        </tr>
+        <tr>
+          <td><b>顶背离</b>（价格新高，RSI 未新高）</td>
+          <td class="stars-cell"><span class="filled">★★★★★</span></td>
+          <td class="direction-cell strong-sell">−2 反转信号</td>
+        </tr>
+        <tr>
+          <td>RSI &lt; 20 极端超卖 + 已止跌</td>
+          <td class="stars-cell"><span class="filled">★★★★</span><span class="empty">☆</span></td>
+          <td class="direction-cell buy">+1 技术抄底</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pitfall">
+      <div class="title">⚠️ 关键陷阱</div>
+      <div class="content">
+        <ul>
+          <li><b>先判断趋势状态再看 RSI</b>——RSI 是"趋势状态感知器"，不同状态解读完全相反</li>
+          <li>RSI 长期&gt;70 在强牛股很常见（如 NVDA 2024 全年）——单凭超买卖出会错过整个主升浪</li>
+          <li>背离信号最强但形成慢，需要至少 2 个高/低点确认，才算真背离</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ 布林带 ═══════════ -->
+  <div class="section" id="bb">
+    <div class="indicator-head">
+      <div class="indicator-icon icon-bb">🌊</div>
+      <div>
+        <h2>布林带 · 波动类</h2>
+        <div class="zhname">Bollinger Bands · 波动率通道</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="title">💡 原理</div>
+      <div class="content">
+        John Bollinger 1980 年代发明，把<b>波动率</b>做成可视化通道。假设价格符合正态分布，2 个标准差覆盖 95.4% 的价格波动——股价触碰上下轨在统计上就是"极端事件"。
+        <span class="formula">中轨 = 20 日移动平均线
+上轨 = 中轨 + 2 × 20日标准差
+下轨 = 中轨 − 2 × 20日标准差</span>
+        <b>布林带不预测方向</b>，而是<b>告诉你当前波动状态</b>——在低波动时收窄、高波动时扩张，自适应地识别极端。这在震荡市中尤其有价值。
+      </div>
+    </div>
+
+    <div class="subheading">🎯 位置信号</div>
+    <table class="signal-table">
+      <thead>
+        <tr><th style="width:52%">情形</th><th style="width:22%">星级</th><th style="width:26%">方向 / 操作</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Bollinger Squeeze 挤压</b>（带宽 6 月最低 20%）</td>
+          <td class="stars-cell"><span class="filled">★★★★★</span></td>
+          <td class="direction-cell neutral">爆发前奏 · 待方向</td>
+        </tr>
+        <tr>
+          <td><b>上升趋势中触及下轨</b>（回归买点）</td>
+          <td class="stars-cell"><span class="filled">★★★★★</span></td>
+          <td class="direction-cell strong-buy">+2 建仓</td>
+        </tr>
+        <tr>
+          <td>触及上轨 + RSI 顶背离</td>
+          <td class="stars-cell"><span class="filled">★★★★</span><span class="empty">☆</span></td>
+          <td class="direction-cell sell">−1 减仓</td>
+        </tr>
+        <tr>
+          <td>触及下轨 + 下降趋势中</td>
+          <td class="stars-cell"><span class="filled">★★★</span><span class="empty">☆☆</span></td>
+          <td class="direction-cell sell">−1 不接飞刀</td>
+        </tr>
+        <tr>
+          <td>沿上轨连续运行（强趋势延续）</td>
+          <td class="stars-cell"><span class="filled">★★★</span><span class="empty">☆☆</span></td>
+          <td class="direction-cell buy">+1 持有</td>
+        </tr>
+        <tr>
+          <td>中轨附近（中性状态）</td>
+          <td class="stars-cell"><span class="filled">★★</span><span class="empty">☆☆☆</span></td>
+          <td class="direction-cell neutral">0 无信号</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pitfall">
+      <div class="title">⚠️ 关键陷阱 + 进阶指标</div>
+      <div class="content">
+        <b>%B 指标</b>：(价格 − 下轨) / (上轨 − 下轨)，&gt;1 = 突破上轨、&lt;0 = 跌破下轨、≈0.5 = 中轨<br/>
+        <b>BW 带宽指标</b>：(上轨 − 下轨) / 中轨，&lt; 6 个月最低 20% 分位 = Squeeze 挤压状态<br/>
+        <ul style="margin-top:6px">
+          <li>触碰上下轨不是必然反转——强趋势中会沿轨运行数周</li>
+          <li>Squeeze 后突破方向不确定，必须等真突破（放量+K线确认）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ 量能 ═══════════ -->
+  <div class="section" id="vol">
+    <div class="indicator-head">
+      <div class="indicator-icon icon-vol">💧</div>
+      <div>
+        <h2>Volume + OBV · 量能类</h2>
+        <div class="zhname">On-Balance Volume · 能量潮</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="title">💡 原理</div>
+      <div class="content">
+        <b>成交量是价格最诚实的验证器——你可以画出漂亮的图形，但你伪造不了成交量。</b><br/>
+        核心公式：<b>价格是果，成交量是因</b>。<br/><br/>
+        <b>OBV（能量潮）</b>—— 1963 年 Joe Granville 发明的"资金流向累计曲线"：
+        <span class="formula">如果收盘价 &gt; 昨日：OBV += 今日成交量
+如果收盘价 &lt; 昨日：OBV −= 今日成交量</span>
+        OBV 会<b>领先价格</b>，因为聪明的机构总是"先建仓再拉升"——建仓时价格波澜不惊但 OBV 已经上升。
+      </div>
+    </div>
+
+    <div class="subheading">🎯 量价关系四象限（核心）</div>
+    <div class="quadrant">
+      <div class="quad-cell pos">
+        <div class="label" style="color:#059669;">价 ↑ + 量 ↑ · ★★★★★</div>
+        <div class="interpret">健康上涨，趋势可信 → <b>持有/加仓</b></div>
+      </div>
+      <div class="quad-cell warn">
+        <div class="label" style="color:#d97706;">价 ↑ + 量 ↓ · ★★</div>
+        <div class="interpret">可疑上涨，警惕假突破 → <b>不追高</b></div>
+      </div>
+      <div class="quad-cell warn">
+        <div class="label" style="color:#d97706;">价 ↓ + 量 ↑ · ★★★★</div>
+        <div class="interpret">恐慌抛售，接近底部 → <b>反转前兆</b></div>
+      </div>
+      <div class="quad-cell pos">
+        <div class="label" style="color:#059669;">价 ↓ + 量 ↓ · ★★★★</div>
+        <div class="interpret">抛压衰竭，反弹临近 → <b>准备建仓</b></div>
+      </div>
+    </div>
+
+    <div class="subheading">🎯 高质量量能信号</div>
+    <table class="signal-table">
+      <thead>
+        <tr><th style="width:52%">情形</th><th style="width:22%">星级</th><th style="width:26%">方向 / 操作</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>底部放量长阳</b>（转折确认）</td>
+          <td class="stars-cell"><span class="filled">★★★★★</span></td>
+          <td class="direction-cell strong-buy">+2 建仓</td>
+        </tr>
+        <tr>
+          <td><b>突破关键位置放量</b>（真突破）</td>
+          <td class="stars-cell"><span class="filled">★★★★★</span></td>
+          <td class="direction-cell strong-buy">+2 追突破</td>
+        </tr>
+        <tr>
+          <td>OBV 与价格背离</td>
+          <td class="stars-cell"><span class="filled">★★★★</span><span class="empty">☆</span></td>
+          <td class="direction-cell buy">±2 反转前兆</td>
+        </tr>
+        <tr>
+          <td>回调 + 缩量（健康中继）</td>
+          <td class="stars-cell"><span class="filled">★★★★</span><span class="empty">☆</span></td>
+          <td class="direction-cell buy">+1 加仓</td>
+        </tr>
+        <tr>
+          <td>顶部天量长阴（派发确认）</td>
+          <td class="stars-cell"><span class="filled">★★★★</span><span class="empty">☆</span></td>
+          <td class="direction-cell strong-sell">−2 减仓</td>
+        </tr>
+        <tr>
+          <td>突破无量（假突破警讯）</td>
+          <td class="stars-cell"><span class="filled">★★★</span><span class="empty">☆☆</span></td>
+          <td class="direction-cell sell">−1 观望</td>
+        </tr>
+        <tr>
+          <td>横盘缩量</td>
+          <td class="stars-cell"><span class="filled">★</span><span class="empty">☆☆☆☆</span></td>
+          <td class="direction-cell neutral">0 无信号</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pitfall">
+      <div class="title">⚠️ 关键定义 + 陷阱</div>
+      <div class="content">
+        <b>放量的定义</b>（必须量化，不能凭感觉）：<br/>
+        <ul>
+          <li><b>放量</b>：当日成交量 &gt; 过去 20 日平均 × 2</li>
+          <li><b>倍量</b>：&gt; 均量 × 3（更强）</li>
+          <li><b>天量</b>：&gt; 均量 × 5（通常是转折点或衰竭点）</li>
+        </ul>
+        <b>陷阱</b>：财报日、除权除息日、指数换股日的量能不作数（人为放量而非资金意图）
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ 共振使用规则 ═══════════ -->
+  <div class="section" id="resonance">
+    <h2>🎯 5. 四类指标共振使用规则</h2>
+    <div class="lead">这是把技术分析从"占卜"变成"概率管理"的分界线。</div>
+
+    <div class="resonance-box">
+      <h3>信号方向共振评分</h3>
+      <table>
+        <tr>
+          <td><b>4/4 全部同向</b></td>
+          <td>★★★★★ 极强共振</td>
+          <td class="action">→ 满仓出手（个股不超过组合 10%）</td>
+        </tr>
+        <tr>
+          <td><b>3/4 同向 + 1 中性</b></td>
+          <td>★★★★ 强共振</td>
+          <td class="action">→ 标准仓位 70-80%</td>
+        </tr>
+        <tr>
+          <td><b>2/4 同向 + 2 反向</b></td>
+          <td>★★ 弱共振</td>
+          <td class="action">→ 观望，等待更好位置</td>
+        </tr>
+        <tr>
+          <td><b>1/4 同向</b></td>
+          <td>★ 噪音</td>
+          <td class="action">→ 远离，不动</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="iron-rule">
+      <div class="label">━━━ 铁律 1 ━━━</div>
+      <div class="text">
+        单个 ⭐⭐⭐⭐⭐ 信号不出手<br/>
+        至少 3 类指标同向且各自 ⭐⭐⭐+ 才叫共振
+      </div>
+    </div>
+
+    <div class="iron-rule" style="background:#7c2d12;">
+      <div class="label">━━━ 铁律 2 ━━━</div>
+      <div class="text">
+        信号强度 ≤ 2 星时，不行动<br/>
+        技术分析的盈利来自高质量信号的稀少性，不是动作的密集性
+      </div>
+    </div>
+
+    <div class="iron-rule" style="background:#164e63;">
+      <div class="label">━━━ 铁律 3 ━━━</div>
+      <div class="text">
+        指标共振 &lt; 位置质量 &lt; 量能验证 &lt; 基本面双确认<br/>
+        （每往右一档，信号可靠性翻一倍）
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ 一页速查 ═══════════ -->
+  <div class="section" id="cheatsheet">
+    <h2>📌 6. 一页速查表（打印/贴桌）</h2>
+    <div class="lead">看图时逐项核对，用这张表把"感觉"变成"量化打分"</div>
+
+    <table class="signal-table" style="font-size:13px;">
+      <thead>
+        <tr>
+          <th style="width:15%">指标类别</th>
+          <th style="width:60%">⭐⭐⭐⭐⭐ 最高质量信号（这些才值得出手）</th>
+          <th style="width:25%">方向</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>📉 MACD</b></td>
+          <td>零轴下方金叉 + 200MA之上 + 柱状转正</td>
+          <td class="direction-cell strong-buy">+2 强多</td>
+        </tr>
+        <tr>
+          <td><b>📉 MACD</b></td>
+          <td>顶背离 / 底背离（价格新高低，MACD 未跟随）</td>
+          <td class="direction-cell strong-sell">±2</td>
+        </tr>
+        <tr>
+          <td><b>⚡ RSI</b></td>
+          <td>上升趋势中 RSI 回踩 40-50 企稳</td>
+          <td class="direction-cell strong-buy">+2 强多</td>
+        </tr>
+        <tr>
+          <td><b>⚡ RSI</b></td>
+          <td>下降趋势中 RSI 反弹 50-60 受阻</td>
+          <td class="direction-cell strong-sell">−2 强空</td>
+        </tr>
+        <tr>
+          <td><b>⚡ RSI</b></td>
+          <td>顶/底背离</td>
+          <td class="direction-cell strong-sell">±2</td>
+        </tr>
+        <tr>
+          <td><b>🌊 布林带</b></td>
+          <td>Squeeze 挤压（带宽 6 月最低 20%）</td>
+          <td class="direction-cell neutral">爆发待定</td>
+        </tr>
+        <tr>
+          <td><b>🌊 布林带</b></td>
+          <td>上升趋势中触及下轨（回归买点）</td>
+          <td class="direction-cell strong-buy">+2 强多</td>
+        </tr>
+        <tr>
+          <td><b>💧 量能</b></td>
+          <td>上涨 + 放量（真趋势）</td>
+          <td class="direction-cell strong-buy">+2 强多</td>
+        </tr>
+        <tr>
+          <td><b>💧 量能</b></td>
+          <td>底部放量长阳（转折确认）</td>
+          <td class="direction-cell strong-buy">+2 强多</td>
+        </tr>
+        <tr>
+          <td><b>💧 量能</b></td>
+          <td>下跌 + 缩量（抛压衰竭）</td>
+          <td class="direction-cell buy">+1 准备建仓</td>
+        </tr>
+        <tr>
+          <td><b>💧 量能</b></td>
+          <td>OBV 与价格背离</td>
+          <td class="direction-cell strong-sell">±2</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="background:#f0fdf4; border:2px solid #059669; border-radius:12px; padding:20px; margin-top:20px;">
+      <h3 style="color:#065f46; margin-bottom:10px;">📝 应用示例：你之前发的 0100.HK 报告</h3>
+      <p style="font-size:14px; line-height:1.8; color:#0f172a;">
+        <b>MACD</b>：零轴下方金叉 + 柱状转正 → <span style="color:#059669;">⭐⭐⭐⭐⭐ +2 强多</span>（教科书底部反转）<br/>
+        <b>RSI</b>：52 中性运行区 → <span style="color:#64748b;">⭐⭐ 0 中性</span>（无背离、无极端）<br/>
+        <b>布林带</b>：中轨附近 → <span style="color:#64748b;">⭐⭐ 0 中性</span>（无位置信号）<br/>
+        <b>量能</b>：7 月恐慌放量见底 + 8 月放量拉升 +328% + OBV 上拐 → <span style="color:#059669;">⭐⭐⭐⭐⭐ +2 强多</span>（三重验证）<br/><br/>
+        <b>共振结果：2/4 偏多含 2 个五星信号</b>——按共振评分规则属于"强共振"边缘：<br/>
+        • 2 个五星信号（MACD + 量能）已在极高质量位置<br/>
+        • RSI + 布林带虽然给中性，但不是反向，属于"未参与"而非"反对"<br/><br/>
+        <b style="color:#059669;">→ 综合评级：温和买入 ★★★★（60-70% 仓位），触发条件是等 RSI 突破 50 + 布林带上轨突破。</b>
+      </p>
+    </div>
+  </div>
+
+  <div class="foot">
+    技术分析·四大类指标信号强度速查手册 v1.0<br/>
+    基于 technical-analysis SKILL.md 框架整理 · 与 business-analysis 双轨使用<br/>
+    <br/>
+    <em>Ctrl/Cmd + P 可打印为 PDF · 也可直接保存到 Obsidian vault</em>
+  </div>
+
+</div>
+</body>
+</html>

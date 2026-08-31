@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宏观阶段周报 2026-08-28</title>
+<style>
+  :root{
+    --bg:#ffffff; --bg2:#f5f5f3; --bg3:#eeecea;
+    --text:#1a1a1a; --text2:#555552; --text3:#888784;
+    --border:#dddbd8; --accent:#3266ad;
+    --green:#1D9E75; --yellow:#C7A11A; --orange:#BA7517; --red:#E24B4A; --blue:#3266ad;
+    --font:-apple-system,"Helvetica Neue","PingFang SC","Microsoft YaHei",Arial,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1a1918; --bg2:#242322; --bg3:#2e2c2a;
+      --text:#ececea; --text2:#b8b6b3; --text3:#888784;
+      --border:#3a3836; --accent:#6f9bd6;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);
+       font-size:14px;line-height:1.7;max-width:900px;margin:0 auto;padding:32px 22px 64px;}
+  h1{font-size:23px;font-weight:600;margin-bottom:4px;letter-spacing:-.01em;}
+  h2{font-size:17px;font-weight:600;margin:30px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  h3{font-size:14px;font-weight:600;margin:16px 0 6px;}
+  p{margin:8px 0;}
+  .meta{color:var(--text3);font-size:12px;margin-bottom:20px;}
+  .stage-banner{padding:18px 20px;border-radius:8px;margin:16px 0 8px;background:var(--bg2);border-left:4px solid var(--accent);}
+  .stage-banner.red{border-color:var(--red);background:rgba(226,75,74,.07);}
+  .stage-banner.orange{border-color:var(--orange);background:rgba(186,117,23,.07);}
+  .stage-banner .lead{font-size:16px;font-weight:600;margin-bottom:10px;}
+  .stage-banner .row{margin:3px 0;font-size:13.5px;}
+  .stage-banner .k{color:var(--text2);display:inline-block;min-width:96px;}
+  .tag{display:inline-block;padding:1px 7px;border-radius:4px;font-size:12px;font-weight:600;}
+  .tag.red{background:rgba(226,75,74,.16);color:var(--red);}
+  .tag.orange{background:rgba(186,117,23,.16);color:var(--orange);}
+  .tag.yellow{background:rgba(199,161,26,.2);color:#9a7c08;}
+  .tag.green{background:rgba(29,158,117,.16);color:var(--green);}
+  .tag.blue{background:rgba(50,102,173,.16);color:var(--accent);}
+  /* sentiment change strip */
+  .senti{border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin:14px 0;background:linear-gradient(180deg,rgba(186,117,23,.05),transparent);}
+  .senti .hdr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+  .senti .big{font-size:16px;font-weight:700;color:var(--orange);}
+  .senti .arrowpill{font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:12px;background:rgba(186,117,23,.14);color:var(--orange);}
+  .senti ul{margin:6px 0 0;padding-left:18px;}
+  .senti li{margin:4px 0;font-size:13px;}
+  .up{color:var(--red);font-weight:700;} .down{color:var(--green);font-weight:700;} .flat{color:var(--text3);font-weight:700;}
+  .dim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:10px;margin:14px 0 8px;}
+  .dim-card{background:var(--bg2);border-radius:7px;padding:13px 15px;border-left:3px solid var(--border);}
+  .dim-card.red{border-color:var(--red);} .dim-card.orange{border-color:var(--orange);}
+  .dim-card.yellow{border-color:var(--yellow);} .dim-card.green{border-color:var(--green);} .dim-card.blue{border-color:var(--blue);}
+  .dim-label{font-size:11px;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em;}
+  .dim-value{font-size:15px;font-weight:600;line-height:1.35;}
+  .dim-chg{font-size:11px;font-weight:600;margin-top:3px;}
+  .dim-detail{font-size:11.5px;color:var(--text3);margin-top:6px;line-height:1.5;}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12.7px;}
+  th{background:var(--bg2);padding:7px 8px;text-align:left;font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap;}
+  td{padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:top;}
+  td.num{font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap;}
+  .badge.red{background:rgba(226,75,74,.15);color:var(--red);}
+  .badge.orange{background:rgba(186,117,23,.15);color:var(--orange);}
+  .badge.yellow{background:rgba(199,161,26,.2);color:#9a7c08;}
+  .badge.green{background:rgba(29,158,117,.15);color:var(--green);}
+  .badge.blue{background:rgba(50,102,173,.15);color:var(--accent);}
+  .chg{font-weight:600;white-space:nowrap;}
+  .callout{background:var(--bg2);border-radius:7px;padding:12px 15px;margin:12px 0;font-size:13px;border-left:3px solid var(--accent);}
+  .callout.warn{border-color:var(--orange);}
+  .callout.hawk{border-color:var(--red);background:rgba(226,75,74,.05);}
+  .quote{font-style:italic;color:var(--text2);border-left:2px solid var(--border);padding-left:10px;margin:6px 0;font-size:12.5px;}
+  .chart-wrap{background:var(--bg2);border-radius:8px;padding:16px 14px 10px;margin:14px 0;overflow-x:auto;}
+  .chart-title{font-size:12.5px;font-weight:600;color:var(--text2);margin-bottom:8px;padding-left:4px;}
+  .chart-note{font-size:11px;color:var(--text3);margin-top:6px;padding-left:4px;}
+  .footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--border);font-size:11.5px;color:var(--text3);line-height:1.6;}
+  .disclaimer{font-size:11px;color:var(--text3);font-style:italic;margin-top:8px;}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--text2);margin:2px 0 4px 4px;}
+  .legend span{display:inline-flex;align-items:center;gap:4px;}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  svg{max-width:100%;height:auto;display:block;}
+  strong{font-weight:600;}
+</style>
+</head>
+<body>
+
+<h1>宏观阶段周报</h1>
+<div class="meta">报告期：2026年8月28日（周五收盘后）· 时区：SGT (UTC+8) · 数据截至 08-29 上午 · 较上期：2026-08-24</div>
+
+<!-- ===== 本周情绪变化 strip（用户核心诉求）===== -->
+<div class="senti">
+  <div class="hdr">
+    <span class="big">本周宏观情绪：鹰派冲击（Hawkish Shock）</span>
+    <span class="arrowpill">较上期 ▲ 转鹰</span>
+  </div>
+  <p style="font-size:13px;margin:2px 0 4px;">Warsh 首次以美联储主席身份在 Jackson Hole（08-28 周五）发表鹰派主题演讲，叠加 7 月 PCE 确认通胀粘性，本周利率市场发生<strong>大幅鹰派重定价</strong>——但股市与波动率几乎无视，两者背离扩大。</p>
+  <ul>
+    <li><strong>政策定价剧变：</strong>9 月加息概率 <span class="up">31.5% → 59%</span>（CME；Polymarket 一度 69%），9 月会议由"大概率按兵"变成"<strong>加息是硬币抛</strong>"；2Y 收益率跳升、曲线熊平。</li>
+    <li><strong>通胀确认不降：</strong>7 月核心 PCE <span class="flat">3.3% 持平</span>、整体 PCE <span class="up">3.7%</span>，Warsh 点名 <strong>6 个月年化 4.1%（加速）</strong>。</li>
+    <li><strong>背离扩大：</strong>利率与黄金已按鹰派定价（2Y↑、金价周 <span class="down">−3.7%</span>），但 S&amp;P 周 <span class="up">+0.49%</span>、VIX <span class="down">14.6</span>（历史低位）、HY 利差仍 ~275bp——风险资产的自满 vs 利率市场的警觉。</li>
+    <li><strong>净效果：</strong>滞胀式政策挤压收紧一档。四维中<strong>「美联储周期」明显转鹰</strong>（加息重回牌桌），其余三维维持；就业要等下周 09-05 非农验证。</li>
+  </ul>
+</div>
+
+<!-- ===== 总判断 banner ===== -->
+<div class="stage-banner orange">
+  <div class="lead">当前阶段：<strong>过热尾声 → 滞胀象限边缘</strong>（维持）。本周变化在政策端：通胀确认粘住、Warsh 把"加息"重新摆上桌，美联储从"高位暂停+加息尾部"硬化为"<strong>随时可能加息</strong>"。</div>
+  <div class="row"><span class="k">① 投资时钟</span><span class="tag orange">滞胀边缘</span> 维持；通胀经 PCE 确认更粘（6m 年化 4.1%），象限较上期<strong>略深</strong></div>
+  <div class="row"><span class="k">② 美联储周期</span><span class="tag red">高位暂停 · 加息重回牌桌 ▲</span> 3.50–3.75%；9 月 <span class="up">加息 59% / 持平 ~40% / 降息≈0</span>（上期 31.5/67.5/2.9）</div>
+  <div class="row"><span class="k">③ 流动性</span><span class="tag yellow">中性偏收紧</span> 维持；QT 持续 + RRP 已抽干；DXY≈99 略偏强，鹰派 Fed 强化收紧倾向</div>
+  <div class="row"><span class="k">④ 主权信用压力</span><span class="tag orange">中 → 偏高</span> 维持；本周鹰派推升实际利率、黄金周 −3.7% 回落（"脱钩"信号短期缓和），但期限溢价与长端仍高</div>
+  <div class="row" style="margin-top:9px;"><span class="k">历史类比</span>本周更偏 <strong>2018 下半场</strong>（QT + 鹰派 Fed 主动收紧金融条件）叠加 <strong>1970s-lite</strong>（通胀粘性下 Fed 优先保信用）</div>
+  <div class="row"><span class="k">配置含义</span>维持降久期偏防御；本周新增关注——鹰派若坐实，高估值成长股与黄金短期承压、现金与短端性价比进一步上升；HY 275bp 仍是最大错配。<strong>滞胀+鹰派是股债同跌风险最高的组合。</strong></div>
+</div>
+<p class="disclaimer">本报告为技能样例，用于展示框架与"较上期对比"呈现方式，不构成投资建议。部分盘中价格为收盘近似值，2Y 及利差为 Warsh 讲话后估算并已标注。</p>
+
+<!-- ===== Warsh 讲话专栏 ===== -->
+<h2>本周焦点：Warsh 首秀 Jackson Hole（08-28）</h2>
+<div class="callout hawk">
+  <strong>基调：明确鹰派，通胀优先。</strong>Warsh 以美联储主席身份首度在 Jackson Hole 定调，把<strong>通胀列为"首要焦点"</strong>，并罕见地把责任归于央行自身。市场解读为鹰派，9 月加息概率应声跳升、2Y 收益率上冲。
+  <div class="quote">"我们必须确信底层通胀正以足够的速度、清晰地向目标回归。<strong>否则，我们还有工作要做（we have work to do）。</strong>"</div>
+  <div class="quote">"过去 65 个月持续的高通胀，责任<strong>完全在央行自身</strong>。"</div>
+  <div class="quote">"一个更安静、沟通更有节制的美联储，更能实现其目标。"——预告<strong>废除前瞻指引</strong>（forward guidance），改为数据依赖、"只承诺纪律，不承诺某个决定"。</div>
+  <p style="margin-top:8px;font-size:12.5px;"><strong>三点含义：</strong>①"还有工作要做"= 把<strong>加息</strong>重新纳入选项，而非市场此前预期的降息路径；②废除前瞻指引 → 未来波动率中枢可能抬升（市场少了"美联储兜底"的锚）；③在就业已转弱（7 月非农 −2.3 万）之际仍优先压通胀 → <strong>主动加深滞胀式挤压</strong>，把"保就业还是保信用"的取舍公开倒向后者。</p>
+</div>
+
+<!-- ===== 较上期对比总表（用户核心诉求）===== -->
+<h2>较上期变化（2026-08-24 → 08-28）</h2>
+<table>
+  <thead><tr><th>指标</th><th>上期 08-24</th><th>本期 08-28</th><th>周变化</th><th>含义</th></tr></thead>
+  <tbody>
+    <tr><td>9月FOMC 加息概率</td><td class="num">31.5%</td><td class="num">59%（PM 69%）</td><td class="chg"><span class="up">▲ +27.5pp</span></td><td>鹰派重定价，最大变化</td></tr>
+    <tr><td>9月FOMC 持平概率</td><td class="num">67.5%</td><td class="num">~40%</td><td class="chg"><span class="down">▼</span></td><td>"按兵"不再是压倒性</td></tr>
+    <tr><td>联邦基金区间</td><td class="num">3.50–3.75%</td><td class="num">3.50–3.75%</td><td class="chg"><span class="flat">—</span></td><td>未变，但方向偏上</td></tr>
+    <tr><td>核心 PCE（YoY）</td><td class="num">3.3%（6月）</td><td class="num">3.3%（7月）</td><td class="chg"><span class="flat">— 持平</span></td><td>粘在 3.3%，不降</td></tr>
+    <tr><td>整体 PCE（YoY）</td><td class="num">CPI 3.4%</td><td class="num">PCE 3.7%（6m 年化 4.1%）</td><td class="chg"><span class="up">▲ 偏热/加速</span></td><td>短周期通胀在抬头</td></tr>
+    <tr><td>Q2 GDP</td><td class="num">1.5%</td><td class="num">1.5%（二次修正）</td><td class="chg"><span class="flat">—</span></td><td>增长确认温和</td></tr>
+    <tr><td>2Y 收益率</td><td class="num">4.17%</td><td class="num">≈4.40%（估）</td><td class="chg"><span class="up">▲ 跳升</span></td><td>市场加码"更高更久"</td></tr>
+    <tr><td>10Y 收益率</td><td class="num">4.68%</td><td class="num">4.68%</td><td class="chg"><span class="flat">— 基本持平</span></td><td>长端对 PCE 无感</td></tr>
+    <tr><td>10Y-2Y 利差</td><td class="num">+51bp</td><td class="num">≈+28bp（估）</td><td class="chg"><span class="down">▼ 熊平</span></td><td>鹰派 Fed 压平曲线（晚周期特征）</td></tr>
+    <tr><td>DXY</td><td class="num">≈98.5–99</td><td class="num">99.1</td><td class="chg"><span class="up">▲ 略强</span></td><td>鹰派小幅托底美元</td></tr>
+    <tr><td>黄金</td><td class="num">年内 +11% 高位</td><td class="num">≈$4,460（周 −3.7%）</td><td class="chg"><span class="down">▼ 回落</span></td><td>鹰派升实际利率，"脱钩"信号短期缓和</td></tr>
+    <tr><td>HY 信用利差</td><td class="num">275bp</td><td class="num">~275bp</td><td class="chg"><span class="flat">— 仍极窄</span></td><td>信用市场继续无视</td></tr>
+    <tr><td>VIX</td><td class="num">（未采）</td><td class="num">14.6（低）</td><td class="chg"><span class="down">▼ 低位</span></td><td>股市自满，与利率警觉背离</td></tr>
+    <tr><td>S&amp;P 500（周）</td><td class="num">—</td><td class="num">7,712（周 +0.49%）</td><td class="chg"><span class="up">▲ 抗跌</span></td><td>周五跌但全周仍涨</td></tr>
+  </tbody>
+</table>
+<div class="callout warn"><strong>一句话读变化：</strong>本周是"利率市场单边转鹰、风险资产装睡"的一周。真正移动的是<strong>美联储路径（加息概率近乎翻倍）</strong>和<strong>通胀确认（6 个月年化 4.1% 在加速）</strong>；股市、VIX、信用利差纹丝不动。这种"债鹰股鸽"的背离要么由股市补跌收敛、要么由 Fed 最终转鸽收敛——是下一两周最值得盯的张力。</div>
+
+<!-- ===== 投资时钟象限图（含上期→本期漂移）===== -->
+<h2>投资时钟定位</h2>
+<div class="chart-wrap">
+  <div class="chart-title">增长 × 通胀 四象限 · 本期位置、上期位置与轨迹（美林时钟布局）</div>
+  <div class="legend">
+    <span><span class="dot" style="background:#c9a24a"></span>更早轨迹</span>
+    <span><span class="dot" style="background:#9aa0a6"></span>上期 08-24</span>
+    <span><span class="dot" style="background:var(--red)"></span>本期 08-28</span>
+  </div>
+  <svg viewBox="0 0 640 380" role="img" aria-label="投资时钟象限图">
+    <rect x="70" y="30" width="250" height="150" fill="rgba(226,75,74,.10)"/>
+    <rect x="320" y="30" width="250" height="150" fill="rgba(186,117,23,.10)"/>
+    <rect x="70" y="180" width="250" height="150" fill="rgba(50,102,173,.08)"/>
+    <rect x="320" y="180" width="250" height="150" fill="rgba(29,158,117,.08)"/>
+    <text x="195" y="55" text-anchor="middle" font-size="13" font-weight="600" fill="#E24B4A">滞胀 Stagflation</text>
+    <text x="195" y="72" text-anchor="middle" font-size="10" fill="#888784">增长↓ 通胀↑ · 现金/黄金</text>
+    <text x="445" y="55" text-anchor="middle" font-size="13" font-weight="600" fill="#BA7517">过热 Overheat</text>
+    <text x="445" y="72" text-anchor="middle" font-size="10" fill="#888784">增长↑ 通胀↑ · 偏商品</text>
+    <text x="195" y="308" text-anchor="middle" font-size="13" font-weight="600" fill="#3266ad">衰退 Recession</text>
+    <text x="195" y="325" text-anchor="middle" font-size="10" fill="#888784">增长↓ 通胀↓ · 偏债券</text>
+    <text x="445" y="308" text-anchor="middle" font-size="13" font-weight="600" fill="#1D9E75">复苏 Recovery</text>
+    <text x="445" y="325" text-anchor="middle" font-size="10" fill="#888784">增长↑ 通胀↓ · 偏股票</text>
+    <line x1="320" y1="30" x2="320" y2="330" stroke="var(--border)" stroke-width="1.5"/>
+    <line x1="70" y1="180" x2="570" y2="180" stroke="var(--border)" stroke-width="1.5"/>
+    <text x="595" y="184" font-size="10" fill="#888784">增长→</text>
+    <text x="320" y="22" text-anchor="middle" font-size="10" fill="#888784">↑通胀</text>
+    <!-- trajectory into stagflation, deepening this week (up-left = higher inflation, lower growth) -->
+    <polyline points="495,100 455,104 415,108 300,116 278,104" fill="none" stroke="#c9a24a" stroke-width="2" stroke-dasharray="4 3" opacity="0.7"/>
+    <circle cx="495" cy="100" r="4" fill="#d8c39a"/>
+    <circle cx="415" cy="108" r="4" fill="#c2954a"/>
+    <!-- last week ghost -->
+    <circle cx="300" cy="116" r="6" fill="#9aa0a6"/>
+    <text x="300" y="134" text-anchor="middle" font-size="9.5" fill="#888784">上期 08-24</text>
+    <!-- current, nudged up-left (inflation confirmed hotter) -->
+    <circle cx="278" cy="104" r="8" fill="#E24B4A"/>
+    <circle cx="278" cy="104" r="8" fill="none" stroke="#E24B4A" stroke-width="2" opacity="0.4"><animate attributeName="r" values="8;15;8" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.4;0;0.4" dur="2.4s" repeatCount="indefinite"/></circle>
+    <text x="258" y="94" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--text)">本期</text>
+  </svg>
+  <div class="chart-note">本周红点较上期（灰点）小幅上移 + 左移——通胀经 PCE 确认更粘（上移），增长维持温和偏弱（略左移），在"滞胀"象限内略微加深。真正的推力来自政策：Warsh 转鹰使这个象限对多资产的杀伤力放大。</div>
+</div>
+
+<!-- ===== 四维卡片（带周变化）===== -->
+<h2>四维阶段判断（含周变化）</h2>
+<div class="dim-grid">
+  <div class="dim-card orange">
+    <div class="dim-label">① 投资时钟象限</div>
+    <div class="dim-value">滞胀象限边缘</div>
+    <div class="dim-chg" style="color:var(--orange)">～ 维持（略深）</div>
+    <div class="dim-detail">通胀经 7 月 PCE 确认更粘（核心 3.3%、整体 3.7%、6m 年化 4.1%）；增长维持（Q2 GDP 1.5% 二次修正）</div>
+  </div>
+  <div class="dim-card red">
+    <div class="dim-label">② 美联储周期</div>
+    <div class="dim-value">高位暂停 · 加息重回牌桌</div>
+    <div class="dim-chg" style="color:var(--red)">▲ 明显转鹰</div>
+    <div class="dim-detail">Warsh"还有工作要做"；9 月加息 31.5%→59%；废前瞻指引；降息本周被基本挤出定价</div>
+  </div>
+  <div class="dim-card yellow">
+    <div class="dim-label">③ 流动性状态</div>
+    <div class="dim-value">中性偏收紧</div>
+    <div class="dim-chg" style="color:var(--text3)">～ 维持</div>
+    <div class="dim-detail">QT 未停 + RRP 已抽干；DXY≈99 略强；鹰派 Fed 强化收紧倾向，但无新增操作</div>
+  </div>
+  <div class="dim-card orange">
+    <div class="dim-label">④ 主权信用压力</div>
+    <div class="dim-value">中 → 偏高</div>
+    <div class="dim-chg" style="color:var(--text3)">～ 维持</div>
+    <div class="dim-detail">本周鹰派升实际利率、黄金周 −3.7% 回落，"脱钩"信号短期缓和；但期限溢价与长端 4.68% 仍高</div>
+  </div>
+</div>
+<div class="callout warn"><strong>核心矛盾（较上期加剧）：</strong>滞胀式政策挤压本周更紧。通胀端 Warsh 亲口确认"还有工作要做"、PCE 6 个月年化 4.1% 在加速；就业端 7 月非农已 −2.3 万，下周 09-05 非农将决定 Fed 敢不敢真加。<strong>Fed 公开把天平倒向"保信用"而非"保就业"——这正是滞胀期政策最难、资产最痛的组合。</strong></div>
+
+<!-- ===== 七大模块（只列关键行 + 周对比）===== -->
+<h2>A. 利率与货币政策 <span style="font-weight:400;font-size:12px;color:var(--text3)">（原"利率风险"）</span></h2>
+<table>
+  <thead><tr><th>指标</th><th>本期 08-28</th><th>上期 08-24</th><th>信号</th></tr></thead>
+  <tbody>
+    <tr><td>联邦基金目标区间</td><td class="num">3.50–3.75%</td><td class="num">3.50–3.75%</td><td><span class="badge orange">高位暂停</span></td></tr>
+    <tr><td>9 月 FOMC 定价</td><td class="num">加息 59% / 持平 ~40% / 降息≈0</td><td class="num">31.5 / 67.5 / 2.9</td><td><span class="badge red">▲ 转鹰</span></td></tr>
+    <tr><td>Warsh Jackson Hole（08-28）</td><td>"还有工作要做"、废前瞻指引</td><td>（讲话前，未发生）</td><td><span class="badge red">鹰派冲击</span></td></tr>
+    <tr><td>2Y 收益率</td><td class="num">≈4.40%（估，跳升）</td><td class="num">4.17%</td><td><span class="badge red">▲ 偏紧</span></td></tr>
+  </tbody>
+</table>
+
+<h2>B. 收益率曲线与期限结构</h2>
+<table>
+  <thead><tr><th>指标</th><th>本期 08-28</th><th>上期 08-24</th><th>信号</th></tr></thead>
+  <tbody>
+    <tr><td>10Y-2Y 利差</td><td class="num">≈+28bp（估）</td><td class="num">+51bp</td><td><span class="badge orange">▼ 熊平</span></td></tr>
+    <tr><td>10Y 收益率</td><td class="num">4.68%</td><td class="num">4.68%</td><td><span class="badge yellow">持平</span></td></tr>
+    <tr><td>曲线形态</td><td>由熊陡转<strong>熊平</strong>（2Y 领涨）</td><td>熊陡（bear-steepen）</td><td><span class="badge orange">晚周期</span></td></tr>
+    <tr><td>期限溢价 / MOVE</td><td>期限溢价仍高；MOVE 待更新</td><td>期限溢价回归</td><td><span class="badge orange">压力仍在</span></td></tr>
+  </tbody>
+</table>
+<div class="callout warn"><strong>曲线信号变了：</strong>上期是"长端走陡"（供给/期限溢价主导），本周变成"<strong>短端领涨的熊平</strong>"（政策鹰派主导）。熊平通常出现在紧缩周期后段，是"Fed 越收越接近政策错误/衰退"的经典画面——与就业转弱叠加需要警惕。</div>
+
+<h2>C. 主权信用 - 美债供需</h2>
+<table>
+  <thead><tr><th>指标</th><th>本期 08-28</th><th>上期 08-24</th><th>信号</th></tr></thead>
+  <tbody>
+    <tr><td>黄金（去美元化/主权对冲）</td><td class="num">≈$4,460，周 −3.7%</td><td class="num">年内 +11% 高位</td><td><span class="badge yellow">▼ 短期缓和</span></td></tr>
+    <tr><td>长端 / 期限溢价</td><td>10Y 4.68% 仍高</td><td>10Y 4.68%</td><td><span class="badge orange">偏高</span></td></tr>
+    <tr><td>财政部动作</td><td>有报道拟用 TGA 资金支持回购</td><td>QRA 高位发行 + buyback</td><td><span class="badge yellow">中</span></td></tr>
+    <tr><td>外资持仓（日本/中国）</td><td>趋势未变（TIC 滞后）</td><td>日本边际减持</td><td><span class="badge yellow">中</span></td></tr>
+  </tbody>
+</table>
+<p style="font-size:12px;color:var(--text3)">注：黄金本周回落是"鹰派→实际利率上行"的正常反应，属短期缓和而非趋势逆转；只要央行购金与去美元化主线未变，一旦 Fed 转鸽，"脱钩上涨"信号可能重来。</p>
+
+<h2>D. 美元与全球流动性</h2>
+<table>
+  <thead><tr><th>指标</th><th>本期 08-28</th><th>上期 08-24</th><th>信号</th></tr></thead>
+  <tbody>
+    <tr><td>美元指数 DXY</td><td class="num">99.1</td><td class="num">≈98.5–99</td><td><span class="badge yellow">▲ 略强</span></td></tr>
+    <tr><td>逆回购 RRP</td><td>已抽干（≈0）</td><td>已抽干</td><td><span class="badge orange">缓冲耗尽</span></td></tr>
+    <tr><td>QT / 净流动性</td><td>QT 持续；净流动性趋平偏降</td><td>同</td><td><span class="badge yellow">中性偏收紧</span></td></tr>
+  </tbody>
+</table>
+
+<h2>E. 增长 <span style="font-weight:400;font-size:12px;color:var(--text3)">（投资时钟横轴）</span></h2>
+<table>
+  <thead><tr><th>指标</th><th>本期 08-28</th><th>上期 08-24</th><th>信号</th></tr></thead>
+  <tbody>
+    <tr><td>Q2 GDP</td><td class="num">1.5%（二次修正，未变）</td><td class="num">1.5%（初值）</td><td><span class="badge yellow">温和</span></td></tr>
+    <tr><td>非农（7 月）</td><td class="num">−2.3 万（下周 9/5 出 8 月）</td><td class="num">−2.3 万</td><td><span class="badge red">走弱</span></td></tr>
+    <tr><td>ISM 制造/服务（7 月）</td><td class="num">55.6 / 54.1</td><td class="num">55.6 / 54.1</td><td><span class="badge green">扩张</span></td></tr>
+    <tr><td>Sahm 规则（6 月）</td><td class="num">0.07（未触发）</td><td class="num">0.07</td><td><span class="badge yellow">观察</span></td></tr>
+  </tbody>
+</table>
+<p style="font-size:12px;color:var(--text3)">本周无新增就业硬数据，增长维度维持"减速未衰退"。关键在下周 <strong>09-05 的 8 月非农</strong>：若再度转负 / 失业率上行，将逼近 Sahm 阈值，并直接考验 Fed 的鹰派立场。</p>
+
+<h2>F. 通胀 <span style="font-weight:400;font-size:12px;color:var(--text3)">（投资时钟纵轴）</span></h2>
+<table>
+  <thead><tr><th>指标</th><th>本期 08-28</th><th>上期 08-24</th><th>信号</th></tr></thead>
+  <tbody>
+    <tr><td>核心 PCE（YoY，美联储首选）</td><td class="num">3.3%（7 月）</td><td class="num">3.3%（6 月）</td><td><span class="badge orange">粘住</span></td></tr>
+    <tr><td>整体 PCE（YoY）</td><td class="num">3.7%（偏热）</td><td class="num">CPI 3.4%</td><td><span class="badge orange">▲ 偏热</span></td></tr>
+    <tr><td>核心 PCE 6 个月年化</td><td class="num">4.1%（加速）</td><td class="num">—</td><td><span class="badge red">短周期抬头</span></td></tr>
+    <tr><td>三态判定</td><td><strong>粘住偏向重新加速</strong></td><td>粘住</td><td><span class="badge orange">▲ 恶化</span></td></tr>
+  </tbody>
+</table>
+<div class="callout warn"><strong>通胀是本周被"确认"的一环：</strong>年同比看是"粘在 3.3%"，但 6 个月年化 4.1% 说明<strong>近半年通胀动能其实在回升</strong>——这正是 Warsh 敢于放鹰、把加息摆上桌的底气。通胀维度由"粘住"边际恶化为"粘住偏重新加速"。</div>
+
+<h2>G. 信用与金融条件</h2>
+<table>
+  <thead><tr><th>指标</th><th>本期 08-28</th><th>上期 08-24</th><th>信号</th></tr></thead>
+  <tbody>
+    <tr><td>HY 信用利差 OAS</td><td class="num">~275bp</td><td class="num">275bp</td><td><span class="badge green">▬ 仍极窄</span></td></tr>
+    <tr><td>VIX</td><td class="num">14.6（低）</td><td class="num">（未采）</td><td><span class="badge green">自满</span></td></tr>
+    <tr><td>金融条件（NFCI/FCI）</td><td>仍偏宽松（利差窄、股高）</td><td>偏宽松</td><td><span class="badge green">宽松</span></td></tr>
+  </tbody>
+</table>
+<div class="callout warn"><strong>最大错配依旧：</strong>Fed 转鹰、加息概率翻倍，但 HY 利差 275bp、VIX 14.6 依然是"歌舞升平"。信用与波动率市场完全没给鹰派风险定价——这是当前最脆弱的一环，也是万一 Fed 真加息时补跌空间最大的地方。</div>
+
+<!-- ===== 历史百分位（沿用上期，标注周变化）===== -->
+<h2>历史对比：核心指标百分位</h2>
+<table>
+  <thead><tr><th>指标</th><th>当前值</th><th>长期均值(约)</th><th>历史分位</th><th>周变化</th></tr></thead>
+  <tbody>
+    <tr><td>核心 PCE 同比</td><td class="num">3.3%</td><td class="num">2.0%</td><td class="num">~85%</td><td class="chg"><span class="flat">—</span></td></tr>
+    <tr><td>核心 PCE 6m 年化</td><td class="num">4.1%</td><td class="num">~2.0%</td><td class="num">~88%</td><td class="chg"><span class="up">▲</span></td></tr>
+    <tr><td>2Y 收益率</td><td class="num">≈4.40%</td><td class="num">~2.3%</td><td class="num">~90%</td><td class="chg"><span class="up">▲</span></td></tr>
+    <tr><td>10Y-2Y 利差</td><td class="num">≈+28bp</td><td class="num">~+90bp</td><td class="num">~30%</td><td class="chg"><span class="down">▼ 熊平</span></td></tr>
+    <tr><td>HY 信用利差 OAS</td><td class="num">275bp</td><td class="num">~450bp</td><td class="num">~8%</td><td class="chg"><span class="flat">—</span></td></tr>
+    <tr><td>VIX</td><td class="num">14.6</td><td class="num">~19</td><td class="num">~20%</td><td class="chg"><span class="down">▼</span></td></tr>
+    <tr><td>DXY</td><td class="num">99.1</td><td class="num">~95</td><td class="num">~62%</td><td class="chg"><span class="up">▲</span></td></tr>
+    <tr><td>期限溢价 ACM 10Y</td><td class="num">正、偏高</td><td class="num">~0%</td><td class="num">~78%</td><td class="chg"><span class="flat">—</span></td></tr>
+  </tbody>
+</table>
+<p style="font-size:12px;color:var(--text3)">通胀动能（6m 年化）、短端利率处历史 85–90 分位（偏紧偏热），而 HY 利差(8%)、VIX(20%)处历史极低——"高通胀高利率 + 极低信用/波动率溢价"的组合，历史上多出现在紧缩后段的自满期。百分位为近 20–30 年区间示意估算。</p>
+
+<!-- ===== 历史类比 ===== -->
+<h2>历史类比（本周微调）</h2>
+<p>本周随着 Fed 主动转鹰，权重从上期的"2006–07 自满"更多移向 <strong>2018 下半场</strong>：</p>
+<p><strong>· 类 2018 H2（权重上升）：</strong>Fed 在 QT 中仍偏鹰、主动收紧金融条件，市场起初自满、随后 Q4 风险资产急跌。<u>相同</u>：QT + 鹰派 + 曲线走平 + 股市先无视。<u>不同</u>：如今通胀 3%+ 远高于 2018（约 2%），且财政赤字/期限溢价压力更大，Fed 回旋空间更小。</p>
+<p><strong>· 类 1970s-lite：</strong>通胀粘性 + 6 个月动能回升，Fed 选择"保信用"优先——Warsh"责任在央行"的表态有强烈的 Volcker 式信用重建色彩。<u>不同</u>：程度远轻，工资-物价螺旋未成型。</p>
+<p><strong>· 类 2006–07（权重下降）：</strong>信用利差极窄 + 市场自满仍在（HY 275bp、VIX 14.6），但曲线已从陡转平、就业转弱，"离拐点不远"的警示未解除。</p>
+
+<!-- ===== 观察清单 ===== -->
+<h2>下周观察清单（触发点）</h2>
+<p>① <strong>09-05 8 月非农</strong>——本周期最关键。再度转负/失业率上行→逼近 Sahm 阈值，将直接对撞 Fed 鹰派立场（保就业 vs 保信用摊牌）。<br>
+② <strong>"债鹰股鸽"背离如何收敛</strong>——盯 HY 利差是否开始走阔（&gt;350bp）、VIX 是否离开 15 下方；任一动起来即背离开始收敛。<br>
+③ <strong>09-15/16 FOMC</strong>——加息 59% 的定价能否维持到会上；点阵图/声明措辞是关键。<br>
+④ <strong>黄金</strong>——若鹰派下仍不跌或再创新高，说明"主权信用对冲"需求压过实际利率，主权压力维度将上调。</p>
+
+<div class="footer">
+  数据来源：美联储（Warsh 08-28 Jackson Hole 演讲原文）、CME FedWatch / Polymarket（via Benzinga、CNBC）、BEA（7 月 PCE、Q2 GDP 二次修正）、BLS（非农）、ISM、Rio Times / Stock Rover / Vista Partners（08-28 行情）、Convex（黄金）、ICE BofA（HY OAS）、FRED（Sahm、RRP）。2Y 与 10Y-2Y 为 Warsh 讲话后估算并已标注。
+  <div class="disclaimer">本报告由 macro-regime-tracker 技能生成的样例，仅作信息参考与框架演示，不构成投资建议。市场有风险，决策需独立判断。</div>
+</div>
+
+</body>
+</html>

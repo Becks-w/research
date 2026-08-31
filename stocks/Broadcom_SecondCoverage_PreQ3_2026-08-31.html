@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Broadcom 第二次覆盖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f4f3ef; --surface:#ffffff; --surface-2:#faf9f6;
+    --ink:#1a1e29; --ink-soft:#545b6b; --ink-faint:#8b93a3;
+    --line:#e4e1d8; --line-soft:#efece5;
+    --accent:#b3202b; --accent-soft:#f6e4e2; --accent-ink:#8c1922;
+    --slate:#2f4763; --slate-soft:#e8edf3;
+    --good:#147a45; --good-bg:#e6f2ea; --good-line:#bfe0cc;
+    --bad:#c62d38; --bad-bg:#fbe7e7; --bad-line:#f2c9ca;
+    --hold:#a1720f; --hold-bg:#f7efd6; --hold-line:#e8d59a;
+    --live:#0e8a5f; --live-bg:#e2f4ec;
+    --font-display:"Newsreader",Georgia,"Songti SC",serif;
+    --font-body:"IBM Plex Sans","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    --font-mono:"IBM Plex Mono","SFMono-Regular",ui-monospace,monospace;
+    --shadow:0 1px 2px rgba(26,30,41,.04),0 8px 24px -12px rgba(26,30,41,.14);
+  }
+  :root:not([data-theme="light"]){}
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#13151c; --surface:#1b1e27; --surface-2:#20242e;
+      --ink:#e9e7e0; --ink-soft:#a4aab8; --ink-faint:#6d7482;
+      --line:#2b2f3a; --line-soft:#242833;
+      --accent:#e35b64; --accent-soft:#3a1f22; --accent-ink:#f0a7ab;
+      --slate:#89a8d0; --slate-soft:#1e2836;
+      --good:#4cbf83; --good-bg:#132a1e; --good-line:#255540;
+      --bad:#eb6b72; --bad-bg:#331a1c; --bad-line:#5a2e30;
+      --hold:#dcae52; --hold-bg:#2c2513; --hold-line:#544825;
+      --live:#3fc596; --live-bg:#12291f;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#13151c; --surface:#1b1e27; --surface-2:#20242e;
+    --ink:#e9e7e0; --ink-soft:#a4aab8; --ink-faint:#6d7482;
+    --line:#2b2f3a; --line-soft:#242833;
+    --accent:#e35b64; --accent-soft:#3a1f22; --accent-ink:#f0a7ab;
+    --slate:#89a8d0; --slate-soft:#1e2836;
+    --good:#4cbf83; --good-bg:#132a1e; --good-line:#255540;
+    --bad:#eb6b72; --bad-bg:#331a1c; --bad-line:#5a2e30;
+    --hold:#dcae52; --hold-bg:#2c2513; --hold-line:#544825;
+    --live:#3fc596; --live-bg:#12291f;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.6);
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--font-body); font-size:15px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1060px; margin:0 auto; padding:0 24px 72px;}
+  .num{font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-feature-settings:"tnum";}
+  a{color:var(--accent); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  /* ---------- Masthead ---------- */
+  header.mast{
+    border-top:4px solid var(--accent);
+    padding:22px 0 18px; margin-bottom:6px;
+    display:flex; justify-content:space-between; align-items:flex-start; gap:24px; flex-wrap:wrap;
+    border-bottom:1px solid var(--line);
+  }
+  .eyebrow{
+    font-family:var(--font-display); font-style:italic; font-size:15px;
+    color:var(--accent); letter-spacing:.2px; margin:0 0 3px;
+  }
+  .mast h1{font-size:28px; font-weight:600; margin:0; letter-spacing:-.4px; line-height:1.1;}
+  .mast h1 .tk{font-family:var(--font-mono); font-size:15px; font-weight:500; color:var(--ink-soft); margin-left:10px; letter-spacing:0;}
+  .mast .sub{color:var(--ink-soft); font-size:13.5px; margin:6px 0 0;}
+  .mast-right{text-align:right; flex-shrink:0;}
+  .rating-chip{
+    display:inline-flex; align-items:baseline; gap:8px;
+    background:var(--hold-bg); border:1px solid var(--hold-line); color:var(--hold);
+    padding:7px 15px; border-radius:6px; font-weight:700; font-size:15px; letter-spacing:.3px;
+  }
+  .rating-chip small{font-weight:500; font-size:11px; opacity:.85; letter-spacing:.4px;}
+  .pt-row{margin-top:10px; display:flex; gap:18px; justify-content:flex-end; align-items:flex-end;}
+  .pt-row .b{text-align:right;}
+  .pt-row .b .l{font-size:10.5px; text-transform:uppercase; letter-spacing:.5px; color:var(--ink-faint);}
+  .pt-row .b .v{font-size:21px; font-weight:600; font-family:var(--font-mono); line-height:1.15;}
+  .pt-row .b .v small{font-size:12px; color:var(--ink-soft); font-family:var(--font-body); font-weight:500;}
+  .prior{color:var(--ink-faint); text-decoration:line-through; font-size:13px;}
+  .up{color:var(--good);} .down{color:var(--bad);}
+
+  /* ---------- Live data strip ---------- */
+  .live-strip{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    box-shadow:var(--shadow); margin:18px 0 8px; overflow:hidden;
+  }
+  .live-head{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    padding:11px 18px; border-bottom:1px solid var(--line-soft); background:var(--surface-2);
+  }
+  .live-badge{
+    display:inline-flex; align-items:center; gap:7px;
+    background:var(--live-bg); color:var(--live); border:1px solid var(--live);
+    font-size:11.5px; font-weight:600; padding:4px 11px; border-radius:20px; letter-spacing:.3px;
+  }
+  .dot{width:8px; height:8px; border-radius:50%; background:var(--live); position:relative;}
+  .dot::after{content:""; position:absolute; inset:-4px; border-radius:50%; border:1px solid var(--live); opacity:.5; animation:pulse 2.2s ease-out infinite;}
+  @keyframes pulse{0%{transform:scale(.6);opacity:.7}100%{transform:scale(1.9);opacity:0}}
+  @media (prefers-reduced-motion:reduce){.dot::after{animation:none;}}
+  .live-head .meta{font-size:12px; color:var(--ink-soft); margin-left:auto;}
+  .live-grid{display:grid; grid-template-columns:repeat(6,1fr);}
+  .lc{padding:13px 18px; border-right:1px solid var(--line-soft);}
+  .lc:last-child{border-right:none;}
+  .lc .l{font-size:10.5px; text-transform:uppercase; letter-spacing:.4px; color:var(--ink-faint); margin-bottom:3px; white-space:nowrap;}
+  .lc .v{font-size:20px; font-weight:600; font-family:var(--font-mono); letter-spacing:-.3px; line-height:1.1;}
+  .lc .v .u{font-size:12px; color:var(--ink-soft);}
+  .lc .sub{font-size:11px; color:var(--ink-soft); margin-top:2px;}
+
+  /* ---------- Sections ---------- */
+  section{margin-top:38px;}
+  .sec-head{display:flex; align-items:baseline; gap:12px; margin-bottom:14px; border-bottom:2px solid var(--ink); padding-bottom:7px;}
+  .sec-no{font-family:var(--font-mono); font-size:12px; font-weight:600; color:var(--accent);}
+  .sec-head h2{font-size:19px; font-weight:600; margin:0; letter-spacing:-.2px;}
+  .sec-head .en{font-family:var(--font-display); font-style:italic; color:var(--ink-faint); font-size:14px; margin-left:auto;}
+
+  p{margin:10px 0;}
+  .lead{font-size:15.5px; color:var(--ink);}
+  .muted{color:var(--ink-soft);}
+  small{color:var(--ink-soft); font-size:11.5px;}
+
+  /* callouts */
+  .callout{border-left:3px solid var(--accent); background:var(--accent-soft); padding:13px 16px; border-radius:0 8px 8px 0; font-size:14px; margin:14px 0;}
+  .callout.warn{border-left-color:var(--hold); background:var(--hold-bg);}
+  .callout.good{border-left-color:var(--good); background:var(--good-bg);}
+  .callout b{color:var(--ink);}
+
+  /* tables */
+  .tbl-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow);}
+  table{width:100%; border-collapse:collapse; font-size:13.5px; background:var(--surface);}
+  th,td{padding:10px 14px; text-align:right; border-bottom:1px solid var(--line-soft);}
+  th:first-child,td:first-child{text-align:left;}
+  thead th{background:var(--surface-2); color:var(--ink-soft); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.4px; position:sticky; top:0;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody td{vertical-align:top;}
+  .delta-tbl td:nth-child(2){color:var(--ink-soft);}
+  .badge{display:inline-block; font-family:var(--font-mono); font-size:11.5px; font-weight:600; padding:2px 8px; border-radius:5px; white-space:nowrap;}
+  .b-up{background:var(--good-bg); color:var(--good); border:1px solid var(--good-line);}
+  .b-down{background:var(--bad-bg); color:var(--bad); border:1px solid var(--bad-line);}
+  .b-flat{background:var(--slate-soft); color:var(--slate); border:1px solid transparent;}
+  .b-key{background:var(--hold-bg); color:var(--hold); border:1px solid var(--hold-line);}
+  tr.total td{font-weight:700; border-top:2px solid var(--ink); background:var(--surface-2);}
+
+  /* grid helpers */
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+  .grid2>div{min-width:0;}
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; box-shadow:var(--shadow);}
+  .card h3{font-size:13px; text-transform:uppercase; letter-spacing:.5px; color:var(--ink-faint); margin:0 0 10px;}
+
+  ul{margin:10px 0; padding-left:20px;} li{margin-bottom:7px;}
+  .ranked{list-style:none; padding:0; counter-reset:r;}
+  .ranked li{counter-increment:r; padding-left:34px; position:relative; margin-bottom:10px;}
+  .ranked li::before{content:counter(r); position:absolute; left:0; top:1px; width:22px; height:22px; border-radius:50%; background:var(--accent-soft); color:var(--accent); font-family:var(--font-mono); font-size:12px; font-weight:600; display:flex; align-items:center; justify-content:center;}
+
+  figure{margin:16px 0; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px 12px; box-shadow:var(--shadow);}
+  figcaption{font-size:11.5px; color:var(--ink-soft); margin-top:8px; text-align:center;}
+  .fig-title{font-size:13px; font-weight:600; color:var(--ink); margin-bottom:12px; letter-spacing:.2px;}
+
+  .flag{font-family:var(--font-mono); font-size:10px; font-weight:600; color:var(--hold); background:var(--hold-bg); border:1px solid var(--hold-line); padding:1px 6px; border-radius:4px; vertical-align:middle; margin-left:5px;}
+  .flag.ib{color:var(--live); background:var(--live-bg); border-color:var(--live);}
+
+  footer{margin-top:44px; padding-top:16px; border-top:1px solid var(--line); font-size:11.5px; color:var(--ink-soft);}
+  footer b{color:var(--ink-soft);}
+
+  @media (max-width:820px){
+    .live-grid{grid-template-columns:repeat(3,1fr);} .lc:nth-child(3n){border-right:none;}
+    .grid2{grid-template-columns:1fr;}
+  }
+  @media (max-width:560px){
+    .live-grid{grid-template-columns:repeat(2,1fr);} .lc:nth-child(3n){border-right:1px solid var(--line-soft);} .lc:nth-child(2n){border-right:none;}
+    .mast h1{font-size:23px;} .pt-row{justify-content:flex-start;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ===================== MASTHEAD ===================== -->
+<header class="mast">
+  <div>
+    <p class="eyebrow">Second Coverage · Pre-Print Update</p>
+    <h1>Broadcom Inc.<span class="tk">NASDAQ: AVGO</span></h1>
+    <p class="sub">第二次覆盖 · Q3 FY2026 财报前更新 ｜ 定制 AI 芯片（XPU）· AI 网络 · 企业基础设施软件</p>
+  </div>
+  <div class="mast-right">
+    <span class="rating-chip">HOLD <small>中性 · 维持</small></span>
+    <div class="pt-row">
+      <div class="b">
+        <div class="l">12M 目标价</div>
+        <div class="v">$330 <span class="prior">$300</span></div>
+      </div>
+      <div class="b">
+        <div class="l">隐含回报</div>
+        <div class="v down">−11%</div>
+      </div>
+    </div>
+    <div class="sub" style="margin-top:8px;">报告日期 2026-08-31 ｜ 财报 <b style="color:var(--ink)">9/2 盘后</b></div>
+  </div>
+</header>
+
+<!-- ===================== LIVE DATA STRIP ===================== -->
+<div class="live-strip">
+  <div class="live-head">
+    <span class="live-badge"><span class="dot"></span>IBKR 实时确认</span>
+    <span class="meta">Gateway 127.0.0.1:4001 · readonly ｜ 拉取时间 2026-08-31 ｜ 前收 <span class="num">$368.79</span></span>
+  </div>
+  <div class="live-grid">
+    <div class="lc"><div class="l">现价 Last</div><div class="v">$370.04</div><div class="sub">bid/ask 370.0 / 370.3</div></div>
+    <div class="lc"><div class="l">市值 Mkt Cap</div><div class="v">$1.80<span class="u">T</span></div><div class="sub">≈4,853M 稀释股</div></div>
+    <div class="lc"><div class="l">52 周区间</div><div class="v" style="font-size:15px;">287<span class="u">–</span>495</div><div class="sub down">距高点 −25.2%</div></div>
+    <div class="lc"><div class="l">年初至今 YTD</div><div class="v up">+6.1%</div><div class="sub">自 $347.62 (1/2)</div></div>
+    <div class="lc"><div class="l">财报隐含波动</div><div class="v">±8.1%</div><div class="sub">9/4 ATM 跨式</div></div>
+    <div class="lc"><div class="l">ATM 隐含波动率</div><div class="v">~73%</div><div class="sub">$29.84 straddle</div></div>
+  </div>
+</div>
+<p><small>价格、52 周区间、YTD、隐含波动与 IV 均来自 <b>IBKR Gateway 实时/收盘 marks（2026-08-31 拉取）</b>，替代首次覆盖预览中标注"未经 IBKR 确认"的网络报价（$369 / +51% YTD 等）。市值按现价×稀释股估算。一致预期 EPS/收入、卖方目标价、Apple 定制客户等仍为第三方来源，见第 6 节待核对清单。</small></p>
+
+<!-- ===================== 0. 核心结论 ===================== -->
+<div class="callout">
+  <b>本次覆盖结论 —— 维持 HOLD，目标价 $300 → $330（+10%）。</b>自 7/7 首次覆盖以来，股价基本走平（$375 → $370），但<b>投资论点被显著去风险</b>：① OpenAI Jalapeño 在能效/延迟基准上超越英伟达 GB300、锁定 2027 年 1.3GW 产能；② Apple 新增为定制 ASIC 客户（第 6 家）；③ FY2026 AI 收入指引上调至 $56B（+180%）。这些让我们上调目标价并使"价格 vs 内在价值"缺口从 −20% 收窄至 −11%。<b>但仍不构成买点</b>：现价仍高于修正后内在价值，且 9/2 财报存在 Q2 已上演的"beat 但不上调 → 抛售"风险，叠加 ±8.1% 双向事件敞口。转积极的两个条件：<b>财报后回调至 $300–310</b>，或 <b>clean beat-AND-raise 且上调 FY2027 可见度</b>。
+</div>
+
+<!-- ===================== 1. 变化 ===================== -->
+<section>
+  <div class="sec-head"><span class="sec-no">01</span><h2>自首次覆盖以来，什么变了</h2><span class="en">What changed vs. 7/7 initiation</span></div>
+  <p class="lead">这是本次二次覆盖的核心。下表逐项对比首次覆盖（2026-07-07）与当前（2026-08-31）的关键变量与方向。</p>
+  <div class="tbl-wrap">
+  <table class="delta-tbl">
+    <thead><tr><th>维度</th><th>首次覆盖 · 7/7</th><th>第二次覆盖 · 8/31</th><th>Δ 方向</th></tr></thead>
+    <tbody>
+      <tr><td>评级 Rating</td><td>HOLD</td><td>HOLD</td><td><span class="badge b-flat">维持</span></td></tr>
+      <tr><td>12 个月目标价</td><td class="num">$300</td><td class="num">$330</td><td><span class="badge b-up">+$30 / +10%</span></td></tr>
+      <tr><td>现价（IBKR 确认）</td><td class="num">$375.00</td><td class="num">$370.04</td><td><span class="badge b-down">−1.3%</span></td></tr>
+      <tr><td>隐含回报</td><td class="num">−20%</td><td class="num">−11%</td><td><span class="badge b-up">缺口收窄</span></td></tr>
+      <tr><td>FY2026 AI 半导体收入</td><td>爬坡轨迹（Q3 指引 $16B）</td><td>全年上调至 <b>$56B</b> (+180% YoY)</td><td><span class="badge b-up">↑ 上调</span></td></tr>
+      <tr><td>FY2027 AI 收入目标</td><td>&gt;$100B "line of sight"</td><td>&gt;$100B <b>重申（未上调）</b></td><td><span class="badge b-key">= 关键分歧</span></td></tr>
+      <tr><td>定制 ASIC 客户数</td><td>5 家</td><td><b>6 家（+Apple）</b><span class="flag">待核</span></td><td><span class="badge b-up">+1</span></td></tr>
+      <tr><td>Jalapeño 芯片状态</td><td>6 月发布 · 9 个月流片</td><td>基准超 GB300 · 2026 底部署 · 锁定 1.3GW@2027</td><td><span class="badge b-up">里程碑验证</span></td></tr>
+      <tr><td>NTM EV/EBITDA</td><td class="num">35.6x</td><td class="num">~30–32x</td><td><span class="badge b-up">估值消化</span></td></tr>
+      <tr><td>财报隐含波动</td><td>未测</td><td class="num">±8.1%</td><td><span class="badge b-flat b-key">新增 · IBKR</span></td></tr>
+      <tr><td>卖方参考（UBS）</td><td>—</td><td class="num">$345（8/25，从 $290）</td><td><span class="badge b-up">上调</span></td></tr>
+      <tr><td>最近一季实际（Q2 6/3）</td><td>Q2 前，用指引</td><td>Rev $22.2B(+48%) · AI $10.8B(+143%) beat</td><td><span class="badge b-flat">已兑现</span></td></tr>
+      <tr><td>Q2 财报后股价反应</td><td>n/a</td><td>beat 但 <b>−15%</b>（不上调 FY27 + 谷歌多供应商）</td><td><span class="badge b-down">情绪风险</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="grid2" style="margin-top:16px;">
+    <div class="card">
+      <h3>论点被强化的地方（→ 上调 PT）</h3>
+      <ul style="margin:0;">
+        <li><b>Jalapeño 从"路线图"变"已验证"。</b>Bloomberg 8/25 披露其能效与延迟基准超越 GB300，700W 低功耗，2026 底部署——首次覆盖时它还只是"9 个月流片"的在研项目。</li>
+        <li><b>Apple 加入定制 ASIC 名单。</b>使 AVGO 从"Apple 只是无线/连接客户"升级为"Apple 也是定制 AI 硅客户"，进一步坐实"卖铲人"地位<span class="flag">待核</span>。</li>
+        <li><b>AI 收入指引上调。</b>FY2026 AI 全年上调至 $56B（+180%），支撑估值前滚与更高的远期 EBITDA 基数。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>为何仍维持 HOLD（未转 BUY）</h3>
+      <ul style="margin:0;">
+        <li><b>仍无安全边际。</b>现价 $370 高于修正后内在价值 $330（−11%），估值仍处同业分布上沿。</li>
+        <li><b>"beat 但不上调"风险重演。</b>Q2 是一次"干净的超预期却下跌 15%"——市场对 FY27 目标是否上调、客户集中度极其敏感。</li>
+        <li><b>±8.1% 双向事件敞口。</b>过去 16 次财报有 10 次实际波动超过隐含波动，期权市场倾向低估 AVGO 的财报后波动。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 2. JALAPENO ===================== -->
+<section>
+  <div class="sec-head"><span class="sec-no">02</span><h2>Jalapeño：定制 ASIC 浪潮的"卖铲人"验证</h2><span class="en">The pick-and-shovel read-through</span></div>
+  <p class="lead">Jalapeño 事件（Bloomberg 2026-08-25）是本次二次覆盖的最大增量催化。它对 AVGO 的意义不在于"OpenAI 挑战英伟达"，而在于<b>无论哪家 AI 实验室胜出，Broadcom 作为定制硅代工厂都稳定受益</b>。</p>
+
+  <div class="grid2">
+    <div>
+      <figure>
+        <div class="fig-title">图 1 ｜ 推理芯片功耗对比：Jalapeño 的能效叙事</div>
+        <svg viewBox="0 0 480 210" width="100%" role="img" aria-label="推理芯片功耗对比条形图">
+          <g font-family="IBM Plex Mono, monospace" font-size="12">
+            <!-- Jalapeno 700W -->
+            <text x="0" y="34" fill="var(--ink)" font-family="IBM Plex Sans">OpenAI Jalapeño</text>
+            <rect x="140" y="22" width="106" height="18" rx="3" fill="var(--accent)"></rect>
+            <text x="252" y="36" fill="var(--ink)">700 W</text>
+            <!-- GB300 1200 -->
+            <text x="0" y="74" fill="var(--ink)" font-family="IBM Plex Sans">NVIDIA GB300</text>
+            <rect x="140" y="62" width="182" height="18" rx="3" fill="var(--slate)"></rect>
+            <text x="328" y="76" fill="var(--ink)">~1.2 kW</text>
+            <!-- Vera Rubin 1800-2300 -->
+            <text x="0" y="114" fill="var(--ink)" font-family="IBM Plex Sans">NVIDIA Vera Rubin</text>
+            <rect x="140" y="102" width="274" height="18" rx="3" fill="var(--ink-faint)"></rect>
+            <text x="420" y="116" fill="var(--ink-soft)" font-size="10.5">1.8–2.3 kW</text>
+          </g>
+          <line x1="140" y1="140" x2="140" y2="150" stroke="var(--line)"></line>
+          <text x="140" y="166" fill="var(--ink-faint)" font-size="10" font-family="IBM Plex Mono, monospace">0</text>
+          <text x="360" y="166" fill="var(--ink-faint)" font-size="10" font-family="IBM Plex Mono, monospace">2,300 W (TGP)</text>
+          <text x="0" y="196" fill="var(--ink-soft)" font-size="11" font-family="IBM Plex Sans">Jalapeño 以 ~30–60% 的功耗，在特定推理负载上超越 GB300</text>
+        </svg>
+        <figcaption>功耗数据来自 OpenAI/Broadcom 披露及 JALAPENO 行业报告；GB300 为 Blackwell 代，非英伟达最新产品，Vera Rubin（HBM4）对标尚未展开。</figcaption>
+      </figure>
+    </div>
+    <div class="card" style="align-self:start;">
+      <h3>关键事实（对 AVGO 的读透）</h3>
+      <ul style="margin:0 0 6px;">
+        <li><b>9 个月流片</b>：传统 ASIC 需 1.5–2 年；靠 Broadcom 的 IP 复用 + "用 AI 设计 AI 芯片"，AVGO 的协同设计护城河是核心卖点。</li>
+        <li><b>1.3GW 产能承诺</b>：Broadcom 已为 Jalapeño 锁定 2027 年 1.3 吉瓦算力容量<span class="flag">待核</span>——直接前置了 AI backlog 的可见度。</li>
+        <li><b>市场份额</b>：Broadcom 占定制 AI ASIC 市场 <b>60–70%</b>，Marvell ~25%，双寡头结构未变。</li>
+        <li><b>AI backlog &gt; $73B</b>，管理层目标 2027 年 AI 年化收入 $100B。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <b>需冷静看待的三点（避免线性外推）：</b>① 基准测试用的是 OpenAI 自家小模型 + DeepSeek/Kimi，全部数据来自 OpenAI/Broadcom，缺乏独立第三方验证；② 对标的是 GB300（Blackwell），<b>而非</b>英伟达最新的 Vera Rubin（HBM4）——真正的正面较量在 2027；③ 量产受 <b>TSMC CoWoS 与 HBM4 产能</b>硬约束（英伟达已预订 2026 年 ~60% CoWoS 产能，交期 52–78 周）。产能而非设计，才是决定 Jalapeño rollout 速度的关键变量。这也构成 AVGO 出货增长的上限风险。
+  </div>
+</section>
+
+<!-- ===================== 3. Q3 PREVIEW ===================== -->
+<section>
+  <div class="sec-head"><span class="sec-no">03</span><h2>Q3 FY2026 财报前瞻（9/2 盘后）</h2><span class="en">Consensus, guidance &amp; the Q2 lesson</span></div>
+
+  <div class="grid2">
+    <div>
+      <div class="fig-title" style="margin-bottom:8px;">一致预期 vs 公司指引</div>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>指标</th><th>公司指引</th><th>Street</th><th>YoY</th></tr></thead>
+        <tbody>
+          <tr><td>总收入</td><td class="num">$29.4B</td><td class="num">29.3–29.9B</td><td class="num up">+84%</td></tr>
+          <tr><td>　AI 半导体</td><td class="num">$16.0B</td><td class="num">16.0–16.5B</td><td class="num up">+200%+</td></tr>
+          <tr><td>　基础设施软件</td><td class="num">$8.9B</td><td class="num">in-line</td><td class="num up">+31%</td></tr>
+          <tr><td>Non-GAAP EPS</td><td>未单列</td><td class="num">~$3.24</td><td class="num up">~+92%</td></tr>
+          <tr><td>毛利率</td><td class="num">~74%</td><td>in-line</td><td class="num down">收缩</td></tr>
+          <tr><td>营业利润率</td><td class="num">~67%</td><td>in-line</td><td class="num">持平</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p><small>指引来自 Q2 FY26 8-K（6/3）；一致预期为跨聚合商区间，非单点，<b>发布前请以 FactSet/Visible Alpha 复核</b>。EPS 区间跨源较宽（GAAP $2.55–2.83）。</small></p>
+    </div>
+    <div class="card" style="align-self:start;">
+      <h3>Q2 的教训：为什么"超预期"却跌 15%</h3>
+      <p style="margin-top:0;">6/3 Q2 是一次<b>干净的 beat</b>（收入 +48%、AI +143%、创纪录 67% 营业利润率），但股价盘后 −12%、次日 −15%。三大触发：</p>
+      <ul style="margin-bottom:0;">
+        <li>Q3 AI 指引 $16.0B <b>低于部分买方的 ~$17.2B</b> 预期；</li>
+        <li>Hock Tan <b>未上调</b> FY27 &gt;$100B 目标——被解读为失望；</li>
+        <li>承认 <b>谷歌可能多供应商采购</b>定制芯片，触发客户集中度担忧。</li>
+      </ul>
+      <p style="margin-bottom:0;"><small>本次正向反应的门槛，不只是 beat $16.0B，而是要在 <b>FY27 轨迹</b>与<b>客户多元化</b>上给出增量信心。</small></p>
+    </div>
+  </div>
+
+  <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:.5px; color:var(--ink-faint); margin:26px 0 6px;">重点关注指标（按重要性排序）</h3>
+  <ol class="ranked">
+    <li><b>AI 半导体收入 vs $16.0B 指引 / ~$16–17B+ whisper</b>，及 Q4 指引——最大单一摆动因子。</li>
+    <li><b>FY2027 &gt;$100B 目标：上调 / 重申 / 软化</b>——正是这个措辞引爆了 Q2 抛售。</li>
+    <li><b>毛利率轨迹与"margin trough"表述</b>——AI mix 稀释是否企稳。</li>
+    <li><b>客户集中度</b>——谷歌多供应商跟进、OpenAI 爬坡节奏（2027 首代量产 &gt;1GW）、是否有第 7 家客户。</li>
+    <li><b>VMware/基础设施软件</b>——ARR 增速（vs 17%）与 $8.9B 收入指引的持续性。</li>
+    <li><b>供应链</b>——TSMC CoWoS 约束；拟议中的对华光模块禁令对 AVGO 网络产品元件采购的影响。</li>
+  </ol>
+</section>
+
+<!-- ===================== 4. SCENARIOS + IMPLIED MOVE ===================== -->
+<section>
+  <div class="sec-head"><span class="sec-no">04</span><h2>情景与交易结构</h2><span class="en">Scenarios &amp; the IBKR-implied move</span></div>
+
+  <figure>
+    <div class="fig-title">图 2 ｜ 财报后情景价格区间（现价 $370.04，IBKR 隐含波动 ±8.1% = $340–400）</div>
+    <svg viewBox="0 0 900 220" width="100%" role="img" aria-label="财报后情景价格区间图">
+      <defs>
+        <linearGradient id="imBand" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stop-color="var(--slate-soft)"></stop>
+          <stop offset="1" stop-color="var(--slate-soft)"></stop>
+        </linearGradient>
+      </defs>
+      <!-- scale: x from $290 to $440 mapped 60..860 -->
+      <!-- axis -->
+      <line x1="60" y1="150" x2="860" y2="150" stroke="var(--line)" stroke-width="1"></line>
+      <!-- ticks -->
+      <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-faint)" text-anchor="middle">
+        <line x1="60" y1="150" x2="60" y2="156" stroke="var(--line)"></line><text x="60" y="172">$290</text>
+        <line x1="220" y1="150" x2="220" y2="156" stroke="var(--line)"></line><text x="220" y="172">$320</text>
+        <line x1="380" y1="150" x2="380" y2="156" stroke="var(--line)"></line><text x="380" y="172">$350</text>
+        <line x1="540" y1="150" x2="540" y2="156" stroke="var(--line)"></line><text x="540" y="172">$380</text>
+        <line x1="700" y1="150" x2="700" y2="156" stroke="var(--line)"></line><text x="700" y="172">$410</text>
+        <line x1="860" y1="150" x2="860" y2="156" stroke="var(--line)"></line><text x="860" y="172">$440</text>
+      </g>
+      <!-- implied move band: 340 -> (340-290)/150*800+60 = 326.7 ; 400 -> (400-290)/150*800+60=646.7 -->
+      <rect x="327" y="60" width="320" height="76" rx="4" fill="url(#imBand)" opacity=".9"></rect>
+      <text x="487" y="52" text-anchor="middle" font-family="IBM Plex Sans" font-size="11" fill="var(--slate)">IBKR 隐含波动带 ±8.1%（$340–$400）</text>
+      <!-- Bear zone 303-333 -> x 129.3 .. 289.3 -->
+      <rect x="129" y="86" width="160" height="24" rx="3" fill="var(--bad-bg)" stroke="var(--bad-line)"></rect>
+      <text x="209" y="102" text-anchor="middle" font-family="IBM Plex Sans" font-size="11.5" fill="var(--bad)" font-weight="600">Bear −10~−18%</text>
+      <!-- Base 351-370 -> x 385.3..486.7 -->
+      <rect x="385" y="86" width="102" height="24" rx="3" fill="var(--hold-bg)" stroke="var(--hold-line)"></rect>
+      <text x="436" y="102" text-anchor="middle" font-family="IBM Plex Sans" font-size="11.5" fill="var(--hold)" font-weight="600">Base 0~−5%</text>
+      <!-- Bull 400-426 -> x 646.7..791.3 -->
+      <rect x="647" y="86" width="145" height="24" rx="3" fill="var(--good-bg)" stroke="var(--good-line)"></rect>
+      <text x="719" y="102" text-anchor="middle" font-family="IBM Plex Sans" font-size="11.5" fill="var(--good)" font-weight="600">Bull +8~+15%</text>
+      <!-- Spot line 370.04 -> (370.04-290)/150*800+60 = 486.9 -->
+      <line x1="487" y1="40" x2="487" y2="150" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4 3"></line>
+      <text x="487" y="32" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--ink)" font-weight="600">现价 $370</text>
+      <!-- PT 330 -> (330-290)/150*800+60 = 273.3 -->
+      <line x1="273" y1="120" x2="273" y2="150" stroke="var(--accent)" stroke-width="1.5"></line>
+      <circle cx="273" cy="120" r="3.5" fill="var(--accent)"></circle>
+      <text x="273" y="200" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--accent)" font-weight="600">PT $330</text>
+    </svg>
+    <figcaption>隐含波动带来自 IBKR 9/4 到期 ATM 跨式（Call $14.43 + Put $15.41 = $29.84，marks 拉取于 2026-08-31）；情景幅度来自 Earnings Preview。目标价 $330 位于现价下方，落在 Bear 与 Base 之间。</figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>情景</th><th>总收入</th><th>AI 半导体</th><th>Non-GAAP EPS</th><th>关键驱动</th><th>股价反应</th></tr></thead>
+    <tbody>
+      <tr><td><b style="color:var(--good)">Bull</b></td><td class="num">&gt;$29.9B</td><td class="num">&gt;$17B</td><td class="num">&gt;$3.30</td><td style="text-align:left; font-size:12.5px;">FY27 目标上调；GM 企稳≥74%；无新集中度担忧</td><td class="num up">+8~+15%</td></tr>
+      <tr><td><b style="color:var(--hold)">Base</b></td><td class="num">29.4–29.7B</td><td class="num">16.0–16.5B</td><td class="num">3.20–3.30</td><td style="text-align:left; font-size:12.5px;">FY27 重申未上调；GM 近 74%；Q4 大致 in-line</td><td class="num">0~−5%</td></tr>
+      <tr><td><b style="color:var(--bad)">Bear</b></td><td class="num">&lt;$29.0B</td><td class="num">&lt;$15.5B</td><td class="num">&lt;$3.15</td><td style="text-align:left; font-size:12.5px;">GM 明显低于 74%；客户多元化再起；供应/光模块风险</td><td class="num down">−10~−18%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><small>交易结构：过去 16 次财报中有 <b>10 次（62%）</b>实际波动超过期权隐含波动——期权市场倾向<b>低估</b> AVGO 财报后实际波动，据此控制仓位。10 年平均财报日波动 ±7.4%（中位 ±5.8%，95 分位 ±16.1%）。</small></p>
+</section>
+
+<!-- ===================== 5. VALUATION ===================== -->
+<section>
+  <div class="sec-head"><span class="sec-no">05</span><h2>估值：$300 → $330 目标价桥</h2><span class="en">Revised price target bridge</span></div>
+  <p class="lead">目标价上调完全由<b>论点去风险 + 估值前滚</b>驱动，未改变 DCF 40% / Comps 60% 的方法论权重，也未反向调低 WACC/终值来"凑数"。</p>
+
+  <figure>
+    <div class="fig-title">图 3 ｜ 目标价桥（首次覆盖 $300 → 本次 $330）</div>
+    <svg viewBox="0 0 720 250" width="100%" role="img" aria-label="目标价桥瀑布图">
+      <!-- baseline y for $0? use range 250..340 mapped to y 200..40 ; each $ -> (v-250)/90*160 -->
+      <!-- We'll place bars: prior 300, +18, +12, final 330. Show as waterfall from 250 base -->
+      <g font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--ink-soft)" text-anchor="end">
+        <text x="46" y="205">$250</text><line x1="52" y1="200" x2="700" y2="200" stroke="var(--line-soft)"></line>
+        <text x="46" y="147">$280</text><line x1="52" y1="142" x2="700" y2="142" stroke="var(--line-soft)"></line>
+        <text x="46" y="89">$310</text><line x1="52" y1="84" x2="700" y2="84" stroke="var(--line-soft)"></line>
+        <text x="46" y="45">$340</text><line x1="52" y1="40" x2="700" y2="40" stroke="var(--line-soft)"></line>
+      </g>
+      <!-- prior 300: height (300-250)/90*160=88.9 -> y=200-88.9=111 -->
+      <rect x="80" y="103" width="120" height="97" rx="3" fill="var(--slate)"></rect>
+      <text x="140" y="94" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" font-weight="600" fill="var(--ink)">$300</text>
+      <text x="140" y="222" text-anchor="middle" font-family="IBM Plex Sans" font-size="11" fill="var(--ink-soft)">首次覆盖 PT</text>
+      <!-- +18 float: from 300(y=103) to 318(y=103-32=71); (18)/90*160=32 -->
+      <rect x="240" y="71" width="120" height="32" rx="3" fill="var(--good)"></rect>
+      <text x="300" y="63" text-anchor="middle" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="var(--good)">+$18</text>
+      <text x="300" y="224" text-anchor="middle" font-family="IBM Plex Sans" font-size="10.5" fill="var(--ink-soft)">估值前滚 +</text>
+      <text x="300" y="238" text-anchor="middle" font-family="IBM Plex Sans" font-size="10.5" fill="var(--ink-soft)">FY26 AI 上调</text>
+      <!-- +12 float: from 318(y=71) to 330(y=71-21.3=49.7) -->
+      <rect x="400" y="50" width="120" height="21" rx="3" fill="var(--good)"></rect>
+      <text x="460" y="42" text-anchor="middle" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="var(--good)">+$12</text>
+      <text x="460" y="224" text-anchor="middle" font-family="IBM Plex Sans" font-size="10.5" fill="var(--ink-soft)">Jalapeño 验证 +</text>
+      <text x="460" y="238" text-anchor="middle" font-family="IBM Plex Sans" font-size="10.5" fill="var(--ink-soft)">Apple 新客户溢价</text>
+      <!-- final 330: (330-250)/90*160=142.2 -> y=200-142.2=57.8 -->
+      <rect x="560" y="50" width="120" height="150" rx="3" fill="var(--accent)"></rect>
+      <text x="620" y="42" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" font-weight="700" fill="var(--accent)">$330</text>
+      <text x="620" y="222" text-anchor="middle" font-family="IBM Plex Sans" font-size="11" fill="var(--ink)" font-weight="600">本次 PT</text>
+      <!-- connectors -->
+      <g stroke="var(--ink-faint)" stroke-dasharray="3 2" stroke-width="1">
+        <line x1="200" y1="103" x2="240" y2="103"></line>
+        <line x1="360" y1="71" x2="400" y2="71"></line>
+        <line x1="520" y1="50" x2="560" y2="50"></line>
+      </g>
+    </svg>
+    <figcaption>桥梁为分析师判断，非机械模型重算。定量口径：首次覆盖加权均值 $252 + 定性溢价 $48 = $300；本次前滚至 ~$270 定量 + ~$60 溢价 = $330。Task2 财务模型尚未按 Q3 实际重算——见待核对清单。</figcaption>
+  </figure>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>方法与倍数（沿用首次覆盖框架）</h3>
+      <ul style="margin:0;">
+        <li><b>DCF</b>（WACC 11.5%，terminal g 3.0%）Base $220；权重 40%。</li>
+        <li><b>Trading Comps</b>（EV/EBITDA NTM，8 家同业，中位 26.2x）Base $273；权重 60%。</li>
+        <li><b>当前倍数</b>随股价走平 + 估值上调，从 35.6x 压缩至 ~30–32x，仍处同业中位（26.2x）与 75 分位（38.0x）之间偏上。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>为何仍 −11% 而非转正</h3>
+      <p style="margin:0 0 8px;">即便 Bull 情景（33.5% 收入 CAGR，接近提前兑现 $100B AI 目标），单靠增长也无法弥合与现价的差距——还需假设当前 ~30x 远期 EV/EBITDA <b>持续维持</b>。概率加权 FY2030E EPS ≈ $23。</p>
+      <p style="margin:0;"><small>转积极触发：财报后回调至 $300–310（DCF 与 Comps Base 收敛区），或 clean beat-AND-raise 上调 FY27 可见度。</small></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 6. RISKS + VERIFY ===================== -->
+<section>
+  <div class="sec-head"><span class="sec-no">06</span><h2>风险更新与待核对清单</h2><span class="en">Risk deltas &amp; data to verify</span></div>
+  <div class="grid2">
+    <div>
+      <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:.5px; color:var(--ink-faint); margin:0 0 8px;">自首次覆盖以来新增/升级的风险</h3>
+      <ul>
+        <li><b>谷歌多供应商采购（新增，Q2 首次由管理层承认）</b>——定制芯片客户集中度的直接读透，Q2 抛售主因之一。</li>
+        <li><b>AI mix 毛利率稀释（升级）</b>——管理层已明确 AI 占比上升拖累集团毛利，"margin trough"时点成为财报焦点。</li>
+        <li><b>对华光模块禁令（新增，2026 年 8 月初浮现）</b>——对 AVGO 自有网络产品的元件采购构成潜在风险。</li>
+        <li><b>TSMC CoWoS / HBM4 产能（升级）</b>——Jalapeño 等多客户同时爬坡放大产能瓶颈，是出货增长的物理上限。</li>
+        <li><b>FY27 目标"不上调"的情绪风险（新增）</b>——市场对重申 vs 上调极度敏感。</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:.5px; color:var(--ink-faint); margin:0 0 8px;">发布前必须核对（数据真实性）</h3>
+      <ul>
+        <li><span class="flag ib">IBKR ✓</span> 现价 $370.04 / 52 周 287–495 / YTD +6.1% / 隐含波动 ±8.1% —— <b>已由 Gateway 实时确认</b>。</li>
+        <li><span class="flag">待核</span> 一致预期收入/EPS（跨源 $29.3–29.9B / GAAP $2.55–2.83）——以 FactSet/Visible Alpha 复核。</li>
+        <li><span class="flag">待核</span> <b>Apple 为定制 ASIC 客户</b>——来源为 JALAPENO 行业报告（中文二手），需以官方/一手披露确认。</li>
+        <li><span class="flag">待核</span> Jalapeño <b>1.3GW@2027 产能承诺</b>、AI backlog $73B 最新值——以财报电话会/10-Q 确认。</li>
+        <li><span class="flag">待核</span> UBS $345（8/25）目标价与发布时点，及其低于现价 $370 的口径。</li>
+        <li><span class="flag">待核</span> <b>Task2 财务模型未按 Q3 实际重算</b>——财报出炉后需回填 Q3 actuals 并重跑 DCF/Comps，再定稿 PT。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><b>数据来源：</b>价格 / 52 周 / YTD / 财报隐含波动与 IV —— <b>IBKR Gateway 实时（port 4001, readonly, 2026-08-31 拉取）</b>；Q2 FY26 实际与 Q3 指引 —— Broadcom 8-K / earnings release（investors.broadcom.com）；一致预期 —— Moomoo/ScanX 等聚合商（区间，未经终端核对）；Jalapeño 事实 —— Bloomberg 2026-08-25 报道及《OpenAI JALAPENO 芯片强势叫板英伟达 GB300》行业报告；首次覆盖基线 —— Broadcom_Valuation_Analysis_2026-07-07 / OnePager_2026-07-27（DCF/Comps/情景，Task1–3）。</p>
+  <p>本报告为内部研究工作稿（二次覆盖 · 财报前更新），未连接 FactSet/Visible Alpha/S&amp;P 等付费终端；除已标 <span class="flag ib">IBKR ✓</span> 的实时字段外，关键数字请以官方 filing 与终端复核后再对外使用。不构成投资建议。评级 HOLD、目标价 $330 为分析师判断，Task2 模型将在 Q3 实际披露后重算。</p>
+</footer>
+
+</div>
+</body>
+</html>

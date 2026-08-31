@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>泡沫预警 2026-08-30（对比7-17）</title>
+<style>
+  :root {
+    --bg: #ffffff; --bg2: #f5f5f3; --bg3: #eeecea;
+    --text: #1a1a1a; --text2: #555552; --text3: #888784;
+    --border: #dddbd8; --accent: #3266ad;
+    --green: #1D9E75; --yellow: #C7A11A;
+    --orange: #BA7517; --red: #E24B4A;
+    --font: -apple-system, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text);
+         font-size: 14px; line-height: 1.7; max-width: 900px;
+         margin: 0 auto; padding: 32px 24px 64px; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  h2 { font-size: 17px; font-weight: 600; margin: 28px 0 12px; padding-bottom: 6px;
+       border-bottom: 1px solid var(--border); }
+  h3 { font-size: 14px; font-weight: 600; margin: 16px 0 8px; }
+  .stage-banner { padding: 16px 20px; border-radius: 8px; margin: 16px 0 24px;
+                  background: var(--bg2); border-left: 4px solid var(--accent); }
+  .stage-banner.red { border-color: var(--red); background: rgba(226,75,74,0.06); }
+  .score-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 10px; margin: 12px 0 20px; }
+  .score-card { background: var(--bg2); border-radius: 6px; padding: 10px 12px;
+                border-left: 3px solid var(--border); }
+  .score-card.red { border-color: var(--red); }
+  .score-card.orange { border-color: var(--orange); }
+  .score-card.yellow { border-color: var(--yellow); }
+  .score-card.green { border-color: var(--green); }
+  .score-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
+  .score-value { font-size: 18px; font-weight: 500; }
+  .score-detail { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th { background: var(--bg2); padding: 8px; text-align: left; font-weight: 500;
+       border-bottom: 1px solid var(--border); }
+  td { padding: 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px;
+           font-size: 11px; font-weight: 500; white-space: nowrap; }
+  .badge.red { background: rgba(226,75,74,0.15); color: var(--red); }
+  .badge.orange { background: rgba(186,117,23,0.15); color: var(--orange); }
+  .badge.yellow { background: rgba(199,161,26,0.18); color: #846908; }
+  .badge.green { background: rgba(29,158,117,0.15); color: var(--green); }
+  .badge.gray { background: var(--bg3); color: var(--text3); }
+  .up { color: var(--red); font-weight: 500; }
+  .down { color: var(--green); font-weight: 500; }
+  .flat { color: var(--text3); }
+  .meta { color: var(--text3); font-size: 12px; margin-bottom: 24px; }
+  .note { background: var(--bg2); border-radius: 6px; padding: 10px 14px; font-size: 12px;
+          color: var(--text2); margin: 10px 0; }
+  .correction { background: rgba(199,161,26,0.10); border-left: 3px solid var(--yellow);
+                border-radius: 0; padding: 12px 16px; margin: 14px 0; font-size: 13px; }
+  .chartbox { position: relative; width: 100%; height: 320px; margin: 12px 0 24px; }
+  .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border);
+            font-size: 12px; color: var(--text3); }
+</style>
+</head>
+<body>
+
+<h1>泡沫预警报告 2026年8月30日 · 对比版</h1>
+<div class="meta">报告期: 2026-08-28（周五收盘） | 上期: 2026-07-17 | 时区: SGT (UTC+8) | 覆盖区间: 7月中～8月底</div>
+
+<div class="stage-banner red">
+  <h2 style="margin: 0 0 8px; border: none; padding: 0;">当前阶段判断：泡沫晚期（上沿）—— 破裂被吸收，市场以更高价格、更低波动率重新充气</h2>
+  <div>总分：<strong>16 / 18</strong>（上期 15 / 18，+1）</div>
+  <div style="margin-top:4px;">阶段：<strong>泡沫晚期 → 极端泡沫的边界</strong>。<span style="color:#555552;">敏感性说明：唯一变动模块 D（聪明钱）从 1 分升至 2 分；若按技能原始阈值严格取 1 分，总分仍为 15 分＝泡沫晚期不变。因此本期结论是"同一阶段内继续恶化"，而非跳档。</span></div>
+  <div style="margin-top:8px;">触发红色指标：GS STI 仍处历史纪录区间；罗素2000亏损股自2025年中 +154%；0DTE 占 SPX 成交 50–63%；ERP（盈利收益率−10Y）约 −1.3%；韩国融资余额三周内反弹 +5.6万亿韩元；VIX 14.2 创2026年最低而标普创历史新高。</div>
+  <div style="margin-top: 8px;">框架给出的仓位方向：<strong>维持上期"减仓约50%高Beta"，并将对冲性资产从10–15%提高至15%上沿；对冲成本比7月更便宜（VIX 17.8→14.2），是本期唯一变好的执行条件。</strong></div>
+</div>
+
+<div class="correction">
+  <strong>⚠️ 对上期判断的诚实修正（技能规则6）</strong><br>
+  上期（7/17）我写道"泡沫晚期，且<em>破裂可能已经开始</em>"，依据是费半自6月高点回撤20%、韩国杠杆盘强制去化。<b>这一判断在方向上被随后6周的数据部分证伪</b>：<br>
+  ① 标普500在8月创下 7,814.88 的历史新高，费半修复，NVDA 8/27 大涨 7.4%；<br>
+  ② 上期B模块判定"好消息定价能力衰减"（TSMC大超预期仅涨1.2%）——8月NVDA以"营收+106%、FY28指引+70%"换来 +7.4%，<b>对龙头而言好消息重新有效</b>；<br>
+  ③ 韩国融资余额从8月初的27万亿区间三周内反弹回33.1万亿，去杠杆并未延续。<br>
+  <b>判断正确的部分</b>：优先清杠杆ETF这一条被验证——KODEX SK海力士单股杠杆ETF自6/23峰值下跌逾80%，三星对应产品自6/3峰值跌近75%，韩国累计强平达2.3万亿韩元。<br>
+  <b>方法论教训</b>：7月的"破裂"是局部、可吸收的杠杆事故，不是系统性顶部。把局部去杠杆读成全局破裂，会让人在更高的位置上失去仓位。
+</div>
+
+<h2>一、两期总览对比</h2>
+<table>
+  <thead><tr><th>模块</th><th>7/17</th><th>8/30</th><th>变化</th><th>驱动本期变化的关键事实</th></tr></thead>
+  <tbody>
+    <tr><td>A 泡沫阶段</td><td>3</td><td>3</td><td class="flat">持平</td><td>GS STI 仍在纪录区间；罗素2000亏损股+154%未降温；科技板块自2022年底累计+226%，已超1998–99科技泡沫末段</td></tr>
+    <tr><td>B 财报离散度</td><td>2</td><td>2</td><td class="flat">持平（性质变了）</td><td>NVDA +7.4% vs MRVL −8%、AMAT −5%：分化从"全体衰减"变为"龙头独享、二线被抛弃"</td></tr>
+    <tr><td>C 流动性/情绪</td><td>3</td><td>3</td><td class="flat">持平（内部对冲）</td><td>恶化：VIX 14.2创年内新低、Put/Call处23百分位"自满"；改善：美国融资余额7月环比 <b>−5.7%</b>，为连涨三月后首降</td></tr>
+    <tr><td>D 聪明钱</td><td>1</td><td>2</td><td class="up">↑ 恶化</td><td>Q2 13F披露窗口打开：44%机构减持Mag7（增持仅42%）；NVDA、AVGO被净卖出；段永平大幅减持NVDA（组合影响−6.59%）；Burry扩大做空至 NVDA/MU/AMAT/SOXX/TSLA/CAT</td></tr>
+    <tr><td>E 宏观共振</td><td>3</td><td>3</td><td class="flat">持平（成分恶化）</td><td>ERP仍为负；<b>新变化</b>：8月黄金月内涨超15%至4,631美元同时标普创新高——贵金属与科技股由7月的背离转为同涨，流动性驱动特征回归</td></tr>
+    <tr><td>F 亚洲杠杆</td><td>3</td><td>3</td><td class="flat">持平（含义反转）</td><td>7月是"强制去杠杆"，8月是"监管封堵产品后资金改道融资盘再加杠杆"：融资余额8月初27万亿→8/26 33.10万亿</td></tr>
+    <tr><td><b>总分</b></td><td><b>15</b></td><td><b>16</b></td><td class="up">+1</td><td>泡沫晚期（上沿）</td></tr>
+  </tbody>
+</table>
+
+<h2>二、六大模块得分总览（本期）</h2>
+<div class="score-grid">
+  <div class="score-card red"><div class="score-label">A. 泡沫阶段</div><div class="score-value">3 分</div><div class="score-detail">STI纪录区 + 亏损股+154%</div></div>
+  <div class="score-card orange"><div class="score-label">B. 财报离散度</div><div class="score-value">2 分</div><div class="score-detail">Top-k生存：龙头独涨</div></div>
+  <div class="score-card red"><div class="score-label">C. 流动性/情绪</div><div class="score-value">3 分</div><div class="score-detail">0DTE 50–63% + VIX年内低</div></div>
+  <div class="score-card orange"><div class="score-label">D. 聪明钱</div><div class="score-value">2 分</div><div class="score-detail">44%机构减持Mag7</div></div>
+  <div class="score-card red"><div class="score-label">E. 宏观共振</div><div class="score-value">3 分</div><div class="score-detail">ERP负值 + 金股同涨</div></div>
+  <div class="score-card red"><div class="score-label">F. 亚洲杠杆</div><div class="score-value">3 分</div><div class="score-detail">三周再加杠杆 +5.6万亿</div></div>
+</div>
+
+<h2>三、逐项数据（8月最新 vs 7月）</h2>
+
+<h3>A. 泡沫阶段判断</h3>
+<table>
+  <thead><tr><th>指标</th><th>7/17</th><th>8/30</th><th>颜色</th></tr></thead>
+  <tbody>
+    <tr><td>A1 GS STI</td><td>历史新高（除1998–01、2020–21）</td><td>无新读数披露，维持"纪录区间、仍低于两次泡沫峰值"表述</td><td><span class="badge red">红色</span></td></tr>
+    <tr><td>A2 高Beta vs 低波动</td><td>YTD SPHB +24.8% vs SPLV +7.4%</td><td>滚动250日高Beta超额收益峰值（4月中）超80%，可比2021年疫后；科技板块自2022年底+226%，超1998–99熔涨期</td><td><span class="badge orange">橙色</span></td></tr>
+    <tr><td>A3 AI标签溢价</td><td>Azio AI、NewBird AI等案例</td><td>本期未获取月度统计（IPO端替代信号：前5月IPO募资+163.9%，Unitree上市首日+629%）</td><td><span class="badge orange">橙色*</span></td></tr>
+    <tr><td>A4 垃圾股指数</td><td>亏损股自2025年中+154%</td><td>数据未更新，仍为+154%；R2K年内+20%，23年最佳</td><td><span class="badge red">红色</span></td></tr>
+  </tbody>
+</table>
+
+<h3>B. 财报反应离散度（半导体财报季，本期完整激活）</h3>
+<table>
+  <thead><tr><th>标的</th><th>财报/事件</th><th>股价反应</th><th>解读</th></tr></thead>
+  <tbody>
+    <tr><td>NVDA</td><td>8/26 Q2 FY27：营收96.2亿美元级别、同比+106%；CFO指引FY28增长约70%（近市场预期两倍）</td><td>盘后一度−1.3%，8/27 <b>+7.4%</b></td><td>好消息对龙头重新有效——上期"定价能力衰减"结论在龙头层面被推翻</td></tr>
+    <tr><td>MRVL</td><td>8/27 财报（年内+179%，58倍前瞻PE）</td><td>当周 <b>−8%以上</b></td><td>二线被系统性抛弃</td></tr>
+    <tr><td>AMAT</td><td>—</td><td>当周 <b>−5%以上</b></td><td>设备端资金撤出</td></tr>
+    <tr><td>MU / AMD / AVGO</td><td>8/24 板块普跌日</td><td>MU −5.8%、AMD −3%、AVGO −2%；MU 8/27 +4.5%</td><td>波动剧烈、方向依附龙头</td></tr>
+    <tr><td>板块</td><td>—</td><td>NVDA +7.4% 当日，SMH 当周仍 <b>−3%以上</b></td><td><b>极差约15个百分点，且资金由二线回流龙头</b>——不是7月的"全体衰减"，而是"Top-k生存"式收缩</td></tr>
+  </tbody>
+</table>
+<div class="note">技能原阈值把"极差&gt;25%且资金流向三线"定义为泡沫晚期。本期形态相反：资金从二线<b>回撤到龙头</b>。这在技能表里没有映射，按防御性收缩处理，计2分并标注为需要新增的形态。<b>建议后续把"龙头独涨+二线普跌"单列为一档判据。</b></div>
+
+<h3>C. 流动性 / 情绪极端</h3>
+<table>
+  <thead><tr><th>指标</th><th>7/17</th><th>8/30</th><th>颜色</th></tr></thead>
+  <tbody>
+    <tr><td>C1 Put/Call</td><td>0.62（7/14单日）</td><td>8/17 总量0.92、9日均0.84，处近期区间 <b>第23百分位＝自满</b>；股票端0.65</td><td><span class="badge orange">橙色</span></td></tr>
+    <tr><td>C2 0DTE占比</td><td>约59–65%</td><td>50–63%（SPX）；个股0DTE（TSLA/NVDA/AAPL等）合计接近600万张/日；零售占短期期权一半以上</td><td><span class="badge red">红色</span></td></tr>
+    <tr><td>C3 VIX</td><td>17.76</td><td><b>14.2（2026年最低）</b>，8/14收14.36；分析师警告在历史上波动最大的8月中–10月中窗口前出现极端平静</td><td><span class="badge red">红色</span></td></tr>
+    <tr><td>C5 FINRA融资余额</td><td>5月$1.42万亿纪录（环比+8.5%）</td><td>6月再涨7.9%创纪录；<b>7月环比 −5.7% 回落至约$1.4万亿</b>（同比仍+38.6%）；信用余额−$9,948亿</td><td><span class="badge orange">橙色 ↓</span></td></tr>
+  </tbody>
+</table>
+<div class="note">C模块是本期唯一"内部对冲"的模块：存量杠杆首次月度收缩（改善），但波动率与情绪自满创年内极端（恶化）。两者抵消，模块分维持3分（取模块内最高单项）。</div>
+
+<h3>D. 关键人物与资金流（Q2 13F窗口，8/14截止）</h3>
+<table>
+  <thead><tr><th>指标</th><th>读数</th><th>颜色</th></tr></thead>
+  <tbody>
+    <tr><td>D2 机构整体</td><td>6,371家机构样本中，Mag7 <b>44%减持 vs 42%增持</b>——共识瓦解；NVDA、AVGO被净卖出，资金转向 SpaceX、Alphabet、Cerebras、CoreWeave、MU、INTC、LRCX、AMAT、KLA 及电力/数据中心</td><td><span class="badge orange">橙色</span></td></tr>
+    <tr><td>D2 个案</td><td>段永平大幅减持NVDA（组合影响 −6.59%）；Frank Sands减持NVDA（−2.76%）；Burry 7月起扩大做空至 NVDA/MU/AMAT/SOXX/TSLA/CAT</td><td><span class="badge orange">橙色</span></td></tr>
+    <tr><td>D1 高管减持</td><td>未获取</td><td><span class="badge gray">数据未获取</span></td></tr>
+  </tbody>
+</table>
+<div class="note">评分说明：技能阈值要求"任一机构完整退出龙头＝黄色，两家以上＝红色"。本期没有确认的完整退出，但出现了<b>广度级别的减持（44%机构削减Mag7）</b>加上知名空头扩大做空面，强于单一黄色触发、弱于红色，故取2分。这是本期唯一的判断裁量点。</div>
+
+<h3>E. 宏观共振</h3>
+<table>
+  <thead><tr><th>指标</th><th>7/17</th><th>8/30</th><th>颜色</th></tr></thead>
+  <tbody>
+    <tr><td>E1 贵金属-科技股</td><td>黄金$4,000–4,100（8个月低位），与科技股背离 → 绿色</td><td><b>8月黄金月内涨超15%</b>，8/28前后现货约$4,454–4,631（三个月高位），<b>同期标普创历史新高7,814.88</b>——金与股同涨，流动性驱动特征回归；精确30日相关系数未获取</td><td><span class="badge orange">橙色 ↑</span></td></tr>
+    <tr><td>E2 DXY</td><td>100.6</td><td>美元走弱（黄金受美元疲软与美债担忧支撑），精确点位未获取</td><td><span class="badge yellow">黄色</span></td></tr>
+    <tr><td>E3 ERP</td><td>−1.2%（盈利收益率3.4% vs 10Y 4.5%）</td><td>10Y 7月底升至约4.74%，简单口径缺口约 <b>−1.3%</b>，未改善。<b>方法论冲突</b>：Damodaran的隐含ERP（DCF口径）8月初为4.23%且"基本稳定"——两个指标口径不同，不可混用</td><td><span class="badge red">红色</span></td></tr>
+  </tbody>
+</table>
+
+<h3>F. 亚洲杠杆需求</h3>
+<table>
+  <thead><tr><th>指标</th><th>7/17</th><th>8/30</th><th>颜色</th></tr></thead>
+  <tbody>
+    <tr><td>F2 韩国融资余额</td><td>34.71万亿韩元（自6/22峰值−9.9%）</td><td>6/24峰值38.63万亿 → 5周内−15%～跌至8月初27万亿区间 → <b>三周内暴增+5.6万亿，8/26回到33.10万亿</b>（其中80%即26.25万亿集中在KOSPI）</td><td><span class="badge red">红色</span></td></tr>
+    <tr><td>F3 单股杠杆ETF</td><td>CSOP SK海力士2x 12日−66%</td><td>KODEX SK海力士单股杠杆自6/23峰值 <b>−80%以上</b>；三星对应产品自6/3峰值 −约75%；2025年中以来投入这类产品逾190亿美元，其中海力士系列108亿</td><td><span class="badge red">红色</span></td></tr>
+    <tr><td>F6 监管</td><td>7/16宣布现金门槛提至3,000万韩元</td><td>7/31起正式执行三倍保证金门槛；新增20%组合上限、冻结新产品上市、禁止广告；<b>杠杆ETF成交量在新规下骤降</b>；财政部长就投资者损失道歉</td><td><span class="badge orange">橙色 ↓</span></td></tr>
+    <tr><td>强平</td><td>7月累计3,442亿韩元</td><td>两个半月累计强平 <b>2.3万亿韩元</b>；KOSPI自6月峰值一度回撤25%（至7/16）</td><td><span class="badge red">红色</span></td></tr>
+  </tbody>
+</table>
+<div class="note"><b>F模块本期最重要的结构发现</b>：监管成功封堵了单股杠杆ETF这条通道（产品成交骤降），但韩国散户在三周内通过<b>融资盘</b>把杠杆加了回来（+5.6万亿韩元）。杠杆没有消失，只是换了容器。这印证了《Attention牛市破裂》一文的判断——去杠杆结束的标志不是价格跌够，而是"最后一个必须卖的人卖完且新买方恢复资产负债表能力"；韩国目前是前者完成、后者以更高利率（券商融资利率逼近10%）重新举债。</div>
+
+<h2>四、图表</h2>
+<h3>图1：两期六模块得分对比</h3>
+<div class="chartbox"><canvas id="c1"></canvas></div>
+<h3>图2：韩国 vs 美国融资余额——去杠杆与再杠杆</h3>
+<div class="chartbox"><canvas id="c2"></canvas></div>
+<h3>图3：关键指标两期变化</h3>
+<div class="chartbox"><canvas id="c3"></canvas></div>
+
+<h2>五、本期结论与观察窗口</h2>
+<p><b>一句话</b>：7月那次"破裂"是一次被完全吸收的局部杠杆事故；市场随后以<b>更高的价格、更低的波动率、更集中的龙头结构和更分裂的机构持仓</b>重新充气。这比7月更危险的地方在于——同样的泡沫读数，现在的对冲成本更低、市场的自满程度更高、而支撑上涨的宽度更窄。</p>
+<p><b>判断锁定</b>：按技能规则，"泡沫晚期"判断继续锁定4–6周（至10月上旬），除非出现以下退出/升级信号：</p>
+<ul style="margin: 8px 0 8px 20px;">
+  <li><b>升级至极端泡沫</b>：韩国融资余额突破6/24峰值38.63万亿；或 VIX 跌破13 同时 0DTE 占比创新高；或 D模块出现两家以上聪明钱完整退出龙头。</li>
+  <li><b>下调至牛市中后期</b>：FINRA融资余额连续第二个月环比负增长（9月中旬公布8月数据）；且高Beta超额收益转负；且0DTE占比回落至50%以下。</li>
+  <li><b>确认进入破裂期</b>：NVDA式利好后龙头也无法收涨（好消息再次失效）；或强平金额重新上升同时融资余额下降。</li>
+</ul>
+<p><b>最近一次可验证的检验点</b>：9月中旬FINRA公布8月融资余额——若8月重新转正（大概率，因为市场创了新高），则C模块的唯一改善项消失，总分将无争议地进入16–17分区间。</p>
+
+<h2>六、数据缺口（诚实标注，未计分）</h2>
+<p>GS STI 8月精确读数与百分位（仅二手定性）、A3 AI改名月度家数、C3 的30日已实现波动率（故VIX-HV差未能计算，C3按"VIX绝对水平+自满度报道"降级处理）、DXY精确点位、E1的30日滚动相关系数、D1科技高管13F净卖出比例、加密所代币化美股永续OI、韩国杠杆ETF教育人数。</p>
+
+<div class="footer">
+  数据来源：Advisor Perspectives/FINRA、Goldman Sachs（二手报道）、CBOE、CNBC、The Motley Fool、Kiplinger、Hedgeweek、BBAE、Seoul Economic Daily、Korea JoongAng Daily、Korea Herald、BigGo Finance、Businesskorea、Yahoo Finance、Man Group、J.P. Morgan AM、TradingEconomics、thetrading.tools、Investing.com、24/7 Wall St.、The London Company。
+  本报告为信息整理与框架化打分，不构成投资建议；仓位方向为技能的机械映射输出，非个性化建议。
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+new Chart(document.getElementById('c1'),{type:'radar',data:{labels:['A 泡沫阶段','B 财报离散','C 流动性情绪','D 聪明钱','E 宏观共振','F 亚洲杠杆'],datasets:[{label:'8月30日 (16分)',data:[3,2,3,2,3,3],borderColor:'#E24B4A',backgroundColor:'rgba(226,75,74,0.12)',borderWidth:2,pointRadius:4},{label:'7月17日 (15分)',data:[3,2,3,1,3,3],borderColor:'#888784',borderDash:[5,4],backgroundColor:'rgba(136,135,132,0.06)',borderWidth:2,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:3,ticks:{stepSize:1}}}}});
+new Chart(document.getElementById('c2'),{type:'line',data:{labels:['5月底','6/24 峰值','7/14','8月初','8/26'],datasets:[{label:'韩国信用融资余额（万亿韩元）',data:[36.0,38.63,34.71,27.5,33.10],borderColor:'#3266ad',borderWidth:2,pointRadius:4,spanGaps:true},{label:'美国FINRA融资余额（万亿美元×20）',data:[28.4,30.6,null,28.8,null],borderColor:'#E24B4A',borderDash:[6,4],borderWidth:2,pointRadius:4,spanGaps:true}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{min:24,max:40}}}});
+const dv=[-3.56,3.6,-0.3,1.0,5.6];
+new Chart(document.getElementById('c3'),{type:'bar',data:{labels:['VIX (17.8→14.2)','NVDA财报反应 (1.2%→7.4%)*','美国融资余额月环比 (%)','ERP恶化 (−1.2→−1.3)','韩国融资三周增(万亿韩元)'],datasets:[{data:dv,backgroundColor:dv.map(v=>v>=0?'#E24B4A':'#1D9E75'),borderRadius:4,maxBarThickness:26}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
+</script>
+
+</body>
+</html>
