@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uber Technologies 商业模式分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:120px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.badge { display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; margin-right:8px; margin-bottom:8px;}
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; }
+.dim-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:12px; transition:all 0.2s; }
+.dim-card:hover { border-color:#cbd5e1; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.dim-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.dim-name { font-size:15px; font-weight:600; color:#0f172a; min-width:100px; }
+.dim-bar-wrap { flex:1; min-width:120px; height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.dim-bar { height:100%; background:linear-gradient(90deg,#d97706,#fbbf24); border-radius:99px; transition:width 0.5s; }
+.dim-text { font-size:14px; color:#475569; line-height:1.7; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; height:320px; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; }
+.star-rating { font-size:36px; color:#fbbf24; letter-spacing:4px; margin:12px 0; }
+.conclusion { background:#0f172a; color:#fff; padding:32px; border-radius:16px; margin-top:24px; }
+.conclusion h3 { font-size:18px; margin-bottom:12px; }
+.conclusion p { font-size:14px; line-height:1.8; opacity:0.9; margin-bottom:12px; white-space:pre-line; }
+.next-step { background:#fff; border:2px dashed #d97706; padding:20px 24px; border-radius:12px; margin-top:16px; }
+.next-step .title { color:#d97706; font-weight:700; margin-bottom:8px; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+.table-scroll { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:16px 0; }
+table th { background:#0f172a; color:#fff; padding:12px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+table td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+table tr:last-child td { border-bottom:none; }
+table .label { font-weight:600; color:#0f172a; }
+table .num { font-family:'JetBrains Mono', monospace; font-weight:500; }
+.fair-value { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.fv-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.fv-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.fv-card.bear { border-color:#dc2626; } .fv-card.bear .value { color:#dc2626; }
+.fv-card.base { border-color:#2563eb; } .fv-card.base .value { color:#2563eb; }
+.fv-card.bull { border-color:#059669; } .fv-card.bull .value { color:#059669; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; } .hero { padding:24px 20px; } .hero h1 { font-size:22px; }
+  .section { padding:20px; } .fair-value { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Uber Technologies 商业模式分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：UBER</div>
+      <div>🏛️ 交易所：NYSE</div>
+      <div>🏷️ 行业：互联网平台（出行 + 外卖双边市场）</div>
+      <div>📅 分析日期：2026-09-28</div>
+    </div>
+    <div class="one-liner">💡 Uber 通过【撮合乘客/食客与司机/骑手/商家的每一笔出行和配送订单】向【2亿+月活消费者、商家和货主】收取【约27%的交易抽佣 + Uber One会员费 + 广告费】，拥有本地双边网络效应构成的窄护城河（偏宽），正处在从“人类司机平台”向“自动驾驶需求聚合层”过渡的关键窗口期。</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" data-tab="m0">💡 小白版</button>
+    <button class="tab active" data-tab="m1">商业模式</button>
+    <button class="tab" data-tab="m2">护城河</button>
+    <button class="tab" data-tab="m3">估值研究</button>
+    <button class="tab" data-tab="m4">管理层</button>
+    <button class="tab" data-tab="conclusion">结论</button>
+  </div>
+
+  
+  <div class="section" id="m0">
+    <h2>💡 模块零：金融小白友好版商业模式拆解</h2>
+    <p class="subtitle">用金融人熟悉的语言把这家公司"翻译"清楚——后续分析的基础</p>
+    <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:24px 28px;border-radius:12px;margin-bottom:20px;border-left:4px solid #d97706;">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:15px;">🎯 核心比喻</div>
+      <div style="font-size:15px;color:#0f172a;line-height:1.8;">Uber 像一家<strong>城市出行的“证券交易所 + 做市撮合系统”</strong>——乘客是买单，司机是卖单，Uber 负责在几秒内完成撮合、定价（动态加价=盘口价差）、清算和风控，每笔成交抽约 27% 的“交易佣金”。它不拥有一辆车，就像 NYSE 不拥有一只股票。今天市场最大的担忧，是 Waymo、Tesla 这类“自营做市商”（Robotaxi 车队）会不会像 Citadel 内部化散户订单一样，<strong>绕开交易所自己撮合</strong>（Waymo 已计划 2028 年 1 月在奥斯汀/亚特兰大上线自有 App）。Uber 的反驳是：最深的流动性池带来最高的成交率——它测算在自己平台上的 AV 车辆利用率比“自营 App”高约 30%。</div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📦 商业模式三问</h3>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #2563eb;"><div class="label" style="color:#2563eb;">① 卖什么？</div><div class="value">三件事：① <strong>出行（Mobility）</strong>——网约车、出租车、租车、两轮车，以及正在接入的 Robotaxi；② <strong>配送（Delivery / Uber Eats）</strong>——外卖、生鲜杂货、零售即时配送；③ <strong>货运（Freight）</strong>——为卡车司机和货主撮合整车运输。本质上卖的是同一样东西：“一个按钮，X 分钟内有人/车来”。2025 年全年平台成交额（Gross Bookings）达 $193B。</div></div>
+      <div class="kv-card" style="border-left:3px solid #059669;"><div class="label" style="color:#059669;">② 怎么收费？</div><div class="value"><strong>交易抽佣为主</strong>：一张 $25 的车单，Uber 收入约 $6-7（扣除司机收入后的净抽佣）；FY2025 收入 $52.0B / 成交额 $193B ≈ 27% 综合 Take Rate。叠加三条高毛利副线：① <strong>Uber One 会员</strong>（月费约 $9.99，会员已超 5,000 万、同比 +50%，贡献约一半成交额，会员消费是非会员的 3 倍）；② <strong>广告</strong>（商家在 Uber Eats 内买排名，类似交易所卖行情数据）；③ Uber for Business 企业差旅/餐补合约。</div></div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;"><div class="label" style="color:#dc2626;">③ 客户为什么必须买？</div><div class="value"><strong>便利 + 可靠性驱动，属于“高频刚需”而非“恐惧驱动”</strong>。乘客买的是确定性：约 70 个国家、上万座城市，打开即有车，接驾时间短；司机买的是“订单密度”：平台上单量越多，空驶越少、时薪越高（Q2 2026 有 1,020 万司机/骑手在平台赚了超 $250 亿）；商家买的是“客流”——不上 Uber Eats 就少一块外卖生意。弱点也在这里：乘客在 Uber 和 Lyft/Grab/Bolt/Waymo App 之间切换几乎零成本，所以 Uber 用 Uber One 会员和“出行+外卖”交叉销售来提高粘性。</div></div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">💼 客户结构 + 护城河金融比喻</h3>
+    <div class="summary-box info"><div class="title">具体客户名单 + 客户分层</div><div class="text"><strong>C 端：典型的“分散型/橄榄型”</strong>——2 亿+ 月活平台消费者（MAPCs，Q2 2026 同比 +16%），单季 39 亿次行程，没有任何单一客户具有重要性。<strong>供给端</strong>：1,020 万司机/骑手 + 数百万商家，其中麦当劳、Costco（2026 年 9 月新签配送合作）等连锁品牌是 Eats 头部商家。<strong>B 端</strong>：Uber for Business（企业差旅、餐补，如与 Mazda 美国经销商的合作）、Uber Freight 货主。<strong>AV 合作方（新型供给）</strong>：Waymo（奥斯汀、亚特兰大）、Zoox、Wayve、WeRide（文远知行）、Pony.ai（小马智行）、百度 Apollo、May Mobility、Nuro/Lucid 等 30+ 家，已累计承诺约 $100 亿投入。<strong>地区收入</strong>（FY2025）：美加 51%、欧洲中东非洲 31%、亚太 11%、拉美 6%。</div></div>
+    <div class="summary-box success"><div class="title">护城河本质（金融场景比喻）</div><div class="text">Uber 的护城河像 <strong>“一家城市级交易所的流动性”</strong>——就像 NYSE/Nasdaq 的价值来自买卖双方都在这里，Uber 在每个城市都是“最深的订单簿”：乘客多→司机空驶少→等车时间短→乘客更多。再叠加一层 <strong>Visa 式的会员/忠诚度网络</strong>（Uber One 贯通出行+外卖，像信用卡积分把消费者锁在一个生态里）。但这条护城河有两个真实弱点：① 它是<strong>本地的</strong>，不是全球的——在东南亚输给 Grab、在中国输给滴滴，每个城市都要单独打仗；② AV 时代的供给方（Waymo/Tesla）是<strong>资本雄厚的大玩家</strong>，不像个体司机那样没有议价权——这就像交易所面对的不再是散户做市商，而是 Citadel/Jane Street 这类有能力自建暗池的巨头。</div></div>
+    <div style="background:#f8fafc;border:1px dashed #cbd5e1;padding:14px 18px;border-radius:8px;margin-top:20px;font-size:13px;color:#64748b;line-height:1.6;">
+      📌 <strong>使用提示</strong>：本模块为后续模块一至四的"翻译层"。读完后再进入「商业模式」「护城河」「估值研究」「管理层」等专业分析模块，能事半功倍。
+    </div>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📦 模块一：商业模式</h2>
+    <p class="subtitle">这家公司到底做什么生意？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#dbeafe;color:#1e40af">商业模式类型：平台生态（双边/多边网络） + 交易抽佣 + 会员订阅（混合）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">核心产品/服务</div><div class="value"><strong>Mobility（出行）</strong>：网约车（UberX/Comfort/Black）、出租车聚合、租车、两轮车、公交票务，以及正在扩张的 AV 自动驾驶网约车（目前 8 个市场，目标 2026 年底 15 个城市，2026 年 9 月又宣布部署最多 500 辆数据采集车，并拿到西班牙 L4 Robotaxi 许可）。<strong>Delivery（Uber Eats）</strong>：餐饮外卖、生鲜杂货、零售即时达、广告。<strong>Freight</strong>：数字货运经纪。<strong>正在进行的重大并购</strong>：以 €41.50/股现金全面要约收购 Delivery Hero（股权价值 $14.8B，扣除已持股后 $13.7B，预计 2027 年下半年交割），合并后覆盖 99 个市场、2025 年备考成交额 $236B。</div></div>
+      <div class="kv-card"><div class="label">客户群体</div><div class="value">C 端消费者为绝对主体：2 亿+ 月活、Q2 2026 单季 39 亿次行程（+18%），行程频次同比 +2%。Uber One 会员超 5,000 万，贡献约一半成交额。供给侧 1,020 万司机/骑手。B 端为 Uber for Business 企业客户与 Freight 货主，占比较小。客户高度分散，无集中度风险。</div></div>
+      <div class="kv-card"><div class="label">地理分布</div><div class="value">FY2025 收入：美国+加拿大 $26.5B（51%）、EMEA $16.4B（31%，增长最快：2023-25 年从 $9.9B 升至 $16.4B）、亚太 $5.9B（11%）、拉美 $3.3B（6%）。收购 Delivery Hero 后，国际占比将显著上升（DH 强项在中东、韩国、拉美、欧洲部分地区；14 个与 Uber Eats 重叠的市场将出售给 SSW Partners）。</div></div>
+      <div class="kv-card"><div class="label">收入结构</div><div class="value">FY2025 收入 $52.0B（+18%）：Mobility $29.7B（57%）、Delivery $17.2B（33%）、Freight $5.1B（10%）。TTM（截至 2026-06-30）收入 $55.2B。<strong>注意口径</strong>：Q2 2026 收入仅 +12%，但成交额 +22%（固定汇率）、行程 +18%——差额来自英国等市场的商业模式变更（拖累收入增速 8 个百分点），所以对 Uber 应主要看成交额、行程和利润指标，而不是收入增速。Q2 分业务成交额：Mobility $29.0B（+20% cc），Delivery 与 Freight 均加速至 +25% cc。</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>🏰 模块二：护城河分析</h2>
+    <p class="subtitle">竞争优势是否可持续，对手能不能复制？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#d9770622;color:#d97706;border:1px solid #d9770644">综合评级：窄护城河（偏宽，但 AV 使耐久性存疑）</span></div>
+    <div class="chart-wrap"><canvas id="moatChart"></canvas></div>
+    
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">成本优势</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text"><strong>密度带来的成本/效率优势（★★）</strong>：同一城市里订单越密，司机空驶越少、接驾越快、单位行程的补贴和营销成本越低。管理层称 AV 车辆在 Uber 平台上的利用率比自营平台高约 30%（每车每日 20 多到 30 出头次行程），这是它在 AV 时代“收过路费”的核心论据。但这是运营效率优势，不是资源垄断——在单个城市里有资本支持的对手（如 Waymo 自营、Tesla 低价 30%）可以用补贴暂时抵消。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">无形资产</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text"><strong>品牌 + 监管牌照（★★）</strong>：“Uber”在很多语言里已是动词，获客成本极低（过去 12 个月新增首次用户数为 5 年最高）。在全球数百个城市持有网约车/配送运营许可、保险安排和合规体系，是新进入者在每个城市都要从头搭建的壁垒；新获得的西班牙 L4 许可显示其在 AV 监管上也有先发。但品牌对价格敏感用户约束力有限——Tesla 以低约 30% 的价格即可吸引试用。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">转换成本</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:33.33333333333333%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#dc262622;color:#dc2626;border:1px solid #dc262644">1/3</span>
+    </div>
+    <p class="dim-text"><strong>转换成本（★）</strong>：这是 Uber 最弱的一环。乘客同时装着 Uber、Lyft、Waymo、Grab 等 App，切换只需点另一个图标；司机普遍“多平台接单”。Uber One（5,000万+会员、贡献约一半成交额、会员消费是非会员 3 倍）是它主动构建转换成本的工具，类似信用卡年费+积分，但只是“软锁定”。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">网络效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:100%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#05966922;color:#059669;border:1px solid #05966944">3/3</span>
+    </div>
+    <p class="dim-text"><strong>本地双边网络效应（★★★）</strong>：乘客越多→司机收入越高→司机越多→等车越短→乘客越多，并且出行和外卖共享同一批用户与骑手（交叉平台使用是管理层的核心战略）。这是 Uber 最强的护城河，也是它在美国对 Lyft 保持压倒性份额、在欧洲/拉美持续扩张的根本原因。<strong>风险提示</strong>：网络效应是本地的而非全球的；且 AV 时代供给侧将由少数大车队组成，它们有能力自建需求端（Waymo 2028 年自有 App 即是信号），网络效应可能从“不可替代”降级为“效率更高的渠道”。</p>
+  </div>
+  <div class="dim-card">
+    <div class="dim-header">
+      <span class="dim-name">规模效应</span>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:66.66666666666666%"></div></div>
+      <span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#d9770622;color:#d97706;border:1px solid #d9770644">2/3</span>
+    </div>
+    <p class="dim-text"><strong>规模经济（★★）</strong>：技术、地图、定价算法、支付风控、保险谈判都是固定成本，规模越大单位成本越低。数据证明运营杠杆：Adj.EBITDA 占成交额比从 Q2 2025 的 4.5% 升至 Q2 2026 的 4.9%，Non-GAAP 营业利润占比从 3.3% 升至 3.7%，TTM 自由现金流首次突破 $100 亿。收购 Delivery Hero 预计带来 $12 亿+ 年化协同效应，也是规模逻辑。</p>
+  </div>
+    <div class="summary-box success" style="margin-top:20px"><div class="title">✓ 主要优势</div><div class="text"><strong>本地双边网络效应 + 跨业务（出行×外卖×会员）的用户基础</strong>是 Uber 最强的两道防线：2 亿+ 月活、单季 39 亿次行程、5,000 万会员，使其成为 AV 车队“最容易填满车”的需求池——在 Waymo 接入 Uber 的奥斯汀和亚特兰大，这两座城市已成为 Uber 美国增长最快的市场之一。</div></div>
+    <div class="summary-box danger"><div class="title">⚠ 主要弱点</div><div class="text"><strong>AV 带来的供给侧结构变化</strong>：人类司机是没有议价权的“散户卖单”，而 Waymo/Tesla/Zoox 是资本雄厚、可以自建 App 的“机构做市商”。美银估计 Uber/Lyft 的 AV 合作要到 2028 年才规模化，给了自营平台 18-24 个月先发窗口；Tesla Cybercab 已在奥斯汀商用、定价约低 30%；Waymo 2028 年 1 月起在奥斯汀/亚特兰大上线自有 App。此外，乘客转换成本低、Take Rate 在 AV 时代可能被压缩（车队方拿走更多经济利益），是终值估算中最大的不确定性。</div></div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>💰 模块三：估值研究</h2>
+    <p class="subtitle">行业自适应估值方法论 + 龙头横向对比</p>
+    <div style="margin-bottom:20px;">
+      <span class="badge" style="background:#dbeafe;color:#1e40af">行业：互联网平台</span>
+      <span class="badge" style="background:#e0e7ff;color:#3730a3">子类：本地出行 + 即时配送双边市场（盈利期、现金流型）</span>
+      <span class="badge" style="background:#10b98122;color:#10b981;border:1px solid #10b98144">估值结论：偏低估</span>
+    </div>
+    <div class="summary-box info"><div class="title">🛠️ 适用估值框架：EV/EBITDA + 自由现金流收益率（扣SBC） + 远期 Non-GAAP P/E & PEG + 成交额/单位经济</div><div class="text">按技能框架，互联网平台用 EV/EBITDA + GMV + 单位经济。Uber 已进入稳定盈利和强现金流阶段，因此补充 FCF 收益率和远期 P/E。<strong>不用 GAAP P/E 做主锚</strong>：FY2025 净利润 $100.5 亿里含 $43.5 亿税项收益，Q2 2026 净利润 $23.9 亿里含 $16 亿股权投资重估收益，GAAP 利润被投资组合（Aurora、Didi、WeRide、Pony、Delivery Hero 持股等）的公允价值波动严重扭曲。<strong>不用收入增速做主锚</strong>：英国等商业模式变更让收入增速（+12%）远低于真实业务增速（成交额 +22%）。</div></div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📊 公司核心估值指标</h3>
+    <div class="table-scroll"><table>
+      <thead><tr><th>指标</th><th>当前值</th><th>行业基准</th><th>评级</th></tr></thead>
+      <tbody>
+  <tr>
+    <td class="label">股价 / 市值（2026-09-25收盘）</td>
+    <td class="num">$69.62 / $144B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">52周区间 $65.94–$100.10（距高点 -30%）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap;background:#2563eb22;color:#2563eb;">偏低</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV / TTM Adj.EBITDA</td>
+    <td class="num">~15x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">成熟互联网平台 15-20x；自身一年前 ~36x（GAAP口径）</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap;background:#2563eb22;color:#2563eb;">偏低</span></td>
+  </tr>
+  <tr>
+    <td class="label">EV / TTM 收入</td>
+    <td class="num">2.74x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">软件应用同规模同业中位数 5.44x；自身一年前 4.0x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap;background:#2563eb22;color:#2563eb;">偏低</span></td>
+  </tr>
+  <tr>
+    <td class="label">TTM 自由现金流收益率</td>
+    <td class="num">7.0%（$10.1B / $144B）</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>5% 即具吸引力</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">扣除SBC后FCF收益率</td>
+    <td class="num">~5.7%</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>4% 健康</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">远期 P/E（FY2027 共识 EPS $4.56）</td>
+    <td class="num">15.3x</td>
+    <td class="num" style="color:#64748b;font-size:13px;">高质量平台 20-25x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap;background:#2563eb22;color:#2563eb;">偏低</span></td>
+  </tr>
+  <tr>
+    <td class="label">PEG（FY26 P/E ÷ Non-GAAP EPS 增速~30%）</td>
+    <td class="num">~0.7</td>
+    <td class="num" style="color:#64748b;font-size:13px;"><1 低估</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">成交额增速（Q2 2026，固定汇率）</td>
+    <td class="num">+22%（连续4季>20%）</td>
+    <td class="num" style="color:#64748b;font-size:13px;">>15% 优秀</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">Adj.EBITDA / 成交额</td>
+    <td class="num">4.9%（去年同期 4.5%）</td>
+    <td class="num" style="color:#64748b;font-size:13px;">持续扩张为健康</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">SBC / 收入</td>
+    <td class="num">3.5%（FY25 $18.3亿）</td>
+    <td class="num" style="color:#64748b;font-size:13px;"><10% 健康</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap;background:#05966922;color:#059669;">健康</span></td>
+  </tr>
+  <tr>
+    <td class="label">净债务（收购DH前）</td>
+    <td class="num">~$7.3B</td>
+    <td class="num" style="color:#64748b;font-size:13px;">DH交割后总杠杆指引<2x</td>
+    <td><span style="display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap;background:#d9770622;color:#d97706;">警惕</span></td>
+  </tr></tbody>
+    </table></div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🔍 行业龙头横向对比</h3>
+    <div class="table-scroll"><table>
+      <thead><tr><th>公司</th><th>定位</th><th>EV/Revenue(TTM)</th><th>EV/EBIT(TTM)</th><th>P/E(TTM, GAAP)</th><th>距52周高点</th></tr></thead>
+      <tbody><tr><td class="label" style="background:#fef3c7;font-weight:700;">UBER</td><td class="num" style="background:#fef3c7;">全球出行+外卖</td><td class="num" style="background:#fef3c7;">2.74x</td><td class="num" style="background:#fef3c7;">22.6x</td><td class="num" style="background:#fef3c7;">15.0x*</td><td class="num" style="background:#fef3c7;">-30%</td></tr><tr><td class="label" style="background:transparent;font-weight:700;">DASH</td><td class="num" style="background:transparent;">美国外卖龙头</td><td class="num" style="background:transparent;">~5x（估）</td><td class="num" style="background:transparent;">—</td><td class="num" style="background:transparent;">100x</td><td class="num" style="background:transparent;">-31%</td></tr><tr><td class="label" style="background:transparent;font-weight:700;">LYFT</td><td class="num" style="background:transparent;">美国网约车#2</td><td class="num" style="background:transparent;">0.72x</td><td class="num" style="background:transparent;">亏损</td><td class="num" style="background:transparent;">2.2x*</td><td class="num" style="background:transparent;">-40%</td></tr><tr><td class="label" style="background:transparent;font-weight:700;">GRAB</td><td class="num" style="background:transparent;">东南亚超级App</td><td class="num" style="background:transparent;">—</td><td class="num" style="background:transparent;">—</td><td class="num" style="background:transparent;">—</td><td class="num" style="background:transparent;">-51%</td></tr><tr><td class="label" style="background:transparent;font-weight:700;">ABNB</td><td class="num" style="background:transparent;">住宿平台</td><td class="num" style="background:transparent;">6.83x</td><td class="num" style="background:transparent;">32.9x</td><td class="num" style="background:transparent;">37.0x</td><td class="num" style="background:transparent;">-17%</td></tr><tr><td class="label" style="background:transparent;font-weight:700;">BKNG</td><td class="num" style="background:transparent;">在线旅游龙头</td><td class="num" style="background:transparent;">4.39x</td><td class="num" style="background:transparent;">13.3x</td><td class="num" style="background:transparent;">17.9x</td><td class="num" style="background:transparent;">-24%</td></tr></tbody>
+    </table></div>
+    <p style="font-size:12px; color:#64748b; margin-top:8px;">📌 高亮行为本次分析的目标公司；数据为 2026-09-25 收盘价与截至 2026-06-30 的 TTM 财务（来源：Equibles / SEC 文件）</p>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">📉 UBER 估值倍数历史（财报发布日口径）</h3>
+    <div class="chart-wrap"><canvas id="histChart"></canvas></div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 合理估值区间（基于行业框架）</h3>
+    <div class="fair-value">
+      <div class="fv-card bear"><div class="label">悲观情景 Bear</div><div class="value">$50</div></div>
+      <div class="fv-card base"><div class="label">基准情景 Base</div><div class="value">$85</div></div>
+      <div class="fv-card bull"><div class="label">乐观情景 Bull</div><div class="value">$120</div></div>
+    </div>
+    <div class="summary-box info"><div class="title">📍 当前估值位置</div><div class="text"><strong>相对自身历史：处于上市以来最便宜区间之一。</strong>按每季财报发布日计算，UBER 的 EV/EBITDA 从 FY2025 Q3 的 37.9x 一路压缩至 FY2026 Q2 的 19.7x，EV/Revenue 从 4.0x 降到 2.65x——而同期成交额增速仍稳定在 20%+、Non-GAAP EPS 增速 35-44%。也就是说，下跌几乎完全来自<strong>估值倍数压缩（Robotaxi 终值折价）</strong>，而非基本面恶化。<br><br><strong>相对同业</strong>：EV/EBIT 22.6x 与 BKNG（13.3x，更成熟）和 ABNB（32.9x）之间；EV/Revenue 远低于软件/平台同业中位数。卖方共识目标价约 $101，美银维持买入、目标 $101（称当前估值已反映美国网约车经济显著被颠覆的情景）。51 位覆盖分析师中 43 位买入/强烈买入，近 30 天有 27 次上调 FY26 EPS、2 次下调。<br><br><strong>估值区间推导</strong>（以 FY2027 为锚，稀释股本约 20.5 亿股）：<br>• <strong>Bear $50</strong>：AV 自营平台快速分流美国高价值城市订单、Take Rate 被压缩，FY27 EPS 仅 $3.80 × 13x；或扣SBC后 FCF 约 $80 亿按 8% 收益率定价。<br>• <strong>Base $85</strong>：成交额增速逐步回落至中高双位数，FY27 EPS ~$4.50 × 19x；对应扣SBC后 FY27 FCF ~$105 亿、约 6.3% 收益率。<br>• <strong>Bull $120</strong>：Uber 被验证为 AV“需求聚合层”，DH 协同兑现，FY27 EPS ~$5.20 × 23x。<br>当前 $69.62：到 Base 约 +22%，到 Bear 约 -28%，到 Bull 约 +72%。赔率偏正，但下行不小——市场在为“终值”而非“未来 2 年利润”打折。<br><small>* UBER 的 GAAP P/E 含股权投资重估和税项收益，参考价值低；LYFT 的 2.2x 同样含一次性税项收益。DASH 的 EV 数据源未提供完整口径，EV/Revenue 为粗略估算。</small></div></div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">⚠️ 行业估值常见陷阱</h3>
+    
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱1：</strong>用 GAAP P/E 判断便宜或贵——Uber 的 GAAP 利润被股权投资公允价值（单季±$15亿级）和税项收益大幅扭曲，应看 Non-GAAP EPS、Adj.EBITDA 和 FCF。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱2：</strong>用收入增速判断增长放缓——Q2 收入 +12% 是英国等商业模式变更的会计结果，真实业务量看成交额（+22% cc）和行程（+18%）。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱3：</strong>把 FCF 当作“股东自由现金”——需扣除每年约 $19 亿 SBC；且 2026 年起大量现金流向 Delivery Hero 收购（Q2 约 $40 亿买入 DH 股票），回购节奏已放缓。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱4：</strong>用今天的网络效应线性外推终值——AV 改变的是供给侧结构，车队方有能力自建需求端，Take Rate 可能被再分配；这是估值倍数被压缩的真正原因，不能只看过去 5 年的利润率曲线。
+  </div>
+  <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:12px 16px;margin:8px 0;font-size:14px;">
+    <strong style="color:#dc2626;">陷阱5：</strong>把“并购能增厚 EPS”等同于“创造价值”——DH 以 108% 溢价、约 8x 2027E EV/EBITDA（含协同）收购，增厚来自低息借债替代股本，需要用 ROIC 而非 EPS 增厚来评判。
+  </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>👔 模块四：管理层评估</h2>
+    <p class="subtitle">掌舵人是否值得托付资本？</p>
+    <div style="margin-bottom:20px"><span class="badge" style="background:#2563eb22;color:#2563eb;border:1px solid #2563eb44;font-size:16px;padding:8px 18px">综合评级：B级（执行力接近 A，DH 并购待验证）</span></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">💰 资本配置能力</div><div class="value"><strong>过去3年：从烧钱到理性回报。</strong>2023 年实现 GAAP 经营盈利后，2024 年启动回购（$12.5 亿），2025 年加速至 $65.2 亿（8,000 万股），2026 年上半年再回购 $35.3 亿（4,660 万股）；平均稀释股数从 FY2025 的 21.2 亿降至 Q2 2026 的 20.5 亿（约 -3.3%）。管理层目标是把约 50% 的 FCF 返还股东。<strong>2026 年的转折</strong>：先宣布 $200 亿回购授权（剩余 $157 亿），随后转向以 $148 亿股权价值要约收购 Delivery Hero（现金+新增债务），并在 Q2 投入约 $40 亿购入 DH 股份——这是 Dara 任内最大的一笔资本配置，成败将决定管理层评级是升到 A 还是降到 C。AV 方面累计承诺约 $100 亿投入 30+ 合作方，走的是“轻资产投资+平台接入”，而非自建车队。</div></div>
+      <div class="kv-card"><div class="label">🤝 诚信与透明度</div><div class="value"><strong>信披整体规范</strong>：审计师为 PwC（四大），每季度同时给出成交额和 EPS/EBITDA 指引，并清楚拆分股权投资重估、商业模式变更对报表的影响。<strong>瑕疵</strong>：Q4 2025 EPS 未达预期约 8.8%、Q2 2026 未达约 2.8%，Q3 2026 指引（Non-GAAP EPS $0.84-0.88）被市场视为偏软；CFO 从 Prashanth Mahendra-Rajah 更换为 Balaji Krishnamurthy，高层财务口径换人后指引风格有待观察；司机雇佣分类的法律问题仍未根本解决。无明显利益输送或关联交易红旗。</div></div>
+      <div class="kv-card"><div class="label">🎯 战略执行力</div><div class="value"><strong>执行力是 Dara 最强项</strong>：2017 年接手时 Uber 年亏损数十亿、文化危机、全球监管对抗；如今 TTM 收入 $552 亿、GAAP 经营利润 $67 亿、FCF $101 亿，连续 4 个季度成交额增速 >20%，Uber One 从零做到 5,000 万会员，外卖从巨亏业务变成第二增长引擎。AV 战略上迅速从“自研（出售 ATG 给 Aurora）”转向“平台聚合”，是务实的纠错。2026 年 9 月裁员约 10% 以再投资增长，同时 CEO 公开称股价“really cheap”。</div></div>
+      <div class="kv-card"><div class="label">💸 真回购测试</div><div class="value">FY2025 回购 $65.2 亿 vs 当年 SBC $18.3 亿 = <strong>3.6 倍</strong> → ✅ 真回购（远超 1.5 倍门槛），稀释股本实际下降约 3%。2026 上半年回购 $35.3 亿 vs 上半年 SBC ~$10.2 亿 ≈ 3.5 倍，仍为真回购，但 Q2 单季仅 $5.2 亿（资金转向 Delivery Hero）。</div></div>
+    </div>
+    <div class="summary-box success"><div class="title">✨ 主要亮点</div><div class="text"><strong>罕见的高管集体增持</strong>：2026 年 9 月 10 日 CEO Dara Khosrowshahi 以 $70.96 公开市场买入 14.1 万股（约 $1,000 万，非 10b5-1 计划）；9 月 4 日 COO Andrew Macdonald 以 $75.65-76.44 买入 7 万股（约 $530 万）；2 月 CFO Balaji Krishnamurthy 以 $71.25 买入约 $160 万。管理层用自己的钱在当前价位投票，这是比任何口头表态都更强的信号。</div></div>
+    <div class="summary-box danger"><div class="title">⚠️ 主要风险点</div><div class="text"><strong>Delivery Hero 并购的资本配置风险</strong>：108% 溢价、交割要等到 2027 年下半年、需要多地反垄断审批，同时新增债务融资会让净负债从约 $73 亿大幅上升（指引总杠杆<2x）。它把 Uber 的资本从“以 FCF 收益率 7% 回购自己”转向“以更高溢价收购增长更慢、利润更薄的外卖资产”，机会成本需要被协同效应（$12 亿+/年）充分补偿。另需关注 CFO 更替带来的指引连续性。</div></div>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>🎯 整体结论</h2>
+    <p class="subtitle">综合评级与投资建议</p>
+    <div style="text-align:center; padding:24px 0; border-bottom:1px solid #e2e8f0; margin-bottom:24px">
+      <div style="font-size:14px; color:#64748b; margin-bottom:8px">商业质量评级</div>
+      <div class="star-rating">★★★★☆</div>
+      <div style="color:#475569; font-size:14px">4/5 星</div>
+    </div>
+    <div class="conclusion"><h3>📝 综合评述</h3><p><strong>一句话：好公司、被 Robotaxi 恐慌打折的价格、但终值不确定性是真实的。</strong>
+
+① 业务质量（4 星）：Uber 是全球唯一同时在出行和外卖两条赛道做到规模化盈利的平台。2 亿+ 月活、单季 39 亿次行程、连续 4 季成交额增速 >20%、TTM 自由现金流 $101 亿、SBC 仅占收入 3.5%、回购是真回购——以“现金流质量”衡量，它已经是一家成熟的大型科技公司。扣一颗星，是因为转换成本低、网络效应是本地性的，以及 AV 时代供给侧议价权转移的结构性风险。
+
+② 估值：$69.62 对应约 15x EV/Adj.EBITDA、7% FCF 收益率、15x FY2027 远期 P/E、PEG ~0.7，是上市以来最便宜的区间之一。一年内股价 -30%，而盈利预期在上调（近 30 天 27 次上调）——这是典型的“倍数压缩、盈利扩张”。基准合理价值约 $85（+22%），乐观 $120，悲观 $50。
+
+③ 市场在担心什么：不是未来 2 年，而是 2028 年以后。Tesla Cybercab 已在奥斯汀商用、定价低约 30%；Waymo 2028 年 1 月在奥斯汀/亚特兰大上线自有 App；美银估计 Uber 的 AV 合作要到 2028 年才规模化。关键问题是 Uber 能否成为 AV 的“需求聚合层”（像交易所，收过路费），还是被降级为“众多渠道之一”（Take Rate 被压缩）。目前奥斯汀/亚特兰大的数据（这两座城市成为 Uber 美国增长最快的市场之一）支持前者，但样本仍小。
+
+④ 两个需要警惕的变量：Delivery Hero 并购（$148 亿、108% 溢价、2027 下半年交割、加杠杆）改变了资本配置路径；以及 Q3 指引偏软、近几个季度 EPS 小幅不及预期。
+
+⑤ 适合的持有方式（假设为长期持有视角）：这不是“深度价值”而是“GARP + 事件分歧”型标的。管理层以 CEO $1,000 万、COO $530 万的真金白银在 $71-76 区间集体增持，给了一个可参考的“内部人成本区”。对于长期投资者，当前价位的风险回报偏正面；更稳妥的方式是分批建仓，把 10 月 29 日 Q3 财报（美国 Mobility 增速与 AV 城市进展）和 11 月 5 日 DH 要约截止作为加仓/复核节点，并把仓位控制在能承受 -25~30%（Bear 情景）波动的范围内。本报告仅为研究参考，不构成投资建议。</p></div>
+    <div class="next-step"><div class="title">🔍 关键观察指标（未来12个月）</div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">1.</span>
+    <span style="font-size:14px;">10月29日 Q3 财报：成交额是否落在 $58.25-60.25B 指引上沿（+18-22% cc），尤其美国 Mobility 成交额增速是否守住 15%+；Adj.EBITDA/成交额能否突破 5%</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">2.</span>
+    <span style="font-size:14px;">AV 进度：年底是否达成 15 个 AV 城市；Uber 平台 AV 每车每日行程数（目前 20 多至 30 出头）与 Waymo/Tesla 自营平台的利用率对比；Waymo 2028 年自有 App 对奥斯汀/亚特兰大份额的影响</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">3.</span>
+    <span style="font-size:14px;">Tesla Cybercab 扩张速度与定价（目前约低 30%）；Robotaxi 每英里价格是否跌破 $2（美银认为的拐点）</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">4.</span>
+    <span style="font-size:14px;">Delivery Hero：11月5日要约接受率（需 >50%，Prosus 约17%已不可撤销承诺）、融资结构与杠杆、反垄断审批进展；回购节奏是否恢复到每季 $15亿+</span>
+  </div>
+  <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e2e8f0;">
+    <span style="font-family:monospace;font-weight:700;color:#d97706;min-width:24px;">5.</span>
+    <span style="font-size:14px;">Take Rate 与保险成本：Mobility 收入/成交额比率变化（近期因商业模式变更同比下降近 5 个百分点）、美国保险准备金是否继续上升</span>
+  </div></div>
+  </div>
+
+  <div class="foot">
+    Generated for Uber Technologies (UBER) · 2026-09-28<br>
+    数据来源：Uber 10-K/10-Q/8-K（SEC）、Uber IR、Equibles、Bank of America 研报公开摘要及财经媒体报道<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+new Chart(document.getElementById('moatChart'), {
+  type: 'radar',
+  data: { labels: ["成本优势","无形资产","转换成本","网络效应","规模效应"], datasets: [{ label: '护城河强度', data: [2,2,1,3,2], backgroundColor: 'rgba(217,119,6,0.2)', borderColor: '#d97706', borderWidth: 2, pointBackgroundColor: '#d97706', pointRadius: 5 }] },
+  options: { responsive: true, maintainAspectRatio: false,
+    scales: { r: { beginAtZero: true, max: 3, ticks: { stepSize: 1, display: false }, pointLabels: { font: { size: 13, weight: '600' } } } },
+    plugins: { legend: { display: false }, title: { display: true, text: '五维护城河评分（0-3分）', font: { size: 14, weight: '600' } } } }
+});
+new Chart(document.getElementById('histChart'), {
+  type: 'line',
+  data: {
+    labels: ['24Q2','24Q3','24Q4','25Q1','25Q2','25Q3','25Q4','26Q1','26Q2'],
+    datasets: [
+      { label: 'EV/EBITDA (GAAP)', data: [49.9,44.7,33.9,39.2,36.4,37.9,23.4,23.5,19.7], borderColor:'#d97706', backgroundColor:'#d97706', yAxisID:'y', tension:0.2 },
+      { label: 'EV/Revenue', data: [3.48,3.67,3.60,3.93,4.00,4.02,2.82,3.06,2.65], borderColor:'#2563eb', backgroundColor:'#2563eb', yAxisID:'y1', tension:0.2 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, interaction:{mode:'index',intersect:false},
+    scales: { y: { position:'left', title:{display:true,text:'EV/EBITDA (x)'} }, y1: { position:'right', grid:{drawOnChartArea:false}, title:{display:true,text:'EV/Revenue (x)'} } },
+    plugins: { title: { display:true, text:'估值倍数一路压缩，而盈利持续增长', font:{size:14,weight:'600'} } } }
+});
+</script>
+</body>
+</html>
