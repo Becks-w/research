@@ -1,0 +1,562 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+
+<!-- Heyneww Capital deep-space design system applied; dark-only theme per source system -->
+<title>海底捞系投资透视</title>
+<style>
+  :root{
+    --bg:#080f17; --bg-deep:#030711; --panel:#0b1621; --panel-2:#0c1721;
+    --ink:#e8eeee; --ink-soft:#bed2d9; --muted:#8ca3ae; --muted-2:#64838f;
+    --cyan:#8ee4e3; --amber:#e6b573; --lavender:#c5b7ff;
+    --line:rgba(156,208,218,0.2); --cyan-tint:rgba(142,228,227,0.12);
+    --good:#9ee6a8;
+    --sans:Arial,Helvetica,sans-serif;
+    --mono:"SFMono-Regular",Consolas,"Roboto Mono",monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--ink-soft); font-family:var(--sans);
+    margin:0; padding:0 16px; line-height:1.5;
+  }
+  .wrap{max-width:1040px; margin:0 auto;}
+  h1,h2,h3{font-family:var(--sans); color:var(--ink); font-weight:700; text-wrap:balance; margin:0;}
+  a{color:var(--cyan);}
+  .mono{font-family:var(--mono);}
+  .label{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
+    font-weight:700; color:var(--muted);
+  }
+  .label.cyan{color:var(--cyan);} .label.amber{color:var(--amber);} .label.lavender{color:var(--lavender);}
+  .data{font-family:var(--mono); font-size:13px; color:var(--ink-soft); font-variant-numeric:tabular-nums;}
+
+  header.top{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+    padding:20px 0 16px; border-bottom:1px solid var(--line);
+  }
+  header.top .brand{font-family:var(--mono); font-size:11px; letter-spacing:0.2em; color:var(--muted);}
+  header.top .meta{font-family:var(--mono); font-size:11px; color:var(--muted-2);}
+
+  .hero{padding:48px 0 32px;}
+  .hero h1{font-size:40px; line-height:1.15; max-width:760px;}
+  .hero p.sub{color:var(--ink-soft); font-size:16px; max-width:640px; margin-top:16px;}
+  .tickers{display:flex; gap:10px; flex-wrap:wrap; margin-top:24px;}
+  .ticker-pill{
+    display:flex; align-items:center; gap:8px; border:1px solid var(--line); border-radius:2px;
+    padding:8px 14px; font-family:var(--mono); font-size:12px; background:var(--panel);
+  }
+  .dot{width:8px; height:8px; border-radius:50%; flex:none;}
+  .dot.cyan{background:var(--cyan);} .dot.amber{background:var(--amber);} .dot.lavender{background:var(--lavender);}
+  .ticker-pill b{color:var(--ink); font-weight:700;}
+
+  section{padding:40px 0; border-top:1px solid var(--line);}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:20px; flex-wrap:wrap;}
+  .sec-num{font-family:var(--mono); font-size:13px; color:var(--muted-2);}
+  .sec-head h2{font-size:24px;}
+  .sec-intro{color:var(--muted); max-width:720px; margin:0 0 24px; font-size:14.5px;}
+
+  .panel{
+    background:var(--panel); border:1px solid var(--line); border-radius:0px; padding:24px;
+  }
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .grid2{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+  @media (max-width:760px){ .grid3{grid-template-columns:1fr;} .grid2{grid-template-columns:1fr;} }
+
+  .card{background:var(--panel); border:1px solid var(--line); padding:20px; border-left:3px solid var(--muted-2);}
+  .card.c6862{border-left-color:var(--cyan);}
+  .card.c9658{border-left-color:var(--amber);}
+  .card.c1579{border-left-color:var(--lavender);}
+  .card h3{font-size:16px; margin-bottom:4px;}
+  .card .tag{font-family:var(--mono); font-size:11px; letter-spacing:0.1em;}
+  .card .tag.cyan{color:var(--cyan);} .card .tag.amber{color:var(--amber);} .card .tag.lavender{color:var(--lavender);}
+  .card ul{margin:12px 0 0; padding-left:18px; font-size:13.5px; color:var(--ink-soft);}
+  .card li{margin-bottom:6px;}
+
+  table{width:100%; border-collapse:collapse; font-size:13.5px;}
+  .table-wrap{overflow-x:auto; border:1px solid var(--line);}
+  th,td{padding:10px 14px; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap;}
+  th{font-family:var(--mono); font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); background:var(--panel-2); font-weight:700;}
+  td{color:var(--ink-soft);}
+  td.hl{color:var(--ink); font-weight:700;}
+  tr:last-child td{border-bottom:none;}
+  table.wrapcells td{white-space:normal; min-width:150px; vertical-align:top;}
+  table.wrapcells td.hl{white-space:nowrap; min-width:0;}
+  td.num,th.num{text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums;}
+
+  .pill{display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:0.08em; padding:3px 9px; border-radius:2px; border:1px solid currentColor;}
+  .pill.buy{color:var(--good); border-color:var(--good);}
+  .pill.review{color:var(--amber); border-color:var(--amber);}
+
+  .verdict{
+    background:linear-gradient(180deg,var(--cyan-tint),transparent 60%), var(--panel);
+    border:1px solid var(--line); padding:32px; margin-top:8px;
+  }
+  .verdict .rank{display:flex; gap:20px; margin-top:20px; flex-wrap:wrap;}
+  .rank-item{flex:1 1 280px; border:1px solid var(--line); padding:18px; background:var(--panel-2);}
+  .rank-item .pos{font-family:var(--mono); font-size:11px; color:var(--muted-2); letter-spacing:0.15em;}
+  .rank-item h3{font-size:17px; margin:6px 0 10px;}
+  .rank-item p{font-size:13px; color:var(--muted); margin:0;}
+  .note-box{
+    margin-top:20px; border:1px solid var(--line); border-left:3px solid var(--amber);
+    padding:16px 20px; background:var(--panel-2); font-size:13.5px; color:var(--ink-soft);
+  }
+
+  .chart-wrap{margin-top:8px;}
+  svg.chart{width:100%; height:auto; display:block; overflow:visible;}
+  .axis-line{stroke:var(--line); stroke-width:1.5;}
+  .tick-line{stroke:var(--line); stroke-width:1;}
+  .tick-label{font-family:var(--mono); font-size:13px; fill:var(--muted-2);}
+  .bar-label{font-family:var(--mono); font-size:16px; fill:var(--ink); font-weight:700;}
+  .sub-label{font-family:var(--mono); font-size:13px; fill:var(--muted);}
+
+  .verify-list{font-size:13.5px; color:var(--ink-soft); margin:10px 0 0; padding-left:18px;}
+  .verify-list li{margin-bottom:5px;}
+
+  footer{padding:32px 0 60px; border-top:1px solid var(--line); color:var(--muted-2); font-size:12px;}
+  footer p{margin:0 0 8px; max-width:800px;}
+
+  .growth-card{min-width:0; border:1px solid var(--line); background:var(--panel-2); padding:16px 16px 8px;}
+  .growth-head{display:flex; align-items:baseline; gap:10px; margin-top:8px;}
+  .growth-num{font-family:var(--mono); font-size:26px; font-weight:700; color:var(--ink); font-variant-numeric:tabular-nums;}
+  .growth-cap{font-size:12.5px; color:var(--muted);}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">HEYNEWW CAPITAL · CROSS-COVERAGE NOTE</div>
+    <div class="meta">生成日期 2026-10-05 · 来源：6862/9658/1579 独立 initiating coverage 报告</div>
+  </header>
+
+  <section class="hero" style="border-top:none; padding-top:48px;">
+    <div class="label cyan">HAIDILAO FAMILY · 三方横向透视</div>
+    <h1 style="margin-top:14px;">海底捞系三家上市公司横向对比</h1>
+    <p class="sub">海底捞(6862)、特海国际(9658)、颐海国际(1579) 没有任何公司间交叉持股——只有共同的家族受益所有权。本摘要把三份独立 initiating coverage 报告的数字与结论并排放在一起，给出 CIO 层面的横向排序与持仓建议。</p>
+    <div class="tickers">
+      <div class="ticker-pill"><span class="dot cyan"></span>6862.HK <b>海底捞</b> · HK$9.195</div>
+      <div class="ticker-pill"><span class="dot amber"></span>9658.HK <b>特海国际</b> · HK$8.86</div>
+      <div class="ticker-pill"><span class="dot lavender"></span>1579.HK <b>颐海国际</b> · HK$13.82</div>
+    </div>
+  </section>
+
+  <!-- ===================== CIO VERDICT ===================== -->
+  <section style="border-top:1px solid var(--line);">
+    <div class="sec-head"><span class="sec-num mono">00</span><h2>CIO 结论与持仓建议</h2></div>
+    <div class="verdict">
+      <div class="label amber">三家都已完成第三轮核对｜上行空间：海底捞 +31% ／ 颐海 +24.5% ／ 特海 +21%——排序看现金流质量与数字可信度，不只看上行空间</div>
+      <p style="margin:12px 0 0; color:var(--ink-soft); font-size:14.5px; max-width:760px;">
+        2026-10-05 对三家都做了第三轮核对：成本和税费逐项对齐年报与中报，同业倍数换成带日期的实际数据，EBITDA、同业倍数和 DCF 统一到同一租赁口径（扣租金后）。三家目标价都下调：海底捞 HK$16.5 → 12.1，特海 HK$17.7 → 10.7，颐海 HK$20.6 → 17.2。海底捞和特海的问题主要是租赁口径不一致；颐海的问题是税率（23% vs 实际 29%）、少数股东（0.3% vs 5.5%）和利息收入被高估，以及同业倍数是估算值。三份报告的评级都已改为"待重新评估"。排序上，颐海的上行空间不再是第一，但它的数字现在全部对上了公告，确定性最高。
+      </p>
+      <div class="rank">
+        <div class="rank-item" style="border-left:3px solid var(--lavender);">
+          <div class="pos">核心仓位 · 确定性最高</div>
+          <h3 style="color:var(--lavender);">1579 颐海国际</h3>
+          <p>修正后 Base HK$17.21（+24.5%，区间 HK$14.2–20.3），略低于卖方均值 HK$18.3。它保留核心仓位，靠的是确定性，而不是上行空间：模型的每一项现在都对上了年报和中报；没有银行借款，现金加理财约 RMB18 亿；派息率约 90%，历史股息率约 6.4%；2026 上半年收入 +14.3%、净利润 +21.4%，是三家里唯一在加速的。前瞻 P/E 13.0x，比同业中位数 14.7x 低约 11%，折价温和。新风险：上半年卖给海底捞系的收入 +15.9%，中报提到"价格调整"——如果是海底捞多付了钱，就是利润在家族内部转移，需要核查关联交易定价。</p>
+        </div>
+        <div class="rank-item" style="border-left:3px solid var(--cyan);">
+          <div class="pos">卫星仓位 · 上行空间最大，但两项未核实</div>
+          <h3 style="color:var(--cyan);">6862 海底捞</h3>
+          <p>修正后 Base HK$12.1（+31%，区间 HK$11.1–14.0），已低于卖方均值 HK$15.3。按扣租金口径，海底捞现价对应 5.8x EV/EBITDA，同口径下百胜中国 6.5x、特海 6.6x，只是小幅折价，谈不上大幅错杀。优势是体量大、流动性好、扣除租赁后仍有约 RMB90亿净现金，外卖仍高增长（+111.9%）。但 FY2025 客流 -7.5%，三年三换CEO，舒萍信托 9 月减持 2.59 亿股（约 4.65%）套现约 HK$27.5 亿，治理悬念未解。上行空间现为三家最高，但"其他费用"里是否有一次性项目、利息收入是否被低估这两项还没核实，核实后可考虑上调仓位。目前适合按卫星仓位配置。</p>
+        </div>
+        <div class="rank-item" style="border-left:3px solid var(--amber);">
+          <div class="pos">观察仓位</div>
+          <h3 style="color:var(--amber);">9658 特海国际</h3>
+          <p>修正后 Base HK$10.7（+21%，区间 HK$8.3–14.3），DCF（HK$7.2）已低于现价。营收增速三家最快（两年复合 +10.7%），但租金占营收 5.9%，扣除租赁付款后每年自由现金流只剩约 US$8–15mm，增长尚未转化为现金。此外，6个月内 CEO 与 CFO 接连换人且原因未披露，市值约 US$739mm，流动性最弱。等同店销售转正、扣汇率后利润改善之后，再考虑上调。</p>
+        </div>
+      </div>
+      <div class="note-box">
+        <b style="color:var(--amber);">组合构建提示：</b>这三家不构成真正的分散投资。张勇/舒萍与施永宏/李海燕两个创始家族同时是三家公司的主要股东（创始人合计约 64% / 60% / 44%），通过个人信托而非公司间持股控制——这意味着家族层面的治理、继承或声誉冲击会同时拖累三家。2026年1月至9月间，三家几乎同步出现领导层变动或股东减持（见本页第05节时间线），这更像是同一风险因子的相关实现，而非独立事件。若同时持有多个标的，应把总敞口按"单一家族风险"的集中度上限管理，而不是当作已分散的三笔仓位分别加总。
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 01 OWNERSHIP ===================== -->
+  <section>
+    <div class="sec-head"><span class="sec-num mono">01</span><h2>股权关系与业务关联</h2></div>
+    <p class="sec-intro">三家公司之间<b style="color:var(--ink);">没有任何公司间交叉持股</b>——海底捞分拆特海国际时，90%股权已实物分派给海底捞自己的股东，海底捞对特海持股为零。真正把三家绑在一起的，是(a)两个创始家族（张勇/舒萍、施永宏/李海燕）在三家同时持股，和(b)颐海对海底捞+特海的实际供应关系。</p>
+    <div class="panel">
+      <div class="chart-wrap">
+        <svg class="chart" viewBox="0 0 900 318" role="img" aria-label="股权结构图：张勇/舒萍与施永宏/李海燕两个创始家族通过个人信托分别持有三家上市公司股份，三家公司之间没有交叉持股">
+          <rect x="180" y="16" width="250" height="64" fill="var(--panel-2)" stroke="var(--line)"></rect>
+          <text x="305" y="42" text-anchor="middle" class="bar-label" style="font-size:15px;">张勇 &amp; 舒萍</text>
+          <text x="305" y="64" text-anchor="middle" class="sub-label" style="font-size:12px;">控股股东 · ZY NP / SP NP 信托</text>
+          <rect x="470" y="16" width="250" height="64" fill="var(--panel-2)" stroke="var(--line)"></rect>
+          <text x="595" y="42" text-anchor="middle" class="bar-label" style="font-size:15px;">施永宏 &amp; 李海燕</text>
+          <text x="595" y="64" text-anchor="middle" class="sub-label" style="font-size:12px;">联合创始人 · SYH NP / LHY NP</text>
+
+          <line x1="305" y1="80" x2="150" y2="160" class="tick-line"></line>
+          <line x1="305" y1="80" x2="450" y2="160" class="tick-line"></line>
+          <line x1="305" y1="80" x2="750" y2="160" class="tick-line"></line>
+          <line x1="595" y1="80" x2="150" y2="160" class="tick-line"></line>
+          <line x1="595" y1="80" x2="450" y2="160" class="tick-line"></line>
+          <line x1="595" y1="80" x2="750" y2="160" class="tick-line"></line>
+          <rect x="318" y="112" width="264" height="22" fill="var(--panel)"></rect>
+          <text x="450" y="127" text-anchor="middle" class="sub-label" style="font-size:11px; fill:var(--muted-2);">个人/家族信托持股 · 三家公司之间无交叉持股</text>
+
+          <rect x="30" y="160" width="240" height="148" fill="var(--panel-2)" stroke="var(--cyan)"></rect>
+          <text x="150" y="187" text-anchor="middle" class="bar-label" style="fill:var(--cyan); font-size:17px;">6862 海底捞</text>
+          <text x="150" y="208" text-anchor="middle" class="sub-label">中国大陆+港澳台 餐厅</text>
+          <rect x="50" y="223" width="9" height="9" fill="var(--cyan)" opacity="0.9"></rect>
+          <text x="65" y="232" class="sub-label" style="fill:var(--ink-soft);">张勇/舒萍</text>
+          <text x="250" y="232" text-anchor="end" class="bar-label" style="font-size:14px;">45.49%</text>
+          <rect x="50" y="243" width="9" height="9" fill="var(--cyan)" opacity="0.4"></rect>
+          <text x="65" y="252" class="sub-label" style="fill:var(--ink-soft);">施永宏/李海燕</text>
+          <text x="250" y="252" text-anchor="end" class="bar-label" style="font-size:14px;">18.69%</text>
+          <rect x="50" y="263" width="200" height="8" fill="var(--line)"></rect>
+          <rect x="50" y="263" width="91.0" height="8" fill="var(--cyan)" opacity="0.9"></rect>
+          <rect x="143.0" y="263" width="35.4" height="8" fill="var(--cyan)" opacity="0.4"></rect>
+          <text x="50" y="294" class="sub-label">创始人合计</text>
+          <text x="250" y="294" text-anchor="end" class="bar-label" style="fill:var(--ink); font-size:15px;">64.2%</text>
+          <rect x="330" y="160" width="240" height="148" fill="var(--panel-2)" stroke="var(--amber)"></rect>
+          <text x="450" y="187" text-anchor="middle" class="bar-label" style="fill:var(--amber); font-size:17px;">9658 特海国际</text>
+          <text x="450" y="208" text-anchor="middle" class="sub-label">海外14国 餐厅</text>
+          <rect x="350" y="223" width="9" height="9" fill="var(--amber)" opacity="0.9"></rect>
+          <text x="365" y="232" class="sub-label" style="fill:var(--ink-soft);">张勇/舒萍</text>
+          <text x="550" y="232" text-anchor="end" class="bar-label" style="font-size:14px;">43.02%</text>
+          <rect x="350" y="243" width="9" height="9" fill="var(--amber)" opacity="0.4"></rect>
+          <text x="365" y="252" class="sub-label" style="fill:var(--ink-soft);">施永宏/李海燕</text>
+          <text x="550" y="252" text-anchor="end" class="bar-label" style="font-size:14px;">16.61%</text>
+          <rect x="350" y="263" width="200" height="8" fill="var(--line)"></rect>
+          <rect x="350" y="263" width="86.0" height="8" fill="var(--amber)" opacity="0.9"></rect>
+          <rect x="438.0" y="263" width="31.200000000000003" height="8" fill="var(--amber)" opacity="0.4"></rect>
+          <text x="350" y="294" class="sub-label">创始人合计</text>
+          <text x="550" y="294" text-anchor="end" class="bar-label" style="fill:var(--ink); font-size:15px;">59.6%</text>
+          <rect x="630" y="160" width="240" height="148" fill="var(--panel-2)" stroke="var(--lavender)"></rect>
+          <text x="750" y="187" text-anchor="middle" class="bar-label" style="fill:var(--lavender); font-size:17px;">1579 颐海国际</text>
+          <text x="750" y="208" text-anchor="middle" class="sub-label">调味品/底料 供应商</text>
+          <rect x="650" y="223" width="9" height="9" fill="var(--lavender)" opacity="0.9"></rect>
+          <text x="665" y="232" class="sub-label" style="fill:var(--ink-soft);">张勇/舒萍</text>
+          <text x="850" y="232" text-anchor="end" class="bar-label" style="font-size:14px;">31.44%</text>
+          <rect x="650" y="243" width="9" height="9" fill="var(--lavender)" opacity="0.4"></rect>
+          <text x="665" y="252" class="sub-label" style="fill:var(--ink-soft);">施永宏/李海燕</text>
+          <text x="850" y="252" text-anchor="end" class="bar-label" style="font-size:14px;">~12.5%</text>
+          <rect x="650" y="263" width="200" height="8" fill="var(--line)"></rect>
+          <rect x="650" y="263" width="62.9" height="8" fill="var(--lavender)" opacity="0.9"></rect>
+          <rect x="714.9" y="263" width="23.0" height="8" fill="var(--lavender)" opacity="0.4"></rect>
+          <text x="650" y="294" class="sub-label">创始人合计</text>
+          <text x="850" y="294" text-anchor="end" class="bar-label" style="fill:var(--ink); font-size:15px;">~44%</text>
+        </svg>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; gap:14px; margin-top:28px; flex-wrap:wrap; font-family:var(--mono); font-size:13px;">
+        <span class="pill" style="color:var(--lavender); border-color:var(--lavender);">1579 颐海国际</span>
+        <span style="color:var(--muted-2);">— 关联采购 27.7% 营收 →</span>
+        <span class="pill" style="color:var(--cyan); border-color:var(--cyan);">6862 海底捞</span>
+        <span style="color:var(--muted-2);">+</span>
+        <span class="pill" style="color:var(--amber); border-color:var(--amber);">9658 特海国际</span>
+      </div>
+      
+      <ul class="verify-list" style="margin-top:20px; color:var(--muted); font-size:12.5px;">
+        <li><b style="color:var(--ink-soft);">6862：</b>张勇/舒萍 45.49% 取自公司 2026-09-09 公告，为舒萍的 SP NP 于 9 月 8 日大宗出售 2.59 亿股（约 4.65%）之后的数字，减持前约 50.1%。施永宏/李海燕 18.69% = 施永宏 8.24% + 李海燕 10.45%（权益披露，经 MarketScreener 汇总），与行情软件 “Shi Sean 18.69%” 一致。</li>
+        <li><b style="color:var(--ink-soft);">9658：</b>张勇/舒萍 = ZY NP 32.01% + SP NP 11.00%；施永宏/李海燕 = LHY NP 9.55% + SYH NP 7.06%。最近一次权益申报日为 2022-12-30；舒萍 2024-12 另增持 150 万股（约 0.2%）未计入。</li>
+        <li><b style="color:var(--ink-soft);">1579：</b>张勇家族 31.44%（权益申报 2022-05-05）；施永宏家族一致行动人 12.47%–12.60%（2022-07-25）。</li>
+        <li>6862 和 9658 公告中的“控股股东”都只包括张勇、舒萍及其持股工具；施永宏/李海燕单独申报，不在控股股东定义内。上一版 6862 的 68.6% 实为减持前四位创始人的合计（约 50.1% + 18.7%），被错标成张勇+舒萍；9658 的 54.3% 来自第三方汇总，与权益披露对不上。两处均已替换。</li>
+      </ul>
+      <p style="margin:18px 0 0; font-size:13px; color:var(--muted);">颐海官方口径的"关联方"合并统计海底捞集团、特海集团与蜀海供应链集团，2026 财年合计占颐海营收 27.7%（同比 -7.2%），是唯一一条把三家公司实际业务连在一起的管道——也是颐海最核心的治理与利润透明度风险点（见第06节）。</p>
+    </div>
+  </section>
+
+  <!-- ===================== 02 SCALE & GROWTH ===================== -->
+  <section>
+    <div class="sec-head"><span class="sec-num mono">02</span><h2>规模与增长对比</h2></div>
+    <p class="sec-intro">海底捞 FY2025 营收约是另外两家的 6.5–7 倍。拉长到两年看：海底捞两年复合 +2.1%，FY25 只有 +1.1%；特海两年复合 +10.7%，三家最快，但已从 +13.4% 放缓到 +8.0%；颐海两年复合 +3.7%，FY24 +6.4% 之后 FY25 回落到 +1.1%，主要被关联方渠道 -7.2% 拖累。</p>
+
+    <div class="panel" style="margin-bottom:20px;">
+      <div class="label">FY2025A 营收规模（约当 USD，看体量）</div>
+      <div class="chart-wrap">
+        <svg class="chart" viewBox="0 0 760 185" role="img" aria-label="三家公司FY2025A营收规模对比柱状图">
+          <text x="10" y="50" class="bar-label" style="fill:var(--cyan); font-size:14px;">6862</text>
+          <rect x="100" y="30" width="449" height="30" fill="var(--cyan)" opacity="0.85"></rect>
+          <text x="560" y="50" class="bar-label">$6.09bn</text>
+
+          <text x="10" y="100" class="bar-label" style="fill:var(--amber); font-size:14px;">9658</text>
+          <rect x="100" y="80" width="62" height="30" fill="var(--amber)" opacity="0.85"></rect>
+          <text x="172" y="100" class="bar-label">$0.84bn</text>
+
+          <text x="10" y="150" class="bar-label" style="fill:var(--lavender); font-size:14px;">1579</text>
+          <rect x="100" y="130" width="69" height="30" fill="var(--lavender)" opacity="0.85"></rect>
+          <text x="179" y="150" class="bar-label">$0.93bn</text>
+        </svg>
+      </div>
+    </div>
+
+
+    <div class="panel" style="margin-bottom:20px;">
+      <div class="label">FY2023A–FY2025A 营收（各自报告币种，看增长）</div>
+      <div class="grid3" style="margin-top:16px;">
+        <div class="growth-card">
+          <div class="label" style="color:var(--cyan);">6862 海底捞 · RMB mm</div>
+          <div class="growth-head"><span class="growth-num">+2.1%</span><span class="growth-cap">两年复合 FY23→25</span></div>
+          <div class="chart-wrap"><svg class="chart" viewBox="0 0 312 214" role="img" aria-label="6862 海底捞 FY2023A至FY2025A营收（RMB mm）：41,453、42,755、43,225"><line x1="36" y1="186" x2="276" y2="186" class="axis-line"></line><rect x="48" y="63.2" width="56" height="122.8" fill="var(--cyan)" opacity="0.85"></rect><text x="76.0" y="55.2" text-anchor="middle" class="bar-label" style="font-size:14px;">41,453</text><text x="76.0" y="206" text-anchor="middle" class="tick-label">FY23A</text><rect x="128" y="59.4" width="56" height="126.6" fill="var(--cyan)" opacity="0.85"></rect><text x="156.0" y="51.4" text-anchor="middle" class="bar-label" style="font-size:14px;">42,755</text><text x="156.0" y="32.4" text-anchor="middle" class="sub-label" style="fill:var(--ink-soft);">+3.1%</text><text x="156.0" y="206" text-anchor="middle" class="tick-label">FY24A</text><rect x="208" y="58.0" width="56" height="128.0" fill="var(--cyan)" opacity="0.85"></rect><text x="236.0" y="50.0" text-anchor="middle" class="bar-label" style="font-size:14px;">43,225</text><text x="236.0" y="31.0" text-anchor="middle" class="sub-label" style="fill:var(--ink-soft);">+1.1%</text><text x="236.0" y="206" text-anchor="middle" class="tick-label">FY25A</text></svg></div>
+        </div>
+        <div class="growth-card">
+          <div class="label" style="color:var(--amber);">9658 特海国际 · US$ mm</div>
+          <div class="growth-head"><span class="growth-num">+10.7%</span><span class="growth-cap">两年复合 FY23→25</span></div>
+          <div class="chart-wrap"><svg class="chart" viewBox="0 0 312 214" role="img" aria-label="9658 特海国际 FY2023A至FY2025A营收（US$ mm）：686.4、778.3、840.8"><line x1="36" y1="186" x2="276" y2="186" class="axis-line"></line><rect x="48" y="81.5" width="56" height="104.5" fill="var(--amber)" opacity="0.85"></rect><text x="76.0" y="73.5" text-anchor="middle" class="bar-label" style="font-size:14px;">686.4</text><text x="76.0" y="206" text-anchor="middle" class="tick-label">FY23A</text><rect x="128" y="67.5" width="56" height="118.5" fill="var(--amber)" opacity="0.85"></rect><text x="156.0" y="59.5" text-anchor="middle" class="bar-label" style="font-size:14px;">778.3</text><text x="156.0" y="40.5" text-anchor="middle" class="sub-label" style="fill:var(--ink-soft);">+13.4%</text><text x="156.0" y="206" text-anchor="middle" class="tick-label">FY24A</text><rect x="208" y="58.0" width="56" height="128.0" fill="var(--amber)" opacity="0.85"></rect><text x="236.0" y="50.0" text-anchor="middle" class="bar-label" style="font-size:14px;">840.8</text><text x="236.0" y="31.0" text-anchor="middle" class="sub-label" style="fill:var(--ink-soft);">+8.0%</text><text x="236.0" y="206" text-anchor="middle" class="tick-label">FY25A</text></svg></div>
+        </div>
+        <div class="growth-card">
+          <div class="label" style="color:var(--lavender);">1579 颐海国际 · RMB mm</div>
+          <div class="growth-head"><span class="growth-num">+3.7%</span><span class="growth-cap">两年复合 FY23→25</span></div>
+          <div class="chart-wrap"><svg class="chart" viewBox="0 0 312 214" role="img" aria-label="1579 颐海国际 FY2023A至FY2025A营收（RMB mm）：6,148、6,540、6,613"><line x1="36" y1="186" x2="276" y2="186" class="axis-line"></line><rect x="48" y="67.0" width="56" height="119.0" fill="var(--lavender)" opacity="0.85"></rect><text x="76.0" y="59.0" text-anchor="middle" class="bar-label" style="font-size:14px;">6,148</text><text x="76.0" y="206" text-anchor="middle" class="tick-label">FY23A</text><rect x="128" y="59.4" width="56" height="126.6" fill="var(--lavender)" opacity="0.85"></rect><text x="156.0" y="51.4" text-anchor="middle" class="bar-label" style="font-size:14px;">6,540</text><text x="156.0" y="32.4" text-anchor="middle" class="sub-label" style="fill:var(--ink-soft);">+6.4%</text><text x="156.0" y="206" text-anchor="middle" class="tick-label">FY24A</text><rect x="208" y="58.0" width="56" height="128.0" fill="var(--lavender)" opacity="0.85"></rect><text x="236.0" y="50.0" text-anchor="middle" class="bar-label" style="font-size:14px;">6,613</text><text x="236.0" y="31.0" text-anchor="middle" class="sub-label" style="fill:var(--ink-soft);">+1.1%</text><text x="236.0" y="206" text-anchor="middle" class="tick-label">FY25A</text></svg></div>
+        </div>
+      </div>
+      <p style="margin:14px 0 0; font-size:12.5px; color:var(--muted-2);">柱高从 0 起算，三张图各自按本公司 FY2025A 定标，所以只比较同一家公司内部的变化，不跨公司比高度。柱顶上方的百分比为同比增速。海底捞自 FY2023 起已不含特海（分拆于 2022-12-30 完成），三年口径可比。来源：6862、1579 港交所年度业绩公告（FY2023 与各家公告的 FY2024 同比增速核对一致）；9658 为 20-F。</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>指标</th><th>6862 海底捞</th><th>9658 特海国际</th><th>1579 颐海国际</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="hl">业务性质</td><td>中国大陆+港澳台 自营火锅餐厅</td><td>海外14国 Haidilao品牌餐厅</td><td>调味品/底料 B2B+零售供应商</td></tr>
+          <tr><td class="hl">FY2025A 营收</td><td>RMB 43,225mm (~US$6.09bn)</td><td>US$840.8mm</td><td>RMB 6,612.6mm (~US$931mm)</td></tr>
+          <tr><td class="hl">FY2023A / FY2024A 营收</td><td>RMB 41,453mm / 42,755mm</td><td>US$686.4mm / 778.3mm</td><td>RMB 6,148mm / 6,540mm</td></tr>
+          <tr><td class="hl">营收增速 FY24 / FY25</td><td>+3.1% / +1.1%（FY25 客流 -7.5%，翻台 3.9次/天，去年4.1次）</td><td>+13.4% / +8.0%（FY21–25 4年CAGR约28%）</td><td>+6.4% / +1.1%（FY25 第三方渠道增长，关联方渠道 -7.2%）</td></tr>
+          <tr><td class="hl">两年复合 FY23→25</td><td>+2.1%</td><td>+10.7%</td><td>+3.7%</td></tr>
+          <tr><td class="hl">FY2025A 净利润</td><td>RMB 4,042mm（-14.0% YoY）</td><td>2026E US$40.5mm（模型估计；FY2025A 待核实）</td><td>RMB 854.0mm（+15.5% YoY）</td></tr>
+          <tr><td class="hl">净利润率</td><td>~9.4%</td><td>~4.3%（2026E 模型口径）</td><td>~12.9%</td></tr>
+          <tr><td class="hl">门店/网点</td><td>1,368家（1,332中国大陆 + 23港澳台 + 13加盟）</td><td>129家餐厅，14个国家</td><td>多个中国制造基地 + 海外经销网络</td></tr>
+          <tr><td class="hl">上市情况</td><td>港交所主板，2018年9月</td><td>港交所（2022年12月）+ 纳斯达克ADS"HDL"（2024年5月），双重上市</td><td>港交所主板，2016年7月</td></tr>
+          <tr><td class="hl">资产负债表</td><td>净现金 ~RMB5.5bn（含IFRS16租赁负债后）</td><td>现金US$272.0mm；租赁负债US$228.8mm；零银行借款</td><td>净现金 RMB1,968mm；零银行借款</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== 03 VALUATION ===================== -->
+  <section>
+    <div class="sec-head"><span class="sec-num mono">03</span><h2>估值对比</h2></div>
+    <p class="sec-intro">三家股价都在 HK$8.86–13.82 之间，放在同一刻度上可以直接比较。2026-10-05 修正后，三家的目标价区间都明显左移：海底捞、特海已贴近现价；颐海区间下沿（HK$14.2）也只比现价高约 3%。</p>
+
+    <div class="panel">
+      <div class="chart-wrap">
+        <svg class="chart" viewBox="0 0 760 270" role="img" aria-label="三家公司估值目标价区间与现价对比图，单位港币">
+          <line x1="120" y1="225" x2="700" y2="225" class="axis-line"></line>
+          <g>
+            <line x1="120" y1="220" x2="120" y2="230" class="tick-line"></line>
+            <text x="120" y="248" text-anchor="middle" class="tick-label">0</text>
+            <line x1="223.6" y1="220" x2="223.6" y2="230" class="tick-line"></line>
+            <text x="223.6" y="248" text-anchor="middle" class="tick-label">5</text>
+            <line x1="327.1" y1="220" x2="327.1" y2="230" class="tick-line"></line>
+            <text x="327.1" y="248" text-anchor="middle" class="tick-label">10</text>
+            <line x1="430.7" y1="220" x2="430.7" y2="230" class="tick-line"></line>
+            <text x="430.7" y="248" text-anchor="middle" class="tick-label">15</text>
+            <line x1="534.3" y1="220" x2="534.3" y2="230" class="tick-line"></line>
+            <text x="534.3" y="248" text-anchor="middle" class="tick-label">20</text>
+            <line x1="637.9" y1="220" x2="637.9" y2="230" class="tick-line"></line>
+            <text x="637.9" y="248" text-anchor="middle" class="tick-label">25</text>
+          </g>
+          <text x="700" y="263" text-anchor="end" class="sub-label">HK$ / 股</text>
+
+          <!-- 6862 cyan -->
+          <text x="15" y="50" class="bar-label" style="fill:var(--cyan); font-size:15px;">6862</text>
+          <text x="15" y="67" class="sub-label">海底捞</text>
+          <rect x="349.1" y="42" width="60.9" height="16" fill="var(--cyan)" opacity="0.28" stroke="var(--cyan)"></rect>
+          <line x1="369.9" y1="38" x2="369.9" y2="64" stroke="var(--cyan)" stroke-width="2.5"></line>
+          <circle cx="310.5" cy="50" r="5.5" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"></circle>
+          <text x="310.5" y="30" text-anchor="middle" class="sub-label" style="fill:var(--ink);">现价 9.195</text>
+          <text x="418" y="56" class="bar-label" style="fill:var(--cyan); font-size:13px;">Base +31.2%</text>
+
+          <!-- 9658 amber -->
+          <text x="15" y="120" class="bar-label" style="fill:var(--amber); font-size:15px;">9658</text>
+          <text x="15" y="137" class="sub-label">特海国际</text>
+          <rect x="291.7" y="112" width="124.8" height="16" fill="var(--amber)" opacity="0.28" stroke="var(--amber)"></rect>
+          <line x1="342.1" y1="108" x2="342.1" y2="134" stroke="var(--amber)" stroke-width="2.5"></line>
+          <circle cx="303.5" cy="120" r="5.5" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"></circle>
+          <text x="303.5" y="100" text-anchor="middle" class="sub-label" style="fill:var(--ink);">现价 8.86</text>
+          <text x="424" y="126" class="bar-label" style="fill:var(--amber); font-size:13px;">Base +21.0%</text>
+
+          <!-- 1579 lavender -->
+          <text x="15" y="190" class="bar-label" style="fill:var(--lavender); font-size:15px;">1579</text>
+          <text x="15" y="207" class="sub-label">颐海国际</text>
+          <rect x="414.8" y="182" width="126.1" height="16" fill="var(--lavender)" opacity="0.28" stroke="var(--lavender)"></rect>
+          <line x1="476.5" y1="178" x2="476.5" y2="204" stroke="var(--lavender)" stroke-width="2.5"></line>
+          <circle cx="406.3" cy="190" r="5.5" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"></circle>
+          <text x="406.3" y="170" text-anchor="middle" class="sub-label" style="fill:var(--ink);">现价 13.82</text>
+          <text x="548" y="196" class="bar-label" style="fill:var(--lavender); font-size:13px;">Base +24.5%</text>
+        </svg>
+      </div>
+      <p style="margin:12px 0 0; font-size:12.5px; color:var(--muted-2);">空心圆 = IBKR Gateway 现价（取数日期各异，见上方 ticker 行）；色块区间 = 目标价 Low–High；竖线 = Base Case。三家均为 2026-10-05 第三轮核对后的数字（原 Base：海底捞 HK$16.5 / 特海 HK$17.7 / 颐海 HK$20.62）。</p>
+    </div>
+
+    <div class="table-wrap" style="margin-top:20px;">
+      <table class="wrapcells">
+        <thead><tr><th>指标</th><th>6862 海底捞</th><th>9658 特海国际</th><th>1579 颐海国际</th></tr></thead>
+        <tbody>
+          <tr><td class="hl">现价（IBKR）</td><td>HK$9.195（2026-10-02）</td><td>HK$8.86（2026-10-02）</td><td>HK$13.82（2026-10-05）</td></tr>
+          <tr><td class="hl">市值</td><td>~HK$49.8bn（~US$6.4bn）</td><td>~US$739mm（~HK$5.8bn）</td><td>~HK$13.4bn（~US$1.72bn）</td></tr>
+          <tr><td class="hl">目标价 Low/Base/High</td><td>11.1 / 12.1 / 14.0<br><span style="color:var(--muted-2);font-size:12px;">原 13.6 / 16.5 / 20.3</span></td><td>8.3 / 10.7 / 14.3<br><span style="color:var(--muted-2);font-size:12px;">原 12.2 / 17.7 / 22.3</span></td><td>14.2 / 17.2 / 20.3<br><span style="color:var(--muted-2);font-size:12px;">原 18.0 / 20.6 / 24.7</span></td></tr>
+          <tr><td class="hl">Upside（Base）</td><td class="hl" style="color:var(--good);">+31.2%</td><td class="hl" style="color:var(--good);">+21.0%</td><td class="hl" style="color:var(--good);">+24.5%</td></tr>
+          <tr><td class="hl">当前估值倍数</td><td>扣租金 EV/EBITDA 5.8x（FY25A；百胜中国 6.5x、特海 6.6x 同口径）</td><td>扣租金 EV/EBITDA 6.6x（FY25A）；P/E ~18x（2026E），高于颐海</td><td>前瞻 P/E 13.0x（同业中位 14.7x）；EV/EBITDA 7.0x（中位 10.5x，因颐海税率和少数股东损益高，此项夸大折价）</td></tr>
+          <tr><td class="hl">缺口性质</td><td>三轮更正后只剩小幅折价；原"DCF 隐含 9.6x vs 市场 4.0x"的缺口来自成本结构与租赁口径错误</td><td>两轮更正后，三种方法结果为 HK$7.2 / 10.0 / 14.6，夹住现价，不再显示大幅低估</td><td>温和、可解释的折价（P/E 约 −11%）；原"低于同业 25 分位"的结论来自估算倍数和被高估的利润</td></tr>
+          <tr><td class="hl">报告评级</td><td><span class="pill review">待重新评估</span></td><td><span class="pill review">待重新评估</span></td><td><span class="pill review">待重新评估</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== 04 DATA INTEGRITY ===================== -->
+  <section>
+    <div class="sec-head"><span class="sec-num mono">04</span><h2>数据可靠性纪录</h2></div>
+    <p class="sec-intro">在横向对比估值之前，三份报告都先用港交所官方原文核对过一次二手/估算数字；2026-10-05 又对三家做了第三轮核对（成本与税费对齐年报和中报、同业倍数换成实际数据、租赁口径统一）。三家被改动的幅度差别很大，这本身就是判断该相信哪个 upside 数字的依据。</p>
+    <div class="grid3">
+      <div class="card c6862">
+        <div class="tag cyan">6862 海底捞 · 三轮更正</div>
+        <h3>改动最多：股数、成本结构、租赁口径</h3>
+        <ul>
+          <li>第一轮：海底捞对特海持股被误设为非零 → 核实后更正为 0%（港交所分拆公告）</li>
+          <li>第二轮：摊薄股数被误用 2,630mm 占位数 → 核实后更正为实际 5,415.5mm（低估2.05倍），叠加现金/租赁负债用百分比估算而非实账 → 一并更正</li>
+          <li>目标价因此从 HK$29.2/35.2/43.1 → HK$13.6/16.5/20.3，收窄约53%</li>
+          <li>第三轮（2026-10-05）："D&amp;A/物业租赁"按营收约11%建模，实际 D&amp;A 仅5.0%，DCF 却整行加回；FY25 EBITDA 模型 RMB9,207mm vs 年报推算约 RMB7,163mm。成本按年报重排、租赁口径统一后，目标价 → HK$11.1/12.1/14.0</li>
+        </ul>
+      </div>
+      <div class="card c9658">
+        <div class="tag amber">9658 特海国际 · 两轮更正</div>
+        <h3>两次都出在租赁上</h3>
+        <ul>
+          <li>原模型 DCF 中"Less: Debt"被硬编码为$0（理由"无银行借款"本身没错），但漏算了官方披露的 $228.8mm IFRS16 租赁负债</li>
+          <li>目标价从 HK$20.0 → HK$17.7，upside 从 +125.8% → +100.3%</li>
+          <li>第二轮（2026-10-05）：EBITDA 为未扣租金口径，同业倍数却多为扣租金口径且已过时；DCF 从未扣租赁付款。统一口径后目标价 → HK$10.7，upside +21%，DCF 已低于现价</li>
+        </ul>
+      </div>
+      <div class="card c1579">
+        <div class="tag lavender">1579 颐海国际 · 第三轮更正</div>
+        <h3>头部数字准确，但税费、少数股东与倍数有误</h3>
+        <ul>
+          <li>总资产、负债、权益、现金、摊薄股数、营收、净利润与官方2026-03-24年度业绩公告几乎分毫不差</li>
+          <li>唯一发现：RMB116.57mm"借款"实为IFRS16租赁负债，标签错误但净现金数字本身未受影响</li>
+          <li>张勇家族31.44%、施永宏家族一致行动人12.47-12.60%持股比例均经官方须予披露公告核实</li>
+          <li>第三轮（2026-10-05）：税率按 23% 估算，实际 29.2%；少数股东按 0.3%，实际 5.5%；净利息按 1.28 亿，实际 0.38 亿——模型自算的 FY25 净利润约 10.5 亿，实际 8.54 亿</li>
+          <li>同业倍数原为估算值（含一行"综合样本"），换成带日期的实际数据；未纳入 2026 中报；漏计约 4 亿理财。目标价 HK$20.6 → 17.2。租赁口径影响很小（租赁成本不到 EBITDA 的 3%）</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 05 GOVERNANCE TIMELINE ===================== -->
+  <section>
+    <div class="sec-head"><span class="sec-num mono">05</span><h2>治理事件时间线（2026）</h2></div>
+    <p class="sec-intro">三家公司在同一个8个月窗口内接连出现领导层变动或股东减持——这是本页第00节"非真正分散"判断的直接证据。</p>
+    <div class="panel">
+      <div class="chart-wrap">
+        <svg class="chart" viewBox="0 0 760 180" role="img" aria-label="2026年1月至10月三家公司治理事件时间线">
+          <line x1="40" y1="100" x2="720" y2="100" class="axis-line"></line>
+          <g class="tick-label">
+            <text x="40" y="118">1月</text><text x="115" y="118">2月</text><text x="191" y="118">3月</text>
+            <text x="267" y="118">4月</text><text x="342" y="118">5月</text><text x="418" y="118">6月</text>
+            <text x="493" y="118">7月</text><text x="569" y="118">8月</text><text x="644" y="118">9月</text>
+            <text x="712" y="118">10月</text>
+          </g>
+
+          <circle cx="72" cy="100" r="6" fill="var(--cyan)"></circle>
+          <line x1="72" y1="94" x2="72" y2="60" class="tick-line"></line>
+          <text x="72" y="50" text-anchor="middle" class="bar-label" style="fill:var(--cyan); font-size:12px;">1/13 6862</text>
+          <text x="72" y="38" text-anchor="middle" class="sub-label" style="font-size:11px;">张勇重任CEO（4年内第3次换人）</text>
+
+          <circle cx="270" cy="100" r="6" fill="var(--lavender)"></circle>
+          <line x1="270" y1="106" x2="270" y2="140" class="tick-line"></line>
+          <text x="270" y="152" text-anchor="middle" class="bar-label" style="fill:var(--lavender); font-size:12px;">4月 1579</text>
+          <text x="270" y="164" text-anchor="middle" class="sub-label" style="font-size:11px;">郭进 董事长+CEO 合一</text>
+
+          <circle cx="305" cy="100" r="6" fill="var(--amber)"></circle>
+          <line x1="305" y1="94" x2="305" y2="60" class="tick-line"></line>
+          <text x="305" y="50" text-anchor="middle" class="bar-label" style="fill:var(--amber); font-size:12px;">4/15 9658</text>
+          <text x="305" y="38" text-anchor="middle" class="sub-label" style="font-size:11px;">CEO换人 李瑜/尹载镇</text>
+
+          <circle cx="650" cy="100" r="6" fill="var(--amber)"></circle>
+          <line x1="650" y1="94" x2="650" y2="60" class="tick-line"></line>
+          <text x="650" y="50" text-anchor="middle" class="bar-label" style="fill:var(--amber); font-size:12px;">9/2 9658</text>
+          <text x="650" y="38" text-anchor="middle" class="sub-label" style="font-size:11px;">CFO换人 李璐</text>
+
+          <circle cx="695" cy="100" r="6" fill="var(--cyan)"></circle>
+          <line x1="695" y1="106" x2="695" y2="140" class="tick-line"></line>
+          <text x="695" y="152" text-anchor="middle" class="bar-label" style="fill:var(--cyan); font-size:12px;">9月 6862</text>
+          <text x="695" y="164" text-anchor="middle" class="sub-label" style="font-size:11px;">舒萍信托减持~HK$27.5亿，单日-9%</text>
+        </svg>
+      </div>
+      <p style="margin:16px 0 0; font-size:12.5px; color:var(--muted-2);">4月与9月的具体日期部分来自二手媒体报道，标注为"待核实"；时间线用于展示事件密度与相关性，不作为精确日历依据。</p>
+    </div>
+  </section>
+
+  <!-- ===================== 06 RISK EXPOSURE ===================== -->
+  <section>
+    <div class="sec-head"><span class="sec-num mono">06</span><h2>业务风险敞口对比</h2></div>
+    <p class="sec-intro">三家面对的是三种不同性质的风险，不能用同一个"中国消费"标签简化处理。</p>
+    <div class="grid3">
+      <div class="card c6862">
+        <div class="tag cyan">6862 海底捞</div>
+        <h3>单一中国消费周期风险</h3>
+        <ul>
+          <li>100%暴露于中国大陆可选消费支出周期，无地理分散</li>
+          <li>服务模式劳动密集，工资成本占比33.0%且难以快速下调</li>
+          <li>同时推进加盟、多品牌(Pomegranate Plan)、外卖三条新能力建设，组织变革负荷大</li>
+          <li>巴奴等"重品质轻服务"挑战者正在侵蚀其差异化定位</li>
+        </ul>
+      </div>
+      <div class="card c9658">
+        <div class="tag amber">9658 特海国际</div>
+        <h3>多国分散，但汇率与成本结构更复杂</h3>
+        <ul>
+          <li>14国布局分散了单一市场周期风险，但带来多币种(SGD/MYR/JPY/KRW/THB/VND/USD/CAD/EUR等)折算波动，FY2024净利润下滑部分即由汇率拖累</li>
+          <li>发达市场（北美/欧洲/日韩）人工成本结构性更高，侵蚀海底捞式高服务比率模式的利润率</li>
+          <li>中国origin消费品牌在西方市场面临的地缘政治/声誉审视风险，虽小但不可完全排除</li>
+          <li>部分市场需求集中于华人/泛亚裔侨民社群，存在人群集中度风险</li>
+        </ul>
+      </div>
+      <div class="card c1579">
+        <div class="tag lavender">1579 颐海国际</div>
+        <h3>类消费必需品，但深度绑定海底捞命运</h3>
+        <ul>
+          <li>B2B+零售供应商模式，不直接承受"今晚要不要出去吃饭"的可选消费波动</li>
+          <li>但27.7%营收仍来自与海底捞/特海/蜀海的关联交易，且该渠道同比-7.2%——海底捞自身的店效/开店放缓会直接传导到颐海报表</li>
+          <li>2026 上半年方向反转：关联方销售 +15.9%（占比回升到 29.9%），中报提到价格调整——若是提价，等于海底捞把利润让给颐海，对两家的少数股东影响方向相反</li>
+          <li>有效税率约 29%（含境内子公司分红预提税），另有 5.5% 利润归属少数股东——看 EBITDA 倍数时容易高估颐海的折价</li>
+          <li>关联方定价(transfer pricing)无法从外部披露完全验证，是本报告认定的"单一最重要风险点"</li>
+          <li>辣椒、大豆油等原材料成本波动直接影响毛利率（FY2025毛利率+150bp主要靠成本端顺风）</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 07 CATALYSTS & VERIFY ===================== -->
+  <section>
+    <div class="sec-head"><span class="sec-num mono">07</span><h2>关键催化剂与待核对清单重点</h2></div>
+    <div class="grid3">
+      <div class="card c6862">
+        <div class="tag cyan">6862 待跟踪</div>
+        <ul>
+          <li>Pomegranate Plan 多品牌规模化验证（海鲜火锅/寿司新概念的单店盈利能力）</li>
+          <li>翻台率能否止跌（FY2025已降至3.9次/天）</li>
+          <li>舒萍信托减持后是否有进一步出售意图——需查HKEXnews披露权益公告</li>
+          <li>FY2025"其他费用"RMB2,270mm 是否含减值/关店等一次性项目——若有，经常性 EBITDA 高于本文的 RMB7,163mm</li>
+          <li>预测的其他收入仅占营收0.4%，而 FY25 隐含约 RMB10.7亿（含约 RMB110亿现金的利息收入）；P/E 一项的同业倍数仍为估计值</li>
+        </ul>
+      </div>
+      <div class="card c9658">
+        <div class="tag amber">9658 待跟踪</div>
+        <ul>
+          <li>4月/9月CEO、CFO换人的具体动因——官方披露中未充分说明，HIGH PRIORITY</li>
+          <li>是否会引入海外加盟模式（对标海底捞中国2024年开始的加盟）</li>
+          <li>Xiabuxiabu的EV/EBITDA数据源存在冲突（~15x vs ~2x两个版本），需核实</li>
+          <li>利息支出建模为零（FY25 租赁利息 US$10.7mm）；需重核 2026E 净利润与 P/E 一项</li>
+          <li>同店销售与扣汇率后利润——决定特海能否从观察仓上调的两个指标</li>
+        </ul>
+      </div>
+      <div class="card c1579">
+        <div class="tag lavender">1579 待跟踪</div>
+        <ul>
+          <li>上半年关联方销售 +15.9%，中报提到价格调整——核查与海底捞/特海/蜀海的关联交易定价基础与 2026 年度上限（HIGH PRIORITY）</li>
+          <li>上半年其他收入从 9,150 万降到 1,710 万；下半年利润率假设（21.0%）是否过高</li>
+          <li>FY2021-24年关联方/第三方营收历史拆分——目前为倒推估算，仅FY2025为官方实数</li>
+          <li>同业倍数为 stockanalysis.com 7–9 月快照，非实时终端；10% 港股折价、3% 永续增长未重新检验</li>
+          <li>中国火锅底料/复合调味料精确TAM数字——各信源差异达RMB1000亿量级</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p><b style="color:var(--muted);">方法说明：</b>本页所有数字均提炼自三份独立的 initiating coverage 全流程报告（06862HK_海底捞/、09658HK_特海国际/、01579HK_颐海国际/，均含公司研究、财务模型、DCF+comps估值、图表与中英文DOCX）。股价数据统一来自本机 IBKR Gateway 只读连接；2026-10-05 起，三家的估值都已按年报/中报的成本、税费和统一的租赁口径（扣租金后 EBITDA、扣租赁付款后的 DCF、已核实的同业倍数）重算，详见三家估值文档与模型中的"Lease-Consistent Valuation"工作表；财务数据以港交所HKEXnews官方公告为第一来源，无法核实的数字在原报告中均标注"TO VERIFY"。</p>
+    <p>本页为结构化分析初稿，供内部投研决策参考，不构成对外发布的投资建议。三份原始报告各自的完整"待核对清单"包含比本页更详尽的条目，请在据此下单前完成复核。</p>
+  </footer>
+
+</div>
+
+</body></html>
