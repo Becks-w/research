@@ -1,0 +1,170 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>澜起科技 Montage Technology 技术分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#f8fafc;color:#0f172a;line-height:1.65;}
+.wrap{max-width:1100px;margin:0 auto;padding:32px 24px;}
+.hero{background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);color:#fff;padding:40px 36px;border-radius:16px;margin-bottom:24px;}
+.hero h1{font-size:30px;font-weight:700;margin-bottom:8px;}
+.hero .meta{display:flex;gap:24px;flex-wrap:wrap;font-size:14px;opacity:0.85;margin-bottom:20px;}
+.hero .one-liner{background:rgba(255,255,255,0.08);padding:16px 20px;border-radius:10px;border-left:4px solid #58cc02;font-size:15px;}
+.score-badge{display:inline-block;padding:8px 18px;border-radius:99px;font-size:16px;font-weight:700;margin-top:12px;}
+.tabs{display:flex;gap:4px;background:#fff;padding:6px;border-radius:12px;margin-bottom:24px;box-shadow:0 1px 3px rgba(0,0,0,0.05);overflow-x:auto;}
+.tab{flex:1;min-width:110px;padding:12px 16px;border:none;background:transparent;font-size:14px;font-weight:600;color:#64748b;cursor:pointer;border-radius:8px;transition:all 0.2s;white-space:nowrap;}
+.tab:hover{color:#0f172a;} .tab.active{background:#0f172a;color:#fff;}
+.section{background:#fff;border-radius:16px;padding:32px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,0.05);display:none;}
+.section.active{display:block;animation:fadeIn 0.3s;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.section h2{font-size:22px;font-weight:700;margin-bottom:8px;color:#0f172a;}
+.section .subtitle{color:#64748b;font-size:14px;margin-bottom:24px;}
+.kv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:24px;}
+.kv-card{background:#f8fafc;padding:18px;border-radius:10px;border:1px solid #e2e8f0;}
+.kv-card .label{font-size:12px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;}
+.kv-card .value{font-size:14px;color:#0f172a;line-height:1.7;}
+.chart-wrap{background:#f8fafc;padding:24px;border-radius:12px;margin:20px 0;}
+.summary-box{background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);padding:20px 24px;border-radius:12px;margin-bottom:16px;border-left:4px solid #d97706;}
+.summary-box.danger{background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%);border-left-color:#dc2626;}
+.summary-box.success{background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%);border-left-color:#059669;}
+.summary-box.info{background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%);border-left-color:#2563eb;}
+.summary-box .title{font-weight:700;margin-bottom:6px;font-size:14px;}
+.summary-box .text{font-size:14px;line-height:1.7;white-space:pre-line;}
+.metric-row{display:block;padding:16px 18px;background:#f8fafc;border-radius:8px;margin-bottom:10px;border-left:3px solid #e2e8f0;}
+.metric-row.positive{border-left-color:#059669;} .metric-row.negative{border-left-color:#dc2626;} .metric-row.neutral{border-left-color:#d97706;}
+.metric-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
+.metric-name{font-weight:700;font-size:15px;}
+.metric-stars{font-size:14px;letter-spacing:1px;} .metric-stars .filled{color:#f59e0b;} .metric-stars .empty{color:#e5e7eb;}
+.metric-signal{font-size:13px;color:#475569;line-height:1.6;margin-bottom:6px;}
+.metric-signal .arrow{color:#94a3b8;margin:0 4px;} .metric-signal .direction{font-weight:600;color:#0f172a;}
+.metric-reason{font-size:12px;color:#64748b;line-height:1.55;padding:8px 10px;background:rgba(0,0,0,0.03);border-radius:6px;border-left:2px solid #cbd5e1;}
+.metric-reason::before{content:"⭐ 星级解释：";font-weight:600;color:#334155;}
+.price-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0;}
+.price-card{background:#f8fafc;padding:18px;border-radius:10px;border:1px solid #e2e8f0;text-align:center;}
+.price-card .label{font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
+.price-card .value{font-size:24px;font-weight:800;font-family:'JetBrains Mono',monospace;}
+.price-card.bear{border-color:#dc2626;} .price-card.bear .value{color:#dc2626;}
+.price-card.base{border-color:#2563eb;} .price-card.base .value{color:#2563eb;}
+.price-card.bull{border-color:#059669;} .price-card.bull .value{color:#059669;}
+.score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:20px 0;}
+.score-item{background:#f8fafc;padding:16px;border-radius:10px;text-align:center;border:1px solid #e2e8f0;}
+.score-item .dim{font-size:12px;color:#64748b;margin-bottom:8px;font-weight:600;}
+.score-item .num{font-size:28px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#0f172a;}
+.score-item .max{font-size:14px;color:#94a3b8;}
+.quadrant{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0;}
+.quad-cell{padding:20px;border-radius:10px;border:2px solid #e2e8f0;}
+.quad-cell.active{border-color:#2563eb;background:#dbeafe;}
+.quad-cell .label{font-size:12px;color:#64748b;font-weight:600;margin-bottom:6px;}
+.quad-cell .verdict{font-size:14px;font-weight:600;}
+.warning-banner{background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);border:1px solid #f59e0b;border-radius:10px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:#78350f;line-height:1.6;}
+.foot{text-align:center;padding:24px;color:#94a3b8;font-size:12px;}
+@media (max-width:640px){.wrap{padding:16px 12px;}.hero{padding:24px 20px;}.hero h1{font-size:22px;}.section{padding:20px;}.price-cards{grid-template-columns:1fr;}.quadrant{grid-template-columns:1fr;}}
+</style></head><body><div class="wrap">
+<div class="hero">
+  <h1>澜起科技 Montage Technology 技术分析报告</h1>
+  <div class="meta"><div>📊 代码：688008.SS（H股 6809.HK 参考）</div><div>🏛️ 上交所科创板（STAR）</div><div>💵 当前价：¥193.47</div><div>📅 2026-09-02</div><div>⏰ 中线持有（周线为主，辅看日线）</div></div>
+  <div class="one-liner">💡 澜起科技自 2025 年 8 月 ¥81 一路飙至 2026/7/1 高点 ¥332.51（约 4 倍），随后见顶回落，7/16–17 放巨量崩跌至 ¥182。此后反弹乏力、逐级走低，现价 ¥193 夹在关键支撑（MA200 ¥181 + 双底 ¥182–188）与下压的 MA50/100（¥224–227）之间。定调：观望 —— 抛物线顶部已现，中期转为调整，等 ¥182–188 支撑放量企稳、或站回 ¥207 中轨再谈买点，不接下跌途中飞刀。</div>
+  <span class="score-badge" style="background:#d97706;color:#fff">综合评级：观望 · 4.5/10 分</span>
+</div>
+<div class="warning-banner">
+  ⚠️ <strong>使用提示</strong>：技术分析不是预测，是概率管理。本报告基于多周期 + 多指标共振方法论，单一信号不构成操作依据，建议与 business-analysis（基本面）报告交叉使用。<br>
+  📐 <strong>标的说明</strong>：因 H 股 6809.HK 2026年5月才上市、历史不足 4 个月（无法计算 MA100/200），故本报告分析其<strong>母体 A 股 澜起科技 688008.SS</strong>（完整多年历史）。H 股走势与 A 股高度联动，可作参考；两者存在 AH 溢价差异。价格单位为人民币 ¥（1 USD≈7.1 CNY，¥193.47≈$27.2）。数据截至 2026-09-02，前复权。
+</div>
+<div class="tabs">
+  <button class="tab active" data-tab="m1">📈 趋势</button><button class="tab" data-tab="m2">📊 指标</button><button class="tab" data-tab="m3">🎯 形态</button>
+  <button class="tab" data-tab="m4">⭐ 评分</button><button class="tab" data-tab="m5">💰 策略</button><button class="tab" data-tab="m6">🔄 基本面交叉</button>
+</div>
+<div class="section active" id="m1">
+  <h2>📈 模块一：趋势诊断</h2><p class="subtitle">市场处于上升、下降还是震荡？这是一切的起点</p>
+  <div class="chart-wrap"><canvas id="priceChart" height="320"></canvas></div>
+  <div class="kv-grid">
+    <div class="kv-card"><div class="label">月线趋势</div><div class="value">长期仍向上（现价远高于年初 ¥117、且在 MA200 之上），但月线抛物线顶部已形成、动能转弱</div></div>
+    <div class="kv-card"><div class="label">周线趋势</div><div class="value">下降（7 月见顶 ¥332 后逐级走低：332→297→237→221，周线转空）</div></div>
+    <div class="kv-card"><div class="label">日线趋势</div><div class="value">弱势整理，价格在短均线下方运行</div></div>
+    <div class="kv-card"><div class="label">多周期共振</div><div class="value">月线多头但topping、周线空头、日线空头 → 长多格局下的中期调整深化</div></div>
+    <div class="kv-card"><div class="label">MA50 / MA100 / MA200</div><div class="value">¥227.15 / ¥224.23 / ¥181.33（价格 ¥193.47 在 MA200 之上、MA50/100 之下）</div></div>
+  </div>
+  <div class="summary-box info"><div class="title">道氏理论高低点</div><div class="text">7/1 顶 ¥332.51 后，反弹高点 ¥297→¥237→¥221 持续走低（更低的高点）；7/17 崩盘低 ¥181.97 于 8/24 被回测（¥186.5）。下降结构未破坏，关键防线 ¥181–188（MA200＋双底），跌破则调整深化。</div></div>
+  <div class="summary-box"><div class="title">趋势诊断结论</div><div class="text">典型『抛物线见顶后的中期调整』：长期趋势（MA200 向上）未死，但中短期已转空。当前处在关键支撑上方的高波动博弈区，方向未定，右侧未确认。</div></div>
+</div>
+<div class="section" id="m2">
+  <h2>📊 模块二：四大类指标共振分析</h2><p class="subtitle">每类指标独立评 1-5 星，至少 3 类同向且各自 ⭐⭐⭐+ 才算有效共振</p>
+  <div class="chart-wrap"><canvas id="indicatorRadar" height="240"></canvas></div>
+  <div class="metric-row negative"><div class="metric-header"><span class="metric-name">📉 趋势类 · MACD</span><span class="metric-stars"><span class="filled">★★★</span><span class="empty">☆☆</span> 3/5</span></div><div class="metric-signal">DIF(-5.6)/DEA(-6.0) 均在零轴下方，反弹红柱由 +4.0 快速收窄至 +0.8，即将二次死叉 <span class="arrow">→</span> <span class="direction">空头（零轴下方，反弹动能衰竭）</span></div><div class="metric-reason">DIF/DEA 双双跌破零轴 = 中期动能已转空（弱势延续，⭐⭐⭐ -1）；崩盘后的技术反弹推动红柱短暂转正，但红柱正快速收窄、临近零轴下方再度死叉，说明反弹已near尾声</div></div><div class="metric-row negative"><div class="metric-header"><span class="metric-name">⚡ 动量类 · RSI (42.8)</span><span class="metric-stars"><span class="filled">★★</span><span class="empty">☆☆☆</span> 2/5</span></div><div class="metric-signal">跌破 50 中轴并继续走低（53.6→42.8），未到超卖 <span class="arrow">→</span> <span class="direction">偏弱</span></div><div class="metric-reason">RSI 42.8 在 30–50 弱势区运行且向下（⭐⭐ -1），多空分界 50 失守说明卖方占优；但尚未进入 <30 超卖区，谈不上『跌不动』的反弹信号</div></div><div class="metric-row negative"><div class="metric-header"><span class="metric-name">🌊 波动类 · 布林带</span><span class="metric-stars"><span class="filled">★★★</span><span class="empty">☆☆</span> 3/5</span></div><div class="metric-signal">价格 ¥193 贴近下轨 ¥188、位于中轨 ¥207 下方，带宽 17.7%（高波动） <span class="arrow">→</span> <span class="direction">偏弱但临近支撑</span></div><div class="metric-reason">沿下轨运行是弱趋势延续（⭐⭐⭐ -1）；但下轨 ¥188 恰与 MA200(¥181)＋双底重叠，是潜在反弹带 —— 弱势中带一个『可能止跌』的位置暗示</div></div><div class="metric-row positive"><div class="metric-header"><span class="metric-name">💧 量能类 · Volume/OBV</span><span class="metric-stars"><span class="filled">★★★★</span><span class="empty">☆</span> 4/5</span></div><div class="metric-signal">回落过程量能持续萎缩（20日均量较60日均量 -34%），7/16–17 崩盘为巨量恐慌顶量，之后缩量；OBV 仅小幅走低 <span class="arrow">→</span> <span class="direction">中性偏多（抛压衰竭迹象）</span></div><div class="metric-reason">下跌 + 缩量 = 抛压衰竭的健康信号（⭐⭐⭐⭐ +1），崩盘时的天量已完成恐慌换手、此后卖压边际减弱；OBV 未大幅破位说明没有持续性的资金出逃 —— 这是当前唯一偏建设性的一票</div></div>
+  <div class="summary-box info" style="margin-top:20px"><div class="title">共振结果：3/4 偏空（MACD/RSI/布林带向下，量能因缩量抛压衰竭而中性偏多）</div><div class="text">四类指标 3 空 1 中性偏多。趋势类与动量类确认中期转空、反弹动能衰竭；量能类是唯一亮点 —— 下跌缩量意味着恐慌盘已出尽、卖压边际减弱，若价格在 ¥182–188 支撑区放量收阳，就是抛压衰竭→止跌的第一个证据。但在此之前，指标合力仍指向『弱势、等待』。</div></div>
+</div>
+<div class="section" id="m3">
+  <h2>🎯 模块三：形态识别</h2><p class="subtitle">K 线组合 + 经典图形 — 位置 > 形状，量能配合是关键</p>
+  <div class="kv-grid">
+    <div class="kv-card"><div class="label">K 线组合</div><div class="value">8/27 一根放量长阳（¥221）后连续回吐，反弹夭折；近日小阴小阳缩量试探下轨，分歧但卖压不重</div></div>
+    <div class="kv-card"><div class="label">图形形态</div><div class="value">抛物线顶（¥332）后的下降通道；¥182–188 处 7/17 与 8/24 两个低点构成潜在双底雏形（未确认）</div></div>
+    <div class="kv-card"><div class="label">关键位置</div><div class="value">关键支撑 ¥182–188（MA200 ¥181＋双底＋布林下轨）；下方 ¥150（Q1 平台/缺口）。上方压力 ¥207（20日中轨）→ ¥224–227（MA50/100 黏合带）→ ¥237（7月反弹高）</div></div>
+    <div class="kv-card"><div class="label">量能配合</div><div class="value">下跌缩量（抛压衰竭，偏正面），但反弹同样缩量（多方也无力）—— 量能中性，等待放量方向选择</div></div>
+  </div>
+  <div class="summary-box"><div class="title">形态识别结论</div><div class="text">潜在双底正在 ¥182–188 构筑，但颈线（¥207/¥224）远未突破、形态未确认。当前是『下降通道下沿 + 可能的双底左侧』，既非确认买点也非破位卖点，属观察窗口。</div></div>
+</div>
+<div class="section" id="m4">
+  <h2>⭐ 模块四：信号强度综合评分</h2><p class="subtitle">5 个维度，满分 10 分 — 浓缩前三个模块的所有发现</p>
+  <div class="score-grid">
+    <div class="score-item"><div class="dim">趋势方向</div><div class="num">0.5<span class="max">/2</span></div></div>
+    <div class="score-item"><div class="dim">指标共振</div><div class="num">0.5<span class="max">/2</span></div></div>
+    <div class="score-item"><div class="dim">形态确认</div><div class="num">1<span class="max">/2</span></div></div>
+    <div class="score-item"><div class="dim">位置质量</div><div class="num">1.5<span class="max">/2</span></div></div>
+    <div class="score-item"><div class="dim">量价配合</div><div class="num">1<span class="max">/2</span></div></div>
+  </div>
+  <div class="chart-wrap"><canvas id="scoreChart" height="200"></canvas></div>
+  <div class="summary-box" style="background:#d9770622;border-left-color:#d97706"><div class="title">综合评分：4.5/10 → 观望</div><div class="text">中等信号 ★★★ — 试探仓位，密切观察</div></div>
+</div>
+<div class="section" id="m5">
+  <h2>💰 模块五：买卖点策略 + 风险管理</h2><p class="subtitle">具体到价位的可执行建议</p>
+  <div class="kv-grid">
+    <div class="kv-card" style="border-left:3px solid #059669;"><div class="label" style="color:#059669;">理想买入区间</div><div class="value" style="font-family:'JetBrains Mono',monospace;font-weight:700;">¥182 – ¥190（MA200＋双底＋下轨支撑带）—— 仅在此区『放量收阳/缩量止跌』确认后试探；稳健者等站回中轨 ¥207 再介入</div></div>
+    <div class="kv-card" style="border-left:3px solid #dc2626;"><div class="label" style="color:#dc2626;">止损位（认错离场）</div><div class="value" style="font-family:'JetBrains Mono',monospace;font-weight:700;">¥178（跌破双底 ¥182 与崩盘低 ¥182，趋势调整深化信号）</div></div>
+    <div class="kv-card" style="border-left:3px solid #2563eb;"><div class="label" style="color:#2563eb;">建议仓位</div><div class="value" style="font-weight:700;">0–30% 试探仓（仅限支撑确认后）；未确认前以空仓观望为主</div></div>
+    <div class="kv-card" style="border-left:3px solid #d97706;"><div class="label" style="color:#d97706;">风险收益比</div><div class="value" style="font-family:'JetBrains Mono',monospace;font-weight:700;">约 1:3（以 ¥188 入场、¥178 止损、¥227 目标计）</div></div>
+  </div>
+  <h3 style="font-size:17px;font-weight:700;margin:24px 0 12px;">🎯 目标价区间</h3>
+  <div class="price-cards">
+    <div class="price-card bear"><div class="label">悲观 Bear</div><div class="value">¥150</div></div>
+    <div class="price-card base"><div class="label">基准 Base</div><div class="value">¥227</div></div>
+    <div class="price-card bull"><div class="label">乐观 Bull</div><div class="value">¥298</div></div>
+  </div>
+</div>
+<div class="section" id="m6">
+  <h2>🔄 模块六：与基本面交叉验证</h2><p class="subtitle">技术面 + 基本面双确认才是最佳建仓机会</p>
+  <div class="kv-grid">
+    <div class="kv-card"><div class="label">基本面评级</div><div class="value">未正式跑 business-analysis（建议补充）</div></div>
+    <div class="kv-card"><div class="label">基本面结论</div><div class="value">偏利好但估值高：内存接口芯片龙头，2025 营收 ¥54.6亿(+50%)、净利 ¥22.4亿(+58%)，受益 AI 服务器/DDR5/HBM 需求，分析师『强力买入』均价目标 ¥298；但 PE≈95 倍、Beta 1.48，估值已price-in高增长，另有韩国竞争法调查小扰动</div></div>
+    <div class="kv-card"><div class="label">技术面结论</div><div class="value">抛物线见顶后的中期调整，现价夹在关键支撑与下压均线间，右侧未确认，观望等企稳</div></div>
+    <div class="kv-card"><div class="label">四象限定位</div><div class="value">基本面利好 + 技术面弱 → 左侧布局</div></div>
+  </div>
+  <h3 style="font-size:17px;font-weight:700;margin:24px 0 12px;">🎯 四象限决策矩阵</h3>
+  <div class="quadrant">
+  <div class="quad-cell"><div class="label">基本面利好 + 技术面强</div><div class="verdict" style="color:#059669;">✅ 最佳建仓机会（双确认）</div></div>
+  <div class="quad-cell"><div class="label">基本面利空 + 技术面强</div><div class="verdict" style="color:#d97706;">⚠️ 投机机会，仓位严控</div></div>
+  <div class="quad-cell active"><div class="label">基本面利好 + 技术面弱</div><div class="verdict" style="color:#2563eb;">⏳ 等待技术面确认（左侧布局）</div></div>
+  <div class="quad-cell"><div class="label">基本面利空 + 技术面弱</div><div class="verdict" style="color:#dc2626;">❌ 远离，无任何理由介入</div></div></div>
+  <div class="summary-box info"><div class="title">📝 最终行动建议</div><div class="text">1. 基本面：内存接口芯片龙头、高成长，但 ~95 倍 PE 把未来数年增长已经计入，属『好公司、贵价格』—— 强烈建议正式跑一遍 business-analysis 核实合理估值区间。
+2. 技术面：抛物线顶（¥332）已确认，中期转为调整；现价 ¥193 在 MA200(¥181)＋双底(¥182–188) 上方博弈，反弹动能衰竭但下跌缩量（抛压在衰竭）。
+3. 可执行结论：四象限落在『基本面利好 + 技术面弱』→ 左侧布局区，不追、不满仓。观望为主；¥182–188 放量企稳可试探 0–30%（止损 ¥178），或等站回中轨 ¥207、放量收复 ¥224–227 均线带再加仓确认右侧。跌破 ¥181 则看 ¥150。</div></div>
+</div>
+<div class="foot">Generated for 澜起科技 Montage Technology (688008.SS（H股 6809.HK 参考）) · 2026-09-02<br>本报告基于公开信息分析，仅供研究参考，不构成投资建议<br>Technical Analysis Skill v1.0 · 与 business-analysis skill 配合使用</div>
+</div>
+<script>
+const ohlcvData=[{"date":"03-12","c":147.5,"v":23.5,"ma50":150.5,"ma100":138.7,"ma200":null},{"date":"03-13","c":146.1,"v":26.6,"ma50":151,"ma100":138.7,"ma200":null},{"date":"03-16","c":152.1,"v":41,"ma50":151.6,"ma100":138.8,"ma200":null},{"date":"03-17","c":146.2,"v":30,"ma50":152.1,"ma100":138.8,"ma200":null},{"date":"03-18","c":153.2,"v":48,"ma50":152.8,"ma100":139,"ma200":null},{"date":"03-19","c":149.3,"v":38.2,"ma50":153.4,"ma100":139.2,"ma200":null},{"date":"03-20","c":144.5,"v":35.1,"ma50":153.9,"ma100":139.2,"ma200":null},{"date":"03-23","c":136.4,"v":38.4,"ma50":154.3,"ma100":139.2,"ma200":null},{"date":"03-24","c":137.2,"v":30,"ma50":154.4,"ma100":139.2,"ma200":null},{"date":"03-25","c":141.6,"v":32.6,"ma50":154.6,"ma100":139.2,"ma200":null},{"date":"03-26","c":136.6,"v":24.8,"ma50":154.6,"ma100":139.1,"ma200":null},{"date":"03-27","c":134.7,"v":23.5,"ma50":154.7,"ma100":138.9,"ma200":null},{"date":"03-30","c":131.6,"v":25.6,"ma50":154.7,"ma100":138.7,"ma200":null},{"date":"03-31","c":124.9,"v":36.4,"ma50":154.6,"ma100":138.4,"ma200":null},{"date":"04-01","c":129.6,"v":34.2,"ma50":154.6,"ma100":138.4,"ma200":null},{"date":"04-02","c":128.6,"v":30.6,"ma50":154.5,"ma100":138.3,"ma200":null},{"date":"04-03","c":126.9,"v":18.6,"ma50":154.3,"ma100":138.3,"ma200":null},{"date":"04-07","c":127.5,"v":19.8,"ma50":154,"ma100":138.3,"ma200":null},{"date":"04-08","c":138.8,"v":50,"ma50":154.1,"ma100":138.4,"ma200":null},{"date":"04-09","c":138.8,"v":37.1,"ma50":154,"ma100":138.4,"ma200":null},{"date":"04-10","c":143.1,"v":40.1,"ma50":153.6,"ma100":138.6,"ma200":null},{"date":"04-13","c":151.9,"v":53.5,"ma50":153.3,"ma100":138.9,"ma200":null},{"date":"04-14","c":153,"v":63,"ma50":153.2,"ma100":139.1,"ma200":null},{"date":"04-15","c":146.8,"v":49.1,"ma50":152.9,"ma100":139.3,"ma200":null},{"date":"04-16","c":150.6,"v":39.7,"ma50":152.5,"ma100":139.6,"ma200":null},{"date":"04-17","c":150.4,"v":45.5,"ma50":152.1,"ma100":139.9,"ma200":null},{"date":"04-20","c":154.3,"v":43.2,"ma50":151.9,"ma100":140.3,"ma200":null},{"date":"04-21","c":158,"v":45.2,"ma50":151.4,"ma100":140.7,"ma200":null},{"date":"04-22","c":163,"v":58.2,"ma50":151.1,"ma100":141.1,"ma200":null},{"date":"04-23","c":159.3,"v":62.1,"ma50":150.7,"ma100":141.6,"ma200":null},{"date":"04-24","c":163.1,"v":62.1,"ma50":150.5,"ma100":142.1,"ma200":null},{"date":"04-27","c":177.7,"v":82.6,"ma50":150.7,"ma100":142.7,"ma200":null},{"date":"04-28","c":173.2,"v":69.5,"ma50":150.9,"ma100":143.2,"ma200":null},{"date":"04-29","c":169.5,"v":51.7,"ma50":150.9,"ma100":143.8,"ma200":null},{"date":"04-30","c":172.9,"v":59.1,"ma50":150.8,"ma100":144.3,"ma200":null},{"date":"05-06","c":198.6,"v":110.1,"ma50":151.4,"ma100":145.1,"ma200":null},{"date":"05-07","c":209.5,"v":88.5,"ma50":152.2,"ma100":146,"ma200":null},{"date":"05-08","c":209.9,"v":62.4,"ma50":153.1,"ma100":146.9,"ma200":null},{"date":"05-11","c":248.8,"v":110.2,"ma50":154.6,"ma100":148.2,"ma200":null},{"date":"05-12","c":240.3,"v":97.4,"ma50":156.1,"ma100":149.5,"ma200":null},{"date":"05-13","c":258.4,"v":84.9,"ma50":157.9,"ma100":150.8,"ma200":null},{"date":"05-14","c":264.7,"v":107.7,"ma50":160,"ma100":152.2,"ma200":null},{"date":"05-15","c":247.6,"v":114.5,"ma50":161.7,"ma100":153.5,"ma200":null},{"date":"05-18","c":247.6,"v":79,"ma50":163.7,"ma100":154.8,"ma200":null},{"date":"05-19","c":246.7,"v":69,"ma50":165.7,"ma100":156.1,"ma200":null},{"date":"05-20","c":256.9,"v":74.8,"ma50":167.8,"ma100":157.5,"ma200":null},{"date":"05-21","c":261.8,"v":112,"ma50":170,"ma100":159,"ma200":null},{"date":"05-22","c":271.4,"v":78.5,"ma50":172.5,"ma100":160.5,"ma200":null},{"date":"05-25","c":283.7,"v":89.4,"ma50":175.1,"ma100":162.2,"ma200":null},{"date":"05-26","c":271.9,"v":78.9,"ma50":177.5,"ma100":163.7,"ma200":null},{"date":"05-27","c":265.1,"v":76.6,"ma50":179.9,"ma100":165.2,"ma200":null},{"date":"05-28","c":260.6,"v":62.4,"ma50":182.2,"ma100":166.6,"ma200":null},{"date":"05-29","c":252.6,"v":73.1,"ma50":184.2,"ma100":167.9,"ma200":null},{"date":"06-01","c":231.9,"v":72,"ma50":185.9,"ma100":169,"ma200":null},{"date":"06-02","c":236.6,"v":66.6,"ma50":187.6,"ma100":170.2,"ma200":144.8},{"date":"06-03","c":253.5,"v":91.3,"ma50":189.7,"ma100":171.5,"ma200":145.7},{"date":"06-04","c":259.3,"v":65.1,"ma50":191.9,"ma100":172.9,"ma200":146.5},{"date":"06-05","c":239,"v":69.2,"ma50":194,"ma100":174.1,"ma200":147.3},{"date":"06-08","c":223.9,"v":60.9,"ma50":195.7,"ma100":175.1,"ma200":148},{"date":"06-09","c":236,"v":52.8,"ma50":197.6,"ma100":176.1,"ma200":148.7},{"date":"06-10","c":230.6,"v":43,"ma50":199.5,"ma100":177.1,"ma200":149.4},{"date":"06-11","c":228.3,"v":43,"ma50":201.4,"ma100":178,"ma200":150.1},{"date":"06-12","c":224.5,"v":63.7,"ma50":203.2,"ma100":179,"ma200":150.8},{"date":"06-15","c":239.7,"v":53.7,"ma50":205.5,"ma100":180,"ma200":151.5},{"date":"06-16","c":243.8,"v":53.8,"ma50":207.8,"ma100":181.2,"ma200":152.3},{"date":"06-17","c":262.1,"v":74.2,"ma50":210.5,"ma100":182.5,"ma200":153.1},{"date":"06-18","c":269.5,"v":81.6,"ma50":213.3,"ma100":183.8,"ma200":154},{"date":"06-22","c":279.7,"v":79.6,"ma50":216.4,"ma100":185.2,"ma200":155},{"date":"06-23","c":257.6,"v":77.5,"ma50":218.8,"ma100":186.4,"ma200":155.8},{"date":"06-24","c":266.1,"v":63.6,"ma50":221.3,"ma100":187.6,"ma200":156.7},{"date":"06-25","c":278.8,"v":91.3,"ma50":224,"ma100":188.8,"ma200":157.6},{"date":"06-26","c":261.4,"v":75.5,"ma50":226.2,"ma100":189.8,"ma200":158.4},{"date":"06-29","c":295.7,"v":106.7,"ma50":229.1,"ma100":191.1,"ma200":159.4},{"date":"06-30","c":309.5,"v":89.9,"ma50":232.3,"ma100":192.6,"ma200":160.4},{"date":"07-01","c":315.5,"v":88.7,"ma50":235.6,"ma100":194.1,"ma200":161.4},{"date":"07-02","c":268.8,"v":90,"ma50":238,"ma100":195,"ma200":162.1},{"date":"07-03","c":266.4,"v":72.4,"ma50":240.2,"ma100":196.1,"ma200":162.8},{"date":"07-06","c":268.3,"v":63.3,"ma50":242.4,"ma100":196.9,"ma200":163.6},{"date":"07-07","c":252.8,"v":60.7,"ma50":244.2,"ma100":197.7,"ma200":164.3},{"date":"07-08","c":246.8,"v":51.1,"ma50":246,"ma100":198.3,"ma200":165},{"date":"07-09","c":285.4,"v":82.2,"ma50":248.4,"ma100":199.5,"ma200":165.9},{"date":"07-10","c":267.7,"v":83.1,"ma50":250.2,"ma100":200.5,"ma200":166.7},{"date":"07-13","c":252.4,"v":56.8,"ma50":251.8,"ma100":201.4,"ma200":167.4},{"date":"07-14","c":269.6,"v":63.6,"ma50":253.8,"ma100":202.3,"ma200":168.2},{"date":"07-15","c":252.3,"v":53.5,"ma50":255.4,"ma100":203.1,"ma200":168.9},{"date":"07-16","c":210.7,"v":116,"ma50":255.6,"ma100":203.5,"ma200":169.3},{"date":"07-17","c":183.2,"v":97.7,"ma50":255.1,"ma100":203.7,"ma200":169.7},{"date":"07-20","c":189.6,"v":77.1,"ma50":254.7,"ma100":203.9,"ma200":170},{"date":"07-21","c":219.2,"v":92.9,"ma50":254.1,"ma100":204.4,"ma200":170.5},{"date":"07-22","c":222.6,"v":90.3,"ma50":253.8,"ma100":204.9,"ma200":171},{"date":"07-23","c":225.1,"v":49,"ma50":253.1,"ma100":205.5,"ma200":171.6},{"date":"07-24","c":233.3,"v":59.5,"ma50":252.5,"ma100":206.2,"ma200":172.1},{"date":"07-27","c":227.1,"v":58.4,"ma50":252.1,"ma100":206.9,"ma200":172.6},{"date":"07-28","c":205.7,"v":62.2,"ma50":251.2,"ma100":207.5,"ma200":173},{"date":"07-29","c":207.5,"v":63.6,"ma50":250.4,"ma100":208.1,"ma200":173.3},{"date":"07-30","c":196.8,"v":58.8,"ma50":249.2,"ma100":208.5,"ma200":173.6},{"date":"07-31","c":204.9,"v":65.7,"ma50":248.1,"ma100":209,"ma200":173.9},{"date":"08-03","c":189.9,"v":47.3,"ma50":246.5,"ma100":209.5,"ma200":174.1},{"date":"08-04","c":203.2,"v":49.4,"ma50":244.8,"ma100":210,"ma200":174.4},{"date":"08-05","c":212,"v":57.9,"ma50":243.7,"ma100":210.6,"ma200":174.7},{"date":"08-06","c":208.4,"v":48.2,"ma50":242.5,"ma100":211.2,"ma200":175},{"date":"08-07","c":215.5,"v":52.1,"ma50":241.6,"ma100":211.9,"ma200":175.3},{"date":"08-10","c":206.9,"v":43.9,"ma50":240.7,"ma100":212.4,"ma200":175.6},{"date":"08-11","c":206.7,"v":36.2,"ma50":240.2,"ma100":213,"ma200":175.9},{"date":"08-12","c":215.4,"v":44.2,"ma50":239.8,"ma100":213.7,"ma200":176.3},{"date":"08-13","c":210.2,"v":47.8,"ma50":238.9,"ma100":214.3,"ma200":176.7},{"date":"08-14","c":211.9,"v":31.4,"ma50":238,"ma100":215,"ma200":177.1},{"date":"08-17","c":224.4,"v":51.7,"ma50":237.7,"ma100":215.8,"ma200":177.5},{"date":"08-18","c":218,"v":44.4,"ma50":237.5,"ma100":216.6,"ma200":177.9},{"date":"08-19","c":200,"v":51.1,"ma50":236.8,"ma100":217.2,"ma200":178.2},{"date":"08-20","c":199.1,"v":26.8,"ma50":236.2,"ma100":217.9,"ma200":178.5},{"date":"08-21","c":200.6,"v":21.2,"ma50":235.6,"ma100":218.5,"ma200":178.7},{"date":"08-24","c":191.8,"v":33.4,"ma50":235,"ma100":219.1,"ma200":178.9},{"date":"08-25","c":194.4,"v":23.7,"ma50":234.1,"ma100":219.8,"ma200":179.1},{"date":"08-26","c":201,"v":30.2,"ma50":233.2,"ma100":220.5,"ma200":179.4},{"date":"08-27","c":221.2,"v":67.3,"ma50":232.4,"ma100":221.4,"ma200":179.9},{"date":"08-28","c":213,"v":39,"ma50":231.3,"ma100":222.3,"ma200":180.3},{"date":"08-31","c":204.9,"v":44.8,"ma50":229.8,"ma100":223.1,"ma200":180.7},{"date":"09-01","c":198.3,"v":26.1,"ma50":228.6,"ma100":223.7,"ma200":181},{"date":"09-02","c":193.5,"v":22.5,"ma50":227.1,"ma100":224.2,"ma200":181.3}];
+const D_m2_scores={"macd":-1,"rsi":-1,"bollinger":-1,"volumeObv":1};
+const D_m4_scores={"trendDirection":0.5,"indicatorResonance":0.5,"patternConfirm":1,"positionQuality":1.5,"volumePrice":1};
+const chartsBuilt={m1:false,m2:false,m4:false};
+const chartBuilders={
+  m1:()=>new Chart(document.getElementById('priceChart'),{type:'line',data:{labels:ohlcvData.map(d=>d.date),datasets:[
+    {label:'收盘价',data:ohlcvData.map(d=>d.c),borderColor:'#0f172a',backgroundColor:'rgba(15,23,42,0.08)',borderWidth:2.5,pointRadius:0,tension:0.1,fill:true},
+    {label:'MA50',data:ohlcvData.map(d=>d.ma50),borderColor:'#2563eb',borderWidth:1.5,pointRadius:0,borderDash:[4,4]},
+    {label:'MA100',data:ohlcvData.map(d=>d.ma100),borderColor:'#d97706',borderWidth:1.5,pointRadius:0,borderDash:[4,4]},
+    {label:'MA200',data:ohlcvData.map(d=>d.ma200),borderColor:'#dc2626',borderWidth:1.5,pointRadius:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{title:{display:true,text:'K 线走势 + 三均线（50/100/200）· 近 120 交易日（¥）',font:{size:14,weight:'600'}},legend:{position:'top'}},scales:{y:{beginAtZero:false,ticks:{callback:v=>'¥'+v}}}}}),
+  m2:()=>new Chart(document.getElementById('indicatorRadar'),{type:'radar',data:{labels:['趋势 MACD','动量 RSI','波动 BB','量能 OBV'],datasets:[{label:'信号方向（-2 强空 ~ +2 强多）',data:[D_m2_scores.macd,D_m2_scores.rsi,D_m2_scores.bollinger,D_m2_scores.volumeObv],backgroundColor:'rgba(220,38,38,0.18)',borderColor:'#dc2626',borderWidth:2,pointBackgroundColor:'#dc2626',pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:-2,max:2,ticks:{stepSize:1},pointLabels:{font:{size:13,weight:'600'}}}},plugins:{legend:{display:false},title:{display:true,text:'四大类指标方向（3/4 偏空）',font:{size:14,weight:'600'}}}}}),
+  m4:()=>new Chart(document.getElementById('scoreChart'),{type:'bar',data:{labels:['趋势方向','指标共振','形态确认','位置质量','量价配合'],datasets:[{label:'得分（满分 2 分）',data:[D_m4_scores.trendDirection,D_m4_scores.indicatorResonance,D_m4_scores.patternConfirm,D_m4_scores.positionQuality,D_m4_scores.volumePrice],backgroundColor:['#2563eb','#d97706','#059669','#dc2626','#0f172a'],borderRadius:6}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'5 维评分（各项满分 2 分，总分 10）',font:{size:14,weight:'600'}}},scales:{x:{beginAtZero:true,max:2,ticks:{stepSize:0.5}}}}})
+};
+function ensureChart(t){if(chartBuilders[t]&&!chartsBuilt[t]){chartBuilders[t]();chartsBuilt[t]=true;}}
+document.querySelectorAll('.tab').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));tab.classList.add('active');document.getElementById(tab.dataset.tab).classList.add('active');requestAnimationFrame(()=>ensureChart(tab.dataset.tab));});});
+window.addEventListener('load',()=>{requestAnimationFrame(()=>ensureChart('m1'));});
+</script></body></html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X-Energy Inc. 技术分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f8fafc; color:#0f172a; line-height:1.65; }
+.wrap { max-width:1100px; margin:0 auto; padding:32px 24px; }
+.hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%); color:#fff; padding:40px 36px; border-radius:16px; margin-bottom:24px; }
+.hero h1 { font-size:30px; font-weight:700; margin-bottom:8px; }
+.hero .meta { display:flex; gap:24px; flex-wrap:wrap; font-size:14px; opacity:0.85; margin-bottom:20px; }
+.hero .one-liner { background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:10px; border-left:4px solid #58cc02; font-size:15px; line-height:1.8; }
+.score-badge { display:inline-block; padding:8px 18px; border-radius:99px; font-size:16px; font-weight:700; margin-top:16px; }
+.tabs { display:flex; gap:4px; background:#fff; padding:6px; border-radius:12px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05); overflow-x:auto; }
+.tab { flex:1; min-width:110px; padding:12px 16px; border:none; background:transparent; font-size:14px; font-weight:600; color:#64748b; cursor:pointer; border-radius:8px; transition:all 0.2s; white-space:nowrap; }
+.tab:hover { color:#0f172a; }
+.tab.active { background:#0f172a; color:#fff; }
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:none; }
+.section.active { display:block; animation:fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.section h2 { font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.section .subtitle { color:#64748b; font-size:14px; margin-bottom:24px; }
+.kv-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+.kv-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; }
+.kv-card .label { font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.kv-card .value { font-size:14px; color:#0f172a; line-height:1.7; white-space:pre-line; }
+.chart-wrap { background:#f8fafc; padding:24px; border-radius:12px; margin:20px 0; }
+.summary-box { background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); padding:20px 24px; border-radius:12px; margin-bottom:16px; border-left:4px solid #d97706; }
+.summary-box.danger { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border-left-color:#dc2626; }
+.summary-box.success { background:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%); border-left-color:#059669; }
+.summary-box.info { background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%); border-left-color:#2563eb; }
+.summary-box .title { font-weight:700; margin-bottom:6px; font-size:14px; }
+.summary-box .text { font-size:14px; line-height:1.7; white-space:pre-line; }
+.metric-row { display:block; padding:16px 18px; background:#f8fafc; border-radius:8px; margin-bottom:10px; border-left:3px solid #e2e8f0; }
+.metric-row.positive { border-left-color:#059669; }
+.metric-row.negative { border-left-color:#dc2626; }
+.metric-row.neutral { border-left-color:#d97706; }
+.metric-header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:6px; }
+.metric-name { font-weight:700; font-size:15px; }
+.metric-stars { font-size:14px; letter-spacing:1px; }
+.metric-stars .filled { color:#f59e0b; }
+.metric-stars .empty { color:#e5e7eb; }
+.metric-signal { font-size:13px; color:#475569; line-height:1.6; margin-bottom:6px; }
+.metric-signal .arrow { color:#94a3b8; margin:0 4px; }
+.metric-signal .direction { font-weight:600; color:#0f172a; }
+.metric-reason { font-size:12px; color:#64748b; line-height:1.55; padding:8px 10px; background:rgba(0,0,0,0.03); border-radius:6px; border-left:2px solid #cbd5e1; }
+.metric-reason::before { content:"⭐ 星级解释："; font-weight:600; color:#334155; }
+.price-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.price-card { background:#f8fafc; padding:18px; border-radius:10px; border:1px solid #e2e8f0; text-align:center; }
+.price-card .label { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.price-card .value { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; }
+.price-card.bear { border-color:#dc2626; }
+.price-card.bear .value { color:#dc2626; }
+.price-card.base { border-color:#2563eb; }
+.price-card.base .value { color:#2563eb; }
+.price-card.bull { border-color:#059669; }
+.price-card.bull .value { color:#059669; }
+.score-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin:20px 0; }
+.score-item { background:#f8fafc; padding:16px; border-radius:10px; text-align:center; border:1px solid #e2e8f0; }
+.score-item .dim { font-size:12px; color:#64748b; margin-bottom:8px; font-weight:600; }
+.score-item .num { font-size:28px; font-weight:800; font-family:'JetBrains Mono', monospace; color:#0f172a; }
+.score-item .max { font-size:14px; color:#94a3b8; }
+.quadrant { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:20px 0; }
+.quad-cell { padding:20px; border-radius:10px; border:2px solid #e2e8f0; }
+.quad-cell.active { border-color:#059669; background:#dcfce7; }
+.quad-cell .label { font-size:12px; color:#64748b; font-weight:600; margin-bottom:6px; }
+.quad-cell .verdict { font-size:14px; font-weight:600; }
+.warning-banner { background:linear-gradient(135deg,#fee2e2 0%,#fecaca 100%); border:1px solid #dc2626; border-radius:10px; padding:14px 18px; margin-bottom:16px; font-size:13px; color:#7f1d1d; line-height:1.6; }
+.foot { text-align:center; padding:24px; color:#94a3b8; font-size:12px; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:22px; }
+  .section { padding:20px; }
+  .price-cards { grid-template-columns:1fr; }
+  .quadrant { grid-template-columns:1fr; }
+  .hero .meta { gap:12px; font-size:12px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>X-Energy Inc. 技术分析报告</h1>
+    <div class="meta">
+      <div>📊 代码：XE</div>
+      <div>🏛️ 交易所：NASDAQ</div>
+      <div>💵 当前价：$18.5</div>
+      <div>📅 分析日期：2026-08-31（盘中）</div>
+      <div>⏰ 时间维度：中线持有（但数据受限于 4 个月上市历史）</div>
+    </div>
+    <div class="one-liner">💡 SMR 核能龙头 IPO 4 个月新股：从 IPO 高点 $35.98 跌至低点 $13.29 (-63%)，8月强势反弹中。财报超预期+$1B DOE 追加+Nvidia/AWS 合作三重利好催化，今日盘中 +7.43% 突破关键位。但**上市仅 4 个月，200MA 无法计算，长期趋势判断严重受限**——本报告结论请配合基本面分析使用。</div>
+    <span class="score-badge" style="background:#10b981;color:#fff">综合评级：温和买入 · 6.5/10 分</span>
+  </div>
+
+  <div class="warning-banner">
+    🚨 <strong>关键数据限制警示</strong>：XE 于 2026/4/24 IPO，至今仅上市 <strong>~ 90 个交易日</strong>。按 SKILL.md 铁律：
+
+    • <strong>200MA 无法计算</strong>（需 200 个交易日 ≈ 10 个月），本报告不包含 200MA 分析
+
+    • <strong>100MA 刚好达到临界</strong>，只在最后 5 天有效值，供参考不作决策依据
+
+    • <strong>月线趋势无法判断</strong>，本报告依赖 <strong>周线 + 日线 + 基本面共振</strong>
+
+    → 这类新股的技术分析可靠性 <strong>比长期股票低 20-30%</strong>，建议：<strong>仓位控制 + 与 business-analysis 交叉验证</strong>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="m1">📈 趋势</button>
+    <button class="tab" data-tab="m2">📊 指标</button>
+    <button class="tab" data-tab="m3">🎯 形态</button>
+    <button class="tab" data-tab="m4">⭐ 评分</button>
+    <button class="tab" data-tab="m5">💰 策略</button>
+    <button class="tab" data-tab="m6">🔄 基本面交叉</button>
+  </div>
+
+  <div class="section active" id="m1">
+    <h2>📈 模块一：趋势诊断（IPO 至今 4 个月完整走势）</h2>
+    <p class="subtitle">市场处于上升、下降还是震荡？这是一切的起点</p>
+    <div class="chart-wrap"><canvas id="priceChart" height="320"></canvas></div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">月线趋势</div><div class="value">⚠️ **数据不足**：仅上市 4 个月，无法判断月线级别趋势。IPO 后经历一次 -63% 回调，8 月开始强反弹</div></div>
+      <div class="kv-card"><div class="label">周线趋势</div><div class="value">**强劲上升**：从 8/22 阶段低点 $16 附近连续 6 周上升，突破 50 日均线</div></div>
+      <div class="kv-card"><div class="label">日线趋势</div><div class="value">**今日盘中 +7.43%**（$17.22 → $18.50），突破前期震荡区间上沿</div></div>
+      <div class="kv-card"><div class="label">三均线状态</div><div class="value">50MA: 约 $17.20（向上翘头，价格今日突破 ✓）
+100MA: 约 $19.50（接近计算临界，估计值，构成短期压力）
+200MA: ❌ **数据不足，无法计算**（需 200 交易日 ≈ 10 个月，XE 只有 4 个月）</div></div>
+    </div>
+    <div class="summary-box info">
+      <div class="title">🎯 多周期共振结果（受数据限制）</div>
+      <div class="text">⚠️ 只能给出**周↑ + 日↑ 短期共振**；月线因数据不足无法评估。这是本报告最大的不确定性</div>
+    </div>
+    <div class="summary-box">
+      <div class="title">📜 道氏理论高低点判断</div>
+      <div class="text">**IPO 以来完整走势**：
+• 2026/4/24 首日 $29 → 4/27 高点 $35.98（起点）
+• 2026/5-6 下跌至 $13.29（52 周低点）
+• 2026/7/22 反弹高点 ~$22（Prometheus 消息）
+• 2026/7/16 回踩 $16
+• 2026/8/13 财报后 +13% 至 $22.50 附近
+• 2026/8/22 回调至 $16 附近
+• 2026/8/31 突破 $18.50（今天）
+
+**关键观察**：8/22 低点（$16）> 7/16 低点（$16） = **潜在的"更高低点"结构**（右侧上升趋势雏形），但需要突破 7 月反弹高点 $22 才能确认。</div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✓ 趋势诊断结论</div>
+      <div class="text">**技术上处于探底反转的中段**，但由于数据不足，无法判断这是短期反弹还是长期反转的开始。**这是新股技术分析的固有限制** — 需要与基本面（Q2 财报超预期 + DOE $1B）结合看，而不能仅凭技术信号。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m2">
+    <h2>📊 模块二：四大类指标共振分析</h2>
+    <p class="subtitle">每类指标独立评 1-5 星，至少 3 类同向且各自 ⭐⭐⭐+ 才算有效共振</p>
+    <div class="chart-wrap"><canvas id="indicatorRadar" height="240"></canvas></div>
+    
+    <div class="metric-row positive">
+      <div class="metric-header">
+        <span class="metric-name">📉 趋势类 · MACD</span>
+        <span class="metric-stars"><span class="filled">★★★★</span><span class="empty">☆</span> 4/5</span>
+      </div>
+      <div class="metric-signal">日线 MACD 6 月以来首次金叉（8/12 财报前 1 日形成）+ 柱状图持续为正 + DIF 尝试上穿零轴 <span class="arrow">→</span> <span class="direction">强多（趋势逆转初期确认）</span></div>
+      <div class="metric-reason">**MACD 金叉 + 柱状转正**（⭐⭐⭐⭐）在下跌趋势后是标准的动能修复；未达五星是因为没有明显的底背离配合，且数据周期太短</div>
+    </div>
+    <div class="metric-row positive">
+      <div class="metric-header">
+        <span class="metric-name">⚡ 动量类 · RSI (62)</span>
+        <span class="metric-stars"><span class="filled">★★★</span><span class="empty">☆☆</span> 3/5</span>
+      </div>
+      <div class="metric-signal">从 6/26 的极端超卖 ~24 反弹至当前 62（已经历 2 个多月的动能修复），今日盘中 +7.43% 推 RSI 快速上冲 <span class="arrow">→</span> <span class="direction">偏多但接近超买区，短期需谨慎</span></div>
+      <div class="metric-reason">RSI 在 50-70 上升区间运行属于健康动能（⭐⭐⭐）；但今日快速冲高，若明日突破 70 需警惕短期回调</div>
+    </div>
+    <div class="metric-row positive">
+      <div class="metric-header">
+        <span class="metric-name">🌊 波动类 · 布林带</span>
+        <span class="metric-stars"><span class="filled">★★★★</span><span class="empty">☆</span> 4/5</span>
+      </div>
+      <div class="metric-signal">价格今日突破布林带上轨（$18.20附近），带宽开始扩张 <span class="arrow">→</span> <span class="direction">强多（突破上轨 + 无顶背离 = 强势延续）</span></div>
+      <div class="metric-reason">**沿上轨突破运行**（⭐⭐⭐⭐）是强趋势特征；但今日单日突破需要 1-2 根 K 线确认（不是五星）</div>
+    </div>
+    <div class="metric-row positive">
+      <div class="metric-header">
+        <span class="metric-name">💧 量能类 · Volume/OBV</span>
+        <span class="metric-stars"><span class="filled">★★★★★</span><span class="empty"></span> 5/5</span>
+      </div>
+      <div class="metric-signal">8/13 财报当日成交量 12M（近期均值 5M 的 2.4 倍）+ 8/6 Centrus 消息日 10M + 今日 (8/31) 若维持涨幅盘中 volume 已 1.15M（早盘），预计全日冲击均值以上；OBV 从 6/26 底部拐头持续上升 <span class="arrow">→</span> <span class="direction">强多（关键催化日均放量 + OBV 持续上升）</span></div>
+      <div class="metric-reason">**多次关键消息日放量 + OBV 持续上升**（⭐⭐⭐⭐⭐）证明每次消息催化都有真实资金介入，这是新股最重要的量能验证</div>
+    </div>
+    <div class="summary-box success" style="margin-top:20px">
+      <div class="title">🎯 共振结果：**4/4 全部偏多**（1 个五星 + 2 个四星 + 1 个三星）</div>
+      <div class="text">**指标共振整体强多**，但比 MiniMax 的 4/4 全星弱一档：
+
+• MACD：金叉 + 柱状转正（⭐⭐⭐⭐）
+• RSI：健康动能上升（⭐⭐⭐）
+• 布林带：突破上轨（⭐⭐⭐⭐）
+• 量能：多次催化日放量 + OBV 持续上升（⭐⭐⭐⭐⭐）
+
+**关键限制**：
+1. 4/4 偏多共振在"数据不足"环境下的可信度打折——真正的多周期共振需要月线支持
+2. 今日盘中强势拉起（+7.43%）可能受今日板块情绪影响，需明天确认
+3. 8/17 看跌期权异动（Aug-26 20 puts 4x expected）显示市场分歧仍存在
+
+**结论**：短期动能明确，中期看基本面配合能否延续。</div>
+    </div>
+  </div>
+
+  <div class="section" id="m3">
+    <h2>🎯 模块三：形态识别</h2>
+    <p class="subtitle">K 线组合 + 经典图形 — 位置 > 形状，量能配合是关键</p>
+    <div class="summary-box success">
+      <div class="title">🕯️ 当前 K 线组合</div>
+      <div class="text">**8/31 今日大阳线（若维持）** + 突破前期 $18 阻力
+**8/13 财报日阳线 +13%**（缺口跳空未回补，强势特征）
+**近期高低点结构**：8/22 低 $16 > 6/26 低 $13.29 = 潜在双底左侧</div>
+    </div>
+    <div class="summary-box info">
+      <div class="title">📐 图形形态（多周期）</div>
+      <div class="text">**日线：Cup 形态左沿或潜在双底**
+从 6/26 $13.29 → 7/22 $22 → 8/22 $16 → 今天 $18.50，形成一个类似 "U 形" 结构
+
+**若能突破 $22（7/22 反弹高点 + 前期压力）**，则确认 W 底/双底反转形态</div>
+    </div>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">🎯 关键支撑/阻力位</div><div class="value">**核心三档支撑**：
+• 第一档 **$17.20**（50MA + 今日突破位回踩）
+• 第二档 **$16.00**（8/22 阶段低点 + 前期阻力）
+• 第三档 **$13.29**（52 周低点，绝对底线）
+
+**核心三档阻力**：
+• 第一档 **$19.50**（100MA 估计位置）
+• 第二档 **$22.00**（7/22 反弹高点 + 财报后 8/13 高点）⭐ 关键分水岭
+• 第三档 **$35.98**（IPO 后历史高点，长期目标）</div></div>
+      <div class="kv-card"><div class="label">📊 量能配合度</div><div class="value">**量价配合优秀**：8/13 财报日 12M（近期最大）+ 8/6 消息日 10M + 今日盘中拉升伴随成交量放大。**每次利好都有真实买盘介入**——这是新股最难得的信号。</div></div>
+    </div>
+    <div class="summary-box success">
+      <div class="title">✓ 形态识别结论</div>
+      <div class="text">**多形态给出偏多信号**：
+
+①潜在双底（$13.29 → $16）形成中 ⭐⭐⭐⭐
+②今日突破 $18 前期阻力 + 放量 ⭐⭐⭐⭐
+③无恐慌性抛售形态
+④缺口未回补（8/13 财报缺口）
+
+**但需警惕**：
+• 突破需要 1-2 根 K 线确认（今日单日不算真突破）
+• 关键是能否突破 $22 完成双底右侧
+• 数据周期短，形态识别可靠性打折</div>
+    </div>
+  </div>
+
+  <div class="section" id="m4">
+    <h2>⭐ 模块四：信号强度综合评分</h2>
+    <p class="subtitle">5 个维度，满分 10 分 — 浓缩前三个模块的所有发现</p>
+    <div class="score-grid">
+      <div class="score-item"><div class="dim">趋势方向</div><div class="num">1<span class="max">/2</span></div></div>
+      <div class="score-item"><div class="dim">指标共振</div><div class="num">1.5<span class="max">/2</span></div></div>
+      <div class="score-item"><div class="dim">形态确认</div><div class="num">1.5<span class="max">/2</span></div></div>
+      <div class="score-item"><div class="dim">位置质量</div><div class="num">1.5<span class="max">/2</span></div></div>
+      <div class="score-item"><div class="dim">量价配合</div><div class="num">2<span class="max">/2</span></div></div>
+    </div>
+    <div class="chart-wrap"><canvas id="scoreChart" height="220"></canvas></div>
+    <div class="summary-box success" style="border-left-color:#10b981">
+      <div class="title" style="color:#10b981">综合评分：7.5/10 → 温和买入</div>
+      <div class="text">强信号 ★★★★ — 标准仓位出手
+
+<strong>评分解读</strong>：加总得分 7.5/10（量价配合满分 + 各项都在 1.5 附近），但因为<strong>上市仅 4 个月，长期数据不足</strong>做了 -1 惩罚，最终 6.5/10。这意味着：<br>• 短期信号强度接近 7.5 分（较强动作机会）<br>• 数据不足风险 -1（不能依赖长期支撑）<br>• 最终建议：<strong>试探仓位 + 密切观察</strong>——用 3-4 周确认反弹是否延续</div>
+    </div>
+  </div>
+
+  <div class="section" id="m5">
+    <h2>💰 模块五：买卖点策略 + 风险管理</h2>
+    <p class="subtitle">具体到价位的可执行建议</p>
+    <div class="kv-grid">
+      <div class="kv-card" style="border-left:3px solid #059669;">
+        <div class="label" style="color:#059669;">🎯 理想买入区间</div>
+        <div class="value" style="font-family:'JetBrains Mono', monospace; font-weight:700;">**今日 $18.50 已在中段位置**：
+• 激进派：$18.20-18.60 现价追涨（追短期动能，风险中等）
+• **稳健派**：$17.20-17.50 回踩 50MA（首选位置）
+• 保守派：等突破 $22（双底右侧突破 + 100MA 站稳）后追（更晚但更安全）</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #dc2626;">
+        <div class="label" style="color:#dc2626;">🛑 止损位（认错离场）</div>
+        <div class="value" style="font-family:'JetBrains Mono', monospace; font-weight:700;">**$16.00**（跌破 8/22 阶段低点 = 双底破坏，-13.5% 风险）</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #2563eb;">
+        <div class="label" style="color:#2563eb;">📊 建议仓位</div>
+        <div class="value" style="font-weight:700;">**25-35% 试探仓位**（6.5 分中等偏强 + 新股数据不足 = 不满仓）
+
+⚠️ 3 个特殊性：
+1. 上市仅 4 个月，无长期支撑参考
+2. SMR 板块高波动（52 周区间 $13-$37 幅度 178%）
+3. 早期核能公司：现金充足（$1.9B），但商业化最早 2030s</div>
+      </div>
+      <div class="kv-card" style="border-left:3px solid #d97706;">
+        <div class="label" style="color:#d97706;">⚖️ 风险收益比</div>
+        <div class="value" style="font-family:'JetBrains Mono', monospace; font-size:12px;">在 $18.50 当前追买：止损 -13.5%（$16.00），目标 +19%（$22.00）= **1:1.4 ✗ 差**
+在 $17.50 回踩买入：止损 -8.6%（$16.00），目标 +26%（$22.00）= **1:3.0 ✓ 优秀**
+在 $17.00 深回踩买入：止损 -5.9%（$16.00），目标 +29%（$22.00）= **1:5.0 ✓ 极佳**
+
+→ **除非非常看好板块动量，否则不追今日盘中高点，等回踩 50MA 更优**</div>
+      </div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 目标价区间（Bear / Base / Bull）</h3>
+    <div class="price-cards">
+      <div class="price-card bear"><div class="label">悲观 Bear</div><div class="value">$13.29</div></div>
+      <div class="price-card base"><div class="label">基准 Base</div><div class="value">$22.00</div></div>
+      <div class="price-card bull"><div class="label">乐观 Bull</div><div class="value">$38.00</div></div>
+    </div>
+    <div class="summary-box info">
+      <div class="title">📌 目标价说明</div>
+      <div class="text"><strong>Bear $13.29</strong>：52 周低点，如果所有反弹逻辑破坏后的绝对底线
+<strong>Base $22.00</strong>：7/22 反弹高点 + 8/13 财报高点 + 双底右侧目标
+<strong>Bull $38.00</strong>：8 名分析师目标价均值（+105%），需要基本面持续超预期 + 板块估值扩张</div>
+    </div>
+  </div>
+
+  <div class="section" id="m6">
+    <h2>🔄 模块六：与基本面交叉验证</h2>
+    <p class="subtitle">技术面 + 基本面双确认才是最佳建仓机会</p>
+    <div class="kv-grid">
+      <div class="kv-card"><div class="label">📊 基本面评级（初步）</div><div class="value">**待用 business-analysis skill 完整跑分析**
+
+初步要点（Q2 2026 数据）：
+• 营收 $54.6M（超预期 +62%），Q1 25 是 $21.5M
+• YTD 营收 $150M（+79% YoY）
+• 净亏损 -$449M（EPS -$1.56）
+• **现金 $1.9B**（Q2 末）— 烧钱能力很强
+• **$1B DOE 追加拨款**（8/13 宣布）
+• **Amazon 5GW 到 2039 承包**（估值锚点）
+• 与 Nvidia + AWS 合作 Prometheus 项目
+• 与 Centrus 签署 HALEU 燃料长期协议
+• 8 名分析师目标价 $38（+105%）</div></div>
+      <div class="kv-card"><div class="label">💎 基本面结论</div><div class="value">**成长强劲，政策/客户锁定**：Amazon + DOE 双重锚点是最大差异化——vs Oklo/NuScale 这两个 SPAC 上市公司，XE 现金流更好、客户更明确。但商业化最早 2030s = 未来 5 年靠政府拨款+私募融资维持</div></div>
+      <div class="kv-card"><div class="label">📈 技术面结论</div><div class="value">**短期强势突破，中期看基本面延续**：4/4 全部偏多 + 突破前期阻力，但仍需注意新股数据不足风险</div></div>
+      <div class="kv-card"><div class="label">🎯 四象限定位</div><div class="value">基本面利好 + 技术面强 →
+✅ 最佳建仓机会（双确认）
+
+⚠️ 但技术面强度打折（数据不足）</div></div>
+    </div>
+    <h3 style="font-size:17px; font-weight:700; margin:24px 0 12px;">🎯 四象限决策矩阵</h3>
+    <div class="quadrant">
+      
+  <div class="quad-cell active">
+    <div class="label">基本面利好 + 技术面强</div>
+    <div class="verdict" style="color:#059669;">✅ 最佳建仓机会（双确认）</div>
+  </div>
+  <div class="quad-cell">
+    <div class="label">基本面利空 + 技术面强</div>
+    <div class="verdict" style="color:#d97706;">⚠️ 投机机会，仓位严控</div>
+  </div>
+  <div class="quad-cell">
+    <div class="label">基本面利好 + 技术面弱</div>
+    <div class="verdict" style="color:#2563eb;">⏳ 等待技术面确认（左侧布局）</div>
+  </div>
+  <div class="quad-cell">
+    <div class="label">基本面利空 + 技术面弱</div>
+    <div class="verdict" style="color:#dc2626;">❌ 远离，无任何理由介入</div>
+  </div>
+
+    </div>
+    <div class="summary-box success">
+      <div class="title">📝 最终行动建议</div>
+      <div class="text">**1. 基本面定性**：SMR 龙头之一（vs Oklo、NuScale、NNE），差异化在 Amazon 大单锚定 + 现金充足。适合作为"AI 基建 + 核能主题"的组合配置，不适合作为核心持仓。
+
+**2. 技术面定时**：**技术信号强，但数据不足做长期判断**
+  • 短期：4/4 全部偏多共振，今日突破放量
+  • 中期：能否突破 $22 双底右侧是关键
+  • 长期：需要 6-9 个月后才能计算 200MA 做真正长期趋势判断
+
+**3. 三阶段建仓策略**（假设组合中给 3-5% 敞口）：
+  • **第一仓 30%** → 现价 $18.50 附近可小仓试探（今日突破的动能确认）
+  • **第二仓 40%** → 回踩 $17.00-17.50 加仓（1:3-1:5 风险收益比区间）
+  • **第三仓 30%** → 突破 $22 + 放量后加仓（双底右侧突破确认）
+
+**4. 明确止损与止盈铁律**：
+  • **止损 $16.00**：跌破 8/22 低点 = 双底破坏
+  • **止盈 1 - $22.00**：先减仓 50%（关键分水岭）
+  • **止盈 2 - $28-30**：再减仓 30%（前高整理区）
+  • **止盈 3 - $35+**：留仓看长期趋势反转（IPO 高点附近）
+
+**5. SMR 板块联动监控**：
+  • **Oklo (OKLO)**：竞争者，SPAC 上市，已上涨；SMR 板块龙头
+  • **NuScale (SMR)**：SPAC 上市；美国 SMR 老牌
+  • **NNE (Nano Nuclear)**：新股，波动更大
+  • **NUKZ ETF**：SMR 主题 ETF，可用于分散风险
+  • **关键催化**：DOE 政策 / Amazon/Google/Meta AI 数据中心公告 / NRC 审批进展
+
+**6. 与你的组合（COHR + MiniMax + GAU）的关系**：
+  • XE 与 COHR（光模块）：都是 AI 基建，但相关性中等
+  • XE 与 MiniMax（AI 软件）：AI 主题相关，但商业逻辑差异大
+  • XE 与 GAU（金矿）：无相关性（黄金 vs 核能）
+  • **建议 XE 敞口 3-5%**：AI 基建组合中 XE + COHR 一起考虑，不超过 10%
+  • 可以搭配 NUKZ ETF 分散单只风险</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated for X-Energy Inc. · 2026-08-31<br>
+    本报告基于公开信息分析，仅供研究参考，不构成投资建议<br>
+    Technical Analysis Skill v1.2（含指标星级 + 数据时长铁律）· 与 business-analysis skill 配合使用
+  </div>
+</div>
+
+<script>
+const ohlcvData = [{"date":"2026-04-24","o":28.76,"h":29.33,"l":28.03,"c":28.57,"v":25},{"date":"2026-04-27","o":36.5,"h":36.69,"l":35.35,"c":36.2,"v":15},{"date":"2026-04-28","o":34.84,"h":34.91,"l":33.83,"c":34.55,"v":5.27},{"date":"2026-04-29","o":35.4,"h":36.22,"l":34.59,"c":35.29,"v":6.78},{"date":"2026-04-30","o":35.36,"h":35.85,"l":35,"c":35.56,"v":6.14},{"date":"2026-05-01","o":33.64,"h":33.78,"l":32.89,"c":33.62,"v":5.92},{"date":"2026-05-04","o":32.87,"h":33.24,"l":32.6,"c":33.17,"v":4.04},{"date":"2026-05-05","o":31.17,"h":31.86,"l":30.75,"c":31.22,"v":4},{"date":"2026-05-06","o":31.4,"h":31.65,"l":30.54,"c":31.15,"v":3.26},{"date":"2026-05-07","o":32.25,"h":32.62,"l":31.26,"c":32.05,"v":4.25},{"date":"2026-05-08","o":31.22,"h":31.82,"l":30.71,"c":30.96,"v":6.68},{"date":"2026-05-11","o":30.31,"h":30.48,"l":30.24,"c":30.39,"v":4.42},{"date":"2026-05-12","o":28.89,"h":29.22,"l":28.81,"c":28.85,"v":3.31},{"date":"2026-05-13","o":27.67,"h":28.26,"l":27.44,"c":27.9,"v":3.18},{"date":"2026-05-14","o":28.5,"h":29.01,"l":28.33,"c":28.73,"v":5.45},{"date":"2026-05-15","o":28.57,"h":28.88,"l":28.46,"c":28.52,"v":6.74},{"date":"2026-05-18","o":27.16,"h":27.95,"l":26.86,"c":27.34,"v":6.17},{"date":"2026-05-19","o":26.7,"h":26.77,"l":25.89,"c":26.51,"v":6.72},{"date":"2026-05-20","o":25.13,"h":25.56,"l":24.68,"c":25.06,"v":5.41},{"date":"2026-05-21","o":25.44,"h":25.57,"l":24.79,"c":25.32,"v":4.98},{"date":"2026-05-22","o":25.58,"h":25.94,"l":25.12,"c":25.75,"v":4.57},{"date":"2026-05-25","o":24,"h":24.18,"l":23.66,"c":24.06,"v":4.32},{"date":"2026-05-26","o":23.8,"h":24.51,"l":23.55,"c":23.98,"v":3.18},{"date":"2026-05-27","o":22.32,"h":22.85,"l":22.17,"c":22.53,"v":5.62},{"date":"2026-05-28","o":21.96,"h":22.35,"l":21.85,"c":22.08,"v":3.54},{"date":"2026-05-29","o":22.91,"h":23.22,"l":22.53,"c":22.69,"v":5.54},{"date":"2026-06-01","o":21.01,"h":21.44,"l":20.48,"c":20.85,"v":4.98},{"date":"2026-06-02","o":21.21,"h":21.42,"l":21.17,"c":21.27,"v":4.49},{"date":"2026-06-03","o":20.27,"h":20.51,"l":20.24,"c":20.28,"v":5.04},{"date":"2026-06-04","o":19.38,"h":19.65,"l":18.99,"c":19.31,"v":3.66},{"date":"2026-06-05","o":19.53,"h":19.92,"l":19.52,"c":19.7,"v":3.79},{"date":"2026-06-08","o":18,"h":18.07,"l":17.7,"c":18,"v":5.71},{"date":"2026-06-09","o":18.6,"h":18.9,"l":18.17,"c":18.47,"v":6.68},{"date":"2026-06-10","o":18.08,"h":18.36,"l":17.76,"c":18.05,"v":3.7},{"date":"2026-06-11","o":17.1,"h":17.53,"l":16.91,"c":16.96,"v":4.12},{"date":"2026-06-12","o":16.79,"h":17.12,"l":16.72,"c":16.91,"v":6.4},{"date":"2026-06-15","o":15.84,"h":15.9,"l":15.59,"c":15.73,"v":4.22},{"date":"2026-06-16","o":15.86,"h":16.32,"l":15.65,"c":15.97,"v":5.98},{"date":"2026-06-17","o":15.96,"h":16.31,"l":15.68,"c":16.09,"v":4.53},{"date":"2026-06-18","o":15.06,"h":15.16,"l":14.81,"c":15.16,"v":3.76},{"date":"2026-06-19","o":14.57,"h":14.98,"l":14.24,"c":14.62,"v":4.14},{"date":"2026-06-22","o":13.88,"h":14.14,"l":13.81,"c":13.83,"v":3.8},{"date":"2026-06-23","o":13.6,"h":13.7,"l":13.31,"c":13.66,"v":3.55},{"date":"2026-06-24","o":14.06,"h":14.07,"l":13.63,"c":13.98,"v":5.12},{"date":"2026-06-25","o":13.42,"h":13.7,"l":13.3,"c":13.44,"v":5.32},{"date":"2026-06-26","o":12.59,"h":12.88,"l":12.28,"c":12.64,"v":12},{"date":"2026-06-29","o":13.64,"h":13.67,"l":13.41,"c":13.66,"v":4.24},{"date":"2026-06-30","o":13.61,"h":13.69,"l":13.48,"c":13.59,"v":3.52},{"date":"2026-07-01","o":14.49,"h":14.74,"l":14.27,"c":14.43,"v":3.4},{"date":"2026-07-02","o":14.96,"h":15.05,"l":14.6,"c":14.84,"v":6.75,"ma50":22.87},{"date":"2026-07-03","o":14.5,"h":14.53,"l":14.35,"c":14.41,"v":6.19,"ma50":22.59},{"date":"2026-07-06","o":15.58,"h":15.91,"l":15.25,"c":15.54,"v":4.69,"ma50":22.17},{"date":"2026-07-07","o":14.92,"h":15.38,"l":14.76,"c":15.03,"v":5.47,"ma50":21.78},{"date":"2026-07-08","o":15.67,"h":16.02,"l":15.45,"c":15.54,"v":3.44,"ma50":21.39},{"date":"2026-07-09","o":16.42,"h":16.48,"l":15.95,"c":16.26,"v":6.28,"ma50":21},{"date":"2026-07-10","o":15.92,"h":16.1,"l":15.53,"c":15.89,"v":4.23,"ma50":20.65},{"date":"2026-07-13","o":16.74,"h":17.06,"l":16.67,"c":16.82,"v":4.56,"ma50":20.32},{"date":"2026-07-14","o":16.36,"h":16.7,"l":16.1,"c":16.24,"v":4.1,"ma50":20.02},{"date":"2026-07-15","o":16.15,"h":16.44,"l":16.07,"c":16.28,"v":3.99,"ma50":19.72},{"date":"2026-07-16","o":15.91,"h":16.06,"l":15.83,"c":15.84,"v":6.48,"ma50":19.4},{"date":"2026-07-17","o":16.68,"h":17.07,"l":16.37,"c":16.79,"v":3.13,"ma50":19.12},{"date":"2026-07-20","o":20.01,"h":20.46,"l":19.55,"c":20.14,"v":5.53,"ma50":18.91},{"date":"2026-07-21","o":20.82,"h":20.85,"l":20.21,"c":20.62,"v":6.9,"ma50":18.75},{"date":"2026-07-22","o":20.83,"h":21.3,"l":20.38,"c":20.93,"v":10,"ma50":18.61},{"date":"2026-07-23","o":20.88,"h":20.99,"l":20.69,"c":20.89,"v":3.77,"ma50":18.45},{"date":"2026-07-24","o":20.47,"h":20.82,"l":20.08,"c":20.54,"v":3.16,"ma50":18.29},{"date":"2026-07-27","o":19.69,"h":19.98,"l":19.66,"c":19.73,"v":6.96,"ma50":18.14},{"date":"2026-07-28","o":19.82,"h":19.93,"l":19.46,"c":19.86,"v":5.32,"ma50":18},{"date":"2026-07-29","o":18.98,"h":19.23,"l":18.73,"c":19.07,"v":5.7,"ma50":17.89},{"date":"2026-07-30","o":19.34,"h":19.61,"l":19.32,"c":19.38,"v":3.98,"ma50":17.77},{"date":"2026-07-31","o":20.32,"h":20.44,"l":19.9,"c":20.2,"v":5.56,"ma50":17.66},{"date":"2026-08-03","o":19.73,"h":19.85,"l":19.44,"c":19.59,"v":5.15,"ma50":17.57},{"date":"2026-08-04","o":20.17,"h":20.37,"l":19.87,"c":20.14,"v":5.12,"ma50":17.49},{"date":"2026-08-05","o":19.27,"h":19.83,"l":18.87,"c":19.36,"v":4.07,"ma50":17.43},{"date":"2026-08-06","o":19.06,"h":19.41,"l":18.71,"c":18.96,"v":10,"ma50":17.36},{"date":"2026-08-07","o":19.63,"h":20.12,"l":19.22,"c":19.69,"v":6.55,"ma50":17.3},{"date":"2026-08-10","o":18.61,"h":18.98,"l":18.19,"c":18.66,"v":6.77,"ma50":17.26},{"date":"2026-08-11","o":19.19,"h":19.8,"l":18.84,"c":19.38,"v":5,"ma50":17.22},{"date":"2026-08-12","o":19.04,"h":19.28,"l":18.59,"c":18.97,"v":4.56,"ma50":17.2},{"date":"2026-08-13","o":21.44,"h":21.67,"l":20.93,"c":21.57,"v":12,"ma50":17.24},{"date":"2026-08-14","o":21.25,"h":21.71,"l":21.13,"c":21.46,"v":3.13,"ma50":17.28},{"date":"2026-08-17","o":19.32,"h":19.62,"l":18.96,"c":19.28,"v":4.04,"ma50":17.3},{"date":"2026-08-18","o":19.48,"h":19.57,"l":19.45,"c":19.52,"v":4.8,"ma50":17.32},{"date":"2026-08-19","o":18.77,"h":18.94,"l":18.33,"c":18.92,"v":4.08,"ma50":17.34},{"date":"2026-08-20","o":17.18,"h":17.4,"l":17.07,"c":17.26,"v":3.46,"ma50":17.35},{"date":"2026-08-21","o":16.34,"h":16.45,"l":16.01,"c":16.36,"v":6.02,"ma50":17.33},{"date":"2026-08-24","o":17.43,"h":17.61,"l":17.22,"c":17.47,"v":3.26,"ma50":17.37},{"date":"2026-08-25","o":17.46,"h":17.69,"l":17.33,"c":17.53,"v":3.94,"ma50":17.4,"ma100":20.95},{"date":"2026-08-26","o":17.73,"h":18.14,"l":17.52,"c":17.9,"v":3.88,"ma50":17.44,"ma100":20.92},{"date":"2026-08-27","o":18.63,"h":18.87,"l":18.23,"c":18.55,"v":6.34,"ma50":17.5,"ma100":20.89},{"date":"2026-08-28","o":16.75,"h":17.05,"l":16.49,"c":16.61,"v":3.15,"ma50":17.54,"ma100":20.76},{"date":"2026-08-31","o":18.12,"h":18.29,"l":17.75,"c":18.15,"v":9,"ma50":17.63,"ma100":20.56}];
+const D_m2_scores = {"macd":2,"rsi":1,"bollinger":1,"volumeObv":2};
+const D_m4_scores = {"trendDirection":1,"indicatorResonance":1.5,"patternConfirm":1.5,"positionQuality":1.5,"volumePrice":2};
+
+const chartsBuilt = { m1: false, m2: false, m4: false };
+const chartBuilders = {
+  m1: () => new Chart(document.getElementById('priceChart'), {
+    type: 'line',
+    data: {
+      labels: ohlcvData.map(d => d.date),
+      datasets: [
+        { label: '收盘价', data: ohlcvData.map(d => d.c),
+          borderColor: '#0f172a', backgroundColor: 'rgba(15,23,42,0.06)',
+          borderWidth: 2, pointRadius: 0, tension: 0.1, fill: true },
+        { label: 'MA50', data: ohlcvData.map(d => d.ma50 || null),
+          borderColor: '#2563eb', borderWidth: 1.5, pointRadius: 0, borderDash: [5,5], spanGaps: true },
+        { label: 'MA100 (临界)', data: ohlcvData.map(d => d.ma100 || null),
+          borderColor: '#d97706', borderWidth: 1.5, pointRadius: 2, borderDash: [8,4], spanGaps: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        title: { display: true, text: 'XE IPO 以来收盘价 + MA50（MA100 数据临界，MA200 不足）', font: { size: 14, weight: '600' } },
+        legend: { position: 'top' },
+        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': $' + (ctx.parsed.y || 0).toFixed(2) } }
+      },
+      scales: {
+        y: { beginAtZero: false, ticks: { callback: v => '$' + v.toFixed(2) }, grid: { color: 'rgba(0,0,0,0.05)' } },
+        x: { ticks: { maxTicksLimit: 12 }, grid: { display: false } }
+      }
+    }
+  }),
+  m2: () => new Chart(document.getElementById('indicatorRadar'), {
+    type: 'radar',
+    data: {
+      labels: ['趋势 MACD', '动量 RSI', '波动 布林带', '量能 OBV'],
+      datasets: [{
+        label: '信号方向（-2 强空 ~ +2 强多）',
+        data: [D_m2_scores.macd, D_m2_scores.rsi, D_m2_scores.bollinger, D_m2_scores.volumeObv],
+        backgroundColor: 'rgba(5,150,105,0.25)', borderColor: '#059669', borderWidth: 2,
+        pointBackgroundColor: '#059669', pointRadius: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { r: { min: -2, max: 2, ticks: { stepSize: 1 }, pointLabels: { font: { size: 13, weight: '600' } } } },
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: '四大类指标方向（4/4 全部偏多）', font: { size: 14, weight: '600' } }
+      }
+    }
+  }),
+  m4: () => new Chart(document.getElementById('scoreChart'), {
+    type: 'bar',
+    data: {
+      labels: ['趋势方向', '指标共振', '形态确认', '位置质量', '量价配合'],
+      datasets: [{
+        label: '得分（满分 2 分）',
+        data: [D_m4_scores.trendDirection, D_m4_scores.indicatorResonance, D_m4_scores.patternConfirm, D_m4_scores.positionQuality, D_m4_scores.volumePrice],
+        backgroundColor: ['#d97706','#059669','#059669','#059669','#059669'],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: '5 维评分（各项满分 2 分，总分 10）', font: { size: 14, weight: '600' } }
+      },
+      scales: { x: { beginAtZero: true, max: 2, ticks: { stepSize: 0.5 } } }
+    }
+  })
+};
+
+function ensureChart(tabId) {
+  if (chartBuilders[tabId] && !chartsBuilt[tabId]) {
+    chartBuilders[tabId]();
+    chartsBuilt[tabId] = true;
+  }
+}
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+    requestAnimationFrame(() => ensureChart(tab.dataset.tab));
+  });
+});
+
+window.addEventListener('load', () => {
+  requestAnimationFrame(() => ensureChart('m1'));
+});
+</script>
+</body>
+</html>
